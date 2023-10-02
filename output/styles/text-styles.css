@@ -1,0 +1,106 @@
+.body-md-medium {
+  font-family: Raleway-Medium, serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.17;
+}
+
+.body-lg-regular {
+  font-family: Raleway-Regular, serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.17;
+}
+
+.heading-h-3 {
+  font-family: Raleway-Bold, serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.17;
+  text-transform: uppercase;
+}
+
+.heading-h-2 {
+  font-family: Raleway-Bold, serif;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.17;
+}
+
+.display-lg-bold {
+  font-family: Raleway-Bold, serif;
+  font-weight: 700;
+  font-size: 60px;
+  line-height: 1.17;
+}
+
+.body-sm-regular {
+  font-family: Raleway-Regular, serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.17;
+}
+
+.label-default {
+  font-family: Raleway-Regular, serif;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 1.17;
+}
+
+.body-lg-medium {
+  font-family: Raleway-Medium, serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.17;
+}
+
+.body-md-regular {
+  font-family: Raleway-Regular, serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.17;
+}
+
+.heading-h-1 {
+  font-family: Raleway-Bold, serif;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.17;
+}
+
+.body-md-bold {
+  font-family: Raleway-Bold, serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.17;
+}
+
+.heading-sub-heading {
+  font-family: Raleway-Bold, serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.17;
+  text-transform: uppercase;
+}
+
+.body-lg-bold {
+  font-family: Raleway-Bold, serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.17;
+}
+
+.body-sm-bold {
+  font-family: Raleway-Bold, serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.17;
+}
+
+.body-sm-medium {
+  font-family: Raleway-Medium, serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.17;
+}

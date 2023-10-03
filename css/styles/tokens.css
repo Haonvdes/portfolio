@@ -127,7 +127,7 @@
   --border-warning-default: var(--color-yellow-Y500);
   --border-information-default: var(--color-blue-B500);
 }
-:root[data-semantic="light"] {
+:root[data-theme="light"] {
   --color-primary-default: rgb(255, 229, 152);
   --bg-primary-default: var(--color-primary-default);
   --color-neutral-white: rgb(255, 255, 255);

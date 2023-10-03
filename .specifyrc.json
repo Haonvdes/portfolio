@@ -10,7 +10,7 @@
             "name": "to-css-custom-properties",
             "output": {
               "type": "file",
-              "filePath": "output/styles/tokens.css"
+              "filePath": "./styles/tokens.css"
             }
           }
         ]

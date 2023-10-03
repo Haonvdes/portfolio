@@ -1,4 +1,5 @@
-@import url(/output/styles/colors.css);
+@import url(./tokens.css);
+@import url(./fonts.css);
 
 .body-lg-bold {
   font-family: Raleway-Bold, serif;
@@ -111,6 +112,7 @@
   line-height: 1.17;
   text-transform: uppercase;
   color: var(--text-neutral-sub-heading);
+  padding-bottom: 24px;
 }
 
 .label-default {

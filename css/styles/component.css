@@ -1,19 +1,20 @@
+@import url(./tokens.css);
 .btn-primary{
     display: inline-flex;
-    height: 48px;
-    padding: 0px var(--number-space-2-xl, 16px);
-    /* border-radius: 4px; */
-    border: 1px solid var(--btn-border-primary, #000);
-    box-shadow: 2px 2px 0px 0px #000;
-    background: var(--btn-bg-primary-default, #FACC15);
+    padding: var(--padding-py-16, 16px) var(--padding-px-16, 16px);
+    border-radius: var(--number-radius-xl, 8px);
+    border-top: 1px solid var(--button-border-primary, #000);
+    border-right: 1px solid var(--button-border-primary, #000);
+    border-bottom: 5px solid var(--button-border-primary, #000);
+    border-left: 1px solid var(--button-border-primary, #000);
+    background: var(--button-background-primary-default);
     justify-content: center;
     align-items: center;
-    gap: var(--number-space-xl, 10px);
-    flex-shrink: 0;
+    gap: var(--number-padding-xl, 10px);
     }
     .btn-primary:hover {
         box-shadow: 5px 5px 0px 0px #000;
-        background: var(--btn-bg-primary-interactive-hover, #FDE047);
+        background: var(--button-background-primary-hover);
         transition: 0.2s ease-in;
     }
     

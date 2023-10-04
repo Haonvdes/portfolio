@@ -5,8 +5,8 @@
 html{
     margin: 0px;
     padding: 0;
-    font-family: 'Raleway';
-    background: var(--bg-surface-main);
+    /* font-family: 'Raleway';
+    background: var(--background-surface-main); */
     color:var(--text-neutral-body);
 }
 p{
@@ -54,7 +54,7 @@ li{
 }
 li > a{
     text-decoration: none;
-    color: var(--p-text-primary-hovered);
+    color: var(--text-neutral-body);
 }
 
 .nav-infor{
@@ -75,7 +75,7 @@ li > a{
 
 .general{
     border-radius: 24px;
-    background-color: var(--bg-surface-main);    
+    background-color: var(--background-surface-main);    
     padding: 32px;
 }
 .experience{

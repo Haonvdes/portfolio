@@ -1,35 +1,26 @@
 @import url(./tokens.css);
 .btn-primary{
-    display: inline-flex;
-    padding: var(--padding-py-16, 16px) var(--padding-px-16, 16px);
-    border-radius: var(--number-radius-xl, 8px);
-    border-top: 1px solid var(--button-border-primary, #000);
-    border-right: 1px solid var(--button-border-primary, #000);
-    border-bottom: 5px solid var(--button-border-primary, #000);
-    border-left: 1px solid var(--button-border-primary, #000);
-    background: var(--button-background-primary-default);
-    justify-content: center;
-    align-items: center;
-    gap: var(--number-padding-xl, 10px);
+    padding: var(--space-14);
+    box-shadow: 4px 4px var(--button-border-primary);
+    background: var(--button-bg-primary-default);
+    color: var(--button-text-primary);
+    transition-property: all;
+    transition-duration: .3s;
     }
     .btn-primary:hover {
-        box-shadow: 5px 5px 0px 0px #000;
-        background: var(--button-background-primary-hover);
-        transition: 0.2s ease-in;
+        box-shadow: none;
+        background: var(--button-bg-primary-hover);
+        color: var(--button-text-primary-hover);
+        transform: translate(3px, 3px);
     }
-    
     .btn-ghosh{
-        display: inline-flex;
         height: 48px;
-        padding: 0px var(--number-space-2-xl, 16px);
+        padding: 0px var(--space-16);
         border-radius: 8px;
-        background: var(--btn-bg-ghost-default, rgba(255, 255, 255, 0.00));
-        justify-content: center;
-        align-items: center;
-        gap: var(--number-space-xl, 10px);
+        background: var(--button-bg-ghost-default);
         flex-shrink: 0;
         border: none;
     }
     .btn-ghosh:hover{
-        background: var(--btn-bg-ghost-interactive-hover);
+        background: var(--button-bg-ghost-hover);
     }

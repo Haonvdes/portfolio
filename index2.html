@@ -1,128 +1,167 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/css/styles/bootstrap-grid.css">
-    <link rel="stylesheet" href="/css/styles/style.css">
-    <link rel="stylesheet" href="./css/styles/tokens.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-</head>
-<body>
-<header class="header">
-    <nav class="container nav">
-        <div class="nav-infor">
-            <img src="./img/Ellipse 1.png" alt="">
-            <div class="p">Stephano.NG</div>
-        </div>
-       <div class="nav-item">
-        <li>
-            <a href="">Work</a>
-            <a href="">About</a>
-            <a href="">Blog</a>
-           </li>
-       <button class="btn-primary"> Grab a Coffee</button>
-       </div>
-    </nav>
-    <div class="content">
-        <div class="container">
-           <div class="row">
-            <div class="col-12">
-                <h1 style="padding-bottom: 24px;">
-                    Stephano,<br>
-                    Product Designer<br>
-                    Love to talk about business, technology, design
-                </h1>
-                <p style="padding-bottom: 32px;">
-                    I have 20 years of experience and design high-quality digital products that your clients will love and let your business thrive. I'm a versatile software professional, seamlessly transitioning between the roles of a designer, developer, or any other hat required to bring my creative visions to life. Currently workking at Lead Product Designers at FPT Software
-                </p>
-                <div class="action">
-                    <button class="btn-primary">Getting know me</button>
-                <button class="btn-ghosh">Strainght to myWork</button>
+<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="./css/styles/bootstrap-grid.css">
+        <link rel="stylesheet" href="./css/styles/component">
+        <link rel="stylesheet" href="./css/styles/fonts">
+        <link rel="stylesheet" href="./css/styles/style.css">
+        <link rel="stylesheet" href="./css/styles/tokens.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    </head>
+    <body>
+    <header class="header">
+        <nav class="container nav">
+            <div class="nav-infor">
+                <img src="./img/Ellipse 1.png" alt="">
+                <div class="p">Stephano.NG</div>
+            </div>
+           <div class="nav-item">
+            <li>
+                <a href="">Work</a>
+                <a href="">About</a>
+                <a href="">Blog</a>
+               </li>
+               <div class="action" style="display: flex; gap: 24px;">
+                <button class="switch theme-toggle" id="theme-toggle" title="Toggles light & dark" aria-label="auto" aria-live="polite">
+                    <svg class="sun-and-moon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+                      <mask class="moon" id="moon-mask">
+                        <rect x="0" y="0" width="100%" height="100%" fill="white" />
+                        <circle cx="24" cy="10" r="6" fill="black" />
+                      </mask>
+                      <circle class="sun" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor" />
+                      <g class="sun-beams" stroke="currentColor">
+                        <line x1="12" y1="1" x2="12" y2="3" />
+                        <line x1="12" y1="21" x2="12" y2="23" />
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                        <line x1="1" y1="12" x2="3" y2="12" />
+                        <line x1="21" y1="12" x2="23" y2="12" />
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                       </g>
+                    </svg>
+                  </button>
+               <button class="btn-primary"> Grab a Coffee</button>
             </div>
            </div>
+        </nav>
+        <div class="content">
+            <div class="container">
+               <div class="row">
+                <div class="col-12">
+                    <h1 style="padding-bottom: 24px;">
+                        Stephano,<br>
+                        Product Designer<br>
+                        Love to talk about business, technology, design
+                    </h1>
+                    <p style="padding-bottom: 32px;">
+                        I have 20 years of experience and design high-quality digital products that your clients will love and let your business thrive. I'm a versatile software professional, seamlessly transitioning between the roles of a designer, developer, or any other hat required to bring my creative visions to life. Currently workking at Lead Product Designers at FPT Software
+                    </p>
+                    <div class="cta">
+                        <button class="btn-primary">Getting know me</button>
+                    <button class="btn-ghosh">Strainght to myWork</button>
+                </div>
+               </div>
+            </div>
+            </div>
         </div>
-        </div>
-    </div>
+        
+    </header>
     
-</header>
-<section body>
-    <div class="container section">
-      <div class="first-section">
-        <div class="general experience">
-            <p class="heading-sub-heading">Work Experience</p>
-            <div class="company 01">
-                <p class="body-lg-bold">FPT Software</p>
-                <div class="company-infor">
-                    <p class="body-md-medium">Lead Product designers</p>
-                <p class="body-md-medium">Oct, 2021 - Now</p>
+    <section body>
+        <div class="container section">
+          <div class="row justify-content-between">
+            <div class="general experience">
+                <p class="heading-sub-heading">Work Experience</p>
+                <div class="company 01">
+                    <p class="body-lg-bold">FPT Software</p>
+                    <div class="company-infor">
+                        <p class="body-md-medium">Lead Product designers</p>
+                    <p class="body-md-medium">Oct, 2021 - Now</p>
+                    </div>
+                </div>
+                <div class="company 02">
+                    <p class="body-lg-bold">Aperia VietNam</p>
+                    <div class="company-infor">
+                        <p class="body-md-medium">Sr.Product designers</p>
+                    <p class="body-md-medium">Oct, 2019 - Jun, 2021</p>
+                    </div>
+                </div>
+                <div class="company 03">
+                    <p class="body-lg-bold">Tinh Van Group</p>
+                    <div class="company-infor">
+                        <p class="body-md-medium">Product designers</p>
+                    <p class="body-md-medium">Oct, 2021 - Now</p>
+                    </div>
+                </div>
+                <div class="company 04">
+                    <p class="body-lg-bold">Panic Bear Consulting</p>
+                    <div class="company-infor">
+                        <p class="body-md-medium">UI/UX designers</p>
+                    <p class="body-md-medium">Oct, 2021 - Now</p>
+                    </div>
                 </div>
             </div>
-            <div class="company 02">
-                <p class="body-lg-bold">Aperia VietNam</p>
-                <div class="company-infor">
-                    <p class="body-md-medium">Sr.Product designers</p>
-                <p class="body-md-medium">Oct, 2019 - Jun, 2021</p>
+            <div class="general focused">
+                <p class="heading-sub-heading">what am i focused on</p>
+                <div class="company 01">
+                    <p class="body-lg-bold">Product Discovery</p>
+                    <div class="company-infor">
+                        <p class="body-md-medium">Make the business’s decisions more confident</p>
+                    </div>
+                </div>
+                <div class="company 02">
+                    <p class="body-lg-bold">Product Leadership</p>
+                    <div class="company-infor">
+                        <p class="body-md-medium">Balance the product, processes, and technology.</p>
+                    </div>
+                </div>
+                <div class="company 03">
+                    <p class="body-lg-bold">Design System</p>
+                    <div class="company-infor">
+                        <p class="body-md-medium">Help product growth fast and more efficient</p>
+                    </div>
+                </div>
+                <div class="company 04">
+                    <p class="body-lg-bold">Scrum and Agile</p>
+                    <div class="company-infor">
+                        <p class="body-md-medium">Work as a team!</p>
+                    </div>
                 </div>
             </div>
-            <div class="company 03">
-                <p class="body-lg-bold">Tinh Van Group</p>
-                <div class="company-infor">
-                    <p class="body-md-medium">Product designers</p>
-                <p class="body-md-medium">Oct, 2021 - Now</p>
-                </div>
-            </div>
-            <div class="company 04">
-                <p class="body-lg-bold">Panic Bear Consulting</p>
-                <div class="company-infor">
-                    <p class="body-md-medium">UI/UX designers</p>
-                <p class="body-md-medium">Oct, 2021 - Now</p>
-                </div>
-            </div>
+          </div>
+             
         </div>
-        <div class="general focused">
-            <p class="heading-sub-heading">what am i focused on</p>
-            <div class="company 01">
-                <p class="body-lg-bold">Product Discovery</p>
-                <div class="company-infor">
-                    <p class="body-md-medium">Make the business’s decisions more confident</p>
-                </div>
-            </div>
-            <div class="company 02">
-                <p class="body-lg-bold">Product Leadership</p>
-                <div class="company-infor">
-                    <p class="body-md-medium">Balance the product, processes, and technology.</p>
-                </div>
-            </div>
-            <div class="company 03">
-                <p class="body-lg-bold">Design System</p>
-                <div class="company-infor">
-                    <p class="body-md-medium">Help product growth fast and more efficient</p>
-                </div>
-            </div>
-            <div class="company 04">
-                <p class="body-lg-bold">Scrum and Agile</p>
-                <div class="company-infor">
-                    <p class="body-md-medium">Work as a team!</p>
-                </div>
-            </div>
-        </div>
-      </div>
-         
-    </div>
-   
+       
+    
+        <iframe height='454' width='300' frameborder='0' allowtransparency='true' scrolling='no' src='https://www.strava.com/athletes/67538541/latest-rides/ab91758cc35680fe90607097d9f29c4fcf611956'></iframe>
+        <iframe height='160' width='300' frameborder='0' allowtransparency='true' scrolling='no' src='https://www.strava.com/athletes/67538541/activity-summary/ab91758cc35680fe90607097d9f29c4fcf611956'></iframe>
+    </section>
+    <button class="theme-toggle" id="theme-toggle" title="Toggles light & dark" aria-label="auto" aria-live="polite">
+        <svg class="sun-and-moon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+          <mask class="moon" id="moon-mask">
+            <rect x="0" y="0" width="100%" height="100%" fill="white" />
+            <circle cx="24" cy="10" r="6" fill="black" />
+          </mask>
+          <circle class="sun" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor" />
+          <g class="sun-beams" stroke="currentColor">
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+           </g>
+        </svg>
+      </button>
 
-    <iframe height='454' width='300' frameborder='0' allowtransparency='true' scrolling='no' src='https://www.strava.com/athletes/67538541/latest-rides/ab91758cc35680fe90607097d9f29c4fcf611956'></iframe>
-    <iframe height='160' width='300' frameborder='0' allowtransparency='true' scrolling='no' src='https://www.strava.com/athletes/67538541/activity-summary/ab91758cc35680fe90607097d9f29c4fcf611956'></iframe>
-</section>
-<button
-    type="button"
-    data-theme-toggle
-    aria-label="Change to light theme"
-  >Change to light theme</button>
-</body>
 <script src="./js/script.js"></script>
+    </body>
 </html>

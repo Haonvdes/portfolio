@@ -110,20 +110,26 @@
                
           </div>
         <div class="section stuff">
-            <p class="heading-sub-heading" style="padding:0px">Stephano's STUFF</p>
-            <div class="hastag">
-                <a class="hastag-items active" href="">
-                    <p class="body-regular-bold">#thetruth</p></a>
-                <a class="hastag-items" href="">
-                    <p class="body-regular-bold">#designprocess</p></a>
-                <a class="hastag-items" href="">
-                    <p class="body-regular-bold">#personality</p>
-                </a>
-                <a class="hastag-items" href="">
-                    <p class="body-regular-bold">#activities</p>
-                </a>
+            <div class="stuff-header">
+                <p class="heading-sub-heading" style="padding:0px">Stephano's STUFF</p>
+                <!-- Tab links -->
+                <div class="hastag">
+                    <button class="hastag-items" onclick="openHastag(event,'thetruth')" id="defaultOpen">
+                        <p class="body-regular-bold">#thetruth</p>
+                    </button>
+                    <button class="hastag-items" onclick="openHastag(event,'designprocess')">
+                        <p class="body-regular-bold">#designprocess</p>
+                    </button>
+                    <button class="hastag-items" onclick="openHastag(event,'personality')">
+                        <p class="body-regular-bold">#personality</p>
+                    </button>
+                    <button class="hastag-items" onclick="openHastag(event,'activities')">
+                        <p class="body-regular-bold">#activities</p>
+                    </button>
+                </div>
             </div>
-            <div class="information">
+            <!-- Tab content -->
+            <div id="thetruth" class="information">
                 <div class="strengths">
                     <p class="body-md-bold" style="padding-bottom: var(--space-8);">My strengths</p>
                     <p class="body-md-medium">In normal life, Im....The “E” as in Extraverted seems a bit off at times, especially after a lot of interactions and touch points with a great sum of people. I perform at my best levels when I have balance between managing and time for myself in flow.</p>
@@ -131,93 +137,102 @@
                 <div class="blind">
                     <p class="body-md-bold" style="padding-bottom: var(--space-8);">My blind</p>
                     <p class="body-md-medium">In normal life, Im....The “E” as in Extraverted seems a bit off at times, especially after a lot of interactions and touch points with a great sum of people. I perform at my best levels when I have balance between managing and time for myself in flow.</p>
-
                 </div>
-
             </div>
-            <iframe height='160' width='300' frameborder='0' allowtransparency='true' scrolling='no' src='https://www.strava.com/athletes/67538541/activity-summary/ab91758cc35680fe90607097d9f29c4fcf611956'></iframe>
-
-        </div>
-        <div class="section general ">
-            <div class="my-learning">
-                <p class="heading-sub-heading" style="padding:0px">Stephano's STUFF</p>
-                <div class="learning-path">
-                    <div class="l-path">
-                        <p class="body-lg-bold" style="padding-bottom: var(--space-8);">Google Project Management</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                    
-                    </div>
-                    <div class="l-path">
-                        <p class="body-lg-bold" style="padding-bottom: var(--space-8);">Meta Front End Dev</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                    
-                    </div>
-                    <div class="l-path">
-                        <p class="body-lg-bold" style="padding-bottom: var(--space-8);">Planned</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                        <p class="body-md-medium">Lead Product designers</p>
-                    
+            <div id="designprocess" class="information">
+                <div class="">
+                    <div style="width: 100%;">
+                        <img src="./public/images/designprocess.png" alt="" style="width: inherit;">
                     </div>
                 </div>
             </div>
-            <div class="awward">
-                <p class="heading-sub-heading">Design award & CERTIFICATES</p>
-                <div class="awward-item">
-                    <div class="awward-img">
-                        <img src="./public/images/awward-1.png" alt="">
-                    </div>
-                    <div class="company 01">
-                        <p class="body-lg-bold">Dream team 2022</p>
-                        <div class="company-infor">
-                            <p class="body-md-medium">Dream team at FPT DESIGN</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="awward-item">
-                    <div class="awward-img">
-                        <img src="./public/images/awward-2.png" alt="">
-                    </div>
-                    <div class="company 01">
-                        <p class="body-lg-bold">Agile Project Management</p>
-                        <div class="company-infor">
-                            <p class="body-md-medium">Google Certificates</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="awward-item">
-                    <div class="awward-img">
-                        <img src="./public/images/awward-3.png" alt="">
-                    </div>
-                    <div class="company 01">
-                        <p class="body-lg-bold">Product Discovery</p>
-                        <div class="company-infor">
-                            <p class="body-md-medium">Google Certificates</p>
-                        </div>
-                    </div>
+            <div id="personality" class="information"></div>
+            <div id="activities" class="information">
+                <div>
+                    <iframe height='160' width='300' frameborder='0' allowtransparency='true' scrolling='no' src='https://www.strava.com/athletes/67538541/activity-summary/ab91758cc35680fe90607097d9f29c4fcf611956'></iframe>
+
                 </div>
             </div>
-               
-          </div>
+            <div id="thetruth" class="information"></div>
+        
+
+            </div>
+            <div class="section general ">
+                <div class="my-learning">
+                    <p class="heading-sub-heading" style="padding:0px">Learning Path</p>
+                    <div class="learning-path">
+                        <div class="l-path">
+                            <p class="body-lg-bold" style="padding-bottom: var(--space-8);">Google Project Management</p>
+                            <p class="body-md-medium">Foundation of Project Management</p>
+                            <p class="body-md-medium">Project Initiation</p>
+                            <p class="body-md-medium">Project Execution</p>
+                            <p class="body-md-medium">Agile Project Managemnt </p>
+                            <p class="body-md-medium">Capstone: Apply PM in the Real Worl </p>
+                            </div>
+                        <div class="l-path">
+                            <p class="body-lg-bold" style="padding-bottom: var(--space-8);">Meta Front End Dev</p>
+                            <p class="body-md-medium">Lead Product designers</p>
+                            <p class="body-md-medium">Lead Product designers</p>
+                            <p class="body-md-medium">Lead Product designers</p>
+                            <p class="body-md-medium">Lead Product designers</p>
+                            <p class="body-md-medium">Lead Product designers</p>
+                            <p class="body-md-medium">Lead Product designers</p>
+                        </div>
+                        <div class="l-path">
+                            <p class="body-lg-bold" style="padding-bottom: var(--space-8);">Planned Courses</p>
+                            <p class="body-md-medium">Lead Product designers</p>
+                            <p class="body-md-medium">Lead Product designers</p>
+                            <p class="body-md-medium">Lead Product designers</p>
+                            <p class="body-md-medium">Lead Product designers</p>
+                            <p class="body-md-medium">Lead Product designers</p>
+                            <p class="body-md-medium">Lead Product designers</p> 
+                        </div>
+                    </div>
+                </div>
+                <div class="awward">
+                    <p class="heading-sub-heading">Design award & CERTIFICATES</p>
+                    <div class="awward-item">
+                        <div class="awward-img">
+                            <img src="./public/images/awward-1.png" alt="">
+                        </div>
+                        <div class="company 01">
+                            <p class="body-lg-bold">Dream team 2022</p>
+                            <div class="company-infor">
+                                <p class="body-md-medium">Dream team at FPT DESIGN</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="awward-item">
+                        <div class="awward-img">
+                            <img src="./public/images/awward-2.png" alt="">
+                        </div>
+                        <div class="company 01">
+                            <p class="body-lg-bold">Agile Project Management</p>
+                            <div class="company-infor">
+                                <p class="body-md-medium">Google Certificates</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="awward-item">
+                        <div class="awward-img">
+                            <img src="./public/images/awward-3.png" alt="">
+                        </div>
+                        <div class="company 01">
+                            <p class="body-lg-bold">Product Discovery</p>
+                            <div class="company-infor">
+                                <p class="body-md-medium">Google Certificates</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                   
+              </div>
+
     </div>
+      
     
-    <div class="container">
-    
-    </div>
   
 </section>
+<script src="./js/script.js"></script>
 </body>
 </html>

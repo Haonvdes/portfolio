@@ -420,28 +420,44 @@ li > a{
   display: flex;
   padding: var(--space-32);
   border-radius: var(--radius-16);
-  border-top: 1px solid #000;
-  border-right: 1px solid #000;
-  border-bottom: 6px solid #000;
-  border-left: 1px solid #000;
+  border-top: 1px solid var(--neutral-black);
+  border-right: 1px solid var(--neutral-black);
+  border-bottom: 6px solid var(--neutral-black);
+  border-left: 1px solid var(--neutral-black);
   background: linear-gradient(280deg, rgba(217, 217, 217, 0.00) -32.03%, rgba(255, 221, 87, 0.31) 124.44%);
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-24);
   backdrop-filter: blur(25px);
 }
+.stuff-header{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  
+}
 .hastag{
   display: flex;
   gap: var(--space-8);
 }
+
+.hastag button.active{
+  font-weight: 700;
+  color: var(--tab-bg-active);
+  text-decoration: var(--demention-4) underline;
+  font-style: italic;
+  t
+}
+
 .hastag-items{
-  padding: var(--space-8);
-  background-color: var(--tab-bg-default);
+  background-color: var(--bg-surface-transparent);
   border-radius: var(--radius-4);
+  border: none;
+  padding: var(--space-0);
 }
-.hastag-items:active{
-  background-color: var(--tab-bg-active);
-}
+
 .information{
   display: flex;
   flex-direction: row;
@@ -478,20 +494,19 @@ li > a{
 }
 
 .my-learning{
-  padding: var(--space-32);
+  padding: 32px 0 32px 0;
   gap: var(--space-16);
   flex-grow: 1;
   display: flex;
   flex-direction: column;  
+  overflow: scroll;
 }
 .learning-path{
   display: flex;
   flex-direction: row;
   gap: var(--space-24);
+  flex-wrap: nowrap;
 
-  flex-basis: auto;
-  flex-shrink: 1;
-  flex-grow: 1;
 
 }
 
@@ -500,6 +515,8 @@ li > a{
   flex-direction: column;
   gap: var(--space-16);
   flex-grow: 1;
+  flex-basis: auto;
+  min-width: 240px
 }
 
 @media (max-width: 992px) {

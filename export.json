@@ -1,0 +1,1477 @@
+{
+  "alias": {
+    "name": "alias",
+    "primary": {
+      "default": {
+        "name": "primary/default",
+        "description": "",
+        "value": "#facc15",
+        "type": "color"
+      }
+    },
+    "yellow": {
+      "Y50": {
+        "name": "yellow/Y50",
+        "description": "",
+        "value": "#fefce8",
+        "type": "color"
+      },
+      "Y100": {
+        "name": "yellow/Y100",
+        "description": "",
+        "value": "#fef9c3",
+        "type": "color"
+      },
+      "Y200": {
+        "name": "yellow/Y200",
+        "description": "",
+        "value": "#fef08a",
+        "type": "color"
+      },
+      "Y300": {
+        "name": "yellow/Y300",
+        "description": "",
+        "value": "#fde047",
+        "type": "color"
+      },
+      "Y400": {
+        "name": "yellow/Y400",
+        "description": "",
+        "value": "#facc15",
+        "type": "color"
+      },
+      "Y500": {
+        "name": "yellow/Y500",
+        "description": "",
+        "value": "#eab308",
+        "type": "color"
+      },
+      "Y600": {
+        "name": "yellow/Y600",
+        "description": "",
+        "value": "#ca8a04",
+        "type": "color"
+      },
+      "Y700": {
+        "name": "yellow/Y700",
+        "description": "",
+        "value": "#a16207",
+        "type": "color"
+      },
+      "Y800": {
+        "name": "yellow/Y800",
+        "description": "",
+        "value": "#854d0e",
+        "type": "color"
+      },
+      "Y900": {
+        "name": "yellow/Y900",
+        "description": "",
+        "value": "#713f12",
+        "type": "color"
+      },
+      "Y950": {
+        "name": "yellow/Y950",
+        "description": "",
+        "value": "#422006",
+        "type": "color"
+      }
+    },
+    "blue": {
+      "B50": {
+        "name": "blue/B50",
+        "description": "",
+        "value": "#f0f9ff",
+        "type": "color"
+      },
+      "B100": {
+        "name": "blue/B100",
+        "description": "",
+        "value": "#e0f2fe",
+        "type": "color"
+      },
+      "B200": {
+        "name": "blue/B200",
+        "description": "",
+        "value": "#bae6fd",
+        "type": "color"
+      },
+      "B300": {
+        "name": "blue/B300",
+        "description": "",
+        "value": "#7dd3fc",
+        "type": "color"
+      },
+      "B400": {
+        "name": "blue/B400",
+        "description": "",
+        "value": "#38bdf8",
+        "type": "color"
+      },
+      "B500": {
+        "name": "blue/B500",
+        "description": "",
+        "value": "#0ea5e9",
+        "type": "color"
+      },
+      "B600": {
+        "name": "blue/B600",
+        "description": "",
+        "value": "#0284c7",
+        "type": "color"
+      },
+      "B700": {
+        "name": "blue/B700",
+        "description": "",
+        "value": "#0369a1",
+        "type": "color"
+      },
+      "B800": {
+        "name": "blue/B800",
+        "description": "",
+        "value": "#075985",
+        "type": "color"
+      },
+      "B900": {
+        "name": "blue/B900",
+        "description": "",
+        "value": "#0c4a6e",
+        "type": "color"
+      },
+      "B950": {
+        "name": "blue/B950",
+        "description": "",
+        "value": "#082f49",
+        "type": "color"
+      }
+    },
+    "red": {
+      "R50": {
+        "name": "red/R50",
+        "description": "",
+        "value": "#fef2f2",
+        "type": "color"
+      },
+      "R100": {
+        "name": "red/R100",
+        "description": "",
+        "value": "#fee2e2",
+        "type": "color"
+      },
+      "R200": {
+        "name": "red/R200",
+        "description": "",
+        "value": "#fecaca",
+        "type": "color"
+      },
+      "R300": {
+        "name": "red/R300",
+        "description": "",
+        "value": "#fca5a5",
+        "type": "color"
+      },
+      "R400": {
+        "name": "red/R400",
+        "description": "",
+        "value": "#f87171",
+        "type": "color"
+      },
+      "R500": {
+        "name": "red/R500",
+        "description": "",
+        "value": "#ef4444",
+        "type": "color"
+      },
+      "R600": {
+        "name": "red/R600",
+        "description": "",
+        "value": "#dc2626",
+        "type": "color"
+      },
+      "R700": {
+        "name": "red/R700",
+        "description": "",
+        "value": "#b91c1c",
+        "type": "color"
+      },
+      "R800": {
+        "name": "red/R800",
+        "description": "",
+        "value": "#991b1b",
+        "type": "color"
+      },
+      "R900": {
+        "name": "red/R900",
+        "description": "",
+        "value": "#7f1d1d",
+        "type": "color"
+      },
+      "R950": {
+        "name": "red/R950",
+        "description": "",
+        "value": "#450a0a",
+        "type": "color"
+      }
+    },
+    "emerald": {
+      "E50": {
+        "name": "emerald/E50",
+        "description": "",
+        "value": "#f0fdf4",
+        "type": "color"
+      },
+      "E100": {
+        "name": "emerald/E100",
+        "description": "",
+        "value": "#dcfce7",
+        "type": "color"
+      },
+      "E200": {
+        "name": "emerald/E200",
+        "description": "",
+        "value": "#bbf7d0",
+        "type": "color"
+      },
+      "E300": {
+        "name": "emerald/E300",
+        "description": "",
+        "value": "#86efac",
+        "type": "color"
+      },
+      "E400": {
+        "name": "emerald/E400",
+        "description": "",
+        "value": "#4ade80",
+        "type": "color"
+      },
+      "E500": {
+        "name": "emerald/E500",
+        "description": "",
+        "value": "#22c55e",
+        "type": "color"
+      },
+      "E600": {
+        "name": "emerald/E600",
+        "description": "",
+        "value": "#16a34a",
+        "type": "color"
+      },
+      "E700": {
+        "name": "emerald/E700",
+        "description": "",
+        "value": "#15803d",
+        "type": "color"
+      },
+      "E800": {
+        "name": "emerald/E800",
+        "description": "",
+        "value": "#166534",
+        "type": "color"
+      },
+      "E900": {
+        "name": "emerald/E900",
+        "description": "",
+        "value": "#14532d",
+        "type": "color"
+      },
+      "E950": {
+        "name": "emerald/E950",
+        "description": "",
+        "value": "#052e16",
+        "type": "color"
+      }
+    },
+    "grey": {
+      "G50": {
+        "name": "grey/G50",
+        "description": "",
+        "value": "#f9fafb",
+        "type": "color"
+      },
+      "G100": {
+        "name": "grey/G100",
+        "description": "",
+        "value": "#f3f4f6",
+        "type": "color"
+      },
+      "G200": {
+        "name": "grey/G200",
+        "description": "",
+        "value": "#e5e7eb",
+        "type": "color"
+      },
+      "G300": {
+        "name": "grey/G300",
+        "description": "",
+        "value": "#d1d5db",
+        "type": "color"
+      },
+      "G400": {
+        "name": "grey/G400",
+        "description": "",
+        "value": "#9ca3af",
+        "type": "color"
+      },
+      "G500": {
+        "name": "grey/G500",
+        "description": "",
+        "value": "#6b7280",
+        "type": "color"
+      },
+      "G600": {
+        "name": "grey/G600",
+        "description": "",
+        "value": "#4b5563",
+        "type": "color"
+      },
+      "G700": {
+        "name": "grey/G700",
+        "description": "",
+        "value": "#374151",
+        "type": "color"
+      },
+      "G800": {
+        "name": "grey/G800",
+        "description": "",
+        "value": "#1f2937",
+        "type": "color"
+      },
+      "G900": {
+        "name": "grey/G900",
+        "description": "",
+        "value": "#111827",
+        "type": "color"
+      },
+      "G950": {
+        "name": "grey/G950",
+        "description": "",
+        "value": "#030712",
+        "type": "color"
+      }
+    },
+    "neutral": {
+      "black": {
+        "name": "neutral/black",
+        "description": "",
+        "value": "#000000",
+        "type": "color"
+      },
+      "white": {
+        "name": "neutral/white",
+        "description": "",
+        "value": "#ffffff",
+        "type": "color"
+      },
+      "white-10": {
+        "name": "neutral/white-10",
+        "description": "",
+        "value": "#ffffff",
+        "type": "color"
+      },
+      "white-20": {
+        "name": "neutral/white-20",
+        "description": "",
+        "value": "#ffffff",
+        "type": "color"
+      },
+      "white-30": {
+        "name": "neutral/white-30",
+        "description": "",
+        "value": "#ffffff",
+        "type": "color"
+      },
+      "white-40": {
+        "name": "neutral/white-40",
+        "description": "",
+        "value": "#ffffff",
+        "type": "color"
+      },
+      "white-50": {
+        "name": "neutral/white-50",
+        "description": "",
+        "value": "#ffffff",
+        "type": "color"
+      },
+      "white-60": {
+        "name": "neutral/white-60",
+        "description": "",
+        "value": "#ffffff",
+        "type": "color"
+      },
+      "white-70": {
+        "name": "neutral/white-70",
+        "description": "",
+        "value": "#ffffff",
+        "type": "color"
+      },
+      "white-80": {
+        "name": "neutral/white-80",
+        "description": "",
+        "value": "#ffffff",
+        "type": "color"
+      },
+      "white-90": {
+        "name": "neutral/white-90",
+        "description": "",
+        "value": "#ffffff",
+        "type": "color"
+      },
+      "transparent": {
+        "name": "neutral/transparent",
+        "description": "",
+        "value": "#ffffff",
+        "type": "color"
+      }
+    },
+    "text": {
+      "information": {
+        "default": {
+          "name": "text/information/default",
+          "description": "",
+          "value": "{semantic.blue.B500}",
+          "type": "color"
+        }
+      },
+      "success": {
+        "default": {
+          "name": "text/success/default",
+          "description": "",
+          "value": "{semantic.emerald.E500}",
+          "type": "color"
+        }
+      },
+      "warning": {
+        "default": {
+          "name": "text/warning/default",
+          "description": "",
+          "value": "{semantic.yellow.Y500}",
+          "type": "color"
+        }
+      },
+      "danger": {
+        "default": {
+          "name": "text/danger/default",
+          "description": "",
+          "value": "{semantic.red.R500}",
+          "type": "color"
+        }
+      },
+      "link": {
+        "default": {
+          "name": "text/link/default",
+          "description": "using for heading, sub-heading, body text",
+          "value": "{semantic.blue.B400}",
+          "type": "color"
+        },
+        "hover": {
+          "name": "text/link/hover",
+          "description": "Button, Navigation, all caps heading, label, body",
+          "value": "{semantic.blue.B300}",
+          "type": "color"
+        },
+        "visited": {
+          "name": "text/link/visited",
+          "description": "helper text, all cap heading",
+          "value": "{semantic.blue.B500}",
+          "type": "color"
+        }
+      },
+      "neutral": {
+        "display": {
+          "name": "text/neutral/display",
+          "description": "using for heading, sub-heading, body text",
+          "value": "{semantic.grey.G950}",
+          "type": "color"
+        },
+        "heading": {
+          "name": "text/neutral/heading",
+          "description": "Button, Navigation, all caps heading, label, body",
+          "value": "{semantic.grey.G700}",
+          "type": "color"
+        },
+        "sub-heading": {
+          "name": "text/neutral/sub-heading",
+          "description": "helper text, all cap heading",
+          "value": "{semantic.grey.G600}",
+          "type": "color"
+        },
+        "body": {
+          "name": "text/neutral/body",
+          "description": "",
+          "value": "{semantic.grey.G600}",
+          "type": "color"
+        },
+        "disabled": {
+          "name": "text/neutral/disabled",
+          "description": "",
+          "value": "{semantic.grey.G600}",
+          "type": "color"
+        },
+        "button": {
+          "name": "text/neutral/button",
+          "description": "",
+          "value": "{semantic.grey.G600}",
+          "type": "color"
+        }
+      }
+    },
+    "bg": {
+      "primary": {
+        "default": {
+          "name": "bg/primary/default",
+          "description": "",
+          "value": "{semantic.primary.default}",
+          "type": "color"
+        },
+        "bolder": {
+          "name": "bg/primary/bolder",
+          "description": "",
+          "value": "{semantic.yellow.Y400}",
+          "type": "color"
+        },
+        "subtler": {
+          "name": "bg/primary/subtler",
+          "description": "",
+          "value": "{semantic.yellow.Y300}",
+          "type": "color"
+        },
+        "lighter": {
+          "name": "bg/primary/lighter",
+          "description": "",
+          "value": "{semantic.yellow.Y200}",
+          "type": "color"
+        },
+        "lightest": {
+          "name": "bg/primary/lightest",
+          "description": "",
+          "value": "{semantic.yellow.Y100}",
+          "type": "color"
+        }
+      },
+      "surface": {
+        "main": {
+          "name": "bg/surface/main",
+          "description": "using for 1st layer background such as main background or component background",
+          "value": "{semantic.neutral.white}",
+          "type": "color"
+        },
+        "main-inverse": {
+          "name": "bg/surface/main-inverse",
+          "description": "Button, Navigation, all caps heading, label, body",
+          "value": "{semantic.grey.G950}",
+          "type": "color"
+        },
+        "modal": {
+          "name": "bg/surface/modal",
+          "description": "using for heading, sub-heading, body text",
+          "value": "{semantic.neutral.white}",
+          "type": "color"
+        },
+        "card": {
+          "name": "bg/surface/card",
+          "description": "using for heading, sub-heading, body text",
+          "value": "{semantic.neutral.white}",
+          "type": "color"
+        },
+        "transparent": {
+          "name": "bg/surface/transparent",
+          "description": "helper text, all cap heading",
+          "value": "{semantic.neutral.transparent}",
+          "type": "color"
+        }
+      },
+      "information": {
+        "default": {
+          "name": "bg/information/default",
+          "description": "",
+          "value": "{semantic.blue.B100}",
+          "type": "color"
+        }
+      },
+      "success": {
+        "default": {
+          "name": "bg/success/default",
+          "description": "",
+          "value": "{semantic.emerald.E100}",
+          "type": "color"
+        },
+        "bolder": {
+          "name": "bg/success/bolder",
+          "description": "",
+          "value": "{semantic.emerald.E100}",
+          "type": "color"
+        },
+        "subtler": {
+          "name": "bg/success/subtler",
+          "description": "",
+          "value": "{semantic.emerald.E100}",
+          "type": "color"
+        },
+        "lighter": {
+          "name": "bg/success/lighter",
+          "description": "",
+          "value": "{semantic.emerald.E100}",
+          "type": "color"
+        }
+      },
+      "warning": {
+        "default": {
+          "name": "bg/warning/default",
+          "description": "",
+          "value": "{semantic.yellow.Y400}",
+          "type": "color"
+        },
+        "interactive-hover": {
+          "name": "bg/warning/interactive-hover",
+          "description": "",
+          "value": "{semantic.yellow.Y300}",
+          "type": "color"
+        }
+      },
+      "danger": {
+        "default": {
+          "name": "bg/danger/default",
+          "description": "",
+          "value": "{semantic.red.R100}",
+          "type": "color"
+        }
+      },
+      "neutral": {
+        "input": {
+          "name": "bg/neutral/input",
+          "description": "",
+          "value": "{semantic.grey.G200}",
+          "type": "color"
+        },
+        "disable": {
+          "name": "bg/neutral/disable",
+          "description": "",
+          "value": "{semantic.neutral.black}",
+          "type": "color"
+        }
+      }
+    },
+    "border": {
+      "primary": {
+        "default": {
+          "name": "border/primary/default",
+          "description": "",
+          "value": "{semantic.primary.default}",
+          "type": "color"
+        }
+      },
+      "information": {
+        "default": {
+          "name": "border/information/default",
+          "description": "",
+          "value": "{semantic.blue.B500}",
+          "type": "color"
+        }
+      },
+      "success": {
+        "default": {
+          "name": "border/success/default",
+          "description": "",
+          "value": "{semantic.emerald.E500}",
+          "type": "color"
+        },
+        "bolder": {
+          "name": "border/success/bolder",
+          "description": "",
+          "value": "{semantic.emerald.E700}",
+          "type": "color"
+        },
+        "subtler": {
+          "name": "border/success/subtler",
+          "description": "",
+          "value": "{semantic.emerald.E300}",
+          "type": "color"
+        },
+        "light": {
+          "name": "border/success/light",
+          "description": "",
+          "value": "{semantic.emerald.E100}",
+          "type": "color"
+        }
+      },
+      "warning": {
+        "default": {
+          "name": "border/warning/default",
+          "description": "",
+          "value": "{semantic.yellow.Y500}",
+          "type": "color"
+        }
+      },
+      "danger": {
+        "default": {
+          "name": "border/danger/default",
+          "description": "",
+          "value": "{semantic.red.R500}",
+          "type": "color"
+        }
+      },
+      "neutral": {
+        "default": {
+          "name": "border/neutral/default",
+          "description": "",
+          "value": "{semantic.grey.G200}",
+          "type": "color"
+        },
+        "input": {
+          "name": "border/neutral/input",
+          "description": "",
+          "value": "{semantic.grey.G200}",
+          "type": "color"
+        },
+        "disbaled": {
+          "name": "border/neutral/disbaled",
+          "description": "",
+          "value": "{semantic.neutral.black}",
+          "type": "color"
+        }
+      }
+    },
+    "tab": {
+      "bg": {
+        "default": {
+          "name": "tab/bg/default",
+          "description": "",
+          "value": "{component.bg.surface.main}",
+          "type": "color"
+        },
+        "active": {
+          "name": "tab/bg/active",
+          "description": "",
+          "value": "{component.bg.primary.default}",
+          "type": "color"
+        }
+      },
+      "text": {
+        "default": {
+          "name": "tab/text/default",
+          "description": "",
+          "value": "{component.text.neutral.body}",
+          "type": "color"
+        },
+        "active": {
+          "name": "tab/text/active",
+          "description": "",
+          "value": "{component.text.neutral.body}",
+          "type": "color"
+        }
+      }
+    },
+    "button": {
+      "text": {
+        "primary": {
+          "name": "button/text/primary",
+          "description": "",
+          "value": "{component.text.neutral.button}",
+          "type": "color"
+        },
+        "primary-hover": {
+          "name": "button/text/primary-hover",
+          "description": "",
+          "value": "{component.text.neutral.button}",
+          "type": "color"
+        }
+      },
+      "bg": {
+        "primary-default": {
+          "name": "button/bg/primary-default",
+          "description": "",
+          "value": "{component.bg.primary.bolder}",
+          "type": "color"
+        },
+        "primary-hover": {
+          "name": "button/bg/primary-hover",
+          "description": "",
+          "value": "{component.bg.primary.subtler}",
+          "type": "color"
+        },
+        "ghost-default": {
+          "name": "button/bg/ghost-default",
+          "description": "",
+          "value": "{component.bg.surface.transparent}",
+          "type": "color"
+        },
+        "ghost-hover": {
+          "name": "button/bg/ghost-hover",
+          "description": "",
+          "value": "{component.bg.primary.lightest}",
+          "type": "color"
+        }
+      },
+      "border": {
+        "primary": {
+          "name": "button/border/primary",
+          "description": "",
+          "value": "{component.border.neutral.disbaled}",
+          "type": "color"
+        }
+      }
+    },    
+    "demention": {
+      "2": {
+        "name": "demention/2",
+        "description": "",
+        "value": "#2",
+        "type": "number"
+      },
+      "4": {
+        "name": "demention/4",
+        "description": "",
+        "value": "#4",
+        "type": "number"
+      },
+      "6": {
+        "name": "demention/6",
+        "description": "",
+        "value": "#NaNNaNNaN",
+        "type": "number"
+      },
+      "8": {
+        "name": "demention/8",
+        "description": "",
+        "value": "#NaNNaNNaN",
+        "type": "number"
+      },
+      "10": {
+        "name": "demention/10",
+        "description": "",
+        "value": "#NaNNaNNaN",
+        "type": "number"
+      },
+      "12": {
+        "name": "demention/12",
+        "description": "",
+        "value": "#NaNNaNNaN",
+        "type": "number"
+      },
+      "14": {
+        "name": "demention/14",
+        "description": "",
+        "value": "#NaNNaNNaN",
+        "type": "number"
+      },
+      "16": {
+        "name": "demention/16",
+        "description": "",
+        "value": "#NaNNaNNaN",
+        "type": "number"
+      },
+      "18": {
+        "name": "demention/18",
+        "description": "",
+        "value": "#NaNNaNNaN",
+        "type": "number"
+      },
+      "20": {
+        "name": "demention/20",
+        "description": "",
+        "value": "#NaNNaNNaN",
+        "type": "number"
+      },
+      "24": {
+        "name": "demention/24",
+        "description": "",
+        "value": "#NaNNaNNaN",
+        "type": "number"
+      },
+      "32": {
+        "name": "demention/32",
+        "description": "",
+        "value": "#NaNNaNNaN",
+        "type": "number"
+      },
+      "40": {
+        "name": "demention/40",
+        "description": "",
+        "value": "#NaNNaNNaN",
+        "type": "number"
+      },
+      "48": {
+        "name": "demention/48",
+        "description": "",
+        "value": "#NaNNaNNaN",
+        "type": "number"
+      },
+      "56": {
+        "name": "demention/56",
+        "description": "",
+        "value": "#NaNNaNNaN",
+        "type": "number"
+      },
+      "64": {
+        "name": "demention/64",
+        "description": "",
+        "value": "#NaNNaNNaN",
+        "type": "number"
+      },
+      "72": {
+        "name": "demention/72",
+        "description": "",
+        "value": "#NaNNaNNaN",
+        "type": "number"
+      },
+      "80": {
+        "name": "demention/80",
+        "description": "",
+        "value": "#NaNNaNNaN",
+        "type": "number"
+      }
+    },
+    "radius": {
+      "2": {
+        "name": "radius/2",
+        "description": "",
+        "value": "{measurement.demention.2}",
+        "type": "color"
+      },
+      "4": {
+        "name": "radius/4",
+        "description": "",
+        "value": "{measurement.demention.4}",
+        "type": "color"
+      },
+      "6": {
+        "name": "radius/6",
+        "description": "",
+        "value": "{measurement.demention.6}",
+        "type": "color"
+      },
+      "8": {
+        "name": "radius/8",
+        "description": "",
+        "value": "{measurement.demention.8}",
+        "type": "color"
+      },
+      "10": {
+        "name": "radius/10",
+        "description": "",
+        "value": "{measurement.demention.10}",
+        "type": "color"
+      },
+      "12": {
+        "name": "radius/12",
+        "description": "",
+        "value": "{measurement.demention.12}",
+        "type": "color"
+      },
+      "14": {
+        "name": "radius/14",
+        "description": "",
+        "value": "{measurement.demention.14}",
+        "type": "color"
+      },
+      "16": {
+        "name": "radius/16",
+        "description": "",
+        "value": "{measurement.demention.16}",
+        "type": "color"
+      },
+      "18": {
+        "name": "radius/18",
+        "description": "",
+        "value": "{measurement.demention.18}",
+        "type": "color"
+      },
+      "20": {
+        "name": "radius/20",
+        "description": "",
+        "value": "{measurement.demention.20}",
+        "type": "color"
+      },
+      "24": {
+        "name": "radius/24",
+        "description": "",
+        "value": "{measurement.demention.24}",
+        "type": "color"
+      },
+      "32": {
+        "name": "radius/32",
+        "description": "",
+        "value": "{measurement.demention.32}",
+        "type": "color"
+      },
+      "40": {
+        "name": "radius/40",
+        "description": "",
+        "value": "{measurement.demention.40}",
+        "type": "color"
+      },
+      "48": {
+        "name": "radius/48",
+        "description": "",
+        "value": "{measurement.demention.48}",
+        "type": "color"
+      },
+      "56": {
+        "name": "radius/56",
+        "description": "",
+        "value": "{measurement.demention.56}",
+        "type": "color"
+      },
+      "64": {
+        "name": "radius/64",
+        "description": "",
+        "value": "{measurement.demention.64}",
+        "type": "color"
+      },
+      "72": {
+        "name": "radius/72",
+        "description": "",
+        "value": "{measurement.demention.72}",
+        "type": "color"
+      },
+      "80": {
+        "name": "radius/80",
+        "description": "",
+        "value": "{measurement.demention.80}",
+        "type": "color"
+      }
+    },
+    "space": {
+      "2": {
+        "name": "space/2",
+        "description": "",
+        "value": "{measurement.demention.2}",
+        "type": "color"
+      },
+      "4": {
+        "name": "space/4",
+        "description": "",
+        "value": "{measurement.demention.4}",
+        "type": "color"
+      },
+      "6": {
+        "name": "space/6",
+        "description": "",
+        "value": "{measurement.demention.6}",
+        "type": "color"
+      },
+      "8": {
+        "name": "space/8",
+        "description": "",
+        "value": "{measurement.demention.8}",
+        "type": "color"
+      },
+      "10": {
+        "name": "space/10",
+        "description": "",
+        "value": "{measurement.demention.10}",
+        "type": "color"
+      },
+      "12": {
+        "name": "space/12",
+        "description": "",
+        "value": "{measurement.demention.12}",
+        "type": "color"
+      },
+      "14": {
+        "name": "space/14",
+        "description": "",
+        "value": "{measurement.demention.14}",
+        "type": "color"
+      },
+      "16": {
+        "name": "space/16",
+        "description": "",
+        "value": "{measurement.demention.16}",
+        "type": "color"
+      },
+      "18": {
+        "name": "space/18",
+        "description": "",
+        "value": "{measurement.demention.18}",
+        "type": "color"
+      },
+      "20": {
+        "name": "space/20",
+        "description": "",
+        "value": "{measurement.demention.20}",
+        "type": "color"
+      },
+      "24": {
+        "name": "space/24",
+        "description": "",
+        "value": "{measurement.demention.24}",
+        "type": "color"
+      },
+      "32": {
+        "name": "space/32",
+        "description": "",
+        "value": "{measurement.demention.32}",
+        "type": "color"
+      },
+      "40": {
+        "name": "space/40",
+        "description": "",
+        "value": "{measurement.demention.40}",
+        "type": "color"
+      },
+      "48": {
+        "name": "space/48",
+        "description": "",
+        "value": "{measurement.demention.48}",
+        "type": "color"
+      },
+      "56": {
+        "name": "space/56",
+        "description": "",
+        "value": "{measurement.demention.56}",
+        "type": "color"
+      },
+      "64": {
+        "name": "space/64",
+        "description": "",
+        "value": "{measurement.demention.64}",
+        "type": "color"
+      },
+      "72": {
+        "name": "space/72",
+        "description": "",
+        "value": "{measurement.demention.72}",
+        "type": "color"
+      },
+      "80": {
+        "name": "space/80",
+        "description": "",
+        "value": "{measurement.demention.80}",
+        "type": "color"
+      }
+    }},
+    "measurement": {
+      "name": "measurement",
+      "demention": {
+        "2": {
+          "name": "demention/2",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "4": {
+          "name": "demention/4",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "6": {
+          "name": "demention/6",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "8": {
+          "name": "demention/8",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "10": {
+          "name": "demention/10",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "12": {
+          "name": "demention/12",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "14": {
+          "name": "demention/14",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "16": {
+          "name": "demention/16",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "18": {
+          "name": "demention/18",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "20": {
+          "name": "demention/20",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "24": {
+          "name": "demention/24",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "32": {
+          "name": "demention/32",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "40": {
+          "name": "demention/40",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "48": {
+          "name": "demention/48",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "56": {
+          "name": "demention/56",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "64": {
+          "name": "demention/64",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "72": {
+          "name": "demention/72",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        },
+        "80": {
+          "name": "demention/80",
+          "description": "",
+          "value": "#NaNNaNNaN",
+          "type": "color"
+        }
+      },
+      "radius": {
+        "2": {
+          "name": "radius/2",
+          "description": "",
+          "value": "{measurement.demention.2}",
+          "type": "color"
+        },
+        "4": {
+          "name": "radius/4",
+          "description": "",
+          "value": "{measurement.demention.4}",
+          "type": "color"
+        },
+        "6": {
+          "name": "radius/6",
+          "description": "",
+          "value": "{measurement.demention.6}",
+          "type": "color"
+        },
+        "8": {
+          "name": "radius/8",
+          "description": "",
+          "value": "{measurement.demention.8}",
+          "type": "color"
+        },
+        "10": {
+          "name": "radius/10",
+          "description": "",
+          "value": "{measurement.demention.10}",
+          "type": "color"
+        },
+        "12": {
+          "name": "radius/12",
+          "description": "",
+          "value": "{measurement.demention.12}",
+          "type": "color"
+        },
+        "14": {
+          "name": "radius/14",
+          "description": "",
+          "value": "{measurement.demention.14}",
+          "type": "color"
+        },
+        "16": {
+          "name": "radius/16",
+          "description": "",
+          "value": "{measurement.demention.16}",
+          "type": "color"
+        },
+        "18": {
+          "name": "radius/18",
+          "description": "",
+          "value": "{measurement.demention.18}",
+          "type": "color"
+        },
+        "20": {
+          "name": "radius/20",
+          "description": "",
+          "value": "{measurement.demention.20}",
+          "type": "color"
+        },
+        "24": {
+          "name": "radius/24",
+          "description": "",
+          "value": "{measurement.demention.24}",
+          "type": "color"
+        },
+        "32": {
+          "name": "radius/32",
+          "description": "",
+          "value": "{measurement.demention.32}",
+          "type": "color"
+        },
+        "40": {
+          "name": "radius/40",
+          "description": "",
+          "value": "{measurement.demention.40}",
+          "type": "color"
+        },
+        "48": {
+          "name": "radius/48",
+          "description": "",
+          "value": "{measurement.demention.48}",
+          "type": "color"
+        },
+        "56": {
+          "name": "radius/56",
+          "description": "",
+          "value": "{measurement.demention.56}",
+          "type": "color"
+        },
+        "64": {
+          "name": "radius/64",
+          "description": "",
+          "value": "{measurement.demention.64}",
+          "type": "color"
+        },
+        "72": {
+          "name": "radius/72",
+          "description": "",
+          "value": "{measurement.demention.72}",
+          "type": "color"
+        },
+        "80": {
+          "name": "radius/80",
+          "description": "",
+          "value": "{measurement.demention.80}",
+          "type": "color"
+        }
+      },
+      "space": {
+        "2": {
+          "name": "space/2",
+          "description": "",
+          "value": "{measurement.demention.2}",
+          "type": "color"
+        },
+        "4": {
+          "name": "space/4",
+          "description": "",
+          "value": "{measurement.demention.4}",
+          "type": "color"
+        },
+        "6": {
+          "name": "space/6",
+          "description": "",
+          "value": "{measurement.demention.6}",
+          "type": "color"
+        },
+        "8": {
+          "name": "space/8",
+          "description": "",
+          "value": "{measurement.demention.8}",
+          "type": "color"
+        },
+        "10": {
+          "name": "space/10",
+          "description": "",
+          "value": "{measurement.demention.10}",
+          "type": "color"
+        },
+        "12": {
+          "name": "space/12",
+          "description": "",
+          "value": "{measurement.demention.12}",
+          "type": "color"
+        },
+        "14": {
+          "name": "space/14",
+          "description": "",
+          "value": "{measurement.demention.14}",
+          "type": "color"
+        },
+        "16": {
+          "name": "space/16",
+          "description": "",
+          "value": "{measurement.demention.16}",
+          "type": "color"
+        },
+        "18": {
+          "name": "space/18",
+          "description": "",
+          "value": "{measurement.demention.18}",
+          "type": "color"
+        },
+        "20": {
+          "name": "space/20",
+          "description": "",
+          "value": "{measurement.demention.20}",
+          "type": "color"
+        },
+        "24": {
+          "name": "space/24",
+          "description": "",
+          "value": "{measurement.demention.24}",
+          "type": "color"
+        },
+        "32": {
+          "name": "space/32",
+          "description": "",
+          "value": "{measurement.demention.32}",
+          "type": "color"
+        },
+        "40": {
+          "name": "space/40",
+          "description": "",
+          "value": "{measurement.demention.40}",
+          "type": "color"
+        },
+        "48": {
+          "name": "space/48",
+          "description": "",
+          "value": "{measurement.demention.48}",
+          "type": "color"
+        },
+        "56": {
+          "name": "space/56",
+          "description": "",
+          "value": "{measurement.demention.56}",
+          "type": "color"
+        },
+        "64": {
+          "name": "space/64",
+          "description": "",
+          "value": "{measurement.demention.64}",
+          "type": "color"
+        },
+        "72": {
+          "name": "space/72",
+          "description": "",
+          "value": "{measurement.demention.72}",
+          "type": "color"
+        },
+        "80": {
+          "name": "space/80",
+          "description": "",
+          "value": "{measurement.demention.80}",
+          "type": "color"
+        }
+      }
+    }
+}

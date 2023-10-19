@@ -1,7 +1,7 @@
 {
   "version": "2",
-  "repository": "@hao-test/2023-wrapup",
-    "personalAccessToken": "3aa7e0aedbc6506ceff898d6786d3fabc7c96a3bcfdb1c32c6b737b6cc45e614",
+  "repository": "@haodes/2023-variables",
+    "personalAccessToken": "ce093b97cf4c70e98dd15cb3d8fbcab2c90c20453d117aa8a24cfa3498bd6f8b",
     "rules": [
       {
         "name": "Figma Variables",
@@ -10,7 +10,7 @@
             "name": "to-css-custom-properties",
             "output": {
               "type": "file",
-              "filePath": "output/styles/tokens.css"
+              "filePath": "./css/styles/tokens.css"
             }
           }
         ]

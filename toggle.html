@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark:dark light:light shape:shape spacing:spacing typography:typography-minor3" data-color-mode="light"></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/styles/bootstrap-grid.css">
+    <link rel="stylesheet" href="./css/styles/component">
+    <link rel="stylesheet" href="./css/styles/fonts">
+    <link rel="stylesheet" href="./css/styles/style.css">
+    <link rel="stylesheet" href="./css/styles/tokens.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+<header class="header">
+    <nav class="container nav">
+        <div class="nav-infor">
+            <img src="./img/Ellipse 1.png" alt="">
+            <div class="p">Stephano.NG</div>
+        </div>
+       <div class="nav-item">
+        <li>
+            <a href="">Work</a>
+            <a href="">About</a>
+            <a href="">Blog</a>
+           </li>
+        <div class="action" style="display: flex; gap: 24px;">
+            <div class="container">
+                <button class="switch theme-toggle" id="theme-toggle" title="Toggles light & dark" aria-label="auto" aria-live="polite">
+                    <svg class="sun-and-moon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+                      <mask class="moon" id="moon-mask">
+                        <rect x="0" y="0" width="100%" height="100%" fill="white" />
+                        <circle cx="24" cy="10" r="6" fill="black" />
+                      </mask>
+                      <circle class="sun" cx="12" cy="12" r="6" mask="url(#moon-mask)" fill="currentColor" />
+                      <g class="sun-beams" stroke="currentColor">
+                        <line x1="12" y1="1" x2="12" y2="3" />
+                        <line x1="12" y1="21" x2="12" y2="23" />
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                        <line x1="1" y1="12" x2="3" y2="12" />
+                        <line x1="21" y1="12" x2="23" y2="12" />
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                       </g>
+                    </svg>
+                  </button>
+            
+            </div>
+           <button class="btn-primary"> Grab a Coffee</button>
+        </div>
+       </div>
+    </nav>
+    <div class="content">
+        <div class="container">
+           <div class="row">
+            <div class="col-12">
+                <h1 style="padding-bottom: 24px;">
+                    Stephano,<br>
+                    Product Designer<br>
+                    Love to talk about business, technology, design
+                </h1>
+                <p style="padding-bottom: 32px;">
+                    I have 20 years of experience and design high-quality digital products that your clients will love and let your business thrive. I'm a versatile software professional, seamlessly transitioning between the roles of a designer, developer, or any other hat required to bring my creative visions to life. Currently workking at Lead Product Designers at FPT Software
+                </p>
+                <div class="action">
+                    <button class="btn-primary">Getting know me</button>
+                <button class="btn-ghosh">Strainght to myWork</button>
+            </div>
+           </div>
+        </div>
+        </div>
+    </div>
+</header>
+
+
+
+<script src="./js/script.js"></script>
+</body>
+</html>

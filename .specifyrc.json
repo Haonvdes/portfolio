@@ -10,7 +10,7 @@
             "name": "to-css-custom-properties",
             "output": {
               "type": "file",
-              "filePath": "./css/styles/tokens.css"
+              "filePath": "./css/styles/tokens-pull.css"
             }
           }
         ]

@@ -1,4 +1,5 @@
 @import url(./tokens.css);
+@import url(./text-styles.css);
 .btn-primary{
     padding: var(--space-14);
     box-shadow: 4px 4px var(--button-border-primary);
@@ -6,7 +7,9 @@
     color: var(--button-text-primary);
     transition-property: all;
     transition-duration: .3s;
-    border-radius: var(--radius-4);
+    border-radius: var(--radius-80);
+    font-weight: 700;
+    border: 1px solid var(--button-border-primary);
     }
     .btn-primary:hover {
         box-shadow: none;
@@ -17,11 +20,16 @@
     .btn-ghosh{
         height: 48px;
         padding: 0px var(--space-16);
-        border-radius: 8px;
+        border-radius: var(--radius-80);
         background: var(--button-bg-ghost-default);
         flex-shrink: 0;
+        transition-duration: .3s;
         border: none;
     }
     .btn-ghosh:hover{
         background: var(--button-bg-ghost-hover);
     }
+button > a{
+    text-decoration: none;
+    color: var(--button-text-primary);
+}

@@ -122,3 +122,13 @@
   line-height: 1.17;
   color: var(--text-neutral-body);
 }
+
+
+
+
+@media (max-width: 992px) {
+  .display-lg-bold {
+    font-size: 32px;
+  }
+  
+}

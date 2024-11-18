@@ -2,12 +2,12 @@
 @import url(./text-styles.css);
 .btn-primary{
     padding: var(--space-14);
-    box-shadow: 4px 4px var(--button-border-primary);
+    box-shadow: 3px 3px var(--button-border-primary);
     background: var(--button-bg-primary-default);
     color: var(--button-text-primary);
     transition-property: all;
-    transition-duration: .3s;
-    border-radius: var(--radius-80);
+    transition-duration: .5s;
+    border-radius: var(--radius-6);
     font-weight: 700;
     border: 1px solid var(--button-border-primary);
     }

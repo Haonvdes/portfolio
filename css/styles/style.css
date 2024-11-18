@@ -14,7 +14,7 @@
   --blue-B800: rgb(7, 89, 133);
   --blue-B900: rgb(12, 74, 110);
   --blue-B950: rgb(8, 47, 73);
-  --yellow-Y500: rgb(234, 179, 8);
+  --yellow-Y500: #C1E6F9;;
   --button-bg-primary: var(--yellow-Y500);
   --button-text-primary: var(--yellow-Y500);
   --emerald-E100: rgb(220, 252, 231);
@@ -52,7 +52,7 @@
   --neutral-white-80: rgba(255, 255, 255, 0.1);
   --neutral-white-90: rgba(255, 255, 255, 0.1);
   --Number: 0px;
-  --primary-default: rgb(250, 204, 21);
+  --primary-default: #C1E6F9;;
   --red-R100: rgb(254, 226, 226);
   --red-R200: rgb(254, 202, 202);
   --red-R300: rgb(252, 165, 165);
@@ -80,7 +80,7 @@
   --bg-surface-transparent: var(--neutral-transparent);
   --yellow-Y100: rgb(254, 249, 195);
   --bg-primary-lightest: var(--yellow-Y100);
-  --primary-default: rgb(250, 204, 21);
+  --primary-default: #C1E6F9;
   --bg-primary-default: var(--primary-default);
   --yellow-Y300: rgb(253, 224, 71);
   --bg-primary-subtler: var(--yellow-Y300);
@@ -149,9 +149,9 @@
   --button-bg-ghost-default: var(--bg-surface-transparent);
   --bg-primary-lightest: rgb(254, 249, 195);
   --button-bg-ghost-hover: var(--bg-primary-lightest);
-  --bg-primary-default: rgb(250, 204, 21);
+  --bg-primary-default: #C1E6F9;
   --button-bg-primary-default: var(--bg-primary-default);
-  --bg-primary-subtler: rgb(253, 224, 71);
+  --bg-primary-subtler: #C1E6F9;
   --button-bg-primary-hover: var(--bg-primary-subtler);
   --border-neutral-disbaled: rgb(0, 0, 0);
   --button-border-primary: var(--border-neutral-disbaled);
@@ -236,13 +236,15 @@ p{
     color:var(--text-neutral-body);
 }
 
+
 .header{
-    height: 100vh;
     width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    background: linear-gradient(175deg, rgba(217, 217, 217, 0.00) 3.87%, rgba(255, 221, 87, 0.12) 96.13%);
+    border-bottom: 1px solid #C8DDEB;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.61) 67.02%, rgb(200 235 255 / 21%) 100.88%);
     
 }
 .content-header{
@@ -259,6 +261,7 @@ p{
     border-radius: var(--space-16);
     justify-content: space-between;
     align-items: center;
+
 }
 .nav-item{
     display: flex;
@@ -344,6 +347,29 @@ li > a{
     justify-content: space-between;
 }
 
+.gallery{
+  gap: 40px;
+  
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.gallery > img {
+  border-top: 1px solid #000;
+  border-right: 4px solid #000;
+  border-bottom: 2px solid #000;
+  border-left: 1px solid #000;
+  background: rgba(255, 255, 255, 0.40);
+  backdrop-filter: blur(67px);
+  padding: 16px;
+  height: 598px;
+  max-height: 480px;
+  border-radius: 32px;
+}
+/* 
 @import "https://unpkg.com/open-props/easings.min.css";
 
 .sun-and-moon > :is(.moon, .sun, .sun-beams) {
@@ -377,7 +403,7 @@ li > a{
 
 [data-theme="dark"] .sun-and-moon > .moon > circle {
   transform: translateX(-7px);
-}
+} */
 /* 
 @supports (cx: 1) {
   [data-theme="dark"] .sun-and-moon > .moon > circle {
@@ -430,7 +456,8 @@ li > a{
   border-right: 1px solid var(--neutral-black);
   border-bottom: 6px solid var(--neutral-black);
   border-left: 1px solid var(--neutral-black);
-  background: linear-gradient(280deg, rgba(217, 217, 217, 0.00) -32.03%, rgba(255, 221, 87, 0.31) 124.44%);
+  background: linear-gradient(279deg, rgba(255, 255, 255, 0.00) -32.01%, #F9FDFF 98.95%);
+backdrop-filter: blur(25px);
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-24);
@@ -439,8 +466,9 @@ li > a{
 .stuff-header{
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content:baseline;
   align-items: flex-start;
+  flex-direction: column;
   flex-wrap: wrap;
   gap: 16px;
 
@@ -481,7 +509,8 @@ li > a{
   width: auto;
   border-radius: var(--radius-16);
   padding: var(--space-32);
-  background: linear-gradient(358deg, rgba(217, 217, 217, 0.00) -8.19%, rgba(255, 221, 87, 0.31) 115.32%);
+  background: linear-gradient(279deg, rgba(255, 255, 255, 0.00) -32.01%, #F9FDFF 98.95%);
+backdrop-filter: blur(25px);
   gap: var(--space-24);
   min-width: 384px;
 }

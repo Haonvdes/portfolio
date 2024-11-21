@@ -1,4 +1,3 @@
-@import url(./tokens.css);
 @import url(./text-styles.css);
 .btn-primary{
     padding: var(--space-16);

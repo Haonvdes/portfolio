@@ -1,14 +1,14 @@
 @import url(./tokens.css);
 @import url(./text-styles.css);
 .btn-primary{
-    padding: var(--space-14);
+    padding: var(--space-16);
     box-shadow: 3px 3px var(--button-border-primary);
     background: var(--button-bg-primary-default);
     color: var(--button-text-primary);
     transition-property: all;
     transition-duration: .5s;
     border-radius: var(--radius-6);
-    font-weight: 700;
+    font-weight: 500;
     border: 1px solid var(--button-border-primary);
     }
     .btn-primary:hover {

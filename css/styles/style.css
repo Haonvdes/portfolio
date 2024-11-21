@@ -258,7 +258,7 @@ p{
   justify-content: center; 
   margin-top: 32px;
   height: 80vh;
-
+  
   .experience{
     flex-grow: 1;
     padding: var(--space-32);

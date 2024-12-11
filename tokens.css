@@ -1,4 +1,4 @@
-:root{
+:root[data-demention="spacer"] {
   --m-2: 2px;
   --m-4: 4px;
   --m-6: 6px;
@@ -66,6 +66,8 @@
   --r-24: var(--m-24);
   --r-32: var(--m-32);
   --r-40: var(--m-40);
+}
+:root[data-component="component"] {
   --button-bg-primary-default: var(--bg-primary-default);
   --button-border-primary: var(--border-primary-default);
   --button-text-primary: var(--text-neutral-white);
@@ -75,6 +77,8 @@
   --tab-bg-default: var(--bg-surface-main);
   --tab-text-active: var(--text-neutral-body);
   --tab-text-default: var(--text-neutral-body);
+}
+:root[data-semantic="semantic"] {
   --bg-primary-default: var(--primary-default);
   --border-primary-default: var(--blue-B700);
   --text-neutral-white: var(--neutral-white);
@@ -96,6 +100,8 @@
   --text-utilities-link-default: var(--blue-B400);
   --text-utilities-link-hover: var(--blue-B300);
   --text-utilities-link-visited: var(--blue-B500);
+}
+:root[data-primitive="alias"] {
   --primary-default: rgb(0, 144, 218);
   --blue-B700: rgb(1, 103, 156);
   --neutral-white: rgb(255, 255, 255);

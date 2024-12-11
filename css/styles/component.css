@@ -1,35 +1,49 @@
 @import url(./text-styles.css);
+@import url(/css/styles/tokens.css);
 .btn-primary{
-    padding: var(--space-16);
-    box-shadow: 3px 3px var(--button-border-primary);
-    background: var(--button-bg-primary-default);
-    color: var(--button-text-primary);
+    border: none;
+    padding: var(--p-8) var(--p-16) var(--p-8) var(--p-16);
+    
+    background: var(--button-bg-primary-default, #0090DA);
+    gap: var(--p-12, 12px);
+    color: var(--button-text-primary, #FFF);
+    border-radius: 999px;
     transition-property: all;
     transition-duration: .5s;
-    border-radius: var(--radius-6);
-    font-weight: 500;
-    border: 1px solid var(--button-border-primary);
+    border-top: 1px solid var(--border-primary-default, #01679C);
+    border-right: 1px solid var(--border-primary-default, #01679C);
+    border-bottom: 3px solid var(--border-primary-default, #01679C);
+    border-left: 1px solid var(--border-primary-default, #01679C);
+
+    
     }
     .btn-primary:hover {
-        box-shadow: none;
-        background: var(--button-bg-primary-hover);
-        color: var(--button-text-primary-hover);
-        transform: translate(3px, 3px);
+        border-top: 1px solid var(--border-primary-default, #01679C);
+        border-right: 1px solid var(--border-primary-default, #01679C);
+        border-bottom: 3px solid var(--border-primary-default, #01679C);
+        border-left: 1px solid var(--border-primary-default, #01679C);
+    
+    box-shadow: none;
+        transform: translate(1px, 1px);
     }
-    .btn-ghosh{
+    .btn-secondary{
         height: 48px;
-        padding: 0px var(--space-16);
-        border-radius: var(--radius-80);
+        padding: 0px var(--p-16);
+        border-radius: var(--r-80);
         background: var(--button-bg-ghost-default);
-        flex-shrink: 0;
         transition-duration: .3s;
-        border: none;
-        color: var(--button-text-primary);
+        border-radius: 999px;
+        border-top: 1px solid var(--border-primary-default, #01679C);
+        border-right: 1px solid var(--border-primary-default, #01679C);
+        border-bottom: 3px solid var(--border-primary-default, #01679C);
+        border-left: 1px solid var(--border-primary-default, #01679C);
+        color: var(--button-text-secondary);
     }
-    .btn-ghosh:hover{
+    .btn-secondary:hover{
         background: var(--button-bg-ghost-hover);
     }
 button > a{
     text-decoration: none;
     color: var(--button-text-primary);
 }
+

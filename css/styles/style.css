@@ -4,6 +4,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
 
 
+:root{
+  --animate-duration: 10s;
+    --animate-delay: 10s;
+    --animate-repeat: 2;
+}
 html{
   font-size: 14px;
 }
@@ -72,7 +77,6 @@ p{
 .second-section{
   display: block; 
   justify-content: center;
-  height: 80vh;
   border-radius: 80px 80px 0px 0px;
   border-top: 2px solid #C8DDEB;
   background-color: var(--bg-surface-main);
@@ -106,29 +110,27 @@ flex-grow: 1;
   gap: 10px;
   align-self: stretch;
   border-radius: 8px 0px 0px 8px;;
-    background: var(--grey-G100, #F3F4F6);
+    background: var(--grey-G100);
  
 & p{
   position: relative;
-  top: 80px;
-  right: 74px;
-  width: 170px;
+  top: 111px;
+  right: 107px;
+  width: 240px;
   transform: rotate(-90deg);
-  align-self: stretch;
   text-align: right;
+  display: block;
  }
 }
 .things{
   display: flex;
   flex-direction: row;
   gap: var(--m-40);
-  flex-wrap: wrap;
 }
 
 .emphasize{
   display: block;
   min-width:500px;
-  padding-right: 40px;
 
   > button{
     position: relative;
@@ -145,17 +147,19 @@ flex-grow: 1;
   display: flex;
   padding: var(--p-16);
   padding-right: var(--p-0);
-  gap: var(--m-80);
+  gap: var(--m-40);
   justify-content: space-between;
   align-items: center;
 }
 .badge{
   display: flex;
-  width: 740px;
+  width: 60%;
   gap: var(--m-32);
   overflow: scroll;
-  
 }
+ .badge:last-child{
+  padding-right: var(--p-24);
+ }
 
 .content-header{
     width: 100%;
@@ -206,7 +210,6 @@ li > a{
 }
 .experience{
     flex-grow: 1;
-    border-radius: 0px 8px 8px 0px;
   background: var(--bg-surface-main);
     border-radius:var(--r-16);
     padding: var(--p-16);
@@ -384,12 +387,50 @@ li > a{
 
 
 
+
+
+@media (max-width:768px) {
+  .things{
+    flex-wrap: wrap;
+  }
+  .introduce{
+    flex-direction: column;
+    gap: var(--p-24);
+  }
+  .emphasize{
+    padding-bottom: var(--p-0);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .emphasize > button{
+    position: relative;
+    height: fit-content;
+    top: 0;
+    left: 0;
+  }
+  .second-section{
+    border-radius: 40px 40px 0 0;
+  }
+  .stuff{
+    padding: var(--p-0);
+  }
+  .certificate {
+    align-items: flex-start;
+    flex-direction: column;
+}
+.badge{
+  width: 100%;
+}
+
+.domain-item{
+  width: 342px;
+}
+}
+
 @media (max-width: 992px) {
 
 
-  .first-section{
-    padding: var(--p-16);
-  }
 #one{
   display:none;
 }
@@ -401,15 +442,7 @@ li > a{
     flex-direction: column;
     margin: var(--m-16);
   }
-  .focused {
-    padding: var(--p-24);
-    min-width: 0;
-}
-.stuff {
-  margin: var(--space-16);
-  padding: var(--p-24);
 
-}
 .focused {
   padding: var(--p-24);
 }
@@ -421,11 +454,7 @@ li > a{
   padding: var(--p-24);
   min-width: 0;
 }
-.information{
-  flex-direction: column;
-  max-height: 400px;
-  overflow-y: scroll;
-}
+
 .content-body{
   gap: 0px;
 }
@@ -532,26 +561,35 @@ li > a{
     z-index: 1000;
 
   }
+  .emphasize{
+    flex-direction: column;
+    min-width: 100%;
+  }
+  .focused{
+    width: 100%;
+  }
+  .stuff{
+    padding: 16px 16px 0 16px;
+  }
+  .hastag-items {
+    width: fit-content;
+    min-width: 124px;}
+    .hastag button.active{
+      width: fit-content;
+      min-width: 124px;}
+    }
+
+
+@media (max-width:430px){
+.domain-item{
+  width: 100%;
 }
 
 
-@media (max-width:490px){
-  h3{
-    line-height: 1.3;
-    margin-bottom: 16px;
-    margin-bottom: 24px;
-  }
-  .body-lg-medium{
-    padding-bottom: 24px;
-    max-width: 800px;
-    line-height: 1.8;
-    font-size: 14px;
-  }
-  .first-section{
-    margin-top: 24px;
-  }
   #gettoknow{
     display: none;
   }
+  .emphasize > button {
+    display: none;
 }
 

@@ -69,7 +69,7 @@
   --button-bg-primary-default: var(--bg-primary-default);
   --button-border-primary: var(--border-primary-default);
   --button-text-primary: var(--text-neutral-white);
-  --button-text-secondary: var(--text-utilities-decorate-primary);
+ --button-text-secondary : var(--text-utilities-decorate-primary);
   --button-text-secondary-hover: var(--button-text-primary);
   --tab-bg-active: var(--bg-primary-default);
   --tab-bg-default: var(--bg-surface-main);

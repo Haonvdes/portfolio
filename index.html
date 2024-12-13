@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/styles/bootstrap-grid.css">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
     <link rel="stylesheet" href="./css/styles/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,7 +21,7 @@
 <body>
 <header class="header">
     <nav class="container">
-        <div class="nav">
+        <div class="nav animate__animated animate__fadeIn">
             <input type="checkbox" id="nav-check">
             <div class="nav-header">
               <div class="nav-title">
@@ -48,42 +52,38 @@
     </nav>
 <div class="container first-section">
     <div class="experience">
-        <p class="lg-bold">Stephano - Certified Project Manager and Design</p><br>
-       <h1 class="display" style="margin-top: var(--m-0);">I specialize in bridging the gap between business strategy and user-centered solutions that drive measurable results.</h1>
-        <p class="lg-regular" style="padding-top: 24px; max-width: 800px; line-height: 28px;">
+        <p class="lg-bold animate__animated animate__slideInLeft">Stephano - Certified Project Manager based UX Designer</p><br>
+       <h1 class="display animate__animated animate__slideInLeft" style="margin-top: var(--m-0);">I specialize in bridging the gap between business strategy and user-centered solutions that drive measurable results.</h1>
+        <p class="lg-regular animate__animated animate__slideInLeft" style="padding-top: 24px; max-width: 800px; line-height: 28px;">
             With over five years of experience, I specialize in bridging the gap between business strategy and user-centered solutions that drive measurable results. As a dedicated servant leader at FPT Software, I collaborate closely with customers to deliver high-quality products while empowering my team to achieve their best work.
-
         </p>
-    
 </div>
-<div class="focused img" id="one">
+<div class="animate__animated animate__slideInRight focused img" id="one">
     <img src="/public/img.personal.png" alt="Stephano profile image">
 </div>
     </div>
 </header>
-<section body>
+<body>
     <section class="container-fluid">
     <div class="second-section">
         <div class="container">
             <div class="introduce">
-               <div>
-                <h1 style="color: var(--text-utilities-decorate-primary); width: max-content;">
+               <div class="emphasize">
+                <h1 class="animate__animated animate__fadeIn" style="color: var(--text-utilities-decorate-primary); width: max-content;">
                     My Path of Growth and <br>Leadership
                 </h1>
-                <button class="btn-primary"><a href="wwww.google.com">
-                    Let’s Chat</a></button>
+                <button class="btn-secondary animate__animated animate__fadeIn"><a href="wwww.google.com">
+                    My Story</a></button>
                </div>
                 <div>
-                    <p class="lg-regular">
-                    With over five years of experience, I specialize in bridging the gap between business strategy and user-centered solutions that drive measurable results. 
-                    As a dedicated servant leader at FPT Software, I collaborate closely with customers to deliver high-quality products while empowering my team to achieve their best work.
+                    <p class="lg-regular animate__animated animate__fadeIn">
+                    With over five years of experience, I specialize in bridging the gap between business strategy and user-centered solutions that drive measurable results.
                 </p></div>
                <div>
-                
                </div>
             </div>
             <div class="things">
-                <div class="growth" style="width: 800px;">
+                <div class="growth " style="width: 800px;">
                     <div class="tagline">
                         <p class="sub-heading">Work Experience</p>
                     </div>
@@ -152,7 +152,7 @@
             </div>
             </div>
             <div class="certificate">
-                <h2>No boundaries,<br> Certified Success with<br> Reward and Global Certificates</h2>
+                <h2>No <span style="color:var(--grey-G300);">boundaries,</span><br> Certified Success with<br> Reward and Global Certificates</h2>
                 <div class="badge">
                     <div class="awward-item">
                         <img src="https://images.credly.com/images/d07c53fa-70c9-48da-b3f6-ffdaa60d10fe/image.png" alt="">
@@ -205,10 +205,94 @@
             </div>
         </div>
         </div>
-     
+        <div class="section stuff">
+            <div class="container stuff-header">
+                <h1 style="color: var(--text-utilities-decorate-primary); text-align: center;">
+                    Stay in the loop <br>
+                    and ahead the curve
+                </h1>                
+                <p class="lg-medium" style="text-align: center; max-width: 1000px;">
+                    I have 20 years of experience and design high-quality digital products that your clients will love and let your business thrive. I'm a versatile software professional, seamlessly transitioning between the roles of a designer, developer, or any other hat required to bring my creative visions to life. Currently workking at Lead Product Designers at FPT Software
+                </p>
+                </div>
+                <!-- Tab links -->
+                <div class="hastag">
+                    <button class="hastag-items" onclick="openHastag(event,'work')" id="defaultOpen">
+                        <p class="body-regular-bold">#work</p>
+                    </button>
+                    <button class="hastag-items" onclick="openHastag(event,'designprocess')">
+                        <p class="body-regular-bold">#process</p>
+                    </button>
+                    <button class="hastag-items" onclick="openHastag(event,'activities')">
+                        <p class="body-regular-bold">#activities</p>
+                    </button>
+                </div>
+            </div>
+            <div class="container" style="margin-top: -40px;">
+                <!-- Tab content -->
+        <div id="work" class="information">
+        <p class="lg-bold">Turning Vision into Reality</p>
+        <p class="lg-regular">Experience in crafting high-quality digital products and solutions that exceed client expectations. 
+        My expertise spans UI/UX design, project management, and software development, allowing me to seamlessly deliver impactful results. 
+        From ideation to execution, I ensure every detail aligns with business goals and user needs."</p>
+        <div class="domain">
+        <div class="domain-item">
+        <img src="./img/ic_automotive.svg" alt="">
+        <p class="sub-heading">Automotive</p>
+        <p class="md-regular">
+            Enabling on-chain transactions for creating, registering, and managing IP across multiple chains.
+        </p>
+        </div>
+        <div class="domain-item">
+        <img src="./img/ic_web3.svg" alt="">
+        <p class="sub-heading">Web 3</p>
+        <p class="md-regular">
+            Enabling on-chain transactions for creating, registering, and managing IP across multiple chains.
+        </p>
+        </div>
+        <div class="domain-item">
+        <img src="./img/ic_banking.svg" alt="">
+        <p class="sub-heading">Banking</p>
+        <p class="md-regular">
+            Enabling on-chain transactions for creating, registering, and managing IP across multiple chains.
+        </p>
+        </div>
+        <div class="domain-item">
+        <img src="./img/ic_erp.svg" alt="">
+        <p class="sub-heading">Enterprise Resource Planning</p>
+        <p class="md-regular">
+            Enabling on-chain transactions for creating, registering, and managing IP across multiple chains.
+        </p>
+        </div>
+        <div class="domain-item">
+        <img src="./img/ic_esg.svg" alt="">
+        <p class="sub-heading">ESG</p>
+        <p class="md-regular">
+            Enabling on-chain transactions for creating, registering, and managing IP across multiple chains.
+        </p>
+        </div>
+        </div>
+        </div>
+        <div id="designprocess" class="information">
+        <div class="">
+        <div style="width: 100%;">
+        <img src="./public/images/designprocess.png" alt="" style="width: inherit;">
+        </div>
+        </div>
+        </div>
+        <div id="activities" class="information">
+        <div>
+        <iframe height='160' width='300' frameborder='0' allowtransparency='true' scrolling='no' src='https://www.strava.com/athletes/67538541/activity-summary/ab91758cc35680fe90607097d9f29c4fcf611956' style="border-radius: var(--radius-16); border: 1px solid;
+        "></iframe>
+        
+        </div>
+        </div>
+        
+        </div>
 
-    </div>
-</section>
+     </div>
+
+    </section>
 
 
 

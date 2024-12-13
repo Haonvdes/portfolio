@@ -78,7 +78,7 @@ p{
   background-color: var(--bg-surface-main);
   position: relative;
   top: -120px;
-  padding-top: var(--p-16);
+  padding-top: var(--p-24);
 }
 
 .growth{
@@ -90,9 +90,9 @@ flex-grow: 1;
 }
 .introduce{
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: var(--m-80);
   
 
   > p {
@@ -123,7 +123,18 @@ flex-grow: 1;
   flex-direction: row;
   gap: var(--m-40);
   flex-wrap: wrap;
-  margin-top: var(--m-40);
+}
+
+.emphasize{
+  display: block;
+  min-width:500px;
+  padding-right: 40px;
+
+  > button{
+    position: relative;
+    top: -32px;
+    left: 140px;
+  }
 }
 
 .certificate{
@@ -254,53 +265,93 @@ li > a{
 }
 
 .stuff{
-  display: flex;
-  padding: var(--p-32);
-  border-radius: var(--r-16);
-  border-top: 1px solid var(--neutral-black);
-  border-right: 1px solid var(--neutral-black);
-  border-bottom: 6px solid var(--neutral-black);
-  border-left: 1px solid var(--neutral-black);
-  background: linear-gradient(279deg, rgba(255, 255, 255, 0.00) -32.01%, #F9FDFF 98.95%);
-backdrop-filter: blur(25px);
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-24);
-  backdrop-filter: blur(25px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: var(--p-40, 40px) var(--p-40, 40px) 0px var(--p-40, 40px);
+      flex-direction: column;
+      gap: var(--p-16, 16px);
+      border-bottom: 1px solid #C8DDEB;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.61) 65.03%, #F9FAFB 100%);
+      
+
 }
 .stuff-header{
   width: 100%;
   display: flex;
-  justify-content:baseline;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: var(--m-16);
+  position: relative;
+  bottom: 0;
 
   
 }
 .hastag{
-  display: flex;
-  gap: var(--m-8);
+  display: flex
+  ;
+      align-items: flex-end;
+      height: 40px;
+      padding: 0;
+      gap: 10px;
+      flex: 1 0 0;
+      max-width: 1200px;
 }
 
 .hastag button.active{
-  font-weight: 700;
-  color: var(--tab-bg-active);
-  font-style: italic;
-  box-shadow: inset 0 -4px 0 var(--bg-primary-default);
+  width: 180px;
+  display: flex
+;
+  align-items: center;
+  height: 40px;
+  flex: 1 0 0;
+  border-bottom: 2px solid #01679C;
+  font-weight: 600;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) 30%, #FFF 100%);
+
+
 }
 
 .hastag-items{
+  width: 180px;
+  height: 40px;
   background-color: var(--bg-surface-transparent);
   border: none;
   padding: var(--p-0);
-  transition: box-shadow 0.2s linear;
+  
 }
 
+.domain{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: var(--m-24);
+}
+.domain-item{
+  display: flex;
+  width: 382px;
+  padding: var(--p-16);
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-direction: column;
+  gap: 16px var(--p-16);
+  flex-wrap: wrap;
+  border-radius: var(--r-16);
+  border: 1px solid var(--border-neutral-default);
+  background: var(--bg-surface-main);
+}
+.domain-item:hover {
+  border: 1px solid var(--border-primary-default);
+  background: var(--grey-G50);
+  transition: ease-in cubic-bezier(0.165, 0.84, 0.44, 1);
+
+}
 .information{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: var(--m-24);
 }
 
@@ -315,7 +366,7 @@ backdrop-filter: blur(25px);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--m-24);
+    gap: var(--m-16);
     padding-bottom: var(--p-8);
     text-align: center;
     min-width: 140px;
@@ -323,7 +374,6 @@ backdrop-filter: blur(25px);
       width:60px;
       height: 60px;
     }
-
     }
 
 .awward-item:last-child{
@@ -332,31 +382,7 @@ backdrop-filter: blur(25px);
   border: none;   
 }
 
-.my-learning{
-  padding: 32px 0 32px 0;
-  gap: var(--m-24);
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;  
-  overflow: scroll;
-}
-.learning-path{
-  display: flex;
-  flex-direction: row;
-  gap: var(--m-24);
-  flex-wrap: nowrap;
 
-
-}
-
-.l-path{
-  display: flex;
-  flex-direction: column;
-  gap: var(--m-16);
-  flex-grow: 1;
-  flex-basis: auto;
-  min-width: 240px
-}
 
 @media (max-width: 992px) {
 

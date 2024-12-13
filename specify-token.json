@@ -1,10 +1,10 @@
 {
-    "repository": "@hao-test/designtoken",
-    "personalAccessToken": "3aa7e0aedbc6506ceff898d6786d3fabc7c96a3bcfdb1c32c6b737b6cc45e614",
+  "repository": "@haopmp/portfolio",
+  "personalAccessToken": "0cd2095941bc0aab158257cc19766c0d45fcc5caeeb6101bbfec6d5aae001761",
     "rules": [
       {
         "name": "Design Tokens / Colors",
-        "path": "./styles/colors.css",
+        "path": "colors.css",
         "filter": {
           "types": [
             "color"
@@ -29,7 +29,7 @@
       },
       {
         "name": "Design Tokens / Text Styles",
-        "path": ".styles/text-styles.css",
+        "path": "text-styles.css",
         "filter": {
           "types": [
             "textStyle"
@@ -74,7 +74,7 @@
       },
       {
         "name": "Design Tokens / Import font files",
-        "path": "./styles/fonts",
+        "path": "fonts",
         "filter": {
           "types": [
             "font"

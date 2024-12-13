@@ -25,6 +25,16 @@ body{
   margin-right: auto;
   margin-left: auto;
 }
+@media (min-width: 390px) {
+  .container {
+    max-width: 358px;
+  }
+}
+@media (min-width: 430px) {
+  .container {
+    max-width: 398px;
+  }
+}
 
 @media (min-width: 576px) {
   .container {
@@ -50,6 +60,11 @@ body{
   }
 }
 
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1280px;
+  }
+}
 .container-fluid {
   width: 100%;
   margin-right: auto;

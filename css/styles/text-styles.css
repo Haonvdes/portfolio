@@ -1,152 +1,121 @@
-@import url(./tokens.css);
-@import url(./fonts.css);
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url(/css/styles/style.css);
+@import url(/css/styles/tokens.css);
 
-h1, h2, h3, {
-  font-family: Sora, serif;
-  color: var(--text-neutral-heading);
-  margin:0;
+h1 {
+	font-family: DM Sans;
+	font-size: 24px;
+	font-weight: 700;
+	margin: var(--m-0);
 }
-
+h2 {
+	font-family: DM Sans;
+	font-size: 22px;
+	font-weight: 700;
+	margin: var(--m-0);
+}
 h3 {
-
-  font-family: Sora, serif;
-  font-weight: 700;
-  font-size: 2.5rem;
-  line-height: 2;
-  margin:0;
-
+	font-family: DM Sans;
+	font-size: 20px;
+	text-transform: uppercase;
+	font-weight: 700;
+	margin: var(--m-0);
 }
-
-.body-lg-bold {
-  font-family: Raleway-Bold, serif;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1.17;
-  color: var(--text-neutral-body);
+.sub-heading {
+	font-family: DM Sans;
+	font-size: 16px;
+	text-transform: uppercase;
+	font-weight: 800;
+	color: var(--text-neutral-sub-heading);
 }
-
-.body-lg-medium {
-  font-family: Raleway-Medium, serif;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 1.17;
-  color: var(--text-neutral-body);
+.lg-bold {
+	font-family: DM Sans;
+	font-size: 16px;
+	font-weight: 700;
+	color: var(--text-neutral-body);
+	
 }
-
-.body-lg-regular {
-  font-family: Raleway-Regular, serif;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.17;
-  color: var(--text-neutral-body);
+.lg-medium {
+	font-family: DM Sans;
+	font-size: 16px;
+	font-weight: 500;
+	color: var(--text-neutral-body);
 }
-
-.body-md-bold {
-  font-family: Raleway-Bold, serif;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1.17;
-  color: var(--text-neutral-body);
+.lg-regular {
+	font-family: DM Sans;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 24px;
+	
 }
-
-.body-md-medium {
-  font-family: Raleway-Medium, serif;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1.17;
-  color: var(--text-neutral-body);
+.md-bold {
+	font-family: DM Sans;
+	font-size: 14px;
+	font-weight: 800;
 }
-
-.body-md-regular {
-  font-family: Raleway-Regular, serif;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.17;
+.md-medium {
+	font-family: DM Sans;
+	font-size: 14px;
+	font-weight: 500;
 }
-
-.body-sm-bold {
-  font-family: Raleway-Bold, serif;
-  font-weight: 700;
-  font-size: 12px;
-  line-height: 1.17;
-  color: var(--text-neutral-body);
+.md-regular {
+	font-family: DM Sans;
+	font-size: 14px;
+	font-weight: 400;
 }
-
-.body-sm-medium {
-  font-family: Raleway-Medium, serif;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 1.17;
-  color: var(--text-neutral-body);
+.sm-bold {
+	font-family: DM Sans;
+	font-size: 12px;
+	text-transform: uppercase;
+	font-weight: 700;
 }
-
-.body-sm-regular {
-  font-family: Raleway-Regular, serif;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.17;
-  color: var(--text-neutral-body);
+.sm-medium {
+	font-family: DM Sans;
+	font-size: 12px;
+	font-weight: 500;
 }
-
-.display-lg-bold {
-  font-family: Raleway-Bold, serif;
-  font-weight: 700;
-  font-size: 48px;
-  line-height: 1.17;
-  color: var(--text-neutral-body);
+.sm-regular {
+	font-family: DM Sans;
+	font-size: 12px;
+	font-weight: 400;
 }
-
-.heading-h-1 {
-  font-family: Raleway-Bold, serif;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 1.17;
-  color: var(--text-neutral-heading);
-}
-
-.heading-h-2 {
-  font-family: Raleway-Bold, serif;
-  font-weight: 700;
-  font-size: 22px;
-  line-height: 1.17;
-  color: var(--text-neutral-heading);
-}
-
-
-.heading-h-3 {
-  font-family: Raleway-Bold, serif;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 1.17;
-  text-transform: uppercase;
-  color: var(--text-neutral-heading);
-}
-
-.heading-sub-heading {
-  font-family: Raleway-Bold, serif;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 1.17;
-  text-transform: uppercase;
-  color: var(--text-neutral-sub-heading);
-  padding-bottom: 24px;
-}
-
-.label-default {
-  font-family: Raleway-Regular, serif;
-  font-weight: 400;
-  font-size: 11px;
-  line-height: 1.17;
-  color: var(--text-neutral-body);
+.display {
+	font-family: DM Sans;
+	font-size: 32px;
+	font-weight: 700;
 }
 
 
 
-
-@media (max-width: 992px) {
-  .display-lg-bold {
-    font-size: 32px;
-  }
-  
+@media (max-width:600px) {
+	.lg-bold {
+		font-family: DM Sans;
+		font-size: 14px;
+		font-weight: 800;
+	}
+	.lg-medium {
+		font-family: DM Sans;
+		font-size: 14px;
+		font-weight: 500;
+	}
+	.lg-regular {
+		font-family: DM Sans;
+		font-size: 14px;
+		font-weight: 400;
+	}
+	.md-bold {
+		font-family: DM Sans;
+		font-size: 14px;
+		font-weight: 800;
+	}
+	.md-medium {
+		font-family: DM Sans;
+		font-size: 14px;
+		font-weight: 500;
+	}
+	.display {
+		font-family: DM Sans;
+		font-size: 22px;
+		font-weight: 700;
+	}
 }

@@ -1,20 +1,33 @@
 {
-  "repository": "@haopmp/portfolio",
+  "repository": "@haopmp/haopmp",
+  "personalAccessToken": "7950e46dc4cfbd30645b6a64c6a84d47903090e32070ca2baa05a8a008e96f76",
   "head": "specifyrc-json",
   "base": "main",
   "version": "2",
   "rules": [
-    {
-      "name": "SDTF",
-      "parsers": [
         {
-          "name": "to-sdtf",
-          "output": {
-            "type": "file",
-            "filePath": "output/tokens.json"
-          }
+          "name": "Generate tokens as CSS Custom Properties",
+          "parsers": [
+            {
+              "name": "to-css-custom-properties",
+              "output": {
+                "type": "file",
+                "filePath": "public/css/tokens.css"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Generate text styles",
+          "parsers": [
+            {
+              "name": "to-css-text-style",
+              "output": {
+                "type": "file",
+                "filePath": "public/text-styles.css"
+              }
+            }
+          ]
         }
-      ]
-    }
-  ]
-}
+    ]
+  }

@@ -293,15 +293,16 @@ li > a{
   
 }
 .hastag{
-  display: flex
-  ;
+  display: flex;
       align-items: flex-end;
       height: 40px;
       padding: 0;
       gap: 10px;
       flex: 1 0 0;
       max-width: 1200px;
+      z-index: 1000;
 }
+
 
 .hastag button.active{
   width: 180px;
@@ -315,7 +316,6 @@ li > a{
   justify-content: center;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) 30%, #FFF 100%);
 
-
 }
 
 .hastag-items{
@@ -325,6 +325,12 @@ li > a{
   border: none;
   padding: var(--p-0);
   
+}
+.information{
+  display: flex;
+  flex-direction: column;
+  gap: var(--m-24);
+  margin-bottom: var(--m-40);
 }
 
 .domain{
@@ -352,10 +358,80 @@ li > a{
   transition: ease-in cubic-bezier(0.165, 0.84, 0.44, 1);
 
 }
-.information{
+
+.stage{
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+
+  & .presale{
+    min-width: 6%;
+    background-color: var(--blue-B100);
+    padding: var(--p-16);
+    > p{color: var(--blue-B700);
+    }
+  }
+
+  & .initiation{
+    min-width: 12%;
+    padding: var(--p-16);
+    background-color: var(--emerald-E200);
+    > p{color: var(--emerald-E700);
+    }
+  }
+  & .planning{
+    min-width: 14%;
+    background-color: var(--blue-B100);
+    padding: var(--p-16);
+    background-color: var(--yellow-Y200);
+    > p{color: var(--yellow-Y900);
+    }
+  }
+  & .execution{
+    min-width:34%;
+    width:-webkit-fill-available;
+    padding: var(--p-16);
+    background-color: var(--blue-B500);
+    > p{color: var(--blue-B50);
+    }
+  }
+  & .control{
+        min-width: 24%;
+    background-color: var(--blue-B100);
+    padding: var(--p-16);
+    background-color: var(--emerald-E600);
+    > p{color: var(--emerald-E50);
+    }
+  }
+  & .close{
+        min-width: 10%;
+    background-color: var(--blue-B100);
+    padding: var(--p-16);
+    background-color: var(--grey-G400);
+    > p{color: var(--grey-G50);
+    }
+  }
+
+}
+.stage-item{
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  border-right: 4px solid var(--neutral-white, #FFF);
+  align-items: center;
+  text-align: center;
+}
+.stage-info{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: var(--m-24);
+}
+.stage-info-sum{
   display: flex;
   flex-direction: column;
-  gap: var(--m-24);
+  gap: var(--m-16);
 }
 
 .content-body{
@@ -426,6 +502,62 @@ li > a{
 .domain-item{
   width: 342px;
 }
+
+.stage{
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+
+  & .presale{
+    min-width: 6%;
+    }
+
+  & .initiation{
+    min-width: 12%;
+    }
+  }
+  & .planning{
+    min-width: 14%;
+  }
+  & .execution{
+    min-width:34%;
+    width:-webkit-fill-available;
+  }
+  & .control{
+    min-width: 24%;
+  }
+  & .close{
+
+    min-width: 12%;  }
+}
+.stage-item{
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  border-right: 4px solid var(--neutral-white, #FFF);
+  align-items: center;
+  text-align: center;
+}
+
+.stage-item > p {
+  text-transform: uppercase;
+}
+
+.stage-info{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: var(--m-24);
+  overflow: scroll;
+}
+.stage-info-sum{
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--m-16);
+}
+
 }
 
 @media (max-width: 992px) {
@@ -461,7 +593,6 @@ li > a{
 }
 
 
-
 .nav {
   height: 80px;
   width: 100%;
@@ -469,7 +600,7 @@ li > a{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
+  padding: 16px 0px 16px 0;
 }
 
 .nav > .nav-infor {
@@ -515,6 +646,9 @@ li > a{
 @media (max-width:600px) 
 
 {
+  #one{
+    display: none;
+  }
   .nav > .nav-btn {
     display: flex;
     position: relative;
@@ -574,7 +708,8 @@ li > a{
   .hastag-items {
     width: fit-content;
     min-width: 124px;}
-    .hastag button.active{
+
+  .hastag button.active{
       width: fit-content;
       min-width: 124px;}
     }
@@ -591,5 +726,5 @@ li > a{
   }
   .emphasize > button {
     display: none;
-}
+}}
 

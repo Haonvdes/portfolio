@@ -1,0 +1,179 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Sora:wght@100..800&display=swap');
+
+
+    .rotate {
+  animation: rotation 12s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    #playback-info {
+      width: 400px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      flex-direction: column;
+      flex-wrap: wrap;
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border-neutral-default, #E5E7EB);
+      background: var(--gradient, linear-gradient(91deg, rgba(249, 250, 251, 0.00) 0.18%, #F9FAFB 56.25%));
+      color: var(--text-neutral-heading, #374151);
+    }
+    .test {
+      width: 400px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      flex-direction: column;
+      flex-wrap: wrap;
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border-neutral-default, #E5E7EB);
+      background: var(--gradient, linear-gradient(91deg, rgba(249, 250, 251, 0.00) 0.18%, #F9FAFB 56.25%));
+      color: var(--text-neutral-heading, #374151);
+    }
+    #activity-info {
+      min-width: 400px;
+      display: flex;
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid var(--border-neutral-default, #E5E7EB);
+    background: var(--gradient, linear-gradient(91deg, rgba(249, 250, 251, 0.00) 0.18%, #F9FAFB 56.25%));
+    color: var(--text-neutral-heading, #374151);
+    flex-direction: column;
+    & img{
+      width: 100px;
+        height: 40px;
+        margin-bottom: 32px;
+        object-fit: scale-down;
+    }
+    }
+    .activity{
+      justify-content: space-between;    
+      display: flex
+;
+    flex-direction: row;
+    padding-top: 8px;
+    & p {
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      gap: 4px;
+    }
+}
+    .song{
+  gap: 4px;
+    display: flex
+;
+    flex-direction: column;
+}
+
+
+
+    .track-info {
+      width: 400px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      & p{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 330px;
+      }
+    }
+
+    .track-info img {
+      border-radius: 999px;
+    }
+
+    .status-message {
+      margin: 0px;
+      color: var(--text-neutral-heading, #374151);
+      font-family: "DM Sans";
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 800;
+      line-height: normal;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .socialize{
+      display: flex;
+      gap:24px;
+      > div{
+        width: 400px;
+      }
+      & .sub-heading-bold {
+    text-transform: uppercase;
+    text-decoration: none;
+    margin-bottom: 16px;
+    margin-top: 16px;
+}
+    }
+
+    .sub-heading-bold{
+      color: var(--text-neutral-heading, #374151);
+      /* Heading/pc/sub-heading-bold */
+      font-family: "DM Sans";
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 800;
+      line-height: normal;
+      text-transform: uppercase;
+    }
+
+    .md-bold{
+      color: var(--text-neutral-body, #4B5563);
+      font-family: "DM Sans";
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 800;
+      line-height: 18px;
+      margin: 0px;
+    }
+
+.md-regular{
+  color: var(--text-neutral-body, #4B5563);
+/* body/pc/md-regular */
+font-family: "DM Sans";
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 18px;
+margin: 0px;
+}
+.club-section {
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: linear-gradient(91deg, rgba(249, 250, 251, 0.00) 0.18%, #f9fafb 56.25%);
+  color: #374151;
+}
+
+.club-summary p,
+.leaderboard .leader {
+  margin: 8px 0;
+}
+
+.leader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+

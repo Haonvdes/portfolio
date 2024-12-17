@@ -1,6 +1,6 @@
 async function getPlaybackState() {
   try {
-    const response = await fetch('https://portfolio-7hpb.onrender.com'); // Ensure this endpoint works
+    const response = await fetch('https://portfolio-7hpb.onrender.com/api/spotify/playback');
     if (!response.ok) throw new Error('Failed to fetch playback state');
     const data = await response.json();
 

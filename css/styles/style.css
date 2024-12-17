@@ -297,7 +297,6 @@ li > a{
       align-items: flex-end;
       height: 40px;
       padding: 0;
-      gap: 10px;
       flex: 1 0 0;
       max-width: 1200px;
       z-index: 1000;

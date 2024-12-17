@@ -25,6 +25,12 @@ body{
   margin-right: auto;
   margin-left: auto;
 }
+@media (min-width: 375px) {
+  .container {
+    max-width: 343px;
+  }
+}
+
 @media (min-width: 390px) {
   .container {
     max-width: 358px;

@@ -54,6 +54,11 @@ async function getAccessToken() {
   }
 }
 
+app.get('/', (req, res) => {
+  res.send('Welcome to the server!');
+});
+
+
 // Fetch playback information
 app.get('/api/spotify/playback', async (req, res) => {
   try {

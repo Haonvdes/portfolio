@@ -184,7 +184,7 @@ margin: 0px;
       flex-direction: row;
       gap: var(--m-24);
       padding-bottom: var(--p-16);
-      border-bottom: 1px solid;
+      border-bottom: 1px solid var(--border-neutral-default);
       padding-top: var(--p-16);
       justify-content: flex-start;
 

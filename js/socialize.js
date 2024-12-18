@@ -125,11 +125,11 @@ async function getStravaClubData(clubId) {
 
     // Static images for top leaders
     const staticImages = [
-      '/assets/top1.png',
-      '/assets/top2.png',
-      '/assets/top3.png',
-      '/assets/top4.png',
-      '/assets/top5.png',
+      '.public/assets/top1.png',
+      '.public/assets/top2.png',
+      '.public/assets/top3.png',
+      '.public/assets/top4.png',
+      '.public/assets/top5.png',
     ];
 
     data.leaderboard.forEach((leader, index) => {

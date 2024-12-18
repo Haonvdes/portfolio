@@ -85,38 +85,39 @@ async function getPlaybackState() {
 }
 async function getStravaClubData(clubId) {
   try {
-    const response = await fetch(`https://portfolio-7hpb.onrender.com/api/strava/club/${clubId}`);
+    const response = await fetch(`https://portfolio-7hpb.onrender.com/api/v3/strava/club/${clubId}`);
     if (!response.ok) throw new Error('Failed to fetch club data');
-    const activities = await response.json();
+    const data = await response.json();
 
     const clubSection = document.getElementById('club-section');
-    clubSection.innerHTML = ''; // Clear and add title
+    clubSection.innerHTML = ''; // Clear previous content
 
-    const imageElement = document.createElement('img');
-    imageElement.src = 'public/spotify-logo.png'
-    imageElement.alt = 'Spotify Header Image';
-    imageElement.style.width = '40px';
-    imageElement.style.marginBottom = '32px';
-    playbackInfo.appendChild(imageElement);
+    // Club summary details
+    const summaryElement = document.createElement('div');
+    summaryElement.classList.add('club-summary');
+    summaryElement.innerHTML = `
+      <h2>${data.clubName}</h2>
+      <p><strong>Current Week:</strong> ${data.currentWeek}</p>
+      <p><strong>Total Distance:</strong> ${data.totalDistance}</p>
+      <p><strong>Total Time:</strong> ${data.totalTime}</p>
+      <p><strong>Total Activities:</strong> ${data.totalActivities}</p>
+    `;
+    clubSection.appendChild(summaryElement);
 
-
-    activities.forEach(activity => {
-      const activityElement = document.createElement('div');
-      activityElement.classList.add('activity');
-      activityElement.innerHTML = `
-        <div class="club-info">
-          <p><strong>Club Name:</strong> ${activity.clubName}</p>
-          <p><strong>Distance:</strong> ${activity.distance}</p>
-          <p><strong>Time:</strong> ${activity.time}</p>
-          <p><strong>Elevation:</strong> ${activity.elevation}</p>
-        </div>
-        <div class="leader">
-          <img src="${activity.userProfile}" alt="${activity.userName}" width="32" height="32">
-          <p>${activity.userName} (Rank: ${activity.rank})</p>
-        </div>
+    // Leaderboard rendering
+    const leaderboardSection = document.createElement('div');
+    leaderboardSection.classList.add('leaderboard');
+    leaderboardSection.innerHTML = '<h3>Leaderboard (Top 5)</h3>';
+    data.leaderboard.forEach((leader) => {
+      const leaderElement = document.createElement('div');
+      leaderElement.classList.add('leader');
+      leaderElement.innerHTML = `
+        <img src="${leader.profileImage}" alt="${leader.athleteName}" width="32" height="32">
+        <p>${leader.athleteName}: ${leader.totalDistance} (${leader.totalTime})</p>
       `;
-      clubSection.appendChild(activityElement);
+      leaderboardSection.appendChild(leaderElement);
     });
+    clubSection.appendChild(leaderboardSection);
   } catch (error) {
     console.error('Error fetching club data:', error.message);
     document.getElementById('club-section').innerHTML = '<p>Failed to load club activities.</p>';
@@ -125,7 +126,7 @@ async function getStravaClubData(clubId) {
 
 async function getStravaPersonalActivity() {
   try {
-    const response = await fetch('https://portfolio-7hpb.onrender.com/api/strava/activities');
+    const response = await fetch('https://portfolio-7hpb.onrender.com/api/v3/strava/athlete/activities');
     if (!response.ok) throw new Error('Failed to fetch personal activity data');
     const data = await response.json();
 
@@ -135,12 +136,12 @@ async function getStravaPersonalActivity() {
       <p><strong>Number of Activities:</strong> ${data.numberOfActivities}</p>
       <p><strong>Total Distance of Week:</strong> ${data.totalDistance}</p>
       <p><strong>Total Time:</strong> ${data.totalTime}</p>
-      <p><strong>Week:</strong> ${data.week}</p>
     `;
   } catch (error) {
     console.error('Error fetching personal activity:', error);
   }
 }
+
 
 
 

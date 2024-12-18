@@ -2,7 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const dotenv = require('dotenv');
-
+const moment = require('moment');
 // Load environment variables from .env file
 dotenv.config();
 
@@ -127,31 +127,6 @@ app.get('/api/spotify/playback', async (req, res) => {
   }
 });
 
-
-// Strava Personal Activity Endpoint
-app.get('/api/strava/activities', async (req, res) => {
-  try {
-    const accessToken = await getStravaAccessToken();
-    const response = await axios.get('https://www.strava.com/api/v3/athlete/activities', {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-
-    const activities = response.data;
-    const totalDistance = activities.reduce((sum, act) => sum + act.distance, 0) / 1000; // in km
-    const totalTime = activities.reduce((sum, act) => sum + act.moving_time, 0) / 3600; // in hours
-
-    res.json({
-      title: "Stephano's Activity",
-      numberOfActivities: activities.length,
-      totalDistance: `${totalDistance.toFixed(2)} km`,
-      totalTime: `${totalTime.toFixed(2)} hours`,
-    });
-  } catch (error) {
-    console.error('Error fetching personal activity:', error.message);
-    res.status(500).json({ error: 'Failed to fetch personal activity data' });
-  }
-});
-
 // Strava Club Activity Endpoint
 app.get('/api/strava/club/:clubId', async (req, res) => {
   const { clubId } = req.params;
@@ -172,8 +147,8 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
     const totalActivities = activities.length;
 
     // Filter activities for the current week
-    const currentWeekStart = moment().startOf('week').format('DD-MM/YYYY');
-    const currentWeekEnd = moment().endOf('week').format('DD-MM/YYYY');
+    const currentWeekStart = moment().startOf('week').format('DD-MM-YYYY');
+    const currentWeekEnd = moment().endOf('week').format('DD-MM-YYYY');
 
     const activitiesThisWeek = activities.filter((activity) => {
       const activityDate = moment(activity.start_date);
@@ -205,6 +180,32 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch club activity data' });
   }
 });
+
+
+// Strava Personal Activity Endpoint
+app.get('/api/strava/activities', async (req, res) => {
+  try {
+    const accessToken = await getStravaAccessToken();
+    const response = await axios.get('https://www.strava.com/api/v3/athlete/activities', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+
+    const activities = response.data;
+    const totalDistance = activities.reduce((sum, act) => sum + act.distance, 0) / 1000; // in km
+    const totalTime = activities.reduce((sum, act) => sum + act.moving_time, 0) / 3600; // in hours
+
+    res.json({
+      title: "Stephano's Activity",
+      numberOfActivities: activities.length,
+      totalDistance: `${totalDistance.toFixed(2)} km`,
+      totalTime: `${totalTime.toFixed(2)} hours`,
+    });
+  } catch (error) {
+    console.error('Error fetching personal activity:', error.message);
+    res.status(500).json({ error: 'Failed to fetch personal activity data' });
+  }
+});
+
 
 
 

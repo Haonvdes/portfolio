@@ -133,7 +133,7 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
 
   try {
     const accessToken = await getStravaAccessToken();
-    
+
     // Fetch club activities
     const response = await axios.get(`https://www.strava.com/api/v3/clubs/${clubId}/activities`, {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -141,7 +141,7 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
 
     const activities = response.data;
 
-    // Calculate total distance, total time, and total activities
+    // Calculate total stats
     const totalDistance = activities.reduce((sum, act) => sum + act.distance, 0) / 1000; // in km
     const totalTime = activities.reduce((sum, act) => sum + act.moving_time, 0) / 3600; // in hours
     const totalActivities = activities.length;
@@ -149,7 +149,6 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
     // Filter activities for the current week
     const currentWeekStart = moment().startOf('week');
     const currentWeekEnd = moment().endOf('week');
-
     const activitiesThisWeek = activities.filter((activity) => {
       const activityDate = moment(activity.start_date);
       return activityDate.isBetween(currentWeekStart, currentWeekEnd, null, '[]');
@@ -207,6 +206,7 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch club activity data' });
   }
 });
+
 
 
 

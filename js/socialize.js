@@ -91,51 +91,68 @@ async function getStravaClubData(clubId) {
 
     const clubSection = document.getElementById('club-section');
     clubSection.innerHTML = ''; // Clear previous content
+    const imageElement = document.createElement('img');
+    imageElement.src = 'public/strava-logo.png'
+    imageElement.alt = 'Strava Header Image';
+    imageElement.style.width = '40px';
+    imageElement.style.marginBottom = '32px';
 
     // Club summary details
-const summaryElement = document.createElement('div');
-summaryElement.classList.add('club-summary');
+    const summaryElement = document.createElement('div');
+    summaryElement.classList.add('club-summary');
 
-summaryElement.innerHTML = `
-  <p class="sub-heading">Strong Man</p>
-  <p class="md-regular">Week: ${data.currentWeek}</p>
-  <div class="strava-club">
-    ${['Total Distance', 'Total Time', 'Total Activities']
-      .map(
-        (label, index) => `
-        <div class="club-data">
-          <p class="md-regular">${label}</p>
-          <p class="md-medium">${[data.totalDistance, data.totalTime, data.totalActivities][index]}</p>
-        </div>`
-      )
-      .join('')}
-  </div>
-`;
-
+    summaryElement.innerHTML = `
+      <p class="sub-heading">Strong Man</p>
+      <p class="md-regular">Week: ${data.currentWeek}</p>
+      <div class="strava-club">
+        ${['Total Distance', 'Total Time', 'Total Activities']
+          .map(
+            (label, index) => `
+            <div class="club-data">
+              <p class="md-regular">${label}</p>
+              <p class="md-medium">${[data.totalDistance, data.totalTime, data.totalActivities][index]}</p>
+            </div>`
+          )
+          .join('')}
+      </div>
+    `;
     clubSection.appendChild(summaryElement);
 
     // Leaderboard rendering
     const leaderboardSection = document.createElement('div');
     leaderboardSection.classList.add('leaderboard');
     leaderboardSection.innerHTML = '<p class="md-bold">Top Runner</p>';
-    data.leaderboard.forEach((leader) => {
+
+    // Static images for top leaders
+    const staticImages = [
+      '/assets/top1.png',
+      '/assets/top2.png',
+      '/assets/top3.png',
+      '/assets/top4.png',
+      '/assets/top5.png',
+    ];
+
+    data.leaderboard.forEach((leader, index) => {
       const leaderElement = document.createElement('div');
       leaderElement.classList.add('leader');
+
       leaderElement.innerHTML = `
-      <img src="${leader.profileImage}" alt="${leader.athleteName}" width="32" height="32">
+        <img src="${staticImages[index] || '/assets/default.png'}" alt="Top ${index + 1}" width="32" height="32">
         <div class="leader-info">
           <p class="md-bold">${leader.athleteName}</p>
-          <p class="md-regular">${leader.totalDistance} / ${leader.totalTime} / ${leader.totalActivities}</p>
+          <p class="md-regular">${leader.totalDistance} / ${leader.totalTime}</p>
         </div>
       `;
       leaderboardSection.appendChild(leaderElement);
     });
+
     clubSection.appendChild(leaderboardSection);
   } catch (error) {
     console.error('Error fetching club data:', error.message);
     document.getElementById('club-section').innerHTML = '<p>Failed to load club activities.</p>';
   }
 }
+
 
 async function getStravaPersonalActivity() {
   try {

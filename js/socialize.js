@@ -100,15 +100,15 @@ async function getStravaClubData(clubId) {
       <p class="md-regular">Week:${data.currentWeek}</p>
       <div class=strava-club>
               <div class="club-data">
-                  <p class="md-regular"Total Distance</p>
-                  <p class="md-medium"${data.totalDistance}</p>
+                  <p class="md-regular>"Total Distance</p>
+                  <p class="md-medium">${data.totalDistance}</p>
             </div>
             <div class="club-data">
-              <p class="md-regular"Total Time</p>
-              <p class="md-medium"${data.totalTime}</p>
+              <p class="md-regular">Total Time</p>
+              <p class="md-medium">${data.totalTime}</p>
             </div>
             <div class="club-data">
-                    <p class="md-regular"Total Activities</p>
+                    <p class="md-regular">Total Activities</p>
               <p class="md-medium"${data.totalActivities}</p>
             </div>
       </div>

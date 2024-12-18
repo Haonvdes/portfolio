@@ -189,6 +189,9 @@ margin: 0px;
       justify-content: flex-start;
 
 }
+.club-summary{
+  width: 100%;
+}
 .club-data{
   display: flex
   ;
@@ -206,7 +209,7 @@ margin: 0px;
   ;
       flex-direction: row;
       padding-bottom: 8px;
-      border-bottom: 1px solid black;
+      border-bottom: 1px solid var(--border-neutral-default);
       padding-top: 8px;
 }
 .leader-info{

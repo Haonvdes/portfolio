@@ -91,18 +91,15 @@ async function getStravaClubData(clubId) {
 
     const clubSection = document.getElementById('club-section');
     clubSection.innerHTML = ''; // Clear previous content
-    const imageElement = document.createElement('img');
-    imageElement.src = 'public/strava-logo.png'
-    imageElement.alt = 'Strava Header Image';
-    imageElement.style.width = '40px';
-    imageElement.style.marginBottom = '32px';
 
-    // Club summary details
+   
+
+    // Club Summary
     const summaryElement = document.createElement('div');
     summaryElement.classList.add('club-summary');
 
     summaryElement.innerHTML = `
-      <p class="sub-heading">Strong Man</p>
+      <p class="sub-heading">Incredible Team</p>
       <p class="md-regular">Week: ${data.currentWeek}</p>
       <div class="strava-club">
         ${['Total Distance', 'Total Time', 'Total Activities']
@@ -118,18 +115,17 @@ async function getStravaClubData(clubId) {
     `;
     clubSection.appendChild(summaryElement);
 
-    // Leaderboard rendering
+    // Leaderboard
     const leaderboardSection = document.createElement('div');
     leaderboardSection.classList.add('leaderboard');
-    leaderboardSection.innerHTML = '<p class="md-bold">Top Runner</p>';
+    leaderboardSection.innerHTML = '<p class="md-bold">Top Runners</p>';
 
-    // Static images for top leaders
     const staticImages = [
-      '.public/assets/top1.png',
-      '.public/assets/top2.png',
-      '.public/assets/top3.png',
-      '.public/assets/top4.png',
-      '.public/assets/top5.png',
+      'public/assets/top1.png',
+      'public/assets/top2.png',
+      'public/assets/top3.png',
+      'public/assets/top4.png',
+      'public/assets/top5.png',
     ];
 
     data.leaderboard.forEach((leader, index) => {
@@ -137,10 +133,10 @@ async function getStravaClubData(clubId) {
       leaderElement.classList.add('leader');
 
       leaderElement.innerHTML = `
-        <img src="${staticImages[index] || '/assets/default.png'}" alt="Top ${index + 1}" width="32" height="32">
+        <img src="${staticImages[index] || '/assets/default.png'}" alt="Top ${index + 1}" width="40" height="40">
         <div class="leader-info">
           <p class="md-bold">${leader.athleteName}</p>
-          <p class="md-regular">${leader.totalDistance} / ${leader.totalTime}</p>
+          <p class="md-regular">${leader.totalDistance} / ${leader.totalTime} / ${leader.totalActivities}</p>
         </div>
       `;
       leaderboardSection.appendChild(leaderElement);
@@ -152,6 +148,7 @@ async function getStravaClubData(clubId) {
     document.getElementById('club-section').innerHTML = '<p>Failed to load club activities.</p>';
   }
 }
+
 
 
 async function getStravaPersonalActivity() {

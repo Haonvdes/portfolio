@@ -125,7 +125,7 @@ summaryElement.innerHTML = `
       <img src="${leader.profileImage}" alt="${leader.athleteName}" width="32" height="32">
         <div class="leader-info">
           <p class="md-bold">${leader.athleteName}</p>
-          <p class="md-regular">${leader.totalDistance} / ${leader.totalTime}</p>
+          <p class="md-regular">${leader.totalDistance} / ${leader.totalTime} / ${leader.totalActivities}</p>
         </div>
       `;
       leaderboardSection.appendChild(leaderElement);
@@ -139,7 +139,7 @@ summaryElement.innerHTML = `
 
 async function getStravaPersonalActivity() {
   try {
-    const response = await fetch('https://portfolio-7hpb.onrender.com/api/v3/activities');
+    const response = await fetch('https://portfolio-7hpb.onrender.com/api/strava/activities');
     if (!response.ok) throw new Error('Failed to fetch personal activity data');
     const data = await response.json();
 

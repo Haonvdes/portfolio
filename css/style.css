@@ -179,11 +179,14 @@ margin: 0px;
   gap: var(--m-16);}
 
 .strava-club{
-  display: flex;
+  display: flex
+  ;
       flex-direction: row;
       gap: var(--m-24);
       padding-bottom: var(--p-16);
       border-bottom: 1px solid;
+      padding-top: var(--p-16);
+      justify-content: flex-start;
 
 }
 .club-data{
@@ -193,11 +196,23 @@ margin: 0px;
       gap: 4px;
 }
 
+.leaderboard{
+  width: 100%;
+  padding-top: 16px;
+  
+}
 .leader{
-  display:flex;
-  flex-direction: row;
+  display: flex
+  ;
+      flex-direction: row;
+      padding-bottom: 8px;
+      border-bottom: 1px solid black;
+      padding-top: 8px;
 }
 .leader-info{
-display: flex;
-width:100%;
+  display: flex
+  ;
+      width: 100%;
+      flex-direction: column;
+      gap: 4px;
 }

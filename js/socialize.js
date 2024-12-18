@@ -113,7 +113,8 @@ async function getStravaClubData(clubId) {
       leaderElement.classList.add('leader');
       leaderElement.innerHTML = `
         <img src="${leader.profileImage}" alt="${leader.athleteName}" width="32" height="32">
-        <p>${leader.athleteName}: ${leader.totalDistance} (${leader.totalTime})</p>
+        <p>${leader.athleteName}</p>
+        <p>${leader.totalDistance}  (${leader.totalTime})</p>
       `;
       leaderboardSection.appendChild(leaderElement);
     });
@@ -126,7 +127,7 @@ async function getStravaClubData(clubId) {
 
 async function getStravaPersonalActivity() {
   try {
-    const response = await fetch('https://portfolio-7hpb.onrender.com/api/strava/athlete/activities');
+    const response = await fetch('https://portfolio-7hpb.onrender.com/api/strava/activities');
     if (!response.ok) throw new Error('Failed to fetch personal activity data');
     const data = await response.json();
 

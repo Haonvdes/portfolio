@@ -172,22 +172,32 @@ margin: 0px;
   color: #374151;
 }
 
-.club-summary p,
-.leaderboard .leader {
-  margin: 8px 0;
-}
 
 .leader {
   display: flex;
   align-items: center;
-  gap: 16px;
-}
+  gap: var(--m-16);}
 
 .strava-club{
   display: flex;
-  flex-direction: row;
+      flex-direction: row;
+      gap: var(--m-24);
+      padding-bottom: var(--p-16);
+      border-bottom: 1px solid;
+
 }
 .club-data{
-  display: flex;
-  flex-direction: column;
+  display: flex
+  ;
+      flex-direction: column;
+      gap: 4px;
+}
+
+.leader{
+  display:flex;
+  flex-direction: row;
+}
+.leader-info{
+display: flex;
+width:100%;
 }

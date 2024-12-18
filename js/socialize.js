@@ -96,18 +96,29 @@ async function getStravaClubData(clubId) {
     const summaryElement = document.createElement('div');
     summaryElement.classList.add('club-summary');
     summaryElement.innerHTML = `
-      <h2>${data.clubName}</h2>
-      <p><strong>Current Week:</strong> ${data.currentWeek}</p>
-      <p><strong>Total Distance:</strong> ${data.totalDistance}</p>
-      <p><strong>Total Time:</strong> ${data.totalTime}</p>
-      <p><strong>Total Activities:</strong> ${data.totalActivities}</p>
+      <p class="sub-heading">Strong Man</h2>
+      <p class="md-regular">Week:${data.currentWeek}</p>
+      <div class=strava-club>
+              <div class="club-data">
+                  <p class="md-regular"Total Distance</p>
+                  <p class="md-medium"${data.totalDistance}</p>
+            </div>
+            <div class="club-data">
+              <p class="md-regular"Total Time</p>
+              <p class="md-medium"${data.totalTime}</p>
+            </div>
+            <div class="club-data">
+                    <p class="md-regular"Total Activities</p>
+              <p class="md-medium"${data.totalActivities}</p>
+            </div>
+      </div>
     `;
     clubSection.appendChild(summaryElement);
 
     // Leaderboard rendering
     const leaderboardSection = document.createElement('div');
     leaderboardSection.classList.add('leaderboard');
-    leaderboardSection.innerHTML = '<h3>Leaderboard (Top 5)</h3>';
+    leaderboardSection.innerHTML = '<p class="md-bold">Top Runner</p>';
     data.leaderboard.forEach((leader) => {
       const leaderElement = document.createElement('div');
       leaderElement.classList.add('leader');

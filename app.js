@@ -129,7 +129,7 @@ app.get('/api/spotify/playback', async (req, res) => {
 
 
 // Strava Personal Activity Endpoint
-app.get('/api/strava/personal', async (req, res) => {
+app.get('/api/strava/activities', async (req, res) => {
   try {
     const accessToken = await getStravaAccessToken();
     const response = await axios.get('https://www.strava.com/api/v3/athlete/activities', {
@@ -158,26 +158,54 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
 
   try {
     const accessToken = await getStravaAccessToken();
+    
+    // Fetch club activities
     const response = await axios.get(`https://www.strava.com/api/v3/clubs/${clubId}/activities`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 
-    const activities = response.data.map(activity => ({
-      clubName: activity.club_name,
-      distance: (activity.distance / 1000).toFixed(2) + ' km',
-      time: (activity.moving_time / 60).toFixed(0) + ' mins',
-      elevation: activity.total_elevation_gain + ' m',
-      userProfile: activity.athlete.profile,
-      userName: activity.athlete.firstname + ' ' + activity.athlete.lastname,
-      rank: activity.rank || 'N/A', // Replace with actual rank if available
-    }));
+    const activities = response.data;
 
-    res.json(activities);
+    // Calculate total distance, total time, and total activities
+    const totalDistance = activities.reduce((sum, act) => sum + act.distance, 0) / 1000; // in km
+    const totalTime = activities.reduce((sum, act) => sum + act.moving_time, 0) / 3600; // in hours
+    const totalActivities = activities.length;
+
+    // Filter activities for the current week
+    const currentWeekStart = moment().startOf('week').format('DD-MM/YYYY');
+    const currentWeekEnd = moment().endOf('week').format('DD-MM/YYYY');
+
+    const activitiesThisWeek = activities.filter((activity) => {
+      const activityDate = moment(activity.start_date);
+      return activityDate.isBetween(moment().startOf('week'), moment().endOf('week'), null, '[]');
+    });
+
+    // Create leaderboard (top 5 athletes based on distance)
+    const leaderboard = activitiesThisWeek
+      .sort((a, b) => b.distance - a.distance)
+      .slice(0, 5)
+      .map((activity) => ({
+        profileImage: activity.athlete.profile,
+        athleteName: `${activity.athlete.firstname} ${activity.athlete.lastname}`,
+        totalTime: (activity.moving_time / 3600).toFixed(2) + ' hours', // Total time in hours
+        totalDistance: (activity.distance / 1000).toFixed(2) + ' km', // Total distance in km
+      }));
+
+    // Return the data in the desired format
+    res.json({
+      clubName: activities[0]?.club_name || 'Unknown Club', // Assumes all activities belong to the same club
+      currentWeek: `${currentWeekStart} - ${currentWeekEnd}`,
+      totalDistance: `${totalDistance.toFixed(2)} km`,
+      totalTime: `${totalTime.toFixed(2)} hours`,
+      totalActivities: totalActivities,
+      leaderboard: leaderboard,
+    });
   } catch (error) {
     console.error('Error fetching Strava club activities:', error.message);
     res.status(500).json({ error: 'Failed to fetch club activity data' });
   }
 });
+
 
 
 

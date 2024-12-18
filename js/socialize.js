@@ -90,7 +90,15 @@ async function getStravaClubData(clubId) {
     const activities = await response.json();
 
     const clubSection = document.getElementById('club-section');
-    clubSection.innerHTML = '<h2>Club Activities</h2>'; // Clear and add title
+    clubSection.innerHTML = ''; // Clear and add title
+
+    const imageElement = document.createElement('img');
+    imageElement.src = 'public/spotify-logo.png'
+    imageElement.alt = 'Spotify Header Image';
+    imageElement.style.width = '40px';
+    imageElement.style.marginBottom = '32px';
+    playbackInfo.appendChild(imageElement);
+
 
     activities.forEach(activity => {
       const activityElement = document.createElement('div');
@@ -103,7 +111,7 @@ async function getStravaClubData(clubId) {
           <p><strong>Elevation:</strong> ${activity.elevation}</p>
         </div>
         <div class="leader">
-          <img src="${activity.userProfile}" alt="${activity.userName}" width="50" height="50">
+          <img src="${activity.userProfile}" alt="${activity.userName}" width="32" height="32">
           <p>${activity.userName} (Rank: ${activity.rank})</p>
         </div>
       `;
@@ -117,7 +125,7 @@ async function getStravaClubData(clubId) {
 
 async function getStravaPersonalActivity() {
   try {
-    const response = await fetch('https://portfolio-7hpb.onrender.com/api/strava/personal');
+    const response = await fetch('https://portfolio-7hpb.onrender.com/api/strava/activities');
     if (!response.ok) throw new Error('Failed to fetch personal activity data');
     const data = await response.json();
 

@@ -128,6 +128,7 @@ app.get('/api/spotify/playback', async (req, res) => {
 
 
 // Strava Club Activity Endpoint
+// Strava Club Activity Endpoint
 app.get('/api/strava/club/:clubId', async (req, res) => {
   const { clubId } = req.params;
 
@@ -155,12 +156,21 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
       return activityDate.isBetween(moment().startOf('week'), moment().endOf('week'), null, '[]');
     });
 
+    // Static profile images for top leaders
+    const staticImages = [
+      'public/assets/top1.png',
+      'public/assets/top2.png',
+      'public/assets/top3.png',
+      'public/assets/top4.png',
+      'public/assets/top5.png',
+    ];
+
     // Create leaderboard (top 5 athletes based on distance)
     const leaderboard = activitiesThisWeek
       .sort((a, b) => b.distance - a.distance)
       .slice(0, 5)
-      .map((activity) => ({
-        profileImage: activity.athlete.profile,
+      .map((activity, index) => ({
+        profileImage: staticImages[index] || '/assets/default.png', // Use static image or fallback to default
         athleteName: `${activity.athlete.firstname} ${activity.athlete.lastname}`,
         totalTime: (activity.moving_time / 3600).toFixed(2) + ' hours', // Total time in hours
         totalDistance: (activity.distance / 1000).toFixed(2) + ' km', // Total distance in km
@@ -180,6 +190,7 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch club activity data' });
   }
 });
+
 
 
 // Strava Personal Activity Endpoint

@@ -183,3 +183,11 @@ margin: 0px;
   gap: 16px;
 }
 
+.strava-club{
+  display: flex;
+  flex-direction: row;
+}
+.club-data{
+  display: flex;
+  flex-direction: column;
+}

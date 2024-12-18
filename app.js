@@ -154,22 +154,38 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
       return activityDate.isBetween(currentWeekStart, currentWeekEnd, null, '[]');
     });
 
-    // Group activities by athlete
-    const athleteStats = activitiesThisWeek.reduce((stats, activity) => {
-      const athleteId = activity.athlete.id;
-      if (!stats[athleteId]) {
-        stats[athleteId] = {
-          athleteName: `${activity.athlete.firstname} ${activity.athlete.lastname}`,
-          totalDistance: 0,
-          totalTime: 0,
-          totalActivities: 0,
-        };
-      }
-      stats[athleteId].totalDistance += activity.distance;
-      stats[athleteId].totalTime += activity.moving_time;
-      stats[athleteId].totalActivities += 1;
-      return stats;
-    }, {});
+    // Group activities by athlete for the current week
+    const calculateStats = (activities) =>
+      activities.reduce((stats, activity) => {
+        const athleteId = activity.athlete.id;
+        if (!stats[athleteId]) {
+          stats[athleteId] = {
+            athleteName: `${activity.athlete.firstname} ${activity.athlete.lastname}`,
+            totalDistance: 0,
+            totalTime: 0,
+            totalActivities: 0,
+          };
+        }
+        stats[athleteId].totalDistance += activity.distance;
+        stats[athleteId].totalTime += activity.moving_time;
+        stats[athleteId].totalActivities += 1;
+        return stats;
+      }, {});
+
+    let athleteStats = calculateStats(activitiesThisWeek);
+
+    // If not enough leaders, fetch activities from the previous week
+    if (Object.keys(athleteStats).length < 5) {
+      const previousWeekStart = currentWeekStart.subtract(1, 'week');
+      const previousWeekEnd = currentWeekEnd.subtract(1, 'week');
+      const activitiesLastWeek = activities.filter((activity) => {
+        const activityDate = moment(activity.start_date);
+        return activityDate.isBetween(previousWeekStart, previousWeekEnd, null, '[]');
+      });
+
+      const lastWeekStats = calculateStats(activitiesLastWeek);
+      athleteStats = { ...athleteStats, ...lastWeekStats };
+    }
 
     // Static profile images for top leaders
     const staticImages = [
@@ -187,9 +203,9 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
       .map((athlete, index) => ({
         profileImage: staticImages[index] || '/assets/default.png',
         athleteName: athlete.athleteName,
-        totalTime: (athlete.totalTime / 3600).toFixed(2) + ' hours', // Total time in hours
-        totalDistance: (athlete.totalDistance / 1000).toFixed(2) + ' km', // Total distance in km
-        totalActivities: athlete.totalActivities, // Total number of activities
+        totalDistance: `${(athlete.totalDistance / 1000).toFixed(2)}km`, // Distance in km
+        totalTime: `${(athlete.totalTime / 3600).toFixed(2)}h`, // Time in hours
+        totalActivities: `${athlete.totalActivities}a`, // Activities
       }));
 
     // Return the data in the desired format
@@ -206,6 +222,7 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch club activity data' });
   }
 });
+
 
 
 

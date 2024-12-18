@@ -93,19 +93,18 @@ async function getStravaClubData(clubId) {
     const clubSection = document.getElementById('club-section');
     clubSection.innerHTML = ''; // Clear previous content
 
-
     // Club Summary
     const summaryElement = document.createElement('div');
     summaryElement.classList.add('club-summary');
 
+    // Create the image element
     const imageElement = document.createElement('img');
-    imageElement.src = 'public/strava-logo.png'
-    imageElement.alt = 'Spotify Header Image';
+    imageElement.src = 'public/strava-logo.png';
+    imageElement.alt = 'Strava Logo';
     imageElement.style.width = '40px';
     imageElement.style.marginBottom = '32px';
-    clubSummary.appendChild(imageElement);
 
-
+    // Add the content for the summary
     summaryElement.innerHTML = `
       <p class="sub-heading">Incredible Team</p>
       <p class="md-regular">Week: ${data.currentWeek}</p>
@@ -115,12 +114,17 @@ async function getStravaClubData(clubId) {
             (label, index) => `
             <div class="club-data">
               <p class="md-regular">${label}</p>
-              <p class="md-medium">${[data.totalDistance, data.totalTime, data.totalActivities][index]}</p>
+              <p class="md-medium">${[data.totalDistance, data.totalTime, `${data.totalActivities}a`][index]}</p>
             </div>`
           )
           .join('')}
       </div>
-    `; 
+    `;
+
+    // Prepend the image element to the summary
+    summaryElement.prepend(imageElement);
+
+    // Append the summary to the club section
     clubSection.appendChild(summaryElement);
 
     // Leaderboard
@@ -146,8 +150,7 @@ async function getStravaClubData(clubId) {
           <img src="${staticImages[index] || '/assets/default.png'}" alt="Top ${index + 1}" width="40" height="40">
           <div class="leader-info">
             <p class="md-bold">${leader.athleteName}</p>
-            <p class="md-regular">${leader.totalDistance}/ ${leader.totalTime}/${leader.totalActivities} activities
-            </p>
+            <p class="md-regular">${leader.totalDistance}/ ${leader.totalTime}/ ${leader.totalActivities}</p>
           </div>
         </div>
       `;
@@ -160,6 +163,8 @@ async function getStravaClubData(clubId) {
     document.getElementById('club-section').innerHTML = '<p>Failed to load club activities.</p>';
   }
 }
+
+
 
 
 

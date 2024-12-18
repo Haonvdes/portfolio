@@ -192,8 +192,7 @@ margin: 0px;
   border-bottom: 1px solid var(--border-neutral-default);
 }
 .club-data{
-  display: flex
-  ;
+  display: flex;
       flex-direction: column;
       gap: 4px;
       width: -webkit-fill-available;

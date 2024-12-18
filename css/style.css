@@ -12,7 +12,20 @@
     transform: rotate(360deg);
   }
 }
+#club-section{
+  width: 400px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border-neutral-default, #E5E7EB);
+  background: var(--gradient, linear-gradient(91deg, rgba(249, 250, 251, 0.00) 0.18%, #F9FAFB 56.25%));
+  color: var(--text-neutral-heading, #374151);
 
+}
     #playback-info {
       width: 400px;
       display: flex;

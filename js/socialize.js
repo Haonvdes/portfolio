@@ -83,97 +83,72 @@ async function getPlaybackState() {
       '<p class="md-regular">Oops! Something went wrong, trying to load again shortly.</p>';
   }
 }
-async function getStravaActivityTotals() {
+async function getStravaClubData(clubId) {
   try {
-    const response = await fetch('http://localhost:3000/api/strava/weekly-activity');
-    if (!response.ok) throw new Error('Failed to fetch Strava activity totals');
+    const response = await fetch(`https://portfolio-7hpb.onrender.com/api/strava/club/${clubId}`);
+    if (!response.ok) throw new Error('Failed to fetch club data');
+    const activities = await response.json();
+
+    const clubSection = document.getElementById('club-section');
+    clubSection.innerHTML = '<h2>Club Activities</h2>'; // Clear and add title
+
+    activities.forEach(activity => {
+      const activityElement = document.createElement('div');
+      activityElement.classList.add('activity');
+      activityElement.innerHTML = `
+        <div class="club-info">
+          <p><strong>Club Name:</strong> ${activity.clubName}</p>
+          <p><strong>Distance:</strong> ${activity.distance}</p>
+          <p><strong>Time:</strong> ${activity.time}</p>
+          <p><strong>Elevation:</strong> ${activity.elevation}</p>
+        </div>
+        <div class="leader">
+          <img src="${activity.userProfile}" alt="${activity.userName}" width="50" height="50">
+          <p>${activity.userName} (Rank: ${activity.rank})</p>
+        </div>
+      `;
+      clubSection.appendChild(activityElement);
+    });
+  } catch (error) {
+    console.error('Error fetching club data:', error.message);
+    document.getElementById('club-section').innerHTML = '<p>Failed to load club activities.</p>';
+  }
+}
+
+async function getStravaPersonalActivity() {
+  try {
+    const response = await fetch('https://portfolio-7hpb.onrender.com/api/strava/personal');
+    if (!response.ok) throw new Error('Failed to fetch personal activity data');
     const data = await response.json();
 
-    const activityInfo = document.getElementById('activity-info');
-    activityInfo.innerHTML = ''; // Clear previous content
-
-    // Create and display the Strava image
-    const stravaImageElement = document.createElement('img');
-    stravaImageElement.src = './source/strava-logo.png';
-    stravaImageElement.alt = 'Strava Header Image';
-    stravaImageElement.style.width = '120px';
-    stravaImageElement.style.marginBottom = '16px';
-    activityInfo.appendChild(stravaImageElement);
-
-    // Add clickable status message
-    const statusMessageElement = document.createElement('a');
-    statusMessageElement.classList.add('sub-heading-bold');
-    statusMessageElement.href = 'https://www.strava.com/athletes/your-profile-id'; // Replace with your Strava profile URL
-    statusMessageElement.target = '_blank';
-    statusMessageElement.rel = 'noopener noreferrer';
-    statusMessageElement.innerText = "Stephano's Activity";
-    statusMessageElement.style.textDecoration = 'none';
-    statusMessageElement.style.marginBottom = '16px';
-    activityInfo.appendChild(statusMessageElement);
-
-    if (data.activities.length === 0) {
-      const noActivitiesMessage = document.createElement('p');
-      noActivitiesMessage.classList.add('md-regular');
-      noActivitiesMessage.innerText = 'No activities recorded this week.';
-      activityInfo.appendChild(noActivitiesMessage);
-      return;
-    }
-
-    // Get the current week's date range
-    const now = new Date();
-    const firstDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay() + 1)); // Start of the week (Monday)
-    const lastDayOfWeek = new Date(firstDayOfWeek);
-    lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6); // End of the week (Sunday)
-    const weekRange = `${firstDayOfWeek.toLocaleDateString('en-GB')} - ${lastDayOfWeek.toLocaleDateString('en-GB')}`;
-
-    // Aggregate weekly stats
-    const totalActivities = data.activities.length;
-    const totalDistance = data.activities.reduce((sum, activity) => sum + activity.distance, 0) / 1000; // Convert meters to km
-    const totalTime = data.activities.reduce((sum, activity) => sum + activity.movingTime, 0) / 3600; // Convert seconds to hours
-    const recentActivity = data.activities[0]; // Get the most recent activity
-
-    // Display weekly snapshot with date range
-    const snapshotElement = document.createElement('div');
-    snapshotElement.classList.add('weekly-snapshot');
-    snapshotElement.innerHTML = `
-      <p class="md-regular">Week: ${weekRange}</p> 
-      <div class="activity">
-        <p>
-          <span class="md-bold">Most Recent Activity:</span> 
-          <span class="md-regular">${recentActivity ? `${recentActivity.name} (${recentActivity.type})` : 'None'}</span>
-        </p>
-        <p>
-          <span class="md-bold">Activities:</span> 
-          <span class="md-regular">${totalActivities}</span>
-        </p>
-        <p>
-          <span class="md-bold">Distance:</span> 
-          <span class="md-regular">${totalDistance.toFixed(2)} km</span>
-        </p>
-        <p>
-          <span class="md-bold">Time:</span> 
-          <span class="md-regular">${totalTime.toFixed(1)} hours</span>
-        </p>
-      </div>
+    const personalActivity = document.getElementById('personal-activity');
+    personalActivity.innerHTML = `
+      <h2>${data.title}</h2>
+      <p><strong>Number of Activities:</strong> ${data.numberOfActivities}</p>
+      <p><strong>Total Distance of Week:</strong> ${data.totalDistance}</p>
+      <p><strong>Total Time:</strong> ${data.totalTime}</p>
+      <p><strong>Week:</strong> ${data.week}</p>
     `;
-    activityInfo.appendChild(snapshotElement);
   } catch (error) {
-    console.error('Error fetching Strava activity totals:', error);
-    document.getElementById('activity-info').innerHTML =
-      '<p class="md-regular">Oops! Something went wrong, trying to load again shortly.</p>';
+    console.error('Error fetching personal activity:', error);
   }
 }
 
 
 
 
-
-// Fetch Spotify playback state every 3 minutes
-setInterval(() => {
+  // Fetch all data every 3 minutes (for Spotify and personal activity)
+  setInterval(() => {
+    getPlaybackState(); // Spotify playback
+    getStravaPersonalActivity(); // Strava personal activity
+  }, 180000); // 3 minutes in milliseconds
+  
+  // Fetch Strava club data every 6 hours (21600000 ms)
+  setInterval(() => {
+    getStravaClubData('1153970'); // Strava club data
+  }, 21600000); // 6 hours in milliseconds
+  
+  // Initial fetch when the page loads
   getPlaybackState();
-}, 3000); // 3 minutes in milliseconds
-
-// Fetch Strava activity totals every 240 minutes
-setInterval(() => {
-  getStravaActivityTotals();
-}, 14400000); // 240 minutes in milliseconds
+  getStravaPersonalActivity();
+  getStravaClubData('1153970');

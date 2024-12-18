@@ -85,7 +85,7 @@ async function getPlaybackState() {
 }
 async function getStravaClubData(clubId) {
   try {
-    const response = await fetch(`https://portfolio-7hpb.onrender.com/api/v3/strava/club/${clubId}`);
+    const response = await fetch(`https://portfolio-7hpb.onrender.com/api/strava/club/${clubId}`);
     if (!response.ok) throw new Error('Failed to fetch club data');
     const data = await response.json();
 
@@ -126,7 +126,7 @@ async function getStravaClubData(clubId) {
 
 async function getStravaPersonalActivity() {
   try {
-    const response = await fetch('https://portfolio-7hpb.onrender.com/api/v3/strava/athlete/activities');
+    const response = await fetch('https://portfolio-7hpb.onrender.com/api/strava/activities');
     if (!response.ok) throw new Error('Failed to fetch personal activity data');
     const data = await response.json();
 

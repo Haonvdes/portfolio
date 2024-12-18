@@ -75,7 +75,6 @@ app.get('/', (req, res) => {
   res.send('Welcome to the server!');
 });
 
-
 // Fetch playback information
 app.get('/api/spotify/playback', async (req, res) => {
   try {
@@ -126,6 +125,7 @@ app.get('/api/spotify/playback', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch playback data' });
   }
 });
+
 
 // Strava Club Activity Endpoint
 app.get('/api/strava/club/:clubId', async (req, res) => {
@@ -186,7 +186,7 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
 app.get('/api/strava/activities', async (req, res) => {
   try {
     const accessToken = await getStravaAccessToken();
-    const response = await axios.get('https://www.strava.com/api/v3/athlete/activities', {
+    const response = await axios.get('https://www.strava.com/api/v3/activities', {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
 

@@ -93,26 +93,25 @@ async function getStravaClubData(clubId) {
     clubSection.innerHTML = ''; // Clear previous content
 
     // Club summary details
-    const summaryElement = document.createElement('div');
-    summaryElement.classList.add('club-summary');
-    summaryElement.innerHTML = `
-      <p class="sub-heading">Strong Man</h2>
-      <p class="md-regular">Week:${data.currentWeek}</p>
-      <div class=strava-club>
-              <div class="club-data">
-                  <p class="md-regular>"Total Distance</p>
-                  <p class="md-medium">${data.totalDistance}</p>
-            </div>
-            <div class="club-data">
-              <p class="md-regular">Total Time</p>
-              <p class="md-medium">${data.totalTime}</p>
-            </div>
-            <div class="club-data">
-                    <p class="md-regular">Total Activities</p>
-              <p class="md-medium"${data.totalActivities}</p>
-            </div>
-      </div>
-    `;
+const summaryElement = document.createElement('div');
+summaryElement.classList.add('club-summary');
+
+summaryElement.innerHTML = `
+  <p class="sub-heading">Strong Man</p>
+  <p class="md-regular">Week: ${data.currentWeek}</p>
+  <div class="strava-club">
+    ${['Total Distance', 'Total Time', 'Total Activities']
+      .map(
+        (label, index) => `
+        <div class="club-data">
+          <p class="md-regular">${label}</p>
+          <p class="md-medium">${[data.totalDistance, data.totalTime, data.totalActivities][index]}</p>
+        </div>`
+      )
+      .join('')}
+  </div>
+`;
+
     clubSection.appendChild(summaryElement);
 
     // Leaderboard rendering
@@ -123,9 +122,11 @@ async function getStravaClubData(clubId) {
       const leaderElement = document.createElement('div');
       leaderElement.classList.add('leader');
       leaderElement.innerHTML = `
-        <img src="${leader.profileImage}" alt="${leader.athleteName}" width="32" height="32">
-        <p>${leader.athleteName}</p>
-        <p>${leader.totalDistance}  (${leader.totalTime})</p>
+      <img src="${leader.profileImage}" alt="${leader.athleteName}" width="32" height="32">
+        <div class="leader-info">
+          <p class="md-bold">${leader.athleteName}</p>
+          <p class="md-regular">${leader.totalDistance} / ${leader.totalTime}</p>
+        </div>
       `;
       leaderboardSection.appendChild(leaderElement);
     });
@@ -138,7 +139,7 @@ async function getStravaClubData(clubId) {
 
 async function getStravaPersonalActivity() {
   try {
-    const response = await fetch('https://portfolio-7hpb.onrender.com/api/strava/activities');
+    const response = await fetch('https://portfolio-7hpb.onrender.com/api/v3/activities');
     if (!response.ok) throw new Error('Failed to fetch personal activity data');
     const data = await response.json();
 

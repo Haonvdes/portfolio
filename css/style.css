@@ -52,7 +52,7 @@
       background: var(--gradient, linear-gradient(91deg, rgba(249, 250, 251, 0.00) 0.18%, #F9FAFB 56.25%));
       color: var(--text-neutral-heading, #374151);
     }
-    #activity-info {
+    #personal-activity {
       min-width: 400px;
       display: flex;
     padding: 16px;

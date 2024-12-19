@@ -184,7 +184,7 @@ async function getStravaClubData(clubId) {
           <img src="${staticImages[index] || '/assets/default.png'}" alt="Top ${index + 1}" width="40" height="40">
           <div class="leader-info">
             <p class="md-bold">${leader.athleteName}</p>
-            <p class="md-regular">${leader.totalDistance} / ${leader.totalTime} / ${leader.totalActivities}</p>
+            <p class="md-regular">${leader.totalDistance} / ${leader.totalTime} / ${leader.totalActivities}a</p>
           </div>
         </div>
       `;

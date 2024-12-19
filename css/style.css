@@ -192,32 +192,31 @@ margin: 0px;
       width: -webkit-fill-available;
 }
 
-.leaderboard{
+.latest-activities{
   width: 100%;
   padding: var(--p-16);
   
 }
-.leader {
-  display: flex;
-  align-items: center;
-  gap: var(--m-16);}
 
-.leader{
-  display: flex
-  ;
-      flex-direction: row;
-      padding-bottom: 8px;
+
+.activity-details{
+      padding-bottom: var(--p-8);
       border-bottom: 1px solid var(--border-neutral-default);
-      padding-top: 8px;
+      padding-top: var(--p-8);
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      flex-direction: row;
+      
 }
-.leader:last-child{
+.activity-details:last-child{
   padding-bottom: 0px;
   border-bottom: none;
 
 }
 
 
-.leader-info{
+.athlete-sat{
   display: flex
   ;
       width: 100%;
@@ -225,9 +224,3 @@ margin: 0px;
       gap: 4px;
 }
 
-.leader-details {
-  display: flex
-  ;
-      gap: var(--m-16);;
-      width: 100%;
-}

@@ -719,7 +719,7 @@ li > a{
 
 @media (max-width:430px){
   #club-section{
-    width: fit-content;
+    min-width: fit-content;
   }
 .domain-item{
   width: 100%;
@@ -860,7 +860,7 @@ li > a{
     }
     .socialize{
       display: flex;
-      gap:var(--m-24);
+      gap:var(--m-40);
       height: fit-content;
     }
 
@@ -960,4 +960,6 @@ margin: 0px;
   object-fit: cover;
   width: 100%;
   height: 100%;
+  border-radius: var(--r-16);
+  border: 1 solid var(--border-neutral-default);
 }

@@ -126,6 +126,30 @@ app.get('/api/spotify/playback', async (req, res) => {
   }
 });
 
+// Strava Personal Activity Endpoint
+app.get('/api/strava/activities', async (req, res) => {
+  try {
+    const accessToken = await getStravaAccessToken();
+    const response = await axios.get('https://www.strava.com/api/v3/activities', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+
+    const activities = response.data;
+    const totalDistance = activities.reduce((sum, act) => sum + act.distance, 0) / 1000; // in km
+    const totalTime = activities.reduce((sum, act) => sum + act.moving_time, 0) / 3600; // in hours
+
+    res.json({
+      title: "Stephano's Activity",
+      numberOfActivities: activities.length,
+      totalDistance: `${totalDistance.toFixed(2)} km`,
+      totalTime: `${totalTime.toFixed(2)} hours`,
+    });
+  } catch (error) {
+    console.error('Error fetching personal activity:', error.message);
+    res.status(500).json({ error: 'Failed to fetch personal activity data' });
+  }
+});
+
 
 // Strava Club Activity Endpoint
 app.get('/api/strava/club/:clubId', async (req, res) => {
@@ -140,11 +164,6 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
     });
 
     const activities = response.data;
-
-    // Calculate total stats
-    const totalDistance = activities.reduce((sum, act) => sum + act.distance, 0) / 1000; // in km
-    const totalTime = activities.reduce((sum, act) => sum + act.moving_time, 0) / 3600; // in hours
-    const totalActivities = activities.length;
 
     // Filter activities for the current week
     const currentWeekStart = moment().startOf('week');
@@ -201,21 +220,22 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
       .sort((a, b) => b.totalDistance - a.totalDistance)
       .slice(0, 5)
       .map((athlete, index) => ({
-        profileImage: staticImages[index] || '/assets/default.png',
-        athleteName: athlete.athleteName,
-        totalDistance: `${(athlete.totalDistance / 1000).toFixed(2)}km`, // Distance in km
-        totalTime: `${(athlete.totalTime / 3600).toFixed(2)}h`, // Time in hours
-        totalActivities: `${athlete.totalActivities}a`, // Activities
+        profileImage: staticImages[index] || '/assets/default.png',  // Each leader gets a unique image
+        athleteName: athlete.athleteName,  // Full name of the athlete
+        totalDistance: `${(athlete.totalDistance / 1000).toFixed(2)}km`,  // Distance in km, per athlete
+        totalTime: `${(athlete.totalTime / 3600).toFixed(2)}h`,  // Total time in hours, per athlete
+        totalActivities: `${athlete.totalActivities}a`,  // Number of activities by the athlete
       }));
+
+    // Strava leaderboard link
+    const leaderboardLink = `https://www.strava.com/clubs/${clubId}/leaderboard`;
 
     // Return the data in the desired format
     res.json({
-      clubName: activities[0]?.club_name || 'Unknown Club', // Assumes all activities belong to the same club
+      clubName: activities[0]?.club_name || 'Unknown Club',  // Club name, assumes all activities belong to the same club
       currentWeek: `${currentWeekStart.format('DD-MM-YYYY')} - ${currentWeekEnd.format('DD-MM-YYYY')}`,
-      totalDistance: `${totalDistance.toFixed(2)} km`,
-      totalTime: `${totalTime.toFixed(2)} hours`,
-      totalActivities: totalActivities,
-      leaderboard: leaderboard,
+      leaderboard: leaderboard,  // Leaders with individual stats
+      leaderboardLink: leaderboardLink,  // Direct link to Strava leaderboard
     });
   } catch (error) {
     console.error('Error fetching Strava club activities:', error.message);
@@ -228,29 +248,7 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
 
 
 
-// Strava Personal Activity Endpoint
-// app.get('/api/strava/activities', async (req, res) => {
-//   try {
-//     const accessToken = await getStravaAccessToken();
-//     const response = await axios.get('https://www.strava.com/api/v3/activities', {
-//       headers: { Authorization: `Bearer ${accessToken}` },
-//     });
 
-//     const activities = response.data;
-//     const totalDistance = activities.reduce((sum, act) => sum + act.distance, 0) / 1000; // in km
-//     const totalTime = activities.reduce((sum, act) => sum + act.moving_time, 0) / 3600; // in hours
-
-//     res.json({
-//       title: "Stephano's Activity",
-//       numberOfActivities: activities.length,
-//       totalDistance: `${totalDistance.toFixed(2)} km`,
-//       totalTime: `${totalTime.toFixed(2)} hours`,
-//     });
-//   } catch (error) {
-//     console.error('Error fetching personal activity:', error.message);
-//     res.status(500).json({ error: 'Failed to fetch personal activity data' });
-//   }
-// });
 
 
 

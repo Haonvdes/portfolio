@@ -155,7 +155,15 @@ async function getStravaClubData(clubId) {
     // Leaderboard
     const leaderboardSection = document.createElement('div');
     leaderboardSection.classList.add('leaderboard');
-    leaderboardSection.innerHTML = '<p class="md-bold">Top Runners</p>';
+
+    // Create a link to the Strava leaderboard
+    const leaderboardLink = document.createElement('a');
+    leaderboardLink.href = data.leaderboardLink; // Use the URL provided by the backend
+    leaderboardLink.target = '_blank'; // Open in a new tab
+    leaderboardLink.innerHTML = '<p class="md-bold">Top Runners</p>';
+    
+    // Append the link to the leaderboard section
+    leaderboardSection.appendChild(leaderboardLink);
 
     // Static images for the top 5
     const staticImages = [
@@ -176,7 +184,7 @@ async function getStravaClubData(clubId) {
           <img src="${staticImages[index] || '/assets/default.png'}" alt="Top ${index + 1}" width="40" height="40">
           <div class="leader-info">
             <p class="md-bold">${leader.athleteName}</p>
-            <p class="md-regular">${leader.totalDistance}/ ${leader.totalTime}/ ${leader.totalActivities}a</p>
+            <p class="md-regular">${leader.totalDistance} / ${leader.totalTime} / ${leader.totalActivities}</p>
           </div>
         </div>
       `;
@@ -189,6 +197,7 @@ async function getStravaClubData(clubId) {
     document.getElementById('club-section').innerHTML = '<p>Failed to load club activities.</p>';
   }
 }
+
 
 
 

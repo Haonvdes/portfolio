@@ -85,23 +85,6 @@ async function getPlaybackState() {
   }
 }
 
-async function getStravaPersonalActivity() {
-  try {
-    const response = await fetch('https://portfolio-7hpb.onrender.com/api/strava/activities');
-    if (!response.ok) throw new Error('Failed to fetch personal activity data');
-    const data = await response.json();
-
-    const personalActivity = document.getElementById('personal-activity');
-    personalActivity.innerHTML = `
-      <h2>${data.title}</h2>
-      <p><strong>Number of Activities:</strong> ${data.numberOfActivities}</p>
-      <p><strong>Total Distance of Week:</strong> ${data.totalDistance}</p>
-      <p><strong>Total Time:</strong> ${data.totalTime}</p>
-    `;
-  } catch (error) {
-    console.error('Error fetching personal activity:', error);
-  }
-}
 
 async function getStravaClubData(clubId) {
   try {
@@ -198,59 +181,56 @@ async function getStravaClubData(clubId) {
   }
 }
 
-async function getLastWeekLeaderboard(clubId) {
+async function getLatestStravaActivities(clubId) {
   try {
-    const response = await fetch(`https://portfolio-7hpb.onrender.com/api/strava/club/${clubId}/last-week`);
-    if (!response.ok) throw new Error('Failed to fetch last week leaderboard');
-    
+    const response = await fetch(`https://portfolio-7hpb.onrender.com/api/strava/club/${clubId}/latest`);
+    if (!response.ok) throw new Error('Failed to fetch latest activities');
     const data = await response.json();
 
-    console.log('Last Week Leaderboard:', data.leaderboard); // Check the leaderboard data
+    const clubSection = document.getElementById('club-lastest');
+    clubSection.innerHTML = ''; // Clear previous content
 
-    const leaderboardSection = document.getElementById('leaderboard-section');
-    leaderboardSection.innerHTML = ''; // Clear previous content
+    // Latest Activities Section
+    const activitiesSection = document.createElement('div');
+    activitiesSection.classList.add('latest-activities');
 
-    // Add link to leaderboard
-    const leaderboardLink = document.createElement('a');
-    leaderboardLink.href = data.leaderboardLink;
-    leaderboardLink.textContent = 'View full leaderboard on Strava';
-    leaderboardLink.classList.add('leaderboard-link');
-    leaderboardSection.appendChild(leaderboardLink);
+    // Header
+    const headerElement = document.createElement('h2');
+    headerElement.classList.add('md-bold');
+    headerElement.textContent = 'Latest Activities';
+    activitiesSection.appendChild(headerElement);
 
-    // Display the leaderboard data
-    data.leaderboard.forEach((leader, index) => {
-      const leaderElement = document.createElement('div');
-      leaderElement.classList.add('leader');
+    // Activities List
+    data.latestActivities.forEach((activity, index) => {
+      const activityElement = document.createElement('div');
+      activityElement.classList.add('activity-card');
 
-      leaderElement.innerHTML = `
-        <div class="leader-details">
-          <img src="${leader.profileImage}" alt="${leader.athleteName}" width="40" height="40">
-          <div class="leader-info">
-            <p class="md-bold">${leader.athleteName}</p>
-            <p class="md-regular">${leader.totalDistance} / ${leader.totalTime} / ${leader.totalActivities}</p>
+      activityElement.innerHTML = `
+        <div class="activity-details">
+          <div class="athlete-name">
+            <img src="public/assets/top${index + 1}.svg" alt="Athlete ${index + 1}" width="40" height="40">
+            <p class="md-bold">${activity.athleteName}</p>
+          </div>
+          <div class="activity-stats">
+            <p class="md-regular">${activity.distance}</p>
+            <p class="md-regular">${activity.movingTime}</p>
           </div>
         </div>
       `;
-      leaderboardSection.appendChild(leaderElement);
+
+      activitiesSection.appendChild(activityElement);
     });
+
+    clubSection.appendChild(activitiesSection);
   } catch (error) {
-    console.error('Error fetching last week leaderboard:', error.message);
-    document.getElementById('leaderboard-section').innerHTML = '<p>Failed to load leaderboard.</p>';
+    console.error('Error fetching latest activities:', error.message);
+    document.getElementById('club-section').innerHTML = '<p>Failed to load latest activities.</p>';
   }
 }
 
-// Example usage: Replace `clubId` with the actual club ID
-getLastWeekLeaderboard(1153970);
 
 
-
-
-
-
-
-
-
-
+getLatestStravaActivities('1153970');
 
 
 

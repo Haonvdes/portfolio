@@ -25,7 +25,7 @@ async function getPlaybackState() {
 
     // Status Message
     const statusMessageElement = document.createElement('p');
-    statusMessageElement.classList.add('sub-heading-bold');
+    statusMessageElement.classList.add('sub-heading');
 
     if (currentTime >= gymStartTime && currentTime <= gymEndTime) {
       statusMessageElement.innerText = 'Stephano is lifting weights at the gym';
@@ -135,24 +135,22 @@ async function getLatestStravaActivities(clubId) {
     activitiesSection.classList.add('latest-activities');
 
     // Header for Latest Activities
-    const headerElement = document.createElement('h2');
+    const headerElement = document.createElement('p');
     headerElement.classList.add('md-bold');
     headerElement.textContent = 'Latest Activities';
     activitiesSection.appendChild(headerElement);
 
+
     // Activities List
     data.latestActivities.forEach((activity, index) => {
       const activityElement = document.createElement('div');
-      activityElement.classList.add('activity-card');
-
+      activityElement.classList.add('activity-details');
       activityElement.innerHTML = `
-        <div class="activity-details">
           <img src="public/assets/top${index + 1}.svg" alt="Athlete ${index + 1}" width="40" height="40">
           <div class="athlete-sat">
             <p class="md-bold">${activity.athleteName}</p>
             <p class="md-regular">${activity.distance} / ${activity.movingTime}</p>
           </div>
-        </div>
       `;
 
       activitiesSection.appendChild(activityElement);

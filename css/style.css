@@ -168,13 +168,13 @@ margin: 0px;
   background: linear-gradient(91deg, rgba(249, 250, 251, 0.00) 0.18%, #f9fafb 56.25%);
   color: #374151;
 }
-
-
-.leader {
-  display: flex;
-  align-items: center;
-  gap: var(--m-16);}
-
+.club-summary{
+  width: 100%;
+  background-color:var(--grey-G50);
+  padding: 16px;
+  border-radius: 16px 16px 0 0;
+  border-bottom: 1px solid var(--border-neutral-default);
+}
 .strava-club{
   display: flex
   ;
@@ -184,13 +184,7 @@ margin: 0px;
       justify-content: flex-start;
 
 }
-.club-summary{
-  width: 100%;
-  background-color: #1cd76017;
-  padding: 16px;
-  border-radius: 16px 16px 0 0;
-  border-bottom: 1px solid var(--border-neutral-default);
-}
+
 .club-data{
   display: flex;
       flex-direction: column;
@@ -203,6 +197,11 @@ margin: 0px;
   padding: var(--p-16);
   
 }
+.leader {
+  display: flex;
+  align-items: center;
+  gap: var(--m-16);}
+
 .leader{
   display: flex
   ;
@@ -216,10 +215,19 @@ margin: 0px;
   border-bottom: none;
 
 }
+
+
 .leader-info{
   display: flex
   ;
       width: 100%;
       flex-direction: column;
       gap: 4px;
+}
+
+.leader-details {
+  display: flex
+  ;
+      gap: var(--m-16);;
+      width: 100%;
 }

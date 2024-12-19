@@ -189,11 +189,11 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
 
     // Static profile images for top leaders
     const staticImages = [
-      'public/assets/top1.png',
-      'public/assets/top2.png',
-      'public/assets/top3.png',
-      'public/assets/top4.png',
-      'public/assets/top5.png',
+      'public/assets/top1.svg',
+      'public/assets/top2.svg',
+      'public/assets/top3.svg',
+      'public/assets/top4.svg',
+      'public/assets/top5.svg',
     ];
 
     // Sort athletes by total distance and get the top 5
@@ -229,28 +229,28 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
 
 
 // Strava Personal Activity Endpoint
-app.get('/api/strava/activities', async (req, res) => {
-  try {
-    const accessToken = await getStravaAccessToken();
-    const response = await axios.get('https://www.strava.com/api/v3/activities', {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
+// app.get('/api/strava/activities', async (req, res) => {
+//   try {
+//     const accessToken = await getStravaAccessToken();
+//     const response = await axios.get('https://www.strava.com/api/v3/activities', {
+//       headers: { Authorization: `Bearer ${accessToken}` },
+//     });
 
-    const activities = response.data;
-    const totalDistance = activities.reduce((sum, act) => sum + act.distance, 0) / 1000; // in km
-    const totalTime = activities.reduce((sum, act) => sum + act.moving_time, 0) / 3600; // in hours
+//     const activities = response.data;
+//     const totalDistance = activities.reduce((sum, act) => sum + act.distance, 0) / 1000; // in km
+//     const totalTime = activities.reduce((sum, act) => sum + act.moving_time, 0) / 3600; // in hours
 
-    res.json({
-      title: "Stephano's Activity",
-      numberOfActivities: activities.length,
-      totalDistance: `${totalDistance.toFixed(2)} km`,
-      totalTime: `${totalTime.toFixed(2)} hours`,
-    });
-  } catch (error) {
-    console.error('Error fetching personal activity:', error.message);
-    res.status(500).json({ error: 'Failed to fetch personal activity data' });
-  }
-});
+//     res.json({
+//       title: "Stephano's Activity",
+//       numberOfActivities: activities.length,
+//       totalDistance: `${totalDistance.toFixed(2)} km`,
+//       totalTime: `${totalTime.toFixed(2)} hours`,
+//     });
+//   } catch (error) {
+//     console.error('Error fetching personal activity:', error.message);
+//     res.status(500).json({ error: 'Failed to fetch personal activity data' });
+//   }
+// });
 
 
 

@@ -215,11 +215,11 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
 
     // Static profile images for top leaders
     const staticImages = [
-      'public/assets/top1.png',
-      'public/assets/top2.png',
-      'public/assets/top3.png',
-      'public/assets/top4.png',
-      'public/assets/top5.png',
+      'public/assets/top1.svg',
+      'public/assets/top2.svg',
+      'public/assets/top3.svg',
+      'public/assets/top4.svg',
+      'public/assets/top5.svg',
     ];
 
     // Sort athletes by total distance and get the top 5 for the leaderboard
@@ -229,9 +229,9 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
       .map((athlete, index) => ({
         profileImage: staticImages[index] || '/assets/default.png',
         athleteName: athlete.athleteName,
-        totalDistance: `${(athlete.totalDistance / 1000).toFixed(2)} km`, // Distance in km
-        totalTime: `${(athlete.totalTime / 3600).toFixed(2)} h`, // Time in hours
-        totalActivities: `${athlete.totalActivities} a`, // Activities count
+        totalDistance: `${(athlete.totalDistance / 1000).toFixed(2)}km`, // Distance in km
+        totalTime: `${(athlete.totalTime / 3600).toFixed(2)}h`, // Time in hours
+        totalActivities: `${athlete.totalActivities}a`, // Activities count
       }));
 
     // Return the data
@@ -250,6 +250,84 @@ app.get('/api/strava/club/:clubId', async (req, res) => {
   }
 });
 
+// Strava last week Activity Endpoint
+
+app.get('/api/strava/club/:clubId/last-week', async (req, res) => {
+  const { clubId } = req.params;
+
+  try {
+    const accessToken = await getStravaAccessToken();
+
+    // Fetch club activities
+    const response = await axios.get(`https://www.strava.com/api/v3/clubs/${clubId}/activities`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+
+    const activities = response.data;
+
+    // Calculate stats for last week
+    const currentWeekStart = moment().startOf('week');
+    const currentWeekEnd = moment().endOf('week');
+    const lastWeekStart = currentWeekStart.subtract(1, 'week');
+    const lastWeekEnd = currentWeekEnd.subtract(1, 'week');
+
+    // Filter activities for last week
+    const activitiesLastWeek = activities.filter((activity) => {
+      const activityDate = moment(activity.start_date);
+      return activityDate.isBetween(lastWeekStart, lastWeekEnd, null, '[]');
+    });
+
+    // Helper function to calculate stats by athlete
+    const calculateStats = (activities) =>
+      activities.reduce((stats, activity) => {
+        const athleteId = activity.athlete.id;
+        if (!stats[athleteId]) {
+          stats[athleteId] = {
+            athleteName: `${activity.athlete.firstname} ${activity.athlete.lastname}`,
+            totalDistance: 0,
+            totalTime: 0,
+            totalActivities: 0,
+          };
+        }
+        stats[athleteId].totalDistance += activity.distance;
+        stats[athleteId].totalTime += activity.moving_time;
+        stats[athleteId].totalActivities += 1;
+        return stats;
+      }, {});
+
+    let athleteStatsLastWeek = calculateStats(activitiesLastWeek);
+
+    // Static profile images for top leaders
+    const staticImages = [
+      'public/assets/top1.svg',
+      'public/assets/top2.svg',
+      'public/assets/top3.svg',
+      'public/assets/top4.svg',
+      'public/assets/top5.svg',
+    ];
+
+    // Sort athletes by total distance and get the top 5 for the leaderboard
+    const leaderboard = Object.values(athleteStatsLastWeek)
+      .sort((a, b) => b.totalDistance - a.totalDistance)
+      .slice(0, 5)
+      .map((athlete, index) => ({
+        profileImage: staticImages[index] || '/assets/default.png',
+        athleteName: athlete.athleteName,
+        totalDistance: `${(athlete.totalDistance / 1000).toFixed(2)} km`, // Distance in km
+        totalTime: `${(athlete.totalTime / 3600).toFixed(2)} h`, // Time in hours
+        totalActivities: `${athlete.totalActivities} a`, // Activities count
+      }));
+
+    // Return the data for the last week's leaderboard
+    res.json({
+      leaderboard: leaderboard, // Last week's leaderboard
+      leaderboardLink: `https://www.strava.com/clubs/${clubId}/leaderboard`, // Link to the Strava leaderboard page
+    });
+  } catch (error) {
+    console.error('Error fetching Strava club activities:', error.message);
+    res.status(500).json({ error: 'Failed to fetch last week\'s leaderboard' });
+  }
+});
 
 
 

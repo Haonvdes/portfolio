@@ -184,7 +184,7 @@ async function getStravaClubData(clubId) {
           <img src="${staticImages[index] || '/assets/default.png'}" alt="Top ${index + 1}" width="40" height="40">
           <div class="leader-info">
             <p class="md-bold">${leader.athleteName}</p>
-            <p class="md-regular">${leader.totalDistance} / ${leader.totalTime} / ${leader.totalActivities}a</p>
+            <p class="md-regular">${leader.totalDistance} / ${leader.totalTime} / ${leader.totalActivities}</p>
           </div>
         </div>
       `;
@@ -198,6 +198,49 @@ async function getStravaClubData(clubId) {
   }
 }
 
+async function getLastWeekLeaderboard(clubId) {
+  try {
+    const response = await fetch(`/api/strava/club/${clubId}/last-week`);
+    if (!response.ok) throw new Error('Failed to fetch last week leaderboard');
+    
+    const data = await response.json();
+
+    console.log('Last Week Leaderboard:', data.leaderboard); // Check the leaderboard data
+
+    const leaderboardSection = document.getElementById('leaderboard-section');
+    leaderboardSection.innerHTML = ''; // Clear previous content
+
+    // Add link to leaderboard
+    const leaderboardLink = document.createElement('a');
+    leaderboardLink.href = data.leaderboardLink;
+    leaderboardLink.textContent = 'View full leaderboard on Strava';
+    leaderboardLink.classList.add('leaderboard-link');
+    leaderboardSection.appendChild(leaderboardLink);
+
+    // Display the leaderboard data
+    data.leaderboard.forEach((leader, index) => {
+      const leaderElement = document.createElement('div');
+      leaderElement.classList.add('leader');
+
+      leaderElement.innerHTML = `
+        <div class="leader-details">
+          <img src="${leader.profileImage}" alt="${leader.athleteName}" width="40" height="40">
+          <div class="leader-info">
+            <p class="md-bold">${leader.athleteName}</p>
+            <p class="md-regular">${leader.totalDistance} / ${leader.totalTime} / ${leader.totalActivities}</p>
+          </div>
+        </div>
+      `;
+      leaderboardSection.appendChild(leaderElement);
+    });
+  } catch (error) {
+    console.error('Error fetching last week leaderboard:', error.message);
+    document.getElementById('leaderboard-section').innerHTML = '<p>Failed to load leaderboard.</p>';
+  }
+}
+
+// Example usage: Replace `clubId` with the actual club ID
+getLastWeekLeaderboard(1153970);
 
 
 

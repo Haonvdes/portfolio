@@ -158,7 +158,7 @@ async function getStravaClubData(clubId) {
 
     // Create a link to the Strava leaderboard
     const leaderboardLink = document.createElement('a');
-    leaderboardLink.href = data.leaderboardLink; // Use the URL provided by the backend
+    leaderboardLink.href = data.leaderboardLink; // Use the leaderboard link from the backend
     leaderboardLink.target = '_blank'; // Open in a new tab
     leaderboardLink.innerHTML = '<p class="md-bold">Top Runners</p>';
     
@@ -197,6 +197,7 @@ async function getStravaClubData(clubId) {
     document.getElementById('club-section').innerHTML = '<p>Failed to load club activities.</p>';
   }
 }
+
 
 
 

@@ -86,18 +86,16 @@ async function getPlaybackState() {
 }
 
 
-async function getStravaClubData(clubId) {
+async function getLatestStravaActivities(clubId) {
   try {
-    const response = await fetch(`https://portfolio-7hpb.onrender.com/api/strava/club/${clubId}`);
+    const response = await fetch(`https://portfolio-7hpb.onrender.com/api/strava/club/${clubId}/latest`);
     if (!response.ok) throw new Error('Failed to fetch club data');
     const data = await response.json();
-
-    console.log('Leaderboard data:', data.leaderboard); // Check if backend handles top 5 leaders
 
     const clubSection = document.getElementById('club-section');
     clubSection.innerHTML = ''; // Clear previous content
 
-    // Club Summary
+    // Club Summary Section
     const summaryElement = document.createElement('div');
     summaryElement.classList.add('club-summary');
 
@@ -132,69 +130,11 @@ async function getStravaClubData(clubId) {
     // Prepend the image element to the summary
     summaryElement.prepend(imageElement);
 
-    // Append the summary to the club section
-    clubSection.appendChild(summaryElement);
-
-    // Leaderboard
-    const leaderboardSection = document.createElement('div');
-    leaderboardSection.classList.add('leaderboard');
-
-    // Create a link to the Strava leaderboard
-    const leaderboardLink = document.createElement('a');
-    leaderboardLink.href = data.leaderboardLink; // Use the leaderboard link from the backend
-    leaderboardLink.target = '_blank'; // Open in a new tab
-    leaderboardLink.innerHTML = '<p class="md-bold">Top Runners</p>';
-    
-    // Append the link to the leaderboard section
-    leaderboardSection.appendChild(leaderboardLink);
-
-    // Static images for the top 5
-    const staticImages = [
-      'public/assets/top1.svg',
-      'public/assets/top2.svg',
-      'public/assets/top3.svg',
-      'public/assets/top4.svg',
-      'public/assets/top5.svg',
-    ];
-
-    // Display all leaders from the backend response
-    data.leaderboard.slice(0, 5).forEach((leader, index) => {
-      const leaderElement = document.createElement('div');
-      leaderElement.classList.add('leader');
-
-      leaderElement.innerHTML = `
-        <div class="leader-details">
-          <img src="${staticImages[index] || '/assets/default.png'}" alt="Top ${index + 1}" width="40" height="40">
-          <div class="leader-info">
-            <p class="md-bold">${leader.athleteName}</p>
-            <p class="md-regular">${leader.totalDistance} / ${leader.totalTime} / ${leader.totalActivities}</p>
-          </div>
-        </div>
-      `;
-      leaderboardSection.appendChild(leaderElement);
-    });
-
-    clubSection.appendChild(leaderboardSection);
-  } catch (error) {
-    console.error('Error fetching club data:', error.message);
-    document.getElementById('club-section').innerHTML = '<p>Failed to load club activities.</p>';
-  }
-}
-
-async function getLatestStravaActivities(clubId) {
-  try {
-    const response = await fetch(`https://portfolio-7hpb.onrender.com/api/strava/club/${clubId}/latest`);
-    if (!response.ok) throw new Error('Failed to fetch latest activities');
-    const data = await response.json();
-
-    const clubSection = document.getElementById('club-lastest');
-    clubSection.innerHTML = ''; // Clear previous content
-
     // Latest Activities Section
     const activitiesSection = document.createElement('div');
     activitiesSection.classList.add('latest-activities');
 
-    // Header
+    // Header for Latest Activities
     const headerElement = document.createElement('h2');
     headerElement.classList.add('md-bold');
     headerElement.textContent = 'Latest Activities';
@@ -207,13 +147,10 @@ async function getLatestStravaActivities(clubId) {
 
       activityElement.innerHTML = `
         <div class="activity-details">
-          <div class="athlete-name">
-            <img src="public/assets/top${index + 1}.svg" alt="Athlete ${index + 1}" width="40" height="40">
+          <img src="public/assets/top${index + 1}.svg" alt="Athlete ${index + 1}" width="40" height="40">
+          <div class="athlete-sat">
             <p class="md-bold">${activity.athleteName}</p>
-          </div>
-          <div class="activity-stats">
-            <p class="md-regular">${activity.distance}</p>
-            <p class="md-regular">${activity.movingTime}</p>
+            <p class="md-regular">${activity.distance} / ${activity.movingTime}</p>
           </div>
         </div>
       `;
@@ -221,10 +158,12 @@ async function getLatestStravaActivities(clubId) {
       activitiesSection.appendChild(activityElement);
     });
 
+    // Append both sections
+    clubSection.appendChild(summaryElement);
     clubSection.appendChild(activitiesSection);
   } catch (error) {
-    console.error('Error fetching latest activities:', error.message);
-    document.getElementById('club-section').innerHTML = '<p>Failed to load latest activities.</p>';
+    console.error('Error fetching club data:', error.message);
+    document.getElementById('club-section').innerHTML = '<p>Failed to load club activities.</p>';
   }
 }
 
@@ -251,3 +190,9 @@ getLatestStravaActivities('1153970');
   getPlaybackState();
   getStravaPersonalActivity();
   getStravaClubData('1153970');
+
+
+
+
+
+ 

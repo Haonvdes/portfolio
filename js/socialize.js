@@ -200,7 +200,7 @@ async function getStravaClubData(clubId) {
 
 async function getLastWeekLeaderboard(clubId) {
   try {
-    const response = await fetch(`/api/strava/club/${clubId}/last-week`);
+    const response = await fetch(`https://portfolio-7hpb.onrender.com/api/strava/club/${clubId}/last-week`);
     if (!response.ok) throw new Error('Failed to fetch last week leaderboard');
     
     const data = await response.json();

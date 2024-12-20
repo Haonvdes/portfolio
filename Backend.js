@@ -100,9 +100,8 @@ async function getPlaybackState() {
       summaryElement.classList.add('club-summary');
   
       // Format week range
-      const startMoment = moment(startDate, 'DD-MM-YYYY');
-      const endMoment = moment(endDate, 'DD-MM-YYYY');
-      const formattedWeek = `${startMoment.date()}-${endMoment.date()}/${startMoment.format('MM')}/${startMoment.year()}`;
+      const [startDate, endDate] = data.currentWeek.split(' - ');
+      const formattedWeek = `${startDate.split('-')[2]}-${endDate.split('-')[2]}/${startDate.split('-')[1]}/${startDate.split('-')[0]}`;
   
       // Create the image element
       const imageElement = document.createElement('img');
@@ -135,45 +134,26 @@ async function getPlaybackState() {
       const activitiesSection = document.createElement('div');
       activitiesSection.classList.add('latest-activities');
   
-      // Header for Latest Activities with clickable icon
-      const headerContainer = document.createElement('div');
-      headerContainer.style.display = 'flex';
-      headerContainer.style.alignItems = 'center';
-      headerContainer.style.gap = '8px';
-      headerContainer.innerHTML = `
-        <p class="md-bold">Latest Activities</p>
-        <a href="${data.clubFeedUrl}" target="_blank" style="display: flex; align-items: center;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-            <polyline points="15 3 21 3 21 9"></polyline>
-            <line x1="10" y1="14" x2="21" y2="3"></line>
-          </svg>
-        </a>
-      `;
-      activitiesSection.appendChild(headerContainer);
+      // Header for Latest Activities
+      const headerElement = document.createElement('p');
+      headerElement.classList.add('md-bold');
+      headerElement.textContent = 'Latest Activities';
+      activitiesSection.appendChild(headerElement);
   
-      // Filter unique athletes (keep only most recent activity per athlete)
-      const uniqueAthletes = data.latestActivities.reduce((acc, current) => {
-        if (!acc.some(item => item.athleteName === current.athleteName)) {
-          acc.push(current);
-        }
-        return acc;
-      }, []);
   
-      // Activities List (unique athletes only)
-      uniqueAthletes.forEach((activity, index) => {
-        if (index < 5) { // Limit to 5 unique athletes
-          const activityElement = document.createElement('div');
-          activityElement.classList.add('activity-details');
-          activityElement.innerHTML = `
+      // Activities List
+      data.latestActivities.forEach((activity, index) => {
+        const activityElement = document.createElement('div');
+        activityElement.classList.add('activity-details');
+        activityElement.innerHTML = `
             <img src="public/assets/top${index + 1}.svg" alt="Athlete ${index + 1}" width="40" height="40">
             <div class="athlete-sat">
               <p class="md-bold">${activity.athleteName}</p>
               <p class="md-regular">${activity.distance} / ${activity.movingTime}</p>
             </div>
-          `;
-          activitiesSection.appendChild(activityElement);
-        }
+        `;
+  
+        activitiesSection.appendChild(activityElement);
       });
   
       // Append both sections

@@ -100,9 +100,8 @@ async function getLatestStravaActivities(clubId) {
     summaryElement.classList.add('club-summary');
 
     // Format week range
-    const startMoment = moment(startDate, 'DD-MM-YYYY');
-    const endMoment = moment(endDate, 'DD-MM-YYYY');
-    const formattedWeek = `${startMoment.date()}-${endMoment.date()}/${startMoment.format('MM')}/${startMoment.year()}`;
+    const [startDate, endDate] = data.currentWeek.split(' - ');
+    const formattedWeek = `${startDate.split('-')[2]}-${endDate.split('-')[2]}/${startDate.split('-')[1]}/${startDate.split('-')[0]}`;
 
 
     // Create the image element

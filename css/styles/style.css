@@ -758,7 +758,7 @@ li > a{
   min-width: 400px;
   display: flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: start;
   flex-direction: column;
   flex-wrap: wrap;
   border-radius: var(--r-16);
@@ -935,6 +935,7 @@ margin: 0px;
       justify-content: start;
       align-items: center;
       flex-direction: row;
+      gap: var(--m-16);
       
 }
 .activity-details:last-child{

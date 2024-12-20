@@ -128,7 +128,6 @@ app.get('/api/spotify/playback', async (req, res) => {
 
 
 // Strava Club Activity Endpoint
-// Strava Club Activity Endpoint
 app.get('/api/strava/club/:clubId/latest', async (req, res) => {
   const { clubId } = req.params;
 

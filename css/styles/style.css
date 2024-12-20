@@ -925,6 +925,10 @@ margin: 0px;
   padding: var(--p-16);
   
 }
+.latest-activities > a:hover {
+  text-decoration:underline;
+
+}
 
 
 .activity-details{

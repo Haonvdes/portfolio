@@ -100,8 +100,9 @@ async function getLatestStravaActivities(clubId) {
     summaryElement.classList.add('club-summary');
 
     // Format week range
-    const [startDate, endDate] = data.currentWeek.split(' - ');
-    const formattedWeek = `${startDate.split('-')[2]}-${endDate.split('-')[2]}/${startDate.split('-')[1]}/${startDate.split('-')[0]}`;
+    const startMoment = moment(startDate, 'DD-MM-YYYY');
+    const endMoment = moment(endDate, 'DD-MM-YYYY');
+    const formattedWeek = `${startMoment.date()}-${endMoment.date()}/${startMoment.format('MM')}/${startMoment.year()}`;
 
 
     // Create the image element
@@ -143,7 +144,7 @@ headerContainer.style.paddingBottom = 'var(--p-8)';
 headerContainer.innerHTML = `
           <a href="${data.clubFeedUrl}" target="_blank" style="display: flex;align-items: center;width: 100%;color: var(--text-neutral-body);gap: var(--m-8);text-decoration: none;justify-content: space-between;" class="md-bold"> 
     Lastest Activities
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
    <polyline points="15 3 21 3 21 9"></polyline>
    <line x1="10" y1="14" x2="21" y2="3"></line>

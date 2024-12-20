@@ -1,5 +1,5 @@
 @import url(./text-styles.css);
-@import url(/css/styles/tokens.css);
+@import url(./tokens.css);
 .btn-primary{
     border: none;
     padding: var(--p-8) var(--p-16) var(--p-8) var(--p-16);

@@ -1,196 +1,189 @@
-async function getPlaybackState() {
-    try {
-      const response = await fetch('https://portfolio-7hpb.onrender.com/api/spotify/playback');
-      if (!response.ok) throw new Error('Failed to fetch playback state');
-      const data = await response.json();
-  
-      const playbackInfo = document.getElementById('playback-info');
-      playbackInfo.innerHTML = ''; // Clear previous content
-  
-      // Spotify Header Image
-      const imageElement = document.createElement('img');
-      imageElement.src = 'public/spotify-logo.png'
-      imageElement.alt = 'Spotify Header Image';
-      imageElement.style.width = '40px';
-      imageElement.style.marginBottom = '32px';
-      playbackInfo.appendChild(imageElement);
-  
-  
-      // Get current time and gym schedule
-      const currentTime = new Date();
-      const gymStartTime = new Date();
-      gymStartTime.setHours(17, 0, 0); // 5:00 PM
-      const gymEndTime = new Date();
-      gymEndTime.setHours(19, 0, 0); // 7:00 PM
-  
-      // Status Message
-      const statusMessageElement = document.createElement('p');
-      statusMessageElement.classList.add('sub-heading');
-  
-      if (currentTime >= gymStartTime && currentTime <= gymEndTime) {
-        statusMessageElement.innerText = 'Stephano is lifting weights at the gym';
-      } else if (data.playing) {
-        statusMessageElement.innerText = 'Stephano is playing';
-      } else {
-        statusMessageElement.innerText = 'Stephano is away';
-      }
-      playbackInfo.appendChild(statusMessageElement);
-  
-      // Track Information
-      const trackInfoElement = document.createElement('div');
-      trackInfoElement.classList.add('track-info');
-  
-      const albumCoverElement = document.createElement('img');
-      albumCoverElement.src = data.albumCover || '';
-      albumCoverElement.alt = 'Album Cover';
-      albumCoverElement.width = 50;
-      albumCoverElement.height = 50;
-  
-      if (data.playing) {
-        // Add rotate class if playing
-        albumCoverElement.classList.add('rotate');
-      }
-  
-      if (data.playing && data.track && data.artist) {
-        trackInfoElement.appendChild(albumCoverElement);
-        trackInfoElement.innerHTML += `
-          <div class="song">
-            <p class="md-regular">${data.artist}</p>
-            <p class="md-bold">
-              <a href="${data.trackUrl}" target="_blank" style="text-decoration: none; color: #374151; line-height:16px;">
-                ${data.track}</a></p>
-          </div>
-        `;
-      } else if (data.track && data.artist) {
-        trackInfoElement.appendChild(albumCoverElement);
-        trackInfoElement.innerHTML += `
-          <div class="song">
-            <p class="md-regular">Last song played:</p>
-            <p class="md-bold">
-              <a href="${data.trackUrl}" target="_blank" style="text-decoration: none; color: #374151;">
-                ${data.track} by ${data.artist}
-              </a>
-            </p>
-          </div>
-        `;
-      } else {
-        trackInfoElement.innerHTML = '<p class="md-regular">He seems to focus on his stuff.</p>';
-      }
-  
-      playbackInfo.appendChild(trackInfoElement);
-    } catch (error) {
-      console.error('Error fetching playback state:', error);
-      document.getElementById('playback-info').innerHTML =
-        '<p class="md-regular">Oops! Something went wrong, trying to load again shortly.</p>';
+const express = require('express');
+const axios = require('axios');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const moment = require('moment');
+// Load environment variables from .env file
+dotenv.config();
+
+const app = express();
+
+// CORS configuration - allow requests from specific frontend URLs
+const allowedOrigins = ['https://haonvdes.github.io', 'http://localhost:3000']; // Add your frontend URLs here
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
     }
+  },
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
+
+// Read credentials from environment variables
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
+const STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;
+const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
+const STRAVA_REFRESH_TOKEN = process.env.STRAVA_REFRESH_TOKEN;
+
+// Track the last song played
+let lastPlayedSong = null;
+
+// Fetch access token using refresh token
+async function getSpotifyAccessToken() {
+  try {
+    const response = await axios.post(
+      'https://accounts.spotify.com/api/token',
+      new URLSearchParams({
+        grant_type: 'refresh_token',
+        refresh_token: REFRESH_TOKEN,
+      }).toString(),
+      {
+        headers: {
+          Authorization: `Basic ${Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64')}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      }
+    );
+    return response.data.access_token;
+  } catch (error) {
+    console.error('Error refreshing token:', error.response ? error.response.data : error.message);
+    throw new Error('Failed to refresh token');
   }
+}
+async function getStravaAccessToken() {
+  try {
+    const response = await axios.post('https://www.strava.com/oauth/token', {
+      client_id: STRAVA_CLIENT_ID,
+      client_secret: STRAVA_CLIENT_SECRET,
+      refresh_token: STRAVA_REFRESH_TOKEN,
+      grant_type: 'refresh_token',
+    });
+    return response.data.access_token;
+  } catch (error) {
+    console.error('Error refreshing Strava token:', error.message);
+    throw new Error('Failed to refresh Strava token');
+  }
+}
+
+app.get('/', (req, res) => {
+  res.send('Welcome to the server!');
+});
+
+// Fetch playback information
+app.get('/api/spotify/playback', async (req, res) => {
+  try {
+    const accessToken = await getSpotifyAccessToken();
+    const response = await axios.get('https://api.spotify.com/v1/me/player', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+    const currentMinute = currentTime.getMinutes();
+
+    // Define the time ranges for work and gym hours
+    const isWorkTime = (
+      (currentHour >= 8 && currentHour < 11) || 
+      (currentHour === 11 && currentMinute <= 30) || 
+      (currentHour >= 13 && currentHour < 17)
+    );
+    
+    const isGymTime = (currentHour >= 17 && currentHour < 19);
+
+    // Default status message
+    let statusMessage = "Stephano is away";
+
+    if (response.data && response.data.is_playing) {
+      lastPlayedSong = response.data.item;  // Track the last song played
+      statusMessage = "Stephano is listening";
+    } else if (!response.data.is_playing && lastPlayedSong) {
+      statusMessage = `Last song played: ${lastPlayedSong.name} by ${lastPlayedSong.artists.map(artist => artist.name).join(', ')}`;
+    }
+
+    if (isGymTime) {
+      statusMessage = "Stephano is lifting weights at the gym";
+    }
+
+    // Return status, last played song, and album cover
+    res.json({
+      status: statusMessage,
+      playing: response.data.is_playing,
+      track: response.data.item ? response.data.item.name : lastPlayedSong ? lastPlayedSong.name : null,
+      artist: response.data.item ? response.data.item.artists.map(artist => artist.name).join(', ') : lastPlayedSong ? lastPlayedSong.artists.map(artist => artist.name).join(', ') : null,
+      albumCover: response.data.item ? response.data.item.album.images[0].url : lastPlayedSong ? lastPlayedSong.album.images[0].url : null,
+    });
+  } catch (error) {
+    console.error('Error fetching playback data:', error.response ? error.response.data : error.message);
+    res.status(500).json({ error: 'Failed to fetch playback data' });
+  }
+});
+
+
+// Strava Club Activity Endpoint
+app.get('/api/strava/club/:clubId/latest', async (req, res) => {
+    const { clubId } = req.params;
   
-  
-  async function getLatestStravaActivities(clubId) {
     try {
-      const response = await fetch(`https://portfolio-7hpb.onrender.com/api/strava/club/${clubId}/latest`);
-      if (!response.ok) throw new Error('Failed to fetch club data');
-      const data = await response.json();
+      const accessToken = await getStravaAccessToken();
   
-      const clubSection = document.getElementById('club-section');
-      clubSection.innerHTML = ''; // Clear previous content
-  
-      // Club Summary Section
-      const summaryElement = document.createElement('div');
-      summaryElement.classList.add('club-summary');
-  
-      // Format week range
-      const [startDate, endDate] = data.currentWeek.split(' - ');
-      const formattedWeek = `${startDate.split('-')[2]}-${endDate.split('-')[2]}/${startDate.split('-')[1]}/${startDate.split('-')[0]}`;
-  
-      // Create the image element
-      const imageElement = document.createElement('img');
-      imageElement.src = 'public/strava-logo.png';
-      imageElement.alt = 'Strava Logo';
-      imageElement.style.width = '100px';
-      imageElement.style.marginBottom = '40px';
-  
-      // Add the content for the summary
-      summaryElement.innerHTML = `
-        <p class="sub-heading">Incredible Team</p>
-        <p class="md-regular">Week: (${formattedWeek})</p>
-        <div class="strava-club">
-          ${['Total Distance', 'Total Time', 'Total Activities']
-            .map(
-              (label, index) => `
-              <div class="club-data">
-                <p class="md-regular">${label}</p>
-                <p class="md-medium">${[data.totalDistance, `${parseFloat(data.totalTime).toFixed(2)}h`, data.totalActivities][index]}</p>
-              </div>`
-            )
-            .join('')}
-        </div>
-      `;
-  
-      // Prepend the image element to the summary
-      summaryElement.prepend(imageElement);
-  
-      // Latest Activities Section
-      const activitiesSection = document.createElement('div');
-      activitiesSection.classList.add('latest-activities');
-  
-      // Header for Latest Activities
-      const headerElement = document.createElement('p');
-      headerElement.classList.add('md-bold');
-      headerElement.textContent = 'Latest Activities';
-      activitiesSection.appendChild(headerElement);
-  
-  
-      // Activities List
-      data.latestActivities.forEach((activity, index) => {
-        const activityElement = document.createElement('div');
-        activityElement.classList.add('activity-details');
-        activityElement.innerHTML = `
-            <img src="public/assets/top${index + 1}.svg" alt="Athlete ${index + 1}" width="40" height="40">
-            <div class="athlete-sat">
-              <p class="md-bold">${activity.athleteName}</p>
-              <p class="md-regular">${activity.distance} / ${activity.movingTime}</p>
-            </div>
-        `;
-  
-        activitiesSection.appendChild(activityElement);
+      // Fetch club activities
+      const response = await axios.get(`https://www.strava.com/api/v3/clubs/${clubId}/activities`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
       });
   
-      // Append both sections
-      clubSection.appendChild(summaryElement);
-      clubSection.appendChild(activitiesSection);
+      const activities = response.data;
+  
+      // Calculate total stats for the club
+      const totalDistance = activities.reduce((sum, act) => sum + act.distance, 0) / 1000; // in km
+      const totalTime = activities.reduce((sum, act) => sum + act.moving_time, 0) / 3600; // in hours
+      const totalActivities = activities.length;
+  
+      // Calculate stats for this week
+      const currentWeekStart = moment().startOf('week');
+      const currentWeekEnd = moment().endOf('week');
+  
+      // Get latest 5 activities
+      const latestActivities = activities
+        .sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
+        .slice(0, 5)
+        .map(activity => ({
+          athleteName: `${activity.athlete.firstname} ${activity.athlete.lastname}`,
+          distance: `${(activity.distance / 1000).toFixed(2)}km`,
+          movingTime: `${(activity.moving_time / 3600).toFixed(2)}h`
+        }));
+  
+      // Return both club summary and latest activities
+      res.json({
+        // Club Summary Data
+        clubName: activities[0]?.club_name || 'Unknown Club',
+        currentWeek: `${currentWeekStart.format('DD-MM-YYYY')} - ${currentWeekEnd.format('DD-MM-YYYY')}`,
+        totalDistance: `${totalDistance.toFixed(2)} km`,
+        totalTime: `${totalTime.toFixed(2)} hours`,
+        totalActivities: totalActivities,
+        
+        // Latest Activities Data
+        latestActivities,
+        
+        // Club Feed URL
+        clubFeedUrl: `https://www.strava.com/clubs/${clubId}/feed`
+      });
     } catch (error) {
-      console.error('Error fetching club data:', error.message);
-      document.getElementById('club-section').innerHTML = '<p>Failed to load club activities.</p>';
+      console.error('Error fetching Strava club activities:', error.message);
+      res.status(500).json({ error: 'Failed to fetch club activity data' });
     }
-  }
-  
-  
-  
-  getLatestStravaActivities('1153970');
-  
-  
-  
-  
-    // Fetch all data every 3 minutes (for Spotify and personal activity)
-    setInterval(() => {
-      getPlaybackState(); // Spotify playback
-    }, 180000); // 3 minutes in milliseconds
-    
-    // Fetch Strava club data every 6 hours (21600000 ms)
-    setInterval(() => {
-      getStravaClubData('1153970');
-      getStravaPersonalActivity(); // Strava personal activity
-      // Strava club data
-    }, 21600000); // 6 hours in milliseconds
-    
-    // Initial fetch when the page loads
-    getPlaybackState();
-    getStravaPersonalActivity();
-    getStravaClubData('1153970');
-  
-  
-  
-  
-  
-   
+  });
+
+
+
+const PORT = process.env.PORT || 3000; // Use dynamic port or fallback to 3000
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});

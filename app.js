@@ -128,6 +128,7 @@ app.get('/api/spotify/playback', async (req, res) => {
 
 
 // Strava Club Activity Endpoint
+// Strava Club Activity Endpoint
 app.get('/api/strava/club/:clubId/latest', async (req, res) => {
   const { clubId } = req.params;
 
@@ -170,7 +171,10 @@ app.get('/api/strava/club/:clubId/latest', async (req, res) => {
       totalActivities: totalActivities,
       
       // Latest Activities Data
-      latestActivities
+      latestActivities,
+      
+      // Club Feed URL
+      clubFeedUrl: `https://www.strava.com/clubs/${clubId}/feed`
     });
   } catch (error) {
     console.error('Error fetching Strava club activities:', error.message);

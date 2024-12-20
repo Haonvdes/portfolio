@@ -198,9 +198,7 @@ getLatestStravaActivities('1153970');
   
   // Fetch Strava club data every 6 hours (21600000 ms)
   setInterval(() => {
-    getStravaClubData('1153970');
-    getStravaPersonalActivity(); // Strava personal activity
-    // Strava club data
+    getStravaClubData('1153970');    // Strava club data
   }, 21600000); // 6 hours in milliseconds
   
   // Initial fetch when the page loads

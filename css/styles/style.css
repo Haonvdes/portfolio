@@ -364,7 +364,7 @@ li > a{
   flex-direction: row;
 
   & .presale{
-    min-width: 6%;
+    /* min-width: 6%; */
     background-color: var(--blue-B100);
     padding: var(--p-16);
     > p{color: var(--blue-B700);
@@ -372,14 +372,14 @@ li > a{
   }
 
   & .initiation{
-    min-width: 12%;
+    /* min-width: 12%; */
     padding: var(--p-16);
     background-color: var(--emerald-E200);
     > p{color: var(--emerald-E700);
     }
   }
   & .planning{
-    min-width: 14%;
+    /* min-width: 14%; */
     background-color: var(--blue-B100);
     padding: var(--p-16);
     background-color: var(--yellow-Y200);
@@ -387,7 +387,7 @@ li > a{
     }
   }
   & .execution{
-    min-width:34%;
+    /* min-width:34%; */
     width:-webkit-fill-available;
     padding: var(--p-16);
     background-color: var(--blue-B500);
@@ -395,7 +395,7 @@ li > a{
     }
   }
   & .control{
-        min-width: 24%;
+        /* min-width: 24%; */
     background-color: var(--blue-B100);
     padding: var(--p-16);
     background-color: var(--emerald-E600);
@@ -403,7 +403,7 @@ li > a{
     }
   }
   & .close{
-        min-width: 10%;
+        /* min-width: 10%; */
     background-color: var(--blue-B100);
     padding: var(--p-16);
     background-color: var(--grey-G400);
@@ -465,6 +465,7 @@ li > a{
 
 
 @media (max-width:768px) {
+
   .things{
     flex-wrap: wrap;
   }
@@ -499,35 +500,13 @@ li > a{
 }
 
 .domain-item{
-  width: 342px;
+  width: 100%;
 }
 
 .stage{
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: row;
+  overflow: scroll;
 
-  & .presale{
-    min-width: 6%;
-    }
-
-  & .initiation{
-    min-width: 12%;
-    }
   }
-  & .planning{
-    min-width: 14%;
-  }
-  & .execution{
-    min-width:34%;
-    width:-webkit-fill-available;
-  }
-  & .control{
-    min-width: 24%;
-  }
-  & .close{
-
-    min-width: 12%;  }
 
     .socialize{
       flex-direction: column;
@@ -755,14 +734,14 @@ li > a{
   }
 }
 #club-section{
-  min-width: 400px;
-  display: flex;
+  flex-grow: 0;
   align-items: flex-start;
   justify-content: start;
   flex-direction: column;
   flex-wrap: wrap;
   border-radius: var(--r-16);
   border: 1px solid var(--border-neutral-default, #E5E7EB);
+  width: 100%;
 
 }
     #playback-info {
@@ -959,6 +938,7 @@ margin: 0px;
 
 .team-activities{
   display: flex;
+  flex-grow: 1;
 }
 
 .team-activities > img {

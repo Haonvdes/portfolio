@@ -31,6 +31,12 @@ body{
   }
 }
 
+@media (min-width: 428px) {
+  .container {
+    max-width: 396px;
+  }
+}
+
 @media (min-width: 390px) {
   .container {
     max-width: 358px;

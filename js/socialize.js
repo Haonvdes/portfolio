@@ -140,7 +140,6 @@ const headerContainer = document.createElement('div');
 headerContainer.style.display = 'flex';
 headerContainer.style.alignItems = 'start';
 headerContainer.style.paddingBottom = 'var(--p-8)';
-
 headerContainer.innerHTML = `
           <a href="${data.clubFeedUrl}" target="_blank" style="display: flex;align-items: center;width: 100%;color: var(--text-neutral-body);gap: var(--m-8);text-decoration: none;justify-content: space-between;" class="md-bold"> 
     Lastest Activities

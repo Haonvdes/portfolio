@@ -135,23 +135,22 @@ async function getLatestStravaActivities(clubId) {
     const activitiesSection = document.createElement('div');
     activitiesSection.classList.add('latest-activities');
 
-// Header for Latest Activities with clickable icon
-const headerContainer = document.createElement('div');
-headerContainer.style.display = 'flex';
-headerContainer.style.alignItems = 'start';
-headerContainer.style.paddingBottom = 'var(--p-8)';
-
-headerContainer.innerHTML = `
-          <a href="${data.clubFeedUrl}" target="_blank" style="display: flex;align-items: center;width: 100%;color: var(--text-neutral-body);gap: var(--m-8);text-decoration: none;justify-content: space-between;" class="md-bold"> 
-    Lastest Activities
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-   <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-   <polyline points="15 3 21 3 21 9"></polyline>
-   <line x1="10" y1="14" x2="21" y2="3"></line>
- </svg>
-</a>
-`;
-activitiesSection.appendChild(headerContainer);
+    // Header for Latest Activities with clickable icon
+    const headerContainer = document.createElement('div');
+    headerContainer.style.display = 'flex';
+    headerContainer.style.alignItems = 'center';
+    headerContainer.style.gap = '8px';
+    headerContainer.innerHTML = `
+      <p class="md-bold">Latest Activities</p>
+      <a href="${data.clubFeedUrl}" target="_blank" style="display: flex; align-items: center;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+      </a>
+    `;
+    activitiesSection.appendChild(headerContainer);
 
     // Filter unique athletes (keep only most recent activity per athlete)
     const uniqueAthletes = data.latestActivities.reduce((acc, current) => {

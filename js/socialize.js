@@ -192,8 +192,6 @@ async function getLatestStravaActivities(clubId) {
 getLatestStravaActivities('1153970');
 
 
-
-
   // Fetch all data every 3 minutes (for Spotify and personal activity)
   setInterval(() => {
     getPlaybackState(); // Spotify playback

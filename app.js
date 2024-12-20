@@ -183,13 +183,6 @@ app.get('/api/strava/club/:clubId/latest', async (req, res) => {
 
 
 
-
-
-
-
-
-
-
 const PORT = process.env.PORT || 3000; // Use dynamic port or fallback to 3000
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

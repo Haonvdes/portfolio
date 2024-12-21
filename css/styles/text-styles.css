@@ -88,17 +88,17 @@ h3 {
 @media (max-width:600px) {
 	.lg-bold {
 		font-family: DM Sans;
-		font-size: 14px;
+		font-size: 16px;
 		font-weight: 800;
 	}
 	.lg-medium {
 		font-family: DM Sans;
-		font-size: 14px;
+		font-size: 16px;
 		font-weight: 500;
 	}
 	.lg-regular {
 		font-family: DM Sans;
-		font-size: 14px;
+		font-size: 16px;
 		font-weight: 400;
 	}
 	.md-bold {

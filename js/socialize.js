@@ -203,7 +203,6 @@ getLatestStravaActivities('1153970');
   
   // Initial fetch when the page loads
   getPlaybackState();
-  getStravaPersonalActivity();
   getStravaClubData('1153970');
 
 

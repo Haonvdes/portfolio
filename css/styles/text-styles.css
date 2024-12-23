@@ -44,63 +44,64 @@ h3 {
 	font-size: 16px;
 	font-weight: 400;
 	line-height: 24px;
+	color: var(--text-neutral-sub-heading);
+
 	
 }
 .md-bold {
 	font-family: DM Sans;
 	font-size: 14px;
 	font-weight: 800;
+	color: var(--text-neutral-sub-heading);
+
 }
 .md-medium {
 	font-family: DM Sans;
 	font-size: 14px;
 	font-weight: 500;
+	color: var(--text-neutral-sub-heading);
+
 }
 .md-regular {
 	font-family: DM Sans;
 	font-size: 14px;
 	font-weight: 400;
+	color: var(--text-neutral-sub-heading);
+
 }
 .sm-bold {
 	font-family: DM Sans;
 	font-size: 12px;
 	text-transform: uppercase;
 	font-weight: 700;
+	color: var(--text-neutral-sub-heading);
+
 }
 .sm-medium {
 	font-family: DM Sans;
 	font-size: 12px;
 	font-weight: 500;
+	color: var(--text-neutral-sub-heading);
+
 }
 .sm-regular {
 	font-family: DM Sans;
 	font-size: 12px;
 	font-weight: 400;
+	color: var(--text-neutral-sub-heading);
+
 }
 .display {
 	font-family: DM Sans;
 	font-size: 32px;
 	font-weight: 700;
+	color: var(--text-neutral-sub-heading);
+
 }
 
 
 
 @media (max-width:600px) {
-	.lg-bold {
-		font-family: DM Sans;
-		font-size: 16px;
-		font-weight: 800;
-	}
-	.lg-medium {
-		font-family: DM Sans;
-		font-size: 16px;
-		font-weight: 500;
-	}
-	.lg-regular {
-		font-family: DM Sans;
-		font-size: 16px;
-		font-weight: 400;
-	}
 	.md-bold {
 		font-family: DM Sans;
 		font-size: 14px;

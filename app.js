@@ -164,7 +164,7 @@ app.get('/api/strava/club/:clubId/latest', async (req, res) => {
     res.json({
       // Club Summary Data
       clubName: activities[0]?.club_name || 'Unknown Club',
-      currentWeek: `${currentWeekStart.format('DD-MM-YYYY')} - ${currentWeekEnd.format('DD-MM-YYYY')}`,
+      currentWeek: `${currentWeekStart.format('DD')} - ${currentWeekEnd.format('DD-MM-YYYY')}`,
       totalDistance: `${totalDistance.toFixed(2)} km`,
       totalTime: `${totalTime.toFixed(2)} hours`,
       totalActivities: totalActivities,

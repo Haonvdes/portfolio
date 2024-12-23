@@ -955,7 +955,7 @@ margin: 0px;
   }
   }
 
-@media (min-width: 1280px) and (max-width: 1440px) {
+@media (min-width: 1280px) and (max-width: 1920px) {
   #club-section{
     max-width: 400px;
   }

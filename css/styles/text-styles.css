@@ -26,13 +26,6 @@ h3 {
 	font-weight: 800;
 	color: var(--text-neutral-sub-heading);
 }
-.lg-bold {
-	font-family: DM Sans;
-	font-size: 16px;
-	font-weight: 700;
-	color: var(--text-neutral-body);
-	
-}
 .lg-medium {
 	font-family: DM Sans;
 	font-size: 16px;
@@ -98,7 +91,12 @@ h3 {
 	color: var(--text-neutral-sub-heading);
 
 }
-
+.lg-bold {
+	font-family: DM Sans;
+	font-size: 16px;
+	font-weight: 700;
+	color: var(--text-neutral-body);
+}
 
 
 @media (max-width:600px) {

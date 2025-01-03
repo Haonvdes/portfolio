@@ -5,9 +5,7 @@ const dotenv = require('dotenv');
 const moment = require('moment');
 // Load environment variables from .env file
 dotenv.config();
-
 const app = express();
-
 // CORS configuration - allow requests from specific frontend URLs
 const allowedOrigins = ['https://haonvdes.github.io', 'http://localhost:3000']; // Add your frontend URLs here
 const corsOptions = {
@@ -166,7 +164,8 @@ app.get('/api/strava/club/:clubId/latest', async (req, res) => {
     // Return both club summary and latest activities
     res.json({
       // Club Summary Data
-      clubName: activities[0]?.club_name || 'Unknown Club',
+      // clubName: activities[0]?.club_name || 'Unknown Club',
+      clubName: clubDetails.name,
       currentWeek: formattedWeek,
       totalDistance: `${totalDistance.toFixed(2)} km`,
       totalTime: `${totalTime.toFixed(2)} hours`,

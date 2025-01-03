@@ -111,7 +111,7 @@ async function getLatestStravaActivities(clubId) {
 
     // Add the content for the summary
     summaryElement.innerHTML = `
-      <p class="sub-heading">Incredible Team</p>
+      <p class="sub-heading">${[data.clubName]} Incredible Team</p>
       <p class="md-regular">Week: ${formattedWeek}</p>
       <div class="strava-club">
         ${['Total Distance', 'Total Time', 'Total Activities']
@@ -191,7 +191,7 @@ async function getLatestStravaActivities(clubId) {
 
 
 
-getLatestStravaActivities('1153970');
+// getLatestStravaActivities('1153970');
 
 
 
@@ -199,7 +199,7 @@ getLatestStravaActivities('1153970');
   // Fetch all data every 3 minutes (for Spotify and personal activity)
   setInterval(() => {
     getPlaybackState(); // Spotify playback
-  }, 180000); // 3 minutes in milliseconds
+  }, 90000); // 1.5 minutes in milliseconds
   
   // Fetch Strava club data every 6 hours (21600000 ms)
   setInterval(() => {

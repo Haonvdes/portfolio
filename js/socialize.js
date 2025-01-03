@@ -196,22 +196,30 @@ async function getLatestStravaActivities(clubId) {
 
 
 
-  // Fetch all data every 3 minutes (for Spotify and personal activity)
-  setInterval(() => {
-    getPlaybackState(); // Spotify playback
-  }, 90000); // 1.5 minutes in milliseconds
+//   // Fetch all data every 3 minutes (for Spotify and personal activity)
+//   setInterval(() => {
+//     getPlaybackState(); // Spotify playback
+//   }, 90000); // 1.5 minutes in milliseconds
   
-  // Fetch Strava club data every 6 hours (21600000 ms)
-  setInterval(() => {
-    getLatestStravaActivities('1153970');    // Strava club data
-  }, 7200000); // 2 hours in milliseconds
+//   // Fetch Strava club data every 6 hours (21600000 ms)
+//   setInterval(() => {
+//     getLatestStravaActivities('1153970');    // Strava club data
+//   }, 7200000); // 2 hours in milliseconds
   
-  // Initial fetch when the page loads
-  getPlaybackState();
-  getLatestStravaActivities('1153970');
+//   // Initial fetch when the page loads
+//   getPlaybackState();
+//   getLatestStravaActivities('1153970');
 
 
+// Initial fetch
+getPlaybackState();
+getLatestStravaActivities('1153970');
 
+// Spotify polling (every 1.5 minutes)
+setInterval(getPlaybackState, 90000);
+
+// Strava polling (every 2 hours)
+setInterval(() => getLatestStravaActivities('1153970'), 7200000);
 
 
  

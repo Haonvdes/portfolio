@@ -191,7 +191,7 @@ async function getLatestStravaActivities(clubId) {
 
 
 
-getLatestStravaActivities('1153970');
+// getLatestStravaActivities('1153970');
 
 
 

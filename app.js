@@ -5,7 +5,9 @@ const dotenv = require('dotenv');
 const moment = require('moment');
 // Load environment variables from .env file
 dotenv.config();
+
 const app = express();
+
 // CORS configuration - allow requests from specific frontend URLs
 const allowedOrigins = ['https://haonvdes.github.io', 'http://localhost:3000']; // Add your frontend URLs here
 const corsOptions = {
@@ -147,9 +149,6 @@ app.get('/api/strava/club/:clubId/latest', async (req, res) => {
     // Calculate stats for this week
     const currentWeekStart = moment().startOf('week');
     const currentWeekEnd = moment().endOf('week');
-    
-    const formattedWeek = `${currentWeekStart.format('DD')}-${currentWeekEnd.format('DD')}/${currentWeekStart.format('MM')}/${currentWeekStart.format('YYYY')}`;
-    
 
     // Get latest 5 activities
     const latestActivities = activities
@@ -164,9 +163,8 @@ app.get('/api/strava/club/:clubId/latest', async (req, res) => {
     // Return both club summary and latest activities
     res.json({
       // Club Summary Data
-      // clubName: activities[0]?.club_name || 'Unknown Club',
-      clubName: clubDetails.name,
-      currentWeek: formattedWeek,
+      clubName: activities[0]?.club_name || 'Unknown Club',
+      currentWeek: `${currentWeekStart.format('DD-MM-YYYY')} - ${currentWeekEnd.format('DD-MM-YYYY')}`,
       totalDistance: `${totalDistance.toFixed(2)} km`,
       totalTime: `${totalTime.toFixed(2)} hours`,
       totalActivities: totalActivities,
@@ -175,8 +173,7 @@ app.get('/api/strava/club/:clubId/latest', async (req, res) => {
       latestActivities,
       
       // Club Feed URL
-      clubFeedUrlMobile: `https://www.strava.com/clubs/${clubId}/feed`,
-      clubFeedUrlDesktop: `https://www.strava.com/clubs/${clubId}/recent_activity`,
+      clubFeedUrl: `https://www.strava.com/clubs/${clubId}/feed`
     });
   } catch (error) {
     console.error('Error fetching Strava club activities:', error.message);

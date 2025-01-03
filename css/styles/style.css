@@ -306,16 +306,18 @@ li > a{
 
 .hastag button.active{
   width: 180px;
-  display: flex
-;
+  display: flex;
   align-items: center;
   height: 40px;
   flex: 1 0 0;
-  border-bottom: 2px solid #01679C;
+  border-bottom: 2px solid var(--text-utilities-decorate-primary);
   font-weight: 600;
   justify-content: center;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) 30%, #FFF 100%);
 
+  > p{
+    color: var(--text-utilities-decorate-primary);
+  }
 }
 
 .hastag-items{

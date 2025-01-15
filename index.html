@@ -10,6 +10,37 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <style>
+        .swiper-container {
+            width: 100%;
+            height: 535px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: var(--r-16);
+
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures images cover the frame */
+
+        }
+        .swiper-wrapper{
+            max-width: 600px;
+            display: flex;
+            flex-grow: 1;
+            object-fit: cover; /* Ensures images cover the frame */
+        }
+        .swiper{
+            display: flex;
+            flex-grow: 1;
+        }
+        .swiper-button-next, .swiper-button-prev {
+            color: var(--text-utilities-decorate-primary);
+        }
+    </style>
 </head>
 <body>
 <header class="header">
@@ -192,9 +223,7 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-                
             </div>
         </div>
         </div>
@@ -202,7 +231,7 @@
             <div class="container stuff-header">
                 <h1 style="color: var(--text-utilities-decorate-primary); text-align: center;">
                     Staying Innovative <br>
-                    and Ahead the Game
+                    and Ahead of the Curve
                 </h1>                
                 <p class="lg-regular" style="text-align: center; max-width: 1000px;">
                     Discover how my passion for innovation shapes every step of my journey in creating cutting-edge digital solutions. Dive into my work, processes, and the team moments that keep me inspired and ahead of the game.                </p>
@@ -232,35 +261,35 @@
                 <img src="./img/ic_automotive.svg" alt="">
                 <p class="sub-heading">Automotive</p>
                 <p class="md-regular">
-                    Enabling on-chain transactions for creating, registering, and managing IP across multiple chains.
+                    Smart mobility solutions for dealer systems, and automotive intelligence.
                 </p>
                 </div>
                 <div class="domain-item">
                 <img src="./img/ic_web3.svg" alt="">
                 <p class="sub-heading">Web 3</p>
                 <p class="md-regular">
-                    Enabling on-chain transactions for creating, registering, and managing IP across multiple chains.
+                    Decentralized applications and blockchain solutions focused on security and scalability.
                 </p>
                 </div>
                 <div class="domain-item">
                 <img src="./img/ic_banking.svg" alt="">
                 <p class="sub-heading">Banking</p>
                 <p class="md-regular">
-                    Enabling on-chain transactions for creating, registering, and managing IP across multiple chains.
+                    Digital banking platforms and payment systems modernizing financial services.
                 </p>
                 </div>
                 <div class="domain-item">
                 <img src="./img/ic_erp.svg" alt="">
                 <p class="sub-heading">Enterprise Resource Planning</p>
                 <p class="md-regular">
-                    Enabling on-chain transactions for creating, registering, and managing IP across multiple chains.
+                    Custom ERP solutions streamlining operations through integrated business processes.
                 </p>
                 </div>
                 <div class="domain-item">
                 <img src="./img/ic_esg.svg" alt="">
                 <p class="sub-heading">ESG</p>
                 <p class="md-regular">
-                    Enabling on-chain transactions for creating, registering, and managing IP across multiple chains.
+                    Sustainability tracking and reporting platforms measuring environmental impact.
                 </p>
                 </div>
                 </div>
@@ -345,8 +374,31 @@
                     <p class="sub-heading">Fostering Collaboration and Team Excellence</p>
                     <p class="lg-regular">Success isn’t just about the work—it’s about the people behind it. I dedicate time to mentoring, building team cohesion, and fostering an environment where everyone thrives. By investing in growth and teamwork, I ensure every member contributes to and celebrates shared achievements.</p>
                     <div class="socialize">
-                        <div class="team-activities">
-                            <img src="./public/teamactivities_1.png" alt="">
+                        <div class="team-activities carousel">
+                            <div class="swiper-container">
+                                <div class="swiper-wrapper">
+                                    <!-- Add 15 slides -->
+                                    <div class="swiper-slide" effect="fade"><img src="public/feature.JPG" alt="Slide 2"></div>
+                                    <div class="swiper-slide" effect="fade"> <img src="public/teamimage_01.JPG" alt="Slide 3"></div>
+                                    <div class="swiper-slide" effect="fade"> <img src="public/teamimage_02.JPEG" alt="Slide 4"></div>
+                                    <div class="swiper-slide" effect="fade"> <img src="public/teamimage_03.JPEG" alt="Slide 5"></div>
+                                    <div class="swiper-slide" effect="fade"> <img src="public/teamimage_04.JPEG" alt="Slide 6"></div>
+                                    <div class="swiper-slide" effect="fade"> <img src="public/teamimage_05.HEIC" alt="Slide 7"></div>
+                                    <div class="swiper-slide" effect="fade"> <img src="public/teamimage_06.JPG" alt="Slide 8"></div>
+                                    <div class="swiper-slide" effect="fade"> <img src="public/IMG_4468.JPG" alt="Slide 9"></div>
+                                    <div class="swiper-slide" effect="fade"> <img src="public/teamimage_08.JPG" alt="Slide 10"></div>
+                                    <div class="swiper-slide" effect="fade"> <img src="public/teamimage_09.JPG" alt="Slide 11"></div>
+                                    <div class="swiper-slide" effect="fade"> <img src="public/teamimage_10.JPG" alt="Slide 12"></div>
+                                    <div class="swiper-slide" effect="fade"> <img src="public/teamimage_11.JPG" alt="Slide 13"></div>
+                                    <div class="swiper-slide" effect="fade"> <img src="public/teamimage_12.JPG" alt="Slide 14"></div>
+                                    <div class="swiper-slide" effect="fade"> <img src="public/teamimage_13.JPG" alt="Slide 15"></div>
+                                </div>
+                                <!-- Navigation buttons -->
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-button-next"></div>
+                            </div>
+                            
+                            <!-- <img src="./public/teamactivities_1.png" alt=""> -->
                         </div>
                                                 <!-- Strava Activity Info -->
                                                 <div id="club-section"></div>
@@ -400,6 +452,21 @@
     </div>
 <script src="./js/script.js"></script>
 <script src="./js/socialize.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    const swiper = new Swiper('.swiper-container', {
+        loop: true,                // Enable infinite loop
+        autoplay: {                // Auto-slide settings
+            delay: 3000,           // 3 seconds per slide
+            disableOnInteraction: false,
+        },
+        navigation: {              // Arrow navigation
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+    </script>
 
 </body>
 

@@ -1,0 +1,179 @@
+
+
+
+@media (max-width:430px){
+    #club-section{
+      min-width: fit-content;
+    }
+  .domain-item{
+    width: 100%;
+  }
+  
+  
+    #gettoknow{
+      display: none;
+    }
+    .emphasize > button {
+      display: none;
+  }
+  .socialize{
+    flex-direction: column;
+  }
+  }
+  
+  @media (max-width:600px) 
+  {
+    #one{
+      display: none;
+    }
+    .nav > .nav-btn {
+      display: flex;
+      position: relative;
+  
+    }
+    .nav > .nav-btn > label {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      padding: 13px;
+    }
+    .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
+      background-color:var(--button-bg-primary-hover);
+    }
+    .nav > .nav-btn > label > span {
+      display: block;
+      width: 25px;
+      height: 10px;
+      border-top: 2px solid black;
+    }
+    .nav > .nav-links {
+      position: absolute;
+      display: block;
+      width: 100%;
+      background-color: #333;
+      height: 0px;
+      transition: all 0.3s ease-in;
+      overflow-y: hidden;
+      top: 70px;
+      left: 0px;
+      padding: var(--space-24);
+    }
+    .nav > .nav-links > a {
+      display: block;
+      width: 100%;
+    }
+    .nav > #nav-check:not(:checked) ~ .nav-links {
+      height: 0px;
+      padding: 0;
+    }
+    .nav > #nav-check:checked ~ .nav-links {
+      height: calc(100vh - 70px);
+      overflow-y: auto;
+      z-index: 1000;
+  
+    }
+    .emphasize{
+      flex-direction: column;
+      min-width: 100%;
+    }
+    .focused{
+      width: 100%;
+    }
+    .stuff{
+      padding: 16px 16px 0 16px;
+    }
+    .hastag-items {
+      width: fit-content;
+      min-width: 124px;}
+  
+    .hastag button.active{
+        width: fit-content;
+        min-width: 124px;}
+      }
+  
+  @media (max-width:768px) {
+  
+        .things{
+          flex-wrap: wrap;
+        }
+        .introduce{
+          flex-direction: column;
+          gap: var(--p-24);
+        }
+        .emphasize{
+          padding-bottom: var(--p-0);
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+        }
+        .emphasize > button{
+          position: relative;
+          height: fit-content;
+          top: 0;
+          left: 0;
+        }
+        .second-section{
+          border-radius: 40px 40px 0 0;
+        }
+        .stuff{
+          padding: var(--p-0);
+        }
+        .certificate {
+          align-items: flex-start;
+          flex-direction: column;
+      }
+      .badge{
+        width: 100%;
+      }
+      
+      .domain-item{
+        width: 100%;
+      }
+      
+      .stage{
+        overflow: scroll;
+      
+        }
+      
+          .socialize{
+            flex-direction: column;
+          }
+      }
+  
+  @media (max-width: 992px) {
+  
+  
+    #one{
+      display:none;
+    }
+      .general {
+        flex-direction: column;
+        margin: var(--m-16);
+      }
+      .my-learning-path{
+        flex-direction: column;
+        margin: var(--m-16);
+      }
+    
+    .focused {
+      padding: var(--p-16);
+    }
+    .experience {
+      padding: var(--p-16);
+    }
+    
+    .awward {
+      padding: var(--p-16);
+      min-width: 0;
+    }
+    
+    .content-body{
+      gap: 0px;
+    }
+    }
+  
+  @media (min-width: 1280px) and (max-width: 2560px) {
+    #club-section{
+      max-width: 400px;
+    }
+    }

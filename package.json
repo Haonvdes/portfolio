@@ -5,9 +5,22 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "moment": "^2.30.1"
+    "moment": "^2.30.1",
+    "swiper": "^11.2.1"
   },
   "scripts": {
     "start": "node app.js"
   }
+  {
+    "serve": "^11.2.0"
+  },
+  "main": "index.html",
+  "name": "swiper-autoplay",
+  "scripts": {
+    "build": "echo This is a static template, there is no bundler or bundling involved!",
+    "start": "serve"
+  },
+  "tags": [
+    "swiper"
+  ]
 }

@@ -11,36 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-    <style>
-        .swiper-container {
-            width: 100%;
-            height: 535px;
-            margin: 0 auto;
-            overflow: hidden;
-            border-radius: var(--r-16);
 
-        }
-
-        .swiper-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensures images cover the frame */
-
-        }
-        .swiper-wrapper{
-            max-width: 600px;
-            display: flex;
-            flex-grow: 1;
-            object-fit: cover; /* Ensures images cover the frame */
-        }
-        .swiper{
-            display: flex;
-            flex-grow: 1;
-        }
-        .swiper-button-next, .swiper-button-prev {
-            color: var(--text-utilities-decorate-primary);
-        }
-    </style>
 </head>
 <body>
 <header class="header">
@@ -383,7 +354,7 @@
                                     <div class="swiper-slide" effect="fade"> <img src="public/teamimage_02.JPEG" alt="Slide 4"></div>
                                     <div class="swiper-slide" effect="fade"> <img src="public/teamimage_03.JPEG" alt="Slide 5"></div>
                                     <div class="swiper-slide" effect="fade"> <img src="public/teamimage_04.JPEG" alt="Slide 6"></div>
-                                    <div class="swiper-slide" effect="fade"> <img src="public/teamimage_05.HEIC" alt="Slide 7"></div>
+                                    <div class="swiper-slide" effect="fade"> <img src="public/teamimage_05.jpg" alt="Slide 7"></div>
                                     <div class="swiper-slide" effect="fade"> <img src="public/teamimage_06.JPG" alt="Slide 8"></div>
                                     <div class="swiper-slide" effect="fade"> <img src="public/IMG_4468.JPG" alt="Slide 9"></div>
                                     <div class="swiper-slide" effect="fade"> <img src="public/teamimage_08.JPG" alt="Slide 10"></div>
@@ -455,17 +426,19 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script>
-    const swiper = new Swiper('.swiper-container', {
-        loop: true,                // Enable infinite loop
-        autoplay: {                // Auto-slide settings
-            delay: 3000,           // 3 seconds per slide
-            disableOnInteraction: false,
-        },
-        navigation: {              // Arrow navigation
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-    });
+   // For carosel //
+
+const swiper = new Swiper('.swiper-container', {
+  loop: true,                // Enable infinite loop
+  autoplay: {                // Auto-slide settings
+      delay: 3000,           // 3 seconds per slide
+      disableOnInteraction: false,
+  },
+  navigation: {              // Arrow navigation
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+  },
+});
     </script>
 
 </body>

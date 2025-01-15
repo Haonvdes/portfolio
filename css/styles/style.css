@@ -9,7 +9,7 @@
   --animate-duration: 10s;
     --animate-delay: 10s;
     --animate-repeat: 2;
-    --swiper-theme-color:var(--text-utilities-decorate-primary);
+    --swiper-theme-color:var(--text-neutral-white)!important;;
 }
 html{
   font-size: 14px;
@@ -834,9 +834,8 @@ margin: 0px;
   flex-grow: 1;
 }
 .swiper-button-next .swiper-button-prev {
-  color: var(--text-utilities-decorate-primary);
+  color: white !important;
 }
-.swiper-button-next .swiper-button-prev
 
 
 @media (max-width:430px){

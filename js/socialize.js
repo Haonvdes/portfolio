@@ -191,35 +191,39 @@ async function getLatestStravaActivities(clubId) {
 
 
 
+// // Initial fetch
+// getPlaybackState();
 // getLatestStravaActivities('1153970');
 
+// // Spotify polling (every 1.5 minutes)
+// setInterval(getPlaybackState, 90000);
 
-
-
-//   // Fetch all data every 3 minutes (for Spotify and personal activity)
-//   setInterval(() => {
-//     getPlaybackState(); // Spotify playback
-//   }, 90000); // 1.5 minutes in milliseconds
-  
-//   // Fetch Strava club data every 6 hours (21600000 ms)
-//   setInterval(() => {
-//     getLatestStravaActivities('1153970');    // Strava club data
-//   }, 7200000); // 2 hours in milliseconds
-  
-//   // Initial fetch when the page loads
-//   getPlaybackState();
-//   getLatestStravaActivities('1153970');
-
-
-// Initial fetch
-getPlaybackState();
-getLatestStravaActivities('1153970');
-
-// Spotify polling (every 1.5 minutes)
-setInterval(getPlaybackState, 90000);
-
-// Strava polling (every 2 hours)
-setInterval(() => getLatestStravaActivities('1153970'), 7200000);
+// // Strava polling (every 2 hours)
+// setInterval(() => getLatestStravaActivities('1153970'), 7200000);
 
 
  
+
+// Initialize based on current page
+function initializePage() {
+  // Get the current page name from the URL
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+  // Initialize features based on the current page
+  switch (currentPage) {
+    case 'index.html':
+      // Initialize Strava functionality only for index.html
+      getLatestStravaActivities('1153970');
+      setInterval(() => getLatestStravaActivities('1153970'), 7200000);
+      break;
+      
+    case 'about.html':
+      // Initialize Spotify functionality only for about.html
+      getPlaybackState();
+      setInterval(getPlaybackState, 90000);
+      break;
+  }
+}
+
+// Run initialization when the page loads
+initializePage();

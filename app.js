@@ -151,19 +151,22 @@ app.get('/api/strava/club/:clubId/latest', async (req, res) => {
     const currentWeekEnd = moment().endOf('week');
     
     const formattedWeek = `${currentWeekStart.format('DD')}-${currentWeekEnd.format('DD')}/${currentWeekEnd.format('MM')}/${currentWeekEnd.format('YYYY')}`;
-    
 
-    // Get latest 5 activities
+    // Get latest 15 activities
     const latestActivities = activities
       .sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
-      .slice(0, 5)
+      .slice(0, 15) 
       .map(activity => ({
         athleteName: `${activity.athlete.firstname} ${activity.athlete.lastname}`,
         distance: `${(activity.distance / 1000).toFixed(2)}km`,
-        movingTime: `${(activity.moving_time / 3600).toFixed(2)}h`
+        movingTime: `${(activity.moving_time / 3600).toFixed(2)}h`,
+        // Adding more athlete details
+        activityType: activity.type,
+        startDate: activity.start_date,
+        averageSpeed: `${((activity.average_speed * 3.6).toFixed(2))} km/h`, // Convert m/s to km/h
+        elevationGain: `${activity.total_elevation_gain}m`
       }));
 
-    // Return both club summary and latest activities
     res.json({
       // Club Summary Data
       clubName: activities[0]?.club_name || 'Unknown Club',

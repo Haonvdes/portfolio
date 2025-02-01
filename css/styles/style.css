@@ -47,10 +47,11 @@ p{
   display: flex; 
   justify-content: center;
   height: 80vh;
+  min-height: 768px;
   
   .experience{
     flex-grow: 1;
-    padding: var(--p-16);
+    padding: var(--p-0);
     border: none;
     align-content: center;
     background-color: var(--bg-surface-transparent);
@@ -174,6 +175,7 @@ flex-grow: 1;
   display: flex;
   align-items: center;
   gap: var(--m-16);
+
 }
 
 .nav-item{
@@ -502,55 +504,6 @@ li > a{
 
 
 
-.nav {
-  height: 80px;
-  width: 100%;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 0px 16px 0;
-}
-
-.nav > .nav-infor {
-  display: inline;
-}
-
-.nav > .nav-header > .nav-title {
-  display: inline-block;
-  font-size: 22px;
-  color: #000000;
-}
-
-.nav > .nav-btn {
-  display: none;
-}
-
-.nav > .nav-links {
-  /* display: inline;
-  float: right;
-  font-size: 18px; */
-  display: flex;
-    float: right;
-    font-size: 14px;
-    align-items: center;
-    gap: 16px;
-}
-
-.nav > .nav-links > a {
-  display: inline-block;
-  padding: 13px 10px 13px 10px;
-  text-decoration: none;
-  color: #000000;
-}
-
-.nav > .nav-links > a:hover {
-  text-decoration: underline;
-}
-
-.nav > #nav-check {
-  display: none;
-}
 
 
 
@@ -959,52 +912,7 @@ margin: 0px;
   #one{
     display: none;
   }
-  .nav > .nav-btn {
-    display: flex;
-    position: relative;
 
-  }
-  .nav > .nav-btn > label {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    padding: 13px;
-  }
-  .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
-    background-color:var(--button-bg-primary-hover);
-  }
-  .nav > .nav-btn > label > span {
-    display: block;
-    width: 25px;
-    height: 10px;
-    border-top: 2px solid black;
-  }
-  .nav > .nav-links {
-    position: absolute;
-    display: block;
-    width: 100%;
-    background-color: #333;
-    height: 0px;
-    transition: all 0.3s ease-in;
-    overflow-y: hidden;
-    top: 70px;
-    left: 0px;
-    padding: var(--space-24);
-  }
-  .nav > .nav-links > a {
-    display: block;
-    width: 100%;
-  }
-  .nav > #nav-check:not(:checked) ~ .nav-links {
-    height: 0px;
-    padding: 0;
-  }
-  .nav > #nav-check:checked ~ .nav-links {
-    height: calc(100vh - 70px);
-    overflow-y: auto;
-    z-index: 1000;
-
-  }
   .emphasize{
     flex-direction: column;
     min-width: 100%;
@@ -1109,4 +1017,161 @@ margin: 0px;
   #club-section{
     max-width: 400px;
   }
+  }
+
+
+  .nav {
+    height: 80px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0px 16px 0;
+    z-index: 1000;
+    background-color: var(--bg-surface-main);
+  }
+  
+  .nav > .nav-infor {
+    display: inline;
+  }
+  
+  .nav > .nav-header > .nav-title {
+    display: inline-block;
+    font-size: 22px;
+    color: var(--text-neutral-body);
+  }
+  
+  .nav > .nav-btn {
+    display: none;
+  }
+  
+  .nav > .nav-links {
+    display: flex;
+    float: right;
+    align-items: center;
+    gap: var(--m-16);
+  }
+  
+  .nav > .nav-links > a {
+    display: inline-block;
+    padding: var(--p-16);
+    text-decoration: none;
+    color: var(--text-neutral-body);
+  }
+  
+  .nav > .nav-links > a:hover {
+    text-decoration: underline;
+  }
+  
+  .nav > #nav-check {
+    display: none;
+  }
+  
+  @media (max-width:600px) {
+    #one {
+      display: none;
+    }
+    
+    .nav > .nav-btn {
+      display: flex;
+      position: relative;
+    }
+    
+    .nav > .nav-btn > label {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      padding: 13px;
+      cursor: pointer;
+    }
+    
+    .nav > .nav-btn > label:hover,
+    .nav #nav-check:checked ~ .nav-btn > label {
+      background-color: var(--button-bg-primary-hover);
+    }
+    
+    /* Modified hamburger spans for X animation */
+    .nav > .nav-btn > label > span {
+      display: block;
+      width: 25px;
+      height: 2px; /* Changed from border to actual height */
+      background-color: black; /* Changed from border-top to background */
+      position: relative;
+      transition: all 0.3s ease-in-out;
+      margin: 5px 0;
+    }
+    
+    /* X animation when checked */
+    .nav > #nav-check:checked ~ .nav-btn > label > span:nth-child(1) {
+      transform: rotate(45deg);
+      top: 7px;
+    }
+    
+    .nav > #nav-check:checked ~ .nav-btn > label > span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .nav > #nav-check:checked ~ .nav-btn > label > span:nth-child(3) {
+      transform: rotate(-45deg);
+      top: -7px;
+    }
+    
+    .nav > .nav-links {
+      position: absolute;
+      display: block;
+      width: 100%;
+      background-color: var(--bg-surface-main);
+      height: 0px;
+      transition: all 0.3s ease-in;
+      overflow-y: hidden;
+      top: 70px;
+      left: 0px;
+      padding-top: var(--p-24);
+    }
+    
+    .nav > .nav-links > a {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+    
+    .nav > #nav-check:not(:checked) ~ .nav-links {
+      height: 0px;
+      padding: 0;
+    }
+    
+    .nav > #nav-check:checked ~ .nav-links {
+      height: calc(100vh - 70px);
+      overflow-y: auto;
+      z-index: 1000;
+      background-color: var(--bg-surface-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .emphasize {
+      flex-direction: column;
+      min-width: 100%;
+    }
+    
+    .focused {
+      width: 100%;
+    }
+    
+    .stuff {
+      padding: 16px 16px 0 16px;
+    }
+    
+    .hastag-items {
+      width: fit-content;
+      min-width: 124px;
+    }
+    
+    .hastag button.active {
+      width: fit-content;
+      min-width: 124px;
+    }
   }

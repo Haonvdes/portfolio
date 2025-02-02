@@ -6,12 +6,10 @@ const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 
-
-app.use(cors(corsOptions));
-
 // Load environment variables from .env file
 dotenv.config();
 
+// 👉 Khởi tạo `app` trước khi sử dụng nó
 const app = express();
 
 // CORS configuration
@@ -30,7 +28,7 @@ const corsOptions = {
   credentials: true
 };
 
-
+// 👉 Sử dụng `cors` sau khi khai báo `app`
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.static('public'));
@@ -43,6 +41,7 @@ const STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;
 const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
 const STRAVA_REFRESH_TOKEN = process.env.STRAVA_REFRESH_TOKEN;
 const JWT_SECRET = process.env.JWT_SECRET;
+
 
 // Track the last song played
 let lastPlayedSong = null;

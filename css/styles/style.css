@@ -301,7 +301,7 @@ li > a{
       padding: 0;
       flex: 1 0 0;
       max-width: 1200px;
-      z-index: 1000;
+      /* z-index: 1000; */
 
 }
 
@@ -1026,7 +1026,7 @@ margin: 0px;
     align-items: center;
     justify-content: space-between;
     padding: 16px 0px 16px 0;
-    z-index: 1000;
+    /* z-index: 1000; */
     background-color: var(--bg-surface-main);
   }
   
@@ -1142,7 +1142,7 @@ margin: 0px;
     .nav > #nav-check:checked ~ .nav-links {
       height: calc(100vh - 70px);
       overflow-y: auto;
-      z-index: 1000;
+      /* z-index: 1000; */
       background-color: var(--bg-surface-main);
       display: flex;
       flex-direction: column;

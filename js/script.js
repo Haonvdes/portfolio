@@ -100,37 +100,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Handle password submission
   submitBtn.onclick = async () => {
-      const password = passwordInput.value;
-      
-      try {
-          const response = await fetch('/api/verify', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ 
-                  caseStudyId: currentCaseStudyId, 
-                  password 
-              })
-          });
+    const password = passwordInput.value;
+    
+    try {
+        // Replace with your Render.io backend URL
+        const response = await fetch('https://portfolio-7hpb.onrender.com//api/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                caseStudyId: currentCaseStudyId, 
+                password 
+            })
+        });
 
-          const data = await response.json();
-          
-          if (data.success) {
-              // Store token and open case study in new tab
-              localStorage.setItem(`caseStudy_${currentCaseStudyId}_token`, data.token);
-              modal.style.display = 'none';
-              
-              // Open case study in new tab
-              const caseStudyUrl = `/case-study/${currentCaseStudyId}`;
-              window.open(caseStudyUrl, '_blank');
-          } else {
-              modalError.textContent = data.message || 'Invalid password';
-              modalError.style.display = 'block';
-          }
-      } catch (error) {
-          modalError.textContent = 'An error occurred. Please try again later.';
-          modalError.style.display = 'block';
-      }
-  };
+        const data = await response.json();
+        
+        if (data.success) {
+            localStorage.setItem(`caseStudy_${currentCaseStudyId}_token`, data.token);
+            modal.style.display = 'none';
+            
+            // Also update this URL to point to your Render backend
+            const caseStudyUrl = `https://portfolio-7hpb.onrender.com/case-study/${currentCaseStudyId}`;
+            window.open(caseStudyUrl, '_blank');
+        } else {
+            modalError.textContent = data.message || 'Invalid password';
+            modalError.style.display = 'block';
+        }
+    } catch (error) {
+        modalError.textContent = 'An error occurred. Please try again later.';
+        modalError.style.display = 'block';
+    }
+};
 
   // Handle Enter key in password input
   passwordInput.addEventListener('keypress', (e) => {

@@ -6,6 +6,9 @@ const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 
+
+app.use(cors(corsOptions));
+
 // Load environment variables from .env file
 dotenv.config();
 
@@ -21,6 +24,12 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS'));
     }
   },
+};
+const corsOptions = {
+  origin: ['https://haonvdes.github.io', 'http://localhost:3000'],
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+  credentials: true
 };
 
 app.use(cors(corsOptions));

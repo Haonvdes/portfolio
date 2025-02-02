@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Open modal when case study button is clicked
   document.getElementById('case-study').addEventListener('click', () => {
-      currentCaseStudyId = 'case-study-1'; // or whatever ID you want to use
+      currentCaseStudyId = '1'; // or whatever ID you want to use
       modal.style.display = 'block';
       passwordInput.value = '';
       modalError.style.display = 'none';
@@ -154,3 +154,10 @@ app.get('/case-study/:id', (req, res) => {
   // Serve the case study HTML page
   res.sendFile(path.join(__dirname, 'public', 'case-study.html'));
 });
+
+
+
+
+
+
+

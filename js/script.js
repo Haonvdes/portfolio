@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     try {
         // Replace with your Render.io backend URL
-        const response = await fetch('https://portfolio-7hpb.onrender.com//api/verify', {
+        const response = await fetch('https://portfolio-7hpb.onrender.com/api/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 

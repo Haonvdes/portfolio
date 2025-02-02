@@ -95,54 +95,41 @@
     </div>
 </div> 
 </header>
-<div class="container" style="margin-top: 24px;">
-    <p class="sub-heading" style="padding-bottom: 24px;"> Activities</p>
-    <div class="gallery">
-                                <!-- Spotify Playback Info -->
-                                <div id="playback-info">Loading...</div>
- <div class="team-activities carousel">
-                                      <div class="swiper-container">
-                                          <div class="swiper-wrapper">
-                                              <!-- Add 15 slides -->
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_01.jpg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_02.jpeg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_03.jpeg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_04.jpeg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_05.jpg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_06.JPG" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_07.JPG" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_08.jpeg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_09.jpg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_10.jpeg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_11.jpg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_12.jpg" alt="team image"></div>
-          
-                                          </div>
-                                          <!-- Navigation buttons -->
-                                          <div class="swiper-button-prev"></div>
-                                          <div class="swiper-button-next"></div>
-                                      </div>
-                                  </div>
+<body>
+    <div id="content">Loading...</div>
 
-                              <script src="./js/script.js"></script>
-                              <script src="./js/socialize.js"></script>
-                              <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
-                              <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-                              <script>
-                                 // For carosel //
-                              
-                              const swiper = new Swiper('.swiper-container', {
-                                loop: true,                // Enable infinite loop
-                                autoplay: {                // Auto-slide settings
-                                    delay: 3000,           // 3 seconds per slide
-                                    disableOnInteraction: false,
-                                },
-                                navigation: {              // Arrow navigation
-                                    nextEl: '.swiper-button-next',
-                                    prevEl: '.swiper-button-prev',
-                                },
-                              });
-                                  </script>
+    <script>
+        // Fetch and display case study content using the stored token
+        async function loadCaseStudy() {
+            const caseStudyId = window.location.pathname.split('/').pop();
+            const token = localStorage.getItem(`caseStudy_${caseStudyId}_token`);
+
+            if (!token) {
+                document.getElementById('content').innerHTML = 'Access denied. Please obtain a valid password.';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/case-study-content/${caseStudyId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Invalid token');
+                }
+
+                const data = await response.json();
+                document.getElementById('content').innerHTML = data.content;
+            } catch (error) {
+                document.getElementById('content').innerHTML = 'Error loading content. Please try again.';
+            }
+        }
+
+        loadCaseStudy();
+    </script>
+</body>
 
 </body>
 </html>

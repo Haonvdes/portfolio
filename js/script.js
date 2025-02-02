@@ -42,11 +42,7 @@
   });
 }
 
-
-
 document.getElementById("defaultOpen").click();
-
-
 
 document.addEventListener("DOMContentLoaded", function () {
   function updateClass() {
@@ -72,6 +68,89 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+//case study //
 
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('passwordModal');
+  const closeBtn = document.getElementsByClassName('close')[0];
+  const submitBtn = document.getElementById('submitPassword');
+  const passwordInput = document.getElementById('passwordInput');
+  const modalError = document.getElementById('modalError');
+  let currentCaseStudyId = null;
 
+  // Open modal when case study button is clicked
+  document.getElementById('case-study').addEventListener('click', () => {
+      currentCaseStudyId = 'case-study-1'; // or whatever ID you want to use
+      modal.style.display = 'block';
+      passwordInput.value = '';
+      modalError.style.display = 'none';
+  });
 
+  // Close modal when X is clicked
+  closeBtn.onclick = () => {
+      modal.style.display = 'none';
+  };
+
+  // Close modal when clicking outside
+  window.onclick = (event) => {
+      if (event.target === modal) {
+          modal.style.display = 'none';
+      }
+  };
+
+  // Handle password submission
+  submitBtn.onclick = async () => {
+      const password = passwordInput.value;
+      
+      try {
+          const response = await fetch('/api/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ 
+                  caseStudyId: currentCaseStudyId, 
+                  password 
+              })
+          });
+
+          const data = await response.json();
+          
+          if (data.success) {
+              // Store token and open case study in new tab
+              localStorage.setItem(`caseStudy_${currentCaseStudyId}_token`, data.token);
+              modal.style.display = 'none';
+              
+              // Open case study in new tab
+              const caseStudyUrl = `/case-study/${currentCaseStudyId}`;
+              window.open(caseStudyUrl, '_blank');
+          } else {
+              modalError.textContent = data.message || 'Invalid password';
+              modalError.style.display = 'block';
+          }
+      } catch (error) {
+          modalError.textContent = 'An error occurred. Please try again later.';
+          modalError.style.display = 'block';
+      }
+  };
+
+  // Handle Enter key in password input
+  passwordInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+          submitBtn.click();
+      }
+  });
+});
+
+// app.js (your existing server file)
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const path = require('path');
+const app = express();
+
+app.use(express.json());
+app.use(express.static('public'));
+
+// Add this new route to serve the case study content
+app.get('/case-study/:id', (req, res) => {
+  // Serve the case study HTML page
+  res.sendFile(path.join(__dirname, 'public', 'case-study.html'));
+});

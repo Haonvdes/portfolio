@@ -16,6 +16,7 @@ const app = express();
 
 // CORS configuration
 const allowedOrigins = ['https://haonvdes.github.io', 'http://localhost:3000'];
+
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -24,13 +25,11 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS'));
     }
   },
-};
-const corsOptions = {
-  origin: ['https://haonvdes.github.io', 'http://localhost:3000'],
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   credentials: true
 };
+
 
 app.use(cors(corsOptions));
 app.use(express.json());

@@ -852,6 +852,8 @@ input{
 border: 1px solid var(--border-neutral-default);
 border-radius: 8px;
 padding: var(--p-8);
+height: 40px;
+width: 100%;
 }
 input:focus{
 border: 1px solid var(--border-primary-default);

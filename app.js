@@ -89,62 +89,114 @@ async function getStravaAccessToken() {
 app.get('/', (req, res) => {
   res.send('Welcome to the server!');
 });
+// Middleware to validate JWT token
+const authenticateToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1] || 
+               req.query.token || 
+               req.cookies?.token;
+  
+  if (!token) {
+      return res.redirect('/?error=unauthorized');
+  }
 
-// Password verification endpoint
-app.post('/api/verify', (req, res) => {
-    const { caseStudyId, password } = req.body;
-    
-    const correctPassword = process.env[`CASE_STUDY_${caseStudyId}_PASSWORD`];
-    const expirationDate = process.env[`CASE_STUDY_${caseStudyId}_EXPIRY`];
+  try {
+      const decoded = jwt.verify(token, JWT_SECRET);
+      req.user = decoded;
+      next();
+  } catch (error) {
+      return res.redirect('/?error=invalid_token');
+  }
+};
 
-    if (new Date() > new Date(expirationDate)) {
-        return res.json({ 
-            success: false, 
-            message: 'This password has expired. Please contact the administrator for a new password.' 
-        });
-    }
+// Password verification endpoint with improved validation
+app.post('/api/verify', async (req, res) => {
+  try {
+      const { caseStudyId, password } = req.body;
 
-    if (password === correctPassword) {
-        const token = jwt.sign(
-            { caseStudyId }, 
-            JWT_SECRET,
-            { expiresIn: '24h' }
-        );
-        res.json({ success: true, token });
-    } else {
-        res.json({ 
-            success: false, 
-            message: 'Incorrect password. Please try again.' 
-        });
-    }
+      // Input validation
+      if (!caseStudyId || !password || caseStudyId !== '1') {
+          return res.status(400).json({ 
+              success: false, 
+              message: 'Invalid request parameters' 
+          });
+      }
+
+      const correctPassword = process.env[`CASE_STUDY_${caseStudyId}_PASSWORD`];
+      const expirationDate = process.env[`CASE_STUDY_${caseStudyId}_EXPIRY`];
+
+      // Validate environment variables exist
+      if (!correctPassword || !expirationDate) {
+          console.error(`Missing environment variables for case study ${caseStudyId}`);
+          return res.status(500).json({ 
+              success: false, 
+              message: 'Configuration error. Please contact administrator.' 
+          });
+      }
+
+      // Check expiration
+      if (new Date() > new Date(expirationDate)) {
+          return res.status(403).json({ 
+              success: false, 
+              message: 'This password has expired. Please contact the administrator for a new password.' 
+          });
+      }
+
+      // Verify password
+      if (password !== correctPassword) {
+          return res.status(401).json({ 
+              success: false, 
+              message: 'Incorrect password. Please try again.' 
+          });
+      }
+
+      // Generate token
+      const token = jwt.sign(
+          { 
+              caseStudyId,
+              exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) // 24 hours
+          }, 
+          JWT_SECRET
+      );
+
+      res.json({ success: true, token });
+
+  } catch (error) {
+      console.error('Verification error:', error);
+      res.status(500).json({ 
+          success: false, 
+          message: 'An error occurred during verification.' 
+      });
+  }
 });
 
-// Case study content route
-app.get('/case-study/:id', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'case-study.html'));
+// Protected case study route
+app.get('/case-study/:id', authenticateToken, (req, res) => {
+  try {
+      // Validate case study ID
+      if (req.params.id !== '1' || req.params.id !== req.user.caseStudyId) {
+          return res.redirect('/?error=invalid_case_study');
+      }
+
+      res.sendFile(path.join(__dirname, 'public', 'case-study.html'));
+  } catch (error) {
+      console.error('Error serving case study:', error);
+      res.redirect('/?error=server_error');
+  }
 });
 
-// Protected case study content endpoint
-app.get('/api/case-study-content/:id', (req, res) => {
-    const token = req.headers.authorization?.split(' ')[1];
-    
-    if (!token) {
-        return res.status(401).json({ message: 'No token provided' });
-    }
+// Startup validation for required environment variables
+const requiredEnvVars = [
+  'CASE_STUDY_1_PASSWORD',
+  'CASE_STUDY_1_EXPIRY',
+  'JWT_SECRET'
+];
 
-    try {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        if (decoded.caseStudyId !== req.params.id) {
-            throw new Error('Invalid token for this case study');
-        }
-        
-        res.json({ 
-            content: `Content for case study ${req.params.id}` 
-        });
-    } catch (err) {
-        res.status(401).json({ message: 'Invalid token' });
-    }
-});
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+if (missingEnvVars.length > 0) {
+  console.error('Missing required environment variables:', missingEnvVars);
+  process.exit(1);
+}
 
 // Spotify playback endpoint
 app.get('/api/spotify/playback', async (req, res) => {

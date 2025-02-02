@@ -297,12 +297,16 @@
                                         <!-- Password Modal -->
     <div id="passwordModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Enter Password</h2>
-            <p>Please enter the password to view this case study:</p>
-            <input type="password" id="passwordInput" />
-            <button id="submitPassword">Submit</button>
-            <div id="modalError" class="error-message"></div>
+            <div class="modal-header">
+                <span class="close">&times;</span>
+            <p class="sub-heading" style="text-transform: capitalize;">Password Required</p>
+            </div>
+            <div class="modal-body">
+                <p class="md-medium">Because this project is containing sensetive data so please enter the password to view this case study or <span style="color: var(--text-utilities-decorate-primary); text-decoration: none;"><a href="https://www.linkedin.com/in/stpnguyen/" target="_blank">reach out</a></span> Stephano to get the access. </p>
+                <input type="password" id="passwordInput" />
+                <div id="modalError" class="error-message md-medium"></div>
+                <button class="btn-primary" id="submitPassword">Submit</button>
+            </div>
         </div>
     </div>
                             </div>

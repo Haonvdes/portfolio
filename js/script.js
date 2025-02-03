@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener('DOMContentLoaded', () => {
   const modal = document.getElementById('passwordModal');
-  const closeBtn = document.getElementsByClassName('close')[0];
+  const closeBtn = document.getElementsByClassName('modal-icon')[0];
   const submitBtn = document.getElementById('submitPassword');
   const passwordInput = document.getElementById('passwordInput');
   const modalError = document.getElementById('modalError');

@@ -1,9 +1,6 @@
+// This is for tab content //
 
-
-
- // This is for tab content //
-
- function openHastag(evt, tagName) {
+function openHastag(evt, tagName) {
   // Declare all variables
   var i, tagcontent, taglinks, lgElements;
 
@@ -76,72 +73,89 @@ document.addEventListener('DOMContentLoaded', () => {
   const submitBtn = document.getElementById('submitPassword');
   const passwordInput = document.getElementById('passwordInput');
   const modalError = document.getElementById('modalError');
-  let currentCaseStudyId = null;
+  const togglePassword = document.getElementById('togglePassword');
+  
+  function toggleScrollLock(lock) {
+    document.body.style.overflow = lock ? 'hidden' : 'auto';
+  }
 
-  // Open modal when case study button is clicked
+  // Open modal and block scroll
   document.getElementById('case-study').addEventListener('click', () => {
-      currentCaseStudyId = '1'; // or whatever ID you want to use
-      modal.style.display = 'block';
-      passwordInput.value = '';
-      modalError.style.display = 'none';
+    modal.style.display = 'block';
+    passwordInput.value = '';
+    modalError.style.display = 'none';
+    toggleScrollLock(true);
   });
 
-  // Close modal when X is clicked
-  closeBtn.onclick = () => {
-      modal.style.display = 'none';
-  };
-
-  // Close modal when clicking outside
-  window.onclick = (event) => {
-      if (event.target === modal) {
-          modal.style.display = 'none';
-      }
-  };
+  // Toggle password visibility
+  togglePassword.addEventListener('click', () => {
+    const passwordInput = document.getElementById('passwordInput');
+    const icon = togglePassword.querySelector('i');
+    
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+    } else {
+      passwordInput.type = 'password';
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+    }
+  });
 
   // Handle password submission
-// Update your frontend fetch call to handle the new error responses
-submitBtn.onclick = async () => {
-  const password = passwordInput.value;
-  modalError.style.display = 'none';
-  submitBtn.disabled = true;
-  
-  try {
-      const response = await fetch('https://portfolio-7hpb.onrender.com/api/verify', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-              caseStudyId: currentCaseStudyId,
-              password
-          })
+  submitBtn.onclick = async () => {
+    const password = passwordInput.value;
+    modalError.style.display = 'none';
+    submitBtn.disabled = true;
+    
+    try {
+      const response = await fetch('/api/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
       });
 
       const data = await response.json();
       
       if (data.success) {
-          const token = data.token;
-          localStorage.setItem(`caseStudy_${currentCaseStudyId}_token`, token);
-          modal.style.display = 'none';
-          
-          // Update URL to include token
-          const caseStudyUrl = `https://portfolio-7hpb.onrender.com/case-study/${currentCaseStudyId}?token=${token}`;
-          window.open(caseStudyUrl, '_blank');
+        const token = data.token;
+        localStorage.setItem('caseStudy_token', token);
+        modal.style.display = 'none';
+        toggleScrollLock(false);
+        
+        // Load case study in current window
+        window.location.href = `/case-study/1?token=${token}`;
       } else {
-          modalError.textContent = data.message;
-          modalError.style.display = 'block';
+        modalError.textContent = data.message;
+        modalError.style.display = 'block';
       }
-  } catch (error) {
-      modalError.textContent = 'An error occurred. Please try again later.';
+    } catch (error) {
+      modalError.textContent = 'Server error. Please try again later.';
       modalError.style.display = 'block';
-  } finally {
+    } finally {
       submitBtn.disabled = false;
-  }
-};
+    }
+  };
 
-  // Handle Enter key in password input
+  // Close modal handlers with scroll unlock
+  closeBtn.onclick = () => {
+    modal.style.display = 'none';
+    toggleScrollLock(false);
+  };
+
+  window.onclick = (event) => {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+      toggleScrollLock(false);
+    }
+  };
+
+  // Handle Enter key
   passwordInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-          submitBtn.click();
-      }
+    if (e.key === 'Enter') {
+      submitBtn.click();
+    }
   });
 });
 

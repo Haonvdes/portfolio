@@ -59,7 +59,7 @@
               <a href="/" class="md-medium">Work</a>
               <a href="/public/about.html" class="md-medium">About</a>
               <button class="btn-primary md-medium"><a href="https://www.linkedin.com/in/stpnguyen/" target="_blank">
-                Let's Chat</a></button>
+                Let’s Chat</a></button>
             </div>
            </div>
     </nav>
@@ -142,7 +142,7 @@
                     <div class="company 01">
                         <p class="md-bold">Product Discovery</p>
                         <div class="company-infor">
-                            <p class="md-medium">Make the business's decisions more confident.</p>
+                            <p class="md-medium">Make the business’s decisions more confident.</p>
                         </div>
                     </div>
                     <div class="company 02">
@@ -294,7 +294,24 @@
                             <div class="card-header">
                                 <h2 class="sub-heading">Web3</h2>
                                 <p class="md-regular">Decentralized applications and blockchain solutions focused on security and scalability.</p>
-                                <button class="btn-primary" data-case-study="fintech-lending">Fintech Lending</button>
+                                <button class="btn-primary" id="case-study">Learn more</button>
+                                        <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+            <p class="sub-heading" style="text-transform: capitalize;">Password Required</p>
+            <span class="modal-icon">&times;</span>
+        </div>
+            <div class="modal-body">
+                <p class="md-medium">To ensure the privacy of this case study, please enter the password to view it. Alternatively, feel free to <span style="color: var(--text-utilities-decorate-primary); text-decoration: none;"><a href="https://www.linkedin.com/in/stpnguyen/" target="_blank">reach out</a></span> to Stephano for access!</p>
+               <div>
+                <input type="password" id="passwordInput" />
+                <div id="modalError" class="error-message md-medium"></div>
+               </div>
+                <button class="btn-primary" id="submitPassword">Submit</button>
+            </div>
+        </div>
+    </div>
                             </div>
                             <div class="card-image-container">
                                 <div class="image-wrapper">
@@ -448,7 +465,7 @@
                 <div id="activities" class="information animate__animated animate__fadeIn">
                     <div>
                         <p class="sub-heading" style="padding-bottom: var(--p-8)";>Fostering Collaboration and Team Excellence</p>
-                        <p class="lg-regular">Success isn't just about the work—it's about the people behind it. I dedicate time to mentoring, building team cohesion, and fostering an environment where everyone thrives. By investing in growth and teamwork, I ensure every member contributes to and celebrates shared achievements.</p>
+                        <p class="lg-regular">Success isn’t just about the work—it’s about the people behind it. I dedicate time to mentoring, building team cohesion, and fostering an environment where everyone thrives. By investing in growth and teamwork, I ensure every member contributes to and celebrates shared achievements.</p>
     
                     </div>
                     <div class="socialize">
@@ -499,7 +516,7 @@
 
 <div class="contact">
     <h1 style="color: var(--text-utilities-decorate-primary); width: max-content;">
-        Let's Build Something <br> Meaningful Together
+        Let’s Build Something <br> Meaningful Together
     </h1>
         <button class="btn-primary"><a href="https://www.linkedin.com/in/stpnguyen/" target="_blank" style="text-decoration: none;">
             Reach out</a></button>

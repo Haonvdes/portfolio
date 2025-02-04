@@ -858,39 +858,15 @@ gap: var(--m-16);
   display: none;
 }
 
-.password-input-wrapper {
-    position: relative;
-    width: 100%;
+input{
+border: 1px solid var(--border-neutral-default);
+border-radius: 8px;
+padding: var(--p-8);
+height: 40px;
+width: 100%;
 }
-
-.password-input-wrapper input {
-    width: 100%;
-    padding: 8px 40px 8px 12px; /* Thêm padding bên phải để tránh text bị đè */
-    border: 1px solid var(--border-neutral-default);
-    border-radius: var(--r-4);
-}
-
-.toggle-password {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--text-neutral-body);
-    padding: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.toggle-password:hover {
-    color: var(--text-utilities-decorate-primary);
-}
-
-.toggle-password i {
-    font-size: 16px;
+input:focus{
+border: 1px solid var(--border-primary-default);
 }
 
 

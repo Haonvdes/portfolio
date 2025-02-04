@@ -5,7 +5,6 @@ const dotenv = require('dotenv');
 const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const path = require('path');
-const fs = require('fs');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -109,76 +108,79 @@ const authenticateToken = (req, res, next) => {
   }
 };
 
-// Password verification endpoint
+// Password verification endpoint with improved validation
 app.post('/api/verify', async (req, res) => {
   try {
-    const { password } = req.body;
+      const { caseStudyId, password } = req.body;
 
-    // Input validation
-    if (!password) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Password is required' 
-      });
-    }
+      // Input validation
+      if (!caseStudyId || !password || caseStudyId !== '1') {
+          return res.status(400).json({ 
+              success: false, 
+              message: 'Invalid request parameters' 
+          });
+      }
 
-    // Get shared password and expiry from env variables
-    const correctPassword = process.env.CASE_STUDY_PASSWORD;
-    const expirationDate = process.env.CASE_STUDY_EXPIRY;
+      const correctPassword = process.env[`CASE_STUDY_${caseStudyId}_PASSWORD`];
+      const expirationDate = process.env[`CASE_STUDY_${caseStudyId}_EXPIRY`];
 
-    // Validate environment variables
-    if (!correctPassword || !expirationDate) {
-      console.error('Missing environment variables');
-      return res.status(500).json({ 
-        success: false, 
-        message: 'Configuration error' 
-      });
-    }
+      // Validate environment variables exist
+      if (!correctPassword || !expirationDate) {
+          console.error(`Missing environment variables for case study ${caseStudyId}`);
+          return res.status(500).json({ 
+              success: false, 
+              message: 'Configuration error. Please contact administrator.' 
+          });
+      }
 
-    // First check password
-    if (password !== correctPassword) {
-      return res.status(401).json({ 
-        success: false, 
-        message: 'Incorrect password' 
-      });
-    }
+      // Check expiration
+      if (new Date() > new Date(expirationDate)) {
+          return res.status(403).json({ 
+              success: false, 
+              message: 'This password has expired. Please contact the administrator for a new password.' 
+          });
+      }
 
-    // Then check expiration
-    if (new Date() > new Date(expirationDate)) {
-      return res.status(403).json({ 
-        success: false, 
-        message: 'This password has expired' 
-      });
-    }
+      // Verify password
+      if (password !== correctPassword) {
+          return res.status(401).json({ 
+              success: false, 
+              message: 'Incorrect password. Please try again.' 
+          });
+      }
 
-    // Generate token if all checks pass
-    const token = jwt.sign(
-      { exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) }, 
-      process.env.JWT_SECRET
-    );
+      // Generate token
+      const token = jwt.sign(
+          { 
+              caseStudyId,
+              exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) // 24 hours
+          }, 
+          JWT_SECRET
+      );
 
-    res.json({ success: true, token });
+      res.json({ success: true, token });
 
   } catch (error) {
-    console.error('Verification error:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: 'Server error' 
-    });
+      console.error('Verification error:', error);
+      res.status(500).json({ 
+          success: false, 
+          message: 'An error occurred during verification.' 
+      });
   }
 });
 
 // Protected case study route
 app.get('/case-study/:id', authenticateToken, (req, res) => {
   try {
-    const filePath = path.join(__dirname, 'public', 'case-studies', `${req.params.id}.html`);
-    if (!fs.existsSync(filePath)) {
-      return res.status(404).send('Case study not found');
-    }
-    res.sendFile(filePath);
+      // Validate case study ID
+      if (req.params.id !== '1' || req.params.id !== req.user.caseStudyId) {
+          return res.redirect('/?error=invalid_case_study');
+      }
+
+      res.sendFile(path.join(__dirname, 'public', 'case-study.html'));
   } catch (error) {
-    console.error('Error serving case study:', error);
-    res.status(500).send('Server error');
+      console.error('Error serving case study:', error);
+      res.redirect('/?error=server_error');
   }
 });
 

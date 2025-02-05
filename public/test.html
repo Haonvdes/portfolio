@@ -140,6 +140,35 @@
             align-items: center;
             gap: 24px;
         }
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 14px;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            transform: translate(-50%, -100%);
+            left: 50%;
+            bottom: 130%;
+        }
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: rgba(0, 0, 0, 0.75) transparent transparent transparent;}
     </style>
 </head>
 <body>
@@ -168,8 +197,22 @@
         </div>
       
     </nav>
+   <div style="margin-top:80px">
+    <div class="tooltip-container" data-tooltip="Search for information">                        
+        <img src="https://images.credly.com/images/d07c53fa-70c9-48da-b3f6-ffdaa60d10fe/image.png" alt="" style="width: 40px;height: 40px;">
+    </div>
+    <div class="tooltip-container" data-tooltip="Settings">
+        <img src="https://images.credly.com/images/d07c53fa-70c9-48da-b3f6-ffdaa60d10fe/image.png" alt="" style="width: 40px;height: 40px;">
 
-    <script>
+    </div>
+    <div class="tooltip-container" data-tooltip="Help & Support">
+        <img src="https://images.credly.com/images/d07c53fa-70c9-48da-b3f6-ffdaa60d10fe/image.png" alt="" style="width: 40px;height: 40px;">
+
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+   </div>
+    <script>    
         document.getElementById('menu-toggle').addEventListener('click', function() {
             const menu = document.getElementById('menu-links');
             const button = document.getElementById('menu-toggle');
@@ -181,6 +224,35 @@
                 button.textContent = '☰';
             }
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const tooltip = document.getElementById("tooltip");
+            const tooltipContainers = document.querySelectorAll(".tooltip-container");
+
+            tooltipContainers.forEach(container => {
+                container.addEventListener("mouseenter", function () {
+                    const text = container.getAttribute("data-tooltip");
+                    tooltip.textContent = text;
+                    tooltip.style.visibility = "visible";
+                    tooltip.style.opacity = "1";
+                    tooltip.style.display = "flex"
+                    tooltip.style.alignItems = "center"
+                    tooltip.style.padding = "16px"
+
+
+                    // Positioning the tooltip dynamically
+                    const rect = container.getBoundingClientRect();
+                    tooltip.style.top = `${rect.top - tooltip.offsetHeight - 5}px`;
+                    tooltip.style.left = `${rect.left + rect.width / 2}px`;
+                });
+
+                container.addEventListener("mouseleave", function () {
+                    tooltip.style.visibility = "hidden";
+                    tooltip.style.opacity = "0";
+                });
+            });
+        });
+
     </script>
 </body>
 </html>

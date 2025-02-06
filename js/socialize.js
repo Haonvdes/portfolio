@@ -191,7 +191,7 @@ async function getLatestStravaActivities(clubId) {
 
 async function getPersonalStravaActivity() {
   try {
-    const response = await fetch('/api/strava/personal/weekly');
+    const response = await fetch('https://portfolio-7hpb.onrender.com/api/strava/personal/weekly');
     if (!response.ok) throw new Error('Failed to fetch personal data');
     const data = await response.json();
 

@@ -1162,7 +1162,7 @@ background-color: var(--grey-G50);
     align-items: center;
     justify-content: space-between;
     padding: 16px 0px 16px 0;
-    /* z-index: 1000; */
+    z-index: 999;
     background-color: var(--bg-surface-main);
   }
   

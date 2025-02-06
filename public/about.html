@@ -29,14 +29,14 @@
     <meta property="og:type" content="website">
 </head>
 <body>
-<header class="header">
+<header class="header" style="height: 100%; min-height: 100vh;">
     <nav class="container">
         <div class="nav animate__animated animate__fadeIn">
             <input type="checkbox" id="nav-check">
             <div class="nav-header">
               <div class="nav-title">
                 <div class="nav-infor">
-                  <a href="./index.html"><img src="./img/Ellipse 1.png" alt="logo"></a>
+                  <a href="/index.html"><img src="/img/Ellipse 1.png" alt="logo"></a>
                   <div class="div" style="display: flex; flex-direction: column; gap: var(--space-8); align-items: left;">
                   <p class="lg-bold" style="	text-transform: uppercase;">Stephano.ng</p>
                   <p class="md-medium">PMP® | PMI-ACP® | PSM</p>
@@ -60,23 +60,32 @@
             </div>
            </div>
     </nav>
-    <div class="container first-section">
-        <div class="animate__animated animate__fadeIn focused img" id="one" style="justify-content: flex-start;">
-            <img src="/public/img.personal.png" alt=" profile image">
-            <div class="" style="display: flex;flex-direction: column;">
+    <div class="container about-cover">
+        <div class="focused-about">
+            <img src="/public/img.personal.png" alt=" profile image" style="border-radius: 20px 20px 0px 0px;">
+            <div class="" style="display: flex;flex-direction: column; padding: 16px;">
                 <p class="lg-bold" style="padding-bottom: 4px;">
                     Stephano aka Hao Nguyen Vinh
                 </p>
                 <p class="md-medium" style="padding-bottom: 16px;">Based in HCM, Viet Nam</p>
                 <div style="display: flex; flex-direction: row; gap: 16px;">
-                    <img src="https://images.credly.com/images/d07c53fa-70c9-48da-b3f6-ffdaa60d10fe/image.png" alt="" style="width: 32px; height: 32px;">
-                <img src="https://images.credly.com/size/340x340/images/731e7ef4-9b0c-4d7b-ab65-23cc699c0aa3/blob" alt="" style="width: 32px; height: 32px;">
-                <img src="https://images.credly.com/size/340x340/images/884f1605-f439-4b0d-ba7c-76a921266d45/blob" alt="" style="width: 32px; height: 32px;">
-                <img src="https://images.credly.com/size/340x340/images/a2790314-008a-4c3d-9553-f5e84eb359ba/image.png" alt="" style="width: 32px; height: 32px;">
-
+                    <div class="tooltip-container" data-tooltip="Practical AI">                        
+                        <img src="https://images.credly.com/images/d07c53fa-70c9-48da-b3f6-ffdaa60d10fe/image.png" alt="" style="width: 32px; height: 32px;">
+                    </div>
+                    <div class="tooltip-container" data-tooltip="Professional Project Management">                        
+                        <img src="https://images.credly.com/size/340x340/images/731e7ef4-9b0c-4d7b-ab65-23cc699c0aa3/blob"  alt="" style="width: 32px; height: 32px;">
+                    </div>
+                    <div class="tooltip-container" data-tooltip="Agile Certified Practitioner">                        
+                        <img src="https://images.credly.com/size/340x340/images/884f1605-f439-4b0d-ba7c-76a921266d45/blob" alt="" style="width: 32px; height: 32px;">
+                    </div>
+                    <div class="tooltip-container" data-tooltip="Prompt Engineering">                        
+                        <img src="https://images.credly.com/images/d07c53fa-70c9-48da-b3f6-ffdaa60d10fe/image.png" alt="" style="width: 32px; height: 32px;">
+                    </div>
+                    <div class="tooltip-container" data-tooltip="Professional Scrum Master">                        
+                        <img src="https://images.credly.com/size/340x340/images/a2790314-008a-4c3d-9553-f5e84eb359ba/image.png" alt="" style="width: 32px; height: 32px;">
+                    </div>
+                <div class="tooltip" id="tooltip"></div>
                 </div>
-
-
             </div>
         </div>
         <div class="experience">
@@ -111,64 +120,35 @@
                 </p>
             </div>
     </div>
+   
+        </div>
 
-        </div>
-<div class="container first-section">
-    <div class="content-header">
-        <div class="container cover"> 
-            <p style="color: var(--text-neutral-display, #030712);
-            font-family: Sora;
-            font-size: 24px;
-            font-style: normal;
-            font-weight: 250;
-            padding: 0;">Xin Chào,</p><br>
-            <p class="lg-medium" style="padding-bottom: 24px; max-width: 800px; line-height: 28px;">
-                From creative world to strategic leader, my journey began in the creative world of product design, 
-                where I spent over three years crafting intuitive and visually appealing user experiences. 
-                During this time, I realized that my passion extended beyond design—I was drawn to the bigger picture 
-                aligning creativity with business strategies to deliver meaningful outcomes.
-            </p>
-            <p class="sub-heading"> Bridging Teams and Driving Success</p>
-            <p class="lg-medium" style="padding-bottom: 24px; max-width: 800px; line-height: 28px;">
-                This curiosity led me to pursue certifications in project management (PMP, PMI-ACP, PSM), 
-                allowing me to combine my design expertise with leadership skills. 
-                Now, I thrive on bridging the gap between teams and transforming ideas into impactful results. My ability to connect with people, understand their needs, and drive collaboration has been my greatest asset in leading projects to success.
-            </p>
-            <p class="sub-heading"> A Journey of Growth and Purpose</p>
-            <p class="lg-medium" style="padding-bottom: 24px; max-width: 800px; line-height: 28px;">
-                Currently, I’m expanding my horizons by studying Business Administration, 
-                preparing to pursue an MBA in Australia. Beyond my career, I’m passionate about learning, reading, 
-                and pushing my boundaries—whether it’s in the gym, at church, or exploring new ways to grow.
-            </p>
-            <p class="lg-medium" style="padding-bottom: 24px; max-width: 800px; line-height: 28px;">
-                Life for me is about continuous learning, meaningful connections, and leaving a positive impact on every project and person I work with.
-                Let’s create something remarkable together.
-            </p>
-        </div>
-    </div>
-</div> 
 </header>
 <div class="container" style="margin-top: 24px;">
     <p class="sub-heading" style="padding-bottom: 24px;"> Activities</p>
     <div class="gallery">
-                                <!-- Spotify Playback Info -->
+<div style="display: flex; flex-direction: column; gap: 16px;">
+                                    <!-- Spotify Playback Info -->
+                                    <div id="playback-info">Loading...</div>
+                                                                    <!-- Spotify Playback Info -->
                                 <div id="playback-info">Loading...</div>
+</div>
  <div class="team-activities carousel">
                                       <div class="swiper-container">
                                           <div class="swiper-wrapper">
                                               <!-- Add 15 slides -->
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_01.jpg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_02.jpeg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_03.jpeg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_04.jpeg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_05.jpg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_06.JPG" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_07.JPG" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_08.jpeg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_09.jpg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_10.jpeg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_11.jpg" alt="team image"></div>
-                                              <div class="swiper-slide" effect="fade"><img src="./public/team_img_12.jpg" alt="team image"></div>
+                                              <div class="swiper-slide" effect="fade"><img src="/public/team_img_01.jpg" alt="team image"></div>
+                                              <div class="swiper-slide" effect="fade"><img src="/public/team_img_02.jpeg" alt="team image"></div>
+                                              <div class="swiper-slide" effect="fade"><img src="/public/team_img_03.jpeg" alt="team image"></div>
+                                              <div class="swiper-slide" effect="fade"><img src="/public/team_img_04.jpeg" alt="team image"></div>
+                                              <div class="swiper-slide" effect="fade"><img src="/public/team_img_05.jpg" alt="team image"></div>
+                                              <div class="swiper-slide" effect="fade"><img src="/public/team_img_06.JPG" alt="team image"></div>
+                                              <div class="swiper-slide" effect="fade"><img src="/public/team_img_07.JPG" alt="team image"></div>
+                                              <div class="swiper-slide" effect="fade"><img src="/public/team_img_08.jpeg" alt="team image"></div>
+                                              <div class="swiper-slide" effect="fade"><img src="/public/team_img_09.jpg" alt="team image"></div>
+                                              <div class="swiper-slide" effect="fade"><img src="/public/team_img_10.jpeg" alt="team image"></div>
+                                              <div class="swiper-slide" effect="fade"><img src="/public/team_img_11.jpg" alt="team image"></div>
+                                              <div class="swiper-slide" effect="fade"><img src="/public/team_img_12.jpg" alt="team image"></div>
           
                                           </div>
                                           <!-- Navigation buttons -->
@@ -176,9 +156,19 @@
                                           <div class="swiper-button-next"></div>
                                       </div>
                                   </div>
+    </div>
 
-                              <script src="./js/script.js"></script>
-                              <script src="./js/socialize.js"></script>
+</div>
+
+
+
+
+
+
+
+
+                              <script src="/js/script.js"></script>
+                              <script src="/js/socialize.js"></script>
                               <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
                               <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
                               <script>
@@ -195,6 +185,34 @@
                                     prevEl: '.swiper-button-prev',
                                 },
                               });
+
+                              document.addEventListener("DOMContentLoaded", function () {
+            const tooltip = document.getElementById("tooltip");
+            const tooltipContainers = document.querySelectorAll(".tooltip-container");
+
+            tooltipContainers.forEach(container => {
+                container.addEventListener("mouseenter", function () {
+                    const text = container.getAttribute("data-tooltip");
+                    tooltip.textContent = text;
+                    tooltip.style.visibility = "visible";
+                    tooltip.style.opacity = "1";
+                    tooltip.style.display = "flex"
+                    tooltip.style.alignItems = "center"
+                    tooltip.style.padding = "16px"
+
+
+                    // Positioning the tooltip dynamically
+                    const rect = container.getBoundingClientRect();
+                    tooltip.style.top = `${rect.top - tooltip.offsetHeight - 5}px`;
+                    tooltip.style.left = `${rect.left + rect.width / 2}px`;
+                });
+
+                container.addEventListener("mouseleave", function () {
+                    tooltip.style.visibility = "hidden";
+                    tooltip.style.opacity = "0";
+                });
+            });
+        });
                                   </script>
 
 </body>

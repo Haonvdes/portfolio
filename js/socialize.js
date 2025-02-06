@@ -210,39 +210,39 @@ async function getPersonalStravaActivity() {
     imageElement.style.marginBottom = '40px';
 
     // Add the content for the summary
-//     summaryElement.innerHTML = `
-//       <p class="sub-heading activity-heading">ATHLETE'S ACTIVITY</p>
-//       <p class="md-regular">Week of ${data.currentWeek}</p>
-//       <div class="activity-stats">
-//         <div class="stat-item">
-//           <p class="md-regular">Total Distance</p>
-//           <p class="md-medium">${data.totalDistance}</p>
-//         </div>
-//         <div class="stat-item">
-//           <p class="md-regular">Total Activities</p>
-//           <p class="md-medium">${data.totalTime}</p>
-//         </div>
-//         <div class="stat-item">
-//           <p class="md-regular">Average Speed</p>
-//           <p class="md-medium">${data.averageSpeed}</p>
-//         </div>
-//       </div>
-//     `;
-// // Add the content for the summary-personal.
-summaryElement.innerHTML = 
-  `<p class="sub-heading activity-heading">Stephano's Activities</p>
-  <p class="md-regular">Week: ${formattedWeek}</p>
-  <div class="strava-club">
-    ${['Total Distance', 'Total Activities', 'Average Speed']
-      .map(
-        (label, index) => 
-        `<div class="club-data">
-          <p class="md-regular">${label}</p>
-          <p class="md-medium">${[data.totalDistance, `${parseFloat(data.totalTime).toFixed(2)}h`, data.averageSpeed][index]}</p>
-        </div>`
-      )
-      .join('')}
-  </div>`;
+    summaryElement.innerHTML = `
+      <p class="sub-heading activity-heading">Stephano's Activities</p>
+      <p class="md-regular">Week of ${data.currentWeek}</p>
+      <div class="strava-club">
+          <div class="club-data">
+              <p class="md-regular">Total Distance</p>
+              <p class="md-medium">${data.totalDistance}</p>
+           </div>
+            <div class="club-data">
+              <p class="md-regular">Total Activities</p>
+              <p class="md-medium">${data.totalTime}</p>
+             </div>
+           <div class="club-data">
+              <p class="md-regular">Average Speed</p>
+              <p class="md-medium">${data.averageSpeed}</p>
+          </div>
+        </div>
+    `;
+// // // Add the content for the summary-personal.
+// summaryElement.innerHTML = 
+//   `<p class="sub-heading activity-heading">Stephano's Activities</p>
+//   <p class="md-regular">Week: ${formattedWeek}</p>
+//   <div class="strava-club">
+//     ${['Total Distance', 'Total Activities', 'Average Speed']
+//       .map(
+//         (label, index) => 
+//         `<div class="club-data">
+//           <p class="md-regular">${label}</p>
+//           <p class="md-medium">${[data.totalDistance, `${parseFloat(data.totalTime).toFixed(2)}h`, data.averageSpeed][index]}</p>
+//         </div>`
+//       )
+//       .join('')}
+//   </div>`;
 
     // Prepend the image element to the summary
     summaryElement.prepend(imageElement);

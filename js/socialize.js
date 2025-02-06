@@ -9,7 +9,7 @@ async function getPlaybackState() {
 
     // Spotify Header Image
     const imageElement = document.createElement('img');
-    imageElement.src = 'public/spotify-logo.png'
+    imageElement.src = '../public/spotify-logo.png'
     imageElement.alt = 'Spotify Header Image';
     imageElement.style.width = '40px';
     imageElement.style.marginBottom = '32px';
@@ -189,20 +189,91 @@ async function getLatestStravaActivities(clubId) {
   }
 }
 
+async function getPersonalStravaActivity() {
+  try {
+    const response = await fetch('/api/strava/personal/weekly');
+    if (!response.ok) throw new Error('Failed to fetch personal data');
+    const data = await response.json();
 
+    const personalSection = document.getElementById('personal-section');
+    personalSection.innerHTML = ''; // Clear previous content
 
-// // Initial fetch
-// getPlaybackState();
-// getLatestStravaActivities('1153970');
+    // Summary Section
+    const summaryElement = document.createElement('div');
+    summaryElement.classList.add('personal-summary');
 
-// // Spotify polling (every 1.5 minutes)
-// setInterval(getPlaybackState, 90000);
+    // Create the image element
+    const imageElement = document.createElement('img');
+    imageElement.src = '../public/strava-logo.png';
+    imageElement.alt = 'Strava Logo';
+    imageElement.style.width = '100px';
+    imageElement.style.marginBottom = '40px';
 
-// // Strava polling (every 2 hours)
-// setInterval(() => getLatestStravaActivities('1153970'), 7200000);
+    // Add the content for the summary
+    summaryElement.innerHTML = `
+      <h1 class="activity-heading">ATHLETE'S ACTIVITY</h1>
+      <p class="md-regular">Week of ${data.currentWeek}</p>
+      <div class="activity-stats">
+        <div class="stat-item">
+          <p class="md-regular">Total Distance</p>
+          <p class="md-medium">${data.totalDistance}</p>
+        </div>
+        <div class="stat-item">
+          <p class="md-regular">Total Activities</p>
+          <p class="md-medium">${data.totalTime}</p>
+        </div>
+        <div class="stat-item">
+          <p class="md-regular">Average Speed</p>
+          <p class="md-medium">${data.averageSpeed}</p>
+        </div>
+      </div>
+    `;
+
+    // Prepend the image element to the summary
+    summaryElement.prepend(imageElement);
+
+    // Append the summary section
+    personalSection.appendChild(summaryElement);
+  } catch (error) {
+    console.error('Error fetching personal data:', error.message);
+    document.getElementById('personal-section').innerHTML = '<p>Failed to load personal activities.</p>';
+  }
+}
+
 
 
  
+
+// // Initialize based on current page
+// function initializePage() {
+//   // Get the current page name from the URL
+//   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+//   // Initialize features based on the current page
+//   switch (currentPage) {
+//     case 'index.html':
+//       // Initialize Strava functionality only for index.html
+//       getLatestStravaActivities('1153970');
+//       setInterval(() => getLatestStravaActivities('1153970'), 7200000);
+//       break;
+      
+//     case 'about.html':
+//       // Initialize Spotify functionality only for about.html
+//       getPlaybackState();
+//       setInterval(getPlaybackState, 90000);
+//       break;
+//   }
+// }
+
+// // Run initialization when the page loads
+// initializePage();
+
+
+
+
+
+
+
 
 // Initialize based on current page
 function initializePage() {
@@ -212,18 +283,86 @@ function initializePage() {
   // Initialize features based on the current page
   switch (currentPage) {
     case 'index.html':
-      // Initialize Strava functionality only for index.html
+      // Initialize Club Strava functionality
       getLatestStravaActivities('1153970');
-      setInterval(() => getLatestStravaActivities('1153970'), 7200000);
+      setInterval(() => getLatestStravaActivities('1153970'), 7200000); // Refresh every 2 hours
       break;
       
     case 'about.html':
-      // Initialize Spotify functionality only for about.html
+      // Initialize Personal Strava functionality
+      getPersonalStravaActivity();
+      setInterval(getPersonalStravaActivity, 7200000); // Refresh every 2 hours
+
+      // Initialize Spotify functionality
       getPlaybackState();
-      setInterval(getPlaybackState, 90000);
+      setInterval(getPlaybackState, 90000); // Refresh every 1.5 minutes
       break;
   }
 }
 
+// Function to handle errors gracefully
+function handleError(error, section) {
+  console.error(`Error in ${section}:`, error.message);
+  const element = document.getElementById(section);
+  if (element) {
+    element.innerHTML = `<p class="error-message">Failed to load ${section} data.</p>`;
+  }
+}
+
+// Wrap Strava club activities with error handling
+async function safeGetLatestStravaActivities(clubId) {
+  try {
+    await getLatestStravaActivities(clubId);
+  } catch (error) {
+    handleError(error, 'club-section');
+  }
+}
+
+// Wrap personal Strava activities with error handling
+async function safeGetPersonalStravaActivity() {
+  try {
+    await getPersonalStravaActivity();
+  } catch (error) {
+    handleError(error, 'personal-section');
+  }
+}
+
+// Wrap Spotify playback with error handling
+async function safeGetPlaybackState() {
+  try {
+    await getPlaybackState();
+  } catch (error) {
+    handleError(error, 'playback-info');
+  }
+}
+
+// Updated initialization with error handling
+function initializePageSafely() {
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+  switch (currentPage) {
+    case 'index.html':
+      // Initialize only club Strava functionality with error handling
+      safeGetLatestStravaActivities('1153970');
+      setInterval(() => safeGetLatestStravaActivities('1153970'), 7200000);
+      break;
+      
+    case 'about.html':
+      // Initialize Personal Strava functionality with error handling
+      safeGetPersonalStravaActivity();
+      setInterval(() => safeGetPersonalStravaActivity(), 7200000);
+      
+      // Initialize Spotify functionality with error handling
+      safeGetPlaybackState();
+      setInterval(safeGetPlaybackState, 90000);
+      break;
+  }
+}
+
+// Add error event listener for unhandled promise rejections
+window.addEventListener('unhandledrejection', event => {
+  console.error('Unhandled promise rejection:', event.reason);
+});
+
 // Run initialization when the page loads
-initializePage();
+document.addEventListener('DOMContentLoaded', initializePageSafely);

@@ -294,6 +294,49 @@ app.get('/api/strava/club/:clubId/latest', async (req, res) => {
   }
 });
 
+// Personal activity endpoint
+app.get('/api/strava/personal/weekly', async (req, res) => {
+  try {
+    const accessToken = await getStravaAccessToken();
+    
+    // Calculate week range
+    const currentWeekStart = moment().startOf('week');
+    const currentWeekEnd = moment().endOf('week');
+    const formattedWeek = `${currentWeekStart.format('DD')}-${currentWeekEnd.format('DD')}/${currentWeekEnd.format('MM')}/${currentWeekEnd.format('YYYY')}`;
+
+    // Fetch athlete's activities for current week
+    const response = await axios.get('https://www.strava.com/api/v3/athlete/activities', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      params: {
+        after: currentWeekStart.unix(),
+        before: currentWeekEnd.unix(),
+        per_page: 100
+      }
+    });
+
+    const activities = response.data;
+    
+    // Calculate totals
+    const totalDistance = activities.reduce((sum, act) => sum + act.distance, 0) / 1000;
+    const totalTime = activities.reduce((sum, act) => sum + act.moving_time, 0) / 3600;
+    const totalActivities = activities.length;
+    const averageSpeed = activities.length > 0 
+      ? activities.reduce((sum, act) => sum + act.average_speed, 0) / activities.length * 3.6
+      : 0;
+
+    res.json({
+      currentWeek: formattedWeek,
+      totalDistance: `${totalDistance.toFixed(2)} km`,
+      totalTime: `${totalTime.toFixed(2)}h`,
+      totalActivities: totalActivities,
+      averageSpeed: `${averageSpeed.toFixed(2)} km/h`
+    });
+  } catch (error) {
+    console.error('Error fetching personal Strava data:', error.message);
+    res.status(500).json({ error: 'Failed to fetch personal activity data' });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

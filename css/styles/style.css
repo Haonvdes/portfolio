@@ -26,6 +26,7 @@ p{
     margin: 0;
     color:var(--text-neutral-body);
 }
+
 .swiper-button-next, .swiper-button-prev 
 { background-color: #00000087; 
   padding: 24px; 
@@ -819,10 +820,6 @@ li > a{
   gap: 24px;
 }
 
-/* Large card in first row */
-.large-card {
-  grid-column: span 2;
-}
 
 
 
@@ -903,6 +900,10 @@ border: 1px solid var(--border-primary-default);
   border-radius: var(--r-16);
   border: 1px solid var(--border-neutral-default);
 }
+/* Large card in first row */
+.large-card {
+  grid-column: span 2;
+}
 
 
 .card-header {
@@ -943,12 +944,21 @@ border: 1px solid var(--border-primary-default);
   border-radius: 8px 0 0 0;
 }
 
+.card:hover {
+  cursor: pointer;
+}
+
 .card:hover .card-image {
   transform: scale(1.1);
   border-radius: 8px 0 0 0;
 }
 
-
+.card:hover .btn-ghosh {
+  padding: 8px 8px 8px 16px;
+  background-color: var(--button-bg-primary-default);
+  color: aliceblue;
+  cursor: pointer;
+}
 
 
 
@@ -1305,7 +1315,7 @@ border: 1px solid var(--border-primary-default);
   }
 
   .modal-content {
-    background-color: var(--bg-surface-main);
+    background-color: var(--bg-surface-modal);
     margin: 0;
     border: 1px solid var(--border-neutral-default);
     width: 100%;

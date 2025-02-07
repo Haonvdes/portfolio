@@ -35,7 +35,6 @@
         border-left: 1px solid var(--border-primary-default, #01679C);
         color: var(--button-text-secondary);
         font-size: 14px;
-        co
 
     }
     .btn-secondary:hover{
@@ -45,4 +44,33 @@
     text-decoration: none;
     color: var(--button-text-secondary);
 }
+
+
+.btn-ghosh{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 8px 8px 0;
+    border: none;
+    color: var(--primary-default);
+    gap: 8px;
+    background-color: var(--bg-surface-transparent);
+    border-radius: 999px;
+    transition-property: all;
+    transition-duration: .5s;
+    width: 130px;
+}
+
+.btn-ghosh:hover {
+    padding: 8px 8px 8px 16px;
+    background-color: var(--button-bg-primary-default);
+    color: aliceblue;
+    cursor: pointer;
+    
+}
+
+.btn-ghosh svg {
+    fill: currentColor;
+}
+
 

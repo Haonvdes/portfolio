@@ -376,7 +376,7 @@ function initializePageSafely() {
       
       // Initialize Spotify functionality with error handling
       safeGetPlaybackState();
-      setInterval(safeGetPlaybackState, 15000);
+      setInterval(safeGetPlaybackState, 1500000);
       break;
   }
 }

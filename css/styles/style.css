@@ -1045,7 +1045,7 @@ border: 1px solid var(--border-primary-default);
     .focused-info{
       display: flex;
       flex-direction: column;
-      padding: 16px 0 0 0;
+      padding: var(--p-16);
     }
 
 
@@ -1143,6 +1143,9 @@ border: 1px solid var(--border-primary-default);
 
 /* Tablet: max-width 768px */
 @media (max-width: 768px) {
+  #one {
+    display: none;
+  }
   .things {
     flex-wrap: wrap;
   }
@@ -1220,8 +1223,10 @@ border: 1px solid var(--border-primary-default);
   .large-card {
     grid-column: span 1;
   }
+  .ab-activity {
+    flex-direction: row;
 }
-
+}
 /* Small desktops: max-width 992px */
 @media (max-width: 992px) {
   .general,
@@ -1332,7 +1337,7 @@ border: 1px solid var(--border-primary-default);
 
   .experience {
     flex-grow: 1;
-    padding: var(--p-0);
+    padding: var(--p-16);
     border: none;
     align-content: center;
     background-color: var(--bg-surface-transparent);

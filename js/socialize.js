@@ -76,7 +76,7 @@ async function getPlaybackState() {
           <p class="md-regular">Last song played:</p>
           <p class="md-bold">
             <a href="${data.trackUrl}" target="_blank" style="text-decoration: none; color: #374151;">
-              ${data.track} by ${data.artist}
+              ${data.track}
             </a>
           </p>
         </div>

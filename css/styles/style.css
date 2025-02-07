@@ -81,7 +81,7 @@ p{
   max-height: 480px;
 }
 
-.focused-about{
+.focused-ab{
   border-radius: var(--r-24);
   border-top: 4px solid var(--border-primary-default);
   border-right: 4px solid var(--border-primary-default);
@@ -285,10 +285,10 @@ li > a{
 
 .gallery{
   gap: 40px;
-  
   display: flex;
   flex-direction: row;
-  margin-bottom: var(--m-16);
+  margin-bottom: var(--m-40);
+
 }
 
 .gallery > img {
@@ -890,27 +890,13 @@ input:focus{
 border: 1px solid var(--border-primary-default);
 }
 
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .grid-container {
-      grid-template-columns: 1fr;
-  }
-  
-  .large-card {
-      grid-column: span 1;
-  }
+.ab-activity{
+  display: flex; 
+  flex-direction: column; 
+  gap: var(--m-24);
 }
 
-@media (min-width: 769px) and (max-width: 1023px) {
-  .grid-container {
-      grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .large-card {
-      grid-column: span 1;
-  }
-}
+
 
 /* Card styles */
 .card {
@@ -970,204 +956,18 @@ border: 1px solid var(--border-primary-default);
 
 
 
-@media (max-width:430px){
-  #club-section{
-    min-width: fit-content;
-  }
-.domain-item{
-  width: 100%;
-}
 
 
-  #gettoknow{
-    display: none;
-  }
-  .emphasize > button {
-    display: none;
-}
-.socialize{
-  flex-direction: column;
-}
-.modal {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 10000;}
-
-.modal-content {
-  background-color: var(--bg-surface-main);
-  margin: 0;
-  border: 1px solid var(--border-neutral-default);
-  width: 100%;
-  max-width: 500px;
-  border-radius: 8px 8px 0px 0px;
-  position: fixed;
-  bottom: 0;}
-
-.modal-body {
-  padding: var(--p-16);
-  display: flex;
-  flex-direction: column;
-  gap: var(--m-16);
-  border-radius: 8px 8px 0 0;
-}
-.about-cover {
-  width: 100%;
-  display: flex; 
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-  min-height: 100vh;
-  gap: var(--m-80);
-  padding-top: var(--p-80);
-
-  .experience{
-    flex-grow: 1;
-    padding: var(--p-0);
-    border: none;
-    align-content: center;
-    background-color: var(--bg-surface-transparent);
-}}
-
-.focused-about{
-width: 100%;
-padding: 16px;
-border: 2px solid var(--border-primary-default);
-background-color: var(--grey-G50);
 
 
-  img{
-    width: 100%;  
-    height: 50vh;
-    object-fit: cover;
-  }
-}
-
-.gallery {
-  gap: 40px;
-  display: flex
-;
-  flex-direction: column;
-  margin-bottom: var(--m-16);
-}
-}
-
-@media (max-width:600px) 
-{
-  #one{
-    display: none;
-  }
-
-  .emphasize{
-    flex-direction: column;
-    min-width: 100%;
-  }
-  .focused{
-    width: 100%;
-  }
-  .stuff{
-    padding: 16px 16px 0 16px;
-  }
-  .hastag-items {
-    width: fit-content;
-    min-width: 124px;}
-
-  .hastag button.active{
-      width: fit-content;
-      min-width: 124px;}
+    .ab-activity{
+      display: flex; 
+      flex-direction: row; 
+      gap: var(--m-24);
     }
 
-@media (max-width:768px) {
-
-      .things{
-        flex-wrap: wrap;
-      }
-      .introduce{
-        flex-direction: column;
-        gap: var(--p-24);
-      }
-      .emphasize{
-        padding-bottom: var(--p-0);
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-      }
-      .emphasize > button{
-        position: relative;
-        height: fit-content;
-        top: 0;
-        left: 0;
-      }
-      .second-section{
-        border-radius: 40px 40px 0 0;
-      }
-      .stuff{
-        padding: var(--p-0);
-      }
-      .certificate {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-    .badge{
-      width: 100%;
-    }
-    
-    .domain-item{
-      width: 100%;
-    }
-    
-    .stage{
-      overflow: scroll;
-    
-      }
-    
-        .socialize{
-          flex-direction: column;
-        }
-    }
-
-@media (max-width: 992px) {
 
 
-  #one{
-    display:none;
-  }
-    .general {
-      flex-direction: column;
-      margin: var(--m-16);
-    }
-    .my-learning-path{
-      flex-direction: column;
-      margin: var(--m-16);
-    }
-  
-  .focused {
-    padding: var(--p-16);
-  }
-  .experience {
-    padding: var(--p-16);
-  }
-  
-  .awward {
-    padding: var(--p-16);
-    min-width: 0;
-  }
-  
-  .content-body{
-    gap: 0px;
-  }
-  }
-
-@media (min-width: 1280px) and (max-width: 2560px) {
-  #club-section{
-    max-width: 400px;
-  }
-  }
 
 
   .nav {
@@ -1246,112 +1046,327 @@ background-color: var(--grey-G50);
     border-width: 6px;
     border-style: solid;
     border-color: rgba(0, 0, 0, 0.75) transparent transparent transparent;}
-  
-  @media (max-width:600px) {
-    #one {
-      display: none;
-    }
-    
-    .nav > .nav-btn {
-      display: flex;
-      position: relative;
-    }
-    
-    .nav > .nav-btn > label {
-      display: inline-block;
-      width: 50px;
-      height: 50px;
-      padding: 13px;
-      cursor: pointer;
-    }
-    
-    .nav > .nav-btn > label:hover,
-    .nav #nav-check:checked ~ .nav-btn > label {
-      background-color: var(--button-bg-primary-hover);
-    }
-    
-    /* Modified hamburger spans for X animation */
-    .nav > .nav-btn > label > span {
-      display: block;
-      width: 25px;
-      height: 2px; /* Changed from border to actual height */
-      background-color: black; /* Changed from border-top to background */
-      position: relative;
-      transition: all 0.3s ease-in-out;
-      margin: 5px 0;
-    }
-    
-    /* X animation when checked */
-    .nav > #nav-check:checked ~ .nav-btn > label > span:nth-child(1) {
-      transform: rotate(45deg);
-      top: 7px;
-    }
-    
-    .nav > #nav-check:checked ~ .nav-btn > label > span:nth-child(2) {
-      opacity: 0;
-    }
-    
-    .nav > #nav-check:checked ~ .nav-btn > label > span:nth-child(3) {
-      transform: rotate(-45deg);
-      top: -7px;
-    }
-    
-    .nav > .nav-links {
-      position: absolute;
-      display: block;
-      width: 100%;
-      background-color: var(--bg-surface-main);
-      height: 0px;
-      transition: all 0.3s ease-in;
-      overflow-y: hidden;
-      top: 70px;
-      left: 0px;
-      padding-top: var(--p-24);
-    }
-    
-    .nav > .nav-links > a {
-      display: block;
-      width: 100%;
-      text-align: center;
-    }
-    
-    .nav > #nav-check:not(:checked) ~ .nav-links {
-      height: 0px;
-      padding: 0;
-    }
-    
-    .nav > #nav-check:checked ~ .nav-links {
-      height: calc(100vh - 70px);
-      overflow-y: auto;
-      /* z-index: 1000; */
-      background-color: var(--bg-surface-main);
-      display: flex;
+
+    .focused-info{
+      display: flex
+      ;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      padding: 16px;
     }
-    
-    .emphasize {
-      flex-direction: column;
-      min-width: 100%;
-    }
-    
-    .focused {
-      width: 100%;
-    }
-    
-    .stuff {
-      padding: 16px 16px 0 16px;
-    }
-    
-    .hastag-items {
-      width: fit-content;
-      min-width: 124px;
-    }
-    
-    .hastag button.active {
-      width: fit-content;
-      min-width: 124px;
-    }
+
+
+
+/* Mobile & Tablet: max-width 600px */
+@media (max-width: 600px) {
+  #one {
+    display: none;
   }
 
+  .nav > .nav-btn {
+    display: flex;
+    position: relative;
+  }
+
+  .nav > .nav-btn > label {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    padding: 13px;
+    cursor: pointer;
+  }
+
+  .nav > .nav-btn > label:hover,
+  .nav #nav-check:checked ~ .nav-btn > label {
+    background-color: var(--button-bg-primary-hover);
+  }
+
+  .nav > .nav-btn > label > span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background-color: black;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    margin: 5px 0;
+  }
+
+  .nav > #nav-check:checked ~ .nav-btn > label > span:nth-child(1) {
+    transform: rotate(45deg);
+    top: 7px;
+  }
+
+  .nav > #nav-check:checked ~ .nav-btn > label > span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav > #nav-check:checked ~ .nav-btn > label > span:nth-child(3) {
+    transform: rotate(-45deg);
+    top: -7px;
+  }
+
+  .nav > .nav-links {
+    position: absolute;
+    display: block;
+    width: 100%;
+    background-color: var(--bg-surface-main);
+    height: 0;
+    transition: all 0.3s ease-in;
+    overflow-y: hidden;
+    top: 70px;
+    left: 0;
+    padding-top: var(--p-24);
+  }
+
+  .nav > #nav-check:checked ~ .nav-links {
+    height: calc(100vh - 70px);
+    overflow-y: auto;
+    background-color: var(--bg-surface-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .emphasize {
+    flex-direction: column;
+    min-width: 100%;
+  }
+
+  .focused {
+    width: 100%;
+  }
+
+  .stuff {
+    padding: 16px 16px 0 16px;
+  }
+
+  .hastag-items,
+  .hastag button.active {
+    width: fit-content;
+    min-width: 124px;
+  }
+}
+
+/* Tablet: max-width 768px */
+@media (max-width: 768px) {
+  .things {
+    flex-wrap: wrap;
+  }
+
+  .introduce {
+    flex-direction: column;
+    gap: var(--p-24);
+  }
+
+  .emphasize {
+    padding-bottom: var(--p-0);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .emphasize > button {
+    position: relative;
+    height: fit-content;
+    top: 0;
+    left: 0;
+  }
+
+  .second-section {
+    border-radius: 40px 40px 0 0;
+  }
+
+  .stuff {
+    padding: var(--p-0);
+  }
+
+  .certificate {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .badge,
+  .domain-item {
+    width: 100%;
+  }
+
+  .stage {
+    overflow: scroll;
+  }
+
+  .socialize {
+    flex-direction: column;
+  }
+
+  .gallery {
+    gap: var(--m-24);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--m-40);
+  }
+
+  #playback-info #personal-section {
+    width: 356px;
+  }
+
+  .focused-ab > img {
+    width: 300px;
+    height: 350px;
+    object-fit: cover;
+  }
+
+  .about-cover {
+    gap: 32px;
+  }
+
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+
+  .large-card {
+    grid-column: span 1;
+  }
+}
+
+/* Small desktops: max-width 992px */
+@media (max-width: 992px) {
+  .general,
+  .my-learning-path {
+    flex-direction: column;
+    margin: var(--m-16);
+  }
+
+  .focused,
+  .experience,
+  .awward {
+    padding: var(--p-16);
+  }
+
+  .awward {
+    min-width: 0;
+  }
+
+  .content-body {
+    gap: 0px;
+  }
+}
+
+/* Large desktops: 769px - 1023px */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .large-card {
+    grid-column: span 1;
+  }
+}
+
+/* Extra large screens: 1280px - 2560px */
+@media (min-width: 1280px) and (max-width: 2560px) {
+  #club-section {
+    max-width: 400px;
+  }
+}
+
+/* Mobile: max-width 430px */
+@media (max-width: 430px) {
+  #one {
+    display: none;
+  }
+  #club-section {
+    min-width: fit-content;
+  }
+
+  .domain-item {
+    width: 100%;
+  }
+
+  #gettoknow {
+    display: none;
+  }
+
+  .emphasize > button {
+    display: none;
+  }
+
+  .socialize {
+    flex-direction: column;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+  }
+
+  .modal-content {
+    background-color: var(--bg-surface-main);
+    margin: 0;
+    border: 1px solid var(--border-neutral-default);
+    width: 100%;
+    max-width: 500px;
+    border-radius: 8px 8px 0px 0px;
+    position: fixed;
+    bottom: 0;
+  }
+
+  .modal-body {
+    padding: var(--p-16);
+    display: flex;
+    flex-direction: column;
+    gap: var(--m-16);
+    border-radius: 8px 8px 0 0;
+  }
+
+  .about-cover {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    min-height: 100vh;
+    gap: var(--m-80);
+    padding-top: var(--p-80);
+  }
+
+  .experience {
+    flex-grow: 1;
+    padding: var(--p-0);
+    border: none;
+    align-content: center;
+    background-color: var(--bg-surface-transparent);
+  }
+
+  .focused-ab {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid var(--border-primary-default);
+    background-color: var(--grey-G50);
+  }
+
+  .focused-ab > img {
+    width: 100%;
+    height: 448px;
+    object-fit: cover;
+  }
+
+  .focused-info{
+    display: flex;
+    flex-direction: column;
+    padding-top: 16px;
+  }
+
+  .gallery {
+    gap: 40px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--m-16);
+  }
+}

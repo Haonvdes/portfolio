@@ -890,11 +890,6 @@ input:focus{
 border: 1px solid var(--border-primary-default);
 }
 
-.ab-activity{
-  display: flex; 
-  flex-direction: column; 
-  gap: var(--m-24);
-}
 
 
 
@@ -1369,4 +1364,10 @@ border: 1px solid var(--border-primary-default);
     flex-direction: column;
     margin-bottom: var(--m-16);
   }
+  .ab-activity{
+    display: flex; 
+    flex-direction: column; 
+    gap: var(--m-24);
+  }
+  
 }

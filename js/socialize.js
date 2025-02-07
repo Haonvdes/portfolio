@@ -1,13 +1,36 @@
+// Frontend: Modified getPlaybackState function
 async function getPlaybackState() {
   try {
     const response = await fetch('https://portfolio-7hpb.onrender.com/api/spotify/playback');
     if (!response.ok) throw new Error('Failed to fetch playback state');
     const data = await response.json();
 
+    // If there's track data, store it in localStorage
+    if (data.track && data.artist && data.albumCover && data.trackUrl) {
+      localStorage.setItem('lastPlayedSong', JSON.stringify({
+        track: data.track,
+        artist: data.artist,
+        albumCover: data.albumCover,
+        trackUrl: data.trackUrl
+      }));
+    }
+
+    // If no track data but status is away, try to get from localStorage
+    if (!data.track && !data.playing) {
+      const savedSong = localStorage.getItem('lastPlayedSong');
+      if (savedSong) {
+        const lastSong = JSON.parse(savedSong);
+        data.track = lastSong.track;
+        data.artist = lastSong.artist;
+        data.albumCover = lastSong.albumCover;
+        data.trackUrl = lastSong.trackUrl;
+      }
+    }
+
     const playbackInfo = document.getElementById('playback-info');
     playbackInfo.innerHTML = ''; // Clear previous content
 
-    // Spotify Header Image
+    // Rest of your existing code remains the same
     const imageElement = document.createElement('img');
     imageElement.src = '../public/spotify-logo.png';
     imageElement.alt = 'Spotify Header Image';
@@ -15,7 +38,6 @@ async function getPlaybackState() {
     imageElement.style.marginBottom = '32px';
     playbackInfo.appendChild(imageElement);
 
-    // Status Message
     const statusMessageElement = document.createElement('p');
     statusMessageElement.classList.add('sub-heading');
     statusMessageElement.style.paddingBottom = '16px';
@@ -27,7 +49,6 @@ async function getPlaybackState() {
     }
     playbackInfo.appendChild(statusMessageElement);
 
-    // Track Information
     const trackInfoElement = document.createElement('div');
     trackInfoElement.classList.add('track-info');
 
@@ -38,7 +59,7 @@ async function getPlaybackState() {
     albumCoverElement.height = 50;
 
     if (data.playing) {
-      albumCoverElement.classList.add('rotate'); // Add rotation animation if playing
+      albumCoverElement.classList.add('rotate');
       trackInfoElement.appendChild(albumCoverElement);
       trackInfoElement.innerHTML += `
         <div class="song">
@@ -355,7 +376,7 @@ function initializePageSafely() {
       
       // Initialize Spotify functionality with error handling
       safeGetPlaybackState();
-      setInterval(safeGetPlaybackState, 90000);
+      setInterval(safeGetPlaybackState, 15000);
       break;
   }
 }

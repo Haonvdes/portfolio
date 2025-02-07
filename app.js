@@ -208,29 +208,13 @@ app.get('/api/spotify/playback', async (req, res) => {
       },
     });
 
-    const currentTime = new Date();
-    const currentHour = currentTime.getHours();
-    const currentMinute = currentTime.getMinutes();
-
-    const isWorkTime = (
-      (currentHour >= 8 && currentHour < 11) || 
-      (currentHour === 11 && currentMinute <= 30) || 
-      (currentHour >= 13 && currentHour < 17)
-    );
-    
-    const isGymTime = (currentHour >= 17 && currentHour < 19);
-
     let statusMessage = "Stephano is away";
 
     if (response.data && response.data.is_playing) {
-      lastPlayedSong = response.data.item;
-      statusMessage = "Stephano is listening";
+      lastPlayedSong = response.data.item; // Store last played song
+      statusMessage = "Stephano is playing";
     } else if (!response.data.is_playing && lastPlayedSong) {
-      statusMessage = `Last song played: ${lastPlayedSong.name} by ${lastPlayedSong.artists.map(artist => artist.name).join(', ')}`;
-    }
-
-    if (isGymTime) {
-      statusMessage = "Stephano is lifting weights at the gym";
+      statusMessage = "Stephano is away"; // Shows last played song but no extra message
     }
 
     res.json({
@@ -239,12 +223,14 @@ app.get('/api/spotify/playback', async (req, res) => {
       track: response.data.item ? response.data.item.name : lastPlayedSong ? lastPlayedSong.name : null,
       artist: response.data.item ? response.data.item.artists.map(artist => artist.name).join(', ') : lastPlayedSong ? lastPlayedSong.artists.map(artist => artist.name).join(', ') : null,
       albumCover: response.data.item ? response.data.item.album.images[0].url : lastPlayedSong ? lastPlayedSong.album.images[0].url : null,
+      trackUrl: response.data.item ? response.data.item.external_urls.spotify : lastPlayedSong ? lastPlayedSong.external_urls.spotify : null, // Added track URL
     });
   } catch (error) {
     console.error('Error fetching playback data:', error.response ? error.response.data : error.message);
     res.status(500).json({ error: 'Failed to fetch playback data' });
   }
 });
+
 
 // Strava club activity endpoint
 app.get('/api/strava/club/:clubId/latest', async (req, res) => {

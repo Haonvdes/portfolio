@@ -9,27 +9,18 @@ async function getPlaybackState() {
 
     // Spotify Header Image
     const imageElement = document.createElement('img');
-    imageElement.src = '../public/spotify-logo.png'
+    imageElement.src = '../public/spotify-logo.png';
     imageElement.alt = 'Spotify Header Image';
     imageElement.style.width = '40px';
     imageElement.style.marginBottom = '32px';
     playbackInfo.appendChild(imageElement);
 
-
-    // Get current time and gym schedule
-    const currentTime = new Date();
-    const gymStartTime = new Date();
-    gymStartTime.setHours(17, 0, 0); // 5:00 PM
-    const gymEndTime = new Date();
-    gymEndTime.setHours(19, 0, 0); // 7:00 PM
-
     // Status Message
     const statusMessageElement = document.createElement('p');
     statusMessageElement.classList.add('sub-heading');
+    statusMessageElement.style.paddingBottom = '16px';
 
-    if (currentTime >= gymStartTime && currentTime <= gymEndTime) {
-      statusMessageElement.innerText = 'Stephano is lifting weights at the gym';
-    } else if (data.playing) {
+    if (data.playing) {
       statusMessageElement.innerText = 'Stephano is playing';
     } else {
       statusMessageElement.innerText = 'Stephano is away';
@@ -47,11 +38,7 @@ async function getPlaybackState() {
     albumCoverElement.height = 50;
 
     if (data.playing) {
-      // Add rotate class if playing
-      albumCoverElement.classList.add('rotate');
-    }
-
-    if (data.playing && data.track && data.artist) {
+      albumCoverElement.classList.add('rotate'); // Add rotation animation if playing
       trackInfoElement.appendChild(albumCoverElement);
       trackInfoElement.innerHTML += `
         <div class="song">
@@ -73,8 +60,6 @@ async function getPlaybackState() {
           </p>
         </div>
       `;
-    } else {
-      trackInfoElement.innerHTML = '<p class="md-regular">He seems to focus on his stuff.</p>';
     }
 
     playbackInfo.appendChild(trackInfoElement);
@@ -84,6 +69,7 @@ async function getPlaybackState() {
       '<p class="md-regular">Oops! Something went wrong, trying to load again shortly.</p>';
   }
 }
+
 
 
 async function getLatestStravaActivities(clubId) {
@@ -216,15 +202,15 @@ async function getPersonalStravaActivity() {
       <div class="strava-club">
           <div class="club-data">
               <p class="md-regular">Total Distance</p>
-              <p class="md-medium">${data.totalDistance}</p>
+              <p class="md-bold">${data.totalDistance}</p>
            </div>
             <div class="club-data">
               <p class="md-regular">Total Activities</p>
-              <p class="md-medium">${data.totalTime}</p>
+              <p class="md-bold">${data.totalTime}</p>
              </div>
            <div class="club-data">
               <p class="md-regular">Average Speed</p>
-              <p class="md-medium">${data.averageSpeed}</p>
+              <p class="md-bold">${data.averageSpeed}</p>
           </div>
         </div>
     `;

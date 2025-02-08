@@ -253,8 +253,6 @@ app.get('/api/strava/personal/weekly', async (req, res) => {
 app.use(express.json());
 app.use(cors());
 
-// JWT secret should be in environment variables
-const JWT_SECRET = process.env.JWT_SECRET;
 
 // Verify user credentials
 const verifyUserCredentials = (password) => {
@@ -358,4 +356,5 @@ if (!validateEnvironmentVariables()) {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+        console.log(`Server running on port ${PORT}`);
+    });

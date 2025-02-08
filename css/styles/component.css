@@ -59,6 +59,7 @@
     transition-property: all;
     transition-duration: .5s;
     width: 130px;
+    font-size: 14px;
 }
 
 .btn-ghosh:hover {

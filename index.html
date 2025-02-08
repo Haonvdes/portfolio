@@ -583,27 +583,27 @@ const swiper = new Swiper('.swiper-container', {
 });
 
 
-// Add this to your case study HTML files to protect them
-(() => {
-  const token = localStorage.getItem('caseStudyToken');
-  if (!token) {
-      window.location.href = '/index.html';
-      return;
-  }
+// // Add this to your case study HTML files to protect them
+// (() => {
+//   const token = localStorage.getItem('caseStudyToken');
+//   if (!token) {
+//       window.location.href = '/index.html';
+//       return;
+//   }
 
-  try {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const payload = JSON.parse(window.atob(base64));
+//   try {
+//       const base64Url = token.split('.')[1];
+//       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+//       const payload = JSON.parse(window.atob(base64));
       
-      if (payload.exp * 1000 <= Date.now()) {
-          localStorage.removeItem('caseStudyToken');
-          window.location.href = '/index.html';
-      }
-  } catch (error) {
-      window.location.href = '/index.html';
-  }
-})();
+//       if (payload.exp * 1000 <= Date.now()) {
+//           localStorage.removeItem('caseStudyToken');
+//           window.location.href = '/index.html';
+//       }
+//   } catch (error) {
+//       window.location.href = '/index.html';
+//   }
+// })();
 
 </script>
 

@@ -350,8 +350,8 @@ app.get('/case-study/:id', authenticateToken, (req, res) => {
 
 // Startup validation for required environment variables
 const requiredEnvVars = [
-  'CASE_STUDY_1_PASSWORD',
-  'CASE_STUDY_1_EXPIRY',
+  'USER_1_PASSWORD',
+  'USER_1_EXPIRY',
   'JWT_SECRET'
 ];
 

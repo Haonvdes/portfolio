@@ -1,95 +1,131 @@
-// Frontend: Modified getPlaybackState function
+// Frontend: Enhanced getPlaybackState function
 async function getPlaybackState() {
   try {
     const response = await fetch('https://portfolio-7hpb.onrender.com/api/spotify/playback');
-    if (!response.ok) throw new Error('Failed to fetch playback state');
+    if (!response.ok) throw new Error(`Failed to fetch playback state: ${response.status}`);
     const data = await response.json();
 
-    // If there's track data, store it in localStorage
-    if (data.track && data.artist && data.albumCover && data.trackUrl) {
-      localStorage.setItem('lastPlayedSong', JSON.stringify({
-        track: data.track,
-        artist: data.artist,
-        albumCover: data.albumCover,
-        trackUrl: data.trackUrl
-      }));
-    }
+    // Handle track data persistence
+    const handleTrackData = (data) => {
+      if (data.track && data.artist && data.albumCover && data.trackUrl) {
+        localStorage.setItem('lastPlayedSong', JSON.stringify({
+          track: data.track,
+          artist: data.artist,
+          albumCover: data.albumCover,
+          trackUrl: data.trackUrl,
+          timestamp: new Date().toISOString()
+        }));
+      }
+    };
 
-    // If no track data but status is away, try to get from localStorage
-    if (!data.track && !data.playing) {
+    // Always try to use current data first, fall back to stored data if no current track
+    if (!data.track) {
       const savedSong = localStorage.getItem('lastPlayedSong');
       if (savedSong) {
         const lastSong = JSON.parse(savedSong);
-        data.track = lastSong.track;
-        data.artist = lastSong.artist;
-        data.albumCover = lastSong.albumCover;
-        data.trackUrl = lastSong.trackUrl;
+        // Only use cached data if it's less than 24 hours old
+        const isCacheValid = new Date() - new Date(lastSong.timestamp) < 24 * 60 * 60 * 1000;
+        if (isCacheValid) {
+          data.track = lastSong.track;
+          data.artist = lastSong.artist;
+          data.albumCover = lastSong.albumCover;
+          data.trackUrl = lastSong.trackUrl;
+        }
       }
-    }
-
-    const playbackInfo = document.getElementById('playback-info');
-    playbackInfo.innerHTML = ''; // Clear previous content
-
-    // Rest of your existing code remains the same
-    const imageElement = document.createElement('img');
-    imageElement.src = '../public/spotify-logo.png';
-    imageElement.alt = 'Spotify Header Image';
-    imageElement.style.width = '40px';
-    imageElement.style.marginBottom = '32px';
-    playbackInfo.appendChild(imageElement);
-
-    const statusMessageElement = document.createElement('p');
-    statusMessageElement.classList.add('sub-heading');
-    statusMessageElement.style.paddingBottom = '16px';
-
-    if (data.playing) {
-      statusMessageElement.innerText = 'Stephano is playing';
     } else {
-      statusMessageElement.innerText = 'Stephano is away';
-    }
-    playbackInfo.appendChild(statusMessageElement);
-
-    const trackInfoElement = document.createElement('div');
-    trackInfoElement.classList.add('track-info');
-
-    const albumCoverElement = document.createElement('img');
-    albumCoverElement.src = data.albumCover || '';
-    albumCoverElement.alt = 'Album Cover';
-    albumCoverElement.width = 50;
-    albumCoverElement.height = 50;
-
-    if (data.playing) {
-      albumCoverElement.classList.add('rotate');
-      trackInfoElement.appendChild(albumCoverElement);
-      trackInfoElement.innerHTML += `
-        <div class="song">
-          <p class="md-regular">${data.artist}</p>
-          <p class="md-bold">
-            <a href="${data.trackUrl}" target="_blank" style="text-decoration: none; color: #374151; line-height:16px;">
-              ${data.track}</a></p>
-        </div>
-      `;
-    } else if (data.track && data.artist) {
-      trackInfoElement.appendChild(albumCoverElement);
-      trackInfoElement.innerHTML += `
-        <div class="song">
-          <p class="md-regular">Last song played:</p>
-          <p class="md-bold">
-            <a href="${data.trackUrl}" target="_blank" style="text-decoration: none; color: #374151;">
-              ${data.track}
-            </a>
-          </p>
-        </div>
-      `;
+      handleTrackData(data);
     }
 
-    playbackInfo.appendChild(trackInfoElement);
+    // Create and update UI elements
+    const updatePlaybackUI = (data) => {
+      const playbackInfo = document.getElementById('playback-info');
+      if (!playbackInfo) return;
+      
+      playbackInfo.innerHTML = ''; // Clear previous content
+
+      // Create logo element
+      const logoImg = createImageElement({
+        src: '../public/spotify-logo.png',
+        alt: 'Spotify Header Image',
+        width: '40px',
+        styles: { marginBottom: '32px' }
+      });
+      playbackInfo.appendChild(logoImg);
+
+      // Create status message
+      const statusMessage = createStatusElement(data.playing);
+      playbackInfo.appendChild(statusMessage);
+
+      // Always create track info if we have track data
+      // (whether it's current or last played)
+      if (data.track) {
+        const trackInfo = createTrackInfoElement(data);
+        playbackInfo.appendChild(trackInfo);
+      }
+    };
+
+    updatePlaybackUI(data);
+
   } catch (error) {
     console.error('Error fetching playback state:', error);
-    document.getElementById('playback-info').innerHTML =
-      '<p class="md-regular">Oops! Something went wrong, trying to load again shortly.</p>';
+    const playbackInfo = document.getElementById('playback-info');
+    if (playbackInfo) {
+      playbackInfo.innerHTML = `
+        <p class="md-regular">
+          Unable to load playback information. Retrying in 30 seconds...
+        </p>`;
+    }
+    // Retry after 30 seconds
+    setTimeout(getPlaybackState, 30000);
   }
 }
+
+function createTrackInfoElement(data) {
+  const trackInfo = document.createElement('div');
+  trackInfo.classList.add('track-info');
+
+  const albumCover = createImageElement({
+    src: data.albumCover || '',
+    alt: 'Album Cover',
+    width: '50px'
+  });
+  
+  if (data.playing) {
+    albumCover.classList.add('rotate');
+  }
+  
+  trackInfo.appendChild(albumCover);
+
+  const songDiv = document.createElement('div');
+  songDiv.classList.add('song');
+  
+  const artistText = document.createElement('p');
+  artistText.classList.add('md-regular');
+  artistText.innerText = data.playing ? data.artist : 'Last song played:';
+  
+  const trackLink = document.createElement('a');
+  trackLink.href = data.trackUrl;
+  trackLink.target = '_blank';
+  trackLink.style.textDecoration = 'none';
+  trackLink.style.color = '#374151';
+  
+  const trackText = document.createElement('p');
+  trackText.classList.add('md-bold');
+  if (!data.playing) {
+    trackText.innerHTML = `${data.track} <span style="color: #6B7280; font-size: 0.9em">by ${data.artist}</span>`;
+  } else {
+    trackText.innerText = data.track;
+  }
+  
+  trackLink.appendChild(trackText);
+  
+  songDiv.appendChild(artistText);
+  songDiv.appendChild(trackLink);
+  trackInfo.appendChild(songDiv);
+
+  return trackInfo;
+}
+
 
 
 

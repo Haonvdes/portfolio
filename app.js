@@ -85,6 +85,170 @@ async function getStravaAccessToken() {
   }
 }
 
+
+// Spotify playback endpoint
+app.get('/api/spotify/playback', async (req, res) => {
+  try {
+    const accessToken = await getSpotifyAccessToken();
+    const response = await axios.get('https://api.spotify.com/v1/me/player', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    // Handle no active player (204 response)
+    if (response.status === 204) {
+      // If we have a last played song, return it with playing: false
+      if (lastPlayedSong) {
+        return res.json({
+          status: "Stephano is away",
+          playing: false,
+          track: lastPlayedSong.name,
+          artist: lastPlayedSong.artists.map(artist => artist.name).join(', '),
+          albumCover: lastPlayedSong.album.images[0].url,
+          trackUrl: lastPlayedSong.external_urls.spotify
+        });
+      }
+      // If no last played song, try to fetch recently played tracks
+      const recentlyPlayed = await axios.get('https://api.spotify.com/v1/me/player/recently-played?limit=1', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      
+      if (recentlyPlayed.data?.items?.length > 0) {
+        const lastTrack = recentlyPlayed.data.items[0].track;
+        lastPlayedSong = lastTrack; // Store for future use
+        return res.json({
+          status: "Stephano is away",
+          playing: false,
+          track: lastTrack.name,
+          artist: lastTrack.artists.map(artist => artist.name).join(', '),
+          albumCover: lastTrack.album.images[0].url,
+          trackUrl: lastTrack.external_urls.spotify
+        });
+      }
+    }
+
+    const currentTrack = response.data?.item;
+    const isPlaying = response.data?.is_playing;
+
+    if (currentTrack) {
+      lastPlayedSong = currentTrack; // Update last played song when we have current track
+    }
+
+    res.json({
+      status: isPlaying ? "Stephano is playing" : "Stephano is away",
+      playing: isPlaying,
+      track: currentTrack?.name || lastPlayedSong?.name,
+      artist: currentTrack ? 
+        currentTrack.artists.map(artist => artist.name).join(', ') :
+        lastPlayedSong?.artists.map(artist => artist.name).join(', '),
+      albumCover: currentTrack?.album.images[0].url || lastPlayedSong?.album.images[0].url,
+      trackUrl: currentTrack?.external_urls.spotify || lastPlayedSong?.external_urls.spotify
+    });
+
+  } catch (error) {
+    console.error('Error fetching playback data:', error.response?.data || error.message);
+    res.status(500).json({ 
+      error: 'Failed to fetch playback data',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+});
+
+// Strava club activity endpoint
+app.get('/api/strava/club/:clubId/latest', async (req, res) => {
+  const { clubId } = req.params;
+
+  try {
+    const accessToken = await getStravaAccessToken();
+    const response = await axios.get(`https://www.strava.com/api/v3/clubs/${clubId}/activities`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+
+    const activities = response.data;
+    const totalDistance = activities.reduce((sum, act) => sum + act.distance, 0) / 1000;
+    const totalTime = activities.reduce((sum, act) => sum + act.moving_time, 0) / 3600;
+    const totalActivities = activities.length;
+
+    const currentWeekStart = moment().startOf('week');
+    const currentWeekEnd = moment().endOf('week');
+    const formattedWeek = `${currentWeekStart.format('DD')}-${currentWeekEnd.format('DD')}/${currentWeekEnd.format('MM')}/${currentWeekEnd.format('YYYY')}`;
+
+    const latestActivities = activities
+      .sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
+      .slice(0, 15)
+      .map(activity => ({
+        athleteName: `${activity.athlete.firstname} ${activity.athlete.lastname}`,
+        distance: `${(activity.distance / 1000).toFixed(2)}km`,
+        movingTime: `${(activity.moving_time / 3600).toFixed(2)}h`,
+        activityType: activity.type,
+        startDate: activity.start_date,
+        averageSpeed: `${((activity.average_speed * 3.6).toFixed(2))} km/h`,
+        elevationGain: `${activity.total_elevation_gain}m`
+      }));
+
+    res.json({
+      clubName: activities[0]?.club_name || 'Unknown Club',
+      currentWeek: formattedWeek,
+      totalDistance: `${totalDistance.toFixed(2)} km`,
+      totalTime: `${totalTime.toFixed(2)} hours`,
+      totalActivities: totalActivities,
+      latestActivities,
+      clubFeedUrlMobile: `https://www.strava.com/clubs/${clubId}/feed`,
+      clubFeedUrlDesktop: `https://www.strava.com/clubs/${clubId}/recent_activity`,
+    });
+  } catch (error) {
+    console.error('Error fetching Strava club activities:', error.message);
+    res.status(500).json({ error: 'Failed to fetch club activity data' });
+  }
+});
+
+// Personal activity endpoint
+app.get('/api/strava/personal/weekly', async (req, res) => {
+  try {
+    const accessToken = await getStravaAccessToken();
+    
+    // Calculate week range
+    const currentWeekStart = moment().startOf('week');
+    const currentWeekEnd = moment().endOf('week');
+    const formattedWeek = `${currentWeekStart.format('DD')}-${currentWeekEnd.format('DD')}/${currentWeekEnd.format('MM')}/${currentWeekEnd.format('YYYY')}`;
+
+    // Fetch athlete's activities for current week
+    const response = await axios.get('https://www.strava.com/api/v3/athlete/activities', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+      params: {
+        after: currentWeekStart.unix(),
+        before: currentWeekEnd.unix(),
+        per_page: 100
+      }
+    });
+
+    const activities = response.data;
+    
+    // Calculate totals
+    const totalDistance = activities.reduce((sum, act) => sum + act.distance, 0) / 1000;
+    const totalTime = activities.reduce((sum, act) => sum + act.moving_time, 0) / 3600;
+    const totalActivities = activities.length;
+    const averageSpeed = activities.length > 0 
+      ? activities.reduce((sum, act) => sum + act.average_speed, 0) / activities.length * 3.6
+      : 0;
+
+    res.json({
+      currentWeek: formattedWeek,
+      totalDistance: `${totalDistance.toFixed(2)} km`,
+      totalTime: `${totalTime.toFixed(2)}h`,
+      totalActivities: totalActivities,
+      averageSpeed: `${averageSpeed.toFixed(2)} km/h`
+    });
+  } catch (error) {
+    console.error('Error fetching personal Strava data:', error.message);
+    res.status(500).json({ error: 'Failed to fetch personal activity data' });
+  }
+});
+
+
 // Welcome route
 app.get('/', (req, res) => {
   res.send('Welcome to the server!');
@@ -198,130 +362,8 @@ if (missingEnvVars.length > 0) {
   process.exit(1);
 }
 
-// Spotify playback endpoint
-app.get('/api/spotify/playback', async (req, res) => {
-  try {
-    const accessToken = await getSpotifyAccessToken();
-    const response = await axios.get('https://api.spotify.com/v1/me/player', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    let statusMessage = "Stephano is away";
-
-    if (response.data && response.data.is_playing) {
-      lastPlayedSong = response.data.item; // Store last played song
-      statusMessage = "Stephano is playing";
-    } else if (!response.data.is_playing && lastPlayedSong) {
-      statusMessage = "Stephano is away"; // Shows last played song but no extra message
-    }
-
-    res.json({
-      status: statusMessage,
-      playing: response.data.is_playing,
-      track: response.data.item ? response.data.item.name : lastPlayedSong ? lastPlayedSong.name : null,
-      artist: response.data.item ? response.data.item.artists.map(artist => artist.name).join(', ') : lastPlayedSong ? lastPlayedSong.artists.map(artist => artist.name).join(', ') : null,
-      albumCover: response.data.item ? response.data.item.album.images[0].url : lastPlayedSong ? lastPlayedSong.album.images[0].url : null,
-      trackUrl: response.data.item ? response.data.item.external_urls.spotify : lastPlayedSong ? lastPlayedSong.external_urls.spotify : null, // Added track URL
-    });
-  } catch (error) {
-    console.error('Error fetching playback data:', error.response ? error.response.data : error.message);
-    res.status(500).json({ error: 'Failed to fetch playback data' });
-  }
-});
 
 
-// Strava club activity endpoint
-app.get('/api/strava/club/:clubId/latest', async (req, res) => {
-  const { clubId } = req.params;
-
-  try {
-    const accessToken = await getStravaAccessToken();
-    const response = await axios.get(`https://www.strava.com/api/v3/clubs/${clubId}/activities`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-
-    const activities = response.data;
-    const totalDistance = activities.reduce((sum, act) => sum + act.distance, 0) / 1000;
-    const totalTime = activities.reduce((sum, act) => sum + act.moving_time, 0) / 3600;
-    const totalActivities = activities.length;
-
-    const currentWeekStart = moment().startOf('week');
-    const currentWeekEnd = moment().endOf('week');
-    const formattedWeek = `${currentWeekStart.format('DD')}-${currentWeekEnd.format('DD')}/${currentWeekEnd.format('MM')}/${currentWeekEnd.format('YYYY')}`;
-
-    const latestActivities = activities
-      .sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
-      .slice(0, 15)
-      .map(activity => ({
-        athleteName: `${activity.athlete.firstname} ${activity.athlete.lastname}`,
-        distance: `${(activity.distance / 1000).toFixed(2)}km`,
-        movingTime: `${(activity.moving_time / 3600).toFixed(2)}h`,
-        activityType: activity.type,
-        startDate: activity.start_date,
-        averageSpeed: `${((activity.average_speed * 3.6).toFixed(2))} km/h`,
-        elevationGain: `${activity.total_elevation_gain}m`
-      }));
-
-    res.json({
-      clubName: activities[0]?.club_name || 'Unknown Club',
-      currentWeek: formattedWeek,
-      totalDistance: `${totalDistance.toFixed(2)} km`,
-      totalTime: `${totalTime.toFixed(2)} hours`,
-      totalActivities: totalActivities,
-      latestActivities,
-      clubFeedUrlMobile: `https://www.strava.com/clubs/${clubId}/feed`,
-      clubFeedUrlDesktop: `https://www.strava.com/clubs/${clubId}/recent_activity`,
-    });
-  } catch (error) {
-    console.error('Error fetching Strava club activities:', error.message);
-    res.status(500).json({ error: 'Failed to fetch club activity data' });
-  }
-});
-
-// Personal activity endpoint
-app.get('/api/strava/personal/weekly', async (req, res) => {
-  try {
-    const accessToken = await getStravaAccessToken();
-    
-    // Calculate week range
-    const currentWeekStart = moment().startOf('week');
-    const currentWeekEnd = moment().endOf('week');
-    const formattedWeek = `${currentWeekStart.format('DD')}-${currentWeekEnd.format('DD')}/${currentWeekEnd.format('MM')}/${currentWeekEnd.format('YYYY')}`;
-
-    // Fetch athlete's activities for current week
-    const response = await axios.get('https://www.strava.com/api/v3/athlete/activities', {
-      headers: { Authorization: `Bearer ${accessToken}` },
-      params: {
-        after: currentWeekStart.unix(),
-        before: currentWeekEnd.unix(),
-        per_page: 100
-      }
-    });
-
-    const activities = response.data;
-    
-    // Calculate totals
-    const totalDistance = activities.reduce((sum, act) => sum + act.distance, 0) / 1000;
-    const totalTime = activities.reduce((sum, act) => sum + act.moving_time, 0) / 3600;
-    const totalActivities = activities.length;
-    const averageSpeed = activities.length > 0 
-      ? activities.reduce((sum, act) => sum + act.average_speed, 0) / activities.length * 3.6
-      : 0;
-
-    res.json({
-      currentWeek: formattedWeek,
-      totalDistance: `${totalDistance.toFixed(2)} km`,
-      totalTime: `${totalTime.toFixed(2)}h`,
-      totalActivities: totalActivities,
-      averageSpeed: `${averageSpeed.toFixed(2)} km/h`
-    });
-  } catch (error) {
-    console.error('Error fetching personal Strava data:', error.message);
-    res.status(500).json({ error: 'Failed to fetch personal activity data' });
-  }
-});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

@@ -70,20 +70,129 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //case study //
 
+// document.addEventListener('DOMContentLoaded', () => {
+//   const modal = document.getElementById('passwordModal');
+//   const closeBtn = document.getElementsByClassName('modal-icon')[0];
+//   const submitBtn = document.getElementById('submitPassword');
+//   const passwordInput = document.getElementById('passwordInput');
+//   const modalError = document.getElementById('modalError');
+//   let currentCaseStudyId = null;
+
+//   // Open modal when case study button is clicked
+//   document.getElementById('case-study').addEventListener('click', () => {
+//       currentCaseStudyId = '1'; // or whatever ID you want to use
+//       modal.style.display = 'block';
+//       passwordInput.value = '';
+//       modalError.style.display = 'none';
+//   });
+
+//   // Close modal when X is clicked
+//   closeBtn.onclick = () => {
+//       modal.style.display = 'none';
+//   };
+
+//   // Close modal when clicking outside
+//   window.onclick = (event) => {
+//       if (event.target === modal) {
+//           modal.style.display = 'none';
+//       }
+//   };
+
+//   // Handle password submission
+// // Update your frontend fetch call to handle the new error responses
+// submitBtn.onclick = async () => {
+//   const password = passwordInput.value;
+//   modalError.style.display = 'none';
+//   submitBtn.disabled = true;
+  
+//   try {
+//       const response = await fetch('https://portfolio-7hpb.onrender.com/api/verify', {
+//           method: 'POST',
+//           headers: { 'Content-Type': 'application/json' },
+//           body: JSON.stringify({
+//               caseStudyId: currentCaseStudyId,
+//               password
+//           })
+//       });
+
+//       const data = await response.json();
+      
+//       if (data.success) {
+//           const token = data.token;
+//           localStorage.setItem(`caseStudy_${currentCaseStudyId}_token`, token);
+//           modal.style.display = 'none';
+          
+//           // Update URL to include token
+//           const caseStudyUrl = `https://portfolio-7hpb.onrender.com/case-study/${currentCaseStudyId}?token=${token}`;
+//           window.open(caseStudyUrl, '_blank');
+//       } else {
+//           modalError.textContent = data.message;
+//           modalError.style.display = 'block';
+//       }
+//   } catch (error) {
+//       modalError.textContent = 'An error occurred. Please try again later.';
+//       modalError.style.display = 'block';
+//   } finally {
+//       submitBtn.disabled = false;
+//   }
+// };
+
+//   // Handle Enter key in password input
+//   passwordInput.addEventListener('keypress', (e) => {
+//       if (e.key === 'Enter') {
+//           submitBtn.click();
+//       }
+//   });
+// });
+
 document.addEventListener('DOMContentLoaded', () => {
   const modal = document.getElementById('passwordModal');
   const closeBtn = document.getElementsByClassName('modal-icon')[0];
   const submitBtn = document.getElementById('submitPassword');
   const passwordInput = document.getElementById('passwordInput');
   const modalError = document.getElementById('modalError');
-  let currentCaseStudyId = null;
 
-  // Open modal when case study button is clicked
-  document.getElementById('case-study').addEventListener('click', () => {
-      currentCaseStudyId = '1'; // or whatever ID you want to use
-      modal.style.display = 'block';
-      passwordInput.value = '';
-      modalError.style.display = 'none';
+  // Function to check if user has valid token
+  const hasValidToken = () => {
+      const token = localStorage.getItem('caseStudyToken');
+      if (!token) return false;
+
+      try {
+          // Decode token to check expiration
+          const base64Url = token.split('.')[1];
+          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+          const payload = JSON.parse(window.atob(base64));
+          
+          return payload.exp * 1000 > Date.now();
+      } catch (error) {
+          return false;
+      }
+  };
+
+  // Function to load case study content
+  const loadCaseStudy = (caseStudyId) => {
+      // Load the local HTML file
+      window.location.href = `case-studies/case-study-${caseStudyId}.html`;
+  };
+
+  // Handle case study button clicks
+  document.querySelectorAll('[data-case-study]').forEach(button => {
+      button.addEventListener('click', (e) => {
+          const caseStudyId = e.target.dataset.caseStudy;
+          
+          if (hasValidToken()) {
+              // If user has valid token, load case study directly
+              loadCaseStudy(caseStudyId);
+          } else {
+              // Show password modal
+              modal.style.display = 'block';
+              passwordInput.value = '';
+              modalError.style.display = 'none';
+              
+              // Store case study ID for after password verification
+              modal.dataset.pendingCaseStudy = caseStudyId;
+          }
+      });
   });
 
   // Close modal when X is clicked
@@ -99,43 +208,39 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Handle password submission
-// Update your frontend fetch call to handle the new error responses
-submitBtn.onclick = async () => {
-  const password = passwordInput.value;
-  modalError.style.display = 'none';
-  submitBtn.disabled = true;
-  
-  try {
-      const response = await fetch('https://portfolio-7hpb.onrender.com/api/verify', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-              caseStudyId: currentCaseStudyId,
-              password
-          })
-      });
+  submitBtn.onclick = async () => {
+      const password = passwordInput.value;
+      modalError.style.display = 'none';
+      submitBtn.disabled = true;
 
-      const data = await response.json();
-      
-      if (data.success) {
-          const token = data.token;
-          localStorage.setItem(`caseStudy_${currentCaseStudyId}_token`, token);
-          modal.style.display = 'none';
-          
-          // Update URL to include token
-          const caseStudyUrl = `https://portfolio-7hpb.onrender.com/case-study/${currentCaseStudyId}?token=${token}`;
-          window.open(caseStudyUrl, '_blank');
-      } else {
-          modalError.textContent = data.message;
+      try {
+          const response = await fetch('https://your-render-domain.onrender.com/api/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ password })
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+              // Store token
+              localStorage.setItem('caseStudyToken', data.token);
+              modal.style.display = 'none';
+
+              // Load the pending case study
+              const caseStudyId = modal.dataset.pendingCaseStudy;
+              loadCaseStudy(caseStudyId);
+          } else {
+              modalError.textContent = data.message;
+              modalError.style.display = 'block';
+          }
+      } catch (error) {
+          modalError.textContent = 'An error occurred. Please try again later.';
           modalError.style.display = 'block';
+      } finally {
+          submitBtn.disabled = false;
       }
-  } catch (error) {
-      modalError.textContent = 'An error occurred. Please try again later.';
-      modalError.style.display = 'block';
-  } finally {
-      submitBtn.disabled = false;
-  }
-};
+  };
 
   // Handle Enter key in password input
   passwordInput.addEventListener('keypress', (e) => {
@@ -144,6 +249,31 @@ submitBtn.onclick = async () => {
       }
   });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // app.js (your existing server file)
 const express = require('express');

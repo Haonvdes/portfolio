@@ -85,6 +85,118 @@ async function getStravaAccessToken() {
   }
 }
 
+// Welcome route
+app.get('/', (req, res) => {
+  res.send('Welcome to the server!');
+});
+// Middleware to validate JWT token
+const authenticateToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1] || 
+               req.query.token || 
+               req.cookies?.token;
+  
+  if (!token) {
+      return res.redirect('/?error=unauthorized');
+  }
+
+  try {
+      const decoded = jwt.verify(token, JWT_SECRET);
+      req.user = decoded;
+      next();
+  } catch (error) {
+      return res.redirect('/?error=invalid_token');
+  }
+};
+
+// Password verification endpoint with improved validation
+app.post('/api/verify', async (req, res) => {
+  try {
+      const { caseStudyId, password } = req.body;
+
+      // Input validation
+      if (!caseStudyId || !password || caseStudyId !== '1') {
+          return res.status(400).json({ 
+              success: false, 
+              message: 'Invalid request parameters' 
+          });
+      }
+
+      const correctPassword = process.env[`CASE_STUDY_${caseStudyId}_PASSWORD`];
+      const expirationDate = process.env[`CASE_STUDY_${caseStudyId}_EXPIRY`];
+
+      // Validate environment variables exist
+      if (!correctPassword || !expirationDate) {
+          console.error(`Missing environment variables for case study ${caseStudyId}`);
+          return res.status(500).json({ 
+              success: false, 
+              message: 'Configuration error. Please contact administrator.' 
+          });
+      }
+
+      // Check expiration
+      if (new Date() > new Date(expirationDate)) {
+          return res.status(403).json({ 
+              success: false, 
+              message: 'This password has expired. Please contact the administrator for a new password.' 
+          });
+      }
+
+      // Verify password
+      if (password !== correctPassword) {
+          return res.status(401).json({ 
+              success: false, 
+              message: 'Incorrect password. Please try again.' 
+          });
+      }
+
+      // Generate token
+      const token = jwt.sign(
+          { 
+              caseStudyId,
+              exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) // 24 hours
+          }, 
+          JWT_SECRET
+      );
+
+      res.json({ success: true, token });
+
+  } catch (error) {
+      console.error('Verification error:', error);
+      res.status(500).json({ 
+          success: false, 
+          message: 'An error occurred during verification.' 
+      });
+  }
+});
+
+// Protected case study route
+app.get('/case-study/:id', authenticateToken, (req, res) => {
+  try {
+      // Validate case study ID
+      if (req.params.id !== '1' || req.params.id !== req.user.caseStudyId) {
+          return res.redirect('/?error=invalid_case_study');
+      }
+
+      res.sendFile(path.join(__dirname, 'public', 'case-study.html'));
+  } catch (error) {
+      console.error('Error serving case study:', error);
+      res.redirect('/?error=server_error');
+  }
+});
+
+// Startup validation for required environment variables
+const requiredEnvVars = [
+  'CASE_STUDY_1_PASSWORD',
+  'CASE_STUDY_1_EXPIRY',
+  'JWT_SECRET'
+];
+
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+if (missingEnvVars.length > 0) {
+  console.error('Missing required environment variables:', missingEnvVars);
+  process.exit(1);
+}
 
 // Spotify playback endpoint
 app.get('/api/spotify/playback', async (req, res) => {
@@ -96,66 +208,29 @@ app.get('/api/spotify/playback', async (req, res) => {
       },
     });
 
-    // Handle no active player (204 response)
-    if (response.status === 204) {
-      // If we have a last played song, return it with playing: false
-      if (lastPlayedSong) {
-        return res.json({
-          status: "Stephano is away",
-          playing: false,
-          track: lastPlayedSong.name,
-          artist: lastPlayedSong.artists.map(artist => artist.name).join(', '),
-          albumCover: lastPlayedSong.album.images[0].url,
-          trackUrl: lastPlayedSong.external_urls.spotify
-        });
-      }
-      // If no last played song, try to fetch recently played tracks
-      const recentlyPlayed = await axios.get('https://api.spotify.com/v1/me/player/recently-played?limit=1', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      
-      if (recentlyPlayed.data?.items?.length > 0) {
-        const lastTrack = recentlyPlayed.data.items[0].track;
-        lastPlayedSong = lastTrack; // Store for future use
-        return res.json({
-          status: "Stephano is away",
-          playing: false,
-          track: lastTrack.name,
-          artist: lastTrack.artists.map(artist => artist.name).join(', '),
-          albumCover: lastTrack.album.images[0].url,
-          trackUrl: lastTrack.external_urls.spotify
-        });
-      }
-    }
+    let statusMessage = "Stephano is away";
 
-    const currentTrack = response.data?.item;
-    const isPlaying = response.data?.is_playing;
-
-    if (currentTrack) {
-      lastPlayedSong = currentTrack; // Update last played song when we have current track
+    if (response.data && response.data.is_playing) {
+      lastPlayedSong = response.data.item; // Store last played song
+      statusMessage = "Stephano is playing";
+    } else if (!response.data.is_playing && lastPlayedSong) {
+      statusMessage = "Stephano is away"; // Shows last played song but no extra message
     }
 
     res.json({
-      status: isPlaying ? "Stephano is playing" : "Stephano is away",
-      playing: isPlaying,
-      track: currentTrack?.name || lastPlayedSong?.name,
-      artist: currentTrack ? 
-        currentTrack.artists.map(artist => artist.name).join(', ') :
-        lastPlayedSong?.artists.map(artist => artist.name).join(', '),
-      albumCover: currentTrack?.album.images[0].url || lastPlayedSong?.album.images[0].url,
-      trackUrl: currentTrack?.external_urls.spotify || lastPlayedSong?.external_urls.spotify
+      status: statusMessage,
+      playing: response.data.is_playing,
+      track: response.data.item ? response.data.item.name : lastPlayedSong ? lastPlayedSong.name : null,
+      artist: response.data.item ? response.data.item.artists.map(artist => artist.name).join(', ') : lastPlayedSong ? lastPlayedSong.artists.map(artist => artist.name).join(', ') : null,
+      albumCover: response.data.item ? response.data.item.album.images[0].url : lastPlayedSong ? lastPlayedSong.album.images[0].url : null,
+      trackUrl: response.data.item ? response.data.item.external_urls.spotify : lastPlayedSong ? lastPlayedSong.external_urls.spotify : null, // Added track URL
     });
-
   } catch (error) {
-    console.error('Error fetching playback data:', error.response?.data || error.message);
-    res.status(500).json({ 
-      error: 'Failed to fetch playback data',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
-    });
+    console.error('Error fetching playback data:', error.response ? error.response.data : error.message);
+    res.status(500).json({ error: 'Failed to fetch playback data' });
   }
 });
+
 
 // Strava club activity endpoint
 app.get('/api/strava/club/:clubId/latest', async (req, res) => {
@@ -248,113 +323,7 @@ app.get('/api/strava/personal/weekly', async (req, res) => {
   }
 });
 
-
-// Middleware
-app.use(express.json());
-app.use(cors());
-
-
-// Verify user credentials
-const verifyUserCredentials = (password) => {
-    // Get all user credentials from environment variables
-    const userCredentials = Object.keys(process.env)
-        .filter(key => key.match(/^USER_\d+_PASSWORD$/))
-        .map(key => {
-            const userNum = key.match(/^USER_(\d+)_PASSWORD$/)[1];
-            return {
-                password: process.env[`USER_${userNum}_PASSWORD`],
-                expiry: process.env[`USER_${userNum}_EXPIRY`]
-            };
-        });
-
-    // Find matching user credentials
-    const matchingUser = userCredentials.find(user => 
-        user.password === password && 
-        new Date() <= new Date(user.expiry)
-    );
-
-    return matchingUser;
-};
-
-// Password verification endpoint
-app.post('/api/verify', async (req, res) => {
-    try {
-        const { password } = req.body;
-
-        // Input validation
-        if (!password) {
-            return res.status(400).json({
-                success: false,
-                message: 'Password is required'
-            });
-        }
-
-        // Verify credentials
-        const validUser = verifyUserCredentials(password);
-
-        if (!validUser) {
-            return res.status(401).json({
-                success: false,
-                message: 'Invalid password or expired credentials'
-            });
-        }
-
-        // Generate token with access to all case studies
-        const token = jwt.sign(
-            {
-                authorized: true,
-                exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) // 24 hours
-            },
-            JWT_SECRET
-        );
-
-        res.json({ success: true, token });
-
-    } catch (error) {
-        console.error('Verification error:', error);
-        res.status(500).json({
-            success: false,
-            message: 'An error occurred during verification.'
-        });
-    }
-});
-
-// Validate required environment variables on startup
-const validateEnvironmentVariables = () => {
-    const requiredVars = ['JWT_SECRET'];
-    const userVarPattern = /^USER_\d+_(PASSWORD|EXPIRY)$/;
-    
-    // Check JWT_SECRET
-    const missingRequired = requiredVars.filter(varName => !process.env[varName]);
-    if (missingRequired.length > 0) {
-        console.error('Missing required environment variables:', missingRequired);
-        return false;
-    }
-
-    // Check user credentials are properly paired
-    const userPasswords = Object.keys(process.env)
-        .filter(key => key.match(/^USER_\d+_PASSWORD$/));
-    
-    for (const passwordKey of userPasswords) {
-        const userNum = passwordKey.match(/^USER_(\d+)_PASSWORD$/)[1];
-        const expiryKey = `USER_${userNum}_EXPIRY`;
-        
-        if (!process.env[expiryKey]) {
-            console.error(`Missing expiry date for user ${userNum}`);
-            return false;
-        }
-    }
-
-    return true;
-};
-
-// Validate environment variables before starting server
-if (!validateEnvironmentVariables()) {
-    console.error('Environment validation failed. Server will not start.');
-    process.exit(1);
-}
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
+  console.log(`Server running at http://localhost:${PORT}`);
+});

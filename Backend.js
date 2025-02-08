@@ -249,113 +249,123 @@ app.get('/api/strava/personal/weekly', async (req, res) => {
 });
 
 
-// Middleware
-app.use(express.json());
-app.use(cors());
+// Welcome route
+app.get('/', (req, res) => {
+  res.send('Welcome to the server!');
+});
+// Middleware to validate JWT token
+const authenticateToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1] || 
+               req.query.token || 
+               req.cookies?.token;
+  
+  if (!token) {
+      return res.redirect('/?error=unauthorized');
+  }
 
-
-// Verify user credentials
-const verifyUserCredentials = (password) => {
-    // Get all user credentials from environment variables
-    const userCredentials = Object.keys(process.env)
-        .filter(key => key.match(/^USER_\d+_PASSWORD$/))
-        .map(key => {
-            const userNum = key.match(/^USER_(\d+)_PASSWORD$/)[1];
-            return {
-                password: process.env[`USER_${userNum}_PASSWORD`],
-                expiry: process.env[`USER_${userNum}_EXPIRY`]
-            };
-        });
-
-    // Find matching user credentials
-    const matchingUser = userCredentials.find(user => 
-        user.password === password && 
-        new Date() <= new Date(user.expiry)
-    );
-
-    return matchingUser;
+  try {
+      const decoded = jwt.verify(token, JWT_SECRET);
+      req.user = decoded;
+      next();
+  } catch (error) {
+      return res.redirect('/?error=invalid_token');
+  }
 };
 
-// Password verification endpoint
+// Password verification endpoint with improved validation
 app.post('/api/verify', async (req, res) => {
-    try {
-        const { password } = req.body;
+  try {
+      const { caseStudyId, password } = req.body;
 
-        // Input validation
-        if (!password) {
-            return res.status(400).json({
-                success: false,
-                message: 'Password is required'
-            });
-        }
+      // Input validation
+      if (!caseStudyId || !password || caseStudyId !== '1') {
+          return res.status(400).json({ 
+              success: false, 
+              message: 'Invalid request parameters' 
+          });
+      }
 
-        // Verify credentials
-        const validUser = verifyUserCredentials(password);
+      const correctPassword = process.env[`CASE_STUDY_${caseStudyId}_PASSWORD`];
+      const expirationDate = process.env[`CASE_STUDY_${caseStudyId}_EXPIRY`];
 
-        if (!validUser) {
-            return res.status(401).json({
-                success: false,
-                message: 'Invalid password or expired credentials'
-            });
-        }
+      // Validate environment variables exist
+      if (!correctPassword || !expirationDate) {
+          console.error(`Missing environment variables for case study ${caseStudyId}`);
+          return res.status(500).json({ 
+              success: false, 
+              message: 'Configuration error. Please contact administrator.' 
+          });
+      }
 
-        // Generate token with access to all case studies
-        const token = jwt.sign(
-            {
-                authorized: true,
-                exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) // 24 hours
-            },
-            JWT_SECRET
-        );
+      // Check expiration
+      if (new Date() > new Date(expirationDate)) {
+          return res.status(403).json({ 
+              success: false, 
+              message: 'This password has expired. Please contact the administrator for a new password.' 
+          });
+      }
 
-        res.json({ success: true, token });
+      // Verify password
+      if (password !== correctPassword) {
+          return res.status(401).json({ 
+              success: false, 
+              message: 'Incorrect password. Please try again.' 
+          });
+      }
 
-    } catch (error) {
-        console.error('Verification error:', error);
-        res.status(500).json({
-            success: false,
-            message: 'An error occurred during verification.'
-        });
-    }
+      // Generate token
+      const token = jwt.sign(
+          { 
+              caseStudyId,
+              exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) // 24 hours
+          }, 
+          JWT_SECRET
+      );
+
+      res.json({ success: true, token });
+
+  } catch (error) {
+      console.error('Verification error:', error);
+      res.status(500).json({ 
+          success: false, 
+          message: 'An error occurred during verification.' 
+      });
+  }
 });
 
-// Validate required environment variables on startup
-const validateEnvironmentVariables = () => {
-    const requiredVars = ['JWT_SECRET'];
-    const userVarPattern = /^USER_\d+_(PASSWORD|EXPIRY)$/;
-    
-    // Check JWT_SECRET
-    const missingRequired = requiredVars.filter(varName => !process.env[varName]);
-    if (missingRequired.length > 0) {
-        console.error('Missing required environment variables:', missingRequired);
-        return false;
-    }
+// Protected case study route
+app.get('/case-study/:id', authenticateToken, (req, res) => {
+  try {
+      // Validate case study ID
+      if (req.params.id !== '1' || req.params.id !== req.user.caseStudyId) {
+          return res.redirect('/?error=invalid_case_study');
+      }
 
-    // Check user credentials are properly paired
-    const userPasswords = Object.keys(process.env)
-        .filter(key => key.match(/^USER_\d+_PASSWORD$/));
-    
-    for (const passwordKey of userPasswords) {
-        const userNum = passwordKey.match(/^USER_(\d+)_PASSWORD$/)[1];
-        const expiryKey = `USER_${userNum}_EXPIRY`;
-        
-        if (!process.env[expiryKey]) {
-            console.error(`Missing expiry date for user ${userNum}`);
-            return false;
-        }
-    }
+      res.sendFile(path.join(__dirname, 'public', 'case-study.html'));
+  } catch (error) {
+      console.error('Error serving case study:', error);
+      res.redirect('/?error=server_error');
+  }
+});
 
-    return true;
-};
+// Startup validation for required environment variables
+const requiredEnvVars = [
+  'CASE_STUDY_1_PASSWORD',
+  'CASE_STUDY_1_EXPIRY',
+  'JWT_SECRET'
+];
 
-// Validate environment variables before starting server
-if (!validateEnvironmentVariables()) {
-    console.error('Environment validation failed. Server will not start.');
-    process.exit(1);
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+if (missingEnvVars.length > 0) {
+  console.error('Missing required environment variables:', missingEnvVars);
+  process.exit(1);
 }
+
+
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });
-

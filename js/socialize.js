@@ -1,36 +1,13 @@
-// Frontend: Modified getPlaybackState function
 async function getPlaybackState() {
   try {
     const response = await fetch('https://portfolio-7hpb.onrender.com/api/spotify/playback');
     if (!response.ok) throw new Error('Failed to fetch playback state');
     const data = await response.json();
 
-    // If there's track data, store it in localStorage
-    if (data.track && data.artist && data.albumCover && data.trackUrl) {
-      localStorage.setItem('lastPlayedSong', JSON.stringify({
-        track: data.track,
-        artist: data.artist,
-        albumCover: data.albumCover,
-        trackUrl: data.trackUrl
-      }));
-    }
-
-    // If no track data but status is away, try to get from localStorage
-    if (!data.track && !data.playing) {
-      const savedSong = localStorage.getItem('lastPlayedSong');
-      if (savedSong) {
-        const lastSong = JSON.parse(savedSong);
-        data.track = lastSong.track;
-        data.artist = lastSong.artist;
-        data.albumCover = lastSong.albumCover;
-        data.trackUrl = lastSong.trackUrl;
-      }
-    }
-
     const playbackInfo = document.getElementById('playback-info');
     playbackInfo.innerHTML = ''; // Clear previous content
 
-    // Rest of your existing code remains the same
+    // Spotify Header Image
     const imageElement = document.createElement('img');
     imageElement.src = '../public/spotify-logo.png';
     imageElement.alt = 'Spotify Header Image';
@@ -38,6 +15,7 @@ async function getPlaybackState() {
     imageElement.style.marginBottom = '32px';
     playbackInfo.appendChild(imageElement);
 
+    // Status Message
     const statusMessageElement = document.createElement('p');
     statusMessageElement.classList.add('sub-heading');
     statusMessageElement.style.paddingBottom = '16px';
@@ -49,6 +27,7 @@ async function getPlaybackState() {
     }
     playbackInfo.appendChild(statusMessageElement);
 
+    // Track Information
     const trackInfoElement = document.createElement('div');
     trackInfoElement.classList.add('track-info');
 
@@ -59,28 +38,28 @@ async function getPlaybackState() {
     albumCoverElement.height = 50;
 
     if (data.playing) {
-      albumCoverElement.classList.add('rotate');
+      albumCoverElement.classList.add('rotate'); // Add rotation animation if playing
       trackInfoElement.appendChild(albumCoverElement);
-      trackInfoElement.innerHTML += 
+      trackInfoElement.innerHTML += `
         <div class="song">
           <p class="md-regular">${data.artist}</p>
           <p class="md-bold">
             <a href="${data.trackUrl}" target="_blank" style="text-decoration: none; color: #374151; line-height:16px;">
               ${data.track}</a></p>
         </div>
-      ;
+      `;
     } else if (data.track && data.artist) {
       trackInfoElement.appendChild(albumCoverElement);
-      trackInfoElement.innerHTML += 
+      trackInfoElement.innerHTML += `
         <div class="song">
           <p class="md-regular">Last song played:</p>
           <p class="md-bold">
             <a href="${data.trackUrl}" target="_blank" style="text-decoration: none; color: #374151;">
-              ${data.track}
+              ${data.track} by ${data.artist}
             </a>
           </p>
         </div>
-      ;
+      `;
     }
 
     playbackInfo.appendChild(trackInfoElement);
@@ -90,6 +69,7 @@ async function getPlaybackState() {
       '<p class="md-regular">Oops! Something went wrong, trying to load again shortly.</p>';
   }
 }
+
 
 
 async function getLatestStravaActivities(clubId) {
@@ -375,7 +355,7 @@ function initializePageSafely() {
       
       // Initialize Spotify functionality with error handling
       safeGetPlaybackState();
-      setInterval(safeGetPlaybackState, 1500000);
+      setInterval(safeGetPlaybackState, 90000);
       break;
   }
 }

@@ -43,50 +43,31 @@ const STRAVA_REFRESH_TOKEN = process.env.STRAVA_REFRESH_TOKEN;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 
+// Track the last song played
 let lastPlayedSong = null;
 
-app.get('/api/spotify/playback', async (req, res) => {
+// Spotify token refresh function
+async function getSpotifyAccessToken() {
   try {
-    const accessToken = await getSpotifyAccessToken();
-    
-    // Fetch playback state and recent tracks
-    const responses = await Promise.allSettled([
-      axios.get('https://api.spotify.com/v1/me/player', {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }),
-      axios.get('https://api.spotify.com/v1/me/player/recently-played?limit=1', {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      })
-    ]);
-    
-    const playbackResponse = responses[0].status === 'fulfilled' ? responses[0].value.data : null;
-    const recentTracksResponse = responses[1].status === 'fulfilled' ? responses[1].value.data : null;
-    
-    // Update last played song if needed
-    if (playbackResponse?.is_playing && playbackResponse?.item) {
-      lastPlayedSong = playbackResponse.item;
-    } else if (recentTracksResponse?.items?.length > 0) {
-      lastPlayedSong = recentTracksResponse.items[0].track;
-    }
-
-    // Determine response data
-    const currentTrack = playbackResponse?.item;
-    const isPlaying = playbackResponse?.is_playing;
-    const songToUse = isPlaying ? currentTrack : lastPlayedSong;
-    
-    res.json({
-      status: isPlaying ? "Stephano is playing" : "Stephano is away",
-      playing: !!isPlaying,
-      track: songToUse?.name || null,
-      artist: songToUse?.artists.map(artist => artist.name).join(', ') || null,
-      albumCover: songToUse?.album.images[0]?.url || null,
-      trackUrl: songToUse?.external_urls?.spotify || null
-    });
+    const response = await axios.post(
+      'https://accounts.spotify.com/api/token',
+      new URLSearchParams({
+        grant_type: 'refresh_token',
+        refresh_token: REFRESH_TOKEN,
+      }).toString(),
+      {
+        headers: {
+          Authorization: `Basic ${Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64')}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      }
+    );
+    return response.data.access_token;
   } catch (error) {
-    console.error('Playback endpoint error:', error.response?.data || error.message);
-    res.status(500).json({ error: 'Failed to fetch playback data' });
+    console.error('Error refreshing token:', error.response ? error.response.data : error.message);
+    throw new Error('Failed to refresh token');
   }
-});
+}
 
 // Strava token refresh function
 async function getStravaAccessToken() {
@@ -218,38 +199,50 @@ if (missingEnvVars.length > 0) {
 }
 
 // Spotify playback endpoint
+let lastPlayedSong = null;
+
 app.get('/api/spotify/playback', async (req, res) => {
   try {
     const accessToken = await getSpotifyAccessToken();
-    const response = await axios.get('https://api.spotify.com/v1/me/player', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    let statusMessage = "Stephano is away";
-
-    if (response.data && response.data.is_playing) {
-      lastPlayedSong = response.data.item; // Store last played song
-      statusMessage = "Stephano is playing";
-    } else if (!response.data.is_playing && lastPlayedSong) {
-      statusMessage = "Stephano is away"; // Shows last played song but no extra message
+    
+    // Fetch playback state and recent tracks
+    const responses = await Promise.allSettled([
+      axios.get('https://api.spotify.com/v1/me/player', {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }),
+      axios.get('https://api.spotify.com/v1/me/player/recently-played?limit=1', {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+    ]);
+    
+    const playbackResponse = responses[0].status === 'fulfilled' ? responses[0].value.data : null;
+    const recentTracksResponse = responses[1].status === 'fulfilled' ? responses[1].value.data : null;
+    
+    // Update last played song if needed
+    if (playbackResponse?.is_playing && playbackResponse?.item) {
+      lastPlayedSong = playbackResponse.item;
+    } else if (recentTracksResponse?.items?.length > 0) {
+      lastPlayedSong = recentTracksResponse.items[0].track;
     }
 
+    // Determine response data
+    const currentTrack = playbackResponse?.item;
+    const isPlaying = playbackResponse?.is_playing;
+    const songToUse = isPlaying ? currentTrack : lastPlayedSong;
+    
     res.json({
-      status: statusMessage,
-      playing: response.data.is_playing,
-      track: response.data.item ? response.data.item.name : lastPlayedSong ? lastPlayedSong.name : null,
-      artist: response.data.item ? response.data.item.artists.map(artist => artist.name).join(', ') : lastPlayedSong ? lastPlayedSong.artists.map(artist => artist.name).join(', ') : null,
-      albumCover: response.data.item ? response.data.item.album.images[0].url : lastPlayedSong ? lastPlayedSong.album.images[0].url : null,
-      trackUrl: response.data.item ? response.data.item.external_urls.spotify : lastPlayedSong ? lastPlayedSong.external_urls.spotify : null, // Added track URL
+      status: isPlaying ? "Stephano is playing" : "Stephano is away",
+      playing: !!isPlaying,
+      track: songToUse?.name || null,
+      artist: songToUse?.artists.map(artist => artist.name).join(', ') || null,
+      albumCover: songToUse?.album.images[0]?.url || null,
+      trackUrl: songToUse?.external_urls?.spotify || null
     });
   } catch (error) {
-    console.error('Error fetching playback data:', error.response ? error.response.data : error.message);
+    console.error('Playback endpoint error:', error.response?.data || error.message);
     res.status(500).json({ error: 'Failed to fetch playback data' });
   }
 });
-
 
 // Strava club activity endpoint
 app.get('/api/strava/club/:clubId/latest', async (req, res) => {

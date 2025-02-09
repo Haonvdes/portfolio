@@ -2,12 +2,12 @@ async function getPlaybackState() {
   try {
     const response = await fetch('https://portfolio-7hpb.onrender.com/api/spotify/playback');
     if (!response.ok) throw new Error('Failed to fetch playback state');
-    const data = await response.json();
 
+    const playbackData = await response.json();
     const playbackInfo = document.getElementById('playback-info');
-    playbackInfo.innerHTML = ''; // Clear previous content
+    playbackInfo.innerHTML = '';
 
-    // Spotify Header Image
+    // Create and append Spotify header image
     const imageElement = document.createElement('img');
     imageElement.src = '../public/spotify-logo.png';
     imageElement.alt = 'Spotify Header Image';
@@ -15,60 +15,56 @@ async function getPlaybackState() {
     imageElement.style.marginBottom = '32px';
     playbackInfo.appendChild(imageElement);
 
-    // Status Message
+    // Create and append status message
     const statusMessageElement = document.createElement('p');
     statusMessageElement.classList.add('sub-heading');
     statusMessageElement.style.paddingBottom = '16px';
-
-    if (data.playing) {
-      statusMessageElement.innerText = 'Stephano is playing';
-    } else {
-      statusMessageElement.innerText = 'Stephano is away';
-    }
+    statusMessageElement.innerText = playbackData.playing ? 'Stephano is playing' : 'Stephano is away';
     playbackInfo.appendChild(statusMessageElement);
 
-    // Track Information
-    const trackInfoElement = document.createElement('div');
-    trackInfoElement.classList.add('track-info');
+    // Create track info section
+    if (playbackData.track) {
+      const trackInfoElement = document.createElement('div');
+      trackInfoElement.classList.add('track-info');
 
-    const albumCoverElement = document.createElement('img');
-    albumCoverElement.src = data.albumCover || '';
-    albumCoverElement.alt = 'Album Cover';
-    albumCoverElement.width = 50;
-    albumCoverElement.height = 50;
+      const albumCoverElement = document.createElement('img');
+      albumCoverElement.src = playbackData.albumCover;
+      albumCoverElement.alt = 'Album Cover';
+      albumCoverElement.width = 50;
+      albumCoverElement.height = 50;
+      if (playbackData.playing) albumCoverElement.classList.add('rotate');
 
-    if (data.playing) {
-      albumCoverElement.classList.add('rotate'); // Add rotation animation if playing
+      const songDetails = document.createElement('div');
+      songDetails.classList.add('song');
+      
+      const artistElement = document.createElement('p');
+      artistElement.classList.add('md-regular');
+      artistElement.textContent = playbackData.playing ? playbackData.artist : 'Last song played:';
+      
+      const trackElement = document.createElement('p');
+      trackElement.classList.add('md-bold');
+      const trackLink = document.createElement('a');
+      trackLink.href = playbackData.trackUrl;
+      trackLink.target = '_blank';
+      trackLink.style.textDecoration = 'none';
+      trackLink.style.color = '#374151';
+      trackLink.style.lineHeight = '16px';
+      trackLink.textContent = playbackData.playing ? playbackData.track : `${playbackData.track} by ${playbackData.artist}`;
+      trackElement.appendChild(trackLink);
+      
+      songDetails.appendChild(artistElement);
+      songDetails.appendChild(trackElement);
+      
       trackInfoElement.appendChild(albumCoverElement);
-      trackInfoElement.innerHTML += `
-        <div class="song">
-          <p class="md-regular">${data.artist}</p>
-          <p class="md-bold">
-            <a href="${data.trackUrl}" target="_blank" style="text-decoration: none; color: #374151; line-height:16px;">
-              ${data.track}</a></p>
-        </div>
-      `;
-    } else if (data.track && data.artist) {
-      trackInfoElement.appendChild(albumCoverElement);
-      trackInfoElement.innerHTML += `
-        <div class="song">
-          <p class="md-regular">Last song played:</p>
-          <p class="md-bold">
-            <a href="${data.trackUrl}" target="_blank" style="text-decoration: none; color: #374151;">
-              ${data.track} by ${data.artist}
-            </a>
-          </p>
-        </div>
-      `;
+      trackInfoElement.appendChild(songDetails);
+      playbackInfo.appendChild(trackInfoElement);
     }
-
-    playbackInfo.appendChild(trackInfoElement);
   } catch (error) {
     console.error('Error fetching playback state:', error);
-    document.getElementById('playback-info').innerHTML =
-      '<p class="md-regular">Oops! Something went wrong, trying to load again shortly.</p>';
+    document.getElementById('playback-info').innerHTML = '<p class="md-regular">Oops! Something went wrong; trying to load again shortly.</p>';
   }
 }
+
 
 
 

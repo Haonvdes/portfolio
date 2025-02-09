@@ -9,27 +9,18 @@ async function getPlaybackState() {
 
     // Spotify Header Image
     const imageElement = document.createElement('img');
-    imageElement.src = 'public/spotify-logo.png'
+    imageElement.src = '../public/spotify-logo.png';
     imageElement.alt = 'Spotify Header Image';
     imageElement.style.width = '40px';
     imageElement.style.marginBottom = '32px';
     playbackInfo.appendChild(imageElement);
 
-
-    // Get current time and gym schedule
-    const currentTime = new Date();
-    const gymStartTime = new Date();
-    gymStartTime.setHours(17, 0, 0); // 5:00 PM
-    const gymEndTime = new Date();
-    gymEndTime.setHours(19, 0, 0); // 7:00 PM
-
     // Status Message
     const statusMessageElement = document.createElement('p');
     statusMessageElement.classList.add('sub-heading');
+    statusMessageElement.style.paddingBottom = '16px';
 
-    if (currentTime >= gymStartTime && currentTime <= gymEndTime) {
-      statusMessageElement.innerText = 'Stephano is lifting weights at the gym';
-    } else if (data.playing) {
+    if (data.playing) {
       statusMessageElement.innerText = 'Stephano is playing';
     } else {
       statusMessageElement.innerText = 'Stephano is away';
@@ -47,11 +38,7 @@ async function getPlaybackState() {
     albumCoverElement.height = 50;
 
     if (data.playing) {
-      // Add rotate class if playing
-      albumCoverElement.classList.add('rotate');
-    }
-
-    if (data.playing && data.track && data.artist) {
+      albumCoverElement.classList.add('rotate'); // Add rotation animation if playing
       trackInfoElement.appendChild(albumCoverElement);
       trackInfoElement.innerHTML += `
         <div class="song">
@@ -73,8 +60,6 @@ async function getPlaybackState() {
           </p>
         </div>
       `;
-    } else {
-      trackInfoElement.innerHTML = '<p class="md-regular">He seems to focus on his stuff.</p>';
     }
 
     playbackInfo.appendChild(trackInfoElement);
@@ -84,6 +69,7 @@ async function getPlaybackState() {
       '<p class="md-regular">Oops! Something went wrong, trying to load again shortly.</p>';
   }
 }
+
 
 
 async function getLatestStravaActivities(clubId) {
@@ -100,9 +86,7 @@ async function getLatestStravaActivities(clubId) {
     summaryElement.classList.add('club-summary');
 
     // Format week range
-    const startMoment = moment(startDate, 'DD-MM-YYYY');
-    const endMoment = moment(endDate, 'DD-MM-YYYY');
-    const formattedWeek = `${startMoment.date()}-${endMoment.date()}/${startMoment.format('MM')}/${startMoment.year()}`;
+    const formattedWeek = data.currentWeek;
 
     // Create the image element
     const imageElement = document.createElement('img');
@@ -114,7 +98,7 @@ async function getLatestStravaActivities(clubId) {
     // Add the content for the summary
     summaryElement.innerHTML = `
       <p class="sub-heading">Incredible Team</p>
-      <p class="md-regular">Week: (${formattedWeek})</p>
+      <p class="md-regular">Week: ${formattedWeek}</p>
       <div class="strava-club">
         ${['Total Distance', 'Total Time', 'Total Activities']
           .map(
@@ -135,15 +119,21 @@ async function getLatestStravaActivities(clubId) {
     const activitiesSection = document.createElement('div');
     activitiesSection.classList.add('latest-activities');
 
+    // Determine whether the user is on a mobile device
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    // Choose the appropriate URL
+    const clubFeedUrl = isMobile ? data.clubFeedUrlMobile : data.clubFeedUrlDesktop;
+
     // Header for Latest Activities with clickable icon
     const headerContainer = document.createElement('div');
     headerContainer.style.display = 'flex';
-    headerContainer.style.alignItems = 'center';
-    headerContainer.style.gap = '8px';
+    headerContainer.style.alignItems = 'start';
+    headerContainer.style.paddingBottom = 'var(--p-8)';
     headerContainer.innerHTML = `
-      <p class="md-bold">Latest Activities</p>
-      <a href="${data.clubFeedUrl}" target="_blank" style="display: flex; align-items: center;">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <a href="${clubFeedUrl}" target="_blank" style="display: flex;align-items: center;width: 100%;color: var(--text-neutral-body);gap: var(--m-8);text-decoration: none;justify-content: space-between;" class="md-bold"> 
+        Latest Activities
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
           <polyline points="15 3 21 3 21 9"></polyline>
           <line x1="10" y1="14" x2="21" y2="3"></line>
@@ -185,31 +175,195 @@ async function getLatestStravaActivities(clubId) {
   }
 }
 
+async function getPersonalStravaActivity() {
+  try {
+    const response = await fetch('https://portfolio-7hpb.onrender.com/api/strava/personal/weekly');
+    if (!response.ok) throw new Error('Failed to fetch personal data');
+    const data = await response.json();
 
-getLatestStravaActivities('1153970');
+    const personalSection = document.getElementById('personal-section');
+    personalSection.innerHTML = ''; // Clear previous content
 
+    // Summary Section
+    const summaryElement = document.createElement('div');
+    summaryElement.classList.add('personal-summary');
 
+    // Create the image element
+    const imageElement = document.createElement('img');
+    imageElement.src = '../public/strava-logo.png';
+    imageElement.alt = 'Strava Logo';
+    imageElement.style.width = '100px';
+    imageElement.style.marginBottom = '40px';
 
+    // Add the content for the summary
+    summaryElement.innerHTML = `
+      <p class="sub-heading activity-heading">Stephano's Activities</p>
+      <p class="md-regular">Week of ${data.currentWeek}</p>
+      <div class="strava-club">
+          <div class="club-data">
+              <p class="md-regular">Total Distance</p>
+              <p class="md-bold">${data.totalDistance}</p>
+           </div>
+            <div class="club-data">
+              <p class="md-regular">Total Activities</p>
+              <p class="md-bold">${data.totalTime}</p>
+             </div>
+           <div class="club-data">
+              <p class="md-regular">Average Speed</p>
+              <p class="md-bold">${data.averageSpeed}</p>
+          </div>
+        </div>
+    `;
+// // // Add the content for the summary-personal.
+// summaryElement.innerHTML = 
+//   `<p class="sub-heading activity-heading">Stephano's Activities</p>
+//   <p class="md-regular">Week: ${formattedWeek}</p>
+//   <div class="strava-club">
+//     ${['Total Distance', 'Total Activities', 'Average Speed']
+//       .map(
+//         (label, index) => 
+//         `<div class="club-data">
+//           <p class="md-regular">${label}</p>
+//           <p class="md-medium">${[data.totalDistance, `${parseFloat(data.totalTime).toFixed(2)}h`, data.averageSpeed][index]}</p>
+//         </div>`
+//       )
+//       .join('')}
+//   </div>`;
 
-  // Fetch all data every 3 minutes (for Spotify and personal activity)
-  setInterval(() => {
-    getPlaybackState(); // Spotify playback
-  }, 180000); // 3 minutes in milliseconds
-  
-  // Fetch Strava club data every 6 hours (21600000 ms)
-  setInterval(() => {
-    getStravaClubData('1153970');
-    getStravaPersonalActivity(); // Strava personal activity
-    // Strava club data
-  }, 21600000); // 6 hours in milliseconds
-  
-  // Initial fetch when the page loads
-  getPlaybackState();
-  getStravaPersonalActivity();
-  getStravaClubData('1153970');
+    // Prepend the image element to the summary
+    summaryElement.prepend(imageElement);
 
-
+    // Append the summary section
+    personalSection.appendChild(summaryElement);
+  } catch (error) {
+    console.error('Error fetching personal data:', error.message);
+    document.getElementById('personal-section').innerHTML = '<p>Failed to load personal activities.</p>';
+  }
+}
 
 
 
  
+
+// // Initialize based on current page
+// function initializePage() {
+//   // Get the current page name from the URL
+//   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+//   // Initialize features based on the current page
+//   switch (currentPage) {
+//     case 'index.html':
+//       // Initialize Strava functionality only for index.html
+//       getLatestStravaActivities('1153970');
+//       setInterval(() => getLatestStravaActivities('1153970'), 7200000);
+//       break;
+      
+//     case 'about.html':
+//       // Initialize Spotify functionality only for about.html
+//       getPlaybackState();
+//       setInterval(getPlaybackState, 90000);
+//       break;
+//   }
+// }
+
+// // Run initialization when the page loads
+// initializePage();
+
+
+
+
+
+
+
+
+// Initialize based on current page
+function initializePage() {
+  // Get the current page name from the URL
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+  // Initialize features based on the current page
+  switch (currentPage) {
+    case 'index.html':
+      // Initialize Club Strava functionality
+      getLatestStravaActivities('1153970');
+      setInterval(() => getLatestStravaActivities('1153970'), 7200000); // Refresh every 2 hours
+      break;
+      
+    case 'about.html':
+      // Initialize Personal Strava functionality
+      getPersonalStravaActivity();
+      setInterval(getPersonalStravaActivity, 7200000); // Refresh every 2 hours
+
+      // Initialize Spotify functionality
+      getPlaybackState();
+      setInterval(getPlaybackState, 90000); // Refresh every 1.5 minutes
+      break;
+  }
+}
+
+// Function to handle errors gracefully
+function handleError(error, section) {
+  console.error(`Error in ${section}:`, error.message);
+  const element = document.getElementById(section);
+  if (element) {
+    element.innerHTML = `<p class="error-message">Failed to load ${section} data.</p>`;
+  }
+}
+
+// Wrap Strava club activities with error handling
+async function safeGetLatestStravaActivities(clubId) {
+  try {
+    await getLatestStravaActivities(clubId);
+  } catch (error) {
+    handleError(error, 'club-section');
+  }
+}
+
+// Wrap personal Strava activities with error handling
+async function safeGetPersonalStravaActivity() {
+  try {
+    await getPersonalStravaActivity();
+  } catch (error) {
+    handleError(error, 'personal-section');
+  }
+}
+
+// Wrap Spotify playback with error handling
+async function safeGetPlaybackState() {
+  try {
+    await getPlaybackState();
+  } catch (error) {
+    handleError(error, 'playback-info');
+  }
+}
+
+// Updated initialization with error handling
+function initializePageSafely() {
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+  switch (currentPage) {
+    case 'index.html':
+      // Initialize only club Strava functionality with error handling
+      safeGetLatestStravaActivities('1153970');
+      setInterval(() => safeGetLatestStravaActivities('1153970'), 7200000);
+      break;
+      
+    case 'about.html':
+      // Initialize Personal Strava functionality with error handling
+      safeGetPersonalStravaActivity();
+      setInterval(() => safeGetPersonalStravaActivity(), 7200000);
+      
+      // Initialize Spotify functionality with error handling
+      safeGetPlaybackState();
+      setInterval(safeGetPlaybackState, 90000);
+      break;
+  }
+}
+
+// Add error event listener for unhandled promise rejections
+window.addEventListener('unhandledrejection', event => {
+  console.error('Unhandled promise rejection:', event.reason);
+});
+
+// Run initialization when the page loads
+document.addEventListener('DOMContentLoaded', initializePageSafely);

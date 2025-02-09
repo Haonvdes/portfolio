@@ -198,8 +198,6 @@ if (missingEnvVars.length > 0) {
   process.exit(1);
 }
 
-// Spotify playback endpoint
-let lastPlayedSong = null;
 
 app.get('/api/spotify/playback', async (req, res) => {
   try {

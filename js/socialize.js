@@ -49,7 +49,7 @@ async function getPlaybackState() {
       trackLink.style.textDecoration = 'none';
       trackLink.style.color = '#374151';
       trackLink.style.lineHeight = '16px';
-      trackLink.textContent = playbackData.playing ? playbackData.track : `${playbackData.track} by ${playbackData.artist}`;
+      trackLink.textContent = playbackData.playing ? playbackData.track : `${playbackData.track}`;
       trackElement.appendChild(trackLink);
       
       songDetails.appendChild(artistElement);
@@ -183,6 +183,7 @@ async function getPersonalStravaActivity() {
     // Summary Section
     const summaryElement = document.createElement('div');
     summaryElement.classList.add('personal-summary');
+    summaryElement.style.width = '100%';
 
     // Create the image element
     const imageElement = document.createElement('img');

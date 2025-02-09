@@ -85,6 +85,23 @@ async function getStravaAccessToken() {
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Welcome route
 app.get('/', (req, res) => {
   res.send('Welcome to the server!');

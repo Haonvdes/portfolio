@@ -85,120 +85,6 @@ async function getStravaAccessToken() {
   }
 }
 
-// Welcome route
-app.get('/', (req, res) => {
-  res.send('Welcome to the server!');
-});
-// Middleware to validate JWT token
-const authenticateToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1] || 
-               req.query.token || 
-               req.cookies?.token;
-  
-  if (!token) {
-      return res.redirect('/?error=unauthorized');
-  }
-
-  try {
-      const decoded = jwt.verify(token, JWT_SECRET);
-      req.user = decoded;
-      next();
-  } catch (error) {
-      return res.redirect('/?error=invalid_token');
-  }
-};
-
-// Password verification endpoint with improved validation
-app.post('/api/verify', async (req, res) => {
-  try {
-      const { caseStudyId, password } = req.body;
-
-      // Input validation
-      if (!caseStudyId || !password || caseStudyId !== '1') {
-          return res.status(400).json({ 
-              success: false, 
-              message: 'Invalid request parameters' 
-          });
-      }
-
-      const correctPassword = process.env[`CASE_STUDY_${caseStudyId}_PASSWORD`];
-      const expirationDate = process.env[`CASE_STUDY_${caseStudyId}_EXPIRY`];
-
-      // Validate environment variables exist
-      if (!correctPassword || !expirationDate) {
-          console.error(`Missing environment variables for case study ${caseStudyId}`);
-          return res.status(500).json({ 
-              success: false, 
-              message: 'Configuration error. Please contact administrator.' 
-          });
-      }
-
-      // Check expiration
-      if (new Date() > new Date(expirationDate)) {
-          return res.status(403).json({ 
-              success: false, 
-              message: 'This password has expired. Please contact the administrator for a new password.' 
-          });
-      }
-
-      // Verify password
-      if (password !== correctPassword) {
-          return res.status(401).json({ 
-              success: false, 
-              message: 'Incorrect password. Please try again.' 
-          });
-      }
-
-      // Generate token
-      const token = jwt.sign(
-          { 
-              caseStudyId,
-              exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) // 24 hours
-          }, 
-          JWT_SECRET
-      );
-
-      res.json({ success: true, token });
-
-  } catch (error) {
-      console.error('Verification error:', error);
-      res.status(500).json({ 
-          success: false, 
-          message: 'An error occurred during verification.' 
-      });
-  }
-});
-
-// Protected case study route
-app.get('/case-study/:id', authenticateToken, (req, res) => {
-  try {
-      // Validate case study ID
-      if (req.params.id !== '1' || req.params.id !== req.user.caseStudyId) {
-          return res.redirect('/?error=invalid_case_study');
-      }
-
-      res.sendFile(path.join(__dirname, 'public', 'case-study.html'));
-  } catch (error) {
-      console.error('Error serving case study:', error);
-      res.redirect('/?error=server_error');
-  }
-});
-
-// Startup validation for required environment variables
-const requiredEnvVars = [
-  'CASE_STUDY_1_PASSWORD',
-  'CASE_STUDY_1_EXPIRY',
-  'JWT_SECRET'
-];
-
-const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
-
-if (missingEnvVars.length > 0) {
-  console.error('Missing required environment variables:', missingEnvVars);
-  process.exit(1);
-}
-
-
 app.get('/api/spotify/playback', async (req, res) => {
   try {
     const accessToken = await getSpotifyAccessToken();
@@ -333,7 +219,127 @@ app.get('/api/strava/personal/weekly', async (req, res) => {
   }
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Welcome route
+app.get('/', (req, res) => {
+  res.send('Welcome to the server!');
+});
+
+// Middleware to validate JWT token
+const authenticateToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1] || 
+               req.query.token || 
+               req.cookies?.token;
+  
+  if (!token) {
+      return res.redirect('/?error=unauthorized');
+  }
+
+  try {
+      const decoded = jwt.verify(token, JWT_SECRET);
+      req.user = decoded;
+      next();
+  } catch (error) {
+      return res.redirect('/?error=invalid_token');
+  }
+};
+
+// Password verification endpoint with session-based authentication
+app.post('/api/verify', async (req, res) => {
+  try {
+      const { password } = req.body;
+
+      // Input validation
+      if (!password) {
+          return res.status(400).json({ 
+              success: false, 
+              message: 'Invalid request parameters' 
+          });
+      }
+
+      // Check user-specific password & expiration (managed via Render.io)
+      const users = [
+          { id: 1, password: process.env.USER_1_PASSWORD, expiry: process.env.USER_1_EXPIRY },
+          { id: 2, password: process.env.USER_2_PASSWORD, expiry: process.env.USER_2_EXPIRY }
+      ];
+
+      const user = users.find(u => u.password === password);
+      if (!user) {
+          return res.status(401).json({ 
+              success: false, 
+              message: 'Incorrect password. Please try again.' 
+          });
+      }
+
+      if (new Date() > new Date(user.expiry)) {
+          return res.status(403).json({ 
+              success: false, 
+              message: 'This password has expired. Please contact the administrator for a new password.' 
+          });
+      }
+
+      // Generate a session-wide token (valid for all case studies)
+      const token = jwt.sign(
+          { userId: user.id, exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) }, 
+          JWT_SECRET
+      );
+
+      res.json({ success: true, token });
+
+  } catch (error) {
+      console.error('Verification error:', error);
+      res.status(500).json({ 
+          success: false, 
+          message: 'An error occurred during verification.' 
+      });
+  }
+});
+
+// Protected case study route
+app.get('/case-study/:id', authenticateToken, (req, res) => {
+  try {
+      res.sendFile(path.join(__dirname, 'public', 'case-study.html'));
+  } catch (error) {
+      console.error('Error serving case study:', error);
+      res.redirect('/?error=server_error');
+  }
+});
+
+// Startup validation for required environment variables
+const requiredEnvVars = [
+  'USER_1_PASSWORD',
+  'USER_1_EXPIRY',
+  'USER_2_PASSWORD',
+  'USER_2_EXPIRY',
+  'JWT_SECRET'
+];
+
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+if (missingEnvVars.length > 0) {
+  console.error('Missing required environment variables:', missingEnvVars);
+  process.exit(1);
+}
+
+
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
+

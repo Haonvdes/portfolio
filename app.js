@@ -5,6 +5,8 @@ const dotenv = require('dotenv');
 const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const path = require('path');
+const fs = require('fs');
+const lastPlayedFile = path.join(__dirname, 'lastPlayedSong.json');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -42,9 +44,6 @@ const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
 const STRAVA_REFRESH_TOKEN = process.env.STRAVA_REFRESH_TOKEN;
 const JWT_SECRET = process.env.JWT_SECRET;
 
-
-// Track the last song played
-let lastPlayedSong = null;
 
 // Spotify token refresh function
 async function getSpotifyAccessToken() {
@@ -85,6 +84,19 @@ async function getStravaAccessToken() {
   }
 }
 
+
+// Track the last song played
+let lastPlayedSong = null;
+
+try {
+  if (fs.existsSync(lastPlayedFile)) {
+    lastPlayedSong = JSON.parse(fs.readFileSync(lastPlayedFile, 'utf8'));
+  }
+} catch (error) {
+  console.error('Error loading last played song:', error);
+}
+
+
 app.get('/api/spotify/playback', async (req, res) => {
   try {
     const accessToken = await getSpotifyAccessToken();
@@ -109,6 +121,11 @@ app.get('/api/spotify/playback', async (req, res) => {
       lastPlayedSong = recentTracksResponse.items[0].track;
     }
 
+    // Save last played song to file
+    if (lastPlayedSong) {
+      fs.writeFileSync(lastPlayedFile, JSON.stringify(lastPlayedSong, null, 2), 'utf8');
+    }
+
     // Determine response data
     const currentTrack = playbackResponse?.item;
     const isPlaying = playbackResponse?.is_playing;
@@ -127,6 +144,7 @@ app.get('/api/spotify/playback', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch playback data' });
   }
 });
+
 
 // Strava club activity endpoint
 app.get('/api/strava/club/:clubId/latest', async (req, res) => {

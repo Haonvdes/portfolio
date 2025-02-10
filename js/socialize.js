@@ -1,13 +1,16 @@
 async function getPlaybackState() {
   try {
-    const response = await fetch('https://portfolio-7hpb.onrender.com/api/spotify/playback');
-    if (!response.ok) throw new Error('Failed to fetch playback state');
+    const playbackResponse = await fetch('https://portfolio-7hpb.onrender.com/api/spotify/playback');
+    
+    if (!playbackResponse.ok) {
+      throw new Error('Failed to fetch playback state');
+    }
 
-    const playbackData = await response.json();
+    const playbackData = await playbackResponse.json();
     const playbackInfo = document.getElementById('playback-info');
-    playbackInfo.innerHTML = '';
+    playbackInfo.innerHTML = ''; // Clear previous content
 
-    // Create and append Spotify header image
+    // Spotify Header Image
     const imageElement = document.createElement('img');
     imageElement.src = '../public/spotify-logo.png';
     imageElement.alt = 'Spotify Header Image';
@@ -15,14 +18,14 @@ async function getPlaybackState() {
     imageElement.style.marginBottom = '32px';
     playbackInfo.appendChild(imageElement);
 
-    // Create and append status message
+    // Status Message
     const statusMessageElement = document.createElement('p');
     statusMessageElement.classList.add('sub-heading');
     statusMessageElement.style.paddingBottom = '16px';
     statusMessageElement.innerText = playbackData.playing ? 'Stephano is playing' : 'Stephano is away';
     playbackInfo.appendChild(statusMessageElement);
 
-    // Create track info section
+    // Track Information
     if (playbackData.track) {
       const trackInfoElement = document.createElement('div');
       trackInfoElement.classList.add('track-info');
@@ -32,36 +35,29 @@ async function getPlaybackState() {
       albumCoverElement.alt = 'Album Cover';
       albumCoverElement.width = 50;
       albumCoverElement.height = 50;
-      if (playbackData.playing) albumCoverElement.classList.add('rotate');
 
-      const songDetails = document.createElement('div');
-      songDetails.classList.add('song');
-      
-      const artistElement = document.createElement('p');
-      artistElement.classList.add('md-regular');
-      artistElement.textContent = playbackData.playing ? playbackData.artist : 'Last song played:';
-      
-      const trackElement = document.createElement('p');
-      trackElement.classList.add('md-bold');
-      const trackLink = document.createElement('a');
-      trackLink.href = playbackData.trackUrl;
-      trackLink.target = '_blank';
-      trackLink.style.textDecoration = 'none';
-      trackLink.style.color = '#374151';
-      trackLink.style.lineHeight = '16px';
-      trackLink.textContent = playbackData.playing ? playbackData.track : `${playbackData.track}`;
-      trackElement.appendChild(trackLink);
-      
-      songDetails.appendChild(artistElement);
-      songDetails.appendChild(trackElement);
-      
+      if (playbackData.playing) {
+        albumCoverElement.classList.add('rotate');
+      }
+
       trackInfoElement.appendChild(albumCoverElement);
-      trackInfoElement.appendChild(songDetails);
+      trackInfoElement.innerHTML += `
+        <div class="song">
+          <p class="md-regular">${playbackData.playing ? playbackData.artist : 'Last song played:'}</p>
+          <p class="md-bold">
+            <a href="${playbackData.trackUrl}" target="_blank" style="text-decoration: none; color: #374151; line-height:16px;">
+              ${playbackData.playing ? playbackData.track : `${playbackData.track} by ${playbackData.artist}`}
+            </a>
+          </p>
+        </div>
+      `;
+      
       playbackInfo.appendChild(trackInfoElement);
     }
   } catch (error) {
     console.error('Error fetching playback state:', error);
-    document.getElementById('playback-info').innerHTML = '<p class="md-regular">Oops! Something went wrong; trying to load again shortly.</p>';
+    document.getElementById('playback-info').innerHTML =
+      '<p class="md-regular">Oops! Something went wrong; trying to load again shortly.</p>';
   }
 }
 
@@ -352,7 +348,7 @@ function initializePageSafely() {
       
       // Initialize Spotify functionality with error handling
       safeGetPlaybackState();
-      setInterval(safeGetPlaybackState, 90000);
+      setInterval(safeGetPlaybackState, 30000);
       break;
   }
 }

@@ -94,6 +94,7 @@ p{
     width: 316px;
     height: 432px;
     object-fit: cover;
+    border-radius: 20px 20px 0 0;
   }
 }
 
@@ -570,6 +571,8 @@ li > a{
 }
     #playback-info {
       width: 400px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       display: flex;
       align-items: flex-start;
       justify-content: center;
@@ -639,16 +642,17 @@ li > a{
     }
 }
     .song{
-  gap: 4px;
-    display: flex
-;
-    flex-direction: column;
+      gap: 4px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      text-overflow: ellipsis;
 }
 
 
 
     .track-info {
-      width: 400px;
+      width: 100%;
       display: flex;
       align-items: center;
       gap: 16px;
@@ -657,7 +661,7 @@ li > a{
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: 330px;
+        width: 100%;
       }
     }
 

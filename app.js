@@ -84,7 +84,7 @@ async function getStravaAccessToken() {
 }
 
 
-const lastPlayedFile = './lastPlayed.json';
+const lastPlayedFile = 'lastPlayed.json';
 let lastPlayedSong = null;
 
 // Load last played song at startup

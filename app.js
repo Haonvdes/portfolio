@@ -253,6 +253,11 @@ app.get('/api/strava/personal/weekly', async (req, res) => {
 
 
 
+// Ensure JWT_SECRET is set before running the server
+if (!process.env.JWT_SECRET) {
+  console.error('Error: Missing JWT_SECRET');
+  process.exit(1);
+}
 
 // Welcome route
 app.get('/', (req, res) => {
@@ -261,37 +266,31 @@ app.get('/', (req, res) => {
 
 // Middleware to validate JWT token
 const authenticateToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1] || 
-               req.query.token || 
-               req.cookies?.token;
-  
+  const token = req.headers.authorization?.split(' ')[1] || req.query.token || req.cookies?.token;
+
   if (!token) {
       return res.redirect('/?error=unauthorized');
   }
 
   try {
-      const decoded = jwt.verify(token, JWT_SECRET);
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.user = decoded;
       next();
   } catch (error) {
+      console.error("Token verification failed:", error);
       return res.redirect('/?error=invalid_token');
   }
 };
 
-// Password verification endpoint with session-based authentication
+// Password verification endpoint
 app.post('/api/verify', async (req, res) => {
   try {
       const { password } = req.body;
 
-      // Input validation
       if (!password) {
-          return res.status(400).json({ 
-              success: false, 
-              message: 'Invalid request parameters' 
-          });
+          return res.status(400).json({ success: false, message: 'Invalid request parameters' });
       }
 
-      // Check user-specific password & expiration (managed via Render.io)
       const users = [
           { id: 1, password: process.env.USER_1_PASSWORD, expiry: process.env.USER_1_EXPIRY },
           { id: 2, password: process.env.USER_2_PASSWORD, expiry: process.env.USER_2_EXPIRY }
@@ -299,33 +298,20 @@ app.post('/api/verify', async (req, res) => {
 
       const user = users.find(u => u.password === password);
       if (!user) {
-          return res.status(401).json({ 
-              success: false, 
-              message: 'Incorrect password. Please try again.' 
-          });
+          return res.status(401).json({ success: false, message: 'Incorrect password. Please try again.' });
       }
 
       if (new Date() > new Date(user.expiry)) {
-          return res.status(403).json({ 
-              success: false, 
-              message: 'This password has expired. Please contact the administrator for a new password.' 
-          });
+          return res.status(403).json({ success: false, message: 'This password has expired. Please contact the administrator.' });
       }
 
-      // Generate a session-wide token (valid for all case studies)
-      const token = jwt.sign(
-          { userId: user.id, exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) }, 
-          JWT_SECRET
-      );
+      // Generate a session token valid for 24 hours
+      const token = jwt.sign({ userId: user.id, exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) }, process.env.JWT_SECRET);
 
       res.json({ success: true, token });
-
   } catch (error) {
       console.error('Verification error:', error);
-      res.status(500).json({ 
-          success: false, 
-          message: 'An error occurred during verification.' 
-      });
+      res.status(500).json({ success: false, message: 'Authentication failed. Please try again later.' });
   }
 });
 
@@ -339,22 +325,14 @@ app.get('/case-study/:id', authenticateToken, (req, res) => {
   }
 });
 
-// Startup validation for required environment variables
-const requiredEnvVars = [
-  'USER_1_PASSWORD',
-  'USER_1_EXPIRY',
-  'USER_2_PASSWORD',
-  'USER_2_EXPIRY',
-  'JWT_SECRET'
-];
-
-const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+// Ensure all required environment variables are set
+const requiredEnvVars = ['USER_1_PASSWORD', 'USER_1_EXPIRY', 'USER_2_PASSWORD', 'USER_2_EXPIRY', 'JWT_SECRET'];
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName] || process.env[varName].trim() === '');
 
 if (missingEnvVars.length > 0) {
   console.error('Missing required environment variables:', missingEnvVars);
   process.exit(1);
 }
-
 
 
 

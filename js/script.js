@@ -70,94 +70,90 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //case study //
 
-
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('passwordModal');
-    const closeBtn = document.getElementsByClassName('modal-icon')[0];
+    const closeBtn = document.querySelector('.modal-icon');
     const submitBtn = document.getElementById('submitPassword');
     const passwordInput = document.getElementById('passwordInput');
     const modalError = document.getElementById('modalError');
-  
-    // Function to check if user has valid token
+
+    // Function to check if the user has a valid JWT token
     const hasValidToken = () => {
         const token = localStorage.getItem('caseStudyToken');
         if (!token) return false;
-  
+
         try {
-            // Decode token to check expiration
             const base64Url = token.split('.')[1];
             const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
             const payload = JSON.parse(window.atob(base64));
-            
-            return payload.exp * 1000 > Date.now();
+
+            return payload?.exp && payload.exp * 1000 > Date.now();
         } catch (error) {
+            console.error("Error decoding JWT:", error);
             return false;
         }
     };
-  
-    // Function to load case study content
+
+    // Function to load the case study content
     const loadCaseStudy = (caseStudyId) => {
-        // Load the local HTML file
         window.location.href = `case-studies/case-study-${caseStudyId}.html`;
     };
-  
-    // Handle case study button clicks
+
+    // Event listener for case study buttons
     document.querySelectorAll('[data-case-study]').forEach(button => {
         button.addEventListener('click', (e) => {
-            const caseStudyId = e.target.dataset.caseStudy;
-            
+            const caseStudyId = e.currentTarget.dataset.caseStudy;
+
+            if (!caseStudyId) {
+                console.error("Error: Button missing data-case-study attribute");
+                return;
+            }
+
+            console.log("Button Clicked: caseStudyId =", caseStudyId);
+
             if (hasValidToken()) {
-                // If user has valid token, load case study directly
                 loadCaseStudy(caseStudyId);
             } else {
-                // Show password modal
                 modal.style.display = 'block';
                 passwordInput.value = '';
                 modalError.style.display = 'none';
-                
-                // Store case study ID for after password verification
                 modal.dataset.pendingCaseStudy = caseStudyId;
             }
         });
     });
-  
-    // Close modal when X is clicked
-    closeBtn.onclick = () => {
+
+    // Close modal when clicking 'X' button
+    closeBtn.addEventListener('click', () => {
         modal.style.display = 'none';
-    };
-  
+    });
+
     // Close modal when clicking outside
-    window.onclick = (event) => {
+    window.addEventListener('click', (event) => {
         if (event.target === modal) {
             modal.style.display = 'none';
         }
-    };
-  
+    });
+
     // Handle password submission
-    submitBtn.onclick = async () => {
+    submitBtn.addEventListener('click', async () => {
         const password = passwordInput.value;
         modalError.style.display = 'none';
         submitBtn.disabled = true;
-    
+
         try {
             const response = await fetch('https://portfolio-7hpb.onrender.com/api/verify', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ password })
             });
-    
+
             const data = await response.json();
-    
+
             if (data.success) {
-                // Store token
                 localStorage.setItem('caseStudyToken', data.token);
                 modal.style.display = 'none';
-    
-                // Debugging: Check if caseStudyId is correctly set
+
                 const caseStudyId = modal.dataset.pendingCaseStudy;
-                console.log("Case Study ID:", caseStudyId);
-    
-                // Ensure caseStudyId is valid before calling loadCaseStudy
                 if (caseStudyId && caseStudyId !== "undefined") {
                     loadCaseStudy(caseStudyId);
                 } else {
@@ -168,65 +164,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalError.style.display = 'block';
             }
         } catch (error) {
+            console.error("Error verifying password:", error);
             modalError.textContent = 'An error occurred. Please try again later.';
             modalError.style.display = 'block';
         } finally {
             submitBtn.disabled = false;
         }
-    };
-    
-  
-  document.querySelectorAll('[data-case-study]').forEach(button => {
-      button.addEventListener('click', (e) => {
-          const caseStudyId = e.target.dataset.caseStudy;
-          console.log("Button Clicked: caseStudyId =", caseStudyId);
-  
-          if (caseStudyId) {
-              if (hasValidToken()) {
-                  loadCaseStudy(caseStudyId);
-              } else {
-                  modal.style.display = 'block';
-                  passwordInput.value = '';
-                  modalError.style.display = 'none';
-                  modal.dataset.pendingCaseStudy = caseStudyId;
-              }
-          } else {
-              console.error("Error: Button missing data-case-study attribute");
-          }
-      });
-  });
-  
+    });
+
     // Handle Enter key in password input
     passwordInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             submitBtn.click();
         }
     });
-  });
-
-
-document.querySelectorAll('[data-case-study]').forEach(button => {
-    button.addEventListener('click', (e) => {
-        const caseStudyId = e.currentTarget.dataset.caseStudy;  // Use `currentTarget`
-        console.log("Button Clicked: caseStudyId =", caseStudyId);
-
-        if (caseStudyId) {
-            if (hasValidToken()) {
-                loadCaseStudy(caseStudyId);
-            } else {
-                modal.style.display = 'block';
-                passwordInput.value = '';
-                modalError.style.display = 'none';
-                modal.dataset.pendingCaseStudy = caseStudyId; // Store caseStudyId correctly
-            }
-        } else {
-            console.error("Error: Button missing data-case-study attribute");
-        }
-    });
 });
-
-
-
 
 
 

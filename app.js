@@ -90,11 +90,12 @@ let lastPlayedSong = null;
 // Load last played song at startup
 try {
   if (fs.existsSync(lastPlayedFile)) {
-    lastPlayedSong = JSON.parse(fs.readFileSync(lastPlayedFile, 'utf8'));
+    const fileContent = fs.readFileSync(lastPlayedFile, 'utf8');
+    lastPlayedSong = fileContent ? JSON.parse(fileContent) : null;
   }
 } catch (error) {
   console.error('Error loading last played song:', error);
-  lastPlayedSong = {}; // Prevent null errors
+  lastPlayedSong = null; // Reset if there's an error
 }
 
 app.get('/api/spotify/playback', async (req, res) => {
@@ -241,10 +242,6 @@ app.get('/api/strava/personal/weekly', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch personal activity data' });
   }
 });
-
-
-
-
 
 
 

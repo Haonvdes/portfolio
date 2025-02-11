@@ -151,7 +151,7 @@ async function getLatestStravaActivities(clubId) {
           <img src="public/assets/top${index + 1}.svg" alt="Athlete ${index + 1}" width="40" height="40">
           <div class="athlete-sat">
             <p class="md-bold">${activity.athleteName}</p>
-            <p class="md-regular">${activity.distance} / ${activity.movingTime}</p>
+            <p class="md-regular">${activity.activityType} / ${activity.movingTime} / ${activity.distance}</p>
           </div>
         `;
         activitiesSection.appendChild(activityElement);
@@ -230,7 +230,7 @@ async function getPersonalStravaActivity() {
     personalSection.appendChild(summaryElement);
   } catch (error) {
     console.error('Error fetching personal data:', error.message);
-    document.getElementById('personal-section').innerHTML = '<p>Failed to load personal activities.</p>';
+    document.getElementById('personal-section').innerHTML = '<p class="md-regular">Oops! Something went wrong; trying to load again shortly.</p>';
   }
 }
 

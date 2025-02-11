@@ -6,7 +6,6 @@ const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const fs = require('fs');
-const lastPlayedFile = path.join(__dirname, 'lastPlayedSong.json');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -85,22 +84,23 @@ async function getStravaAccessToken() {
 }
 
 
-// Track the last song played
+const lastPlayedFile = './lastPlayed.json';
 let lastPlayedSong = null;
 
+// Load last played song at startup
 try {
   if (fs.existsSync(lastPlayedFile)) {
     lastPlayedSong = JSON.parse(fs.readFileSync(lastPlayedFile, 'utf8'));
   }
 } catch (error) {
   console.error('Error loading last played song:', error);
+  lastPlayedSong = {}; // Prevent null errors
 }
-
 
 app.get('/api/spotify/playback', async (req, res) => {
   try {
     const accessToken = await getSpotifyAccessToken();
-    
+
     // Fetch playback state and recent tracks
     const responses = await Promise.allSettled([
       axios.get('https://api.spotify.com/v1/me/player', {
@@ -110,27 +110,32 @@ app.get('/api/spotify/playback', async (req, res) => {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
     ]);
-    
+
     const playbackResponse = responses[0].status === 'fulfilled' ? responses[0].value.data : null;
     const recentTracksResponse = responses[1].status === 'fulfilled' ? responses[1].value.data : null;
-    
-    // Update last played song if needed
-    if (playbackResponse?.is_playing && playbackResponse?.item) {
-      lastPlayedSong = playbackResponse.item;
+
+    // Debugging: See API responses
+    console.log("Playback Response:", JSON.stringify(playbackResponse, null, 2));
+    console.log("Recent Tracks API Response:", JSON.stringify(recentTracksResponse, null, 2));
+
+    let isPlaying = playbackResponse?.is_playing;
+    let currentTrack = playbackResponse?.item;
+
+    // Only update lastPlayedSong if we get valid data
+    if (isPlaying && currentTrack) {
+      lastPlayedSong = currentTrack;
     } else if (recentTracksResponse?.items?.length > 0) {
       lastPlayedSong = recentTracksResponse.items[0].track;
     }
 
-    // Save last played song to file
-    if (lastPlayedSong) {
+    // Save last played song to file only if it's valid
+    if (lastPlayedSong && lastPlayedSong.name) {
       fs.writeFileSync(lastPlayedFile, JSON.stringify(lastPlayedSong, null, 2), 'utf8');
     }
 
-    // Determine response data
-    const currentTrack = playbackResponse?.item;
-    const isPlaying = playbackResponse?.is_playing;
-    const songToUse = isPlaying ? currentTrack : lastPlayedSong;
-    
+    // Choose the correct track to return
+    const songToUse = isPlaying ? currentTrack : (lastPlayedSong && lastPlayedSong.name ? lastPlayedSong : null);
+
     res.json({
       status: isPlaying ? "Stephano is playing" : "Stephano is away",
       playing: !!isPlaying,

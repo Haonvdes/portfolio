@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const passwordInput = document.getElementById('passwordInput');
   const modalError = document.getElementById('modalError');
 
-  // Function to check if user has a valid token
+  // Function to check if user has valid token
   const hasValidToken = () => {
       const token = localStorage.getItem('caseStudyToken');
       if (!token) return false;
@@ -171,6 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to load case study content
   const loadCaseStudy = (caseStudyId) => {
+      // Load the local HTML file
       window.location.href = `case-studies/case-study-${caseStudyId}.html`;
   };
 
@@ -180,11 +181,15 @@ document.addEventListener('DOMContentLoaded', () => {
           const caseStudyId = e.target.dataset.caseStudy;
           
           if (hasValidToken()) {
+              // If user has valid token, load case study directly
               loadCaseStudy(caseStudyId);
           } else {
+              // Show password modal
               modal.style.display = 'block';
               passwordInput.value = '';
               modalError.style.display = 'none';
+              
+              // Store case study ID for after password verification
               modal.dataset.pendingCaseStudy = caseStudyId;
           }
       });
@@ -209,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.disabled = true;
 
       try {
-          const response = await fetch('https://your-render-domain.onrender.com/api/verify', {
+          const response = await fetch('https://portfolio-7hpb.onrender.com/api/verify', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ password })
@@ -218,9 +223,13 @@ document.addEventListener('DOMContentLoaded', () => {
           const data = await response.json();
 
           if (data.success) {
+              // Store token
               localStorage.setItem('caseStudyToken', data.token);
               modal.style.display = 'none';
-              loadCaseStudy(modal.dataset.pendingCaseStudy);
+
+              // Load the pending case study
+              const caseStudyId = modal.dataset.pendingCaseStudy;
+              loadCaseStudy(caseStudyId);
           } else {
               modalError.textContent = data.message;
               modalError.style.display = 'block';

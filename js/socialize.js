@@ -151,7 +151,7 @@ async function getLatestStravaActivities(clubId) {
           <img src="public/assets/top${index + 1}.svg" alt="Athlete ${index + 1}" width="40" height="40">
           <div class="athlete-sat">
             <p class="md-bold">${activity.athleteName}</p>
-            <p class="md-regular">${activity.activityType} / ${activity.movingTime} / ${activity.distance}</p>
+            <p class="md-regular">${activity.distance} / ${activity.movingTime} / ${activity.activityType}</p>
           </div>
         `;
         activitiesSection.appendChild(activityElement);

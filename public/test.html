@@ -16,50 +16,21 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <title>Responsive Navbar</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
+
 
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background-color: white;
-            padding: 15px 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 16px 0px;
             position: relative;
         }
 
-        .profile {
-            display: flex;
-            align-items: center;
-        }
-
-        .profile-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-        .name {
-            font-size: 18px;
-            font-weight: bold;
-            margin: 0;
-        }
-
-        .certifications {
-            font-size: 12px;
-            color: gray;
-            margin: 0;
-        }
 
         .menu-links {
             display: none;
-            gap: 20px;
+            gap: 24px;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
@@ -69,35 +40,57 @@
             display: flex;
             opacity: 1;
             visibility: visible;
+            transition: all 0.3s ease-in-out;
+
+
         }
         .menu-links.active .btn-primary {
-                display: none;
-            }
-        .menu-item {
-            text-decoration: none;
-            color: black;
-            font-weight: 500;
+            display: none;
         }
 
         .menu-button {
             background: none;
             border: none;
-            font-size: 24px;
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 20px;
         }
-#btn-primary {
-    visibility:none ;
-}
-        /* Mobile Styles */
+
+        .menu-button span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color:black;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .menu-button.active span:nth-child(1) {
+            transform: rotate(45deg);
+            position: relative;
+            top: 9px;
+        }
+
+        .menu-button.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-button.active span:nth-child(3) {
+            transform: rotate(-45deg);
+            position: relative;
+            top: -7px;
+        }
+
         @media screen and (max-width: 768px) {
             .menu-links {
                 position: absolute;
                 top: 100%;
                 left: 0;
                 width: 100%;
-                background-color: white;
                 flex-direction: column;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+
             }
 
             .menu-links.active {
@@ -105,29 +98,22 @@
                 height: 100vh;
                 align-items: center;
                 justify-content: center;
+                transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+
             }
 
             .menu-button {
-                display: block;
+                display: flex;
             }
 
-            .btn-primary {
+            #btn-primary {
                 display: none;
             }
 
             .menu-links.active .btn-primary {
                 display: block;
                 width: 100%;
-                margin-top: 15px;
-            }
-
-            .menu-item {
-                padding: 10px 0;
-                border-bottom: 1px solid #eee;
-            }
-
-            .menu-item:last-child {
-                border-bottom: none;
+                margin-top: 16px;
             }
         }
         .nav-right{
@@ -138,77 +124,49 @@
         .nav-right > div{
             display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 32px;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="profile">
-            <img src="https://via.placeholder.com/40" alt="Profile" class="profile-img">
-            <div>
-                <h1 class="name">STEPHANO.NG</h1>
-                <p class="certifications">PMP® | PMI-ACP® | PSM</p>
-            </div>
-        </div>
-        <div class="nav-right">
-        <div>
-            <div class="menu-links" id="menu-links">
-                <a href="#work" class="menu-item">Work</a>
-                <a href="#about" class="menu-item">About</a>
-                <button class="btn-primary" id="btn-primary">Let's Chat</button>
-            </div>
-              
-                <button id="menu-toggle" class="menu-button">
-                    ☰
-            </button>
-
-        </div>
-            <button class="btn-primary">Let's Chat</button>
-        </div>
-      
+    <div class="container-fluid">
+        <div class="container navbar">
+            <div class="nav-header">
+                <div class="nav-title">
+                  <div class="nav-infor">
+                    <!-- <a href="./index.html"><img src="./img/Ellipse 1.png" alt="logo"></a> -->
+                    <div class="div" style="display: flex; flex-direction: column; gap: var(--space-12); align-items: left;">
+                      <p class="lg-medium" style="text-transform: uppercase;">Stephano.ng</p>
+                      <p class="sm-medium">Practical AI, UXD and PMP</p>
+                      </div>
+                </div>
+                </div>
+              </div>
+              <div class="nav-right">
+                  <div>
+                      <div class="menu-links" id="menu-links">
+                          <a href="#work" class="md-medium">Work</a>
+                          <a href="#about" class="md-medium">About</a>
+                          <button class="btn-primary" >Let's Chat</button>
+                      </div>
+                      <button id="menu-toggle" class="menu-button">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                      </button>
+                  </div>
+                  <button class="btn-primary" id="btn-primary">Let's Chat</button>
+              </div>
+          </div>
     </nav>
+
     <script>    
         document.getElementById('menu-toggle').addEventListener('click', function() {
             const menu = document.getElementById('menu-links');
             const button = document.getElementById('menu-toggle');
             menu.classList.toggle('active');
-            
-            if (menu.classList.contains('active')) {
-                button.textContent = '✖';
-            } else {
-                button.textContent = '☰';
-            }
+            button.classList.toggle('active');
         });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const tooltip = document.getElementById("tooltip");
-            const tooltipContainers = document.querySelectorAll(".tooltip-container");
-
-            tooltipContainers.forEach(container => {
-                container.addEventListener("mouseenter", function () {
-                    const text = container.getAttribute("data-tooltip");
-                    tooltip.textContent = text;
-                    tooltip.style.visibility = "visible";
-                    tooltip.style.opacity = "1";
-                    tooltip.style.display = "flex"
-                    tooltip.style.alignItems = "center"
-                    tooltip.style.padding = "16px"
-
-
-                    // Positioning the tooltip dynamically
-                    const rect = container.getBoundingClientRect();
-                    tooltip.style.top = `${rect.top - tooltip.offsetHeight - 5}px`;
-                    tooltip.style.left = `${rect.left + rect.width / 2}px`;
-                });
-
-                container.addEventListener("mouseleave", function () {
-                    tooltip.style.visibility = "hidden";
-                    tooltip.style.opacity = "0";
-                });
-            });
-        });
-
     </script>
 </body>
 </html>

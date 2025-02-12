@@ -44,7 +44,7 @@ async function getPlaybackState() {
       trackInfoElement.appendChild(albumCoverElement);
       trackInfoElement.innerHTML += `
         <div class="song">
-          <p class="md-regular">${playbackData.playing ? playbackData.artist : 'Last song played:'}</p>
+          <p class="md-regular">${playbackData.playing ? playbackData.artist : 'Last song played'}</p>
           <p class="md-bold">
             <a href="${playbackData.trackUrl}" target="_blank" style="text-decoration: none; color: #374151; line-height:16px;">
               ${playbackData.playing ? playbackData.track : `${playbackData.track} by ${playbackData.artist}`}

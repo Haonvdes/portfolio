@@ -1,16 +1,13 @@
+// Function to fetch and display playback state
 async function getPlaybackState() {
   try {
     const playbackResponse = await fetch('https://portfolio-7hpb.onrender.com/api/spotify/playback');
-    
-    if (!playbackResponse.ok) {
-      throw new Error('Failed to fetch playback state');
-    }
+    if (!playbackResponse.ok) throw new Error('Failed to fetch playback state');
 
     const playbackData = await playbackResponse.json();
     const playbackInfo = document.getElementById('playback-info');
-    playbackInfo.innerHTML = ''; // Clear previous content
+    playbackInfo.innerHTML = '';
 
-    // Spotify Header Image
     const imageElement = document.createElement('img');
     imageElement.src = '../public/spotify-logo.png';
     imageElement.alt = 'Spotify Header Image';
@@ -18,14 +15,12 @@ async function getPlaybackState() {
     imageElement.style.marginBottom = '32px';
     playbackInfo.appendChild(imageElement);
 
-    // Status Message
     const statusMessageElement = document.createElement('p');
     statusMessageElement.classList.add('sub-heading');
     statusMessageElement.style.paddingBottom = '16px';
     statusMessageElement.innerText = playbackData.playing ? 'Stephano is playing' : 'Stephano is away';
     playbackInfo.appendChild(statusMessageElement);
 
-    // Track Information
     if (playbackData.track) {
       const trackInfoElement = document.createElement('div');
       trackInfoElement.classList.add('track-info');
@@ -51,15 +46,26 @@ async function getPlaybackState() {
           </p>
         </div>
       `;
-      
       playbackInfo.appendChild(trackInfoElement);
+    }
+
+    // Display recently played tracks
+    if (playbackData.recentlyPlayed.length > 0) {
+      const recentlyPlayedContainer = document.createElement('div');
+      recentlyPlayedContainer.classList.add('recently-played');
+      playbackData.recentlyPlayed.forEach(song => {
+        const songElement = document.createElement('p');
+        songElement.innerHTML = `<a href="${song.trackUrl}" target="_blank">${song.track} by ${song.artist}</a>`;
+        recentlyPlayedContainer.appendChild(songElement);
+      });
+      playbackInfo.appendChild(recentlyPlayedContainer);
     }
   } catch (error) {
     console.error('Error fetching playback state:', error);
-    document.getElementById('playback-info').innerHTML =
-      '<p class="md-regular">Oops! Something went wrong; trying to load again shortly.</p>';
+    document.getElementById('playback-info').innerHTML = '<p class="md-regular">Oops! Something went wrong; trying to load again shortly.</p>';
   }
 }
+
 
 
 

@@ -6,6 +6,7 @@ const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const fs = require('fs');
+const lastPlayedFile = 'lastPlayed.json';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -83,8 +84,6 @@ async function getStravaAccessToken() {
   }
 }
 
-
-const lastPlayedFile = 'lastPlayed.json';
 let lastPlayedSong = null;
 
 // Load last played song at startup

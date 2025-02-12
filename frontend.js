@@ -1,13 +1,13 @@
+// Function to fetch and display playback state
 async function getPlaybackState() {
   try {
-    const response = await fetch('https://portfolio-7hpb.onrender.com/api/spotify/playback');
-    if (!response.ok) throw new Error('Failed to fetch playback state');
-    const data = await response.json();
+    const playbackResponse = await fetch('https://portfolio-7hpb.onrender.com/api/spotify/playback');
+    if (!playbackResponse.ok) throw new Error('Failed to fetch playback state');
 
+    const playbackData = await playbackResponse.json();
     const playbackInfo = document.getElementById('playback-info');
-    playbackInfo.innerHTML = ''; // Clear previous content
+    playbackInfo.innerHTML = '';
 
-    // Spotify Header Image
     const imageElement = document.createElement('img');
     imageElement.src = '../public/spotify-logo.png';
     imageElement.alt = 'Spotify Header Image';
@@ -15,60 +15,58 @@ async function getPlaybackState() {
     imageElement.style.marginBottom = '32px';
     playbackInfo.appendChild(imageElement);
 
-    // Status Message
     const statusMessageElement = document.createElement('p');
     statusMessageElement.classList.add('sub-heading');
     statusMessageElement.style.paddingBottom = '16px';
-
-    if (data.playing) {
-      statusMessageElement.innerText = 'Stephano is playing';
-    } else {
-      statusMessageElement.innerText = 'Stephano is away';
-    }
+    statusMessageElement.innerText = playbackData.playing ? 'Stephano is playing' : 'Stephano is away';
     playbackInfo.appendChild(statusMessageElement);
 
-    // Track Information
-    const trackInfoElement = document.createElement('div');
-    trackInfoElement.classList.add('track-info');
+    if (playbackData.track) {
+      const trackInfoElement = document.createElement('div');
+      trackInfoElement.classList.add('track-info');
 
-    const albumCoverElement = document.createElement('img');
-    albumCoverElement.src = data.albumCover || '';
-    albumCoverElement.alt = 'Album Cover';
-    albumCoverElement.width = 50;
-    albumCoverElement.height = 50;
+      const albumCoverElement = document.createElement('img');
+      albumCoverElement.src = playbackData.albumCover;
+      albumCoverElement.alt = 'Album Cover';
+      albumCoverElement.width = 50;
+      albumCoverElement.height = 50;
 
-    if (data.playing) {
-      albumCoverElement.classList.add('rotate'); // Add rotation animation if playing
+      if (playbackData.playing) {
+        albumCoverElement.classList.add('rotate');
+      }
+
       trackInfoElement.appendChild(albumCoverElement);
       trackInfoElement.innerHTML += `
         <div class="song">
-          <p class="md-regular">${data.artist}</p>
+          <p class="md-regular">${playbackData.playing ? playbackData.artist : 'Last song played:'}</p>
           <p class="md-bold">
-            <a href="${data.trackUrl}" target="_blank" style="text-decoration: none; color: #374151; line-height:16px;">
-              ${data.track}</a></p>
-        </div>
-      `;
-    } else if (data.track && data.artist) {
-      trackInfoElement.appendChild(albumCoverElement);
-      trackInfoElement.innerHTML += `
-        <div class="song">
-          <p class="md-regular">Last song played:</p>
-          <p class="md-bold">
-            <a href="${data.trackUrl}" target="_blank" style="text-decoration: none; color: #374151;">
-              ${data.track} by ${data.artist}
+            <a href="${playbackData.trackUrl}" target="_blank" style="text-decoration: none; color: #374151; line-height:16px;">
+              ${playbackData.playing ? playbackData.track : `${playbackData.track} by ${playbackData.artist}`}
             </a>
           </p>
         </div>
       `;
+      playbackInfo.appendChild(trackInfoElement);
     }
 
-    playbackInfo.appendChild(trackInfoElement);
+    // Display recently played tracks
+    if (playbackData.recentlyPlayed.length > 0) {
+      const recentlyPlayedContainer = document.createElement('div');
+      recentlyPlayedContainer.classList.add('recently-played');
+      playbackData.recentlyPlayed.forEach(song => {
+        const songElement = document.createElement('p');
+        songElement.innerHTML = `<a href="${song.trackUrl}" target="_blank">${song.track} by ${song.artist}</a>`;
+        recentlyPlayedContainer.appendChild(songElement);
+      });
+      playbackInfo.appendChild(recentlyPlayedContainer);
+    }
   } catch (error) {
     console.error('Error fetching playback state:', error);
-    document.getElementById('playback-info').innerHTML =
-      '<p class="md-regular">Oops! Something went wrong, trying to load again shortly.</p>';
+    document.getElementById('playback-info').innerHTML = '<p class="md-regular">Oops! Something went wrong; trying to load again shortly.</p>';
   }
 }
+
+
 
 
 
@@ -159,7 +157,7 @@ async function getLatestStravaActivities(clubId) {
           <img src="public/assets/top${index + 1}.svg" alt="Athlete ${index + 1}" width="40" height="40">
           <div class="athlete-sat">
             <p class="md-bold">${activity.athleteName}</p>
-            <p class="md-regular">${activity.distance} / ${activity.movingTime}</p>
+            <p class="md-regular">${activity.distance} / ${activity.movingTime} / ${activity.activityType}</p>
           </div>
         `;
         activitiesSection.appendChild(activityElement);
@@ -187,6 +185,7 @@ async function getPersonalStravaActivity() {
     // Summary Section
     const summaryElement = document.createElement('div');
     summaryElement.classList.add('personal-summary');
+    summaryElement.style.width = '100%';
 
     // Create the image element
     const imageElement = document.createElement('img');
@@ -237,7 +236,7 @@ async function getPersonalStravaActivity() {
     personalSection.appendChild(summaryElement);
   } catch (error) {
     console.error('Error fetching personal data:', error.message);
-    document.getElementById('personal-section').innerHTML = '<p>Failed to load personal activities.</p>';
+    document.getElementById('personal-section').innerHTML = '<p class="md-regular">Oops! Something went wrong; trying to load again shortly.</p>';
   }
 }
 
@@ -355,7 +354,7 @@ function initializePageSafely() {
       
       // Initialize Spotify functionality with error handling
       safeGetPlaybackState();
-      setInterval(safeGetPlaybackState, 90000);
+      setInterval(safeGetPlaybackState, 30000);
       break;
   }
 }
@@ -367,158 +366,3 @@ window.addEventListener('unhandledrejection', event => {
 
 // Run initialization when the page loads
 document.addEventListener('DOMContentLoaded', initializePageSafely);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//password//
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  const modal = document.getElementById('passwordModal');
-  const closeBtn = document.getElementsByClassName('modal-icon')[0];
-  const submitBtn = document.getElementById('submitPassword');
-  const passwordInput = document.getElementById('passwordInput');
-  const modalError = document.getElementById('modalError');
-
-  // Function to check if user has valid token
-  const hasValidToken = () => {
-      const token = localStorage.getItem('caseStudyToken');
-      if (!token) return false;
-
-      try {
-          // Decode token to check expiration
-          const base64Url = token.split('.')[1];
-          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-          const payload = JSON.parse(window.atob(base64));
-          
-          return payload.exp * 1000 > Date.now();
-      } catch (error) {
-          return false;
-      }
-  };
-
-  // Function to load case study content
-  const loadCaseStudy = (caseStudyId) => {
-      // Load the local HTML file
-      window.location.href = `case-studies/case-study-${caseStudyId}.html`;
-  };
-
-  // Handle case study button clicks
-  document.querySelectorAll('[data-case-study]').forEach(button => {
-      button.addEventListener('click', (e) => {
-          const caseStudyId = e.target.dataset.caseStudy;
-          
-          if (hasValidToken()) {
-              // If user has valid token, load case study directly
-              loadCaseStudy(caseStudyId);
-          } else {
-              // Show password modal
-              modal.style.display = 'block';
-              passwordInput.value = '';
-              modalError.style.display = 'none';
-              
-              // Store case study ID for after password verification
-              modal.dataset.pendingCaseStudy = caseStudyId;
-          }
-      });
-  });
-
-  // Close modal when X is clicked
-  closeBtn.onclick = () => {
-      modal.style.display = 'none';
-  };
-
-  // Close modal when clicking outside
-  window.onclick = (event) => {
-      if (event.target === modal) {
-          modal.style.display = 'none';
-      }
-  };
-
-  // Handle password submission
-  submitBtn.onclick = async () => {
-    const password = passwordInput.value;
-    modalError.style.display = 'none';
-    submitBtn.disabled = true;
-
-      try {
-          const response = await fetch('https://portfolio-7hpb.onrender.com/api/verify', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ password })
-          });
-
-          const data = await response.json();
-
-          if (data.success) {
-              // Store token
-              localStorage.setItem('caseStudyToken', data.token);
-              modal.style.display = 'none';
-
-                // Debugging: Check if caseStudyId is correctly set
-                const caseStudyId = modal.dataset.pendingCaseStudy;
-                console.log("Case Study ID:", caseStudyId);
-
-            // Ensure caseStudyId is valid before calling loadCaseStudy
-            if (caseStudyId) {
-                loadCaseStudy(caseStudyId);
-            } else {
-                console.error("Error: caseStudyId is undefined");
-            }
-            } else {
-            modalError.textContent = data.message;
-            modalError.style.display = 'block';
-            }
-            } catch (error) {
-            modalError.textContent = 'An error occurred. Please try again later.';
-            modalError.style.display = 'block';
-            } finally {
-            submitBtn.disabled = false;
-            }
-};
-
-document.querySelectorAll('[data-case-study]').forEach(button => {
-    button.addEventListener('click', (e) => {
-        const caseStudyId = e.target.dataset.caseStudy;
-        console.log("Button Clicked: caseStudyId =", caseStudyId);
-
-        if (caseStudyId) {
-            if (hasValidToken()) {
-                loadCaseStudy(caseStudyId);
-            } else {
-                modal.style.display = 'block';
-                passwordInput.value = '';
-                modalError.style.display = 'none';
-                modal.dataset.pendingCaseStudy = caseStudyId;
-            }
-        } else {
-            console.error("Error: Button missing data-case-study attribute");
-        }
-    });
-});
-
-  // Handle Enter key in password input
-  passwordInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-          submitBtn.click();
-      }
-  });
-});

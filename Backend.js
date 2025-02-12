@@ -5,6 +5,8 @@ const dotenv = require('dotenv');
 const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const path = require('path');
+const fs = require('fs');
+const lastPlayedFile = 'lastPlayed.json';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -42,9 +44,6 @@ const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
 const STRAVA_REFRESH_TOKEN = process.env.STRAVA_REFRESH_TOKEN;
 const JWT_SECRET = process.env.JWT_SECRET;
 
-
-// Track the last song played
-let lastPlayedSong = null;
 
 // Spotify token refresh function
 async function getSpotifyAccessToken() {
@@ -85,48 +84,77 @@ async function getStravaAccessToken() {
   }
 }
 
+let lastPlayedSong = null;
+
+/// Load last played song at startup
+try {
+  if (fs.existsSync(lastPlayedFile)) {
+    const fileContent = fs.readFileSync(lastPlayedFile, 'utf8');
+    lastPlayedSong = fileContent ? JSON.parse(fileContent) : null;
+  }
+} catch (error) {
+  console.error('Error loading last played song:', error);
+  lastPlayedSong = null;
+}
+
 app.get('/api/spotify/playback', async (req, res) => {
   try {
     const accessToken = await getSpotifyAccessToken();
-    
-    // Fetch playback state and recent tracks
+
+    // Fetch playback state and recently played tracks
     const responses = await Promise.allSettled([
       axios.get('https://api.spotify.com/v1/me/player', {
         headers: { Authorization: `Bearer ${accessToken}` },
       }),
-      axios.get('https://api.spotify.com/v1/me/player/recently-played?limit=1', {
+      axios.get('https://api.spotify.com/v1/me/player/recently-played?limit=5', {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
     ]);
-    
+
     const playbackResponse = responses[0].status === 'fulfilled' ? responses[0].value.data : null;
     const recentTracksResponse = responses[1].status === 'fulfilled' ? responses[1].value.data : null;
-    
-    // Update last played song if needed
-    if (playbackResponse?.is_playing && playbackResponse?.item) {
-      lastPlayedSong = playbackResponse.item;
+
+    let isPlaying = playbackResponse?.is_playing;
+    let currentTrack = playbackResponse?.item;
+
+    // Update last played song if valid
+    if (isPlaying && currentTrack) {
+      lastPlayedSong = currentTrack;
     } else if (recentTracksResponse?.items?.length > 0) {
       lastPlayedSong = recentTracksResponse.items[0].track;
     }
 
-    // Determine response data
-    const currentTrack = playbackResponse?.item;
-    const isPlaying = playbackResponse?.is_playing;
-    const songToUse = isPlaying ? currentTrack : lastPlayedSong;
-    
+    // Save last played song to file if valid
+    if (lastPlayedSong && lastPlayedSong.name) {
+      fs.writeFileSync(lastPlayedFile, JSON.stringify(lastPlayedSong, null, 2), 'utf8');
+    }
+
+    // Prepare recently played tracks data
+    const recentlyPlayed = recentTracksResponse?.items.map(item => ({
+      track: item.track.name,
+      artist: item.track.artists.map(artist => artist.name).join(', '),
+      albumCover: item.track.album.images[0]?.url || null,
+      trackUrl: item.track.external_urls?.spotify || null
+    })) || [];
+
+    // Choose the correct track to return
+    const songToUse = isPlaying ? currentTrack : (lastPlayedSong && lastPlayedSong.name ? lastPlayedSong : null);
+
     res.json({
       status: isPlaying ? "Stephano is playing" : "Stephano is away",
       playing: !!isPlaying,
       track: songToUse?.name || null,
       artist: songToUse?.artists.map(artist => artist.name).join(', ') || null,
       albumCover: songToUse?.album.images[0]?.url || null,
-      trackUrl: songToUse?.external_urls?.spotify || null
+      trackUrl: songToUse?.external_urls?.spotify || null,
+      recentlyPlayed
     });
   } catch (error) {
     console.error('Playback endpoint error:', error.response?.data || error.message);
     res.status(500).json({ error: 'Failed to fetch playback data' });
   }
 });
+
 
 // Strava club activity endpoint
 app.get('/api/strava/club/:clubId/latest', async (req, res) => {
@@ -229,10 +257,11 @@ app.get('/api/strava/personal/weekly', async (req, res) => {
 
 
 
-
-
-
-
+// Ensure JWT_SECRET is set before running the server
+if (!process.env.JWT_SECRET) {
+  console.error('Error: Missing JWT_SECRET');
+  process.exit(1);
+}
 
 // Welcome route
 app.get('/', (req, res) => {
@@ -241,37 +270,31 @@ app.get('/', (req, res) => {
 
 // Middleware to validate JWT token
 const authenticateToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1] || 
-               req.query.token || 
-               req.cookies?.token;
-  
+  const token = req.headers.authorization?.split(' ')[1] || req.query.token || req.cookies?.token;
+
   if (!token) {
       return res.redirect('/?error=unauthorized');
   }
 
   try {
-      const decoded = jwt.verify(token, JWT_SECRET);
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.user = decoded;
       next();
   } catch (error) {
+      console.error("Token verification failed:", error);
       return res.redirect('/?error=invalid_token');
   }
 };
 
-// Password verification endpoint with session-based authentication
+// Password verification endpoint
 app.post('/api/verify', async (req, res) => {
   try {
       const { password } = req.body;
 
-      // Input validation
       if (!password) {
-          return res.status(400).json({ 
-              success: false, 
-              message: 'Invalid request parameters' 
-          });
+          return res.status(400).json({ success: false, message: 'Invalid request parameters' });
       }
 
-      // Check user-specific password & expiration (managed via Render.io)
       const users = [
           { id: 1, password: process.env.USER_1_PASSWORD, expiry: process.env.USER_1_EXPIRY },
           { id: 2, password: process.env.USER_2_PASSWORD, expiry: process.env.USER_2_EXPIRY }
@@ -279,33 +302,20 @@ app.post('/api/verify', async (req, res) => {
 
       const user = users.find(u => u.password === password);
       if (!user) {
-          return res.status(401).json({ 
-              success: false, 
-              message: 'Incorrect password. Please try again.' 
-          });
+          return res.status(401).json({ success: false, message: 'Incorrect password. Please try again.' });
       }
 
       if (new Date() > new Date(user.expiry)) {
-          return res.status(403).json({ 
-              success: false, 
-              message: 'This password has expired. Please contact the administrator for a new password.' 
-          });
+          return res.status(403).json({ success: false, message: 'This password has expired. Please contact the administrator.' });
       }
 
-      // Generate a session-wide token (valid for all case studies)
-      const token = jwt.sign(
-          { userId: user.id, exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) }, 
-          JWT_SECRET
-      );
+      // Generate a session token valid for 24 hours
+      const token = jwt.sign({ userId: user.id, exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60) }, process.env.JWT_SECRET);
 
       res.json({ success: true, token });
-
   } catch (error) {
       console.error('Verification error:', error);
-      res.status(500).json({ 
-          success: false, 
-          message: 'An error occurred during verification.' 
-      });
+      res.status(500).json({ success: false, message: 'Authentication failed. Please try again later.' });
   }
 });
 
@@ -319,22 +329,14 @@ app.get('/case-study/:id', authenticateToken, (req, res) => {
   }
 });
 
-// Startup validation for required environment variables
-const requiredEnvVars = [
-  'USER_1_PASSWORD',
-  'USER_1_EXPIRY',
-  'USER_2_PASSWORD',
-  'USER_2_EXPIRY',
-  'JWT_SECRET'
-];
-
-const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+// Ensure all required environment variables are set
+const requiredEnvVars = ['USER_1_PASSWORD', 'USER_1_EXPIRY', 'USER_2_PASSWORD', 'USER_2_EXPIRY', 'JWT_SECRET'];
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName] || process.env[varName].trim() === '');
 
 if (missingEnvVars.length > 0) {
   console.error('Missing required environment variables:', missingEnvVars);
   process.exit(1);
 }
-
 
 
 

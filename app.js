@@ -6,7 +6,6 @@ const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const fs = require('fs');
-const lastPlayedFile = 'lastPlayed.json';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -85,6 +84,8 @@ async function getStravaAccessToken() {
 }
 
 let lastPlayedSong = null;
+const lastPlayedFile = 'lastPlayed.json';
+
 
 // Load last played song at startup
 try {
@@ -101,7 +102,7 @@ app.get('/api/spotify/playback', async (req, res) => {
   try {
     const accessToken = await getSpotifyAccessToken();
 
-    // Fetch playback state and recent tracks
+    // Fetch playback state and recent tracks in parallel
     const responses = await Promise.allSettled([
       axios.get('https://api.spotify.com/v1/me/player', {
         headers: { Authorization: `Bearer ${accessToken}` },
@@ -114,34 +115,35 @@ app.get('/api/spotify/playback', async (req, res) => {
     const playbackResponse = responses[0].status === 'fulfilled' ? responses[0].value.data : null;
     const recentTracksResponse = responses[1].status === 'fulfilled' ? responses[1].value.data : null;
 
-    // Debugging: See API responses
     console.log("Playback Response:", JSON.stringify(playbackResponse, null, 2));
     console.log("Recent Tracks API Response:", JSON.stringify(recentTracksResponse, null, 2));
 
     let isPlaying = playbackResponse?.is_playing;
     let currentTrack = playbackResponse?.item;
 
+    const hasRecentTracks = recentTracksResponse?.items && recentTracksResponse.items.length > 0;
+
     // Only update lastPlayedSong if we get valid data
     if (isPlaying && currentTrack) {
       lastPlayedSong = currentTrack;
-    } else if (recentTracksResponse?.items?.length > 0) {
+    } else if (hasRecentTracks) {
       lastPlayedSong = recentTracksResponse.items[0].track;
     }
 
-    // Save last played song to file only if it's valid
+    // Save last played song to file
     if (lastPlayedSong && lastPlayedSong.name) {
       fs.writeFileSync(lastPlayedFile, JSON.stringify(lastPlayedSong, null, 2), 'utf8');
     }
 
     // Choose the correct track to return
-    const songToUse = isPlaying ? currentTrack : (lastPlayedSong && lastPlayedSong.name ? lastPlayedSong : null);
+    const songToUse = isPlaying ? currentTrack : (hasRecentTracks ? lastPlayedSong : null);
 
     res.json({
       status: isPlaying ? "Stephano is playing" : "Stephano is away",
       playing: !!isPlaying,
-      track: songToUse?.name || null,
-      artist: songToUse?.artists.map(artist => artist.name).join(', ') || null,
-      albumCover: songToUse?.album.images[0]?.url || null,
+      track: songToUse?.name || "No recent track available",
+      artist: songToUse?.artists?.map(a => a.name).join(', ') || "Unknown artist",
+      albumCover: songToUse?.album?.images[0]?.url || null,
       trackUrl: songToUse?.external_urls?.spotify || null
     });
   } catch (error) {
@@ -149,7 +151,6 @@ app.get('/api/spotify/playback', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch playback data' });
   }
 });
-
 
 // Strava club activity endpoint
 app.get('/api/strava/club/:clubId/latest', async (req, res) => {

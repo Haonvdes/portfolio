@@ -94,6 +94,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Function to close modal
+    const closeModal = () => {
+        modal.style.display = 'none';
+    };
+
+    // Close button click handler
+    closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeModal();
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
     // Function to load the case study content
     const loadCaseStudy = (caseStudyId) => {
         window.location.href = `case-studies/case-study-${caseStudyId}.html`;
@@ -122,17 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Close modal when clicking 'X' button
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-
-    // Close modal when clicking outside
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
 
     // Handle password submission
     submitBtn.addEventListener('click', async () => {

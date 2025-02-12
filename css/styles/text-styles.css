@@ -1,46 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
 h1 {
-	font-family: DM Sans;
+	font-family: Manrope;
 	font-size: 24px;
 	font-weight: 700;
 	margin: var(--m-0);
 }
 h2 {
-	font-family: DM Sans;
+	font-family: Manrope;
 	font-size: 22px;
 	font-weight: 700;
 	margin: var(--m-0);
 }
 h3 {
-	font-family: DM Sans;
+	font-family: Manrope;
 	font-size: 20px;
 	text-transform: uppercase;
 	font-weight: 700;
 	margin: var(--m-0);
 }
 .sub-heading {
-	font-family: DM Sans;
+	font-family: Manrope;
 	font-size: 16px;
 	text-transform: uppercase;
 	font-weight: 800;
 	color: var(--text-neutral-sub-heading);
 }
 .lg-bold {
-	font-family: DM Sans;
+	font-family: Manrope;
 	font-size: 16px;
 	font-weight: 700;
 	color: var(--text-neutral-body);
 }
 
 .lg-medium {
-	font-family: DM Sans;
+	font-family: Manrope;
 	font-size: 16px;
 	font-weight: 500;
 	color: var(--text-neutral-body);
 }
 .lg-regular {
-	font-family: DM Sans;
+	font-family: Manrope;
 	font-size: 16px;
 	font-weight: 400;
 	line-height: 24px;
@@ -49,28 +48,28 @@ h3 {
 	
 }
 .md-bold {
-	font-family: DM Sans;
+	font-family: Manrope;
 	font-size: 14px;
 	font-weight: 800;
 	color: var(--text-neutral-sub-heading);
 
 }
 .md-medium {
-	font-family: DM Sans;
+	font-family: Manrope;
 	font-size: 14px;
 	font-weight: 500;
 	color: var(--text-neutral-sub-heading);
 
 }
 .md-regular {
-	font-family: DM Sans;
+	font-family: Manrope;
 	font-size: 14px;
 	font-weight: 400;
 	color: var(--text-neutral-sub-heading);
 
 }
 .sm-bold {
-	font-family: DM Sans;
+	font-family: Manrope;
 	font-size: 12px;
 	text-transform: uppercase;
 	font-weight: 700;
@@ -78,21 +77,21 @@ h3 {
 
 }
 .sm-medium {
-	font-family: DM Sans;
+	font-family: Manrope;
 	font-size: 12px;
 	font-weight: 500;
 	color: var(--text-neutral-sub-heading);
 
 }
 .sm-regular {
-	font-family: DM Sans;
+	font-family: Manrope;
 	font-size: 12px;
 	font-weight: 400;
 	color: var(--text-neutral-sub-heading);
 
 }
 .display {
-	font-family: DM Sans;
+	font-family: Manrope;
 	font-size: 32px;
 	font-weight: 700;
 	color: var(--text-neutral-sub-heading);
@@ -103,17 +102,17 @@ h3 {
 
 @media (max-width:600px) {
 	.md-bold {
-		font-family: DM Sans;
+		font-family: Manrope;
 		font-size: 14px;
 		font-weight: 800;
 	}
 	.md-medium {
-		font-family: DM Sans;
+		font-family: Manrope;
 		font-size: 14px;
 		font-weight: 500;
 	}
 	.display {
-		font-family: DM Sans;
+		font-family: Manrope;
 		font-size: 22px;
 		font-weight: 700;
 	}

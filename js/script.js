@@ -1,3 +1,16 @@
+function loadComponent(id, file) {
+    fetch(file)
+        .then(response => response.text())
+        .then(data => document.getElementById(id).innerHTML = data)
+        .catch(error => console.error("Error loading component:", error));
+}
+
+loadComponent("nav-placeholder", "./nav/nav.html");
+loadComponent("footer-placeholder", "./nav/footer.html");
+
+
+
+
 // This is for tab content //
 
 function openHastag(evt, tagName) {
@@ -267,7 +280,33 @@ function openHastag(evt, tagName) {
   
   
   
-  
+  document.addEventListener("DOMContentLoaded", function () {
+    const tooltip = document.getElementById("tooltip");
+    const tooltipContainers = document.querySelectorAll(".tooltip-container");
+
+    tooltipContainers.forEach(container => {
+        container.addEventListener("mouseenter", function () {
+            const text = container.getAttribute("data-tooltip");
+            tooltip.textContent = text;
+            tooltip.style.visibility = "visible";
+            tooltip.style.opacity = "1";
+            tooltip.style.display = "flex"
+            tooltip.style.alignItems = "center"
+            tooltip.style.padding = "16px"
+
+
+            // Positioning the tooltip dynamically
+            const rect = container.getBoundingClientRect();
+            tooltip.style.top = `${rect.top - tooltip.offsetHeight - 5}px`;
+            tooltip.style.left = `${rect.left + rect.width / 2}px`;
+        });
+
+        container.addEventListener("mouseleave", function () {
+            tooltip.style.visibility = "hidden";
+            tooltip.style.opacity = "0";
+        });
+    });
+});
   
   
   

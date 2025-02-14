@@ -31,67 +31,8 @@
 </head>
 <body>
 <header class="header" style="height: 100%; min-height: 100vh;">
-    <nav class="container">
-        <div class="nav">
-            <input type="checkbox" id="nav-check">
-            <div class="nav-header">
-              <div class="nav-title">
-                <div class="nav-infor">
-                  <!-- <a href="./index.html"><img src="./img/Ellipse 1.png" alt="logo"></a> -->
-                  <div class="div" style="display: flex; flex-direction: column; gap: var(--space-8); align-items: left;">
-                    <a href="../index.html">
-                        <img src="../public/logo.svg" alt="Company Logo">
-                    </a>                    </div>
-              </div>
-              </div>
-            </div>
-            <div class="nav-btn">
-              <label for="nav-check">
-                <span></span>
-                <span></span>
-                <span></span>
-              </label>
-            </div>
+    <div class="container" id="nav-placeholder"></div>
 
-         
-            <div class="nav-links">
-                <a href="work.html" class="md-medium">Work</a>
-                <a href="../public/about.html" class="md-medium">About</a>
-              <button class="btn-primary md-medium"><a href="https://www.linkedin.com/in/stpnguyen/" target="_blank">
-                Let’s Chat</a></button>
-            </div>
-           </div>
-    </nav>
-    <!-- <nav class="container">
-        <div class="nav animate__animated animate__fadeIn">
-            <input type="checkbox" id="nav-check">
-            <div class="nav-header">
-              <div class="nav-title">
-                <div class="nav-infor">
-                  <a href="../index.html"><img src="../img/Ellipse 1.png" alt="logo"></a>
-                  <div class="div" style="display: flex; flex-direction: column; gap: var(--space-8); align-items: left;">
-                  <p class="lg-bold" style="	text-transform: uppercase;">Stephano.ng</p>
-                  <p class="md-medium">PMP® | PMI-ACP® | PSM</p>
-                  </div>
-              </div>
-              </div>
-            </div>
-            <div class="nav-btn">
-              <label for="nav-check">
-                <span></span>
-                <span></span>
-                <span></span>
-              </label>
-            </div>
-         
-            <div class="nav-links lg-medium">
-              <a href="/" target="_blank">Work</a>
-              <a href="../public/about.html">About</a>
-              <button class="btn-primary md-medium"><a href="https://www.linkedin.com/in/stpnguyen/" target="_blank">
-                Let’s Chat</a></button>
-            </div>
-           </div>
-    </nav> -->
     <div class="container about-cover">
         <div class="focused-ab">
             <img src="../public/img.personal.png" alt=" profile image">
@@ -159,7 +100,7 @@
 <main class="container-fluid" style="margin-top: 24px;">
 
     <div class="container">
-        <p class="sub-heading" style="padding-bottom: 24px;"> Activities</p>
+        <p class="sub-heading" style="padding-bottom: 24px;"> Current Activities</p>
         <div class="gallery">
     <div class="ab-activity">
            <!-- Spotify Playback Info -->
@@ -193,41 +134,9 @@
         </div>
     </div>
 
-    <div class="contact">
-        <h1 style="color: var(--text-utilities-decorate-primary); width: max-content;">
-            Let’s Build Something <br> Meaningful Together
-        </h1>
-            <button class="btn-primary"><a href="https://www.linkedin.com/in/stpnguyen/" target="_blank" style="text-decoration: none;">
-                Reach out</a></button>
-    </div>
 </main>
 
-
-
-
-<footer class="container-fluid footer" style="border-top: 1px solid #C8DDEB;">
-    <div class="container" style="padding-top: var(--p-16);padding-bottom: var(--p-16);">
-        <div class="div" style="display: flex; flex-direction: column; gap: var(--space-8); align-items: left;">
-            <p class="lg-bold" style="text-transform: uppercase;">Stephano.ng</p>
-            <p class="md-regular">Ho Chi Minh, Vietnam</p>
-            <!-- <div class="social">
-              <a href="mailto:stpnguyen.info@gmail.com"><img src="./public/assets/ic_mail.svg" alt="logo"></a>
-              <a href="https://www.linkedin.com/in/stpnguyen/" target="_blank"><img src="./public/assets/ic_linkedin.svg" alt="logo"></a>
-            </div> -->
-
-
-
-
-        </div>
-    </div>
-</footer>
-
-
-
-
-
-
-
+<footer class="container-fluid footer" id="footer-placeholder"></footer>
 
                               <script src="../js/script.js"></script>
                               <script src="../js/socialize.js"></script>
@@ -247,34 +156,6 @@
                                     prevEl: '.swiper-button-prev',
                                 },
                               });
-
-                              document.addEventListener("DOMContentLoaded", function () {
-            const tooltip = document.getElementById("tooltip");
-            const tooltipContainers = document.querySelectorAll(".tooltip-container");
-
-            tooltipContainers.forEach(container => {
-                container.addEventListener("mouseenter", function () {
-                    const text = container.getAttribute("data-tooltip");
-                    tooltip.textContent = text;
-                    tooltip.style.visibility = "visible";
-                    tooltip.style.opacity = "1";
-                    tooltip.style.display = "flex"
-                    tooltip.style.alignItems = "center"
-                    tooltip.style.padding = "16px"
-
-
-                    // Positioning the tooltip dynamically
-                    const rect = container.getBoundingClientRect();
-                    tooltip.style.top = `${rect.top - tooltip.offsetHeight - 5}px`;
-                    tooltip.style.left = `${rect.left + rect.width / 2}px`;
-                });
-
-                container.addEventListener("mouseleave", function () {
-                    tooltip.style.visibility = "hidden";
-                    tooltip.style.opacity = "0";
-                });
-            });
-        });
                                   </script>
 
 </body>

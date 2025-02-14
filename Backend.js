@@ -306,7 +306,7 @@ app.post('/api/verify', async (req, res) => {
       }
 
       if (new Date() > new Date(user.expiry)) {
-          return res.status(403).json({ success: false, message: 'This password has expired. Please contact the administrator.' });
+          return res.status(403).json({ success: false, message: 'This password has expired.' });
       }
 
       // Generate a session token valid for 24 hours

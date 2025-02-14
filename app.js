@@ -14,7 +14,13 @@ dotenv.config();
 const app = express();
 
 // CORS configuration
-const allowedOrigins = ['https://haonvdes.github.io', 'http://localhost:3000'];
+
+const allowedOrigins = [
+  'https://haonvdes.github.io',
+  'http://localhost:3000',
+  'https://stpnguyen.com',
+  'https://www.stpnguyen.com'
+];
 
 const corsOptions = {
   origin: (origin, callback) => {

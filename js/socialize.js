@@ -210,21 +210,7 @@ async function getPersonalStravaActivity() {
           </div>
         </div>
     `;
-// // // Add the content for the summary-personal.
-// summaryElement.innerHTML = 
-//   `<p class="sub-heading activity-heading">Stephano's Activities</p>
-//   <p class="md-regular">Week: ${formattedWeek}</p>
-//   <div class="strava-club">
-//     ${['Total Distance', 'Total Activities', 'Average Speed']
-//       .map(
-//         (label, index) => 
-//         `<div class="club-data">
-//           <p class="md-regular">${label}</p>
-//           <p class="md-medium">${[data.totalDistance, `${parseFloat(data.totalTime).toFixed(2)}h`, data.averageSpeed][index]}</p>
-//         </div>`
-//       )
-//       .join('')}
-//   </div>`;
+
 
     // Prepend the image element to the summary
     summaryElement.prepend(imageElement);
@@ -236,40 +222,6 @@ async function getPersonalStravaActivity() {
     document.getElementById('personal-section').innerHTML = '<p class="md-regular">Oops! Something went wrong; trying to load again shortly.</p>';
   }
 }
-
-
-
- 
-
-// // Initialize based on current page
-// function initializePage() {
-//   // Get the current page name from the URL
-//   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-
-//   // Initialize features based on the current page
-//   switch (currentPage) {
-//     case 'index.html':
-//       // Initialize Strava functionality only for index.html
-//       getLatestStravaActivities('1153970');
-//       setInterval(() => getLatestStravaActivities('1153970'), 7200000);
-//       break;
-      
-//     case 'about.html':
-//       // Initialize Spotify functionality only for about.html
-//       getPlaybackState();
-//       setInterval(getPlaybackState, 90000);
-//       break;
-//   }
-// }
-
-// // Run initialization when the page loads
-// initializePage();
-
-
-
-
-
-
 
 
 // Initialize based on current page

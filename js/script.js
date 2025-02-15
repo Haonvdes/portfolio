@@ -136,7 +136,7 @@ function openHastag(evt, tagName) {
           submitBtn.disabled = true;
   
           try {
-              const response = await fetch('https://stpnguyen.com/api/verify', {
+              const response = await fetch('https://api.stpnguyen.com/api/verify', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ password })

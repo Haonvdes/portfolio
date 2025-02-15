@@ -1,7 +1,7 @@
 // Function to fetch and display playback state
 async function getPlaybackState() {
   try {
-    const playbackResponse = await fetch('https://portfolio-7hpb.onrender.com/api/spotify/playback');
+    const playbackResponse = await fetch('https://stpnguyen.com/api/spotify/playback');
 
     if (!playbackResponse.ok) {
       throw new Error('Failed to fetch playback state');
@@ -69,7 +69,7 @@ async function getPlaybackState() {
 
 async function getLatestStravaActivities(clubId) {
   try {
-    const response = await fetch(`https://portfolio-7hpb.onrender.com/api/strava/club/${clubId}/latest`);
+    const response = await fetch(`https://stpnguyen.com/api/strava/club/${clubId}/latest`);
     if (!response.ok) throw new Error('Failed to fetch club data');
     const data = await response.json();
 
@@ -172,7 +172,7 @@ async function getLatestStravaActivities(clubId) {
 
 async function getPersonalStravaActivity() {
   try {
-    const response = await fetch('https://portfolio-7hpb.onrender.com/api/strava/personal/weekly');
+    const response = await fetch('https://stpnguyen.com/api/strava/personal/weekly');
     if (!response.ok) throw new Error('Failed to fetch personal data');
     const data = await response.json();
 

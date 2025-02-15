@@ -19,16 +19,19 @@ const allowedOrigins = [
   'https://haonvdes.github.io',
   'http://localhost:3000',
   'https://stpnguyen.com',
-  'https://www.stpnguyen.com'
+  'http://stpnguyen.com', 
+  'https://www.stpnguyen.com',
+  'http://www.stpnguyen.com' 
 ];
 
 const corsOptions = {
   origin: (origin, callback) => {
-    console.log('Origin:', origin); // Log the origin of the request
+    console.log(`Origin: ${origin}`); // ✅ Debugging line
+
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      console.error('Not allowed by CORS:', origin); // Log the error
+      console.log(`Not allowed by CORS: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
@@ -36,6 +39,7 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   credentials: true
 };
+
 
 // 👉 Sử dụng `cors` sau khi khai báo `app`
 app.use(cors(corsOptions));

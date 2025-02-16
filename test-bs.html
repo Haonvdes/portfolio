@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management Process</title>
+    <link rel="stylesheet" href="./css/styles/style.css">
+
+    <style>
+        select {
+            padding: 8px;
+            border: none;
+            border-radius: 16px;
+        }
+
+        select:hover{
+            background-color: #DFF0FF;
+        }
+        option (
+            font-size: 16px;
+        )
+
+
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .dropdown-container {
+            margin-bottom: 20px;
+        }
+        .process-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .phase-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+        .pre-sale { background-color: #DFF0FF; }
+        .initiation { background-color: #D4F4C4; }
+        .planning { background-color: #FFF4B2; }
+        .execution { background-color: #3DAEFA; color: white; }
+        .monitoring { background-color: #29A745; color: white; }
+        .closing { background-color: #A8A8A8; color: white; }
+
+        .process-a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="dropdown-container">
+<div class="process-a">
+    <label for="phaseSelector">Driving Success Across Every: </label>
+    <select id="phaseSelector" onchange="updateProcess()" class="md-bold">
+        <option value="phase">Phase</option>
+        <option value="sprint">Sprint</option>
+        <option value="iteration">Iteration</option>
+    </select>
+</div>
+    </div>
+
+    <div id="process" class="information animate__animated animate__fadeIn">
+        <div>                    
+            <label for="phaseSelector" class="sub-heading">Driving Success Across Every:</label>
+            <select id="phaseSelector" onchange="updateProcess()" class="sub-heading">
+                <option value="phase">Phase</option>
+                <option value="sprint">Sprint</option>
+                <option value="iteration">Iteration</option>
+            </select>
+        <p class="lg-regular">My structured yet flexible project management process ensures no detail is overlooked. 
+            From ideation to execution and beyond, I collaborate with stakeholders, adapt to challenges, and deliver high-quality results that align with both user needs and business goals.</p>
+
+        </div>
+        <div class="stage">
+            <div class="stage-item initiation">
+                <p class="sub-heading">Initiation & Discovery</p>
+            </div>
+            <div class="stage-item planning">
+                <p class="sub-heading">Planning</p>
+            </div>
+            <div class="stage-item execution">
+                <p class="sub-heading">Execution</p>
+            </div>
+            <div class="stage-item control">
+                <p class="sub-heading">Control and Monitoring</p>
+            </div>
+            <div class="stage-item close">
+                <p class="sub-heading">Closing</p>
+            </div>
+        </div>
+    <div class="process-breakdown">
+        <p class="md-bold">Activity Breakdown</p>
+        <div class="measurement">
+
+        <div class="stage-info">
+            
+            <div class="stage-info-sum">
+                <p class="md-bold">Initiation & Discovery</p>
+                <p class="md-regular">
+                    Develop project charters
+                    <br>
+                    Allocate resources effectively
+                    <br>
+                    Define team roles and responsibilities</p>
+
+            </div>
+            <div class="stage-info-sum">
+                <p class="md-bold">Planning</p>
+                <p class="md-regular">
+                    Create detailed timelines, <br>
+                    Risk mitigation plans<br>
+                    Deliverable milestones</p>
+
+            </div>
+            <div class="stage-info-sum">
+                <p class="md-bold">Execution</p>
+                <p class="md-regular">
+                    Execute iterative cycles<br>
+                    Incorporate client feedback <br>
+                    Track KPIs</p>
+
+            </div>
+            <div class="stage-info-sum">
+                <p class="md-bold">Control & Monitoring</p>
+                <p class="md-regular">
+                    Execute iterative cycles<br>
+                    Incorporate client feedback<br>
+                    Track KPIs</p>
+
+            </div>
+            <div class="stage-info-sum">
+                <p class="md-bold">Closing</p>
+                <p class="md-regular">
+                    Deliver final product documentation<br>
+                    Conduct retrospectives, and celebrate achievements.<br></p>
+            </div>
+        </div>
+        </div>
+    </div>
+        <div class="process-breakdown">
+            <p class="md-bold">Measurement Metric</p>
+            <div class="measurement">
+                <p class="md-bold">Schedule Performance Index (SPI)</p>
+                <p class="md-bold">Cost Performace Index (CPI)</p>
+                <p class="md-bold">Risk Mitigation Effectiveness</p>
+                <p class="md-bold">Stakeholder Satisfaction Score</p>
+            </div>
+        </div>
+        </div>
+
+    <div class="process-container" id="processContent">
+        <!-- Content will be injected here -->
+    </div>
+
+    <script>
+        const processData = {
+            phase: [
+                { title: "Pre-Sale", desc: "Engage stakeholders, outline objectives.", class: "pre-sale" },
+                { title: "Initiation", desc: "Develop project charters, allocate resources.", class: "initiation" },
+                { title: "Planning", desc: "Create timelines, risk mitigation.", class: "planning" },
+                { title: "Execution", desc: "Execute cycles, incorporate feedback.", class: "execution" },
+                { title: "Control & Monitoring", desc: "Track KPIs, monitor performance.", class: "monitoring" },
+                { title: "Closing", desc: "Deliver documentation, conduct retrospectives.", class: "closing" }
+            ],
+            sprint: [
+                { title: "Sprint Planning", desc: "Define sprint backlog, set sprint goal.", class: "pre-sale" },
+                { title: "Sprint Execution", desc: "Develop features, conduct standups.", class: "execution" },
+                { title: "Sprint Review", desc: "Demo product, gather feedback.", class: "monitoring" },
+                { title: "Sprint Retrospective", desc: "Evaluate & improve process.", class: "closing" }
+            ],
+            iteration: [
+                { title: "Iteration Planning", desc: "Define iteration scope, allocate tasks.", class: "planning" },
+                { title: "Development", desc: "Implement and integrate features.", class: "execution" },
+                { title: "Testing", desc: "Perform testing and bug fixes.", class: "monitoring" },
+                { title: "Iteration Review", desc: "Evaluate outcomes, prepare next cycle.", class: "closing" }
+            ]
+        };
+
+        function updateProcess() {
+            const selected = document.getElementById("phaseSelector").value;
+            const processContainer = document.getElementById("processContent");
+            processContainer.innerHTML = processData[selected].map(item => 
+                `<div class="phase-box ${item.class}">
+                    ${item.title} - ${item.desc}
+                </div>`).join("");
+        }
+
+        // Initialize with default selection
+        updateProcess();
+    </script>
+
+</body>
+</html>

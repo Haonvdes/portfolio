@@ -148,8 +148,12 @@ app.get('/api/spotify/playback', async (req, res) => {
     }
 
     // Choose the correct track to return
-    const songToUse = isPlaying ? currentTrack : (hasRecentTracks ? lastPlayedSong : null);
-
+    const songToUse = isPlaying && currentTrack
+    ? currentTrack
+    : hasRecentTracks
+    ? recentTracksResponse.items[0].track
+    : lastPlayedSong; // Use saved last played song
+  
     res.json({
       status: isPlaying ? "Stephano is playing" : "Stephano is away",
       playing: !!isPlaying,

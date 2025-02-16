@@ -26,6 +26,22 @@ p{
     margin: 0;
     color:var(--text-neutral-body);
 }
+select{
+  border: none;
+  border-radius: 999px;
+  min-width: 110px;
+  width: auto; /* Let it expand dynamically */
+}
+select:hover{
+  background-color: var(--grey-G50);
+  cursor: pointer;
+  color: var(--text-utilities-decorate-primary);
+}
+select:active {
+  color: var(--text-utilities-decorate-primary);
+}
+
+
 
 .swiper-button-next, .swiper-button-prev 
 { background-color: #00000087; 
@@ -341,7 +357,24 @@ li > a{
       /* z-index: 1000; */
 
 }
+.measurement{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: var(--m-24);
+  padding: var(--p-24);
+  border-radius: var(--r-16);
+  border: 1px solid var(--border-neutral-default);
+  background-color: var(--grey-G50);
+  transition: border 0.5s ease; /* Smooth transition */
+  overflow: scroll;
+}
 
+.process-breakdown{
+  display: flex; 
+  flex-direction: column; 
+  gap: var(--m-16);
+}
 
 .hastag button.active{
   width: 180px;
@@ -406,14 +439,6 @@ li > a{
   flex-wrap: nowrap;
   flex-direction: row;
 
-  & .presale{
-    /* min-width: 6%; */
-    background-color: var(--blue-B100);
-    padding: var(--p-16);
-    > p{color: var(--blue-B700);
-    }
-  }
-
   & .initiation{
     /* min-width: 12%; */
     padding: var(--p-16);
@@ -464,17 +489,7 @@ li > a{
   align-items: center;
   text-align: center;
 }
-.stage-info{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  gap: var(--m-24);
-}
-.stage-info-sum{
-  display: flex;
-  flex-direction: column;
-  gap: var(--m-16);
-}
+
 
 .content-body{
   display: flex;
@@ -526,10 +541,9 @@ li > a{
   flex-direction: row;
   flex-wrap: nowrap;
   gap: var(--m-24);
-  overflow: scroll;
 }
 .stage-info-sum{
-  min-width: 200px;
+  min-width: 230px;
   display: flex;
   flex-direction: column;
   gap: var(--m-16);
@@ -1387,5 +1401,8 @@ border: 1px solid var(--border-primary-default);
     flex-direction: column; 
     gap: var(--m-24);
   }
-  
+  .measurement{
+    flex-direction: column;
+    overflow: scroll;
+  }
 }

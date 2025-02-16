@@ -201,7 +201,7 @@
             <div class="container stuff-header">
                 <h1 style="color: var(--text-utilities-decorate-primary); text-align: center;">
                     Staying Innovative <br>
-                    and Ahead of the Curve
+                    and Ahead the Curve
                 </h1>                
                 <p class="lg-regular" style="text-align: center; max-width: 1000px;">
                     Discover how my passion for innovation shapes every step of my journey in creating cutting-edge digital solutions. Dive into my specialize domain, processes, and the team moments that keep me inspired and ahead of the game.                </p>
@@ -231,34 +231,34 @@
                 </div>
                     <div class="domain">
                 <div class="domain-item">
-                <img src="./img/ic_automotive.svg" alt="">
-                <p class="sub-heading">Automotive</p>
-                <p class="md-regular">
-                    Smart mobility solutions for dealer systems, and automotive intelligence.
-                </p>
-                <!-- <div class="domain-knowledge" style="display: flex; flex-direction: column; gap: 8px;">
-                    <p class="md-bold">User esearch</p>
-                    <p class="md-bold">Data Centralization</p>
-                    <p class="md-bold">Domain Knowledge</p>
-                    <p class="md-bold">Domain Knowledge</p>
-                    <p class="md-bold">Domain Knowledge</p>
-
-                </div> -->
-                </div>
-                <div class="domain-item">
                 <img src="./img/ic_web3.svg" alt="">
                 <p class="sub-heading">Web 3</p>
                 <p class="md-regular">
-                    Decentralized applications and blockchain solutions focused on security and scalability.
+                    Developing decentralized applications and blockchain solutions with a focus on security, scalability, and seamless user experience.
                 </p>
                 </div>
                 <div class="domain-item">
                 <img src="./img/ic_banking.svg" alt="">
                 <p class="sub-heading">Banking</p>
                 <p class="md-regular">
-                    Digital banking platforms and payment systems modernizing financial services.
+                    Crafting digital banking platforms and modern payment systems that enhance financial services through innovation and security.
                 </p>
                 </div>
+                <div class="domain-item">
+                    <img src="./img/ic_automotive.svg" alt="">
+                    <p class="sub-heading">Automotive</p>
+                    <p class="md-regular">
+                        Building intelligent mobility solutions for dealer systems, optimizing automotive operations with smart technology.
+                    </p>
+                    <!-- <div class="domain-knowledge" style="display: flex; flex-direction: column; gap: 8px;">
+                        <p class="md-bold">User esearch</p>
+                        <p class="md-bold">Data Centralization</p>
+                        <p class="md-bold">Domain Knowledge</p>
+                        <p class="md-bold">Domain Knowledge</p>
+                        <p class="md-bold">Domain Knowledge</p>
+    
+                    </div> -->
+                    </div>
                 <div class="domain-item">
                 <img src="./img/ic_erp.svg" alt="">
                 <p class="sub-heading">Enterprise Resource Planning</p>
@@ -270,14 +270,14 @@
                 <img src="./img/ic_esg.svg" alt="">
                 <p class="sub-heading">ESG</p>
                 <p class="md-regular">
-                    Sustainability tracking and reporting platforms measuring environmental impact.
+                    Designing custom ERP solutions that streamline business operations and drive efficiency through integrated systems.
                 </p>
                 </div>
                 <div class="domain-item">
                     <img src="./img/ic_esg.svg" alt="">
-                    <p class="sub-heading">ESG</p>
+                    <p class="sub-heading">ESG & Sustainability</p>
                     <p class="md-regular">
-                        Sustainability tracking and reporting platforms measuring environmental impact.
+                        Developing platforms for sustainability tracking, reporting, and environmental impact assessment to help businesses achieve their ESG goals.
                     </p>
                     </div>
                 </div>
@@ -285,18 +285,20 @@
             
             </div>
                 <div id="process" class="information animate__animated animate__fadeIn">
-                    <div>                    
-                    <p class="sub-heading" style="padding-bottom: var(--p-8);">Driving Success Across Every Project Phase</p>
-                    <p class="lg-regular">My structured yet flexible project management process ensures no detail is overlooked. 
-                        From ideation to execution and beyond, I collaborate with stakeholders, adapt to challenges, and deliver high-quality results that align with both user needs and business goals.</p>
-
+                    <div>
+                        <label for="phaseSelector" class="sub-heading">Driving Success Across Every:</label>
+                        <select id="phaseSelector" onchange="updateProcess()" class="sub-heading">
+                            <option value="phase">Phase</option>
+                            <option value="sprint">Sprint</option>
+                            <option value="iteration">Iteration</option>
+                        </select>
+                        <p class="lg-regular" style="padding-top: var(--p-16);">My structured yet flexible project management process ensures no detail is overlooked. 
+                            From ideation to execution and beyond, I collaborate with stakeholders, adapt to challenges, and deliver high-quality results that align with both user needs and business goals.
+                        </p>
                     </div>
-                    <div class="stage">
-                        <div class="stage-item presale">
-                            <p class="sub-heading">Pre-sale</p>
-                        </div>
+                    <!-- <div class="stage">
                         <div class="stage-item initiation">
-                            <p class="sub-heading">Initiation</p>
+                            <p class="sub-heading">Initiation & Discovery</p>
                         </div>
                         <div class="stage-item planning">
                             <p class="sub-heading">Planning</p>
@@ -311,23 +313,20 @@
                             <p class="sub-heading">Closing</p>
                         </div>
                     </div>
-                    <div class="stage-info">
-                        <div class="stage-info-sum">
-                            <p class="md-bold">Presale</p>
-                            <p class="md-regular">
-                                Conduct stakeholder interviews<br>
-                                Outline business objectives<br>
-                                Define high-level requirements</p>
+                <div class="process-breakdown">
+                    <p class="md-bold">Activity Breakdown</p>
+                    <div class="measurement">
 
-                        </div>
+                    <div class="stage-info">
+                        
                         <div class="stage-info-sum">
-                            <p class="md-bold">Initiation</p>
+                            <p class="md-bold">Initiation & Discovery</p>
                             <p class="md-regular">
                                 Develop project charters
                                 <br>
-                                Allocate resources
+                                Allocate resources effectively
                                 <br>
-                                Establish team roles</p>
+                                Define team roles and responsibilities</p>
 
                         </div>
                         <div class="stage-info-sum">
@@ -362,9 +361,28 @@
                         </div>
                     </div>
                     </div>
+                </div>
+                    <div class="process-breakdown">
+                        <p class="md-bold">Measurement Metric</p>
+                        <div class="measurement">
+                            <p class="md-bold">Schedule Performance Index (SPI)</p>
+                            <p class="md-bold">Cost Performace Index (CPI)</p>
+                            <p class="md-bold">Risk Mitigation Effectiveness</p>
+                            <p class="md-bold">Stakeholder Satisfaction Score</p>
+                        </div>
+                    </div> -->
+
+                    <div class="container" id="processContent">
+                        <!-- Default content displayed initially -->
+                    </div>
+                    </div>
+
+
+
+
                 <div id="activities" class="information animate__animated animate__fadeIn">
                     <div>
-                        <p class="sub-heading" style="padding-bottom: var(--p-8)";>Fostering Collaboration and Team Excellence</p>
+                        <p class="sub-heading" style="padding-bottom: var(--p-8)";>Project success starts here</p>
                         <p class="lg-regular">Success isn’t just about the work—it’s about the people behind it. I dedicate time to mentoring, building team cohesion, and fostering an environment where everyone thrives. By investing in growth and teamwork, I ensure every member contributes to and celebrates shared achievements.</p>
     
                     </div>
@@ -395,7 +413,8 @@
                                                 <!-- Strava Activity Info -->
                                                 <div id="club-section"></div>
 
-                      </div>                </div>
+                      </div>                
+                    </div>
 
         
                 <div>
@@ -433,6 +452,98 @@ const swiper = new Swiper('.swiper-container', {
       prevEl: '.swiper-button-prev',
   },
 });
+
+const processData = {
+            phase: `
+                <div class="phasee" style="display: flex;flex-direction: column;gap: 16px;">
+                    <div class="stage">
+                        <div class="stage-item initiation">
+                            <p class="sub-heading">Initiation & Discovery</p>
+                        </div>
+                        <div class="stage-item planning">
+                            <p class="sub-heading">Planning</p>
+                        </div>
+                        <div class="stage-item execution">
+                            <p class="sub-heading">Execution</p>
+                        </div>
+                        <div class="stage-item control">
+                            <p class="sub-heading">Control and Monitoring</p>
+                        </div>
+                        <div class="stage-item close">
+                            <p class="sub-heading">Closing</p>
+                        </div>
+                    </div>
+                    <div class="process-breakdown">
+                        <p class="md-bold">Activity Breakdown</p>
+                        <div class="measurement">
+                            <div class="stage-info">
+                                <div class="stage-info-sum">
+                                    <p class="md-bold">Initiation & Discovery</p>
+                                    <p class="md-regular">
+                                        Engage stakeholders through interviews.<br>
+                                        Define business objectives<br>
+                                        Develop project charters<br>
+                                        Define team roles and responsibilities
+                                    </p>
+                                </div>
+                                <div class="stage-info-sum">
+                                    <p class="md-bold">Planning</p>
+                                    <p class="md-regular">
+                                        Create detailed timelines, <br>
+                                        Risk mitigation plans<br>
+                                        Deliverable milestones
+                                    </p>
+                                </div>
+                                <div class="stage-info-sum">
+                                    <p class="md-bold">Execution</p>
+                                    <p class="md-regular">
+                                        Execute iterative cycles<br>
+                                        Incorporate client feedback <br>
+                                        Track KPIs
+                                    </p>
+                                </div>
+                                <div class="stage-info-sum">
+                                    <p class="md-bold">Control & Monitoring</p>
+                                    <p class="md-regular">
+                                        Execute iterative cycles<br>
+                                        Incorporate client feedback<br>
+                                        Track KPIs
+                                    </p>
+                                </div>
+                                <div class="stage-info-sum">
+                                    <p class="md-bold">Closing</p>
+                                    <p class="md-regular">
+                                        Deliver final product documentation<br>
+                                        Conduct retrospectives, and celebrate achievements.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="process-breakdown">
+                        <p class="md-bold">Measurement Metric</p>
+                        <div class="measurement">
+                            <p class="md-bold">Schedule Performance Index (SPI)</p>
+                            <p class="md-bold">Cost Performance Index (CPI)</p>
+                            <p class="md-bold">Risk Mitigation Effectiveness</p>
+                            <p class="md-bold">Stakeholder Satisfaction Score</p>
+                        </div>
+                    </div>
+                </div>
+            `,
+            sprint: `<div class="sprint-view measurement"><p class="md-bold">Sprint Metrics Coming Soon...</p></div>`,
+            iteration: `<div class="iteration-view measurement"><p class="md-bold">Iteration Metrics Coming Soon...</p></div>`
+        };
+    
+        function updateProcess() {
+            const selected = document.getElementById("phaseSelector").value;
+            document.getElementById("processContent").innerHTML = processData[selected];
+        }
+    
+        // Display default content on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            updateProcess();
+        });
 </script>
 
 </html>

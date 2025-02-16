@@ -1,15 +1,21 @@
-function loadComponent(id, file) {
-    fetch(file)
-        .then(response => response.text())
-        .then(data => document.getElementById(id).innerHTML = data)
-        .catch(error => console.error("Error loading component:", error));
-}
+document.addEventListener("DOMContentLoaded", function () {
+    function loadComponent(id, file) {
+        fetch(file)
+            .then(response => response.text())
+            .then(data => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.innerHTML = data;
+                } else {
+                    console.error(`Element with ID ${id} not found.`);
+                }
+            })
+            .catch(error => console.error("Error loading component:", error));
+    }
 
-loadComponent("nav-placeholder", "./nav/nav.html");
-loadComponent("footer-placeholder", "./nav/footer.html");
-
-
-
+    loadComponent("nav-placeholder", "./nav/nav.html");
+    loadComponent("footer-placeholder", "./nav/footer.html");
+});
 
 // This is for tab content //
 
@@ -318,7 +324,7 @@ function openHastag(evt, tagName) {
   
   
   // app.js (your existing server file)
-  const express = require('express');
+//   const express = require('express');
   const jwt = require('jsonwebtoken');
   const path = require('path');
   const app = express();
@@ -331,7 +337,12 @@ function openHastag(evt, tagName) {
     // Serve the case study HTML page
     res.sendFile(path.join(__dirname, 'public', 'case-study.html'));
   });
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+

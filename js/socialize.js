@@ -100,7 +100,7 @@ async function getLatestStravaActivities(clubId) {
             (label, index) => `
             <div class="club-data">
               <p class="md-regular">${label}</p>
-              <p class="md-medium">${[data.totalDistance, `${parseFloat(data.totalTime).toFixed(2)}h`, data.totalActivities][index]}</p>
+              <p class="md-bold">${[data.totalDistance, `${parseFloat(data.totalTime).toFixed(2)}h`, data.totalActivities][index]}</p>
             </div>`
           )
           .join('')}

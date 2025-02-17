@@ -26,21 +26,25 @@ p{
     margin: 0;
     color:var(--text-neutral-body);
 }
-select{
-  border: none;
-  border-radius: 999px;
-  min-width: 110px;
-  width: auto; /* Let it expand dynamically */
-}
+
 select:hover{
   background-color: var(--grey-G50);
   cursor: pointer;
   color: var(--text-utilities-decorate-primary);
 }
-select:active {
-  color: var(--text-utilities-decorate-primary);
+/* Hide default arrow */
+select {
+  -webkit-appearance: none; /* Remove default arrow in Safari */
+  -moz-appearance: none; /* Remove in Firefox */
+  appearance: none;
+  background: url('/public/ic_arrrow-down.svg') no-repeat right center;
+  background-size: 16px;
+  color: var(--text-utilities-decorate-primary) !important;
+  border: none;
+  border-radius: 999px;
+  min-width: 110px;
+  width: auto;
 }
-
 
 
 .swiper-button-next, .swiper-button-prev 
@@ -447,7 +451,7 @@ li > a{
     }
   }
   & .planning{
-    /* min-width: 14%; */
+    min-width: 24%;
     background-color: var(--blue-B100);
     padding: var(--p-16);
     background-color: var(--yellow-Y200);
@@ -463,8 +467,7 @@ li > a{
     }
   }
   & .control{
-        /* min-width: 24%; */
-    background-color: var(--blue-B100);
+    min-width: 16%;
     padding: var(--p-16);
     background-color: var(--emerald-E600);
     > p{color: var(--emerald-E50);
@@ -472,7 +475,6 @@ li > a{
   }
   & .close{
         /* min-width: 10%; */
-    background-color: var(--blue-B100);
     padding: var(--p-16);
     background-color: var(--grey-G400);
     > p{color: var(--grey-G50);
@@ -480,16 +482,6 @@ li > a{
   }
 
 }
-.stage-item{
-  height: 160px;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  border-right: 4px solid var(--neutral-white, #FFF);
-  align-items: center;
-  text-align: center;
-}
-
 
 .content-body{
   display: flex;
@@ -1404,5 +1396,49 @@ border: 1px solid var(--border-primary-default);
   .measurement{
     flex-direction: column;
     overflow: scroll;
+  }
+
+  .stage{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+  
+    & .initiation{
+      min-width: 120px;      
+      padding: var(--p-16);
+      background-color: var(--emerald-E200);
+      > p{color: var(--emerald-E700);
+      }
+    }
+    & .planning{
+      min-width: 230px;      
+      background-color: var(--blue-B100);
+      padding: var(--p-16);
+      background-color: var(--yellow-Y200);
+      > p{color: var(--yellow-Y900);
+      }
+    }
+    & .execution{
+      min-width: 400px;      
+      padding: var(--p-16);
+      background-color: var(--blue-B500);
+      > p{color: var(--blue-B50);
+      }
+    }
+    & .control{
+      min-width: 180px;      
+      padding: var(--p-16);
+      background-color: var(--emerald-E600);
+      > p{color: var(--emerald-E50);
+      }
+    }
+    & .close{
+      min-width: 110px;      
+      padding: var(--p-16);
+      background-color: var(--grey-G400);
+      > p{color: var(--grey-G50);
+      }
+    }
+  
   }
 }

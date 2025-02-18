@@ -201,7 +201,7 @@ async function getPersonalStravaActivity() {
               <p class="md-bold">${data.totalDistance}</p>
            </div>
             <div class="club-data">
-              <p class="md-regular">Total Activities</p>
+              <p class="md-regular">Time Spent</p>
               <p class="md-bold">${data.totalTime}</p>
              </div>
            <div class="club-data">

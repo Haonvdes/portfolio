@@ -532,12 +532,14 @@ li > a{
   flex-direction: row;
   flex-wrap: nowrap;
   gap: var(--m-24);
+  flex:1;
+
 }
 .stage-info-sum{
-  min-width: 230px;
   display: flex;
   flex-direction: column;
   gap: var(--m-16);
+  flex:1;
 }
 
 
@@ -1245,6 +1247,12 @@ border: 1px solid var(--border-primary-default);
 .domain{
   grid-template-columns: repeat(2, 1fr);
 }
+.stage-info-sum{
+  display: flex;
+  flex-direction: column;
+  gap: var(--m-16);
+  min-width: 230px;  
+}
 }
 /* Small desktops: max-width 992px */
 @media (max-width: 992px) {
@@ -1445,5 +1453,11 @@ border: 1px solid var(--border-primary-default);
     }
   
   }
-
+  .stage-info-sum{
+    display: flex;
+    flex-direction: column;
+    gap: var(--m-16);
+    min-width: 230px;  
+  }
+  
 }

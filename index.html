@@ -533,8 +533,139 @@ const processData = {
                     </div>
                 </div>
             `,
-            sprint: `<div class="sprint-view measurement"><p class="md-bold">Sprint Metrics Coming Soon...</p></div>`,
-            iteration: `<div class="iteration-view measurement"><p class="md-bold">Iteration Metrics Coming Soon...</p></div>`
+            sprint: `
+             <div class="phasee" style="display: flex;flex-direction: column;gap: 16px;">
+  <div class="stage">
+        <img src="./public/Scrum-Process-Chart.svg" style="width:100%;"></img>
+        </div>
+              <div class="process-breakdown">
+        <p class="md-bold">Activity Breakdown</p>
+        <div class="measurement">
+
+        <div class="stage-info">
+            
+            <div class="stage-info-sum">
+                <p class="md-bold">Backlog Refinement</p>
+                <p class="md-regular">
+                    Develop project charters
+                    <br>
+                    Allocate resources effectively
+                    <br>
+                    Define team roles and responsibilities</p>
+
+            </div>
+            <div class="stage-info-sum">
+                <p class="md-bold">Sprint Planning</p>
+                <p class="md-regular">
+                    Forecast team velocity,<br>
+                    Define Sprint Backlog<br>
+                    Set Sprint Goal</p>
+
+            </div>
+            <div class="stage-info-sum">
+                <p class="md-bold">Srpint Execution</p>
+                <p class="md-regular">
+                    Keep the team stay cohesive<br>
+                    Remove barier for the team<br>
+                    Conduct team event</p>
+
+            </div>
+            <div class="stage-info-sum">
+                <p class="md-bold">Sprint Review</p>
+                <p class="md-regular">
+                    Demo product to Product Owen and Customer<br>
+                    Gather feedback.<br>
+                    </p>
+
+            </div>
+            <div class="stage-info-sum">
+                <p class="md-bold">Sprint Retrospective</p>
+                <p class="md-regular">
+                    Evaluate outcomes<br>
+                    Lesson Learn</p>
+                    prepare next cycle.<br></p>
+            </div>
+        </div>
+        </div>
+    </div>
+           <div class="process-breakdown">
+            <p class="md-bold">Measurement Metric</p>
+            <div class="measurement">
+                <p class="md-bold">Sprint Performance</p>
+                <p class="md-bold">Team Capacity</p>
+                <p class="md-bold">Team Sastifaction</p>
+                <p class="md-bold">Velocity</p>
+                <p class="md-bold">Sprint Burndown Chart</p>
+
+            </div>
+        </div>
+                 `,
+
+            iteration: `    <div class="phasee" style="display: flex;flex-direction: column;gap: 16px;">
+  <div class="stage">
+        <img src="./public/Scrum-Process-Chart.svg" style="width:100%;"></img>
+        </div>
+              <div class="process-breakdown">
+        <p class="md-bold">Activity Breakdown</p>
+        <div class="measurement">
+
+        <div class="stage-info">
+            
+            <div class="stage-info-sum">
+                <p class="md-bold">Backlog Refinement</p>
+                <p class="md-regular">
+                    Develop project charters
+                    <br>
+                    Allocate resources effectively
+                    <br>
+                    Define team roles and responsibilities</p>
+
+            </div>
+            <div class="stage-info-sum">
+                <p class="md-bold">Sprint Planning</p>
+                <p class="md-regular">
+                    Forecast team velocity,<br>
+                    Define Sprint Backlog<br>
+                    Set Sprint Goal</p>
+
+            </div>
+            <div class="stage-info-sum">
+                <p class="md-bold">Srpint Execution</p>
+                <p class="md-regular">
+                    Keep the team stay cohesive<br>
+                    Remove barier for the team<br>
+                    Conduct team event</p>
+
+            </div>
+            <div class="stage-info-sum">
+                <p class="md-bold">Sprint Review</p>
+                <p class="md-regular">
+                    Demo product to Product Owen and Customer<br>
+                    Gather feedback.<br>
+                    </p>
+
+            </div>
+            <div class="stage-info-sum">
+                <p class="md-bold">Sprint Retrospective</p>
+                <p class="md-regular">
+                    Evaluate outcomes<br>
+                    Lesson Learn</p>
+                    prepare next cycle.<br></p>
+            </div>
+        </div>
+        </div>
+    </div>
+           <div class="process-breakdown">
+            <p class="md-bold">Measurement Metric</p>
+            <div class="measurement">
+                <p class="md-bold">Cycle Time</p>
+                <p class="md-bold">Lead Time</p>
+                <p class="md-bold">Work Item Aging</p>
+                <p class="md-bold">Throughput</p>
+                <p class="md-bold">Cumulative Flow Diagram (CFD)</p>
+
+            </div>
+        </div>`
         };
     
         function updateProcess() {

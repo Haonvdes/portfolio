@@ -533,6 +533,7 @@ li > a{
   flex-wrap: nowrap;
   gap: var(--m-24);
   flex:1;
+  overflow: scroll;
 
 }
 .stage-info-sum{
@@ -542,8 +543,20 @@ li > a{
   flex:1;
 }
 
+.text-decoration {
+  font-weight: 700;
+  color: var(--text-utilities-decorate-primary);
+  text-decoration: none; 
+  padding: 0 4px 0 4px; 
+  background-color: var(--blue-B200); 
+  border-radius: 8px;
+}
 
 
+.text-decoration:hover {
+  background-color: var(--blue-B300);
+  content: 📖;
+}
 
 
 
@@ -1063,6 +1076,7 @@ border: 1px solid var(--border-primary-default);
       flex-direction: column;
       padding: var(--p-16);
     }
+
 
 
 

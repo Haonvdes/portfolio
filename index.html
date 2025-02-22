@@ -292,7 +292,7 @@
                         <select id="phaseSelector" onchange="updateProcess()" class="sub-heading">
                             <option value="phase">Phase</option>
                             <option value="sprint">Sprint</option>
-                            <option value="iteration">Iteration</option>
+                            <option value="Product">Product</option>
                         </select>
                         <p class="lg-medium" style="padding-top: var(--p-16);">My structured yet flexible project management process ensures no detail is overlooked. 
                             From ideation to execution and beyond, I collaborate with stakeholders, adapt to challenges, and deliver high-quality results that align with both user needs and business goals.
@@ -435,6 +435,7 @@
 
 </main>
 
+
 <footer class="container-fluid" id="footer-placeholder"></footer>
 
 
@@ -457,7 +458,7 @@ const swiper = new Swiper('.swiper-container', {
 
 const processData = {
             phase: `
-                <div class="phasee" style="display: flex;flex-direction: column;gap: 16px;">
+                <div class="phasee" style="display: flex;flex-direction: column;gap: var(--m-32);">
                     <div class="stage">
                         <div class="stage-item initiation">
                             <p class="sub-heading">Initiation & Discovery</p>
@@ -475,53 +476,61 @@ const processData = {
                             <p class="sub-heading">Closing</p>
                         </div>
                     </div>
-                    <div class="process-breakdown">
-                        <p class="md-bold">Activity Breakdown</p>
-                        <div class="measurement">
-                            <div class="stage-info">
+                     <div class="stage-info">
+     <div class="stage-info-sum">
+        <div style="display: flex; gap: 8px; align-items:center">
+            <div style="width: 16px; height: 16px; background-color: var(--emerald-E200);"></div>        
+            <p class="md-bold">Initiation & Discovery</p>
+        </div>
+        <p class="md-regular">
+            Engage stakeholders through interviews.<br>
+            Define business objectives<br>
+            Develop project charters<br>
+            Define team roles and responsibilities
+        </p>
+    </div>
                                 <div class="stage-info-sum">
-                                    <p class="md-bold">Initiation & Discovery</p>
-                                    <p class="md-regular">
-                                        Engage stakeholders through interviews.<br>
-                                        Define business objectives<br>
-                                        Develop project charters<br>
-                                        Define team roles and responsibilities
-                                    </p>
-                                </div>
-                                <div class="stage-info-sum">
+                                      <div style="display: flex; gap: 8px; align-items:center">
+            <div style="width: 16px; height: 16px; background-color: var(--yellow-Y200);"></div>        
                                     <p class="md-bold">Planning</p>
+        </div>
                                     <p class="md-regular">
-                                        Create detailed timelines, <br>
+                                        Create detailed timelines<br>
                                         Risk mitigation plans<br>
                                         Deliverable milestones
                                     </p>
                                 </div>
                                 <div class="stage-info-sum">
+  <div style="display: flex; gap: 8px; align-items:center">
+            <div style="width: 16px; height: 16px; background-color: var(--blue-B500);"></div>        
                                     <p class="md-bold">Execution</p>
-                                    <p class="md-regular">
+        </div>                                    <p class="md-regular">
                                         Execute iterative cycles<br>
                                         Incorporate client feedback <br>
                                         Track KPIs
                                     </p>
                                 </div>
                                 <div class="stage-info-sum">
+                                    <div style="display: flex; gap: 8px; align-items:center">
+            <div style="width: 16px; height: 16px; background-color: var(--emerald-E600)"></div>        
                                     <p class="md-bold">Control & Monitoring</p>
-                                    <p class="md-regular">
+                                    </div>                                    <p class="md-regular">
                                         Execute iterative cycles<br>
                                         Incorporate client feedback<br>
                                         Track KPIs
                                     </p>
                                 </div>
                                 <div class="stage-info-sum">
+                                      <div style="display: flex; gap: 8px; align-items:center">
+            <div style="width: 16px; height: 16px; background-color: var(--grey-G400)"></div>        
                                     <p class="md-bold">Closing</p>
+                                    </div>
                                     <p class="md-regular">
                                         Deliver final product documentation<br>
                                         Conduct retrospectives, and celebrate achievements.
                                     </p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
                     <div class="process-breakdown">
                         <p class="md-bold">Measurement Metric</p>
                         <div class="measurement">
@@ -534,61 +543,77 @@ const processData = {
                 </div>
             `,
             sprint: `
-             <div class="phasee" style="display: flex;flex-direction: column;gap: 16px;">
-  <div class="stage">
+             <div class="phasee" style="display: flex;flex-direction: column;gap: 32px;">
+            <div class="stage">
         <img src="./public/Scrum-Process-Chart.svg" style="width:100%;"></img>
         </div>
-              <div class="process-breakdown">
-        <p class="md-bold">Activity Breakdown</p>
-        <div class="measurement">
-
         <div class="stage-info">
-            
-            <div class="stage-info-sum">
-                <p class="md-bold">Backlog Refinement</p>
-                <p class="md-regular">
-                    Develop project charters
-                    <br>
-                    Allocate resources effectively
-                    <br>
-                    Define team roles and responsibilities</p>
-
-            </div>
-            <div class="stage-info-sum">
-                <p class="md-bold">Sprint Planning</p>
-                <p class="md-regular">
+    <div class="stage-info-sum">
+        <div style="display: flex; gap: 8px; align-items:center">
+            <div style="width: 16px; height: 16px;border-radius:999px; background-color: var(--emerald-E200);"></div>        
+            <p class="md-bold">Backlog Refinement</p>
+        </div>
+        <p class="md-regular">
+            Develop project charters
+            <br>
+            Allocate resources effectively
+            <br>
+            Define team roles and responsibilities</p>
+      
+                             
+                            </div>
+     <div class="stage-info-sum">
+                                <div style="display: flex; gap: 8px; align-items:center">
+                    <div style="width: 16px; height: 16px;border-radius:999px; background-color: var(--yellow-Y200);"></div>        
+                    <p class="md-bold">Sprint Planning</p>        
+                    </div>
+                    <p class="md-regular">
                     Forecast team velocity,<br>
                     Define Sprint Backlog<br>
                     Set Sprint Goal</p>
-
-            </div>
-            <div class="stage-info-sum">
-                <p class="md-bold">Srpint Execution</p>
-                <p class="md-regular">
+                          </div>
+      <div class="stage-info-sum">
+                    <div style="display: flex; gap: 8px; align-items:center">
+                    <div style="width: 16px; height: 16px;border-radius:999px; background-color: var(--blue-B500);"></div>        
+                    <p class="md-bold">Srpint Backlog</p>        </div>                                    
+                    <p class="md-regular">
                     Keep the team stay cohesive<br>
                     Remove barier for the team<br>
                     Conduct team event</p>
-
-            </div>
-            <div class="stage-info-sum">
-                <p class="md-bold">Sprint Review</p>
-                <p class="md-regular">
+                    
+                          </div>
+      <div class="stage-info-sum">
+                              <div style="display: flex; gap: 8px; align-items:center">
+                    <div style="width: 16px; height: 16px;border-radius:999px; background-color: var(--emerald-E600)"></div>        
+                    <p class="md-bold">Sprint Execution</p>                                    </div>                                   
+                    <p class="md-regular">
                     Demo product to Product Owen and Customer<br>
                     Gather feedback.<br>
-                    </p>
-
-            </div>
+                    </p>                                
+                    </div>
+       <div class="stage-info-sum">
+                                <div style="display: flex; gap: 8px; align-items:center">
+                    <div style="width: 16px; height: 16px;border-radius:999px; background-color: var(--grey-G400)"></div>        
+                    <p class="md-bold">Sprint Review</p>
+                              </div>
+                              <p class="md-regular">
+                                  Evaluate outcomes<br>
+                                  Lesson Learn</p>
+                                  prepare next cycle.<br></p>
+                          </div>
             <div class="stage-info-sum">
-                <p class="md-bold">Sprint Retrospective</p>
-                <p class="md-regular">
-                    Evaluate outcomes<br>
-                    Lesson Learn</p>
-                    prepare next cycle.<br></p>
-            </div>
-        </div>
-        </div>
-    </div>
-           <div class="process-breakdown">
+                                <div style="display: flex; gap: 8px; align-items:center">
+                    <div style="width: 16px; height: 16px;border-radius:999px; background-color: var(--grey-G400)"></div>        
+                    <p class="md-bold">Sprint Retrospective</p>
+                              </div>
+                              <p class="md-regular">
+                                  Evaluate outcomes<br>
+                                  Lesson Learn</p>
+                                  prepare next cycle.<br></p>
+                          </div>
+      </div>
+                 
+ <div class="process-breakdown">
             <p class="md-bold">Measurement Metric</p>
             <div class="measurement">
                 <p class="md-bold">Sprint Performance</p>
@@ -598,12 +623,14 @@ const processData = {
                 <p class="md-bold">Sprint Burndown Chart</p>
 
             </div>
+    </div>
+          
         </div>
                  `,
 
-            iteration: `    <div class="phasee" style="display: flex;flex-direction: column;gap: 16px;">
+            Product: `    <div class="phasee" style="display: flex;flex-direction: column;gap: 16px;">
   <div class="stage">
-        <img src="./public/Scrum-Process-Chart.svg" style="width:100%;"></img>
+        <img src="./public/PDLC.svg" style="width:100%;"></img>
         </div>
               <div class="process-breakdown">
         <p class="md-bold">Activity Breakdown</p>

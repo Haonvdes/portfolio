@@ -369,7 +369,11 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Load API keys from Render.io environment variables
-const openai = new OpenAIApi(new Configuration({ apiKey: process.env.OPENAI_API_KEY }));
+const OpenAI = require('openai');
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 // Email credentials from Render.io environment
 const transporter = nodemailer.createTransport({

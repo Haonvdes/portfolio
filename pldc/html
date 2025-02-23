@@ -1,55 +1,83 @@
-<div class="stage-info">
-    <div class="stage-info-sum">
-        <div style="display: flex; gap: 8px; align-items:center">
-            <div style="width: 16px; height: 16px; background-color: var(--emerald-E200);"></div>        
-            <p class="md-bold">Backlog Refinement</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat Assistant</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .chat-bubble { position: fixed; bottom: 20px; right: 20px; background: #0078ff; color: white; padding: 10px 15px; border-radius: 20px; cursor: pointer; }
+        .chat-box { display: none; position: fixed; bottom: 60px; right: 20px; width: 300px; background: white; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 10px; }
+        .chat-box textarea { width: 100%; height: 80px; }
+        .btn { width: 100%; padding: 10px; margin-top: 5px; background: #0078ff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .btn-secondary { background: #ccc; }
+    </style>
+</head>
+<body>
+    <div class="chat-bubble" onclick="toggleChat()">💬 Chat</div>
+    <div class="chat-box" id="chatBox">
+        <button class="btn" onclick="showJobAnalyzer()">📋 Job Analyzer</button>
+        <button class="btn btn-secondary" onclick="showAskAnything()">❓ Ask Anything</button>
+        <div id="jobAnalyzer" style="display:none;">
+            <h3>Job Analyzer</h3>
+            <input type="text" id="jobTitle" placeholder="Job Title"><br>
+            <textarea id="jobDescription" placeholder="Paste Job Description"></textarea>
+            <button class="btn" onclick="analyzeJob()">Analyze</button>
         </div>
-        <p class="md-regular">
-            Develop project charters
-            <br>
-            Allocate resources effectively
-            <br>
-            Define team roles and responsibilities</p>
-      
-                             
-                            </div>
-     <div class="stage-info-sum">
-                                <div style="display: flex; gap: 8px; align-items:center">
-                    <div style="width: 16px; height: 16px; background-color: var(--yellow-Y200);"></div>        
-                    <p class="md-bold">Sprint Planning</p>        
-                    </div>
-                    <p class="md-regular">
-                    Forecast team velocity,<br>
-                    Define Sprint Backlog<br>
-                    Set Sprint Goal</p>
-                          </div>
-      <div class="stage-info-sum">
-                    <div style="display: flex; gap: 8px; align-items:center">
-                    <div style="width: 16px; height: 16px; background-color: var(--blue-B500);"></div>        
-                    <p class="md-bold">Srpint Execution</p>        </div>                                    
-                    <p class="md-regular">
-                    Keep the team stay cohesive<br>
-                    Remove barier for the team<br>
-                    Conduct team event</p>
-                    
-                          </div>
-      <div class="stage-info-sum">
-                              <div style="display: flex; gap: 8px; align-items:center">
-                    <div style="width: 16px; height: 16px; background-color: var(--emerald-E600)"></div>        
-                    <p class="md-bold">Sprint Review</p>                                    </div>                                   
-                    <p class="md-regular">
-                    Demo product to Product Owen and Customer<br>
-                    Gather feedback.<br>
-                    </p>                                
-                    </div>
-       <div class="stage-info-sum">
-                                <div style="display: flex; gap: 8px; align-items:center">
-                    <div style="width: 16px; height: 16px; background-color: var(--grey-G400)"></div>        
-                    <p class="md-bold">Sprint Retrospective</p>
-                              </div>
-                              <p class="md-regular">
-                                  Evaluate outcomes<br>
-                                  Lesson Learn</p>
-                                  prepare next cycle.<br></p>
-                          </div>
-      </div>
+        <div id="askAnything" style="display:none;">
+            <h3>Ask Anything</h3>
+            <select id="predefinedQuestions">
+                <option value="Tell me about your skills.">Your Skills</option>
+                <option value="What certifications do you have?">Certifications</option>
+                <option value="What is your experience in project management?">Project Management Experience</option>
+            </select>
+            <button class="btn" onclick="askPredefined()">Ask</button>
+            <input type="text" id="customQuestion" placeholder="Your question">
+            <button class="btn" onclick="askCustom()">Ask</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleChat() {
+            let chatBox = document.getElementById("chatBox");
+            chatBox.style.display = chatBox.style.display === "none" ? "block" : "none";
+        }
+        function showJobAnalyzer() {
+            document.getElementById("jobAnalyzer").style.display = "block";
+            document.getElementById("askAnything").style.display = "none";
+        }
+        function showAskAnything() {
+            document.getElementById("askAnything").style.display = "block";
+            document.getElementById("jobAnalyzer").style.display = "none";
+        }
+        function analyzeJob() {
+            let jobTitle = document.getElementById("jobTitle").value;
+            let jobDescription = document.getElementById("jobDescription").value;
+            fetch("/analyze-jd", {
+                method: "POST", 
+                headers: { "Content-Type": "application/json" }, 
+                body: JSON.stringify({ jobTitle, jobDescription })
+            })
+            .then(res => res.json())
+            .then(data => alert(`Match Score: ${data.matchScore}%\nStrengths: ${data.strengths}\nGaps: ${data.gaps}`));
+        }
+        function askPredefined() {
+            let question = document.getElementById("predefinedQuestions").value;
+            fetchAIResponse(question);
+        }
+        function askCustom() {
+            let question = document.getElementById("customQuestion").value;
+            fetchAIResponse(question);
+        }
+        function fetchAIResponse(question) {
+            fetch("/ask-ai", {
+                method: "POST", 
+                headers: { "Content-Type": "application/json" }, 
+                body: JSON.stringify({ question })
+            })
+            .then(res => res.json())
+            .then(data => alert(data.response));
+        }
+    </script>
+</body>
+</html>

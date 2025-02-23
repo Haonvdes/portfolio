@@ -432,7 +432,7 @@
      </div>
 
     </section>
-
+    <div id="chatBubbleContainer"></div>
 </main>
 
 
@@ -705,5 +705,22 @@ const processData = {
             updateProcess();
         });
 </script>
+<script>
+    function loadChatBubble() {
+        fetch('chat-bubble.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('chatBubbleContainer').innerHTML = html;
+                loadChatScripts();
+            });
+    }
 
+    function loadChatScripts() {
+        let script = document.createElement("script");
+        script.src = "chat-bubble.js"; // Place the chat logic in a separate JS file
+        document.body.appendChild(script);
+    }
+
+    window.onload = loadChatBubble;
+</script>
 </html>

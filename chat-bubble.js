@@ -21,8 +21,17 @@ function analyzeJob() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ jobTitle, jobDescription })
     })
-    .then(res => res.json())
-    .then(data => alert(`Match Score: ${data.matchScore}%\nStrengths: ${data.strengths}\nGaps: ${data.gaps}`));
+    .then(res => {
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+    })
+    .then(data => alert(`Match Score: ${data.matchScore}%\nStrengths: ${data.strengths}\nGaps: ${data.gaps}`))
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to analyze job. Please try again later.');
+    });
 }
 
 function askPredefined() {
@@ -41,6 +50,15 @@ function fetchAIResponse(question) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question })
     })
-    .then(res => res.json())
-    .then(data => alert(data.response));
+    .then(res => {
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+    })
+    .then(data => alert(data.response))
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to fetch AI response. Please try again later.');
+    });
 }

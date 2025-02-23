@@ -355,15 +355,6 @@ if (missingEnvVars.length > 0) {
 
 
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
-
-
-
-
-
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -465,3 +456,13 @@ app.post("/analyze-jd", async (req, res) => {
       res.status(500).json({ error: "Error processing job analysis. Please try again later." });
   }
 });
+
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
+
+
+
+

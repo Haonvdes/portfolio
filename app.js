@@ -383,7 +383,7 @@ const myProfile = `
 - Education: Business Administration (in progress), Graphic Design
 `;
 
-app.post("/analyze-jd", async (req, res) => {
+app.post("/api/analyze-jd", async (req, res) => {
   const { jobTitle, jobDescription, companyName } = req.body;
 
   if (!jobTitle || !jobDescription) {

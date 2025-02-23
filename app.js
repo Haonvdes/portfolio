@@ -59,6 +59,7 @@ const STRAVA_REFRESH_TOKEN = process.env.STRAVA_REFRESH_TOKEN;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 
+
 // Spotify token refresh function
 async function getSpotifyAccessToken() {
   try {
@@ -411,11 +412,11 @@ app.post("/api/analyze-jd", async (req, res) => {
   `;
 
   try {
-      const response = await openai.createChatCompletion({
-          model: "gpt-4",
-          messages: [{ role: "user", content: prompt }],
-          temperature: 0.7,
-      });
+    const response = await openai.chat.completions.create({
+      model: "gpt-4",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.7,
+    });
 
       if (!response.data.choices || response.data.choices.length === 0) {
           throw new Error("Empty response from OpenAI API.");

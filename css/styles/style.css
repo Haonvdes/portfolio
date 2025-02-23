@@ -377,7 +377,7 @@ li > a{
 .process-breakdown{
   display: flex; 
   flex-direction: column; 
-  gap: var(--m-16);
+  gap: var(--m-8);
 }
 
 .hastag button.active{
@@ -539,8 +539,12 @@ li > a{
 .stage-info-sum{
   display: flex;
   flex-direction: column;
-  gap: var(--m-16);
+  gap: var(--m-8);
   flex:1;
+}
+
+.stage-info-sum > p{
+line-height: 22px;
 }
 
 .text-decoration {

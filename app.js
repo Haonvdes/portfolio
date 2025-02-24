@@ -6,7 +6,6 @@ const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const fs = require('fs');
-const nodemailer = require("nodemailer");
 const bodyParser = require("body-parser");
 const nodemailer = require('nodemailer');
 const rateLimit = require('express-rate-limit');

@@ -8,7 +8,10 @@ const path = require('path');
 const fs = require('fs');
 const nodemailer = require("nodemailer");
 const bodyParser = require("body-parser");
-const { Configuration, OpenAIApi } = require("openai");
+const nodemailer = require('nodemailer');
+const rateLimit = require('express-rate-limit');
+const { body, validationResult } = require('express-validator');
+const sanitizeHtml = require('sanitize-html');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -355,12 +358,7 @@ app.listen(PORT, () => {
 
 
 
-const express = require('express');
-const nodemailer = require('nodemailer');
-const axios = require('axios');
-const rateLimit = require('express-rate-limit');
-const { body, validationResult } = require('express-validator');
-const sanitizeHtml = require('sanitize-html');
+
 
 // Redis or persistent storage would be better in production
 const submissionRecords = new Map();

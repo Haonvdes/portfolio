@@ -346,39 +346,132 @@ if (missingEnvVars.length > 0) {
 }
 
 
-// Store email submission counts (simple in-memory tracking)
-const submissionRecords = {};
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
+
+
+
+
+const express = require('express');
+const nodemailer = require('nodemailer');
+const axios = require('axios');
+const rateLimit = require('express-rate-limit');
+const { body, validationResult } = require('express-validator');
+const sanitizeHtml = require('sanitize-html');
+
+// Redis or persistent storage would be better in production
+const submissionRecords = new Map();
+
+// Validation middleware
+const validateJobRequest = [
+    body('userEmail').isEmail().normalizeEmail(),
+    body('jobTitle').trim().isLength({ min: 1, max: 200 }),
+    body('jobDescription').trim().isLength({ min: 10, max: 5000 }),
+];
 
 // Rate limiting middleware (3 submissions per day per email)
 const jobAnalysisLimiter = (req, res, next) => {
-    const { userEmail } = req.body;
+    try {
+        const { userEmail } = req.body;
+        if (!userEmail) {
+            return res.status(400).json({ error: "Email is required" });
+        }
 
-    if (!userEmail) return res.status(400).json({ error: "Email is required" });
+        const today = new Date().toISOString().split('T')[0];
+        const userRecord = submissionRecords.get(userEmail);
 
-    const today = new Date().toISOString().split("T")[0];
+        if (!userRecord || userRecord.date !== today) {
+            submissionRecords.set(userEmail, { count: 1, date: today });
+            return next();
+        }
 
-    if (!submissionRecords[userEmail] || submissionRecords[userEmail].date !== today) {
-        submissionRecords[userEmail] = { count: 0, date: today };
+        if (userRecord.count >= 3) {
+            return res.status(429).json({
+                error: "Daily limit reached",
+                resetTime: new Date(today).getTime() + 24 * 60 * 60 * 1000
+            });
+        }
+
+        userRecord.count++;
+        next();
+    } catch (error) {
+        console.error('Rate limiting error:', error);
+        return res.status(500).json({ error: "Internal server error" });
     }
-
-    if (submissionRecords[userEmail].count >= 3) {
-        return res.status(429).json({ error: "Daily limit of 3 job analyses reached." });
-    }
-
-    submissionRecords[userEmail].count++;
-    next();
 };
 
+// Global rate limiter for all requests
+const globalLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+});
+
 // Job Analysis Route
-app.post("/api/analyze-job", jobAnalysisLimiter, async (req, res) => {
-    const { userEmail, jobTitle, jobDescription } = req.body;
+app.post(
+    "/api/analyze-job",
+    globalLimiter,
+    validateJobRequest,
+    jobAnalysisLimiter,
+    async (req, res) => {
+        try {
+            // Validation check
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() });
+            }
 
-    if (!jobTitle || !jobDescription) {
-        return res.status(400).json({ error: "Missing job title or description" });
+            const { userEmail, jobTitle, jobDescription } = req.body;
+
+            // Sanitize inputs
+            const sanitizedTitle = sanitizeHtml(jobTitle, {
+                allowedTags: [],
+                allowedAttributes: {}
+            });
+            const sanitizedDescription = sanitizeHtml(jobDescription, {
+                allowedTags: [],
+                allowedAttributes: {}
+            });
+
+            const prompt = generateAnalysisPrompt(sanitizedTitle, sanitizedDescription);
+            const aiResponse = await getAIAnalysis(prompt);
+            
+            if (!aiResponse.success) {
+                throw new Error('AI analysis failed');
+            }
+
+            const { matchScore, analysisText } = parseAIResponse(aiResponse.data);
+            const buttonText = determineButtonText(matchScore);
+
+            await sendAssessmentEmail({
+                userEmail,
+                jobTitle: sanitizedTitle,
+                jobDescription: sanitizedDescription,
+                matchScore,
+                analysisText
+            });
+
+            res.json({
+                success: true,
+                matchScore,
+                buttonText,
+                comparisonDetails: analysisText
+            });
+
+        } catch (error) {
+            console.error('Analysis error:', error);
+            res.status(500).json({
+                error: "Analysis failed",
+                message: "Please try again later"
+            });
+        }
     }
+);
 
-    try {
-        const prompt = `
+function generateAnalysisPrompt(jobTitle, jobDescription) {
+    return `
         Compare the following job description with my professional profile.
         Job Title: ${jobTitle}
         Job Description: ${jobDescription}
@@ -394,47 +487,103 @@ app.post("/api/analyze-job", jobAnalysisLimiter, async (req, res) => {
         - Key matching skills.
         - Skill gaps.
         - Summary of the comparison.
-        `;
+    `.trim();
+}
 
-        const aiResponse = await axios.post(
+async function getAIAnalysis(prompt) {
+    try {
+        const response = await axios.post(
             `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${process.env.GEMINI_API_KEY}`,
             {
                 contents: [{ role: "user", parts: [{ text: prompt }] }]
+            },
+            {
+                timeout: 10000, // 10 second timeout
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             }
         );
 
-        const aiText = aiResponse.data.candidates[0].content.parts[0].text;
-        const matchScore = aiText.match(/\d+%/) ? parseInt(aiText.match(/\d+/)[0], 10) : 0;
-        let buttonText = matchScore >= 70 ? "Reach Out" : "Let's Talk";
-
-        await sendAssessmentEmail(userEmail, jobTitle, jobDescription, matchScore, aiText);
-
-        res.json({ matchScore, buttonText, comparisonDetails: aiText });
-
+        return {
+            success: true,
+            data: response.data.candidates[0].content.parts[0].text
+        };
     } catch (error) {
-        console.error("Error:", error);
-        res.status(500).json({ error: "AI request failed" });
+        console.error('AI API error:', error);
+        return { success: false, error };
     }
-});
-
-// Email Function
-async function sendAssessmentEmail(userEmail, jobTitle, jobDescription, matchScore, aiText) {
-    const transporter = nodemailer.createTransport({
-        service: "Gmail",
-        auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
-    });
-
-    await transporter.sendMail({
-        from: `"Job Analyzer" <${process.env.EMAIL_USER}>`,
-        to: userEmail,
-        cc: process.env.EMAIL_USER,
-        subject: "Your Job Analysis Results",
-        text: `Job Title: ${jobTitle}\nMatch Score: ${matchScore}%\n\nAI Analysis:\n${aiText}`,
-    });
 }
 
+function parseAIResponse(aiText) {
+    const matchScore = aiText.match(/\d+%/) 
+        ? Math.min(100, Math.max(0, parseInt(aiText.match(/\d+/)[0], 10)))
+        : 0;
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+    return {
+        matchScore,
+        analysisText: aiText
+    };
+}
+
+function determineButtonText(matchScore) {
+    if (matchScore >= 85) return "Perfect Match!";
+    if (matchScore >= 70) return "Reach Out";
+    if (matchScore >= 50) return "Let's Talk";
+    return "Explore More";
+}
+
+async function sendAssessmentEmail({ userEmail, jobTitle, jobDescription, matchScore, analysisText }) {
+    const transporter = nodemailer.createTransport({
+        service: "Gmail",
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
+        },
+        tls: {
+            rejectUnauthorized: true
+        }
+    });
+
+    const emailTemplate = `
+        Job Analysis Results
+        
+        Job Title: ${jobTitle}
+        Match Score: ${matchScore}%
+        
+        AI Analysis:
+        ${analysisText}
+        
+        Description Analyzed:
+        ${jobDescription}
+        
+        This is an automated analysis. Please review carefully before making any decisions.
+    `.trim();
+
+    try {
+        await transporter.sendMail({
+            from: `"Job Analyzer" <${process.env.EMAIL_USER}>`,
+            to: userEmail,
+            cc: process.env.EMAIL_USER,
+            subject: `Job Analysis Results: ${jobTitle} (${matchScore}% Match)`,
+            text: emailTemplate,
+            headers: {
+                'X-Priority': '1',
+                'X-MSMail-Priority': 'High'
+            }
+        });
+    } catch (error) {
+        console.error('Email sending error:', error);
+        // Don't throw - email failure shouldn't break the analysis flow
+    }
+}
+
+module.exports = {
+    jobAnalysisLimiter,
+    validateJobRequest,
+    generateAnalysisPrompt,
+    getAIAnalysis,
+    parseAIResponse,
+    determineButtonText,
+    sendAssessmentEmail
+};

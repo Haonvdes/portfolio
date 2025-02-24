@@ -1,90 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Management Process</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-        .dropdown-container {
-            margin-bottom: 20px;
-        }
-        .process-container {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: left;
-        }
-        .phase-box {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 5px 0;
-        }
-        .pre-sale { background-color: #DFF0FF; }
-        .initiation { background-color: #D4F4C4; }
-        .planning { background-color: #FFF4B2; }
-        .execution { background-color: #3DAEFA; color: white; }
-        .monitoring { background-color: #29A745; color: white; }
-        .closing { background-color: #A8A8A8; color: white; }
-    </style>
-</head>
-<body>
+<style>
+    /* Chat Bubble Styling */
+    #chatBubble {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background: #007bff;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 24px;
+        transition: all 0.3s ease;
+    }
 
-    <div class="dropdown-container">
-        <label for="phaseSelector">Select Process Type: </label>
-        <select id="phaseSelector" onchange="updateProcess()">
-            <option value="phase">Phase</option>
-            <option value="sprint">Sprint</option>
-            <option value="iteration">Iteration</option>
-        </select>
-    </div>
+    /* Expanded Form */
+    #chatForm {
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        width: 300px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 15px;
+        display: none;
+        flex-direction: column;
+    }
 
-    <div class="process-container" id="processContent">
-        <!-- Content will be injected here -->
-    </div>
+    /* Form Input Styling */
+    #chatForm input, #chatForm textarea, #chatForm button {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
 
-    <script>
-        const processData = {
-            phase: [
-                { title: "Pre-Sale", desc: "Engage stakeholders, outline objectives.", class: "pre-sale" },
-                { title: "Initiation", desc: "Develop project charters, allocate resources.", class: "initiation" },
-                { title: "Planning", desc: "Create timelines, risk mitigation.", class: "planning" },
-                { title: "Execution", desc: "Execute cycles, incorporate feedback.", class: "execution" },
-                { title: "Control & Monitoring", desc: "Track KPIs, monitor performance.", class: "monitoring" },
-                { title: "Closing", desc: "Deliver documentation, conduct retrospectives.", class: "closing" }
-            ],
-            sprint: [
-                { title: "Sprint Planning", desc: "Define sprint backlog, set sprint goal.", class: "pre-sale" },
-                { title: "Sprint Execution", desc: "Develop features, conduct standups.", class: "execution" },
-                { title: "Sprint Review", desc: "Demo product, gather feedback.", class: "monitoring" },
-                { title: "Sprint Retrospective", desc: "Evaluate & improve process.", class: "closing" }
-            ],
-            iteration: [
-                { title: "Iteration Planning", desc: "Define iteration scope, allocate tasks.", class: "planning" },
-                { title: "Development", desc: "Implement and integrate features.", class: "execution" },
-                { title: "Testing", desc: "Perform testing and bug fixes.", class: "monitoring" },
-                { title: "Iteration Review", desc: "Evaluate outcomes, prepare next cycle.", class: "closing" }
-            ]
-        };
+    #chatForm button {
+        background: #007bff;
+        color: white;
+        cursor: pointer;
+        border: none;
+    }
 
-        function updateProcess() {
-            const selected = document.getElementById("phaseSelector").value;
-            const processContainer = document.getElementById("processContent");
-            processContainer.innerHTML = processData[selected].map(item => 
-                `<div class="phase-box ${item.class}">
-                    <strong>${item.title}</strong> - ${item.desc}
-                </div>`).join("");
-        }
+    /* Close Button */
+    #closeChat {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+</style>
 
-        // Initialize with default selection
-        updateProcess();
-    </script>
+<!-- Chat Bubble -->
+<div id="chatBubble">💬</div>
 
-</body>
-</html>
+<!-- Chat Form (Initially Hidden) -->
+<div id="chatForm">
+    <h1>Job Analyzer</h1>
+    <span id="closeChat">✖</span>
+    <form id="jobAnalyzerForm">
+        <input type="email" id="userEmail" placeholder="Enter your email" required>
+        <input type="text" id="jobTitle" placeholder="Job Title" required>
+        <textarea id="jobDescription" placeholder="Job Description" required></textarea>
+        <button type="submit">Analyze Job</button>
+    </form>
+    <p id="matchResult"></p>
+</div>
+
+<script>
+document.getElementById("chatBubble").addEventListener("click", function () {
+    document.getElementById("chatForm").style.display = "flex";
+});
+
+document.getElementById("closeChat").addEventListener("click", function () {
+    document.getElementById("chatForm").style.display = "none";
+});
+
+document.getElementById("jobAnalyzerForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const userEmail = document.getElementById("userEmail").value;
+    const jobTitle = document.getElementById("jobTitle").value;
+    const jobDescription = document.getElementById("jobDescription").value;
+
+    const response = await fetch("https://api.stpnguyen.com/api/analyze-job", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userEmail, jobTitle, jobDescription }),
+    });
+
+    const data = await response.json();
+    document.getElementById("matchResult").innerText = `Match Score: ${data.matchScore}% - ${data.buttonText}`;
+});
+</script>

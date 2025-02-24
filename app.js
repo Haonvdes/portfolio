@@ -6,9 +6,9 @@ const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const fs = require('fs');
+const nodemailer = require("nodemailer");
 const bodyParser = require("body-parser");
 const { Configuration, OpenAIApi } = require("openai");
-const nodemailer = require("nodemailer");
 
 // Load environment variables from .env file
 dotenv.config();
@@ -48,6 +48,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.static('public'));
+app.use(express.json());
 
 // Environment variables
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -357,113 +358,202 @@ if (missingEnvVars.length > 0) {
 
 
 
-app.use(cors());
-app.use(bodyParser.json());
+// app.use(cors());
+// app.use(bodyParser.json());
 
-// Load API keys from Render.io environment variables
-const OpenAI = require('openai');
+// // Load API keys from Render.io environment variables
+// const OpenAI = require('openai');
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// const openai = new OpenAI({
+//   apiKey: process.env.OPENAI_API_KEY,
+// });
 
-// Email credentials from Render.io environment
-const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.EMAIL_USER,  // Your email address
-        pass: process.env.EMAIL_PASS   // App password or SMTP credentials
+// // Email credentials from Render.io environment
+// const transporter = nodemailer.createTransport({
+//     service: "gmail",
+//     auth: {
+//         user: process.env.EMAIL_USER,  // Your email address
+//         pass: process.env.EMAIL_PASS   // App password or SMTP credentials
+//     }
+// });
+
+// // Your profile for AI comparison
+// const myProfile = `
+// - Experience: 5 years as a Product Designer, transitioning to Project Manager
+// - Certifications: PMP, PMI-ACP, PSM
+// - Skills: Project Management, UI/UX, Business Administration, Agile, Waterfall
+// - Education: Business Administration (in progress), Graphic Design
+// `;
+
+// app.post("/api/analyze-jd", async (req, res) => {
+//   const { jobTitle, jobDescription, companyName } = req.body;
+
+//   if (!jobTitle || !jobDescription) {
+//       return res.status(400).json({ error: "Job Title and Description are required." });
+//   }
+
+//   const prompt = `
+//   You are an AI assistant helping HR compare job descriptions with a candidate's profile. 
+
+//   **Candidate Profile:**
+//   ${myProfile}
+
+//   **Job Title:** ${jobTitle}
+//   **Company Name:** ${companyName || "Not Provided"}
+//   **Job Description:** ${jobDescription}
+
+//   Please analyze and return:
+//   1. Match Score (%)
+//   2. Key strengths that align with the JD
+//   3. Skill gaps (if any)
+//   4. Suggested improvements for the candidate's profile.
+
+//   Format response as JSON: 
+//   { "matchScore": "...", "strengths": "...", "gaps": "...", "suggestions": "..." }
+//   `;
+
+//   try {
+//     const response = await openai.chat.completions.create({
+//       model: "gpt-4",
+//       messages: [{ role: "user", content: prompt }],
+//       temperature: 0.7,
+//     });
+
+//       if (!response.data.choices || response.data.choices.length === 0) {
+//           throw new Error("Empty response from OpenAI API.");
+//       }
+
+//       const jsonResponse = JSON.parse(response.data.choices[0].message.content);
+      
+//       // Send response to frontend immediately
+//       res.json(jsonResponse);
+
+//       // Background Email Notification
+//       const mailOptions = {
+//           from: process.env.EMAIL_USER,
+//           to: "haonv307@gmail.com",  // Replace with your actual email
+//           subject: `New Job Analysis - ${jobTitle}`,
+//           text: `
+//           📢 New Job Analysis Request 📢
+          
+//           🔹 **Company:** ${companyName || "Not Provided"}
+//           🔹 **Job Title:** ${jobTitle}
+//           🔹 **Job Description:** 
+//           ${jobDescription}
+          
+//           🔍 **AI Analysis Result**
+//           ✅ **Match Score:** ${jsonResponse.matchScore}%
+//           🏆 **Key Strengths:** ${jsonResponse.strengths}
+//           ❌ **Skill Gaps:** ${jsonResponse.gaps}
+//           📌 **Suggestions:** ${jsonResponse.suggestions}
+//           `
+//       };
+
+//       transporter.sendMail(mailOptions).catch(emailError => {
+//           console.error("Failed to send email:", emailError);
+//       });
+
+//   } catch (error) {
+//       console.error("Error processing request:", error);
+//       res.status(500).json({ error: "Error processing job analysis. Please try again later." });
+//   }
+// });
+
+
+
+
+
+
+
+// Store email submission counts (simple in-memory tracking)
+const submissionRecords = {};
+
+// Rate limiting middleware (3 submissions per day per email)
+const jobAnalysisLimiter = (req, res, next) => {
+    const { userEmail } = req.body;
+
+    if (!userEmail) return res.status(400).json({ error: "Email is required" });
+
+    const today = new Date().toISOString().split("T")[0];
+
+    if (!submissionRecords[userEmail] || submissionRecords[userEmail].date !== today) {
+        submissionRecords[userEmail] = { count: 0, date: today };
+    }
+
+    if (submissionRecords[userEmail].count >= 3) {
+        return res.status(429).json({ error: "Daily limit of 3 job analyses reached." });
+    }
+
+    submissionRecords[userEmail].count++;
+    next();
+};
+
+// Job Analysis Route
+app.post("/analyze-job", jobAnalysisLimiter, async (req, res) => {
+    const { userEmail, jobTitle, jobDescription } = req.body;
+
+    if (!jobTitle || !jobDescription) {
+        return res.status(400).json({ error: "Missing job title or description" });
+    }
+
+    try {
+        const prompt = `
+        Compare the following job description with my professional profile.
+        Job Title: ${jobTitle}
+        Job Description: ${jobDescription}
+
+        My Profile:
+        - Product Designer with 5 years of experience.
+        - Certified in PMP, PMI-ACP, and PSM.
+        - Transitioning into a Project Manager role.
+        - Strong business acumen and leadership skills.
+
+        Return:
+        - A percentage match score (0-100%).
+        - Key matching skills.
+        - Skill gaps.
+        - Summary of the comparison.
+        `;
+
+        const aiResponse = await axios.post(
+            `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${process.env.GEMINI_API_KEY}`,
+            {
+                contents: [{ role: "user", parts: [{ text: prompt }] }]
+            }
+        );
+
+        const aiText = aiResponse.data.candidates[0].content.parts[0].text;
+        const matchScore = aiText.match(/\d+%/) ? parseInt(aiText.match(/\d+/)[0], 10) : 0;
+        let buttonText = matchScore >= 70 ? "Reach Out" : "Let's Talk";
+
+        await sendAssessmentEmail(userEmail, jobTitle, jobDescription, matchScore, aiText);
+
+        res.json({ matchScore, buttonText, comparisonDetails: aiText });
+
+    } catch (error) {
+        console.error("Error:", error);
+        res.status(500).json({ error: "AI request failed" });
     }
 });
 
-// Your profile for AI comparison
-const myProfile = `
-- Experience: 5 years as a Product Designer, transitioning to Project Manager
-- Certifications: PMP, PMI-ACP, PSM
-- Skills: Project Management, UI/UX, Business Administration, Agile, Waterfall
-- Education: Business Administration (in progress), Graphic Design
-`;
-
-app.post("/api/analyze-jd", async (req, res) => {
-  const { jobTitle, jobDescription, companyName } = req.body;
-
-  if (!jobTitle || !jobDescription) {
-      return res.status(400).json({ error: "Job Title and Description are required." });
-  }
-
-  const prompt = `
-  You are an AI assistant helping HR compare job descriptions with a candidate's profile. 
-
-  **Candidate Profile:**
-  ${myProfile}
-
-  **Job Title:** ${jobTitle}
-  **Company Name:** ${companyName || "Not Provided"}
-  **Job Description:** ${jobDescription}
-
-  Please analyze and return:
-  1. Match Score (%)
-  2. Key strengths that align with the JD
-  3. Skill gaps (if any)
-  4. Suggested improvements for the candidate's profile.
-
-  Format response as JSON: 
-  { "matchScore": "...", "strengths": "...", "gaps": "...", "suggestions": "..." }
-  `;
-
-  try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.7,
+// Email Function
+async function sendAssessmentEmail(userEmail, jobTitle, jobDescription, matchScore, aiText) {
+    const transporter = nodemailer.createTransport({
+        service: "Gmail",
+        auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
     });
 
-      if (!response.data.choices || response.data.choices.length === 0) {
-          throw new Error("Empty response from OpenAI API.");
-      }
-
-      const jsonResponse = JSON.parse(response.data.choices[0].message.content);
-      
-      // Send response to frontend immediately
-      res.json(jsonResponse);
-
-      // Background Email Notification
-      const mailOptions = {
-          from: process.env.EMAIL_USER,
-          to: "haonv307@gmail.com",  // Replace with your actual email
-          subject: `New Job Analysis - ${jobTitle}`,
-          text: `
-          📢 New Job Analysis Request 📢
-          
-          🔹 **Company:** ${companyName || "Not Provided"}
-          🔹 **Job Title:** ${jobTitle}
-          🔹 **Job Description:** 
-          ${jobDescription}
-          
-          🔍 **AI Analysis Result**
-          ✅ **Match Score:** ${jsonResponse.matchScore}%
-          🏆 **Key Strengths:** ${jsonResponse.strengths}
-          ❌ **Skill Gaps:** ${jsonResponse.gaps}
-          📌 **Suggestions:** ${jsonResponse.suggestions}
-          `
-      };
-
-      transporter.sendMail(mailOptions).catch(emailError => {
-          console.error("Failed to send email:", emailError);
-      });
-
-  } catch (error) {
-      console.error("Error processing request:", error);
-      res.status(500).json({ error: "Error processing job analysis. Please try again later." });
-  }
-});
+    await transporter.sendMail({
+        from: `"Job Analyzer" <${process.env.EMAIL_USER}>`,
+        to: userEmail,
+        cc: process.env.EMAIL_USER,
+        subject: "Your Job Analysis Results",
+        text: `Job Title: ${jobTitle}\nMatch Score: ${matchScore}%\n\nAI Analysis:\n${aiText}`,
+    });
+}
 
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
-
-
-
-

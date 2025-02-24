@@ -264,16 +264,6 @@ app.get('/api/strava/personal/weekly', async (req, res) => {
   }
 });
 
-
-
-
-
-
-
-
-
-
-
 // Ensure JWT_SECRET is set before running the server
 if (!process.env.JWT_SECRET) {
   console.error('Error: Missing JWT_SECRET');
@@ -356,115 +346,6 @@ if (missingEnvVars.length > 0) {
 }
 
 
-
-
-// app.use(cors());
-// app.use(bodyParser.json());
-
-// // Load API keys from Render.io environment variables
-// const OpenAI = require('openai');
-
-// const openai = new OpenAI({
-//   apiKey: process.env.OPENAI_API_KEY,
-// });
-
-// // Email credentials from Render.io environment
-// const transporter = nodemailer.createTransport({
-//     service: "gmail",
-//     auth: {
-//         user: process.env.EMAIL_USER,  // Your email address
-//         pass: process.env.EMAIL_PASS   // App password or SMTP credentials
-//     }
-// });
-
-// // Your profile for AI comparison
-// const myProfile = `
-// - Experience: 5 years as a Product Designer, transitioning to Project Manager
-// - Certifications: PMP, PMI-ACP, PSM
-// - Skills: Project Management, UI/UX, Business Administration, Agile, Waterfall
-// - Education: Business Administration (in progress), Graphic Design
-// `;
-
-// app.post("/api/analyze-jd", async (req, res) => {
-//   const { jobTitle, jobDescription, companyName } = req.body;
-
-//   if (!jobTitle || !jobDescription) {
-//       return res.status(400).json({ error: "Job Title and Description are required." });
-//   }
-
-//   const prompt = `
-//   You are an AI assistant helping HR compare job descriptions with a candidate's profile. 
-
-//   **Candidate Profile:**
-//   ${myProfile}
-
-//   **Job Title:** ${jobTitle}
-//   **Company Name:** ${companyName || "Not Provided"}
-//   **Job Description:** ${jobDescription}
-
-//   Please analyze and return:
-//   1. Match Score (%)
-//   2. Key strengths that align with the JD
-//   3. Skill gaps (if any)
-//   4. Suggested improvements for the candidate's profile.
-
-//   Format response as JSON: 
-//   { "matchScore": "...", "strengths": "...", "gaps": "...", "suggestions": "..." }
-//   `;
-
-//   try {
-//     const response = await openai.chat.completions.create({
-//       model: "gpt-4",
-//       messages: [{ role: "user", content: prompt }],
-//       temperature: 0.7,
-//     });
-
-//       if (!response.data.choices || response.data.choices.length === 0) {
-//           throw new Error("Empty response from OpenAI API.");
-//       }
-
-//       const jsonResponse = JSON.parse(response.data.choices[0].message.content);
-      
-//       // Send response to frontend immediately
-//       res.json(jsonResponse);
-
-//       // Background Email Notification
-//       const mailOptions = {
-//           from: process.env.EMAIL_USER,
-//           to: "haonv307@gmail.com",  // Replace with your actual email
-//           subject: `New Job Analysis - ${jobTitle}`,
-//           text: `
-//           📢 New Job Analysis Request 📢
-          
-//           🔹 **Company:** ${companyName || "Not Provided"}
-//           🔹 **Job Title:** ${jobTitle}
-//           🔹 **Job Description:** 
-//           ${jobDescription}
-          
-//           🔍 **AI Analysis Result**
-//           ✅ **Match Score:** ${jsonResponse.matchScore}%
-//           🏆 **Key Strengths:** ${jsonResponse.strengths}
-//           ❌ **Skill Gaps:** ${jsonResponse.gaps}
-//           📌 **Suggestions:** ${jsonResponse.suggestions}
-//           `
-//       };
-
-//       transporter.sendMail(mailOptions).catch(emailError => {
-//           console.error("Failed to send email:", emailError);
-//       });
-
-//   } catch (error) {
-//       console.error("Error processing request:", error);
-//       res.status(500).json({ error: "Error processing job analysis. Please try again later." });
-//   }
-// });
-
-
-
-
-
-
-
 // Store email submission counts (simple in-memory tracking)
 const submissionRecords = {};
 
@@ -489,7 +370,7 @@ const jobAnalysisLimiter = (req, res, next) => {
 };
 
 // Job Analysis Route
-app.post("/analyze-job", jobAnalysisLimiter, async (req, res) => {
+app.post("/api/analyze-job", jobAnalysisLimiter, async (req, res) => {
     const { userEmail, jobTitle, jobDescription } = req.body;
 
     if (!jobTitle || !jobDescription) {

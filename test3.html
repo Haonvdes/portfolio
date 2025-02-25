@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Analysis Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .response {
+            margin-top: 15px;
+            font-size: 14px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Job Fit Analysis</h2>
+        <form id="jobForm">
+            <label for="jobDescription">Job Description:</label>
+            <textarea id="jobDescription" rows="5" required></textarea>
+
+            <label for="userEmail">Your Email:</label>
+            <input type="email" id="userEmail" required>
+
+            <button type="submit">Analyze Job</button>
+        </form>
+
+        <p class="response" id="responseMessage"></p>
+    </div>
+
+    <script>
+        document.getElementById("jobForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            const jobDescription = document.getElementById("jobDescription").value;
+            const userEmail = document.getElementById("userEmail").value;
+            const responseMessage = document.getElementById("responseMessage");
+
+            responseMessage.textContent = "Processing...";
+
+            try {
+                const response = await fetch("https://hook.us2.make.com/m6ee17ppddwuttuz2cef9ey9xxqjm1fc", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ jobDescription, userEmail })
+                });
+
+                if (response.ok) {
+                    responseMessage.textContent = "Your job analysis is in progress. Check your email soon!";
+                } else {
+                    responseMessage.textContent = "Error processing your request. Please try again.";
+                }
+            } catch (error) {
+                responseMessage.textContent = "Network error. Please try again later.";
+            }
+        });
+    
+    // Replace with your Make.com Webhook URL
+const MAKE_WEBHOOK_URL = "https://hook.us2.make.com/m6ee17ppddwuttuz2cef9ey9xxqjm1fc";
+
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("jobAnalysisForm");
+    const resultBox = document.getElementById("resultBox");
+    
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        
+        // Get user inputs
+        const jobDescription = document.getElementById("jobDescription").value;
+        const userEmail = document.getElementById("userEmail").value;
+        
+        // Show loading state
+        resultBox.innerHTML = "<p>Analyzing job description... Please wait.</p>";
+        
+        try {
+            const response = await fetch(MAKE_WEBHOOK_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ jobDescription, userEmail })
+            });
+            
+            const data = await response.json();
+            
+            // Display results
+            if (data.matchScore && data.analysis) {
+                resultBox.innerHTML = `
+                    <p><strong>Match Score:</strong> ${data.matchScore}%</p>
+                    <p><strong>Analysis:</strong> ${data.analysis}</p>
+                `;
+            } else {
+                resultBox.innerHTML = "<p>Error: Unable to analyze job description.</p>";
+            }
+        } catch (error) {
+            resultBox.innerHTML = "<p>Error: Something went wrong. Please try again later.</p>";
+        }
+    });
+});
+
+    
+    </script>
+
+</body>
+</html>

@@ -26,6 +26,7 @@ const allowedOrigins = [
   'https://stpnguyen.com',
   'http://stpnguyen.com', 
   'https://www.stpnguyen.com',
+  'https://hook.eu1.make.com',
   'http://www.stpnguyen.com' 
 ];
 
@@ -350,20 +351,37 @@ if (missingEnvVars.length > 0) {
 
 app.use(bodyParser.json()); // Parse JSON body
 
-// Endpoint to receive analyzed job data from Make.com
-app.post("/receive-analysis", async (req, res) => {
+
+// Endpoint to receive processed data from Make
+app.post('/api/job-analysis', (req, res) => {
+  console.log('Received request to /api/job-analysis');
+  console.log('Request headers:', req.headers);
+  console.log('Request body:', req.body);
     try {
-        const { jobDescription, matchScore, explanation, userEmail } = req.body;
+      const { jobDescription, candidateProfile, analysisCriteria } = req.body;
 
-        console.log("Received AI Analysis:", req.body);
+      if (!jobDescription || !candidateProfile || !analysisCriteria) {
+          return res.status(400).json({ error: 'Missing required fields' });
+      }
 
-        // TODO: Store or process data (e.g., save to DB, forward to frontend)
+      // Restructure data before sending to frontend
+      const formattedResponse = {
+          job: jobDescription,
+          candidate: candidateProfile,
+          matchScore: analysisCriteria.matchScore,
+          summary: analysisCriteria.shortExplanation,
+          recommendations: {
+              HR: analysisCriteria.recommendations.forHR,
+              candidate: analysisCriteria.recommendations.forCandidate,
+          },
+      };
 
-        res.status(200).json({ message: "Data received successfully!" });
-    } catch (error) {
-        console.error("Error processing AI analysis:", error);
-        res.status(500).json({ error: "Server error" });
-    }
+      console.log('Processed Data:', formattedResponse);
+      res.json(formattedResponse);
+  } catch (error) {
+      console.error('Error processing job analysis:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 const PORT = process.env.PORT || 3000;

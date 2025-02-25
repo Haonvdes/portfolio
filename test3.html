@@ -3,140 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Analysis Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-        }
-        .form-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            width: 350px;
-        }
-        input, textarea, button {
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            border: none;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .response {
-            margin-top: 15px;
-            font-size: 14px;
-            color: green;
-        }
-        #jobForm {
-            display: flex
-;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="icon" type="image/x-icon" href="./public/favicon.png">
+    <title>Stephano Ng | Practical AI, Product Design and Professional Project Management</title>
+    <link rel="stylesheet" href="./css/styles/bootstrap-grid.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="./css/styles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <title>Job Analysis Chat</title>
+    <!-- <style>
+       body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.chat-bubble {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #4285f4;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.chat-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 999;
+}
+
+.chat-container.visible {
+    display: block;
+}
+
+form {
+    display: flex;
     flex-direction: column;
-    gap: 24px;        }
-    </style>
+}
+
+
+input, textarea {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+    max-height: 400px;
+}
+
+.response {
+    margin-top: 15px;
+    font-style: italic;
+}
+
+#resultBox {
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.error-message {
+    color: #d32f2f;
+}
+
+.form-data {
+    display: flex;
+    flex-direction: column;
+}
+.head-chat {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background-color: #fbfcfc;
+    padding: var(--p-16);
+    border-bottom: 1px solid var(--border-neutral-default);
+    background-color: var(--grey-G100);
+    border-radius: 8px 8px 0 0; 
+    }
+.form-cobtainer {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    }
+    </style> -->
 </head>
 <body>
-
-    <div class="form-container">
-        <h2>Job Fit Analysis</h2>
-        <form id="jobForm">
-            <label for="jobDescription">Job Description:</label>
-            <textarea id="jobDescription" rows="5" required></textarea>
-
-            <label for="userEmail">Your Email:</label>
-            <input type="email" id="userEmail" required>
-
-            <button type="submit">Analyze Job</button>
-        </form>
-        <div id="resultBox"></div>
-        <p class="response" id="responseMessage"></p>
-    </div>
-
-    <!-- <script>
-        document.getElementById("jobForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
-            
-            const jobDescription = document.getElementById("jobDescription").value;
-            const userEmail = document.getElementById("userEmail").value;
-            const responseMessage = document.getElementById("responseMessage");
-
-            responseMessage.textContent = "Processing...";
-
-            try {
-                const response = await fetch("https://hook.us2.make.com/m6ee17ppddwuttuz2cef9ey9xxqjm1fc", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ jobDescription, userEmail })
-                });
-
-                if (response.ok) {
-                    responseMessage.textContent = "Your job analysis is in progress. Check your email soon!";
-                } else {
-                    responseMessage.textContent = "Error processing your request. Please try again.";
-                }
-            } catch (error) {
-                responseMessage.textContent = "Network error. Please try again later.";
-            }
-        });
-    
-    // Replace with your Make.com Webhook URL
-const MAKE_WEBHOOK_URL = "https://hook.us2.make.com/m6ee17ppddwuttuz2cef9ey9xxqjm1fc";
-
-document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("jobAnalysisForm");
-    const resultBox = document.getElementById("resultBox");
-    
-    form.addEventListener("submit", async function (event) {
-        event.preventDefault();
-        
-        // Get user inputs
-        const jobDescription = document.getElementById("jobDescription").value;
-        const userEmail = document.getElementById("userEmail").value;
-        
-        // Show loading state
-        resultBox.innerHTML = "<p>Analyzing job description... Please wait.</p>";
-        
-        try {
-            const response = await fetch(MAKE_WEBHOOK_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ jobDescription, userEmail })
-            });
-            
-            const data = await response.json();
-            
-            // Display results
-            if (data.matchScore && data.analysis) {
-                resultBox.innerHTML = `
-                    <p><strong>Match Score:</strong> ${data.matchScore}%</p>
-                    <p><strong>Analysis:</strong> ${data.analysis}</p>
-                `;
-            } else {
-                resultBox.innerHTML = "<p>Error: Unable to analyze job description.</p>";
-            }
-        } catch (error) {
-            resultBox.innerHTML = "<p>Error: Something went wrong. Please try again later.</p>";
-        }
-    });
-});
-
-    
-    </script>
-     -->
+        <div class="chat-bubble" id="chatBubble">💬</div>
+        <div class="chat-container" id="chatContainer">
+         <div class="head-chat">
+            <h2 class="sub-heading">Job Fit Assessment</h2>
+            <p class="md-medium">Find out how well I match your job description! Power by AI</p>
+         </div>
+            <form id="jobForm" class="form-cobtainer">
+                <div class="form-data">
+                    <label class="md-bold" for="userEmail">Your Email:</label>
+                <input class="md-medium" type="email" id="userEmail" required placeholder="Enter your email">
+                </div>
+                <div class="form-data">
+                    <label class="md-bold" for="jobDescription">Job Description:</label>
+                <textarea class="md-medium" id="jobDescription" required placeholder="Paste the job description here..."></textarea>
+                
+                </div>
+                <button class="btn-primary" type="submit">Analyze Job</button>
+            </form>
+            <p class="response" id="responseMessage"></p>
+            <div id="resultBox"></div>
+        </div>
 </body>
-<script src="chat.js"></script>
+<script src="./js/ai-chat.js"></script>
+<script>
+
+</script>
 </html>

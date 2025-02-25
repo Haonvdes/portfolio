@@ -33,7 +33,6 @@
 <body>
 <header class="header">
     <div class="container" id="nav-placeholder"></div>
-
     <div class="container first-section">
         <div class="experience">
             <p class="lg-bold animate__animated animate__fadeIn" style="text-transform: uppercase;font-weight: 700;">Stephano - Practical AI, UXD and PMP</p><br>
@@ -298,81 +297,7 @@
                             From ideation to execution and beyond, I collaborate with stakeholders, adapt to challenges, and deliver high-quality results that align with both user needs and business goals.
                         </p>
                     </div>
-                    <!-- <div class="stage">
-                        <div class="stage-item initiation">
-                            <p class="sub-heading">Initiation & Discovery</p>
-                        </div>
-                        <div class="stage-item planning">
-                            <p class="sub-heading">Planning</p>
-                        </div>
-                        <div class="stage-item execution">
-                            <p class="sub-heading">Execution</p>
-                        </div>
-                        <div class="stage-item control">
-                            <p class="sub-heading">Control and Monitoring</p>
-                        </div>
-                        <div class="stage-item close">
-                            <p class="sub-heading">Closing</p>
-                        </div>
-                    </div>
-                <div class="process-breakdown">
-                    <p class="md-bold">Activity Breakdown</p>
-                    <div class="measurement">
-
-                    <div class="stage-info">
-                        
-                        <div class="stage-info-sum">
-                            <p class="md-bold">Initiation & Discovery</p>
-                            <p class="md-regular">
-                                Develop project charters
-                                <br>
-                                Allocate resources effectively
-                                <br>
-                                Define team roles and responsibilities</p>
-
-                        </div>
-                        <div class="stage-info-sum">
-                            <p class="md-bold">Planning</p>
-                            <p class="md-regular">
-                                Create detailed timelines, <br>
-                                Risk mitigation plans<br>
-                                Deliverable milestones</p>
-
-                        </div>
-                        <div class="stage-info-sum">
-                            <p class="md-bold">Execution</p>
-                            <p class="md-regular">
-                                Execute iterative cycles<br>
-                                Incorporate client feedback <br>
-                                Track KPIs</p>
-
-                        </div>
-                        <div class="stage-info-sum">
-                            <p class="md-bold">Control & Monitoring</p>
-                            <p class="md-regular">
-                                Execute iterative cycles<br>
-                                Incorporate client feedback<br>
-                                Track KPIs</p>
-
-                        </div>
-                        <div class="stage-info-sum">
-                            <p class="md-bold">Closing</p>
-                            <p class="md-regular">
-                                Deliver final product documentation<br>
-                                Conduct retrospectives, and celebrate achievements.<br></p>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                    <div class="process-breakdown">
-                        <p class="md-bold">Measurement Metric</p>
-                        <div class="measurement">
-                            <p class="md-bold">Schedule Performance Index (SPI)</p>
-                            <p class="md-bold">Cost Performace Index (CPI)</p>
-                            <p class="md-bold">Risk Mitigation Effectiveness</p>
-                            <p class="md-bold">Stakeholder Satisfaction Score</p>
-                        </div>
-                    </div> -->
+                  
 
                     <div class="container" id="processContent">
                         <!-- Default content displayed initially -->
@@ -432,7 +357,8 @@
      </div>
 
     </section>
-    <!-- <div id="chatBubbleContainer"></div> -->
+    <div id="chatbox-placeholder"></div>
+
 </main>
 
 
@@ -440,6 +366,7 @@
 
 
 <script src="./js/script.js"></script>
+<script src="./js/ai-chat.js"></script>
 <script src="./js/chat-bubble.js"></script>
 <script src="./js/socialize.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
@@ -716,21 +643,71 @@ const processData = {
         });
 </script>
 <script>
-    function loadChatBubble() {
-        fetch('chat-bubble.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('chatBubbleContainer').innerHTML = html;
-                loadChatScripts();
-            });
-    }
+    // Toggle chat container visibility
+document.getElementById("chatBubble").addEventListener("click", function() {
+    const chatContainer = document.getElementById("chatContainer");
+    chatContainer.classList.toggle("visible");
+});
 
-    function loadChatScripts() {
-        let script = document.createElement("script");
-        script.src = "chat-bubble.js"; // Place the chat logic in a separate JS file
-        document.body.appendChild(script);
-    }
+const BACKEND_API_URL = "https://api.stpnguyen.com/api/job-analysis";
 
-    window.onload = loadChatBubble;
+document.getElementById("jobForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const jobDescription = document.getElementById("jobDescription").value;
+    const userEmail = document.getElementById("userEmail").value;
+    const responseMessage = document.getElementById("responseMessage");
+    const resultBox = document.getElementById("resultBox");
+
+    responseMessage.textContent = "Processing...";
+    resultBox.innerHTML = "";
+
+    try {
+        // Step 1: Send request to Make.com Webhook
+        await fetch("https://hook.us2.make.com/m6ee17ppddwuttuz2cef9ey9xxqjm1fc", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ jobDescription, userEmail })
+        });
+
+        responseMessage.textContent = "Processing... Fetching results soon.";
+
+        // Step 2: Poll backend for results
+        let attempts = 0;
+        let data = null;
+
+        while (attempts < 10) {
+            await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 sec before retry
+            const backendResponse = await fetch(`${BACKEND_API_URL}?email=${encodeURIComponent(userEmail)}`);
+            
+            if (backendResponse.ok) {
+                data = await backendResponse.json();
+                break;
+            }
+
+            attempts++;
+        }
+
+        // Step 3: Display results
+        if (data && data.matchScore) {
+            resultBox.innerHTML = `
+                <h3>Analysis Result</h3>
+                <p><strong>Match Score:</strong> ${data.matchScore}%</p>
+                <p><strong>Summary:</strong> ${data.summary}</p>
+                <h4>Recommendations</h4>
+                <p><strong>For HR:</strong> ${data.recommendations.HR}</p>
+                <p><strong>For Candidate:</strong> ${data.recommendations.candidate}</p>
+            `;
+            responseMessage.textContent = "Analysis complete!";
+        } else {
+            throw new Error("No valid response from the backend.");
+        }
+
+    } catch (error) {
+        responseMessage.textContent = "Error fetching analysis results. Please try again.";
+        resultBox.innerHTML = `<p>${error.message}</p>`;
+    }
+});
+
 </script>
 </html>

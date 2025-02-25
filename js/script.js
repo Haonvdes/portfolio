@@ -13,8 +13,10 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("Error loading component:", error));
     }
 
-    loadComponent("nav-placeholder", "./nav/nav.html");
-    loadComponent("footer-placeholder", "./nav/footer.html");
+    loadComponent("nav-placeholder", "./templates/nav.html");
+    loadComponent("footer-placeholder", "./templates/footer.html");
+    loadComponent("chatbox-placeholder", "./templates/chatbox.html");
+
 });
 
 // This is for tab content //

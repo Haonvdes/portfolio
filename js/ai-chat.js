@@ -1,3 +1,10 @@
+
+// Toggle chat container visibility
+document.getElementById("chatBubble").addEventListener("click", function() {
+    const chatContainer = document.getElementById("chatContainer");
+    chatContainer.classList.toggle("visible");
+});
+
 const BACKEND_API_URL = "https://api.stpnguyen.com/api/job-analysis";
 
 document.getElementById("jobForm").addEventListener("submit", async function (event) {

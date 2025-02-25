@@ -21,7 +21,6 @@
             width: 350px;
         }
         input, textarea, button {
-            width: 100%;
             padding: 10px;
             margin-top: 10px;
             border-radius: 5px;
@@ -41,6 +40,11 @@
             font-size: 14px;
             color: green;
         }
+        #jobForm {
+            display: flex
+;
+    flex-direction: column;
+    gap: 24px;        }
     </style>
 </head>
 <body>
@@ -56,11 +60,11 @@
 
             <button type="submit">Analyze Job</button>
         </form>
-
+        <div id="resultBox"></div>
         <p class="response" id="responseMessage"></p>
     </div>
 
-    <script>
+    <!-- <script>
         document.getElementById("jobForm").addEventListener("submit", async function(event) {
             event.preventDefault();
             
@@ -132,6 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     
     </script>
-
+     -->
 </body>
+<script src="chat.js"></script>
 </html>

@@ -4,7 +4,7 @@ document.getElementById("chatBubble").addEventListener("click", function() {
     chatContainer.classList.toggle("visible");
 });
 
-const BACKEND_API_URL = "https://api.stpnguyen.com/api/job-analysis";
+const BACKEND_API_URL = "https://api.stpnguyen.com/api/analyze";
 
 document.getElementById("jobForm").addEventListener("submit", async function (event) {
     event.preventDefault();
@@ -72,3 +72,19 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
         resultBox.innerHTML = `<p>${error.message}</p>`;
     }
 });
+
+async function checkAnalysisResult(userEmail) {
+    try {
+        const checkResponse = await fetch(`/api/job-analysis-result?email=${encodeURIComponent(userEmail)}`);
+        const data = await response.json();
+  
+      if (data.matchScore) {
+        displayResults(data); // Function to update UI
+      } else {
+        setTimeout(() => checkAnalysisResult(userEmail), 5000); // Retry after 5 sec
+      }
+    } catch (error) {
+      console.error("Error fetching analysis result:", error);
+    }
+  }
+  

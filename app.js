@@ -351,11 +351,17 @@ if (missingEnvVars.length > 0) {
 
 
 
-app.post("api/analyze", async (req, res) => {
-  try {
-    const { jobDescription, userProfile } = req.body;
+const multer = require("multer");
+const upload = multer({ storage: multer.memoryStorage() });
 
-    const makeResponse = await axios.post(MAKE_WEBHOOK_URL, { jobDescription, userProfile, fileInput  });
+app.post("/api/analyze", upload.single("jobFile"), async (req, res) => {
+  try {
+    const { jobDescription, userEmail } = req.body;
+    const fileInput = req.file ? req.file.buffer.toString("base64") : null; // Convert file to base64 if needed
+
+    const makeResponse = await axios.post(MAKE_WEBHOOK_URL, {
+      jobDescription, userEmail, fileInput
+    });
 
     res.json(makeResponse.data);
   } catch (error) {
@@ -364,23 +370,27 @@ app.post("api/analyze", async (req, res) => {
   }
 });
 
-const jobResults = {}; // Temporary storage for job analysis results
 
-app.post("/api/job-analysis-result", async (req, res) => {
+app.get("/api/job-analysis-result", async (req, res) => {
   try {
-    const { email, matchScore, summary, recommendations } = req.body;
+    const { email } = req.query;
 
-    // Store results in temporary storage (or use a database)
-    jobResults[email] = { matchScore, summary, recommendations };
+    if (!email) {
+      return res.status(400).json({ error: "Email parameter is required" });
+    }
 
-    console.log("Received job analysis result for:", email);
-    res.status(200).json({ message: "Job analysis result received successfully." });
+    const result = jobResults[email];
+
+    if (!result) {
+      return res.status(404).json({ error: "Result not found. Please wait for processing." });
+    }
+
+    res.json(result);
   } catch (error) {
-    console.error("Error receiving job analysis result:", error);
-    res.status(500).json({ error: "Failed to process job analysis result." });
+    console.error("Error fetching job analysis result:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
 
 
 

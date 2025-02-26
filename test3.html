@@ -112,27 +112,30 @@ textarea {
     </style> -->
 </head>
 <body>
-        <div class="chat-bubble" id="chatBubble">💬</div>
-        <div class="chat-container" id="chatContainer">
-         <div class="head-chat">
+    <div class="chat-bubble" id="chatBubble">💬</div>
+    <div class="chat-container" id="chatContainer">
+        <div class="head-chat">
             <h2 class="sub-heading">Job Fit Assessment</h2>
-            <p class="md-medium">Find out how well I match your job description! Power by AI</p>
-         </div>
-            <form id="jobForm" class="form-cobtainer">
-                <div class="form-data">
-                    <label class="md-bold" for="userEmail">Your Email:</label>
-                <input class="md-medium" type="email" id="userEmail" required placeholder="Enter your email">
-                </div>
-                <div class="form-data">
-                    <label class="md-bold" for="jobDescription">Job Description:</label>
-                <textarea class="md-medium" id="jobDescription" required placeholder="Paste the job description here..."></textarea>
-                
-                </div>
-                <button class="btn-primary" type="submit">Analyze Job</button>
-            </form>
-            <p class="response" id="responseMessage"></p>
-            <div id="resultBox"></div>
+            <p class="md-medium">Find out how well I match your job description! Powered by AI</p>
         </div>
+        <form id="jobForm" class="form-container" enctype="multipart/form-data">
+            <div class="form-data">
+                <label class="md-bold" for="userEmail">Your Email:</label>
+                <input class="md-medium" type="email" id="userEmail" required placeholder="Enter your email">
+            </div>
+            <div class="form-data">
+                <label class="md-bold" for="jobDescription">Job Description:</label>
+                <textarea class="md-medium" id="jobDescription" placeholder="Paste the job description here..."></textarea>
+            </div>
+            <div class="form-data">
+                <label class="md-bold" for="jobFile">Upload Job Description (PDF/DOCX):</label>
+                <input class="md-medium" type="file" id="jobFile" accept=".pdf,.doc,.docx">
+            </div>
+            <button class="btn-primary" type="submit">Analyze Job</button>
+        </form>
+        <p class="response" id="responseMessage"></p>
+        <div id="resultBox"></div>
+    </div>
 </body>
 <script src="./js/ai-chat.js"></script>
 <script>

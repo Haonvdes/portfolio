@@ -80,7 +80,7 @@ textarea {
     background-color: var(--grey-G100);
     border-radius: 8px 8px 0 0; 
     }
-.form-cobtainer {
+.form-container {
     padding: 16px;
     display: flex;
     flex-direction: column;

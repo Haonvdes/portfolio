@@ -1,3 +1,4 @@
+
 // Toggle chat container visibility
 document.getElementById("chatBubble").addEventListener("click", function() {
     const chatContainer = document.getElementById("chatContainer");
@@ -10,43 +11,32 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
     event.preventDefault();
     const userEmail = document.getElementById("userEmail").value;
     const jobDescription = document.getElementById("jobDescription").value;
-    const fileInput = document.getElementById("jobFile");
     const responseMessage = document.getElementById("responseMessage");
     const resultBox = document.getElementById("resultBox");
 
     responseMessage.textContent = "Processing...";
     resultBox.innerHTML = "";
 
-    const formData = new FormData();
-    formData.append("userEmail", userEmail);
-    formData.append("jobDescription", jobDescription);
-    if (fileInput.files.length > 0) {
-        formData.append("jobFile", fileInput.files[0]);
-    }
-
     try {
-        // Step 1: Send request to backend
-        const backendResponse = await fetch(BACKEND_API_URL, {
+        // Step 1: Send request to Make.com Webhook
+        await fetch("https://hook.us2.make.com/m6ee17ppddwuttuz2cef9ey9xxqjm1fc", {
             method: "POST",
-            body: formData
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ jobDescription, userEmail })
         });
-        
-        if (!backendResponse.ok) {
-            throw new Error("Failed to send data to backend.");
-        }
-        
+
         responseMessage.textContent = "Processing... Fetching results soon.";
-        
+
         // Step 2: Poll backend for results
         let attempts = 0;
         let data = null;
 
         while (attempts < 10) {
             await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 sec before retry
-            const checkResponse = await fetch(`${BACKEND_API_URL}?email=${encodeURIComponent(userEmail)}`);
+            const backendResponse = await fetch(`${BACKEND_API_URL}?email=${encodeURIComponent(userEmail)}`);
             
-            if (checkResponse.ok) {
-                data = await checkResponse.json();
+            if (backendResponse.ok) {
+                data = await backendResponse.json();
                 break;
             }
 
@@ -67,6 +57,7 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
         } else {
             throw new Error("No valid response from the backend.");
         }
+
     } catch (error) {
         responseMessage.textContent = "Error fetching analysis results. Please try again.";
         resultBox.innerHTML = `<p>${error.message}</p>`;

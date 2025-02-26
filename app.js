@@ -61,6 +61,7 @@ const STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;
 const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
 const STRAVA_REFRESH_TOKEN = process.env.STRAVA_REFRESH_TOKEN;
 const JWT_SECRET = process.env.JWT_SECRET;
+const MAKE_WEBHOOK_URL = process.env.MAKE_WEBHOOK_URL;
 
 
 
@@ -349,40 +350,24 @@ if (missingEnvVars.length > 0) {
 }
 
 
-app.use(bodyParser.json()); // Parse JSON body
 
+app.post("api/analyze", async (req, res) => {
+  try {
+    const { jobDescription, userProfile } = req.body;
 
-// Endpoint to receive processed data from Make
-app.post('/api/job-analysis', (req, res) => {
-  console.log('Received request to /api/job-analysis');
-  console.log('Request headers:', req.headers);
-  console.log('Request body:', req.body);
-    try {
-      const { jobDescription, candidateProfile, analysisCriteria } = req.body;
+    const makeResponse = await axios.post(MAKE_WEBHOOK_URL, { jobDescription, userProfile, fileInput  });
 
-      if (!jobDescription || !candidateProfile || !analysisCriteria) {
-          return res.status(400).json({ error: 'Missing required fields' });
-      }
-
-      // Restructure data before sending to frontend
-      const formattedResponse = {
-          job: jobDescription,
-          candidate: candidateProfile,
-          matchScore: analysisCriteria.matchScore,
-          summary: analysisCriteria.shortExplanation,
-          recommendations: {
-              HR: analysisCriteria.recommendations.forHR,
-              candidate: analysisCriteria.recommendations.forCandidate,
-          },
-      };
-
-      console.log('Processed Data:', formattedResponse);
-      res.json(formattedResponse);
+    res.json(makeResponse.data);
   } catch (error) {
-      console.error('Error processing job analysis:', error);
-      res.status(500).json({ error: 'Internal server error' });
+    console.error("Error processing request:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+
+
+
+
 
 
 

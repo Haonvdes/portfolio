@@ -364,6 +364,22 @@ app.post("api/analyze", async (req, res) => {
   }
 });
 
+const jobResults = {}; // Temporary storage for job analysis results
+
+app.post("/api/job-analysis-result", async (req, res) => {
+  try {
+    const { email, matchScore, summary, recommendations } = req.body;
+
+    // Store results in temporary storage (or use a database)
+    jobResults[email] = { matchScore, summary, recommendations };
+
+    console.log("Received job analysis result for:", email);
+    res.status(200).json({ message: "Job analysis result received successfully." });
+  } catch (error) {
+    console.error("Error receiving job analysis result:", error);
+    res.status(500).json({ error: "Failed to process job analysis result." });
+  }
+});
 
 
 

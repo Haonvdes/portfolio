@@ -15,101 +15,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <title>Job Analysis Chat</title>
-    <!-- <style>
-       body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-.chat-bubble {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    background-color: #4285f4;
-    border-radius: 50%;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    cursor: pointer;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-}
-
-.chat-container {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    display: none;
-    z-index: 999;
-}
-
-.chat-container.visible {
-    display: block;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-
-input, textarea {
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-textarea {
-    height: 100px;
-    resize: vertical;
-    max-height: 400px;
-}
-
-.response {
-    margin-top: 15px;
-    font-style: italic;
-}
-
-#resultBox {
-    margin-top: 15px;
-    border-top: 1px solid #eee;
-    padding-top: 15px;
-}
-
-.error-message {
-    color: #d32f2f;
-}
-
-.form-data {
-    display: flex;
-    flex-direction: column;
-}
-.head-chat {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    background-color: #fbfcfc;
-    padding: var(--p-16);
-    border-bottom: 1px solid var(--border-neutral-default);
-    background-color: var(--grey-G100);
-    border-radius: 8px 8px 0 0; 
-    }
-.form-cobtainer {
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    }
-    </style> -->
 </head>
 <body>
     <div class="chat-bubble" id="chatBubble">💬</div>
@@ -132,8 +37,9 @@ textarea {
                 <input class="md-medium" type="file" id="jobFile" accept=".pdf,.doc,.docx">
             </div>
             <button class="btn-primary" type="submit">Analyze Job</button>
+            <p class="response" id="responseMessage"></p>
+
         </form>
-        <p class="response" id="responseMessage"></p>
         <div id="resultBox"></div>
     </div>
 </body>
@@ -141,4 +47,8 @@ textarea {
 <script>
 
 </script>
+
+
 </html>
+
+

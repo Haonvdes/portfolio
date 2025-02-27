@@ -59,14 +59,17 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
         // Step 3: Display results
         if (data && data.matchScore) {
             resultBox.innerHTML = `
+                <div id="result">
                 <h3>Analysis Result</h3>
-                <p><strong>Match Score:</strong> ${data.matchScore}%</p>
-                <p><strong>Summary:</strong> ${data.summary}</p>
-                <h4>Recommendations</h4>
-                <p><strong>For HR:</strong> ${data.recommendations.HR}</p>
-                <p><strong>For Candidate:</strong> ${data.recommendations.candidate}</p>
+                <p class=lg-bold>Match Score:${data.matchScore}%</p>
+                <p class=md-medium>Summary:${data.summary}</p>
+                 <p class=md-medium>Summary:${data.strengths}</p>
+                <p class=md-medium>Recomendations</p>
+                <p class=md-medium>For HR:${data.recommendations.HR}</p>
+                <p class=md-medium>For Candidate:${data.recommendations.candidate}</p>
+                </div>
             `;
-            responseMessage.textContent = "Analysis complete!";
+            responseMessage.textContent = "Analysis complete,please have a look!";
         } else {
             throw new Error("No valid response from the backend.");
         }

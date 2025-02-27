@@ -57,9 +57,12 @@ textarea {
 }
 
 #resultBox {
-    margin-top: 15px;
+    margin-top: var(--m-24);
     border-top: 1px solid #eee;
-    padding-top: 15px;
+    padding:var(--p-16);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .error-message {

@@ -5,6 +5,9 @@ document.getElementById("chatBubble").addEventListener("click", function() {
 });
 
 const BACKEND_API_URL = "https://api.stpnguyen.com/api/analyze";
+const RESPONSE_API_URL = "https://api.stpnguyen.com/api/job-analysis-result";
+
+
 
 document.getElementById("jobForm").addEventListener("submit", async function (event) {
     event.preventDefault();
@@ -42,8 +45,8 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
         let data = null;
 
         while (attempts < 10) {
-            await new Promise(resolve => setTimeout(resolve, 5000));            // Wait 5 sec before retry
-            const checkResponse = await fetch(`${BACKEND_API_URL}?email=${encodeURIComponent(userEmail)}`);
+            await new Promise(resolve => setTimeout(resolve, 20000));            // Wait 5 sec before retry
+            const checkResponse = await fetch(`${RESPONSE_API_URL}?email=${encodeURIComponent(userEmail)}`);
             
             if (checkResponse.ok) {
                 data = await checkResponse.json();
@@ -75,7 +78,7 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
 
 async function checkAnalysisResult(userEmail) {
     try {
-        const checkResponse = await fetch(`/api/job-analysis-result?email=${encodeURIComponent(userEmail)}`);
+        const checkResponse = await fetch(`${RESPONSE_API_URL}?email=${encodeURIComponent(userEmail)}`);
         const data = await response.json();
   
       if (data.matchScore) {

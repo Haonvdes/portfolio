@@ -353,17 +353,21 @@ if (missingEnvVars.length > 0) {
 
 const multer = require("multer");
 const upload = multer({ storage: multer.memoryStorage() });
+const jobResults = {};  // Store job analysis results temporarily
 
 app.post("/api/analyze", upload.single("jobFile"), async (req, res) => {
   try {
     const { jobDescription, userEmail } = req.body;
-    const fileInput = req.file ? req.file.buffer.toString("base64") : null; // Convert file to base64 if needed
+    const fileInput = req.file ? req.file.buffer.toString("base64") : null;
 
     const makeResponse = await axios.post(MAKE_WEBHOOK_URL, {
       jobDescription, userEmail, fileInput
     });
 
-    res.json(makeResponse.data);
+    // Store the result under user's email
+    jobResults[userEmail] = makeResponse.data;  
+
+    res.json({ message: "Processing started. Check back soon." });
   } catch (error) {
     console.error("Error processing request:", error);
     res.status(500).json({ error: "Internal Server Error" });

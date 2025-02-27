@@ -11,13 +11,15 @@
     transition-duration: .5s;
     border-top: 1px solid var(--border-primary-default, #01679C);
     border-right: 1px solid var(--border-primary-default, #01679C);
-    border-bottom: 3px solid var(--border-primary-default, #01679C);
+    border-bottom: 4px solid var(--border-primary-default, #01679C);
     border-left: 1px solid var(--border-primary-default, #01679C);
-    font-size: 14px; 
+    transition-property: all;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-duration: .10s;
     }
     .btn-primary:hover {
-        box-shadow: none;
-            transform: translate(1px, 1px);
+        border-bottom: 1px solid var(--border-primary-default, #01679C);
+
         }
     .btn-primary > a{
         text-decoration: none;

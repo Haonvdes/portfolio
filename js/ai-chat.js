@@ -16,6 +16,8 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
     const fileInput = document.getElementById("jobFile");
     const responseMessage = document.getElementById("responseMessage");
     const resultBox = document.getElementById("resultBox");
+    resultBox.classList.add('resultBox');
+
 
     responseMessage.textContent = "Processing...";
     resultBox.innerHTML = "";
@@ -59,15 +61,13 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
         // Step 3: Display results
         if (data && data.matchScore) {
             resultBox.innerHTML = `
-                <div id="result">
                 <h3>Analysis Result</h3>
                 <p class=lg-bold>Match Score:${data.matchScore}%</p>
                 <p class=md-medium>Summary:${data.summary}</p>
-                 <p class=md-medium>Summary:${data.strengths}</p>
+                 <p class=md-medium>Strengths:${data.strengths}</p>
                 <p class=md-medium>Recomendations</p>
                 <p class=md-medium>For HR:${data.recommendations.HR}</p>
                 <p class=md-medium>For Candidate:${data.recommendations.candidate}</p>
-                </div>
             `;
             responseMessage.textContent = "Analysis complete,please have a look!";
         } else {

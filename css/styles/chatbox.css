@@ -11,7 +11,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
     cursor: pointer;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     z-index: 1000;
@@ -26,6 +25,8 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     display: none;
     z-index: 999;
+    max-height: 600px;
+    overflow: scroll;
 }
 
 .chat-container.visible {
@@ -36,7 +37,6 @@ form {
     display: flex;
     flex-direction: column;
 }
-
 
 input, textarea {
     padding: 8px;
@@ -50,6 +50,19 @@ textarea {
     resize: vertical;
     max-height: 400px;
 }
+
+/* input[type="file" i] {
+    appearance: none;
+    background-color: initial;
+    cursor: default;
+    align-items: baseline;
+    color: inherit;
+    text-overflow: ellipsis;
+    text-align: start !important;
+    padding: initial;
+    border: initial;
+    white-space: pre;
+} */
 
 .response {
     margin-top: 15px;

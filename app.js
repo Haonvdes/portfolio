@@ -397,6 +397,24 @@ app.get("/api/job-analysis-result", async (req, res) => {
 });
 
 
+app.post("/api/job-analysis-result", async (req, res) => {
+  try {
+    const { email, analysisResult } = req.body;
+
+    if (!email || !analysisResult) {
+      return res.status(400).json({ error: "Email and analysisResult are required" });
+    }
+
+    // Store the result in memory (or a database)
+    jobResults[email] = analysisResult;
+
+    res.json({ message: "Result stored successfully" });
+  } catch (error) {
+    console.error("Error storing job analysis result:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 
 
 

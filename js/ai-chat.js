@@ -42,7 +42,7 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
         let data = null;
 
         while (attempts < 10) {
-            await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 sec before retry
+            await new Promise(resolve => setTimeout(resolve, 5000));            // Wait 5 sec before retry
             const checkResponse = await fetch(`${BACKEND_API_URL}?email=${encodeURIComponent(userEmail)}`);
             
             if (checkResponse.ok) {

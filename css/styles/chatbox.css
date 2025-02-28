@@ -82,7 +82,7 @@ textarea {
     background-color: #fbfcfc;
     padding: var(--p-16);
     border-bottom: 1px solid var(--border-neutral-default);
-    background-color: var(--grey-G100);
+    background-color: var(--grey-G50);
     border-radius: 8px 8px 0 0; 
     }
 .form-container {
@@ -158,7 +158,7 @@ textarea {
         position: relative;
         border: 2px dashed var(--border-neutral-default);
         border-radius: 8px;
-        padding: var(--p-16);
+        padding: var(--p-8);
         text-align: center;
         transition: all 0.3s;
         cursor: pointer;
@@ -174,16 +174,7 @@ textarea {
         margin: 0 auto 10px;
         color: #6b7280;
       }
-      
-      .file-info {
-        display: none;
-        margin-top: 10px;
-        padding: 8px 12px;
-        background-color: #f3f4f6;
-        border-radius: 6px;
-        font-size: 14px;
-      }
-      
+
       .file-info-content {
         display: flex;
         align-items: center;
@@ -226,7 +217,7 @@ textarea {
   height: 50px;
   border: 5px solid rgba(0, 0, 0, 0.1);
   border-radius: 50%;
-  border-top-color: #4f46e5;
+  border-top-color: var(--blue-B500);
   animation: spin 1s ease-in-out infinite;
   margin-bottom: 1rem;
 }
@@ -288,18 +279,13 @@ textarea {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-color: #4f46e5;
+  background-color: var(--blue-B500);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 0.5rem;
 }
 
-.score-number {
-  color: white;
-  font-size: 28px;
-  font-weight: bold;
-}
 
 .score-label {
   font-size: 16px;
@@ -311,9 +297,7 @@ textarea {
 }
 
 .result-section h4 {
-  font-size: 18px;
   margin-bottom: 0.5rem;
-  color: #111827;
 }
 
 .recommendations {
@@ -323,16 +307,15 @@ textarea {
 }
 
 .rec-item {
-  padding: 1rem;
-  background-color: white;
-  border-radius: 6px;
-  border: 1px solid #e5e7eb;
+  padding: var(--p-16);
+  background-color:var(--bg-primary-default);
+  border-radius: 8px;
+  border: 1px solid var(--border-neutral-default);
 }
 
 .rec-item h5 {
-  font-size: 16px;
-  margin-bottom: 0.5rem;
-  color: #4f46e5;
+  margin: 0;
+  margin-bottom: 16px;
 }
 
 /* Error message styles */
@@ -350,23 +333,121 @@ textarea {
   color: #b91c1c;
 }
 
-.btn-secondary {
-  background-color: white;
-  color: #4f46e5;
-  border: 1px solid #4f46e5;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-weight: 500;
-  margin-top: 1rem;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-secondary:hover {
-  background-color: #f5f3ff;
-}
 
 /* Ensure the form has proper margins */
 #jobForm {
   margin-bottom: 1rem;
+}
+
+
+/* File icon styles */
+.file-info-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.file-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.file-name {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-icon {
+  width: 24px;
+  height: 24px;
+}
+
+
+/* File info styling */
+.file-info {
+  display: none;
+  width: 100%;
+  padding: 16px;
+  background-color: #f9fafb;
+  border-radius: 4px;
+}
+
+/* Remove file button hover effect */
+.remove-file {
+  cursor: pointer;
+  color: #6b7280;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.remove-file:hover {
+  background-color: #f3f4f6;
+  color: #ef4444;
+}
+
+
+
+
+
+* Add to your CSS file */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    border-radius: 12px;
+    flex-direction: column;
+}
+
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid var(--blue-B500);
+    border-radius: 50%;
+    animation: spin 1.5s linear infinite;
+    margin-bottom: 20px;
+}
+
+.loading-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.loading-subtext {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Ensure the chat container has position relative for proper overlay positioning */
+.chat-container {
+    position: relative;
 }

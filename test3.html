@@ -35,35 +35,34 @@
                 <textarea class="md-medium" id="jobDescription" placeholder="Paste the job description here..."></textarea>
             </div>
 
-
- <div class="form-data">
-        <label class="sm-medium" for="jobFile">Or upload a file:</label>
-        <div class="file-upload-container" id="dropZone">
-          <svg class="upload-icon" id="uploadIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 16H15V10H19L12 3L5 10H9V16Z" fill="currentColor"/>
-            <path d="M5 18H19V20H5V18Z" fill="currentColor"/>
+<!-- File upload section with icon support -->
+<div class="form-data">
+  <label class="sm-medium" for="jobFile">Or upload a file:</label>
+  <div class="file-upload-container" id="dropZone">
+    <svg class="upload-icon" id="uploadIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 16H15V10H19L12 3L5 10H9V16Z" fill="currentColor"/>
+      <path d="M5 18H19V20H5V18Z" fill="currentColor"/>
+    </svg>
+    <input class="hidden-file-input" type="file" id="jobFile" accept=".pdf,.doc,.docx,.txt,.rtf">
+    <p class="md-medium upload-instructions" id="uploadInstructions">Drop your job description file here (PDF/DOCX)</p>
+    
+    <div class="file-info" id="fileInfo">
+      <div class="file-info-content">
+        <div id="fileIconContainer" class="file-icon-container">
+          <!-- File icon will be inserted here dynamically -->
+        </div>
+        <div class="file-name">
+          <span id="fileName" class="sm-medium">filename.pdf</span>
+        </div>
+        <div class="remove-file" id="removeFile">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="currentColor"/>
           </svg>
-          <input class="hidden-file-input" type="file" id="jobFile" accept=".pdf,.doc,.docx">
-          <p class="md-medium upload-instructions" id="uploadInstructions">Drop your job description file here (PDF/DOCX)</p>
-          
-          <div class="file-info" id="fileInfo">
-            <div class="file-info-content">
-              <div class="file-name">
-                <svg class="file-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" fill="currentColor"/>
-                  <path d="M14 8V3L19 8H14Z" fill="currentColor"/>
-                </svg>
-                <span id="fileName">filename.pdf</span>
-              </div>
-              <div class="remove-file" id="removeFile">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="currentColor"/>
-                </svg>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
               
             <button class="btn-primary" type="submit">Analyze Job</button>
             <p class="response" id="responseMessage"></p>

@@ -1,3 +1,4 @@
+@import url(./tokens.css);
 
 .chat-bubble {
     position: fixed;
@@ -26,7 +27,10 @@
     display: none;
     z-index: 999;
     max-height: 600px;
+    width: 100%;
+    max-width: 440px;
     overflow: scroll;
+
 }
 
 .chat-container.visible {
@@ -38,31 +42,15 @@ form {
     flex-direction: column;
 }
 
-input, textarea {
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
 
 textarea {
-    height: 100px;
+    height: 120px;
     resize: vertical;
-    max-height: 400px;
+    max-height: 240px;
+    
 }
 
-/* input[type="file" i] {
-    appearance: none;
-    background-color: initial;
-    cursor: default;
-    align-items: baseline;
-    color: inherit;
-    text-overflow: ellipsis;
-    text-align: start !important;
-    padding: initial;
-    border: initial;
-    white-space: pre;
-} */
+
 
 .response {
     margin-top: 15px;
@@ -85,6 +73,7 @@ textarea {
 .form-data {
     display: flex;
     flex-direction: column;
+    gap: 4px;
 }
 .head-chat {
     display: flex;
@@ -102,3 +91,282 @@ textarea {
     flex-direction: column;
     gap: 16px;
     }
+
+    input, textarea {
+        padding: 12px 16px;
+        border: 1px solid var(--border-neutral-default);
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+      }
+      input:focus, textarea:focus {
+        outline: none;
+        border: 2px solid var(--blue-B500);;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+      }
+      input::placeholder, textarea::placeholder {
+        color: #9ca3af;
+      }
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      input[type="file"] {
+        padding: 10px;
+        background-color: #f9fafb;
+      }
+      .response {
+        text-align: center;
+        margin-top: 20px;
+        font-weight: 500;
+      }
+
+      .upload-icon {
+        display: block;
+        margin: 0 auto 10px;
+        color: var(--bg-primary-default);
+      }
+      .progress-container {
+        margin-top: 10px;
+        height: 5px;
+        width: 100%;
+        background-color: #e5e7eb;
+        border-radius: 10px;
+        overflow: hidden;
+        display: none;
+      }
+      .progress-bar {
+        height: 100%;
+        width: 0%;
+        background-color: var(--bg-primary-default);
+        border-radius: 10px;
+        transition: width 0.3s;
+      }
+
+
+
+      .hidden-file-input {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+      }
+      
+      .file-upload-container {
+        position: relative;
+        border: 2px dashed var(--border-neutral-default);
+        border-radius: 8px;
+        padding: var(--p-16);
+        text-align: center;
+        transition: all 0.3s;
+        cursor: pointer;
+      }
+      
+      .file-upload-container:hover {
+        border-color:var(--blue-B500);
+        background-color: var(--blue-B50);
+      }
+      
+      .upload-icon {
+        display: block;
+        margin: 0 auto 10px;
+        color: #6b7280;
+      }
+      
+      .file-info {
+        display: none;
+        margin-top: 10px;
+        padding: 8px 12px;
+        background-color: #f3f4f6;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      
+      .file-info-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      .file-name {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      .file-icon {
+        color: var(--blue-B500);
+      }
+      
+      .remove-file {
+        color: #ef4444;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+      }
+      
+      .remove-file:hover {
+        background-color: #fee2e2;
+      }
+
+/* Loading Spinner Styles */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: #4f46e5;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+      transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-size: 18px;
+  font-weight: 500;
+  color: #374151;
+  margin: 8px 0;
+}
+
+.loading-subtext {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+/* Response Message */
+#responseMessage {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-weight: 500;
+  text-align: center;
+  background-color: #f3f4f6;
+  display: none; /* Hidden by default */
+}
+
+/* Result Box Styles */
+#resultBox {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+  display: none; /* Hidden by default */
+}
+
+.resultBox.success {
+  border-color: #10b981;
+  background-color: #f0fdfa;
+}
+
+.result-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+.score-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #4f46e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.score-number {
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.score-label {
+  font-size: 16px;
+  color: #4b5563;
+}
+
+.result-section {
+  margin-bottom: 1.5rem;
+}
+
+.result-section h4 {
+  font-size: 18px;
+  margin-bottom: 0.5rem;
+  color: #111827;
+}
+
+.recommendations {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rec-item {
+  padding: 1rem;
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+.rec-item h5 {
+  font-size: 16px;
+  margin-bottom: 0.5rem;
+  color: #4f46e5;
+}
+
+/* Error message styles */
+.error-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  text-align: center;
+  color: #b91c1c;
+}
+
+.error-message svg {
+  margin-bottom: 1rem;
+  color: #b91c1c;
+}
+
+.btn-secondary {
+  background-color: white;
+  color: #4f46e5;
+  border: 1px solid #4f46e5;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: #f5f3ff;
+}
+
+/* Ensure the form has proper margins */
+#jobForm {
+  margin-bottom: 1rem;
+}

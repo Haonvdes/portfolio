@@ -355,6 +355,8 @@ const multer = require("multer");
 const upload = multer({ storage: multer.memoryStorage() });
 const jobResults = {};  // Store job analysis results temporarily
 
+
+
 app.post("/api/analyze", upload.single("jobFile"), async (req, res) => {
   try {
     const { jobDescription, userEmail } = req.body;

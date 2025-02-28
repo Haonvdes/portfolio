@@ -909,7 +909,7 @@ height: 40px;
 width: 100%;
 }
 input:focus{
-border: 1px solid var(--border-primary-default);
+border: 2px solid var(--blue-B500);
 }
 
 

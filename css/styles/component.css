@@ -3,7 +3,7 @@
 .btn-primary{
     border: none;
     padding: var(--p-8) var(--p-16) var(--p-8) var(--p-16);
-    background: var(--button-bg-primary-default, #0090DA);
+    background: var(--button-bg-primary-default);
     gap: var(--p-12, 12px);
     color: var(--button-text-primary);
     border-radius: 999px;
@@ -14,11 +14,12 @@
     border-bottom: 4px solid var(--border-primary-default, #01679C);
     border-left: 1px solid var(--border-primary-default, #01679C);
     transition-property: all;
-    transition-timing-function: cubic-bezier(.4,0,.2,1);
     transition-duration: .10s;
+    cursor: pointer;
     }
     .btn-primary:hover {
         border-bottom: 1px solid var(--border-primary-default, #01679C);
+        background: var(--button-bg-primary-default, #0090DA);
 
         }
     .btn-primary > a{

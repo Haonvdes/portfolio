@@ -277,36 +277,54 @@ function displayResults(data) {
     // First show the response message container
     responseMessage.style.display = "block";
     responseMessage.textContent = "Analysis complete!";
+
+    // Determine the background and score color based on matchScore
+    let bgColor = "red"; // Default red
+    let scoreColor = "red";
+    
+    if (matchScore > 65) {
+        bgColor = "green";
+        scoreColor = "green";
+    } else if (matchScore > 50) {
+        bgColor = "yellow";
+        scoreColor = "yellow";
+    }
+    
     
     // Then populate and show the result box
     resultBox.classList.add('resultBox');
     resultBox.style.display = "block";
+    resultBox.style.backgroundColor = bgColor; // Apply background color
     resultBox.innerHTML = `
-        <h3>Analysis Result</h3>
-        <div class="result-score">
-            <div class="score-circle">
-                <span class="display">${data.matchScore}%</span>
+        <h3>Assessment Result</h3>
+        <div class="snap-shot">
+            <div class="snap-item" style="color:${scoreColor};">
+                <span class="display">${data.matchScore}</span>
+                <p class="md-medium">${data.exclamation}</p>
             </div>
-            <p class="md-medium">Match Score</p>
+            <div class="snap-item">
+                <p class="md-medium">${data.summary}</p>
+                <a href="mailto:stpnguyen.info@gmail.com" class="btn-primary">Email to Stephano</a>
+            </div>
+         </div>
+        <div class="result-section">
+            <h4 class="md-bold">Summary</h4>
+            <p class="md-medium">${data.summary}</p>
         </div>
         <div class="result-section">
-            <h4 class="sub-heading">Summary</h4>
-            <p class="lg-medium">${data.summary}</p>
+            <h4 class="md-bold">Strengths</h4>
+            <p class="md-medium">${data.strengths}</p>
+        </div>
+          <div class="result-section">
+            <h4 class="md-bold">Strengths</h4>
+            <p class="md-medium">${data.potential}</p>
         </div>
         <div class="result-section">
-            <h4 class="sub-heading">Strengths</h4>
-            <p class="lg-medium">${data.strengths}</p>
-        </div>
-        <div class="result-section">
-            <h4 class="sub-heading">Recommendations</h4>
+            <h4 class="md-bold">Recommendations</h4>
             <div class="recommendations">
                 <div class="rec-item">
-                    <p class="lg-medium>For HR</p>
-                    <p class="lg-medium">${data.recommendations.HR}</p>
-                </div>
-                <div class="rec-item">
-                    <p class="lg-medium>For Candidate</p>
-                    <p class="lg-medium">${data.recommendations.candidate}</p>
+                    <p class="md-medium">For HR</p>
+                    <p class="md-medium">${data.recommendations}</p>
                 </div>
             </div>
         </div>

@@ -254,11 +254,9 @@ textarea {
 
 /* Result Box Styles */
 #resultBox {
-  margin-top: 1.5rem;
-  padding: 1.5rem;
-  border-radius: 8px;
+  margin-top: 24px;
   background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
+  border-top-color: 1px solid var(--border-neutral-default);
   transition: all 0.3s ease;
   display: none; /* Hidden by default */
 }
@@ -268,24 +266,19 @@ textarea {
   background-color: #f0fdfa;
 }
 
-.result-score {
+.snap-shot {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: 100%;
+  padding: var(--p-16);
+}
+
+.snap-item{
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: 1.5rem 0;
+  gap: 8px;
 }
-
-.score-circle {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: var(--blue-B500);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0.5rem;
-}
-
 
 .score-label {
   font-size: 16px;
@@ -293,11 +286,11 @@ textarea {
 }
 
 .result-section {
-  margin-bottom: 1.5rem;
+  padding: var(--p-16);
 }
 
 .result-section h4 {
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
 }
 
 .recommendations {
@@ -308,7 +301,7 @@ textarea {
 
 .rec-item {
   padding: var(--p-16);
-  background-color:var(--bg-primary-default);
+  background-color: var(--grey-G100);
   border-radius: 8px;
   border: 1px solid var(--border-neutral-default);
 }

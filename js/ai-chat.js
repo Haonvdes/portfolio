@@ -264,7 +264,7 @@ function createLoadingSpinner() {
         <div class="loading-spinner">
             <div class="spinner"></div>
             <p class="loading-text">Analyzing your job fit...</p>
-            <p class="loading-subtext">This may take up to 2 minutes</p>
+            <p class="loading-subtext">This may take up to 1 minutes</p>
         </div>
     `;
 }
@@ -362,89 +362,3 @@ function displayError(errorMessage) {
 
 
 
-
-
-
-
-// Add to your existing JavaScript file
-document.addEventListener('DOMContentLoaded', function() {
-    const jobForm = document.getElementById('jobForm');
-    const resultBox = document.getElementById('resultBox');
-    const responseMessage = document.getElementById('responseMessage');
-    
-    // Create loading overlay element
-    const loadingOverlay = document.createElement('div');
-    loadingOverlay.className = 'loading-overlay';
-    loadingOverlay.innerHTML = createLoadingSpinner();
-    
-    // Add loading overlay to the form container
-    const chatContainer = document.getElementById('chatContainer');
-    chatContainer.appendChild(loadingOverlay);
-    
-    // Handle form submission
-    jobForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Check if either job description or file is provided
-        const jobDescription = document.getElementById('jobDescription').value;
-        const jobFile = document.getElementById('jobFile').files[0];
-        
-        if (!jobDescription && !jobFile) {
-            alert('Please provide a job description or upload a file');
-            return;
-        }
-        
-        // Show loading overlay
-        loadingOverlay.style.display = 'flex';
-        
-        // Disable submit button
-        const submitButton = document.querySelector('#jobForm button[type="submit"]');
-        submitButton.disabled = true;
-        
-        // Clear previous results
-        resultBox.innerHTML = '';
-        resultBox.style.display = 'none';
-        responseMessage.textContent = '';
-        responseMessage.style.display = 'none';
-        
-        // Create form data for API request
-        const formData = new FormData();
-        formData.append('email', document.getElementById('userEmail').value);
-        
-        if (jobDescription) {
-            formData.append('jobDescription', jobDescription);
-        }
-        
-        if (jobFile) {
-            formData.append('file', jobFile);
-        }
-        
-        // Simulate API call (replace with actual API call)
-        // For demo purposes, we'll use a timeout to simulate the API delay
-        simulateApiCall(formData);
-    });
-    
-    function simulateApiCall(formData) {
-        // In a real implementation, replace this with your actual fetch call to the API
-        setTimeout(() => {
-            // Hide loading overlay
-            loadingOverlay.style.display = 'none';
-            
-            // For demonstration, show success result 80% of the time, error 20%
-            if (Math.random() > 0.2) {
-                const sampleData = {
-                    matchScore: 85,
-                    summary: "Your profile shows strong alignment with this role. You have most of the required technical skills and relevant experience.",
-                    strengths: "Strong technical background in required technologies. Experience in similar roles and industries. Good communication skills based on resume.",
-                    recommendations: {
-                        HR: "Consider scheduling a technical interview to verify specific skill proficiency. Check for cultural fit as the candidate seems technically qualified.",
-                        candidate: "Highlight your experience with specific projects relevant to this role. Prepare to discuss how you've handled challenges similar to what this position requires."
-                    }
-                };
-                displayResults(sampleData);
-            } else {
-                displayError("Could not process your request. Please check your file format or try again later.");
-            }
-        }, 3000); // Simulate 3 second API call
-    }
-});

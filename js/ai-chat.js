@@ -111,7 +111,7 @@ async function checkAnalysisResult(userEmail) {
         if (data.matchScore) {
             displayResults(data); 
         } else {
-            setTimeout(() => checkAnalysisResult(userEmail), 5000);
+            setTimeout(() => checkAnalysisResult(userEmail), 10000);
         }
     } catch (error) {
         console.error("Error fetching analysis result:", error);
@@ -282,13 +282,14 @@ function displayResults(data) {
     let bgColor = "red"; // Default red
     let scoreColor = "red";
     
-    if (matchScore > 65) {
+    if (data.matchScore > 65) {
         bgColor = "green";
         scoreColor = "green";
-    } else if (matchScore > 50) {
+    } else if (data.matchScore > 50) {
         bgColor = "yellow";
         scoreColor = "yellow";
     }
+    
     
     
     // Then populate and show the result box
@@ -308,15 +309,11 @@ function displayResults(data) {
             </div>
          </div>
         <div class="result-section">
-            <h4 class="md-bold">Summary</h4>
-            <p class="md-medium">${data.summary}</p>
-        </div>
-        <div class="result-section">
             <h4 class="md-bold">Strengths</h4>
             <p class="md-medium">${data.strengths}</p>
         </div>
           <div class="result-section">
-            <h4 class="md-bold">Strengths</h4>
+            <h4 class="md-bold">Potential</h4>
             <p class="md-medium">${data.potential}</p>
         </div>
         <div class="result-section">

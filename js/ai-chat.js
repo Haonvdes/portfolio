@@ -278,15 +278,15 @@ function displayResults(data) {
     responseMessage.textContent = "Analysis complete!";
 
     // Determine the background and score color based on matchScore
-    let bgColor = "red"; // Default red
-    let scoreColor = "red";
+    let bgColor = "var(--red-R100)"; // Default red
+    let scoreColor = " var(--red-R500)";
     
     if (data.matchScore > 65) {
-        bgColor = "green";
-        scoreColor = "green";
+        bgColor = "var(--emerald-E100)";
+        scoreColor = "var(--emerald-E500)";
     } else if (data.matchScore > 50) {
-        bgColor = "yellow";
-        scoreColor = "yellow";
+        bgColor = "var(--yellow-Y100)";
+        scoreColor = "var(--yellow-Y800)";
     }
     
     
@@ -298,11 +298,11 @@ function displayResults(data) {
     resultBox.innerHTML = `
         <h3>Assessment Result</h3>
         <div class="snap-shot">
-            <div class="snap-item" style="background-color:${bgColor};">
-                <span class="display"style="background-color:${scoreColor};">${data.matchScore}</span>
+            <div class="snap-item-score" style="background-color:${bgColor};">
+                <span class="display"style="color:${scoreColor};">${data.matchScore}</span>
                 <p class="md-medium">${data.exclamation}</p>
             </div>
-            <div class="snap-item">
+            <div class="snap-item-sum">
                 <p class="md-medium">${data.summary}</p>
                 <a href="mailto:stpnguyen.info@gmail.com" class="btn-primary">Email to Stephano</a>
             </div>

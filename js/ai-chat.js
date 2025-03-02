@@ -280,7 +280,7 @@ function displayResults(data) {
 
     // Determine the background and score color based on matchScore
     let bgColor = "#fff1f1"; // Default red
-    let scoreColor = "be0505";
+    let scoreColor = "#be0505";
     
     if (data.matchScore > 65) {
         bgColor = "#f1fff1";
@@ -297,36 +297,39 @@ function displayResults(data) {
     resultBox.style.display = "block";
     // resultBox.style.backgroundColor = bgColor; // Apply background color
     resultBox.innerHTML = `
-        <h3>Assessment Result</h3>
-        <div class="snap-shot">
-            <div class="snap-item" style="color:${bgColor};>
-                <span class="display" style="color:${scoreColor};>${data.matchScore}</span>
-                <p class="md-medium" style="color:${scoreColor};>${data.exclamation}</p>
+    <h3>Assessment Result</h3>
+    <div class="snap-shot">
+        <div class="snap-item" style="background-color:${bgColor};">
+            <span class="display" style="color:${scoreColor};">${data.matchScore}</span>
+            <p class="md-medium" style="color:${scoreColor};">${data.exclamation}</p>
+        </div>
+        <div class="snap-item">
+            <p class="md-medium">${data.summary}</p>
+            <a href="mailto:stpnguyen.info@gmail.com">
+                <button class="btn-primary sm-medium">Email to Stephano</button>
+            </a>
+        </div>
+     </div>
+    <div class="result-section">
+        <h4 class="md-bold">Strengths</h4>
+        <p class="md-medium">${data.strengths}</p>
+    </div>
+    <div class="result-section">
+        <h4 class="md-bold">Potential</h4>
+        <p class="md-medium">${data.potential}</p>
+    </div>
+    <div class="result-section">
+        <h4 class="md-bold">Recommendations</h4>
+        <div class="recommendations">
+            <div class="rec-item">
+                <p class="md-medium">For HR</p>
+                <p class="md-medium">${data.recommendations}</p>
             </div>
-            <div class="snap-item">
-                <p class="md-medium">${data.summary}</p>
-                <button class="btn-primary sm-medium"><a href="mailto:stpnguyen.info@gmail.com">Email to Stephano</button>
+        </div>
+    </div>
+`;
 
-            </div>
-         </div>
-        <div class="result-section">
-            <h4 class="md-bold">Strengths</h4>
-            <p class="md-medium">${data.strengths}</p>
-        </div>
-          <div class="result-section">
-            <h4 class="md-bold">Potential</h4>
-            <p class="md-medium">${data.potential}</p>
-        </div>
-        <div class="result-section">
-            <h4 class="md-bold">Recommendations</h4>
-            <div class="recommendations">
-                <div class="rec-item">
-                    <p class="md-medium">For HR</p>
-                    <p class="md-medium">${data.recommendations}</p>
-                </div>
-            </div>
-        </div>
-    `;
+
     
     // Add success class to result box for styling
     resultBox.classList.add('success');

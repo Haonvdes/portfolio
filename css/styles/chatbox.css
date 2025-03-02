@@ -282,7 +282,7 @@ display: flex;
 }
 
 .result-section:last-child {
-  padding-left: var(--p-24);
+  padding-bottom: var(--p-24);
 }
 
 

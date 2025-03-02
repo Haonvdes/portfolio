@@ -296,17 +296,18 @@ function displayResults(data) {
     resultBox.style.display = "block";
     // resultBox.style.backgroundColor = bgColor; // Apply background color
     resultBox.innerHTML = `
-        <h3>Assessment Result</h3>
+            <h3>Assessment Result</h3>
         <div class="snap-shot">
             <div class="snap-item-score" style="background-color:${bgColor};">
                 <span class="display" style="color:${scoreColor};">${data.matchScore}</span>
-                <p class="md-medium" style="color:${scoreColor};>${data.exclamation}</p>
+                <p class="md-medium" style="color:${scoreColor};">${data.exclamation}</p>
             </div>
             <div class="snap-item-sum">
                 <p class="md-medium">${data.summary}</p>
-               <button class="btn-primary" onclick="window.location.href='mailto:stpnguyen.info@gmail.com'" style="width: fit-content; font-size: 14px;">Email to Stephano</button>        
+                <button class="btn-primary" onclick="window.location.href='mailto:stpnguyen.info@gmail.com'" style="width: fit-content; font-size: 14px;">Email to Stephano</button>        
             </div>
-         </div>
+        </div>
+
         <div class="result-section">
             <h4 class="md-bold">Strengths</h4>
             <p class="md-medium">${data.strengths}</p>

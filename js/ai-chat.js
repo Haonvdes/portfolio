@@ -1,4 +1,3 @@
-
 document.getElementById("jobForm").addEventListener("submit", async function (event) {
     event.preventDefault();
     const userEmail = document.getElementById("userEmail").value;
@@ -263,8 +262,8 @@ function createLoadingSpinner() {
     return `
         <div class="loading-spinner">
             <div class="spinner"></div>
-            <p class="lg-medium">Analyzing your job fit...</p>
-            <p class="md-medium">This may take up to 1 minutes</p>
+            <p class="loading-text">Analyzing your job fit...</p>
+            <p class="loading-subtext">This may take up to 1 minutes</p>
         </div>
     `;
 }
@@ -297,37 +296,35 @@ function displayResults(data) {
     resultBox.style.display = "block";
     resultBox.style.backgroundColor = bgColor; // Apply background color
     resultBox.innerHTML = `
-    <h3>Assessment Result</h3>
-    <div class="snap-shot">
-        <div class="snap-item" style="background-color:${bgColor};>
-            <span class="display" style="color:${scoreColor};">${data.matchScore}</span>
-            <p class="md-medium" style="color:${scoreColor};">${data.exclamation}</p>
+        <h3>Assessment Result</h3>
+        <div class="snap-shot">
+            <div class="snap-item" style="color:${scoreColor};">
+                <span class="display">${data.matchScore}</span>
+                <p class="md-medium">${data.exclamation}</p>
+            </div>
+            <div class="snap-item">
+                <p class="md-medium">${data.summary}</p>
+                <a href="mailto:stpnguyen.info@gmail.com" class="btn-primary">Email to Stephano</a>
+            </div>
+         </div>
+        <div class="result-section">
+            <h4 class="md-bold">Strengths</h4>
+            <p class="md-medium">${data.strengths}</p>
         </div>
-        <div class="snap-item">
-            <p class="md-medium">${data.summary}</p>
-            <a href="mailto:stpnguyen.info@gmail.com">
-                <button class="btn-primary sm-medium">Email to Stephano</button>
-            </a>
+          <div class="result-section">
+            <h4 class="md-bold">Potential</h4>
+            <p class="md-medium">${data.potential}</p>
         </div>
-     </div>
-    <div class="result-section">
-        <h4 class="md-bold">Strengths</h4>
-        <p class="md-medium">${data.strengths}</p>
-    </div>
-    <div class="result-section">
-        <h4 class="md-bold">Potential</h4>
-        <p class="md-medium">${data.potential}</p>
-    </div>
-    <div class="result-section">
-        <h4 class="md-bold">Recommendations</h4>
-        <div class="recommendations">
-            <div class="rec-item">
-                <p class="md-medium">For HR</p>
-                <p class="md-medium">${data.recommendations}</p>
+        <div class="result-section">
+            <h4 class="md-bold">Recommendations</h4>
+            <div class="recommendations">
+                <div class="rec-item">
+                    <p class="md-medium">For HR</p>
+                    <p class="md-medium">${data.recommendations}</p>
+                </div>
             </div>
         </div>
-    </div>
-`;
+    `;
     
     // Add success class to result box for styling
     resultBox.classList.add('success');
@@ -373,9 +370,3 @@ function displayError(errorMessage) {
         responseMessage.style.display = "none";
     });
 }
-
-
-
-
-
-

@@ -294,12 +294,12 @@ function displayResults(data) {
     // Then populate and show the result box
     resultBox.classList.add('resultBox');
     resultBox.style.display = "block";
-    resultBox.style.backgroundColor = bgColor; // Apply background color
+    // resultBox.style.backgroundColor = bgColor; // Apply background color
     resultBox.innerHTML = `
         <h3>Assessment Result</h3>
         <div class="snap-shot">
-            <div class="snap-item" style="color:${scoreColor};">
-                <span class="display">${data.matchScore}</span>
+            <div class="snap-item" style="background-color:${bgColor};">
+                <span class="display"style="background-color:${scoreColor};">${data.matchScore}</span>
                 <p class="md-medium">${data.exclamation}</p>
             </div>
             <div class="snap-item">

@@ -224,13 +224,13 @@ textarea {
 
 /* Response Message */
 #responseMessage {
-  margin-top: 1rem;
+  margin-top: var(--p-16);
   padding: 0.75rem;
   border-radius: 4px;
-  font-weight: 500;
   text-align: center;
-  background-color: #f3f4f6;
-  display: none; /* Hidden by default */
+  background-color: var(--emerald-E50);
+  color: var(--emerald-E700);;
+    display: none; /* Hidden by default */
 }
 
 /* Result Box Styles */
@@ -258,7 +258,8 @@ textarea {
       justify-content: center;
       align-items: center;
       padding: 8px;
-      border-radius: 8px; 
+      border-radius: 8px;
+      text-align: center;
 }
 .snap-item-sum{
 text-align: left;
@@ -281,15 +282,16 @@ display: flex;
 }
 
 .result-section:last-child {
-  padding-top: var(--p-16);
-  padding-right: var(--p-16);
-  padding-left: var(--p-16);
   padding-left: var(--p-24);
 }
 
 
 .result-section h4 {
   margin-bottom: 8px;
+}
+
+.resultBox h3 {
+  padding: var(--p-16);
 }
 
 .recommendations {

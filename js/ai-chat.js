@@ -275,18 +275,18 @@ function displayResults(data) {
     
     // First show the response message container
     responseMessage.style.display = "block";
-    responseMessage.textContent = "Analysis complete!";
+    responseMessage.textContent = "Analysis complete! Check it out right below.";
 
     // Determine the background and score color based on matchScore
     let bgColor = "var(--red-R100)"; // Default red
-    let scoreColor = " var(--red-R500)";
+    let scoreColor = " var(--red-R700)";
     
     if (data.matchScore > 65) {
         bgColor = "var(--emerald-E100)";
-        scoreColor = "var(--emerald-E500)";
+        scoreColor = "var(--emerald-E700)";
     } else if (data.matchScore > 50) {
         bgColor = "var(--yellow-Y100)";
-        scoreColor = "var(--yellow-Y800)";
+        scoreColor = "var(--yellow-Y700)";
     }
     
     
@@ -299,12 +299,12 @@ function displayResults(data) {
         <h3>Assessment Result</h3>
         <div class="snap-shot">
             <div class="snap-item-score" style="background-color:${bgColor};">
-                <span class="display"style="color:${scoreColor};">${data.matchScore}</span>
-                <p class="md-medium">${data.exclamation}</p>
+                <span class="display" style="color:${scoreColor};">${data.matchScore}</span>
+                <p class="md-medium" style="color:${scoreColor};>${data.exclamation}</p>
             </div>
             <div class="snap-item-sum">
                 <p class="md-medium">${data.summary}</p>
-                <a href="mailto:stpnguyen.info@gmail.com" class="btn-primary">Email to Stephano</a>
+               <button class="btn-primary" onclick="window.location.href='mailto:stpnguyen.info@gmail.com'" style="width: fit-content; font-size: 14px;">Email to Stephano</button>        
             </div>
          </div>
         <div class="result-section">
@@ -319,7 +319,6 @@ function displayResults(data) {
             <h4 class="md-bold">Recommendations</h4>
             <div class="recommendations">
                 <div class="rec-item">
-                    <p class="md-medium">For HR</p>
                     <p class="md-medium">${data.recommendations}</p>
                 </div>
             </div>

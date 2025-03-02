@@ -257,8 +257,8 @@ textarea {
       gap: 8px;
       justify-content: center;
       align-items: center;
-      padding: 8px;
-      border-radius: 8px;
+      padding: var(--p-16);
+      border-radius: var(--r-8);
       text-align: center;
 }
 .snap-item-sum{

@@ -303,6 +303,7 @@ function displayResults(data) {
                 <p class="md-medium" style="color:${scoreColor};">${data.exclamation}</p>
             </div>
             <div class="snap-item-sum">
+                <p class="md-bold">Summary</p>
                 <p class="md-medium">${data.summary}</p>
                 <button class="btn-primary" onclick="window.location.href='mailto:stpnguyen.info@gmail.com'" style="width: fit-content; font-size: 14px;">Email to Stephano</button>        
             </div>

@@ -263,8 +263,8 @@ function createLoadingSpinner() {
     return `
         <div class="loading-spinner">
             <div class="spinner"></div>
-            <p class="loading-text">Analyzing your job fit...</p>
-            <p class="loading-subtext">This may take up to 1 minutes</p>
+            <p class="lg-medium">Analyzing your job fit...</p>
+            <p class="md-medium">This may take up to 1 minutes</p>
         </div>
     `;
 }
@@ -279,15 +279,15 @@ function displayResults(data) {
     responseMessage.textContent = "Analysis complete!";
 
     // Determine the background and score color based on matchScore
-    let bgColor = "red"; // Default red
-    let scoreColor = "red";
+    let bgColor = "#fff1f1"; // Default red
+    let scoreColor = "be0505";
     
     if (data.matchScore > 65) {
-        bgColor = "green";
+        bgColor = "#f1fff1";
         scoreColor = "green";
     } else if (data.matchScore > 50) {
-        bgColor = "yellow";
-        scoreColor = "yellow";
+        bgColor = "#fffdf1";
+        scoreColor = "#edd400";
     }
     
     
@@ -295,17 +295,18 @@ function displayResults(data) {
     // Then populate and show the result box
     resultBox.classList.add('resultBox');
     resultBox.style.display = "block";
-    resultBox.style.backgroundColor = bgColor; // Apply background color
+    // resultBox.style.backgroundColor = bgColor; // Apply background color
     resultBox.innerHTML = `
         <h3>Assessment Result</h3>
         <div class="snap-shot">
-            <div class="snap-item" style="color:${scoreColor};">
-                <span class="display">${data.matchScore}</span>
-                <p class="md-medium">${data.exclamation}</p>
+            <div class="snap-item" style="color:${bgColor};>
+                <span class="display" style="color:${scoreColor};>${data.matchScore}</span>
+                <p class="md-medium" style="color:${scoreColor};>${data.exclamation}</p>
             </div>
             <div class="snap-item">
                 <p class="md-medium">${data.summary}</p>
-                <a href="mailto:stpnguyen.info@gmail.com" class="btn-primary">Email to Stephano</a>
+                <button class="btn-primary sm-medium"><a href="mailto:stpnguyen.info@gmail.com">Email to Stephano</button>
+
             </div>
          </div>
         <div class="result-section">

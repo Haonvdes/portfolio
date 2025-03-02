@@ -279,15 +279,15 @@ function displayResults(data) {
     responseMessage.textContent = "Analysis complete!";
 
     // Determine the background and score color based on matchScore
-    let bgColor = "#fff1f1"; // Default red
-    let scoreColor = "#be0505";
+    let bgColor = "red"; // Default red
+    let scoreColor = "red";
     
     if (data.matchScore > 65) {
-        bgColor = "#f1fff1";
+        bgColor = "green";
         scoreColor = "green";
     } else if (data.matchScore > 50) {
-        bgColor = "#fffdf1";
-        scoreColor = "#edd400";
+        bgColor = "yellow";
+        scoreColor = "yellow";
     }
     
     
@@ -295,11 +295,11 @@ function displayResults(data) {
     // Then populate and show the result box
     resultBox.classList.add('resultBox');
     resultBox.style.display = "block";
-    // resultBox.style.backgroundColor = bgColor; // Apply background color
+    resultBox.style.backgroundColor = bgColor; // Apply background color
     resultBox.innerHTML = `
     <h3>Assessment Result</h3>
     <div class="snap-shot">
-        <div class="snap-item" style="background-color:${bgColor};">
+        <div class="snap-item" style="background-color:${bgColor};>
             <span class="display" style="color:${scoreColor};">${data.matchScore}</span>
             <p class="md-medium" style="color:${scoreColor};">${data.exclamation}</p>
         </div>
@@ -328,8 +328,6 @@ function displayResults(data) {
         </div>
     </div>
 `;
-
-
     
     // Add success class to result box for styling
     resultBox.classList.add('success');

@@ -58,7 +58,7 @@ async function getPlaybackState() {
   } catch (error) {
     console.error('Error fetching playback state:', error);
     document.getElementById('playback-info').innerHTML =
-      '<p class="md-regular">Oops! Something went wrong; trying to load again shortly.</p>';
+      '<p class="md-regular">Oops! Something went wrong, trying to load again shortly.</p>';
   }
 }
 

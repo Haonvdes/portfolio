@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return `
                 <svg class="file-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <!-- Default icon -->
-                    <path d="M4 4H20V20H4V4Z" fill="gray"/>
+                    <path d="M4 4H20V20pV4Z" fill="gray"/>
                 </svg>`;
         }
     }
@@ -296,29 +296,31 @@ function displayResults(data) {
     resultBox.style.display = "block";
     // resultBox.style.backgroundColor = bgColor; // Apply background color
     resultBox.innerHTML = `
-            <h3>Assessment Result</h3>
-        <div class="snap-shot">
-            <div class="snap-item-score" style="background-color:${bgColor};">
-                <span class="display" style="color:${scoreColor};">${data.matchScore}</span>
-                <p class="md-medium" style="color:${scoreColor};">${data.exclamation}</p>
-            </div>
-            <div class="snap-item-sum">
-                <p class="md-bold">Summary</p>
-                <p class="md-medium">${data.summary}</p>
-                <button class="btn-primary" onclick="window.location.href='mailto:stpnguyen.info@gmail.com'" style="width: fit-content; font-size: 14px;">Email to Stephano</button>        
-            </div>
+           <div class="snap-shot">
+             <h3>Assessment Result</h3>
+            <div class="snap-shot-sum">
+                <div class="snap-item-score" style="background-color:${bgColor};">
+                    <span class="display" style="color:${scoreColor};">${data.matchScore}</span>
+                    <p class="md-medium" style="color:${scoreColor};">${data.exclamation}</p>
+                </div>
+                <div class="snap-item-sum">
+                    <p class="md-bold">Summary</p>
+                    <p class="md-medium">${data.summary}</p>
+                    <button class="btn-primary" onclick="window.location.href='mailto:stpnguyen.info@gmail.com'" style="width: fit-content; font-size: 14px;">Email to Stephano</button>        
+                </div>
         </div>
+           </div>
 
         <div class="result-section">
-            <h4 class="md-bold">Strengths</h4>
+            <p class="md-bold">Strengths</p>
             <p class="md-medium">${data.strengths}</p>
         </div>
           <div class="result-section">
-            <h4 class="md-bold">Potential</h4>
+            <p class="md-bold">Potential</p>
             <p class="md-medium">${data.potential}</p>
         </div>
         <div class="result-section">
-            <h4 class="md-bold">Recommendations</h4>
+            <p class="md-bold">Recommendations</p>
             <div class="recommendations">
                 <div class="rec-item">
                     <p class="md-medium">${data.recommendations}</p>
@@ -342,7 +344,7 @@ function displayError(errorMessage) {
     
     // Show response message with error
     responseMessage.style.display = "block";
-    responseMessage.textContent = "Error fetching analysis results.";
+    responseMessage.textContent = "Oops! Something went wrong, trying to load again shortly.";
     
     // Show result box with error details
     resultBox.classList.add('resultBox');

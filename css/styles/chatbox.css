@@ -235,6 +235,7 @@ textarea {
   flex-direction: column;
   gap: 16px;
   background-color: var(--bg-surface-main);
+  padding: 16px;
 }
 
 .snap-shot-sum {

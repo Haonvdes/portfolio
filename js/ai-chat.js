@@ -112,8 +112,8 @@ document.getElementById("chatBubble").addEventListener("click", function() {
 //     }
 // });
 
-// Initially hide the chat bubble
-document.getElementById("chatBubble").style.display = "none";
+// // Initially hide the chat bubble
+// document.getElementById("chatBubble").style.display = "none";
 
 // Fixed function to check analysis result
 async function checkAnalysisResult(userEmail) {

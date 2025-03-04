@@ -1,5 +1,4 @@
-const BACKEND_API_URL = "https://api.stpnguyen.com/api/analyze";
-const RESPONSE_API_URL = "https://api.stpnguyen.com/api/job-analysis-result";
+
 
 
 document.getElementById("jobForm").addEventListener("submit", async function (event) {
@@ -101,6 +100,9 @@ document.getElementById("chatBubble").addEventListener("click", function() {
     const chatContainer = document.getElementById("chatContainer");
     chatContainer.classList.toggle("visible");
 });
+
+const BACKEND_API_URL = "https://api.stpnguyen.com/api/analyze";
+const RESPONSE_API_URL = "https://api.stpnguyen.com/api/job-analysis-result";
 
 // // Show chatBubble when user scrolls past the first screen
 // window.addEventListener("scroll", function() {

@@ -102,15 +102,15 @@ document.getElementById("chatBubble").addEventListener("click", function() {
     chatContainer.classList.toggle("visible");
 });
 
-// Show chatBubble when user scrolls past the first screen
-window.addEventListener("scroll", function() {
-    const chatBubble = document.getElementById("chatBubble");
-    if (window.scrollY > window.innerHeight) {
-        chatBubble.style.display = "flex"; // Show chat bubble
-    } else {
-        chatBubble.style.display = "none"; // Hide chat bubble
-    }
-});
+// // Show chatBubble when user scrolls past the first screen
+// window.addEventListener("scroll", function() {
+//     const chatBubble = document.getElementById("chatBubble");
+//     if (window.scrollY > window.innerHeight) {
+//         chatBubble.style.display = "flex"; // Show chat bubble
+//     } else {
+//         chatBubble.style.display = "none"; // Hide chat bubble
+//     }
+// });
 
 // Initially hide the chat bubble
 document.getElementById("chatBubble").style.display = "none";

@@ -225,7 +225,6 @@ textarea {
 
 /* Result Box Styles */
 #resultBox {
-  margin-top: 24px;
   background-color: #f9fafb;
   border-top-color: 1px solid var(--border-neutral-default);
   transition: all 0.3s ease;
@@ -244,7 +243,6 @@ textarea {
   flex-direction: row;
   gap: 16px;
   width: 100%;
-  padding: var(--p-16);
 }
 
 .snap-item-score{
@@ -284,9 +282,6 @@ display: flex;
   padding-bottom: var(--p-24);
 }
 
-.resultBox div {
-  padding: var(--p-16);
-}
 
 .recommendations {
   display: flex;

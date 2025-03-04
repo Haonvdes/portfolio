@@ -1,3 +1,7 @@
+const BACKEND_API_URL = "https://api.stpnguyen.com/api/analyze";
+const RESPONSE_API_URL = "https://api.stpnguyen.com/api/job-analysis-result";
+
+
 document.getElementById("jobForm").addEventListener("submit", async function (event) {
     event.preventDefault();
     const userEmail = document.getElementById("userEmail").value;
@@ -98,8 +102,18 @@ document.getElementById("chatBubble").addEventListener("click", function() {
     chatContainer.classList.toggle("visible");
 });
 
-const BACKEND_API_URL = "https://api.stpnguyen.com/api/analyze";
-const RESPONSE_API_URL = "https://api.stpnguyen.com/api/job-analysis-result";
+// Show chatBubble when user scrolls past the first screen
+window.addEventListener("scroll", function() {
+    const chatBubble = document.getElementById("chatBubble");
+    if (window.scrollY > window.innerHeight) {
+        chatBubble.style.display = "flex"; // Show chat bubble
+    } else {
+        chatBubble.style.display = "none"; // Hide chat bubble
+    }
+});
+
+// Initially hide the chat bubble
+document.getElementById("chatBubble").style.display = "none";
 
 // Fixed function to check analysis result
 async function checkAnalysisResult(userEmail) {
@@ -262,8 +276,8 @@ function createLoadingSpinner() {
     return `
         <div class="loading-spinner">
             <div class="spinner"></div>
-            <p class="loading-text">Analyzing your job fit...</p>
-            <p class="loading-subtext">This may take up to 1 minutes</p>
+            <p class="lg-medium">Analyzing your job fit...</p>
+            <p class="sm-medium">This may take up to 1 minutes</p>
         </div>
     `;
 }

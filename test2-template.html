@@ -292,7 +292,7 @@
                         <select id="phaseSelector" onchange="updateProcess()" class="sub-heading">
                             <option value="phase">Phase</option>
                             <option value="sprint">Sprint</option>
-                            <option value="Product">Product</option>
+                            <option value="product">Product</option>
                         </select>
                         <p class="lg-medium" style="padding-top: var(--p-16);">My structured yet flexible project management process ensures no detail is overlooked. 
                             From ideation to execution and beyond, I collaborate with stakeholders, adapt to challenges, and deliver high-quality results that align with both user needs and business goals.
@@ -402,22 +402,3 @@ const swiper = new Swiper('.swiper-container', {
         document.getElementById("process-container").innerHTML = processData[type];
     }
 </script>
-<script>
-    function loadChatBubble() {
-        fetch('chat-bubble.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('chatBubbleContainer').innerHTML = html;
-                loadChatScripts();
-            });
-    }
-
-    function loadChatScripts() {
-        let script = document.createElement("script");
-        script.src = "chat-bubble.js"; // Place the chat logic in a separate JS file
-        document.body.appendChild(script);
-    }
-
-    window.onload = loadChatBubble;
-</script>
-</html>

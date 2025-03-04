@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadComponent("nav-placeholder", "./templates/nav.html");
     loadComponent("footer-placeholder", "./templates/footer.html");
+
     // loadComponent("chatbox-placeholder", "./templates/chatbox.html");
 
 });
@@ -322,7 +323,10 @@ function openHastag(evt, tagName) {
   
   
   
-  
+
+
+
+
   
   
   // app.js (your existing server file)

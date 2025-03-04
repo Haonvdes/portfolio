@@ -1,21 +1,53 @@
-<div class="chat-bubble" id="chatBubble">💬</div>
-<div class="chat-container" id="chatContainer">
- <div class="head-chat">
-    <h2 class="sub-heading">Job Fit Assessment</h2>
-    <p class="md-medium">Find out how well I match your job description! Power by AI</p>
- </div>
-    <form id="jobForm" class="form-cobtainer">
-        <div class="form-data">
-            <label class="md-bold" for="userEmail">Your Email:</label>
-        <input class="md-medium" type="email" id="userEmail" required placeholder="Enter your email">
+<div class="chat-bubble" id="chatBubble">
+        <img src="./public/ic_generativeAI.svg" alt="">
+    </div>
+    <div class="container chat-container" id="chatContainer">
+        <div class="head-chat">
+            <h2 class="sub-heading">Job Fit Assessment</h2>
+            <p class="md-medium">Discover how my skills align with job requirements using AI-powered analysis</p>
         </div>
-        <div class="form-data">
-            <label class="md-bold" for="jobDescription">Job Description:</label>
-        <textarea class="md-medium" id="jobDescription" required placeholder="Paste the job description here..."></textarea>
-        
+        <form id="jobForm" class="form-container" enctype="multipart/form-data">
+            <div class="form-data">
+                <label class="md-bold" for="userEmail">Your Email:</label>
+                <input class="md-medium" type="email" id="userEmail" required placeholder="Enter your email">
+            </div>
+            <div class="form-data">
+                <label class="md-bold" for="jobDescription">Job Description:</label>
+                <textarea class="md-medium" id="jobDescription" placeholder="Paste the job description here..."></textarea>
+            </div>
+
+<!-- File upload section with icon support -->
+<div class="form-data">
+  <label class="sm-medium" for="jobFile">Or upload a file:</label>
+  <div class="file-upload-container" id="dropZone">
+    <svg class="upload-icon" id="uploadIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 16H15V10H19L12 3L5 10H9V16Z" fill="currentColor"/>
+      <path d="M5 18H19V20H5V18Z" fill="currentColor"/>
+    </svg>
+    <input class="hidden-file-input" type="file" id="jobFile" accept=".pdf,.doc,.docx,.txt,.rtf">
+    <p class="md-medium upload-instructions" id="uploadInstructions">Drop your job description file here (PDF/DOCX)</p>
+    
+    <div class="file-info" id="fileInfo">
+      <div class="file-info-content">
+        <div id="fileIconContainer" class="file-icon-container">
+          <!-- File icon will be inserted here dynamically -->
         </div>
-        <button class="btn-primary" type="submit">Analyze Job</button>
-    </form>
-    <p class="response" id="responseMessage"></p>
-    <div id="resultBox"></div>
+        <div class="file-name">
+          <span id="fileName" class="sm-medium">filename.pdf</span>
+        </div>
+        <div class="remove-file" id="removeFile">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="currentColor"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+              
+            <button class="btn-primary" type="submit">Analyze Job</button>
+            <p class="response" id="responseMessage"></p>
+
+        </form>
+        <div id="resultBox"></div>
+    </div>

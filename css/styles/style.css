@@ -806,7 +806,7 @@ line-height: 22px;
 
 .carousel {
   width: 100%;
-  height: 535px;
+  height: 566px;
   position: relative;
   margin: 0 auto;
 }
@@ -1460,9 +1460,8 @@ border: 2px solid var(--blue-B500);
   gap: var(--m-24);
 }
 .about-cover {
-
   align-items:center;
-  height: 80vh;
+  height: 100vh;
   gap: var(--m-40);
 }
 

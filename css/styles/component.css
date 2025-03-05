@@ -16,6 +16,7 @@
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
+    font-family: Manrope;
     }
     .btn-primary:hover {
         border-bottom: 1px solid var(--border-primary-default, #01679C);

@@ -247,7 +247,6 @@ function openHastag(evt, tagName) {
           }
       });
   }
-  
   //case study //
   
   document.addEventListener("DOMContentLoaded", function () {
@@ -272,7 +271,6 @@ function openHastag(evt, tagName) {
     // Update classes on window resize
     window.addEventListener("resize", updateClass);
   });
-  
   
   // Giữ lại function openHastag cho tabs
   function openHastag(evt, tagName) {
@@ -320,7 +318,7 @@ function openHastag(evt, tagName) {
   
   
   
-// this code is to load the processes// 
+// tooltip// 
   
   document.addEventListener("DOMContentLoaded", function () {
     const tooltip = document.getElementById("tooltip");
@@ -365,7 +363,6 @@ async function loadTemplates() {
     processData.sprint = await loadTemplate('sprint');
     processData.product = await loadTemplate('product');
 }
-
 // Call the function to load templates on page load
 loadTemplates();
 
@@ -394,16 +391,13 @@ async function updateProcess() {
 
 
   
-  
-  // app.js (your existing server file)
-//   const express = require('express');
+
   const jwt = require('jsonwebtoken');
   const path = require('path');
   const app = express();
   
   app.use(express.json());
   app.use(express.static('public'));
-  
   // Add this new route to serve the case study content
   app.get('/case-study/:id', (req, res) => {
     // Serve the case study HTML page

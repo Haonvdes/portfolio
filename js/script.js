@@ -33,9 +33,56 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     loadComponent("footer-placeholder", "./templates/footer.html");
+
+    // Initialize tabs if they exist
+    if (document.getElementById('defaultOpen')) {
+        document.getElementById('defaultOpen').click();
+    }
+
+    // Initialize process content if selector exists
+    if (document.getElementById('phaseSelector')) {
+        updateProcess();
+    }
+    
+    // Only initialize password modal on work.html
+    if (window.location.pathname.includes('work.html')) {
+        initializePasswordModal();
+    }
+    
+    // Initialize Swiper if the container exists
+    if (document.querySelector('.swiper-container')) {
+        const swiper = new Swiper('.swiper-container', {
+            loop: true,                // Enable infinite loop
+            autoplay: {                // Auto-slide settings
+                delay: 3000,           // 3 seconds per slide
+                disableOnInteraction: false,
+            },
+            navigation: {              // Arrow navigation
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    }
+    
+    // Initialize responsive stage items
+    function updateClass() {
+        const stageItems = document.querySelectorAll(".stage-item .sub-heading");
+        const isSmallScreen = window.innerWidth <= 768;
+
+        stageItems.forEach(item => {
+            if (isSmallScreen) {
+                item.classList.remove("sub-heading");
+                item.classList.add("md-bold");
+            } else {
+                item.classList.remove("md-bold");
+                item.classList.add("sub-heading");
+            }
+        });
+    }
+
+    updateClass();
+    window.addEventListener("resize", updateClass);
 });
-
-
 
 // This is for tab content //
 
@@ -201,37 +248,6 @@ function openHastag(evt, tagName) {
       });
   }
   
-  // Khởi tạo cả hai tính năng độc lập
-  document.addEventListener('DOMContentLoaded', () => {
-      // Khởi tạo tabs nếu các elements tồn tại
-      if (document.getElementById('defaultOpen')) {
-          document.getElementById('defaultOpen').click();
-      }
-      
-      // Khởi tạo password modal
-      initializePasswordModal();
-      
-      // Khởi tạo responsive stage items
-      function updateClass() {
-          const stageItems = document.querySelectorAll(".stage-item .sub-heading");
-          const isSmallScreen = window.innerWidth <= 768;
-  
-          stageItems.forEach(item => {
-              if (isSmallScreen) {
-                  item.classList.remove("sub-heading");
-                  item.classList.add("md-bold");
-              } else {
-                  item.classList.remove("md-bold");
-                  item.classList.add("sub-heading");
-              }
-          });
-      }
-  
-      updateClass();
-      window.addEventListener("resize", updateClass);
-  });
-  
-  
   //case study //
   
   document.addEventListener("DOMContentLoaded", function () {
@@ -304,7 +320,7 @@ function openHastag(evt, tagName) {
   
   
   
-  
+// this code is to load the processes// 
   
   document.addEventListener("DOMContentLoaded", function () {
     const tooltip = document.getElementById("tooltip");
@@ -335,9 +351,42 @@ function openHastag(evt, tagName) {
 });
   
   
+const processData = {};
+
+// Function to load an HTML file
+async function loadTemplate(name) {
+    const response = await fetch(`./templates/${name}.html`);
+    return response.text();
+}
+
+// Load all templates asynchronously
+async function loadTemplates() {
+    processData.phase = await loadTemplate('phase');
+    processData.sprint = await loadTemplate('sprint');
+    processData.product = await loadTemplate('product');
+}
+
+// Call the function to load templates on page load
+loadTemplates();
+
+async function updateProcess() {
+    const selector = document.getElementById('phaseSelector');
+    const processContent = document.getElementById('processContent');
+    
+    if (!selector || !processContent) return;
+    
+    const selectedValue = selector.value.toLowerCase();
+    
+    // Wait for templates to load if they haven't yet
+    if (!processData[selectedValue]) {
+        await loadTemplates();
+    }
+    
+    processContent.innerHTML = processData[selectedValue] || '';
+}
+
   
-  
-  
+  // end of the processes load// 
   
   
 

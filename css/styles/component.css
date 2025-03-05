@@ -7,8 +7,6 @@
     gap: var(--p-12, 12px);
     color: var(--button-text-primary);
     border-radius: 999px;
-    transition-property: all;
-    transition-duration: .5s;
     border-top: 1px solid var(--border-primary-default, #01679C);
     border-right: 1px solid var(--border-primary-default, #01679C);
     border-bottom: 4px solid var(--border-primary-default, #01679C);
@@ -16,6 +14,8 @@
     transition-property: all;
     transition-duration: .10s;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
     }
     .btn-primary:hover {
         border-bottom: 1px solid var(--border-primary-default, #01679C);

@@ -1,11 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
-    function loadComponent(id, file) {
+    function loadComponent(id, file, callback) {
         fetch(file)
             .then(response => response.text())
             .then(data => {
                 const element = document.getElementById(id);
                 if (element) {
                     element.innerHTML = data;
+                    if (callback) callback(); // Run callback AFTER loading the component
                 } else {
                     console.error(`Element with ID ${id} not found.`);
                 }
@@ -13,12 +14,28 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("Error loading component:", error));
     }
 
-    loadComponent("nav-placeholder", "./templates/nav.html");
+    loadComponent("nav-placeholder", "./templates/nav.html", function () {
+        // Now the nav has been loaded, we can safely attach the event listener
+        setTimeout(() => {  // Ensure it runs after the DOM updates
+            const menuToggle = document.getElementById("menu-toggle");
+            const menu = document.getElementById("menu-links");
+
+            if (menuToggle && menu) {
+                menuToggle.addEventListener("click", function () {
+                    menu.classList.toggle("active");
+                    menuToggle.classList.toggle("active");
+                });
+                console.log("Menu toggle event listener added successfully.");
+            } else {
+                console.error("Menu toggle elements not found.");
+            }
+        }, 100); // Small delay to ensure elements are available
+    });
+
     loadComponent("footer-placeholder", "./templates/footer.html");
-
-    // loadComponent("chatbox-placeholder", "./templates/chatbox.html");
-
 });
+
+
 
 // This is for tab content //
 

@@ -5,7 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <link rel="icon" type="image/x-icon" href="./public/favicon.png">
         <title>Stephano Ng | Practical AI, Product Design and Professional Project Management</title>
-        <link rel="stylesheet" href="./css/styles/bootstrap-grid.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
         <link rel="stylesheet" href="./css/styles/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -361,7 +360,7 @@
 <div class="chat-bubble animate__animated animate__fadeIn" id="chatBubble">
     <img src="./public/ic_generativeAI.svg" alt="">
 </div>
-<div class="container chat-container" id="chatContainer">
+<div class="chat-container animate__animated animate__fadeIn" id="chatContainer">
     <div class="head-chat">
         <h2 class="sub-heading">Job Fit Assessment</h2>
         <p class="md-medium">Discover how my skills align with job requirements using AI-powered analysis</p>
@@ -685,10 +684,6 @@ const processData = {
             const selected = document.getElementById("phaseSelector").value;
             document.getElementById("processContent").innerHTML = processData[selected];
         }
-    
-        // Display default content on page load`
-        document.addEventListener("DOMContentLoaded", () => {
-            updateProcess();
-        });
 </script>
+
 </html>

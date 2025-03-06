@@ -99,13 +99,15 @@ select {
 }
 }
 .focused > img {
-  border-radius: var(--r-24);
+  border-radius: var(--r-32);
   border: 1px solid var(--border-primary-default);
   background: rgba(255, 255, 255, 0.40);
   backdrop-filter: blur(67px);
   padding: var(--p-16);
-  height: 598px;
-  max-height: 480px;
+  max-height: 520px;
+  height: 580px;
+  width: 320px;
+  object-fit: cover;
 }
 
 .focused-ab{
@@ -434,6 +436,7 @@ li > a{
   border: 1px solid var(--border-neutral-default);
   background: var(--bg-surface-main);
    transition: border 0.5s ease; /* Smooth transition */
+   cursor: pointer;
 
 }
 .domain-item:hover {
@@ -502,9 +505,11 @@ li > a{
     padding-bottom: var(--p-8);
     text-align: center;
     min-width: 140px;
-    > img {
+    cursor: pointer;
+    > a > img {
       width:60px;
       height: 60px;
+      cursor: pointer;
     }
     }
 
@@ -513,8 +518,6 @@ li > a{
   margin-bottom: 0px ;
   border: none;   
 }
-
-
 
 
 
@@ -1139,6 +1142,7 @@ border: 2px solid var(--blue-B500);
       height: 2px;
       background-color:black;
       transition: all 0.3s ease-in-out;
+      cursor: pointer;
   }
 
   .menu-button.active span:nth-child(1) {
@@ -1394,6 +1398,10 @@ border: 2px solid var(--blue-B500);
   gap: var(--m-16);
   min-width: 230px;  
 }
+#club-section {
+  max-width: 100%;
+
+
 }
 
 /* Small desktops: max-width 992px */
@@ -1440,7 +1448,12 @@ border: 2px solid var(--blue-B500);
   }
 }
 
-@media (max-width: 1024px) {
+@media (width: 1024px) {
+  .introduce {
+    flex-direction: column;
+    gap: var(--p-24);
+}
+
   .grid-container {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1462,8 +1475,32 @@ border: 2px solid var(--blue-B500);
   height: 100vh;
   gap: var(--m-40);
 }
+.emphasize {
+  padding-bottom: var(--p-0);
+  width: 100%;
+  display: flex
+;
+  justify-content: space-between;
+}
+.emphasize > button {
+  position: relative;
+  height: fit-content;
+  top: 0;
+  left: 0;
+}
+.second-section {
+  border-radius: 40px 40px 0px 0px;
+}
 
-@media (max-width: 820px) {
+
+
+}
+
+
+
+
+
+@media (width: 820px) {
   .grid-container {
     grid-template-columns: repeat(2, 1fr);
   }

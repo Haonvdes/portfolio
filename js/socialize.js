@@ -166,14 +166,14 @@ async function getLatestStravaActivities(clubId) {
     clubSection.appendChild(activitiesSection);
   } catch (error) {
     console.error('Error fetching club data:', error.message);
-    document.getElementById('club-section').innerHTML = '<p>Failed to load club activities.</p>';
+    document.getElementById('club-section').innerHTML = '<p class="md-medium" style="padding:var(--p-16)">Oops! Something went wrong; trying to load again shortly.</p>';
   }
 }
 
 async function getPersonalStravaActivity() {
   try {
     const response = await fetch('https://api.stpnguyen.com/api/strava/personal/weekly');
-    if (!response.ok) throw new Error('Failed to fetch personal data');
+    if (!response.ok) throw new Error('Oops! Something went wrong; trying to load again shortly.');
     const data = await response.json();
 
     const personalSection = document.getElementById('personal-section');

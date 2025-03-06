@@ -1,36 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
-    <head>
+    <head lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <link rel="icon" type="image/x-icon" href="./public/favicon.png">
         <title>Stephano Ng | Practical AI, Product Design and Professional Project Management</title>
-        <link rel="stylesheet" href="./css/styles/bootstrap-grid.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
         <link rel="stylesheet" href="./css/styles/style.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-        <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
         <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-    
+        
         gtag('config', 'G-7VM3QDKCYW');
         </script>
-    
         <!-- Open Graph Meta Tags -->
         <meta property="og:title" content="Stephano Ng | Practical AI, UXD and PMP">
         <meta property="og:description" content="Stephano specialize in bridging the gap between business strategy and user-centered solutions that drive measurable results.">
         <meta property="og:image" content="https://haonvdes.github.io/portfolio/public/assets/og-img.png">
         <meta property="og:url" content="https://haonvdes.github.io/portfolio/">
         <meta property="og:type" content="website">
+        <script src="./js/ai-chat.js"></script>
+        <script src="./js/socialize.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    
     </head>
-    
-    
 <body>
 <header class="header"  style="height: 20vh">
     <div class="container" id="nav-placeholder"></div>
@@ -50,10 +46,10 @@
         <div class="container">
             <div class="introduce">
                <div class="emphasize">
-                <p class=" sub-heading animate__animated animate__fadeIn" style="padding-bottom: var(--p-16);">
+                <p class=" sub-heading animate__animated animate__fadeIn" style="padding-bottom: var(--p-16);" data-aos="fade-up">
                     Selected Project
                 </p>
-                <div class="container usecase">    
+                <div class="container usecase" data-aos="fade-up"> 
                     <div class="grid-container">
                         <!-- First row - Large card -->
                         <div class="card large-card" data-case-study="1">
@@ -197,7 +193,59 @@
 
     </section>
 
-
+    <div class="chat-bubble animate__animated animate__fadeIn" id="chatBubble">
+        <img src="./public/ic_generativeAI.svg" alt="">
+    </div>
+    <div class="chat-container animate__animated animate__fadeIn" id="chatContainer">
+        <div class="head-chat">
+            <h2 class="sub-heading">Job Fit Assessment</h2>
+            <p class="md-medium">Discover how my skills align with job requirements using AI-powered analysis</p>
+        </div>
+        <form id="jobForm" class="form-container" enctype="multipart/form-data">
+            <div class="form-data">
+                <label class="md-bold" for="userEmail">Your Email:</label>
+                <input class="md-medium" type="email" id="userEmail" required placeholder="Enter your email">
+            </div>
+            <div class="form-data">
+                <label class="md-bold" for="jobDescription">Job Description:</label>
+                <textarea class="md-medium" id="jobDescription" placeholder="Paste the job description here..."></textarea>
+            </div>
+    
+    <!-- File upload section with icon support -->
+    <div class="form-data">
+    <label class="sm-medium" for="jobFile">Or upload a file:</label>
+    <div class="file-upload-container" id="dropZone">
+    <svg class="upload-icon" id="uploadIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 16H15V10H19L12 3L5 10H9V16Z" fill="currentColor"/>
+      <path d="M5 18H19V20H5V18Z" fill="currentColor"/>
+    </svg>
+    <input class="hidden-file-input" type="file" id="jobFile" accept=".pdf,.doc,.docx,.txt,.rtf">
+    <p class="md-medium upload-instructions" id="uploadInstructions">Drop your job description file here (PDF/DOCX)</p>
+    
+    <div class="file-info" id="fileInfo">
+      <div class="file-info-content">
+        <div id="fileIconContainer" class="file-icon-container">
+          <!-- File icon will be inserted here dynamically -->
+        </div>
+        <div class="file-name">
+          <span id="fileName" class="sm-medium">filename.pdf</span>
+        </div>
+        <div class="remove-file" id="removeFile">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="currentColor"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+              
+            <button class="btn-primary" type="submit">Analyze Job</button>
+            <p class="response" id="responseMessage"></p>
+    
+        </form>
+        <div id="resultBox"></div>
+    </div>
 
 
 
@@ -205,49 +253,6 @@
     <footer class="container-fluid" id="footer-placeholder"></footer>
 
 <script src="./js/script.js"></script>
-<script src="./js/socialize.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<script>
-// For carosel //
-
-const swiper = new Swiper('.swiper-container', {
-  loop: true,                // Enable infinite loop
-  autoplay: {                // Auto-slide settings
-      delay: 3000,           // 3 seconds per slide
-      disableOnInteraction: false,
-  },
-  navigation: {              // Arrow navigation
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-  },
-});
-
-
-// // Add this to your case study HTML files to protect them
-// (() => {
-//   const token = localStorage.getItem('caseStudyToken');
-//   if (!token) {
-//       window.location.href = 'https://haonvdes.github.io/portfolio/';
-//       return;
-//   }
-
-//   try {
-//       const base64Url = token.split('.')[1];
-//       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-//       const payload = JSON.parse(window.atob(base64));
-      
-//       if (payload.exp * 1000 <= Date.now()) {
-//           localStorage.removeItem('caseStudyToken');
-//           window.location.href = 'https://haonvdes.github.io/portfolio/';
-//       }
-//   } catch (error) {
-//       window.location.href = 'https://haonvdes.github.io/portfolio/';
-//   }
-// })();
-
-</script>
 
 </body>
-
 </html>

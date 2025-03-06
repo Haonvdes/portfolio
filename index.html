@@ -1,34 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <link rel="icon" type="image/x-icon" href="./public/favicon.png">
-        <title>Stephano Ng | Practical AI, Product Design and Professional Project Management</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-        <link rel="stylesheet" href="./css/styles/style.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
-        <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="icon" type="image/x-icon" href="./public/favicon.png">
+    <title>Stephano Ng | Practical AI, Product Design and Professional Project Management</title>
+    <link rel="stylesheet" href="./css/styles/style.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
     
-        gtag('config', 'G-7VM3QDKCYW');
-        </script>
-    
-        <!-- Open Graph Meta Tags -->
-        <meta property="og:title" content="Stephano Ng | Practical AI, UXD and PMP">
-        <meta property="og:description" content="Stephano specialize in bridging the gap between business strategy and user-centered solutions that drive measurable results.">
-        <meta property="og:image" content="https://haonvdes.github.io/portfolio/public/assets/og-img.png">
-        <meta property="og:url" content="https://haonvdes.github.io/portfolio/">
-        <meta property="og:type" content="website">
-    </head>
-    
+    gtag('config', 'G-7VM3QDKCYW');
+    </script>
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Stephano Ng | Practical AI, UXD and PMP">
+    <meta property="og:description" content="Stephano specialize in bridging the gap between business strategy and user-centered solutions that drive measurable results.">
+    <meta property="og:image" content="https://haonvdes.github.io/portfolio/public/assets/og-img.png">
+    <meta property="og:url" content="https://haonvdes.github.io/portfolio/">
+    <meta property="og:type" content="website">
+    <script src="./js/ai-chat.js"></script>
+    <script src="./js/socialize.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <body>
 <header class="header">
     <div class="container" id="nav-placeholder"></div>
@@ -50,7 +45,7 @@
             <div class="introduce">
                <div class="emphasize">
                 <h1 class="animate__animated animate__fadeIn" style="color: var(--text-utilities-decorate-primary); width: max-content;">
-                    My Path of Growth and <br>Leadership
+                    My Path of Growth and <br>Leadership 
                 </h1>
                 <button class="btn-secondary animate__animated animate__fadeIn"><a href="about.html">
                     My Story</a></button>
@@ -62,12 +57,12 @@
                <div>
                </div>
             </div>
-            <div class="things">
+            <div class="things" data-aos="fade-up">
                 <div class="growth " style="width: 800px;">
                     <div class="tagline">
                         <p class="sub-heading">Work Experience</p>
                     </div>
-                    <div class="experience">
+                    <div class="experience" data-aos="fade-up">
                         <div class="company 01">
                             <p class="md-bold">FPT Software</p>
                             <div class="company-infor">
@@ -99,7 +94,7 @@
                     </div>
                     
                 </div>
-            <div class="growth">
+            <div class="growth" data-aos="fade-up">
                 <div class="tagline">
                     <p class="sub-heading">Empowered by Expertise</p>
                 </div>
@@ -131,7 +126,7 @@
                 </div>
             </div>
             </div>
-            <div class="certificate">
+            <div class="certificate" data-aos="fade-up">
                 <h2>No <span style="color:var(--grey-G300);">boundaries,</span><br> Certified Success with<br> Reward and Global Certificates</h2>
                 <div class="badge">
                     <div class="awward-item">
@@ -190,7 +185,7 @@
             </div>
         </div>
         </div>
-        <div class="section stuff">
+        <div class="section stuff" data-aos="fade-up">
             <div class="container stuff-header">
                 <h1 style="color: var(--text-utilities-decorate-primary); text-align: center;">
                     Staying Innovative <br>
@@ -212,7 +207,7 @@
                     </button>
                 </div>
             </div>
-            <div class="container" style="margin-top: -40px;">
+            <div class="container" style="margin-top: -40px;" data-aos="fade-up">
                 <!-- Tab content -->
                 <div id="domain" class="information animate__animated animate__fadeIn">
                 <div>
@@ -407,15 +402,8 @@
     </form>
     <div id="resultBox"></div>
 </div>
-
-<footer class="container-fluid" id="footer-placeholder"></footer>
-
+<footer class="container-fluid" id="footer-placeholder" data-aos="fade-up"></footer>
 
 <script src="./js/script.js"></script>
-<script src="./js/ai-chat.js"></script>
-<script src="./js/socialize.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
 
 </html>

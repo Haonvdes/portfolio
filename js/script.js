@@ -387,12 +387,19 @@ async function updateProcess() {
   
   
 
+  //onscroll animation //
+  document.addEventListener("DOMContentLoaded", () => {
+    AOS.init({
+      duration: 800, // Animation duration in ms
+      once: true,     // Animate only once
+    });
+  });
 
-
+//end onscroll animation //
 
   
 
-  const jwt = require('jsonwebtoken');
+//   const jwt = require('jsonwebtoken');
   const path = require('path');
   const app = express();
   

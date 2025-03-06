@@ -4,12 +4,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
 @import url(./chatbox.css);
 @import url(./bootstrap-grid.css);
-
+@import url('https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
+@import url('https://fonts.googleapis.com');
+@import url('https://unpkg.com/swiper/swiper-bundle.min.css');
 
 
 :root{
-  --animate-duration: 10s;
-  --animate-delay: 10s;
+  --animate-duration: 1s;
+  --animate-delay: 1s;
   --animate-repeat: 2;
     --swiper-theme-color:var(--text-neutral-white)!important;
     --swiper-navigation-size: 24px !important;
@@ -97,10 +100,7 @@ select {
 }
 .focused > img {
   border-radius: var(--r-24);
-  border-top: 1px solid #000;
-  border-right: 4px solid #000;
-  border-bottom: 2px solid #000;
-  border-left: 1px solid #000;
+  border: 1px solid var(--border-primary-default);
   background: rgba(255, 255, 255, 0.40);
   backdrop-filter: blur(67px);
   padding: var(--p-16);
@@ -211,8 +211,7 @@ flex-grow: 1;
   border: 1px solid var(--border-neutral-default);
   background: linear-gradient(91deg, rgba(249, 250, 251, 0.00) 0.18%, #F9FAFB 56.25%);
   display: flex;
-  padding: var(--p-16);
-  padding-right: var(--p-0);
+  padding: 16px 0 16px 24px;
   gap: var(--m-40);
   justify-content: space-between;
   align-items: center;
@@ -590,13 +589,12 @@ line-height: 22px;
 }
 #club-section{
   flex-grow: 0;
-  align-items: flex-start;
-  justify-content: start;
-  flex-direction: column;
   flex-wrap: wrap;
   border-radius: var(--r-16);
   border: 1px solid var(--border-neutral-default, #E5E7EB);
   width: 100%;
+  max-width: 400px;
+
 
 }
     #playback-info {
@@ -1204,7 +1202,7 @@ border: 2px solid var(--blue-B500);
 .nav-right > div{
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: 24px;
 }
 
 
@@ -1420,7 +1418,7 @@ border: 2px solid var(--blue-B500);
     gap: 0px;
   }
   .second-section{
-    padding-top: 40px;
+    padding-top: 24px;
     border-radius: 40px 40px 0px 0px;
     top: -80px;
 
@@ -1490,7 +1488,6 @@ border: 2px solid var(--blue-B500);
   }
 }
 
-/* Mobile: max-width 430px */
 @media (max-width: 430px) {
   #personal-section {
     width: 100%;
@@ -1654,5 +1651,10 @@ border: 2px solid var(--blue-B500);
     gap: var(--m-16);
     min-width: 230px;  
   }
+
   
+}
+.grid-container {
+  grid-template-columns: repeat(1, 1fr);
+}
 }

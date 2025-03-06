@@ -7,16 +7,15 @@
     gap: var(--p-12, 12px);
     color: var(--button-text-primary);
     border-radius: 999px;
-    border-top: 1px solid var(--border-primary-default, #01679C);
-    border-right: 1px solid var(--border-primary-default, #01679C);
-    border-bottom: 1px solid var(--border-primary-default, #01679C);
-    border-left: 1px solid var(--border-primary-default, #01679C);
+    border: 1px solid var(--border-primary-default, #01679C);
+    border-bottom: 6px solid var(--border-primary-default, #01679C);
     transition-property: all;
     transition-duration: .10s;
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
     font-family: Manrope;
+    height: 38px;
     }
     .btn-primary:hover {
         border-bottom: 1px solid var(--border-primary-default, #01679C);
@@ -35,16 +34,16 @@
         padding: var(--p-8) var(--p-16) var(--p-8) var(--p-16);
         border-radius: 999px;
         background: var(--button-bg-ghost-default);
-        border-top: 1px solid var(--border-primary-default, #01679C);
-        border-right: 1px solid var(--border-primary-default, #01679C);
-        border-bottom: 3px solid var(--border-primary-default, #01679C);
-        border-left: 1px solid var(--border-primary-default, #01679C);
+        border: 1px solid var(--border-primary-default, #01679C);
         color: var(--button-text-secondary);
         font-size: 14px;
+        height: 34px;
 
     }
     .btn-secondary:hover{
-        background: var(--button-bg-ghost-hover);
+        background: var(--blue-B50);
+        border-bottom: 4px solid var(--border-primary-default, #01679C);
+
     }
 .btn-secondary > a{
     text-decoration: none;

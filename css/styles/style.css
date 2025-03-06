@@ -1004,21 +1004,6 @@ border: 2px solid var(--blue-B500);
     }
 
 
-
-
-
-  .nav {
-    height: 80px;
-    width: 100%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 0px 16px 0;
-    z-index: 999;
-    background-color: var(--bg-surface-main);
-  }
-  
   .nav > .nav-infor {
     display: inline;
   }

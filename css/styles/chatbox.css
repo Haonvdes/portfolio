@@ -64,11 +64,6 @@ textarea {
 }
 
 
-
-.error-message {
-    color: #d32f2f;
-}
-
 .form-data {
     display: flex;
     flex-direction: column;
@@ -326,9 +321,7 @@ display: flex;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1.5rem;
-  text-align: center;
-  color: #b91c1c;
+  padding: 8px 0;
 }
 
 .error-message svg {

@@ -233,7 +233,7 @@ function openHastag(evt, tagName) {
               }
           } catch (error) {
               console.error("Error verifying password:", error);
-              modalError.textContent = 'An error occurred. Please try again later.';
+              modalError.textContent = 'Oops! Something went wrong, trying to load again shortly.';
               modalError.style.display = 'block';
           } finally {
               submitBtn.disabled = false;

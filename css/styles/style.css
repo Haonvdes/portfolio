@@ -870,7 +870,7 @@ line-height: 22px;
   background-color: var(--bg-surface-main);
   margin: 15% auto;
   border: 1px solid var(--border-neutral-default);
-  width: 400px;
+  width: 420px;
   max-width: 500px;
   border-radius: var(--r-8);
 }
@@ -906,6 +906,7 @@ gap: var(--m-16);
   color: red;
   margin-top: var(--p-8);
   display: none;
+  text-align: left;
 }
 
 input{

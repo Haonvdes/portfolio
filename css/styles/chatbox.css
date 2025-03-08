@@ -394,3 +394,9 @@ display: flex;
     max-width: 398px;
   }
 }
+
+@media (max-width: 375px) {
+  .chat-container {
+    max-width: 343px;
+  }
+}

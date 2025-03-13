@@ -238,27 +238,27 @@ async function safeGetPlaybackState() {
 }
 
 // // Updated initialization with error handling
-// function initializePageSafely() {
-//   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+function initializePageSafely() {
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 
-//   switch (currentPage) {
-//     case 'index.html':
-//       // Initialize only club Strava functionality with error handling
-//       safeGetLatestStravaActivities('1153970');
-//       setInterval(() => safeGetLatestStravaActivities('1153970'), 7200000);
-//       break;
+  switch (currentPage) {
+    case 'index.html':
+      // Initialize only club Strava functionality with error handling
+      safeGetLatestStravaActivities('1153970');
+      setInterval(() => safeGetLatestStravaActivities('1153970'), 7200000);
+      break;
       
-//     case 'about.html':
-//       // Initialize Personal Strava functionality with error handling
-//       safeGetPersonalStravaActivity();
-//       setInterval(() => safeGetPersonalStravaActivity(), 7200000);
+    case 'about.html':
+      // Initialize Personal Strava functionality with error handling
+      safeGetPersonalStravaActivity();
+      setInterval(() => safeGetPersonalStravaActivity(), 7200000);
       
-//       // Initialize Spotify functionality with error handling
-//       safeGetPlaybackState();
-//       setInterval(safeGetPlaybackState, 30000);
-//       break;
-//   }
-// }
+      // Initialize Spotify functionality with error handling
+      safeGetPlaybackState();
+      setInterval(safeGetPlaybackState, 30000);
+      break;
+  }
+}
 
 // Add error event listener for unhandled promise rejections
 window.addEventListener('unhandledrejection', event => {

@@ -260,10 +260,10 @@ document.addEventListener('DOMContentLoaded', function() {
 // Create loading spinner HTML
 function createLoadingSpinner() {
     return `
-        <div class="loading-spinner">
+       <div class="loading-spinner">
             <div class="spinner"></div>
-            <p class="lg-bold">Analyzing your job fit...</p>
-            <p class="md-medium">This may take up to 1 minutes</p>
+            <p class="loading-text">Analyzing your job fit...</p>
+            <p class="loading-subtext">This may take up to 1 minutes</p>
         </div>
     `;
 }
@@ -322,6 +322,42 @@ function displayResults(data) {
           <div class="result-section">
             <p class="md-bold">Potential</p>
             <p class="md-medium">${data.potential}</p>
+        </div>
+                <div class="result-section">
+            <p class="md-bold">Certificate</p>
+            <div style="display: flex; flex-direction: row; gap: 16px;">
+                    <div class="tooltip-container" data-tooltip="Professional Project Management">                        
+                        
+                        <a href="https://www.credly.com/badges/ab2290b3-212e-4db2-8a89-53bff99a7db4/public_url" target="_blank">
+                            <img src="./public/cert_pmp.png" alt="certificate_pmp" style="width: 32px; height: 32px;">
+                        </a>
+
+                    </div>
+                    <div class="tooltip-container" data-tooltip="Agile Certified Practitioner">                        
+                        
+                        <a href="https://www.credly.com/badges/97dcfae2-dbce-4e6b-86fb-e76c17cd6bf0/public_url" target="_blank">
+                            <img src="./public/cert_agile.png" alt="certificate_agile" style="width: 32px; height: 32px;">                        
+                        </a>
+
+                    </div>
+                    <div class="tooltip-container" data-tooltip="Practical Application of Gen AI">                        
+                        <a href="https://www.credly.com/badges/3ab5df38-46de-415f-a9e6-531fc9f78718/public_url" target="_blank">
+                            <img src="./public/cert_promtEn.png" alt="certificate_AI" style="width: 32px; height: 32px; border-radius: 0;">
+                        </a>
+                    </div>
+                    <div class="tooltip-container" data-tooltip="Prompt Engineering for Project Managers">
+                        <a href="https://www.credly.com/badges/68c137b7-52ec-4bfb-a072-e68d977eeff3/public_url" target="_blank">
+                            <img src="./public/cert_promtEn.png" alt="certificate_AI" style="width: 32px; height: 32px; border-radius: 0;">                        
+                        </a>                        
+                        
+                    </div>
+                    <div class="tooltip-container" data-tooltip="Professional Scrum Master">                        
+                        <a href="https://www.credly.com/badges/6fbbbe85-014a-4689-8433-b05a1383e851/public_url" target="_blank">
+                            <img src="./public/cert_psm.png" alt="certificate_PSM" style="width: 32px; height: 32px;">
+                        </a>
+                    </div>
+                <div class="tooltip" id="tooltip" style="visibility: hidden; opacity: 0; display: flex; align-items: center; padding: 16px; top: 883px; left: 100.5px;">Professional Project Management</div>
+                </div>
         </div>
         <div class="result-section">
             <p class="md-bold">Recommendations</p>

@@ -262,8 +262,8 @@ function createLoadingSpinner() {
     return `
        <div class="loading-spinner">
             <div class="spinner"></div>
-            <p class="loading-text">Analyzing your job fit...</p>
-            <p class="loading-subtext">This may take up to 1 minutes</p>
+            <p class="loading-text lg-bold">Analyzing your job fit...</p>
+            <p class="loading-subtext md-medium">This may take up to 1 minutes</p>
         </div>
     `;
 }
@@ -317,7 +317,7 @@ function displayResults(data) {
         </div>
          <div class="result-section">
             <p class="md-bold">Strengths</p>
-            <p class="md-medium">${data.skills}</p>
+            <p class="md-medium">${data.skill}</p>
         </div>
           <div class="result-section">
             <p class="md-bold">Potential</p>

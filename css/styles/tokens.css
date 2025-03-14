@@ -48,6 +48,7 @@
   --r-24: var(--m-24);
   --r-32: var(--m-32);
   --r-40: var(--m-40);
+  --text-error:(var(--red-R600));
   --button-bg-primary-default: var(--bg-primary-default);
   --button-border-primary: var(--border-primary-default);
   --button-text-primary: var(--text-neutral-white);

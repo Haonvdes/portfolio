@@ -1,7 +1,17 @@
 document.getElementById("jobForm").addEventListener("submit", async function (event) {
     event.preventDefault();
-    const userEmail = document.getElementById("userEmail").value;
-    const jobDescription = document.getElementById("jobDescription").value;
+    
+    // Run all validations
+    const isEmailValid = validateEmail();
+    const isFormValid = validateForm();
+    
+    if (!isEmailValid || !isFormValid) {
+        return; // Stop if validation fails
+    }
+    
+    // Get form elements
+    const userEmail = document.getElementById("userEmail").value.trim();
+    const jobDescription = document.getElementById("jobDescription").value.trim();
     const fileInput = document.getElementById("jobFile");
     const responseMessage = document.getElementById("responseMessage");
     const resultBox = document.getElementById("resultBox");
@@ -382,34 +392,117 @@ function displayError(errorMessage) {
     const responseMessage = document.getElementById("responseMessage");
     const submitButton = document.querySelector('#jobForm button[type="submit"]');
     
-    // Show response message with error
-    responseMessage.style.display = "block";
-    responseMessage.textContent = "Oops! Something went wrong, trying to load again shortly.";
+    // Reset previous states
+    if (submitButton) submitButton.disabled = false;
     
-    // Show result box with error details
-    resultBox.classList.add('resultBox');
-    resultBox.style.display = "block";
-    resultBox.innerHTML = `
-        <div class="error-message">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-                <path d="M12 7V13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <circle cx="12" cy="16" r="1" fill="currentColor"/>
-            </svg>
-            <p>${errorMessage}</p>
-            <button id="retryButton" class="btn-secondary">Try Again</button>
-        </div>
-    `;
+    // Update response message
+    if (responseMessage) {
+        responseMessage.style.display = "block";
+        responseMessage.style.color = "var(--red-R600)";
+        responseMessage.textContent = "Oops! Something went wrong; check your information and try to load again.";
+    }
     
-    // Add retry button functionality
-    document.getElementById("retryButton").addEventListener("click", function() {
-        // Re-enable the submit button
-        submitButton.disabled = false;
+    // Update result box with error
+    if (resultBox) {
+        resultBox.innerHTML = `
+            <div class="error-container">
+                <button id="retryButton" class="btn-secondary">Try Again</button>
+            </div>
+        `;
+        resultBox.style.display = "block";
         
-        // Clear the result box and response message
+        // Add retry button event listener
+        const retryButton = document.getElementById("retryButton");
+        if (retryButton) {
+            retryButton.addEventListener("click", resetForm);
+        }
+    }
+}
+
+function resetForm() {
+    const resultBox = document.getElementById("resultBox");
+    const responseMessage = document.getElementById("responseMessage");
+    const submitButton = document.querySelector('#jobForm button[type="submit"]');
+    
+    // Reset form elements
+    if (submitButton) submitButton.disabled = false;
+    if (resultBox) {
         resultBox.innerHTML = "";
         resultBox.style.display = "none";
+    }
+    if (responseMessage) {
         responseMessage.textContent = "";
         responseMessage.style.display = "none";
-    });
+    }
+}
+
+// Add input event listeners for inline validation
+document.getElementById("userEmail").addEventListener("input", validateEmail);
+document.getElementById("jobDescription").addEventListener("input", validateForm);
+document.getElementById("jobFile").addEventListener("change", validateForm);
+
+// Email validation function
+function validateEmail() {
+    const userEmail = document.getElementById("userEmail");
+    const emailError = document.getElementById("emailError") || createErrorElement("emailError", userEmail);
+    const email = userEmail.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!email) {
+        showError(emailError, "Email is required");
+        userEmail.classList.add("error");
+        return false;
+    } else if (!emailRegex.test(email)) {
+        showError(emailError, "Please enter a valid email address");
+        userEmail.classList.add("error");
+        return false;
+    } else {
+        hideError(emailError);
+        userEmail.classList.remove("error");
+        return true;
+    }
+}
+
+// Form validation function
+function validateForm() {
+    const jobDescription = document.getElementById("jobDescription");
+    const fileInput = document.getElementById("jobFile");
+    const requirementError = document.getElementById("requirementError") || 
+                           createErrorElement("requirementError", jobDescription);
+    
+    if (!jobDescription.value.trim() && fileInput.files.length === 0) {
+        showError(requirementError, "Please provide either a job description or upload a file");
+        jobDescription.classList.add("error");
+        return false;
+    } else {
+        hideError(requirementError);
+        jobDescription.classList.remove("error");
+        return true;
+    }
+}
+
+// Helper function to create error element
+function createErrorElement(id, targetElement) {
+    const errorDiv = document.createElement("div");
+    errorDiv.id = id;
+    errorDiv.className = "error-message";
+    errorDiv.style.display = "none";
+    targetElement.parentNode.insertBefore(errorDiv, targetElement.nextSibling);
+    return errorDiv;
+}
+
+// Helper function to show error
+function showError(errorElement, message) {
+    errorElement.textContent = message;
+    errorElement.style.display = "block";
+    errorElement.style.margintop = "4px";
+    errorElement.style.padding = "0";
+    errorElement.classList.add('sm-medium');
+
+
+}
+
+// Helper function to hide error
+function hideError(errorElement) {
+    errorElement.style.display = "none";
 }

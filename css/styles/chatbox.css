@@ -225,9 +225,13 @@ textarea {
   padding: 0.75rem;
   border-radius: 4px;
   text-align: center;
-  background-color: var(--emerald-E50);
-  color: var(--emerald-E700);;
+  /* background-color: var(--emerald-E50);
+  color: var(--emerald-E700);; */
     display: none; /* Hidden by default */
+    font-family: Manrope;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-neutral-sub-heading);
 }
 
 /* Result Box Styles */
@@ -311,7 +315,7 @@ display: flex;
 
 
 
-.resultBox.success {
+.resultBox .success {
   border-color: #10b981;
   background: #f0fdfa;
 }
@@ -399,4 +403,56 @@ display: flex;
   .chat-container {
     max-width: 343px;
   }
+}
+
+/* Error styling */
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--m-16);
+    padding: var(--p-24);
+    background-color: var(--bg-surface-error);
+    border-radius: var(--r-8);
+    border: 1px solid var(--border-error);
+}
+
+.error-text {
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.response {
+    margin-top: var(--m-8);
+    font-size: 14px;
+    line-height: 20px;
+}
+
+#resultBox {
+    margin-top: var(--m-16);
+    width: 100%;
+}
+
+input.error, 
+textarea.error {
+    border-color: var(--red-R500) !important;
+    background-color: var(--bg-surface-error-light) !important;
+}
+
+input.error:focus, 
+textarea.error:focus {
+    border-color: var(--red-R500) !important;
+    box-shadow: 0 0 0 2px var(--bg-surface-error-light) !important;
+}
+
+/* Hide browser's default validation popup */
+input:invalid {
+    box-shadow: none;
+}
+.error-message {
+  color: var(--text-error);
+  font-size: 12px;
+  margin-top: 4px;
+  display: none;
 }

@@ -140,7 +140,7 @@ function openHastag(evt, tagName) {
   
       // Function to check if the user has a valid JWT token
       const hasValidToken = () => {
-          const token = localStorage.getItem('caseStudyToken');
+          const token = sessionStorage.getItem('caseStudyToken');
           if (!token) return false;
   
           try {
@@ -174,33 +174,35 @@ function openHastag(evt, tagName) {
           }
       });
   
-      // Function to load the case study content
-      const loadCaseStudy = (caseStudyId) => {
-          window.location.href = `case-studies/case-study-${caseStudyId}.html`;
-      };
-  
-      // Event listener for case study buttons
-      document.querySelectorAll('[data-case-study]').forEach(button => {
-          button.addEventListener('click', (e) => {
-              const caseStudyId = e.currentTarget.dataset.caseStudy;
-  
-              if (!caseStudyId) {
-                  console.error("Error: Button missing data-case-study attribute");
-                  return;
-              }
-  
-              console.log("Button Clicked: caseStudyId =", caseStudyId);
-  
-              if (hasValidToken()) {
-                  loadCaseStudy(caseStudyId);
-              } else {
-                  modal.style.display = 'block';
-                  passwordInput.value = '';
-                  modalError.style.display = 'none';
-                  modal.dataset.pendingCaseStudy = caseStudyId;
-              }
-          });
-      });
+// Function to load the case study content
+const loadCaseStudy = (caseStudyName) => {
+    const formattedName = caseStudyName.toLowerCase().replace(/\s+/g, '-');
+    window.location.href = `case-studies/${formattedName}.html`;
+};
+
+// Event listener for case study buttons
+document.querySelectorAll('[data-case-study]').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const caseStudyName = e.currentTarget.dataset.caseStudy;
+
+        if (!caseStudyName) {
+            console.error("Error: Button missing data-case-study attribute");
+            return;
+        }
+
+        console.log("Button Clicked: caseStudyName =", caseStudyName);
+
+        if (hasValidToken()) {
+            loadCaseStudy(caseStudyName);
+        } else {
+            modal.style.display = 'block';
+            passwordInput.value = '';
+            modalError.style.display = 'none';
+            modal.dataset.pendingCaseStudy = caseStudyName;
+        }
+    });
+});
+
   
       // Handle password submission
       submitBtn.addEventListener('click', async () => {
@@ -218,14 +220,14 @@ function openHastag(evt, tagName) {
               const data = await response.json();
   
               if (data.success) {
-                  localStorage.setItem('caseStudyToken', data.token);
+                  sessionStorage.setItem('caseStudyToken', data.token);
                   modal.style.display = 'none';
   
-                  const caseStudyId = modal.dataset.pendingCaseStudy;
-                  if (caseStudyId && caseStudyId !== "undefined") {
-                      loadCaseStudy(caseStudyId);
+                  const caseStudyName = modal.dataset.pendingCaseStudy;
+                  if (caseStudyName && caseStudyName !== "undefined") {
+                      loadCaseStudy(caseStudyName);
                   } else {
-                      console.error("Error: caseStudyId is undefined or invalid");
+                      console.error("Error: caseStudyName is undefined or invalid");
                   }
               } else {
                   modalError.textContent = data.message;

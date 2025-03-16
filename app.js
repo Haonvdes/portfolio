@@ -331,13 +331,22 @@ app.post('/api/verify', async (req, res) => {
 });
 
 // Protected case study route
-app.get('/case-study/:id', authenticateToken, (req, res) => {
-  try {
-      res.sendFile(path.join(__dirname, 'public', 'case-study.html'));
-  } catch (error) {
-      console.error('Error serving case study:', error);
-      res.redirect('/?error=server_error');
-  }
+app.get('/case-study/:name', authenticateToken, (req, res) => {
+    try {
+        const caseName = req.params.name.toLowerCase();
+        const caseStudyPath = path.join(__dirname, 'public', 'case-studies', `${caseName}.html`);
+        
+        // Check if the file exists
+        if (!fs.existsSync(caseStudyPath)) {
+            console.error(`Case study not found: ${caseName}`);
+            return res.redirect('/?error=case_study_not_found');
+        }
+        
+        res.sendFile(caseStudyPath);
+    } catch (error) {
+        console.error('Error serving case study:', error);
+        res.redirect('/?error=server_error');
+    }
 });
 
 // Ensure all required environment variables are set

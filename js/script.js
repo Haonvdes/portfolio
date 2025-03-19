@@ -14,7 +14,11 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("Error loading component:", error));
     }
 
-    loadComponent("nav-placeholder", "./templates/nav.html", function () {
+    // Determine base path based on current page location
+    const basePath = window.location.pathname.includes('/case-studies/') ? '../' : './';
+
+    // Load navigation and footer dynamically
+    loadComponent("nav-placeholder", basePath + "templates/nav.html", function () {
         // Now the nav has been loaded, we can safely attach the event listener
         setTimeout(() => {  // Ensure it runs after the DOM updates
             const menuToggle = document.getElementById("menu-toggle");
@@ -32,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 100); // Small delay to ensure elements are available
     });
 
-    loadComponent("footer-placeholder", "./templates/footer.html");
+    loadComponent("footer-placeholder", basePath + "templates/footer.html");
 
     // Initialize tabs if they exist
     if (document.getElementById('defaultOpen')) {
@@ -412,10 +416,6 @@ async function updateProcess() {
     // Serve the case study HTML page
     res.sendFile(path.join(__dirname, 'public', 'case-study.html'));
   });
-
-
-
-
 
 
 

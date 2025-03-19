@@ -6,9 +6,7 @@
   text-decoration: none;
   
 }
-.container {
-  max-width: 1280px;
-}
+
 .container-fluid{
   padding: 0!important;
 }

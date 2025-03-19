@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ic_reivew</title>
+    <g id="Case-Form" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ic_reivew">
+            <rect id="Rectangle" x="0" y="0" width="60" height="60"></rect>
+            <g id="check-list-4" transform="translate(15.000000, 14.000000)" stroke="#393939" stroke-linecap="square" stroke-width="2">
+                <line x1="12.952381" y1="3.80952381" x2="30.4761905" y2="3.80952381" id="Path"></line>
+                <line x1="12.952381" y1="16" x2="30.4761905" y2="16" id="Path"></line>
+                <line x1="12.952381" y1="28.1904762" x2="30.4761905" y2="28.1904762" id="Path"></line>
+                <polygon id="Path" points="0 0 7.61904762 0 7.61904762 7.61904762 0 7.61904762"></polygon>
+                <polygon id="Path" points="0 24.3809524 7.61904762 24.3809524 7.61904762 32 0 32"></polygon>
+                <polyline id="Path" points="0 16 3.04761905 19.047619 8.38095238 12.1904762"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>

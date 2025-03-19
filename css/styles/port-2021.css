@@ -1,0 +1,192 @@
+:root{
+  --background-dark: #2d3548;
+  --text-light: rgba(255,255,255,0.6);
+  --text-lighter: rgba(255,255,255,0.9);
+  --spacing-s: 8px;
+  --spacing-m: 16px;
+  --spacing-l: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 64px;
+  --width-container: 1232px;
+  }
+  
+  *{
+    font-family: 'Inter', sans-serif;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+  
+  html{
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  }
+  
+
+  .portfolio{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 24px 24px 0 24px;
+    background-color: #ebf4ff;
+    padding: 32px;
+    border-radius: 16px;
+  }
+  .industry {
+    display: flex;
+    justify-content: center;
+  }
+.portfolio_information{
+  grid-template-columns: repeat(1, 1fr);
+  grid-column-gap: var(--spacing-m);
+  grid-row-gap: var(--spacing-m);
+  max-width: var(--width-container);
+  width: 100%;
+}
+.section1{
+  align-items:center;
+  display: block;
+  min-height: 100%;
+  justify-content: center;
+  margin: var(--spacing-xl) var(--spacing-l) var(--spacing-xxl) var(--spacing-l);
+
+  }
+  .sec_infor{
+    align-items:center;
+    display: flex;
+    min-height: 100%;
+    justify-content: start;
+    padding: var(--spacing-xxl) var(--spacing-m);
+  }
+
+.hero-section{
+  align-items:center;
+  display: flex;
+  min-height: 100%;
+  justify-content: center;
+  }
+  
+  .card-grid{
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-column-gap: var(--spacing-m);
+  grid-row-gap: var(--spacing-m);
+  max-width: var(--width-container);
+  width: 100%;
+  }
+
+  .act{
+    border: solid 1px;
+    border-radius: 8px;
+    text-align: center;
+    width: 86%;
+    height: 48px;
+    color: rgba(255,255,255,0.9);
+    background-color: transparent;
+    font-size: 14px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 24px;
+  }
+
+  .card{
+  list-style: none;
+  position: relative;
+  max-height: 400px;
+  }
+  
+  .card:before{
+  content: '';
+  display: block;
+  padding-bottom: 150%;
+  width: 100%;
+  }
+  
+  .card__background{
+  background-size: cover;
+  background-position: center;
+  border-radius: var(--spacing-l);
+  bottom: 0;
+  filter: brightness(0.75) saturate(1.2) contrast(0.85);
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform-origin: center;
+  transform: scale(1) translateZ(0);
+  transition: 
+    filter 200ms linear,
+    transform 200ms linear;
+  }
+  
+  .card:hover .card__background{
+  transform: scale(1.05) translateZ(0);
+  box-shadow: 0 30px 40px rgba(255,255,255,0.4);
+  }
+  .card:hover .act{
+    background-color: rgba(255,255,255,0.2);
+    text-decoration: underline;
+  }
+  .card-grid:hover > .card:not(:hover) .card__background{
+  filter: brightness(0.8) saturate(0.5) contrast(1.2) blur(8px);
+  }
+  
+  .card__content{
+  left: 0;
+  padding: var(--spacing-xl) var(--spacing-l)  var(--spacing-l) var(--spacing-l);
+  position: absolute;
+  top: 0;
+  }
+  
+  .card__category{
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-bottom: var(--spacing-s);
+  text-transform: uppercase;
+  }
+  
+  .card__heading{
+  color: var(--text-lighter);
+  font-size: 1.9rem;
+  text-shadow: 2px 2px 20px rgba(0,0,0,0.2);
+  line-height: 1.4;
+  word-spacing: 100vw;
+  }
+  #Intro_port {
+    padding-bottom: var(--spacing-m);
+    font-size: 24px;
+    font-weight: 700;
+    text-align: left;
+    color:#1484a4;
+    transition: all 500ms cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  @media (max-width:375px) {
+    .portfolio{
+      margin: 16px 16px 0 16px;
+    }
+    .section1{
+      margin: var(--spacing-xl) var(--spacing-m) var(--spacing-m) var(--spacing-m);
+    }
+  }
+
+  
+@media(min-width: 540px){
+  .card-grid{
+    grid-template-columns: repeat(2, 1fr); 
+  }
+  .card-grid-sys{
+    grid-template-columns: repeat(2, 1fr); 
+  }
+  }
+  
+  @media(min-width: 960px){
+  .card-grid{
+    grid-template-columns: repeat(4, 1fr); 
+  }
+  .card-grid-sys{
+    grid-template-columns: repeat(2, 1fr); 
+  }
+  }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>IC_Members</title>
+    <g id="Case-Form" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="IC_Members" transform="translate(0.000000, -0.000000)">
+            <rect id="Rectangle" stroke="#0AE041" fill="#ECFFF1" x="0.5" y="0.5" width="47" height="47" rx="4"></rect>
+            <polygon id="M" fill="#0AE041" fill-rule="nonzero" points="19.6636364 30.7636364 19.6636364 21.6409091 19.7795455 21.6409091 23.3931818 30.6954545 25.3431818 30.6954545 28.9568182 21.675 29.0727273 21.675 29.0727273 30.7636364 31.9363636 30.7636364 31.9363636 16.8 28.2954545 16.8 24.45 26.1818182 24.2863636 26.1818182 20.4409091 16.8 16.8 16.8 16.8 30.7636364"></polygon>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>IC_pre</title>
+    <defs>
+        <path d="M9.25223816,12.3535534 L17.2065543,20.2928932 C17.5978152,20.6834175 17.5978152,21.3165825 17.2065543,21.7071068 C16.8152933,22.0976311 16.180934,22.0976311 15.789673,21.7071068 L6.808118,12.7424621 C6.397294,12.3324116 6.397294,11.6675884 6.808118,11.2575379 L15.789673,2.29289322 C16.180934,1.90236893 16.8152933,1.90236893 17.2065543,2.29289322 C17.5978152,2.68341751 17.5978152,3.31658249 17.2065543,3.70710678 L9.25223816,11.6464466 C9.05660768,11.8417088 9.05660768,12.1582912 9.25223816,12.3535534 Z" id="path-1"></path>
+    </defs>
+    <g id="Homepage" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="IC_pre">
+            <circle id="Oval" fill="#FFFFFF" cx="24" cy="24" r="24"></circle>
+            <g id="atom/icon/unity/chevron-right" transform="translate(12.000000, 12.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Icon" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+                <g id="Group" mask="url(#mask-2)" fill="#8F8F8F">
+                    <g id="Icon-Color">
+                        <rect id="color" x="0" y="0" width="24" height="24"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

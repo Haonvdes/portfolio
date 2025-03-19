@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>IC_next</title>
+    <defs>
+        <path d="M14.7477618,11.6464466 L6.79344572,3.70710678 C6.40218476,3.31658249 6.40218476,2.68341751 6.79344572,2.29289322 C7.18470667,1.90236893 7.81906601,1.90236893 8.21032697,2.29289322 L17.191882,11.2575379 C17.602706,11.6675884 17.602706,12.3324116 17.191882,12.7424621 L8.21032697,21.7071068 C7.81906601,22.0976311 7.18470667,22.0976311 6.79344572,21.7071068 C6.40218476,21.3165825 6.40218476,20.6834175 6.79344572,20.2928932 L14.7477618,12.3535534 C14.9433923,12.1582912 14.9433923,11.8417088 14.7477618,11.6464466 Z" id="path-1"></path>
+    </defs>
+    <g id="Homepage" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="IC_next">
+            <circle id="Oval" fill="#FFFFFF" cx="24" cy="24" r="24"></circle>
+            <g id="atom/icon/unity/chevron-right" transform="translate(12.000000, 12.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Icon" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+                <g id="Group" mask="url(#mask-2)" fill="#8F8F8F">
+                    <g id="Icon-Color">
+                        <rect id="color" x="0" y="0" width="24" height="24"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

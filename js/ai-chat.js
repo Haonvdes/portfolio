@@ -34,7 +34,48 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
     formData.append("userEmail", userEmail);
     formData.append("jobDescription", jobDescription);
     if (fileInput.files.length > 0) {
-        formData.append("jobFile", fileInput.files[0]);
+        const file = fileInput.files[0];
+        
+        // Kiểm tra kích thước file (giới hạn 5MB)
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSize) {
+            const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+            displayError(`File size (${fileSizeMB}MB) exceeds the 5MB limit. Please choose a smaller file.`);
+            
+            // Reset file input
+            fileInput.value = '';
+            
+            // Show upload icon and instructions again
+            const uploadIcon = document.getElementById('uploadIcon');
+            const uploadInstructions = document.getElementById('uploadInstructions');
+            const fileInfo = document.getElementById('fileInfo');
+            
+            if (uploadIcon) uploadIcon.style.display = 'block';
+            if (uploadInstructions) uploadInstructions.style.display = 'block';
+            if (fileInfo) fileInfo.style.display = 'none';
+            
+            // Enable submit button
+            submitButton.disabled = false;
+            return;
+        }
+
+        // Kiểm tra loại file
+        const allowedTypes = [
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        ];
+        if (!allowedTypes.includes(file.type)) {
+            displayError("Only PDF and Word documents are allowed");
+            fileInput.value = '';
+            return;
+        }
+
+        // Chuyển file thành base64
+        const base64File = await convertFileToBase64(file);
+        formData.append("jobFile", base64File);
+        formData.append("fileName", file.name);
+        formData.append("fileType", file.type);
     }
 
     try {
@@ -505,4 +546,17 @@ function showError(errorElement, message) {
 // Helper function to hide error
 function hideError(errorElement) {
     errorElement.style.display = "none";
+}
+
+// Thêm hàm helper để chuyển file thành base64
+async function convertFileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            const base64String = reader.result.split(',')[1];
+            resolve(base64String);
+        };
+        reader.onerror = (error) => reject(error);
+    });
 }

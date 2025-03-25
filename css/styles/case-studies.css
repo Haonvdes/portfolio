@@ -1,12 +1,15 @@
-.content{
+.biz-information{
     position: relative;
     flex-direction: column;
     top: -140px;
-    gap: 40px;
+    gap: 60px;
     display: flex;
 }
 .case-cover{
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
     > img {
         object-fit: cover;
         width: 100%;
@@ -85,7 +88,7 @@
 .biz-objective{
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 80px;
 }
 .challenge{
     display: grid;
@@ -116,6 +119,9 @@
     overflow: scroll;
 }
 
+
+
+/* //this is for overlap// */
 
 
 .articles-container {
@@ -183,7 +189,7 @@ overflow: hidden;
 }
 
 .article-card:hover {
-    background-color: #2C71E0;
+    background-color: #0079DF;
     color: white;
     transform: translateY(-1rem) rotate(2deg);
     
@@ -201,3 +207,30 @@ overflow: hidden;
         color:white;
     }
        
+
+.work-detail{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.approach{
+    display: flex;
+    flex-direction: row;
+    gap: var(--m-24);
+    padding: var(--p-24);
+    border-radius: var(--r-16);
+    border: 1px solid var(--border-neutral-default);
+    background-color: var(--grey-G50);
+    justify-content: space-between;
+
+}
+.approach-info{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    > img {
+        width: 32px;
+        height: 32px;
+    }
+}

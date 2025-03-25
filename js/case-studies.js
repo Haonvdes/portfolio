@@ -40,15 +40,15 @@ const articles = [
     {
         id: 4,
         title: "SeekHYPE",
-        description: "NFT Marketplace for IP",
+        description: "NFT Marketplace for IP, crypto collectibles and non-fungible tokens.",
         category: "NFT",
         icon: iconPaths.seekhype,
         iconColor: 'black'
     },
     {
         id: 5,
-        title: "Aura Safe",
-        description: "Multi-signature and fine-grain access control, asset management tool",
+        title: "Dev3Map",
+        description: "A library for accepting Bitcoin deposits to any IBC-enabled blockchain",
         category: "Infrastructure",
         icon: iconPaths.Dev3Map,
         iconColor: 'black'
@@ -56,7 +56,7 @@ const articles = [
     {
         id: 6,
         title: "Band Protocol",
-        description: "A cross-chain data oracle platform that aggregates and connects real-world data and APIs to smart contracts.",
+        description: "A oracle platform that aggregates and connects real-world data.",
         category: "Infrastructure",
         icon: iconPaths.band,
         iconColor: 'black'
@@ -72,7 +72,7 @@ const articles = [
     {
         id: 8,
         title: "Noise Network",
-        description: "Reliable Randomness For the Interchain",
+        description: "A protocol that allows developers to use secure, and cost efficient via IBC",
         category: "Web2 Transition",
         icon: iconPaths.nois,
         iconColor: 'nois'

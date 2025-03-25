@@ -27,6 +27,24 @@ html{
     overflow-x: hidden;
     font-size: 14px;
 }
+
+ul {
+  list-style-type: disc;
+  padding-left: 16px;
+  margin: 0;
+}
+
+li{
+    list-style-type: disc;
+    padding-bottom: 12px;
+}
+
+
+li > a{
+    text-decoration: none;
+    color: var(--text-neutral-body);
+}
+
 a {
   text-decoration: none;
 }
@@ -251,16 +269,6 @@ flex-grow: 1;
     padding-right: var(--p-16);
 }
 
-li{
-    list-style-type: none;
-    gap: var(--m-24);
-    padding-right: var(--p-16);
-    display: flex;
-}
-li > a{
-    text-decoration: none;
-    color: var(--text-neutral-body);
-}
 
 .cta{
   display: flex;

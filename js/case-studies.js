@@ -175,3 +175,104 @@ class OverlappingArticles {
 document.addEventListener('DOMContentLoaded', () => {
     const overlappingArticles = new OverlappingArticles('articlesContainer', articles);
 });
+
+
+
+
+
+// This is for fact card case study//
+
+const contentMap = {
+    SeekHype: {
+        img: "/public/sh_case.png",
+        main: ["NFT Marketplace", "Decentralized Exchange", "Staking and Governance", "DAO and Community"],
+        audience: ["Crypto Investors", "Developers", "Traders"],
+        format: ["Web App", "Mobile App"],
+        scope: ["Research", "Development", "Marketing"]
+    },
+    Scan: {
+        img: "/scan_case.png",
+        main: ["Security Audit", "Transaction Verification", "Smart Contract Analysis"],
+        audience: ["Blockchain Developers", "Security Analysts"],
+        format: ["Web Tool", "API Integration"],
+        scope: ["Security Testing", "Compliance", "Risk Assessment"]
+    },
+    Swap: {
+        img: "/swap_case.png",
+        main: ["Token Swapping", "Liquidity Pools", "Yield Farming"],
+        audience: ["DeFi Users", "Liquidity Providers"],
+        format: ["Web App", "Decentralized Platform"],
+        scope: ["Liquidity Management", "Financial Modeling", "User Experience"]
+    },
+    Safe: {
+        img: "/safe_case.png",
+        main: ["Digital Wallet", "Multi-Signature Support", "Secure Storage"],
+        audience: ["Crypto Holders", "Institutional Investors"],
+        format: ["Mobile App", "Hardware Integration"],
+        scope: ["Security Enhancement", "User Privacy", "Cross-Platform Development"]
+    },
+    dev: {
+        img: "/safe_case.png",
+        main: ["Digital Wallet", "Multi-Signature Support", "Secure Storage"],
+        audience: ["Crypto Holders", "Institutional Investors"],
+        format: ["Mobile App", "Hardware Integration"],
+        scope: ["Security Enhancement", "User Privacy", "Cross-Platform Development"]
+    },
+    Index: {
+        img: "/index_case.png",
+        main: ["Crypto Index Funds", "Automated Portfolio", "Market Analysis"],
+        audience: ["Passive Investors", "Portfolio Managers"],
+        format: ["Web Dashboard", "API"],
+        scope: ["Financial Research", "Automated Trading", "Performance Tracking"]
+    }
+};
+
+// Function to load content
+function loadContent(key, shouldScroll = false) {
+    const data = contentMap[key];
+
+    document.getElementById("displayImage").src = data.img;
+    updateList("fact-main", data.main);
+    updateList("fact-audience", data.audience);
+    updateList("fact-format", data.format);
+    updateList("fact-scope", data.scope);
+
+    // Update active button class
+    updateActiveButton(key);
+
+}
+
+function updateList(id, items) {
+    const list = document.getElementById(id);
+    list.innerHTML = "";
+    items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        li.classList.add("md-regular");
+        list.appendChild(li);
+    });
+}
+
+function updateActiveButton(selectedKey) {
+    // Get all buttons
+    const buttons = document.querySelectorAll(".button-group button");
+    buttons.forEach(button => {
+        // Check if the button's onclick matches the selected key
+        if (button.getAttribute("onclick").includes(selectedKey)) {
+            button.classList.remove("btn-secondary");
+            button.classList.add("btn-primary");
+        } else {
+            button.classList.remove("btn-primary");
+            button.classList.add("btn-secondary");
+        }
+    });
+}
+
+// Load default content on page load WITHOUT scrolling
+window.onload = function () {
+    loadContent('SeekHype', false);
+};
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Your code here
+});

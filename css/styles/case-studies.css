@@ -96,7 +96,7 @@
 .challenge{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
+    gap: 24px;
     padding: var(--p-24);
     border-radius: var(--r-16);
     border: 1px solid var(--border-neutral-default);
@@ -273,6 +273,11 @@ overflow: hidden;
     border-radius: var(--r-16) var(--r-16) 0 0;
     border-bottom: 1px solid var(--border-neutral-default);
 }
-.case-images{
+.fact-images{
     grid-column: span 3;
+}
+
+.showcase{
+    margin: 80px 0;
+    height: 100dvh;
 }

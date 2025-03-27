@@ -39,6 +39,7 @@
     > .company{
         padding: 0;
         margin: 0;
+        border-bottom: 0;
     }
 
 }
@@ -93,23 +94,51 @@
     flex-direction: column;
     gap: 80px;
 }
-.challenge{
+
+.biz-statement{
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    padding: var(--p-24);
-    border-radius: var(--r-16);
+    grid-template-columns: repeat(2, 1fr);
     border: 1px solid var(--border-neutral-default);
+    border-radius: 16px;
+}
+
+.challenge{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
     background-color: var(--grey-G50);
+    border-radius: 16px 0 0 16px;
+    grid-column: span 1;
+
 }
 
 .challenge-info{
     display: flex;
     gap: 16px;
     flex-direction: column;
-    border-right: 1px solid var(--border-neutral-default);
-    padding-right: var(--p-16);
+    padding: 0 24px;
 }
+
+
+.solution{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    background-color: var(--bg-surface-main);
+    border-radius: 0 16px 16px 0;
+    grid-column: span 1;
+
+
+}
+
+.solution-info{
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+    padding-right: var(--p-16);
+    padding: 0 24px;
+}
+
 
 .challenge-info:last-child{
     border:none;

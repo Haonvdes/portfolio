@@ -109,6 +109,7 @@
     background-color: var(--grey-G50);
     border-radius: 16px 0 0 16px;
     grid-column: span 1;
+    padding: 24px 0;
 
 }
 
@@ -127,6 +128,8 @@
     background-color: var(--bg-surface-main);
     border-radius: 0 16px 16px 0;
     grid-column: span 1;
+    padding: 24px 0;
+
 
 
 }
@@ -139,12 +142,6 @@
     padding: 0 24px;
 }
 
-
-.challenge-info:last-child{
-    border:none;
-    padding-right: 0;
-
-}
 
 
 .eco-system{

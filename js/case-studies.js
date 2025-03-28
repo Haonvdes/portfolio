@@ -184,45 +184,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const contentMap = {
     SeekHype: {
-        img: "/public/sh_case.png",
+        img: "/public/sh_case.webp",
         main: ["NFT Marketplace", "Decentralized Exchange", "Staking and Governance", "DAO and Community"],
         audience: ["Crypto Investors", "Developers", "Traders"],
-        format: ["Web App", "Mobile App"],
-        scope: ["Research", "Development", "Marketing"]
+        format: ["Web App", "Mobile Web App"],
+        scope: ["Discovery", "User Experience", "Development", "Marketing"],
+
     },
     Scan: {
         img: "/scan_case.png",
         main: ["Security Audit", "Transaction Verification", "Smart Contract Analysis"],
         audience: ["Blockchain Developers", "Security Analysts"],
-        format: ["Web Tool", "API Integration"],
-        scope: ["Security Testing", "Compliance", "Risk Assessment"]
+        format:  ["Web App", "Mobile Web App"],
+        scope: ["User Interface", "User Experience", "Optimization"]
     },
     Swap: {
         img: "/swap_case.png",
-        main: ["Token Swapping", "Liquidity Pools", "Yield Farming"],
-        audience: ["DeFi Users", "Liquidity Providers"],
-        format: ["Web App", "Decentralized Platform"],
-        scope: ["Liquidity Management", "Financial Modeling", "User Experience"]
+        main: ["Token Swapping", "LiqUser Interfacedity Pools", "Yield Farming"],
+        audience: ["DeFi Users", "LiqUser Interfacedity Providers"],
+        format:  ["Web App", "Mobile Web App"],
+        scope: ["Branding", "Discovery", "User Experience", "Development", "Marketing"]
     },
     Safe: {
         img: "/safe_case.png",
         main: ["Digital Wallet", "Multi-Signature Support", "Secure Storage"],
         audience: ["Crypto Holders", "Institutional Investors"],
-        format: ["Mobile App", "Hardware Integration"],
-        scope: ["Security Enhancement", "User Privacy", "Cross-Platform Development"]
+        format:  ["Web App", "Mobile Web App"],
+        scope: ["User Interface", "User Experience", "Optimization"]
     },
     dev: {
         img: "/safe_case.png",
         main: ["Digital Wallet", "Multi-Signature Support", "Secure Storage"],
         audience: ["Crypto Holders", "Institutional Investors"],
-        format: ["Mobile App", "Hardware Integration"],
+        format:  ["Web App", "Mobile Web App"],
         scope: ["Security Enhancement", "User Privacy", "Cross-Platform Development"]
     },
     Index: {
         img: "/index_case.png",
         main: ["Crypto Index Funds", "Automated Portfolio", "Market Analysis"],
         audience: ["Passive Investors", "Portfolio Managers"],
-        format: ["Web Dashboard", "API"],
+        format:  ["Web App", "Mobile Web App"],
         scope: ["Financial Research", "Automated Trading", "Performance Tracking"]
     }
 };
@@ -236,6 +237,7 @@ function loadContent(key, shouldScroll = false) {
     updateList("fact-audience", data.audience);
     updateList("fact-format", data.format);
     updateList("fact-scope", data.scope);
+
 
     // Update active button class
     updateActiveButton(key);

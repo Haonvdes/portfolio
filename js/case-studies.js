@@ -189,42 +189,53 @@ const contentMap = {
         audience: ["Crypto Investors", "Developers", "Traders"],
         format: ["Web App", "Mobile Web App"],
         scope: ["Discovery", "User Experience", "Development", "Marketing"],
+        link: "https://beta.seekhype.io/"
 
     },
     Scan: {
-        img: "/scan_case.png",
+        img: "/public/sh_case.webp",
         main: ["Security Audit", "Transaction Verification", "Smart Contract Analysis"],
         audience: ["Blockchain Developers", "Security Analysts"],
         format:  ["Web App", "Mobile Web App"],
-        scope: ["User Interface", "User Experience", "Optimization"]
+        scope: ["User Interface", "User Experience", "Optimization"],
+        link: "https://aurascan.io/"
+
     },
     Swap: {
-        img: "/swap_case.png",
+        img: "/public/sw_case.png",
         main: ["Token Swapping", "LiqUser Interfacedity Pools", "Yield Farming"],
         audience: ["DeFi Users", "LiqUser Interfacedity Providers"],
         format:  ["Web App", "Mobile Web App"],
-        scope: ["Branding", "Discovery", "User Experience", "Development", "Marketing"]
+        scope: ["Branding", "Discovery", "User Experience", "Development", "Marketing"],
+        link: "https://auraswap.io/"
+
     },
     Safe: {
-        img: "/safe_case.png",
+        img: "/public/sh_case.webp",
         main: ["Digital Wallet", "Multi-Signature Support", "Secure Storage"],
         audience: ["Crypto Holders", "Institutional Investors"],
         format:  ["Web App", "Mobile Web App"],
-        scope: ["User Interface", "User Experience", "Optimization"]
+        scope: ["User Interface", "User Experience", "Optimization"],
+        link: "https://pyxis.aura.network/"
+
     },
     dev: {
-        img: "/safe_case.png",
+        img: "/public/sh_case.webp",
         main: ["Digital Wallet", "Multi-Signature Support", "Secure Storage"],
         audience: ["Crypto Holders", "Institutional Investors"],
         format:  ["Web App", "Mobile Web App"],
-        scope: ["Security Enhancement", "User Privacy", "Cross-Platform Development"]
+        scope: ["Security Enhancement", "User Privacy", "Cross-Platform Development"],
+        link: "https://horoscope.aura.network/"
+
     },
     Index: {
-        img: "/index_case.png",
+        img: "/public/sh_case.webp",
         main: ["Crypto Index Funds", "Automated Portfolio", "Market Analysis"],
         audience: ["Passive Investors", "Portfolio Managers"],
         format:  ["Web App", "Mobile Web App"],
-        scope: ["Financial Research", "Automated Trading", "Performance Tracking"]
+        scope: ["Financial Research", "Automated Trading", "Performance Tracking"],
+        link: "https://horoscope.aura.network/"
+
     }
 };
 
@@ -241,6 +252,11 @@ function loadContent(key, shouldScroll = false) {
 
     // Update active button class
     updateActiveButton(key);
+
+    // Update call-to-action button link dynamically
+    const ctaButton = document.getElementById("ctaButton");
+    ctaButton.href = data.link;
+
 
 }
 

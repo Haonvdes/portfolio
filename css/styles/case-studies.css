@@ -83,6 +83,26 @@
     padding-top: 16px;
 }
 
+
+.roadmap{
+    display: flex;
+    flex-direction: row;
+    border-radius: var(--r-16);
+    border: 1px solid var(--border-neutral-default);
+    background-color: var(--grey-G50);
+}
+
+.roadmap-info{
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+    padding: 24px;
+    border-right: 1px solid var(--border-neutral-default);
+}
+.roadmap-info:last-child{
+    border: none;
+}
+
 .industry-challenges{
     display: flex;
     flex-direction: column;

@@ -3,7 +3,7 @@
     <head lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <link rel="icon" type="image/x-icon" href="./public/favicon.png">
+        <link rel="icon" type="image/x-icon" href="../public/favicon.png">
         <title>Stephano Ng | Practical AI, Product Design and Professional Project Management</title>
         <link rel="stylesheet" href="../css/styles/style.css">
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
@@ -24,16 +24,19 @@
         <!-- End Google Tag Manager -->
         <meta property="og:title" content="Stephano Ng | Practical AI, UXD and PMP">
         <meta property="og:description" content="Stephano specialize in bridging the gap between business strategy and user-centered solutions that drive measurable results.">
-        <meta property="og:image" content="https://haonvdes.github.io/portfolio/public/assets/og-img.png">
-        <meta property="og:url" content="https://haonvdes.github.io/portfolio/">
+        <meta property="og:image" content="../public/assets/og-img.png">
+        <meta property="og:url" content="www.stpnguyen.com">
         <meta property="og:type" content="website">
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script> 
     </head>
 <body>
-    <header class="header"  style="height: 40vh">
+        <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <header class="header"  style="height: 40vh; border-bottom: 2px solid #C8DDEB;">
         <div class="container" id="nav-placeholder"></div>
         <div class="container first-section"; style="height: 60vh; min-height: 460px;">
         <div class="experience">
@@ -45,7 +48,7 @@
     </header>
     <section class="biz-information container" >
         <div class="case-cover" data-aos="fade-up">
-            <img src="../public/ar_casecover.webp" alt="">
+            <img src="../public/ar_casecover.jpeg" alt="">
 
       <div class="case-overview" data-aos="fade-up">
         <h1>Overview</h1>
@@ -99,7 +102,7 @@
                    </div>
                    <div style="display: flex; flex-direction: column; gap: 16px;">
                     <p class="sub-heading">Moving forward with Roadmap</p>
-                    <div class="roadmap" style="background-color: var(--bg-surface-main);">
+                    <div class="roadmap">
                         <div class="roadmap-info">
                             <p class="md-bold" style="color: var(--grey-G400); text-transform: uppercase;">✅    Past Milestones</p>
                             <ul class="md-regular">
@@ -356,61 +359,63 @@
 
 <section class="showcase">
     <div class="container" style="display: flex; gap: 40px; flex-direction: column;">
-    <div class="navigate" style="display: flex; gap: 16px; flex-direction: column;" data-aos="fade-up">
-        <h1 class="h1" style="text-align: left;">
+        <div class="container navigate" data-aos="fade-up">
+            <h1 class="h1" style="text-align: left;">
+                <span style="color: var(--grey-G400);">Our Effort  🎉</span><br>
+                Come to an artifacts
+            </h1>
+            <div class="button-group" style="display: flex; gap: 16px;">
+                <button class="btn-secondary" onclick="loadContent('SeekHype')">SeekHype</button>
+                <button class="btn-secondary" onclick="loadContent('Swap')">Swap</button>
+                <button class="btn-secondary" onclick="loadContent('Safe')">Safe</button>
+                <button class="btn-secondary" onclick="loadContent('Scan')">Scan</button>
+                <button class="btn-secondary" onclick="loadContent('Bot')">AuraBot</button>
+                <button class="btn-secondary" onclick="loadContent('Index')">Index</button>
 
-            <span style="color: var(--grey-G400);">Our Effort  🎉</span><br>
-            Come to an artifacts
-        </h1>
-        <div class="button-group" style="display: flex; gap: 16px;">
-            <button class="btn-secondary" onclick="loadContent('SeekHype')">SeekHype</button>
-            <button class="btn-secondary" onclick="loadContent('Swap')">Swap</button>
-            <button class="btn-secondary" onclick="loadContent('Safe')">Safe</button>
-            <button class="btn-secondary" onclick="loadContent('Index')">Index</button>
-            <button class="btn-secondary" onclick="loadContent('Scan')">Scan</button>
-            <button class="btn-secondary" onclick="loadContent('dev')">dev</button>
+
+            </div>
+            <p class="md-medium case-desc" id="casedescription"></p>
 
         </div>
-
-    </div>
         <div class="show-case-detail" id="showCaseDetail" data-aos="fade-up">
-            <div class="fact-card animate__animated animate__fadeIn"">
-                <div class="fact-title">
-                    <p class="sub-heading">Fact Card</p>
+
+                <div class="fact-card animate__animated animate__fadeIn">
+                    <div class="fact-title">
+                        <p class="sub-heading">Fact Card</p>
+                    </div>
+                    <div class="fact-content">
+                        <div class="main-feature">
+                            <p class="lg-bold" style="font-weight: 700;">Main Feature</p>
+                            <ul id="fact-main"></ul>
+                        </div>
+                        <div class="audience">
+                            <p class="lg-bold" style="font-weight: 700;">Audience</p>
+                            <ul id="fact-audience"></ul>
+                        </div>
+                        <div class="format">
+                            <p class="lg-bold" style="font-weight: 700;">Format</p>
+                            <ul id="fact-format"></ul>
+                        </div>
+                        <div class="scope">
+                            <p class="lg-bold" style="font-weight: 700;">Scope</p>
+                            <ul id="fact-scope"></ul>
+                        </div>
+                    </div>
+                    <div class="call-to-action" style="padding: 16px;">
+                        <a id="ctaButton" href="https://beta.seekhype.io/" target="_blank">
+                            <button class="btn-ghosh" style="width: fit-content;">
+                                Experience Now 
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    <path d="m22.707 11.293-7-7a1 1 0 0 0-1.414 1.414L19.586 11H2a1 1 0 0 0 0 2h17.586l-5.293 5.293a1 1 0 1 0 1.414 1.414l7-7a1 1 0 0 0 0-1.414z"></path>
+                                </svg>
+                            </button>
+                        </a>
+                    </div>
                 </div>
-                <div class="fact-content">
-                    <div class="main-feature">
-                        <p class="lg-bold" style="font-weight: 700;">Main Feature</p>
-                        <ul id="fact-main"></ul>
-                    </div>
-                    <div class="audience">
-                        <p class="lg-bold" style="font-weight: 700;">Audience</p>
-                        <ul id="fact-audience"></ul>
-                    </div>
-                    <div class="format">
-                        <p class="lg-bold" style="font-weight: 700;">Format</p>
-                        <ul id="fact-format"></ul>
-                    </div>
-                    <div class="scope">
-                        <p class="lg-bold" style="font-weight: 700;">Scope</p>
-                        <ul id="fact-scope"></ul>
-                    </div>
-                </div>
-                <div class="call-to-action" style="padding: 16px;">
-                    <a id="ctaButton" href="https://beta.seekhype.io/" target="_blank">
-                        <button class="btn-ghosh" style="width: fit-content;">
-                            Experience Now 
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                                <path d="m22.707 11.293-7-7a1 1 0 0 0-1.414 1.414L19.586 11H2a1 1 0 0 0 0 2h17.586l-5.293 5.293a1 1 0 1 0 1.414 1.414l7-7a1 1 0 0 0 0-1.414z"></path>
-                            </svg>
-                        </button>
-                    </a>
+                <div class="fact-images animate__animated animate__fadeIn">
+                    <img class="case-cover" id="displayImage" src="" alt="Showcase">
                 </div>
             </div>
-            <div class="fact-images animate__animated animate__fadeIn"">
-                <img class="case-cover" id="displayImage" src="" alt="Showcase">
-            </div>
-        </div>
     </div>
 </section>
 

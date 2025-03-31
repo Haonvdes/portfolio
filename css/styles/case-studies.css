@@ -338,7 +338,12 @@ overflow: hidden;
     margin: 80px 0;
     height: 100dvh;
 }
+.value-statement{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 
+}
 
 
 @media (max-width: 430px) {
@@ -351,7 +356,8 @@ overflow: hidden;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        gap: var(--m-16);
+        gap: var(--m-24);
+        justify-content: flex-start;
         padding: var(--p-16);
         border-radius: var(--r-16);
         border: 1px solid var(--border-neutral-default);
@@ -427,4 +433,14 @@ overflow: hidden;
 }
 .showcase{
     height: 100%;
+}
+.challenge {
+    border-radius: 16px 16px 0 0;
+}
+.solution {
+    border-radius: 0 0 16px 16px;
+}
+
+
+
 }

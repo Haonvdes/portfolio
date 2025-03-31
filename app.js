@@ -331,7 +331,7 @@ app.post('/api/verify', async (req, res) => {
 });
 
 // Protected case study route
-app.get('/case-study/:id', authenticateToken, (req, res) => {
+app.get('/case-study/:case', authenticateToken, (req, res) => {
   try {
       res.sendFile(path.join(__dirname, 'public', 'case-study.html'));
   } catch (error) {
@@ -339,6 +339,7 @@ app.get('/case-study/:id', authenticateToken, (req, res) => {
       res.redirect('/?error=server_error');
   }
 });
+
 
 // Ensure all required environment variables are set
 const requiredEnvVars = ['USER_1_PASSWORD', 'USER_1_EXPIRY', 'USER_2_PASSWORD', 'USER_2_EXPIRY', 'JWT_SECRET'];

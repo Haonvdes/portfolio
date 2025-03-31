@@ -33,6 +33,7 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
     const formData = new FormData();
     formData.append("userEmail", userEmail);
     formData.append("jobDescription", jobDescription);
+    formData.append("jobFile", file); 
     if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
         
@@ -70,12 +71,6 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
             fileInput.value = '';
             return;
         }
-
-        // Chuyển file thành base64
-        const base64File = await convertFileToBase64(file);
-        formData.append("jobFile", base64File);
-        formData.append("fileName", file.name);
-        formData.append("fileType", file.type);
     }
 
     try {
@@ -546,17 +541,4 @@ function showError(errorElement, message) {
 // Helper function to hide error
 function hideError(errorElement) {
     errorElement.style.display = "none";
-}
-
-// Thêm hàm helper để chuyển file thành base64
-async function convertFileToBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-            const base64String = reader.result.split(',')[1];
-            resolve(base64String);
-        };
-        reader.onerror = (error) => reject(error);
-    });
 }

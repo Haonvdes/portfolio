@@ -434,6 +434,30 @@
 <footer class="container-fluid" id="footer-placeholder" data-aos="fade-up"></footer>
 <script src="../js/script.js"></script>
 <script src="../js/case-studies.js"></script>
+<script>
+    // Function to check if a valid token exists in sessionStorage
+    function hasValidToken() {
+        const token = sessionStorage.getItem("caseStudyToken");
+        if (!token) return false;
+
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const payload = JSON.parse(window.atob(base64));
+
+            return payload?.exp && payload.exp * 1000 > Date.now();
+        } catch (error) {
+            console.error("Invalid token:", error);
+            return false;
+        }
+    }
+
+    // Redirect if token is missing or invalid
+    if (!hasValidToken()) {
+        alert("Unauthorized! Redirecting to homepage...");
+        window.location.href = "/";
+    }
+</script>
 
 
 

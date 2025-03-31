@@ -71,6 +71,12 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
             fileInput.value = '';
             return;
         }
+
+        // Chuyển file thành base64
+        formData.append("jobFile", file);
+        formData.append("fileName", file.name);
+        formData.append("fileType", file.type);
+    }
     }
 
     try {

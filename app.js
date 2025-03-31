@@ -279,23 +279,43 @@ app.get('/', (req, res) => {
   res.send('Welcome to the server!');
 });
 
-// Middleware to validate JWT token
+// Middleware to enforce authentication
 const authenticateToken = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1] || req.query.token || req.cookies?.token;
 
   if (!token) {
-      return res.redirect('/?error=unauthorized');
+    return res.status(401).json({ error: 'Unauthorized access. Please verify your password.' });
   }
 
   try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded;
-      next();
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
   } catch (error) {
-      console.error("Token verification failed:", error);
-      return res.redirect('/?error=invalid_token');
+    console.error("Token verification failed:", error);
+    return res.status(403).json({ error: 'Invalid or expired token. Please verify again.' });
   }
 };
+
+// Remove direct access to case study files
+app.use('/case-studies', authenticateToken, express.static(path.join(__dirname, 'protected/case-studies')));
+
+// Serve case study dynamically based on query parameter
+app.get('/case-study', authenticateToken, (req, res) => {
+  const caseStudyName = req.query.name; // Get case study name from query parameter
+
+  if (!caseStudyName) {
+    return res.status(400).json({ error: 'Case study name is required.' });
+  }
+
+  const caseStudyPath = path.join(__dirname, 'protected/case-studies', `${caseStudyName}.html`);
+
+  if (fs.existsSync(caseStudyPath)) {
+    res.sendFile(caseStudyPath);
+  } else {
+    res.status(404).json({ error: 'Case study not found.' });
+  }
+});
 
 // Password verification endpoint
 app.post('/api/verify', async (req, res) => {
@@ -327,16 +347,6 @@ app.post('/api/verify', async (req, res) => {
   } catch (error) {
       console.error('Verification error:', error);
       res.status(500).json({ success: false, message: 'Authentication failed. Please try again later.' });
-  }
-});
-
-// Protected case study route
-app.get('/case-study/:id', authenticateToken, (req, res) => {
-  try {
-      res.sendFile(path.join(__dirname, 'public', 'case-study.html'));
-  } catch (error) {
-      console.error('Error serving case study:', error);
-      res.redirect('/?error=server_error');
   }
 });
 

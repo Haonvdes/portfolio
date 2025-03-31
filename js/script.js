@@ -177,36 +177,52 @@ function openHastag(evt, tagName) {
               modal.style.display = 'none';
           }
       });
+
+      // Function to load the case study content
+      const loadCaseStudy = (caseStudyName) => {
+          const token = sessionStorage.getItem('caseStudyToken');
+      
+          if (!token) {
+              console.error("Error: Missing authentication token.");
+              return;
+          }
+      
+          fetch(`/case-study?name=${encodeURIComponent(caseStudyName)}`, {
+              headers: { Authorization: `Bearer ${token}` }
+          })
+              .then(response => {
+                  if (response.ok) {
+                      window.location.href = `/case-study?name=${encodeURIComponent(caseStudyName)}`;
+                  } else {
+                      console.error("Error loading case study:", response.statusText);
+                      alert("Unauthorized access. Please verify your password.");
+                  }
+              })
+              .catch(error => console.error("Error fetching case study:", error));
+      };
   
-// Function to load the case study content
-const loadCaseStudy = (caseStudyName) => {
-    const formattedName = caseStudyName.toLowerCase().replace(/\s+/g, '-');
-    window.location.href = `case-studies/${formattedName}.html`;
-};
-
-// Event listener for case study buttons
-document.querySelectorAll('[data-case-study]').forEach(button => {
-    button.addEventListener('click', (e) => {
-        const caseStudyName = e.currentTarget.dataset.caseStudy;
-
-        if (!caseStudyName) {
-            console.error("Error: Button missing data-case-study attribute");
-            return;
-        }
-
-        console.log("Button Clicked: caseStudyName =", caseStudyName);
-
-        if (hasValidToken()) {
-            loadCaseStudy(caseStudyName);
-        } else {
-            modal.style.display = 'block';
-            passwordInput.value = '';
-            modalError.style.display = 'none';
-            modal.dataset.pendingCaseStudy = caseStudyName;
-        }
-    });
-});
-
+      // Event listener for case study buttons
+      document.querySelectorAll('[data-case-study]').forEach(button => {
+          button.addEventListener('click', (e) => {
+              const caseStudyName = e.currentTarget.dataset.caseStudy;
+  
+              if (!caseStudyName) {
+                  console.error("Error: Button missing data-case-study attribute");
+                  return;
+              }
+  
+              console.log("Button Clicked: caseStudyName =", caseStudyName);
+  
+              if (hasValidToken()) {
+                  loadCaseStudy(caseStudyName);
+              } else {
+                  modal.style.display = 'block';
+                  passwordInput.value = '';
+                  modalError.style.display = 'none';
+                  modal.dataset.pendingCaseStudy = caseStudyName;
+              }
+          });
+      });
   
       // Handle password submission
       submitBtn.addEventListener('click', async () => {

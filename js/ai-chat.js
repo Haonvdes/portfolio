@@ -33,7 +33,7 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
     const formData = new FormData();
     formData.append("userEmail", userEmail);
     formData.append("jobDescription", jobDescription);
-    formData.append("jobFile", file); 
+
     if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
         
@@ -71,12 +71,10 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
             fileInput.value = '';
             return;
         }
-
-        // Chuyển file thành base64
+        // Append file data to FormData
         formData.append("jobFile", file);
         formData.append("fileName", file.name);
         formData.append("fileType", file.type);
-    }
     }
 
     try {
@@ -142,7 +140,6 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
         displayError(error.message);
     }
 });
-
 
 // Toggle chat container visibility
 document.getElementById("chatBubble").addEventListener("click", function() {

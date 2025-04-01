@@ -360,15 +360,25 @@ const jobResults = {};  // Store job analysis results temporarily
 
 app.post("/api/analyze", upload.single("jobFile"), async (req, res) => {
   try {
-    const { jobDescription, userEmail } = req.body;
+    const { jobDescription = "", userEmail } = req.body; // Default jobDescription to an empty string
     const fileInput = req.file ? req.file.buffer.toString("base64") : null;
 
+    if (!userEmail) {
+      return res.status(400).json({ error: "User email is required" });
+    }
+
+    if (!jobDescription && !fileInput) {
+      return res.status(400).json({ error: "Either job description or job file must be provided" });
+    }
+
     const makeResponse = await axios.post(MAKE_WEBHOOK_URL, {
-      jobDescription, userEmail, fileInput
+      jobDescription,
+      userEmail,
+      fileInput
     });
 
     // Store the result under user's email
-    jobResults[userEmail] = makeResponse.data;  
+    jobResults[userEmail] = makeResponse.data;
 
     res.json({ message: "Processing started. Check back soon." });
   } catch (error) {

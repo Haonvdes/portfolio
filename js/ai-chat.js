@@ -32,7 +32,9 @@ document.getElementById("jobForm").addEventListener("submit", async function (ev
 
     const formData = new FormData();
     formData.append("userEmail", userEmail);
-    formData.append("jobDescription", jobDescription);
+    if (jobDescription) {
+        formData.append("jobDescription", jobDescription); // Only append if jobDescription is not empty
+    }
 
     if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
@@ -509,6 +511,7 @@ function validateForm() {
     const requirementError = document.getElementById("requirementError") || 
                            createErrorElement("requirementError", jobDescription);
     
+    // Allow submission if either job description or file is provided
     if (!jobDescription.value.trim() && fileInput.files.length === 0) {
         showError(requirementError, "Please provide either a job description or upload a file");
         jobDescription.classList.add("error");

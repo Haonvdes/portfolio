@@ -336,7 +336,6 @@ overflow: hidden;
 
 .showcase{
     margin: 80px 0;
-    height: 100dvh;
 }
 .value-statement{
     display: flex;
@@ -344,6 +343,136 @@ overflow: hidden;
     gap: 16px;
 
 }
+
+
+.cs-introduce{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+
+        /* Feature Section Component styles */
+        .cs-feature-section {
+            margin-bottom: 60px;
+        }
+
+        .cs-container {
+            display: flex;
+            width: 100%;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .cs-left-side {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cs-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: #333;
+        }
+
+        .cs-description {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+.cs-feature-wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+        .cs-feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            border-radius: 8px;
+            border: 1px solid var(--border-neutral-default);
+}
+        .cs-feature-list {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+                border-radius: 8px;
+                border: 1px solid var(--border-neutral-default);
+        }
+
+        .cs-feature-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid var(--border-neutral-default);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .cs-feature-item:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+        .cs-feature-item:last-child {
+            border-radius: 0 0 8px 8px;
+        }
+
+        .cs-feature-item:hover, .cs-feature-item.cs-active {
+            background-color: #f0f7ff;
+            border-bottom: 1px solid #3498db;
+        }
+
+        .cs-feature-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 16px;
+        }
+
+        .cs-right-side {
+            flex: 1;
+            padding: 40px 0 0 40px;
+            background-color: #FAFBFC;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+            border-radius: 16px 0 0 0;
+        }
+
+        .cs-image-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .cs-feature-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .cs-feature-image.cs-active {
+            opacity: 1;
+        }
+
+
+
+
+
+
+
 
 
 @media (max-width: 430px) {

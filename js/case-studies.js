@@ -336,31 +336,31 @@ const featureSections = [
         subtext: "Main tools", // Add subtext here
         features: [
             {
-                icon: "/public/ar_tools_figma.svg", // Use image path
+                icon: "/public/ar_tool_figma.svg", // Use image path
                 text: "Figma",
-                image: "/public/ar_team.png",
+                image: "/public/ar_tool_figma.png",
                 alt: "Figma"
             },
             {
-                icon: "/public/ar_tools_jira.svg", // Replace inline SVG with image path
+                icon: "/public/ar_tool_jira.svg", // Replace inline SVG with image path
                 text: "Jira",
-                image: "/public/ar_automation.png",
+                image: "/public/ar_tool_jira.png",
                 alt: "Jira"
             },
             {
-                icon: "/public/ar_tools_discord.svg", // Replace inline SVG with image path
+                icon: "/public/ar_tool_discord.svg", // Replace inline SVG with image path
                 text: "Discord",
-                image: "/public/ar_process_jira.png",
+                image: "/public/ar_tool_discord.png",
                 alt: "Discord"
             },
             {
-                icon: "/public/ar_tools_teams.svg", // Replace inline SVG with image path
+                icon: "/public/ar_tool_teams.svg", // Replace inline SVG with image path
                 text: "Microsoft Teams",
                 image: "/public/ar_process_jira.png",
                 alt: "Microsoft Teams"
             },
             {
-                icon: "/public/ar_tools_github.svg", // Replace inline SVG with image path
+                icon: "/public/ar_tool_github.svg", // Replace inline SVG with image path
                 text: "Github",
                 image: "/public/ar_team.png",
                 alt: "Github"

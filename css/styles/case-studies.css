@@ -455,7 +455,7 @@ overflow: hidden;
         .cs-feature-image {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
             opacity: 0;
             position: absolute;
             top: 0;
@@ -469,7 +469,17 @@ overflow: hidden;
 
 
 
-
+/* General section styles */
+#card-section {
+    position: relative;
+    height: 100vh; /* Take up the full viewport height */
+    overflow: hidden; /* Prevent any content from overflowing outside */
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
 
 
 

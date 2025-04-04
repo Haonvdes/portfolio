@@ -330,9 +330,9 @@ window.onload = function () {
 
 const featureSections = [
     {
-        id: "tools",
+        id: "tool",
         title: "Tools",
-        description: "A high-performing team is built on collaboration, transparency, and accountability. We embraced Scrum values to create a culture of continuous improvement and trust",
+        description: "Leverage the right set of tools to enhance collaboration, streamline project management, and ensure seamless communication. By integrating industry-leading platforms, teams can work more efficiently and stay aligned.",
         subtext: "Main tools", // Add subtext here
         features: [
             {
@@ -368,95 +368,34 @@ const featureSections = [
         ]
     },
     {
-        id: "feature-section-2",
-        title: "Cloud Solutions",
-        description: "Powerful cloud infrastructure for modern businesses and enterprises.",
+        id: "process",
+        title: "Process",
+        description: "A well-structured process is key to delivering high-quality outcomes. By following agile methodologies, teams can adapt quickly, improve collaboration, and continuously refine their workflows.",
+        ssubtext: "Customize Process", // Add subtext here
         features: [
             {
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>',
-                text: "Cloud Storage",
+                text: "Discovery & Research - Understand user needs and project requirements.",
                 image: "/api/placeholder/500/400",
-                alt: "Cloud Storage"
+                alt: "Discovery & Research"
             },
             {
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>',
-                text: "Server Solutions",
+                text: "Design Thinking - Craft user-centric solutions through iterative design.",
                 image: "/api/placeholder/500/400",
-                alt: "Server Solutions"
+                alt: "Design Thinking"
             },
             {
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>',
-                text: "Security Measures",
+                text: "Planning and Implementation - Strategize execution and bring ideas to life.",
                 image: "/api/placeholder/500/400",
-                alt: "Security Measures"
+                alt: "Planning and Implementation"
             },
             {
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>',
-                text: "Management Console",
+                text: "Design System Review - Ensure consistency and scalability in UI/UX.",
                 image: "/api/placeholder/500/400",
-                alt: "Management Console"
-            }
-        ]
-    },
-    {
-        id: "feature-section-3",
-        title: "Developer Tools",
-        description: "Supercharge your development workflow with our professional-grade tools.",
-        features: [
-            {
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>',
-                text: "Code Editor",
-                image: "/api/placeholder/500/400",
-                alt: "Code Editor"
-            },
-            {
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"></line><circle cx="18" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M18 9a9 9 0 0 1-9 9"></path></svg>',
-                text: "Version Control",
-                image: "/api/placeholder/500/400",
-                alt: "Version Control"
-            },
-            {
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>',
-                text: "Debugging Tools",
-                image: "/api/placeholder/500/400",
-                alt: "Debugging Tools"
-            },
-            {
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>',
-                text: "CLI Tools",
-                image: "/api/placeholder/500/400",
-                alt: "CLI Tools"
-            }
-        ]
-    },
-    {
-        id: "feature-section-4",
-        title: "AI Solutions",
-        description: "Harness the power of artificial intelligence for your business needs.",
-        features: [
-            {
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>',
-                text: "Machine Learning",
-                image: "/api/placeholder/500/400",
-                alt: "Machine Learning"
-            },
-            {
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>',
-                text: "Document Analysis",
-                image: "/api/placeholder/500/400",
-                alt: "Document Analysis"
-            },
-            {
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>',
-                text: "Image Recognition",
-                image: "/api/placeholder/500/400",
-                alt: "Image Recognition"
-            },
-            {
-                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>',
-                text: "Natural Language Processing",
-                image: "/api/placeholder/500/400",
-                alt: "Natural Language Processing"
+                alt: "Design System Review"
             }
         ]
     }

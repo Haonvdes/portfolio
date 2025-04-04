@@ -178,6 +178,8 @@
 
 .work-information{
     margin: 40px 0px;
+    border-bottom: 1px solid #C8DDEB;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.61) -14.02%, #F9FAFB 10.91%);
 }
 /* //this is for overlap// */
 
@@ -354,18 +356,15 @@ overflow: hidden;
 
 
         /* Feature Section Component styles */
-        .cs-feature-section {
-            margin-bottom: 60px;
-        }
+
 
         .cs-container {
-            display: flex;
+            display: grid;
             width: 100%;
             background-color: white;
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            margin: 0 auto;
+            grid-template-columns: repeat(2, 1fr);
         }
 
         .cs-left-side {
@@ -443,7 +442,8 @@ overflow: hidden;
             justify-content: center;
             align-items: center;
             margin-top: 40px;
-            border-radius: 16px 0 0 0;
+            border-radius: 16px 0 16px 0;
+            overflow: hidden;
         }
 
         .cs-image-container {
@@ -472,7 +472,7 @@ overflow: hidden;
 /* General section styles */
 #card-section {
     position: relative;
-    height: 100vh; /* Take up the full viewport height */
+    /* height: 100vh; Take up the full viewport height */
     overflow: hidden; /* Prevent any content from overflowing outside */
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
@@ -481,8 +481,24 @@ overflow: hidden;
     gap: 40px;
   }
 
+.cs-team{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 32px;
 
+}
+.cs-team-item{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 
+    > div > img {
+        width: 32px;
+        height: 32px;
+        object-fit: cover;
+        border-radius: 16px;
+    }
+}
 
 
 @media (max-width: 430px) {

@@ -278,16 +278,16 @@ overflow: hidden;
     flex-direction: row;
     gap: var(--m-24);
     padding: var(--p-24);
-    border-radius: var(--r-16);
-    border: 1px solid var(--border-neutral-default);
-    background-color: var(--grey-G50);
     justify-content: space-between;
+    grid-column: span 2;
+    border-bottom: 1px solid var(--border-neutral-default);
 
 }
 .approach-info{
     display: flex;
     flex-direction: column;
     gap: 16px;
+    border-right: 1px solid var(--border-neutral-default);
 
     > img {
         width: 32px;

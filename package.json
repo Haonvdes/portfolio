@@ -18,5 +18,8 @@
   },
   "scripts": {
     "start": "node app.js"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3"
   }
 }

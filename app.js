@@ -360,25 +360,30 @@ const jobResults = {};  // Store job analysis results temporarily
 
 app.post("/api/analyze", upload.single("jobFile"), async (req, res) => {
   try {
-    const { jobDescription = "", userEmail } = req.body;
-    const fileInput = req.file ? req.file.buffer.toString("base64") : null;
+    const { userEmail } = req.body;
+    const file = req.file;
 
     if (!userEmail) {
       return res.status(400).json({ error: "User email is required" });
     }
 
-    if (!jobDescription && !fileInput) {
+    if (!file) {
       return res.status(400).json({ error: "Either job description or job file must be provided" });
     }
 
-    // Tạo payload với file hoặc JD
-    const payload = {
-      userEmail,
-      jobDescription: jobDescription || "", // Đảm bảo luôn có jobDescription
-      fileInput: fileInput || null
-    };
+    // Tạo FormData để gửi file
+    const formData = new FormData();
+    formData.append('userEmail', userEmail);
+    formData.append('jobFile', file.buffer, {
+      filename: file.originalname,
+      contentType: file.mimetype
+    });
 
-    const makeResponse = await axios.post(MAKE_WEBHOOK_URL, payload);
+    const makeResponse = await axios.post(MAKE_WEBHOOK_URL, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
 
     // Store the result under user's email
     jobResults[userEmail] = makeResponse.data;

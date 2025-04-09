@@ -420,8 +420,8 @@ const jobResults = {}; // Store job analysis results temporarily
 
 app.post('/api/analyze', upload.single('jobFile'), async (req, res) => {
   try {
-    const { jobDescription = '', userEmail } = req.body; // Default jobDescription to an empty string
-    const fileInput = req.file ? req.file.buffer : null; // Keep the file as a buffer
+    const { jobDescription = '', userEmail } = req.body;
+    const fileInput = req.file;
 
     if (!userEmail) {
       return res.status(400).json({ error: 'User email is required' });
@@ -433,18 +433,29 @@ app.post('/api/analyze', upload.single('jobFile'), async (req, res) => {
         .json({ error: 'Either job description or job file must be provided' });
     }
 
-    const makeResponse = await axios.post(MAKE_WEBHOOK_URL, {
-      jobDescription,
-      userEmail,
-      fileInput,
+    const formData = new FormData();
+    formData.append('userEmail', userEmail);
+    formData.append('jobDescription', jobDescription);
+    if (fileInput) {
+      formData.append('jobFile', fileInput.buffer, {
+        filename: fileInput.originalname,
+        contentType: fileInput.mimetype,
+      });
+    }
+
+    const makeResponse = await axios.post(MAKE_WEBHOOK_URL, formData, {
+      headers: formData.getHeaders(),
+      maxBodyLength: Infinity,
     });
 
-    // Store the result under user's email
     jobResults[userEmail] = makeResponse.data;
 
     res.json({ message: 'Processing started. Check back soon.' });
   } catch (error) {
-    console.error('Error processing request:', error);
+    console.error(
+      'Error processing request:',
+      error.response?.data || error.message
+    );
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

@@ -11,6 +11,7 @@ const nodemailer = require('nodemailer');
 const rateLimit = require('express-rate-limit');
 const { body, validationResult } = require('express-validator');
 const sanitizeHtml = require('sanitize-html');
+const FormData = require('form-data');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -436,6 +437,7 @@ app.post('/api/analyze', upload.single('jobFile'), async (req, res) => {
     const formData = new FormData();
     formData.append('userEmail', userEmail);
     formData.append('jobDescription', jobDescription);
+
     if (fileInput) {
       formData.append('jobFile', fileInput.buffer, {
         filename: fileInput.originalname,

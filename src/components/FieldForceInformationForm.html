@@ -1,0 +1,56 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <div class="relative rounded-2xl w-full max-w-md mx-auto bg-white shadow-lg overflow-hidden">
+        <!-- Logo và mô tả -->
+        <div class="px-4 pt-8 pb-4 border-b border-slate-200">
+          <div class="bg-[50%_50%] bg-cover bg-no-repeat h-[34px] w-[164px] mb-5" style="background-image:url(/public/logo.png)"></div>
+          <p class="text-slate-500 text-sm leading-5 font-normal font-sans">
+            This web site has all of the information and resources <span class="font-bold">{Client Name}</span> Sales Specialists need to schedule a Speaker Bureau Program and also includes the information a speaker will need as a member of the <span class="font-bold">{Client Name}</span> Speakers' Bureau.
+          </p>
+        </div>
+        <!-- Form -->
+        <form class="px-4 pt-4 pb-8 flex flex-col gap-8">
+          <div class="bg-white rounded-lg p-0 flex flex-col gap-5 w-full">
+            <p class="font-semibold text-sm leading-6 text-slate-950 w-full">Enter your information to sign in</p>
+            <div class="flex flex-col gap-4 w-full">
+              <!-- Username -->
+              <div class="flex flex-col gap-2 w-full">
+                <label class="font-medium text-sm leading-5 text-slate-950">Username</label>
+                <div class="relative">
+                  <input type="text" class="w-full rounded-md border border-slate-200 px-3 py-2.5 text-sm text-slate-950 font-normal font-sans focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="" />
+                </div>
+              </div>
+              <!-- Password -->
+              <div class="flex flex-col gap-2 w-full">
+                <label class="font-medium text-sm leading-5 text-slate-950">Password</label>
+                <div class="relative">
+                  <input type="password" class="w-full rounded-md border border-slate-200 px-3 py-2.5 text-sm text-slate-950 font-normal font-sans focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="" />
+                </div>
+              </div>
+              <!-- Remember Me & Forgot Password -->
+              <div class="flex flex-row gap-4 items-center justify-between w-full">
+                <label class="flex items-center gap-2 cursor-pointer select-none">
+                  <input type="checkbox" class="form-checkbox accent-teal-600 rounded border-teal-600 size-4" />
+                  <span class="font-medium text-sm text-slate-950 leading-none">Remember Me</span>
+                </label>
+                <a href="#" class="font-medium text-sm text-teal-600 leading-none whitespace-pre hover:underline">Forgot Password?</a>
+              </div>
+            </div>
+          </div>
+          <!-- Nút Sign in và Sign in with SSO -->
+          <div class="flex flex-col gap-4 w-full">
+            <button type="submit" class="h-9 w-full rounded-md bg-teal-600 text-teal-50 font-medium text-sm leading-6 opacity-50 cursor-not-allowed">Sign in</button>
+            <button type="button" class="h-9 w-full rounded-md border border-teal-600 text-teal-600 font-medium text-sm leading-6 bg-white">Sign in with SSO</button>
+          </div>
+        </form>
+      </div> 
+  </body>
+</html>
+<!-- Form đăng nhập theo thiết kế Figma node 182:5497 -->

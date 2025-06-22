@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work Experience UI</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #f3f4f6;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .frame19 {
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    .work {
+      position: relative;
+      border-radius: 8px;
+      background: none;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: row;
+      width: 952px;
+      min-height: 100px;
+    }
+    .work-right {
+      width: 464px;
+    }
+    .work-border {
+      position: absolute;
+      inset: -1px;
+      border: 1px solid #e5e7eb;
+      border-radius: 9px;
+      pointer-events: none;
+    }
+    .work-content {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      position: relative;
+    }
+    .tag-line {
+      background: #f3f4f6;
+      border-radius: 8px 0 0 8px;
+      position: relative;
+      min-width: 40px;
+      display: flex;
+      align-items: stretch;
+    }
+    .tag-line-border {
+      position: absolute;
+      inset: 0;
+      border-bottom: 1px solid #e5e7eb;
+      border-radius: 8px 0 0 8px;
+      pointer-events: none;
+    }
+    .tag-line-inner {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding: 16px 8px;
+    }
+    .tag-line-text {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      color: #4b5563;
+      text-transform: uppercase;
+      width: 308px;
+      text-align: right;
+      line-height: 1;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+    .rotate {
+      transform: rotate(-90deg);
+    }
+    .section-experience {
+      background: #fff;
+      border-radius: 0 8px 8px 0;
+      width: 915px;
+      min-height: 100px;
+      position: relative;
+      display: flex;
+      align-items: stretch;
+    }
+    .work-right .section-experience {
+      width: 427px;
+    }
+    .section-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding: 16px 16px 0 16px;
+      width: 100%;
+    }
+    .experience {
+      position: relative;
+      width: 100%;
+    }
+    .experience-border {
+      position: absolute;
+      inset: 0;
+      border-bottom: 1px solid #e5e7eb;
+      pointer-events: none;
+    }
+    .headline {
+      display: inline-grid;
+      width: 100%;
+    }
+    .company-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+    .company-name {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      color: #4b5563;
+      text-align: left;
+      line-height: 1;
+    }
+    .company-role {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      color: #4b5563;
+      align-items: flex-start;
+    }
+    .company-time {
+      white-space: pre;
+    }
+  </style>
+</head>
+<body>
+  <div class="frame19">
+    <div class="work work-left">
+      <div class="work-border"></div>
+      <div class="work-content">
+        <div class="tag-line">
+          <div class="tag-line-border"></div>
+          <div class="tag-line-inner">
+            <div class="tag-line-text rotate">
+              WORK EXPERIENCE
+            </div>
+          </div>
+        </div>
+        <div class="section-experience">
+          <div class="section-inner">
+            <div class="experience">
+              <div class="experience-border"></div>
+              <div class="headline">
+                <div class="company-info">
+                  <div class="company-name">FPT Software</div>
+                  <div class="company-role">
+                    <div>Lead Product Designers</div>
+                    <div class="company-time">Oct, 2021 - Now</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="experience">
+              <div class="experience-border"></div>
+              <div class="headline">
+                <div class="company-info">
+                  <div class="company-name">Aperia VietNam</div>
+                  <div class="company-role">
+                    <div>Sr. Product Designer</div>
+                    <div class="company-time">Oct, 2019 - May, 2021</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="experience">
+              <div class="experience-border"></div>
+              <div class="headline">
+                <div class="company-info">
+                  <div class="company-name">Tinh Van Outsourcing</div>
+                  <div class="company-role">
+                    <div>Product Designer</div>
+                    <div class="company-time">Jan, 2019 - Oct, 2019</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="experience">
+              <div class="headline">
+                <div class="company-info">
+                  <div class="company-name">Panic Bear</div>
+                  <div class="company-role">
+                    <div>UI/UX Designer</div>
+                    <div class="company-time">Jan, 2018 - Nov, 2018</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="work work-right">
+      <div class="work-border"></div>
+      <div class="work-content">
+        <div class="tag-line">
+          <div class="tag-line-border"></div>
+          <div class="tag-line-inner">
+            <div class="tag-line-text rotate">
+              Empowered by Expertise
+            </div>
+          </div>
+        </div>
+        <div class="section-experience">
+          <div class="section-inner">
+            <div class="experience">
+              <div class="experience-border"></div>
+              <div class="headline">
+                <div class="company-info">
+                  <div class="company-name">Product Discovery</div>
+                  <div class="company-role">
+                    <div>Make the business's decisions in confident</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="experience">
+              <div class="experience-border"></div>
+              <div class="headline">
+                <div class="company-info">
+                  <div class="company-name">Product Leadership</div>
+                  <div class="company-role">
+                    <div>Balance the product, processes, and technology.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="experience">
+              <div class="experience-border"></div>
+              <div class="headline">
+                <div class="company-info">
+                  <div class="company-name">Artifact Intelligence</div>
+                  <div class="company-role">
+                    <div>Drive faster, smarter product growth with innovative tools.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="experience">
+              <div class="headline">
+                <div class="company-info">
+                  <div class="company-name">Scrum and Agile</div>
+                  <div class="company-role">
+                    <div>Build momentum as a cohesive, results-driven team.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html> 

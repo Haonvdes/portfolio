@@ -12,7 +12,7 @@
         position: fixed;
         inset: 0;
         z-index: -2;
-        background: url(/public/background\ image.png) no-repeat center center/cover, #f9fafb;
+        background: url(/public/backgroundImage.png) no-repeat center center/cover, #f9fafb;
       }
     </style>
   </head>
@@ -50,14 +50,14 @@
                   <div class="flex flex-col gap-2 w-full">
                     <label class="font-medium text-sm leading-5 text-slate-950">Username</label>
                     <div class="relative">
-                      <input type="text" class="w-full rounded-md border border-slate-200 px-3 py-2.5 text-sm text-slate-950 font-normal font-sans focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="" />
+                      <input type="text" id="usernameInput" class="w-full rounded-md border border-slate-200 px-3 py-2.5 text-sm text-slate-950 font-normal font-sans focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="" />
                     </div>
                   </div>
                   <!-- Password -->
                   <div class="flex flex-col gap-2 w-full">
                     <label class="font-medium text-sm leading-5 text-slate-950">Password</label>
                     <div class="relative">
-                      <input type="password" class="w-full rounded-md border border-slate-200 px-3 py-2.5 text-sm text-slate-950 font-normal font-sans focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="" />
+                      <input type="password" id="passwordInput" class="w-full rounded-md border border-slate-200 px-3 py-2.5 text-sm text-slate-950 font-normal font-sans focus:outline-none focus:ring-2 focus:ring-teal-600" placeholder="" />
                     </div>
                   </div>
                   <!-- Remember Me & Forgot Password -->
@@ -72,7 +72,7 @@
               </div>
               <!-- Nút Sign in và Sign in with SSO -->
               <div class="flex flex-col gap-4 w-full">
-                <button type="submit" class="h-9 w-full rounded-md bg-teal-600 text-teal-50 font-medium text-sm leading-6 opacity-50 cursor-not-allowed">Sign in</button>
+                <button id="signInBtn" type="submit" class="h-9 w-full rounded-md bg-teal-600 text-teal-50 font-medium text-sm leading-6 opacity-50 cursor-not-allowed" disabled>Sign in</button>
                 <button type="button" class="h-9 w-full rounded-md border border-teal-600 text-teal-600 font-medium text-sm leading-6 bg-white">Sign in with SSO</button>
               </div>
             </form>
@@ -85,11 +85,77 @@
         <p class="text-sm leading-5 font-normal text-center md:text-left mb-2 md:mb-0">
           © 2025 {Client Name} {Client Address}. All rights reserved. This web site is intended for use by {Client Name} and is managed and maintained by L&M Healthcare Communications.
         </p>
-        <a href="#" class="flex items-center gap-1 font-medium text-sm leading-6 hover:underline">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M12 16v-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>
-          Help
-        </a>
+        <div class="relative">
+          <button id="helpBtn" type="button" class="flex items-center gap-1 font-medium text-sm leading-6 hover:underline focus:outline-none">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M12 16v-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>
+            Help
+          </button>
+          <!-- Contact Support Modal -->
+          <div id="contactSupportModal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+            <!-- Overlay -->
+            <div class="absolute inset-0 bg-black/40"></div>
+            <!-- Modal content -->
+            <div id="modalContent" class="relative bg-white rounded-2xl shadow-xl border border-slate-200 w-[450px] max-w-full p-0 flex flex-col items-center animate-fadeIn">
+              <div class="box-border flex flex-col gap-6 items-start justify-start pb-4 pt-8 px-4 w-full">
+                <!-- Icon + Title -->
+                <div class="flex flex-col items-left gap-4 w-full">
+                  <div class="bg-gray-50 rounded-full w-10 h-10 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-slate-950" fill="none" viewBox="0 0 32 35"><path d="M1 16H6C6.88405 16 7.7319 16.3512 8.35702 16.9763C8.98214 17.6014 9.33333 18.4493 9.33333 19.3333V24.3333C9.33333 25.2174 8.98214 26.0652 8.35702 26.6904C7.7319 27.3155 6.88405 27.6667 6 27.6667H4.33333C3.44928 27.6667 2.60143 27.3155 1.97631 26.6904C1.35119 26.0652 1 25.2174 1 24.3333V16ZM1 16C1 14.0302 1.38799 12.0796 2.14181 10.2597C2.89563 8.43987 4.00052 6.78628 5.3934 5.3934C6.78628 4.00052 8.43986 2.89563 10.2597 2.14181C12.0796 1.38799 14.0302 1 16 1C17.9698 1 19.9204 1.38799 21.7403 2.14181C23.5601 2.89563 25.2137 4.00052 26.6066 5.3934C27.9995 6.78628 29.1044 8.43987 29.8582 10.2597C30.612 12.0796 31 14.0302 31 16M31 16V24.3333M31 16H26C25.1159 16 24.2681 16.3512 23.643 16.9763C23.0179 17.6014 22.6667 18.4493 22.6667 19.3333V24.3333C22.6667 25.2174 23.0179 26.0652 23.643 26.6904C24.2681 27.3155 25.1159 27.6667 26 27.6667H27.6667C28.5507 27.6667 29.3986 27.3155 30.0237 26.6904C30.6488 26.0652 31 25.2174 31 24.3333M31 24.3333V27.6667C31 29.4348 30.2976 31.1305 29.0474 32.3807C27.7971 33.631 26.1014 34.3333 24.3333 34.3333H16" stroke="#020617" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="font-semibold text-[14px] text-slate-950">Contact for support</div>
+                </div>
+              <div class="flex flex-col gap-4 items-center justify-center">
+                  <!-- Info block 1 -->
+                  <div class="bg-gray-50 rounded-lg w-full flex flex-col gap-2.5 items-center justify-center p-4">
+                    <div class="font-normal text-[14px] text-slate-950 w-full">L&M Healthcare Communications Lundbeck support line:</div>
+                    <div class="font-semibold text-[16px] text-slate-950 w-full">Tel: 908-588-9119</div>
+                    <div class="font-semibold text-[16px] text-slate-950 w-full">Fax: 908-934-0940</div>
+                    <div class="font-semibold text-[16px] text-slate-950 w-full">
+                      Email: <a href="mailto:luspeakerprograms@lmhcare.com" class="underline">luspeakerprograms@lmhcare.com</a>
+                    </div>
+                  </div>
+                  <!-- Info block 2 -->
+                  <div class="bg-gray-50 rounded-lg w-full flex flex-col gap-2.5 items-center justify-center p-4">
+                    <div class="font-normal text-[14px] text-slate-950 w-full">For after-hours travel assistance, please call</div>
+                    <div class="font-semibold text-[16px] text-slate-950 w-full">Tel: 800-639-7934 and utilize VIT code CX840</div>
+                  </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </footer>
+<script>
+  const helpBtn = document.getElementById('helpBtn');
+  const modal = document.getElementById('contactSupportModal');
+  const modalContent = document.getElementById('modalContent');
+  helpBtn.onclick = function(e) {
+    e.stopPropagation();
+    modal.classList.remove('hidden');
+  };
+  // Đóng modal khi click ra ngoài modalContent
+  document.addEventListener('mousedown', function(e) {
+    if (!modal.classList.contains('hidden') && !modalContent.contains(e.target) && e.target !== helpBtn) {
+      modal.classList.add('hidden');
+    }
+  });
+  // Enable Sign in button khi nhập đủ username và password
+  const usernameInput = document.getElementById('usernameInput');
+  const passwordInput = document.getElementById('passwordInput');
+  const signInBtn = document.getElementById('signInBtn');
+  function checkSignInEnable() {
+    if (usernameInput.value.trim() && passwordInput.value.trim()) {
+      signInBtn.disabled = false;
+      signInBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+    } else {
+      signInBtn.disabled = true;
+      signInBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+  }
+  usernameInput.addEventListener('input', checkSignInEnable);
+  passwordInput.addEventListener('input', checkSignInEnable);
+</script>
+
     </div>
   </body>
 </html> 

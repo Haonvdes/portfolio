@@ -1,7 +1,9 @@
 // Function to fetch and display playback state
 async function getPlaybackState() {
   try {
-    const playbackResponse = await fetch('https://api.stpnguyen.com/api/spotify/playback');
+    const playbackResponse = await fetch(
+      'https://api.stpnguyen.com/api/spotify/playback'
+    );
 
     if (!playbackResponse.ok) {
       throw new Error('Failed to fetch playback state');
@@ -23,7 +25,9 @@ async function getPlaybackState() {
     const statusMessageElement = document.createElement('p');
     statusMessageElement.classList.add('sub-heading');
     statusMessageElement.style.paddingBottom = '16px';
-    statusMessageElement.innerText = playbackData.playing ? 'Stephano is playing' : 'Stephano is away';
+    statusMessageElement.innerText = playbackData.playing
+      ? 'Stephano is playing'
+      : 'Stephano is away';
     playbackInfo.appendChild(statusMessageElement);
 
     // Track Information
@@ -63,7 +67,9 @@ async function getPlaybackState() {
 }
 async function getLatestStravaActivities(clubId) {
   try {
-    const response = await fetch(`https://api.stpnguyen.com/api/strava/club/${clubId}/latest`);
+    const response = await fetch(
+      `https://api.stpnguyen.com/api/strava/club/${clubId}/latest`
+    );
     if (!response.ok) throw new Error('Failed to fetch club data');
     const data = await response.json();
 
@@ -112,7 +118,9 @@ async function getLatestStravaActivities(clubId) {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     // Choose the appropriate URL
-    const clubFeedUrl = isMobile ? data.clubFeedUrlMobile : data.clubFeedUrlDesktop;
+    const clubFeedUrl = isMobile
+      ? data.clubFeedUrlMobile
+      : data.clubFeedUrlDesktop;
 
     // Header for Latest Activities with clickable icon
     const headerContainer = document.createElement('div');
@@ -133,7 +141,7 @@ async function getLatestStravaActivities(clubId) {
 
     // Filter unique athletes (keep only most recent activity per athlete)
     const uniqueAthletes = data.latestActivities.reduce((acc, current) => {
-      if (!acc.some(item => item.athleteName === current.athleteName)) {
+      if (!acc.some((item) => item.athleteName === current.athleteName)) {
         acc.push(current);
       }
       return acc;
@@ -141,7 +149,8 @@ async function getLatestStravaActivities(clubId) {
 
     // Activities List (unique athletes only)
     uniqueAthletes.forEach((activity, index) => {
-      if (index < 5) { // Limit to 5 unique athletes
+      if (index < 5) {
+        // Limit to 5 unique athletes
         const activityElement = document.createElement('div');
         activityElement.classList.add('activity-details');
         activityElement.innerHTML = `
@@ -160,14 +169,20 @@ async function getLatestStravaActivities(clubId) {
     clubSection.appendChild(activitiesSection);
   } catch (error) {
     console.error('Error fetching club data:', error.message);
-    document.getElementById('club-section').innerHTML = '<p class="md-medium" style="padding:var(--p-16)">Oops! Something went wrong; trying to load again shortly.</p>';
+    document.getElementById('club-section').innerHTML =
+      '<p class="md-medium" style="padding:var(--p-16)">Oops! Something went wrong; trying to load again shortly.</p>';
   }
 }
 
 async function getPersonalStravaActivity() {
   try {
-    const response = await fetch('https://api.stpnguyen.com/api/strava/personal/weekly');
-    if (!response.ok) throw new Error('Oops! Something went wrong; trying to load again shortly.');
+    const response = await fetch(
+      'https://api.stpnguyen.com/api/strava/personal/weekly'
+    );
+    if (!response.ok)
+      throw new Error(
+        'Oops! Something went wrong; trying to load again shortly.'
+      );
     const data = await response.json();
 
     const personalSection = document.getElementById('personal-section');
@@ -205,7 +220,6 @@ async function getPersonalStravaActivity() {
         </div>
     `;
 
-
     // Prepend the image element to the summary
     summaryElement.prepend(imageElement);
 
@@ -213,31 +227,31 @@ async function getPersonalStravaActivity() {
     personalSection.appendChild(summaryElement);
   } catch (error) {
     console.error('Error fetching personal data:', error.message);
-    document.getElementById('personal-section').innerHTML = '<p class="md-regular">Oops! Something went wrong; trying to load again shortly.</p>';
+    document.getElementById('personal-section').innerHTML =
+      '<p class="md-regular">Oops! Something went wrong; trying to load again shortly.</p>';
   }
 }
-
 
 function initializePage() {
   // Initialize Strava Club section if present
   const clubSection = document.getElementById('club-section');
   if (clubSection) {
-      safeGetLatestStravaActivities('1153970');
-      setInterval(() => safeGetLatestStravaActivities('1153970'), 7200000); // Refresh every 2 hours
+    safeGetLatestStravaActivities('520161');
+    setInterval(() => safeGetLatestStravaActivities('520161'), 7200000); // Refresh every 2 hours
   }
-  
+
   // Initialize Personal Strava section if present
   const personalSection = document.getElementById('personal-section');
   if (personalSection) {
-      safeGetPersonalStravaActivity();
-      setInterval(() => safeGetPersonalStravaActivity(), 7200000); // Refresh every 2 hours
+    safeGetPersonalStravaActivity();
+    setInterval(() => safeGetPersonalStravaActivity(), 7200000); // Refresh every 2 hours
   }
-  
+
   // Initialize Spotify playback if present
   const playbackInfo = document.getElementById('playback-info');
   if (playbackInfo) {
-      safeGetPlaybackState();
-      setInterval(safeGetPlaybackState, 30000); // Refresh every 30 seconds
+    safeGetPlaybackState();
+    setInterval(safeGetPlaybackState, 30000); // Refresh every 30 seconds
   }
 }
 
@@ -278,7 +292,7 @@ async function safeGetPlaybackState() {
 }
 
 // Add error event listener for unhandled promise rejections
-window.addEventListener('unhandledrejection', event => {
+window.addEventListener('unhandledrejection', (event) => {
   console.error('Unhandled promise rejection:', event.reason);
 });
 

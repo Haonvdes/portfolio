@@ -141,6 +141,17 @@ app.get('/api/spotify/playback', async (req, res) => {
     const recentTracksResponse =
       responses[1].status === 'fulfilled' ? responses[1].value.data : null;
 
+    if (responses[0].status === 'rejected')
+      console.error(
+        'Playback API error:',
+        responses[0].reason?.response?.data || responses[0].reason?.message
+      );
+    if (responses[1].status === 'rejected')
+      console.error(
+        'Recent Tracks API error:',
+        responses[1].reason?.response?.data || responses[1].reason?.message
+      );
+
     console.log(
       'Playback Response:',
       JSON.stringify(playbackResponse, null, 2)

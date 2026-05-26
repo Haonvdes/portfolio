@@ -1,3 +1,72 @@
+function sk(w, h, extra) {
+  return `<span class="skeleton-block" style="width:${w};height:${h};${extra || ''}"></span>`;
+}
+
+function skActivityRow(nameW, detailW) {
+  return `
+    <div class="activity-details">
+      ${sk('40px', '40px', 'border-radius:50%;flex-shrink:0;')}
+      <div class="athlete-sat">
+        ${sk(nameW, '14px')}
+        ${sk(detailW, '12px', 'margin-top:4px;')}
+      </div>
+    </div>`;
+}
+
+function showSpotifySkeleton() {
+  const el = document.getElementById('playback-info');
+  if (!el) return;
+  el.innerHTML = `
+    ${sk('80px', '22px', 'margin-bottom:32px;')}
+    ${sk('130px', '14px', 'margin-bottom:16px;')}
+    <div class="track-info">
+      ${sk('50px', '50px', 'border-radius:50%;flex-shrink:0;')}
+      <div class="song" style="gap:6px;">
+        ${sk('150px', '14px')}
+        ${sk('100px', '13px', 'margin-top:4px;')}
+      </div>
+    </div>`;
+}
+
+function showPersonalStravaSkeleton() {
+  const el = document.getElementById('personal-section');
+  if (!el) return;
+  el.innerHTML = `
+    ${sk('100px', '28px', 'margin-bottom:40px;')}
+    ${sk('120px', '18px', 'margin-bottom:8px;')}
+    ${sk('170px', '13px', 'margin-bottom:4px;')}
+    <div class="strava-club" style="width:100%;">
+      <div class="club-data">${sk('70px', '12px')}${sk('50px', '16px', 'margin-top:4px;')}</div>
+      <div class="club-data">${sk('60px', '12px')}${sk('45px', '16px', 'margin-top:4px;')}</div>
+      <div class="club-data">${sk('80px', '12px')}${sk('30px', '16px', 'margin-top:4px;')}</div>
+      <div class="club-data">${sk('65px', '12px')}${sk('50px', '16px', 'margin-top:4px;')}</div>
+    </div>`;
+}
+
+function showClubStravaSkeleton() {
+  const el = document.getElementById('club-section');
+  if (!el) return;
+  el.innerHTML = `
+    <div class="club-summary">
+      ${sk('100px', '28px', 'margin-bottom:40px;')}
+      ${sk('140px', '18px', 'margin-bottom:8px;')}
+      ${sk('170px', '13px')}
+      <div class="strava-club">
+        <div class="club-data">${sk('80px', '12px')}${sk('55px', '16px', 'margin-top:4px;')}</div>
+        <div class="club-data">${sk('65px', '12px')}${sk('45px', '16px', 'margin-top:4px;')}</div>
+        <div class="club-data">${sk('90px', '12px')}${sk('30px', '16px', 'margin-top:4px;')}</div>
+      </div>
+    </div>
+    <div class="latest-activities">
+      <div style="padding-bottom:8px;">${sk('140px', '15px')}</div>
+      ${skActivityRow('110px', '160px')}
+      ${skActivityRow('120px', '150px')}
+      ${skActivityRow('95px', '165px')}
+      ${skActivityRow('130px', '145px')}
+      ${skActivityRow('105px', '155px')}
+    </div>`;
+}
+
 // Function to fetch and display playback state
 async function getPlaybackState() {
   try {
@@ -236,6 +305,7 @@ function initializePage() {
   // Initialize Strava Club section if present
   const clubSection = document.getElementById('club-section');
   if (clubSection) {
+    showClubStravaSkeleton();
     safeGetLatestStravaActivities('520161');
     setInterval(() => safeGetLatestStravaActivities('520161'), 7200000); // Refresh every 2 hours
   }
@@ -243,6 +313,7 @@ function initializePage() {
   // Initialize Personal Strava section if present
   const personalSection = document.getElementById('personal-section');
   if (personalSection) {
+    showPersonalStravaSkeleton();
     safeGetPersonalStravaActivity();
     setInterval(() => safeGetPersonalStravaActivity(), 7200000); // Refresh every 2 hours
   }
@@ -250,6 +321,7 @@ function initializePage() {
   // Initialize Spotify playback if present
   const playbackInfo = document.getElementById('playback-info');
   if (playbackInfo) {
+    showSpotifySkeleton();
     safeGetPlaybackState();
     setInterval(safeGetPlaybackState, 30000); // Refresh every 30 seconds
   }

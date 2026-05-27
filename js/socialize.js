@@ -161,7 +161,7 @@ async function getLatestStravaActivities(clubId) {
 
     // Add the content for the summary
     summaryElement.innerHTML = `
-      <p class="sub-heading">Incredible Team</p>
+      <p class="sub-heading">Unstoppable Team</p>
       <p class="md-regular">Week: ${formattedWeek}</p>
       <div class="strava-club">
         ${['Total Distance', 'Total Time', 'Total Activities']

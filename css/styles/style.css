@@ -53,6 +53,18 @@ p {
   color: var(--text-neutral-body);
 }
 
+/* Fix: Override Swiper's default button sizing so padding doesn't collapse the content area */
+.swiper-button-next,
+.swiper-button-prev {
+  background-color: rgba(0, 0, 0, 0.53);
+  padding: 14px;               /* reduced from 24px */
+  border-radius: 999px;
+  width: 56px !important;
+  height: 56px !important;
+  padding: 16px !important;    /* (56 - 20px icon height) / 2 = 18px */
+  box-sizing: border-box;
+}
+
 select:hover {
   background-color: var(--grey-G50);
   cursor: pointer;

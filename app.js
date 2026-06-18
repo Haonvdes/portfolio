@@ -56,12 +56,62 @@ app.use(express.json());
 // Environment variables
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 const STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;
 const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
 const STRAVA_REFRESH_TOKEN = process.env.STRAVA_REFRESH_TOKEN;
 const JWT_SECRET = process.env.JWT_SECRET;
 const MAKE_WEBHOOK_URL = process.env.MAKE_WEBHOOK_URL;
+
+// Mutable — updated in-memory when Spotify rotates the token
+let currentSpotifyRefreshToken = process.env.REFRESH_TOKEN;
+
+// Persists the new refresh token to Render env vars so it survives restarts
+async function updateRenderRefreshToken(newToken) {
+  const RENDER_API_KEY = process.env.RENDER_API_KEY;
+  const RENDER_SERVICE_ID = process.env.RENDER_SERVICE_ID;
+
+  if (!RENDER_API_KEY || !RENDER_SERVICE_ID) {
+    console.warn(
+      'RENDER_API_KEY or RENDER_SERVICE_ID not set — skipping Render env var update'
+    );
+    return;
+  }
+
+  try {
+    const { data: envVarList } = await axios.get(
+      `https://api.render.com/v1/services/${RENDER_SERVICE_ID}/env-vars`,
+      {
+        headers: {
+          Authorization: `Bearer ${RENDER_API_KEY}`,
+          Accept: 'application/json',
+        },
+      }
+    );
+
+    const updated = envVarList.map(({ envVar }) => ({
+      key: envVar.key,
+      value: envVar.key === 'REFRESH_TOKEN' ? newToken : envVar.value,
+    }));
+
+    await axios.put(
+      `https://api.render.com/v1/services/${RENDER_SERVICE_ID}/env-vars`,
+      updated,
+      {
+        headers: {
+          Authorization: `Bearer ${RENDER_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    console.log('Spotify refresh token persisted to Render successfully');
+  } catch (error) {
+    console.error(
+      'Failed to update refresh token on Render:',
+      error.response?.data || error.message
+    );
+  }
+}
 
 // Spotify token refresh function
 async function getSpotifyAccessToken() {
@@ -70,7 +120,7 @@ async function getSpotifyAccessToken() {
       'https://accounts.spotify.com/api/token',
       new URLSearchParams({
         grant_type: 'refresh_token',
-        refresh_token: REFRESH_TOKEN,
+        refresh_token: currentSpotifyRefreshToken,
       }).toString(),
       {
         headers: {
@@ -79,12 +129,28 @@ async function getSpotifyAccessToken() {
         },
       }
     );
+
+    // Spotify may return a new refresh token when rotating — capture and persist it
+    const newRefreshToken = response.data.refresh_token;
+    if (newRefreshToken && newRefreshToken !== currentSpotifyRefreshToken) {
+      currentSpotifyRefreshToken = newRefreshToken;
+      updateRenderRefreshToken(newRefreshToken).catch((err) =>
+        console.error('Background Render token update failed:', err.message)
+      );
+    }
+
     return response.data.access_token;
   } catch (error) {
-    console.error(
-      'Error refreshing token:',
-      error.response ? error.response.data : error.message
-    );
+    const errorData = error.response?.data;
+    if (errorData?.error === 'invalid_grant') {
+      console.error(
+        'Spotify refresh token has expired. Re-authorize at https://accounts.spotify.com and update REFRESH_TOKEN on Render.'
+      );
+      throw new Error(
+        'Spotify refresh token expired — manual reauthorization required'
+      );
+    }
+    console.error('Error refreshing token:', errorData || error.message);
     throw new Error('Failed to refresh token');
   }
 }
@@ -206,6 +272,58 @@ app.get('/api/spotify/playback', async (req, res) => {
       error.response?.data || error.message
     );
     res.status(500).json({ error: 'Failed to fetch playback data' });
+  }
+});
+
+// One-time Spotify reauth flow — run locally to get a new refresh token
+app.get('/spotify-reauth', (req, res) => {
+  const params = new URLSearchParams({
+    client_id: CLIENT_ID,
+    response_type: 'code',
+    redirect_uri: 'http://127.0.0.1:3000/spotify-callback',
+    scope: 'user-read-playback-state user-read-recently-played',
+  });
+  res.redirect(`https://accounts.spotify.com/authorize?${params}`);
+});
+
+app.get('/spotify-callback', async (req, res) => {
+  const { code, error } = req.query;
+
+  if (error || !code) {
+    return res
+      .status(400)
+      .send(`Spotify authorization failed: ${error || 'no code returned'}`);
+  }
+
+  try {
+    const response = await axios.post(
+      'https://accounts.spotify.com/api/token',
+      new URLSearchParams({
+        grant_type: 'authorization_code',
+        code,
+        redirect_uri: 'http://127.0.0.1:3000/spotify-callback',
+      }).toString(),
+      {
+        headers: {
+          Authorization: `Basic ${Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64')}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      }
+    );
+
+    const { refresh_token, access_token } = response.data;
+    res.send(`
+      <h2>New Spotify Refresh Token</h2>
+      <p>Copy this and update <strong>REFRESH_TOKEN</strong> on Render:</p>
+      <textarea rows="4" cols="80" onclick="this.select()">${refresh_token}</textarea>
+      <p><small>Access token (expires in 1h): ${access_token}</small></p>
+    `);
+  } catch (err) {
+    res
+      .status(500)
+      .send(
+        `Token exchange failed: ${err.response?.data?.error_description || err.message}`
+      );
   }
 });
 

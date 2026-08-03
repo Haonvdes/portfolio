@@ -1,28 +1,31 @@
-<div class="container-fluid">
-  <div class="container navbar">
-      <div class="nav-header">
-        <div class="nav-infor">
-          <div style="display: flex; flex-direction: column;">
-              <a href="/index.html">
-                  <img src="../public/logo.svg" alt="logo">
-              </a>
-              <p class="sm-medium" style="color: var(--emerald-E700);">#opentowork</p>                                         
-            </div>
-      </div>
-        </div>
-        <div class="nav-right ">
-            <div>
-                <div class="menu-links animate__animated animate__fadeIn" id="menu-links">
-                    <a href="/work.html" class="md-medium">Work</a>
-                    <a href="/about.html" class="md-medium">About</a>
-                    <a href="https://www.linkedin.com/in/stpnguyen/" target="_blank" class="btn-primary">Let's Chat</a>                </div>
-                <button id="menu-toggle" class="menu-button">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
-            <a href="https://www.linkedin.com/in/stpnguyen/" target="_blank" class="btn-primary" id="btn-primary">Let's Chat</a>
-                </div>
+<!--
+  Shared navigation — Figma node 40000031:5789 ([SECTION]--Navigation).
+  Injected into #nav-placeholder by js/script.js, which binds #menu-toggle and
+  #menu-links — those ids must stay.
+  Image paths use ../public/ so they resolve from both / and /case-studies/.
+-->
+<div class="rd-nav-outer">
+  <nav class="rd-nav rd-shell" aria-label="Primary">
+    <div class="rd-nav-brand">
+      <a href="/index.html" aria-label="Stephano Ng — home">
+        <img src="../public/logo.svg" alt="Stephano.ng" width="121" height="21" class="rd-wordmark-img">
+      </a>
+      <p class="rd-nav-tagline">
+        <span class="rd-status">#opentowork</span> Product Manager,&nbsp; ex-UX Lead
+      </p>
     </div>
+
+    <div class="rd-nav-links animate__animated animate__fadeIn" id="menu-links">
+      <a href="/index.html">Home</a>
+      <a href="/work.html">Case Studies</a>
+      <a href="/about.html">About</a>
+      <a href="https://www.linkedin.com/in/stpnguyen/" target="_blank" rel="noopener" class="rd-btn rd-btn-primary">Linkedin</a>
+    </div>
+
+    <button id="menu-toggle" class="rd-menu-button" aria-label="Toggle menu" aria-controls="menu-links" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
 </div>

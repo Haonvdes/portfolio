@@ -1,0 +1,2051 @@
+/*
+  Redesign styles — 2026 portfolio redesign
+  Source of truth: Figma "Wrapup" → node 40000028:3126 ("homepage"), sections
+    40000031:5463  hero + nav
+    40000031:5907  How I Create Impact
+    40000124:720   Selected Product Initiatives
+    40000028:3230  closing CTA + footer bar
+  Every value below is transcribed from get_design_context on those nodes.
+
+  Scoping
+  -------
+  Custom properties are prefixed --rd-*, classes .rd-*, so nothing collides with
+  the legacy token set (--text-neutral-*, --grey-*) or utility classes
+  (.lg-medium, .sub-heading, ...).
+
+  The nav and footer rules are GLOBAL because templates/nav.html and
+  templates/footer.html render on every page. Homepage section rules are gated
+  on .rd-home.
+
+  The design is a fixed 1440px content column on a 1920px canvas. .rd-shell
+  reproduces that exactly at >=1440px and degrades fluidly below it. The
+  project's bootstrap `.container` is deliberately NOT used here — its
+  breakpoint max-widths (1140/1280px) would clamp the 1440px column.
+
+  Imported from css/styles/style.css.
+*/
+
+/* ---------------------------------------------------------------- Tokens - */
+:root {
+  /* Colour — sampled directly from the Figma fills.
+     2026-08-03: every text tone collapsed onto one deep teal ink. The Figma
+     greys (#131313 / #000 / #333 / #374151 / #4b5563) are kept here as comments
+     in case the tonal hierarchy is ever wanted back. Links and buttons keep
+     --rd-primary and are deliberately untouched. */
+  --rd-ink: #0a2a30;          /* body + heading text            (was #131313) */
+  --rd-ink-alt: var(--rd-ink);       /* second span of the nav tagline  (was #131311) */
+  --rd-ink-black: var(--rd-ink);     /* "Problem framing" / stat numbers (was #000000) */
+  --rd-ink-soft: var(--rd-ink);      /* about section headings + body   (was #333333) */
+  --rd-ink-title: var(--rd-ink);     /* about card titles               (was #374151) */
+  --rd-ink-muted: var(--rd-ink);     /* about sub-titles + metadata     (was #4b5563) */
+  --rd-wordmark: var(--rd-ink);      /* STEPHANO.NG                     (was #374151) */
+  --rd-open: green;           /* "#opentowork" — literal `green` in the design */
+  --rd-primary: #01679c;      /* buttons, text buttons */
+  --rd-primary-hover: #014a70;/* not in Figma; darkened primary for :hover */
+  --rd-surface: #f3f3ef;      /* section background */
+  --rd-white: #ffffff;
+  --rd-border: #666666;       /* card + stat-box border */
+  --rd-border-soft: #e5e7eb;  /* CTA top border */
+  --rd-border-muted: #999999; /* inactive tab underline */
+
+  --rd-font: "DM Sans", "Manrope", system-ui, -apple-system, sans-serif;
+  --rd-font-wordmark: "Raleway", system-ui, sans-serif;
+
+  --rd-shadow-nav: 0px 4px 2px rgba(224, 224, 224, 0.25);
+  --rd-shell: 1440px;
+  /* About §6 row height — Figma 40000079:7381. One value drives both the
+     carousel and the Strava/Spotify column so they can never drift apart. */
+  --rd-activities-h: 403px;
+  /* About §2 work card height. Fixed so switching year tabs never reflows the
+     page; sized to hold the head plus 4 collapsed bullets. */
+  --rd-work-h: 420px;
+  /* About §2 sticky line. The heading and the cards share it so the timeline
+     stays top-aligned with the heading once both are pinned. js/journey.js
+     reads this value rather than duplicating it. */
+  --rd-journey-top: 60px;
+  /* Trailing room under the last card. A sticky element cannot be pushed past
+     its containing block's bottom edge, and the last card's bottom IS the
+     list's bottom — so without this it can never reach the sticky line, and it
+     alone sits low while the other pills are docked. */
+  --rd-journey-tail: 240px;
+}
+
+/* Shared 1440px column */
+.rd-shell {
+  width: 100%;
+  max-width: var(--rd-shell);
+  margin-inline: auto;
+}
+
+/* js/script.js injects the nav and footer into these placeholders. Both sit
+   inside `align-items: center` flex columns, so without an explicit width they
+   shrink to their content and the bar collapses. */
+#nav-placeholder,
+#footer-placeholder,
+.rd-nav-outer,
+.rd-footer-outer {
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+/* ------------------------------------------------------ Shared nav shell - */
+/* Global — templates/nav.html renders on every page. */
+
+.rd-nav-outer { padding-inline: 40px; }
+
+.rd-nav {
+  display: flex;
+  align-items: flex-start;      /* Figma: items-start */
+  justify-content: space-between;
+  gap: 16px;
+  height: 80px;
+  padding: 24px;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  /* Figma applies a drop-shadow here; removed at Hao's request — it read as a
+     border along the bottom edge of the bar. */
+  box-shadow: none;
+  border-bottom: none;
+  font-family: var(--rd-font);
+}
+
+.rd-nav-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+}
+.rd-wordmark {
+  display: block;
+  margin: 0;
+  font-family: var(--rd-font-wordmark);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: normal;
+  letter-spacing: 1.6px;
+  color: var(--rd-wordmark);
+  white-space: nowrap;
+}
+/* logo.svg replaced the text wordmark in nav + footer; pin its box so a global
+   `img { width: 100% }` from the legacy stylesheet can't blow it up. */
+.rd-wordmark-img {
+  display: block;
+  width: 121px;
+  height: 21px;
+}
+.rd-nav-tagline {
+  margin: 0;
+  font-family: var(--rd-font);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: normal;
+  color: var(--rd-ink-alt);
+  white-space: nowrap;
+}
+/* Unscoped so the nav tagline and the footer credentials line stay identical. */
+.rd-status { color: var(--rd-open); }
+
+.rd-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+/* `:not(.rd-btn)` matters: a bare `.rd-nav-links > a` is specificity (0,1,1) and
+   would beat `.rd-btn-primary` (0,1,0), repainting the Linkedin button's label
+   dark instead of white — and blue-on-blue on hover. */
+.rd-nav-links > a:not(.rd-btn) {
+  font-family: var(--rd-font);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: normal;
+  color: var(--rd-ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.rd-nav-links > a:not(.rd-btn):hover,
+.rd-nav-links > a:not(.rd-btn).is-active { color: var(--rd-primary); }
+
+/* Buttons — Figma component "Button" (h40, w120, radius 999, px16 py8) */
+.rd-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 40px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 999px;
+  font-family: var(--rd-font);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: normal;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.rd-btn-primary {
+  width: 120px;
+  background: var(--rd-primary);
+  color: var(--rd-white);
+}
+.rd-btn-primary:hover { background: var(--rd-primary-hover); color: var(--rd-white); }
+
+/* Text-only variant — "Learn More" (Figma 40000124:763) and
+   "View All" (40000124:755, w120). Both are 40px tall, radius 999, no fill. */
+.rd-btn-text {
+  background: none;
+  color: var(--rd-primary);
+  padding-inline: 0;
+}
+.rd-btn-text:hover { text-decoration: underline; }
+
+/* Hamburger — reuses the #menu-toggle / #menu-links ids js/script.js binds */
+.rd-menu-button {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.rd-menu-button span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--rd-ink);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.rd-menu-button.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.rd-menu-button.active span:nth-child(2) { opacity: 0; }
+.rd-menu-button.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* --------------------------------------------------- Shared footer shell - */
+/* Global — templates/footer.html renders on every page.
+   Figma 40000028:3234 → h100, p80, centred; inner bar 1440x80, py16, r16. */
+
+/* Figma 40000028:3234 is 100px tall with the 80px bar inset 10px — i.e. 10px of
+   vertical padding, not 80. (border-box is global via bootstrap-grid's
+   `html { box-sizing: border-box }`, so height already includes padding.) */
+.rd-footer-outer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-block: 10px;
+  padding-inline: 40px;
+  font-family: var(--rd-font);
+}
+.rd-footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  padding-block: 16px;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--rd-shadow-nav);
+}
+.rd-footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+  padding-inline: 16px;
+}
+.rd-footer-credentials {
+  margin: 0;
+  font-family: var(--rd-font);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: normal;
+  color: var(--rd-ink);
+  white-space: nowrap;
+}
+.rd-footer-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+}
+.rd-footer-location {
+  margin: 0;
+  font-family: var(--rd-font);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: normal;
+  color: var(--rd-ink);
+  white-space: nowrap;
+}
+.rd-footer-social {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.rd-footer-social a { display: block; line-height: 0; }
+.rd-footer-social img { display: block; height: 24px; }
+
+/* -------------------------------------------------- Redesigned-page shell - */
+/* Shared by every page of the redesign (.rd-home, .rd-about, .rd-case). */
+
+.rd-home,
+.rd-about,
+.rd-case {
+  margin: 0;
+  font-family: var(--rd-font);
+  color: var(--rd-ink);
+  background: var(--rd-surface);
+}
+.rd-home h1,
+.rd-home h2,
+.rd-home h3,
+.rd-home h4,
+.rd-home p,
+.rd-home ul,
+.rd-home li,
+.rd-about h1,
+.rd-about h2,
+.rd-about h3,
+.rd-about h4,
+.rd-about p,
+.rd-about ul,
+.rd-about li,
+.rd-case h1,
+.rd-case h2,
+.rd-case h3,
+.rd-case h4,
+.rd-case p,
+.rd-case ol,
+.rd-case ul,
+.rd-case li {
+  margin: 0;
+  font-family: var(--rd-font);
+  /* colour reset: legacy style.css sets `p { color: var(--text-neutral-body) }`
+     and text-styles.css uppercases h3 — both must be neutralised here. */
+  color: var(--rd-ink);
+  text-transform: none;
+}
+
+/* ------------------------------------------------------ Section scrolling - */
+/*
+  One section per scroll, via native CSS scroll-snap.
+
+  `:has()` scopes this to the homepage only — the snap container has to be the
+  document scroller (html) for correct mobile URL-bar behaviour, but about.html
+  and work.html must keep normal scrolling.
+
+  `scroll-snap-stop: always` is what actually enforces "one scroll = one
+  section": without it a fast trackpad flick can carry past several snap points
+  before settling.
+*/
+html:has(body.rd-home) {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.rd-hero-section,
+.rd-impact-section,
+.rd-initiatives-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* The closing CTA + footer is shorter than the viewport, so it snaps flush to
+   the bottom of the document rather than to the top of the viewport. */
+.rd-closing {
+  scroll-snap-align: end;
+  scroll-snap-stop: always;
+}
+
+/* Turn snapping off wherever a section can no longer fit in one viewport —
+   otherwise mandatory snapping fights the user for the overflowing content. */
+@media (max-width: 1180px), (max-height: 700px) {
+  html:has(body.rd-home) { scroll-snap-type: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(body.rd-home) { scroll-behavior: auto; }
+}
+
+/* ------------------------------------------- Section 1 — hero (5463/5788) */
+/* Full-viewport header: nav pinned to the top, hero fills the rest.
+   Figma specifies a fixed 118px nav->hero gap; at 100vh that gap becomes the
+   leftover space instead, with the hero content vertically centred in it. */
+.rd-hero-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-inline: 40px;
+  background: linear-gradient(to bottom, var(--rd-white) 58.388%, var(--rd-surface));
+}
+.rd-hero-inner {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 118px;        /* never tighter than the Figma nav->hero gap */
+}
+.rd-hero-row {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 24px;
+}
+.rd-hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  width: 952px;
+  flex-shrink: 0;
+}
+.rd-hero-headline-group {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: flex-start;
+  width: 100%;
+}
+.rd-hero-headline {
+  max-width: 935px;
+  font-weight: 600;
+  font-size: 49px;
+  line-height: normal;
+  color: var(--rd-ink);
+}
+.rd-hero-lead {
+  width: 100%;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: normal;
+  color: var(--rd-ink);
+}
+.rd-hero-media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 16px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(67px);
+  -webkit-backdrop-filter: blur(67px);
+}
+.rd-hero-media img {
+  display: block;
+  width: 358px;
+  height: 501px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+/* ------------------------------------ Section 2 — How I Create Impact (5907) */
+.rd-impact-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 40px;
+  background: var(--rd-surface);
+}
+.rd-impact-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.rd-section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+  padding-inline: 24px;
+}
+.rd-section-heading {
+  width: 100%;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: normal;
+  color: var(--rd-ink);
+}
+.rd-section-intro {
+  max-width: 778px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: normal;
+  color: var(--rd-ink);
+}
+
+.rd-impact-grid {
+  display: flex;
+  align-items: flex-start;
+  gap: 80px;
+  width: 100%;
+  padding: 24px;
+}
+.rd-impact-card {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+.rd-impact-card img.rd-impact-icon {
+  display: block;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+/* All four titles are two lines in Figma (52px box = 2 x 26px). The <br> in the
+   markup sets the break point; min-height reserves the second line's space so
+   the descriptions below stay aligned even if a title collapses to one line at
+   an intermediate width. 1.3 is DM Sans's `normal` leading, pinned so the
+   52px works out exactly. */
+.rd-impact-card h3 {
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 1.3;
+  min-height: 52px;
+  color: var(--rd-ink);
+}
+.rd-impact-card p {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: normal;
+  color: var(--rd-ink);
+}
+
+.rd-glance {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+  padding: 24px;
+}
+.rd-glance-label {
+  max-width: 778px;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: normal;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+}
+.rd-stat-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+  padding: 24px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+}
+.rd-stat-bar-row {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.rd-stat-bar-row > div {
+  flex: 1 0 0;
+  min-width: 0;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: normal;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+}
+
+/* --------------------------- Section 3 — Selected Product Initiatives (720) */
+/* `height` (not just `min-height`) is required here: with min-height alone the
+   section grows to fit the 1032px of design content, and the card's
+   `max-height: 100%` then resolves against that grown box and never shrinks.
+   A definite height forces the flex chain to hand the card a real cap.
+   Relaxed back to auto at the breakpoints below, where the layout restacks. */
+.rd-initiatives-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  height: 100svh;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--rd-surface);
+}
+/* The Figma section is 1032px tall, so at 100vh the card has to shrink rather
+   than push the section past the viewport. This flex chain
+   (inner -> wrap -> panel -> card) hands the leftover height down to the card,
+   which caps itself with max-height below. Every link needs min-height: 0 or
+   flex items refuse to shrink below their content. */
+.rd-initiatives-inner {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.rd-initiatives-inner .rd-section-head { flex: 0 0 auto; }
+.rd-initiatives-inner .rd-section-head { padding: 24px; }
+.rd-initiatives-inner .rd-section-intro { max-width: none; width: 100%; }
+
+/* Heading and "View All" share a row — Figma 40000132:3024 */
+.rd-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.rd-head-row .rd-section-heading {
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+/* Tab strip — Figma 40000132:3660 / 40000132:3661 */
+.rd-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+}
+.rd-tab {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+  height: 62px;
+  margin: 0;
+  padding: 8px 8px 8px 16px;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid var(--rd-border-muted);
+  font-family: var(--rd-font);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: normal;
+  text-align: center;
+  color: var(--rd-ink);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.rd-tab > span {
+  flex: 1 0 0;
+  min-width: 0;
+}
+.rd-tab:hover { color: var(--rd-primary); }
+.rd-tab[aria-selected="true"] {
+  border-bottom-color: var(--rd-primary);
+  font-weight: 700;
+  color: var(--rd-primary);
+}
+
+/* Frame 1000002747 — 24px padding, 24px between the tab strip and the card */
+.rd-initiative-wrap {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+  padding: 24px;
+}
+.rd-initiative-wrap .rd-tabs { flex: 0 0 auto; }
+
+.rd-initiative-panel {
+  display: none;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
+/* Every panel fills the same box, so switching tabs cannot change the section
+   height — that plus the fade is what stops the content jumping. */
+.rd-initiative-panel.is-active {
+  display: flex;
+  animation: rd-panel-fade 0.28s ease both;
+}
+
+@keyframes rd-panel-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-initiative-panel.is-active { animation: none; }
+}
+
+/* Empty state for initiatives that don't have a case study written yet */
+.rd-initiative-empty {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--rd-ink);
+  opacity: 0.6;
+}
+.rd-initiative-card {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 382px;
+  height: 742px;
+  max-height: 100%;   /* shrink to fit the 100vh section instead of overflowing */
+  min-height: 0;
+  align-items: flex-start;
+  padding: 40px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.rd-initiative-row {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  height: 100%;
+  gap: 80px;
+  align-items: flex-start;
+}
+.rd-initiative-body {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  height: 100%;
+  width: 544px;
+  flex-shrink: 0;
+  align-items: flex-start;
+}
+.rd-initiative-head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  width: 100%;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rd-border);
+}
+.rd-initiative-title {
+  width: 100%;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: normal;
+  color: var(--rd-ink);
+}
+.rd-initiative-desc {
+  width: 100%;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: normal;
+  color: var(--rd-ink);
+}
+/* Flexes to fill the column so the "Learn More" button is pushed to the bottom
+   of the card, matching Figma where it sits at y=622 of a 662px column. */
+.rd-initiative-detail {
+  display: flex;
+  flex: 1 1 0;
+  min-height: 0;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+  /* scrolls rather than clips when the card is squeezed on a short viewport */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+/* `p.` is needed: the shared `.rd-home p` reset above sets text-transform: none
+   at the same (0,1,1) specificity, so a bare .rd-detail-label loses and the
+   label renders in sentence case. */
+p.rd-detail-label {
+  width: 100%;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--rd-ink-black);
+}
+/* Outcome stat bar — Figma 40000157:4333. One 124px pill, three equal cells
+   split by hairline white rules (the card sits on the cream surface, so white
+   reads as a divider rather than a border). */
+.rd-mini-stat-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  height: 124px;
+  padding: 0;
+  background: var(--rd-surface);
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+}
+.rd-mini-stat-row > div {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  height: 100%;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border-right: 1px solid var(--rd-white);
+}
+.rd-mini-stat-row > div:last-child { border-right: 0; }
+.rd-mini-stat-row strong {
+  width: 100%;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--rd-ink-black);
+}
+.rd-mini-stat-row span {
+  width: 100%;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: normal;
+  color: var(--rd-ink);
+}
+/* Blocks are spaced by the 24px gap on .rd-initiative-detail — no own padding. */
+.rd-detail-para {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+}
+.rd-detail-para p {
+  width: 100%;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: normal;
+  color: var(--rd-ink);
+}
+.rd-detail-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+}
+.rd-detail-outcome { gap: 16px; }
+.rd-detail-block p:last-child {
+  width: 100%;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: normal;
+  color: var(--rd-ink);
+}
+.rd-initiative-media {
+  flex: 1 0 0;
+  min-width: 0;
+  height: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+}
+.rd-initiative-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------------------------------- Section 4 — closing CTA + footer (3230) */
+.rd-closing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to top, var(--rd-white), rgba(243, 243, 239, 0.98));
+}
+.rd-cta-outer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 80px;
+  border-top: 1px solid var(--rd-border-soft);
+}
+.rd-cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.rd-cta-block {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+}
+.rd-cta-heading {
+  width: 100%;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: normal;
+  text-align: center;
+  color: var(--rd-ink);
+}
+.rd-cta-sub {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.rd-cta-sub p {
+  max-width: 1091px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: normal;
+  text-align: center;
+  color: var(--rd-ink);
+}
+
+/* ==========================================================================
+   About page — Figma "Wrapup" → node 40000028:3949 ("about")
+     40000113:8592  nav + bio            40000135:3716  AI Catching
+     40000113:8615  Path of Growth       40000137:3785  certifications
+     40000037:6768  Product Philosophy   40000079:7055  Professional Activities
+     40000113:8484  closing CTA + footer bar
+   Nav, footer, buttons, .rd-shell, .rd-section-heading and the whole
+   .rd-closing / .rd-cta-* block are reused from the homepage rules above —
+   nothing is redefined here. No new colours either: every value resolves to a
+   --rd-* token declared in :root.
+   ========================================================================== */
+
+/* --------------------------------------------- About §1 — nav + bio (8592) */
+/* Same shell as .rd-hero-section; reuses .rd-hero-inner / .rd-hero-row /
+   .rd-hero-media for the row itself. */
+.rd-about-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-inline: 40px;
+  background: linear-gradient(to bottom, var(--rd-white) 58.388%, var(--rd-surface));
+}
+/* Figma's bannerContent is a 952px column holding an 839px text box; 839 is the
+   measure that matters. Allowed to shrink (not grow) so the 390px portrait keeps
+   its size as the viewport narrows. */
+.rd-about-bio {
+  display: flex;
+  flex: 0 1 839px;
+  min-width: 0;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+.rd-about-bio p {
+  width: 100%;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.6;   /* the design's `normal` leading is too tight for a long read */
+  color: var(--rd-ink);
+}
+.rd-about-bio-lead {
+  font-weight: 700;
+  margin-top: 8px;
+}
+.rd-about-bio-link {
+  color: var(--rd-primary);
+  text-decoration: underline;
+  text-underline-position: from-font;
+}
+.rd-about-bio-link:hover { color: var(--rd-primary-hover); }
+
+/* ------------------------------- About §2 — Path of Growth and Leadership (8615) */
+.rd-journey-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: var(--rd-surface);
+}
+.rd-journey-inner {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px;
+}
+/* Sticky-stacking timeline (docs: scroll-stacking-timeline-spec.md).
+   The heading and the cards pin on the SAME line, so the timeline stays
+   top-aligned with the heading. (The spec's 60px/106px split existed to let an
+   incoming pill peek above the previous card; the pills now fan out
+   horizontally instead, so the vertical offset only misaligned the two
+   columns.) */
+.rd-journey-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  width: 560px;
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--rd-journey-top);
+}
+.rd-journey-intro .rd-section-heading { max-width: 298px; }
+.rd-journey-blurb {
+  max-width: 426px;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: normal;
+  color: var(--rd-ink);
+}
+/* `position: relative` makes the list the cards' offsetParent, which is how
+   js/journey.js reads a card's *unpinned* offset — once pinned, a sticky card's
+   own getBoundingClientRect().top is frozen at the sticky line. */
+.rd-journey-list {
+  position: relative;
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  flex-direction: column;
+  gap: 24px;
+  align-items: stretch;
+  /* Gives the last card room to dock at the sticky line — see
+     --rd-journey-tail. Padding, not margin: sticky is constrained by the
+     containing block's PADDING box, so margin here would do nothing. */
+  padding-bottom: var(--rd-journey-tail);
+}
+/* Every card shares the same sticky top, so each parks until the next scrolls
+   up over it. No scale/lift transform: Hao removed it because it made the whole
+   stack drift upward as the last card pinned. Once they are all parked the
+   result is a flat year strip over a single card. */
+.rd-work-card {
+  position: sticky;
+  top: var(--rd-journey-top);
+  width: 100%;
+}
+/* Clicking a year lifts that card above the ones stacked on top of it. */
+.rd-work-card.is-selected { z-index: 3; }
+
+/* One scroll = one card.
+   The snap points are these zero-size markers, NOT the cards themselves:
+   `position: sticky` and `scroll-snap-align` are a broken pair, because a stuck
+   element's snap area follows the viewport and the scroller chases itself. The
+   markers sit in normal absolute flow at each card's resting offset (placed by
+   js/journey.js), so their snap positions never move.
+
+   Two things this got wrong the first time, both worth not repeating:
+     - the markers were `visibility: hidden`, and browsers skip hidden boxes
+       when collecting snap targets, so there was nothing to snap to;
+     - the container was `proximity`, which only engages when the scroll already
+       lands near a snap point. `mandatory` is what actually guarantees the
+       gesture ends on a card.
+   `scroll-snap-stop: always` then stops a fast trackpad flick sailing past
+   several cards in one throw. */
+.rd-work-snap {
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  background: transparent;   /* NOT visibility:hidden — that skips the target */
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  scroll-margin-top: var(--rd-journey-top);
+}
+
+/* Mandatory means every section needs a landing point, or content between snap
+   positions becomes unreachable. Same pattern the homepage already uses. */
+html:has(body.rd-about) {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+.rd-about-hero,
+.rd-philosophy-section,
+.rd-creds-section,
+.rd-activities-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+/* The journey section deliberately has no snap point of its own — its four card
+   markers are the stops, and adding a fifth at the section top would cost an
+   extra scroll before the timeline started moving. */
+.rd-closing { scroll-snap-align: end; }
+
+/* Below the breakpoint the cards no longer pin; on a short viewport a snapped
+   section is taller than the screen and mandatory would strand its overflow. */
+@media (max-width: 1180px), (max-height: 700px) {
+  html:has(body.rd-about) { scroll-snap-type: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:has(body.rd-about) {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+}
+
+/* The pill overlaps the card's top edge and drops its bottom border (Figma
+   I…;40000037:6041 / 1197:2390).
+
+   At rest every pill sits at the same 24px inset, exactly as designed. The fan
+   is scroll-driven: js/journey.js ramps --rd-tag-x from 0 to that pill's place
+   in the strip as its card travels the last stretch up to the sticky line, so
+   the pills slide into the row rather than starting there. It is a translate,
+   not a padding change, to keep the slide off the layout path — and it
+   defaults to 0, so no JS means the plain designed position. */
+/* Every stacked card's tag row spans the full column at the same y, so a later
+   card's transparent row would sit over the earlier cards' pills and swallow
+   their clicks. The row is made click-through and only the pill itself takes
+   pointer events back. */
+.rd-work-tagrow {
+  display: flex;
+  padding-left: 24px;
+  padding-right: 24px;
+  pointer-events: none;
+}
+.rd-work-tag {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 12px 16px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-ink);
+  border-bottom: 0;
+  border-radius: 20px 20px 0 0;
+  font-family: var(--rd-font);
+  font-weight: 800;
+  font-size: 14px;
+  line-height: normal;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--rd-ink-muted);
+  cursor: pointer;
+  pointer-events: auto;   /* re-enabled after .rd-work-tagrow opted out */
+  /* Defaults to the "no JS" state: the plain designed resting inset. */
+  transform: translateX(var(--rd-tag-x, 0px));
+  will-change: transform;
+  transition: color 0.15s ease;
+}
+.rd-work-tag:hover { color: var(--rd-primary); }
+/* journey.js marks whichever card is currently at the front of the stack. */
+.rd-work-tag[aria-current="true"] {
+  color: var(--rd-ink);
+  position: relative;
+  z-index: 1;   /* its own borders win at both seams with its neighbours */
+}
+.rd-work-tag:focus-visible {
+  outline: 2px solid var(--rd-primary);
+  outline-offset: 2px;
+}
+
+/* Fixed height by default so every card in the stack is the same size and the
+   pills always line up. Expanding the scope of work grows the card to fit
+   its text — js/journey.js sets an explicit pixel height and this transition
+   animates it, so nothing ever scrolls inside the card. `overflow: hidden`
+   keeps the extra bullets clipped while that height is still animating. */
+.rd-work-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  height: var(--rd-work-h);
+  padding: 24px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rd-work-body { transition: none; }
+}
+.rd-work-head {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  width: 100%;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rd-border-soft);
+}
+.rd-work-title {
+  width: 100%;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: normal;
+  color: var(--rd-ink);
+}
+.rd-work-meta {
+  width: 100%;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--rd-ink);
+}
+/* Takes the leftover height of the fixed card, so the list — not the card —
+   absorbs whatever the copy does. */
+.rd-work-scope {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  width: 100%;
+}
+/* The expand chevron sits immediately after "Scope of work:", not pushed out
+   to the right edge — so the row is packed to the start, not spread. */
+.rd-work-scope-head {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+.rd-work-scope-label {
+  width: 100%;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: normal;
+  color: var(--rd-ink);
+}
+/* width:100% above would push the chevron off the row, so inside the head the
+   label shrinks to its text and the chevron follows it directly. */
+.rd-work-scope-head .rd-work-scope-label {
+  width: auto;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.rd-work-scope ul {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding-left: 21px;
+  list-style: disc;
+}
+.rd-work-scope li {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--rd-ink);
+}
+/* Show more / less — collapsed to the first 4 bullets.
+   `.is-collapsible` is added by journey.js only when a list actually has more
+   than 4 items, so a short list never renders a dead toggle, and a no-JS visitor
+   simply gets the full list. */
+.rd-work-scope-list.is-collapsed > li:nth-child(n + 5) { display: none; }
+
+/* Icon-only chevron toggle, sitting on the "Scope of work:" row itself.
+   Its accessible name lives on aria-label (set and kept current by journey.js),
+   since there is no visible text to name it. */
+.rd-work-more {
+  display: none;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--rd-primary);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.rd-work-scope.is-collapsible .rd-work-more { display: inline-flex; }
+.rd-work-more:hover { color: var(--rd-primary-hover); }
+.rd-work-more:focus-visible {
+  outline: 2px solid var(--rd-primary);
+  outline-offset: 2px;
+}
+/* The chevron itself — a rotated corner, so there is no icon file to ship.
+   Points down when collapsed, up once the list is open. */
+.rd-work-more::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.15s ease;
+}
+.rd-work-more[aria-expanded="true"]::before {
+  transform: translateY(1px) rotate(-135deg);
+}
+
+/* ------------------ About §3/§4 — Product Philosophy + AI Catching (6768/3716) */
+.rd-philosophy-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  background: var(--rd-surface);
+}
+.rd-philosophy-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+}
+
+/* Heading left, note right — shared with the Professional Activities head
+   (Figma 40000113:8728 and 40000079:7056 are the same layout). */
+.rd-split-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  width: 100%;
+  padding: 24px;
+}
+.rd-split-head .rd-section-heading {
+  flex: 1 0 0;
+  min-width: 0;
+  width: auto;
+  color: var(--rd-ink-soft);
+}
+.rd-split-head-note {
+  flex: 1 0 0;
+  min-width: 0;
+  align-self: center;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: right;
+  color: var(--rd-ink);
+}
+.rd-split-head-note-sm { font-size: 14px; }
+
+.rd-pillar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+  padding: 24px;
+}
+.rd-pillar-card {
+  position: relative;
+  min-height: 347px;
+  padding: 32px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+/* 10% watermark bleeding out of the bottom of the card (Figma 40000082:7421) */
+.rd-pillar-watermark {
+  position: absolute;
+  left: 0;
+  top: 103px;
+  width: 100%;
+  height: 299px;
+  object-fit: cover;
+  border-top-left-radius: 16px;
+  opacity: 0.1;
+  pointer-events: none;
+  user-select: none;
+}
+.rd-pillar-body {
+  position: relative;   /* lifts the copy above the watermark */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+.rd-pillar-card h3 {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: normal;
+  color: var(--rd-ink-muted);
+}
+.rd-pillar-card p {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--rd-ink-soft);
+}
+
+/* ------------------------------------- About §5 — certifications (3785) */
+.rd-creds-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  background: var(--rd-surface);
+}
+.rd-creds-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+}
+.rd-creds-quote-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  padding: 24px;
+}
+.rd-creds-quote {
+  max-width: 1095px;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: normal;
+  text-align: center;
+  color: var(--rd-ink);
+}
+.rd-creds-logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+}
+.rd-creds-logos a {
+  display: block;
+  line-height: 0;
+  transition: transform 0.15s ease;
+}
+.rd-creds-logos a:hover { transform: translateY(-4px); }
+.rd-creds-logos img {
+  display: block;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+/* --------------------------------- About §6 — Professional Activities (7055) */
+.rd-activities-section {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  padding: 40px;
+  background: var(--rd-surface);
+}
+.rd-activities-grid { padding: 24px; }
+/* The row is a definite height (not min-height) so the carousel is fixed and the
+   Strava/Spotify column divides that exact same height between its two cards —
+   403px = 2 cards + the 24px gap, i.e. 189.5px each, which is what Figma draws
+   (188px / 191px). A min-height would let a long Spotify track title grow the
+   row and push the carousel out of sync. */
+.rd-activities-row {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+  width: 100%;
+  height: var(--rd-activities-h);
+}
+.rd-activities-side {
+  display: flex;
+  flex: 0 0 367px;
+  flex-direction: column;
+  gap: 24px;
+  width: 367px;
+  height: 100%;
+  min-height: 0;
+}
+.rd-activity-card {
+  display: flex;
+  flex: 1 1 0;
+  min-height: 0;   /* without this a flex item refuses to shrink below content */
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 16px;
+  overflow: hidden;
+}
+/* Live data can run longer than the card (a long track title, a slow API
+   swapping in the error message), so the injected block scrolls inside the
+   fixed card rather than clipping or blowing the row height. */
+.rd-activity-card > div {
+  width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* js/socialize.js injects legacy markup (.sub-heading, .md-regular, .md-bold,
+   .strava-club, .club-data, .track-info, .song) into #personal-section and
+   #playback-info. These rules re-skin that markup to the redesign tokens; they
+   are scoped to .rd-activity-card so the legacy pages are untouched. */
+.rd-activity-card .sub-heading,
+.rd-activity-card .activity-heading {
+  font-family: var(--rd-font);
+  font-weight: 800;
+  font-size: 16px;
+  line-height: normal;
+  text-transform: uppercase;
+  color: var(--rd-ink-title);
+  padding: 0;
+}
+.rd-activity-card .md-regular,
+.rd-activity-card .md-medium {
+  font-family: var(--rd-font);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: normal;
+  color: var(--rd-ink-muted);
+}
+.rd-activity-card .md-bold {
+  font-family: var(--rd-font);
+  font-weight: 800;
+  font-size: 14px;
+  line-height: normal;
+  color: var(--rd-ink-muted);
+}
+.rd-activity-card .md-bold a { color: var(--rd-ink-title); text-decoration: none; }
+/* socialize.js sets the logo size inline (100px for Strava, 40px for Spotify)
+   with a 40px/32px bottom margin; inline styles only lose to !important.
+   Figma wants 103x25 for Strava (40000079:7385) and 50x51 for Spotify
+   (40000079:7402), both with a 16px gap under them. The two are sized
+   separately — one shared rule would blow the Spotify mark up to 100px. */
+.rd-activity-card .personal-summary > img {   /* Strava wordmark */
+  width: 103px !important;
+  height: auto !important;
+  margin-bottom: 16px !important;
+}
+.rd-activity-card #playback-info > img {      /* Spotify mark */
+  width: 50px !important;
+  height: auto !important;
+  margin-bottom: 16px !important;
+}
+.rd-activity-card .personal-summary,
+.rd-activity-card .song {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+.rd-activity-card .track-info {
+  gap: 12px;
+  margin-top: 8px;
+}
+/* Legacy .track-info img only sets a radius; the album cover arrives with
+   width/height="50" attributes, so just pin it against flex shrinking. */
+.rd-activity-card .track-info > img {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+/* Legacy .strava-club already contributes padding-top:16px — no extra margin
+   here or the stat row sits 32px clear of the label. */
+.rd-activity-card .strava-club {
+  width: 100%;
+  gap: 16px;
+}
+.rd-activity-card .club-data {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+.rd-activity-card .skeleton-block { display: block; }
+
+.rd-activities-main {
+  /* Inset the nav buttons from the panel edge (Swiper's default is 10px), and
+     keep overflow:hidden as a backstop so nothing can spill past the radius. */
+  --swiper-navigation-sides-offset: 16px;
+  flex: 1 0 0;
+  min-width: 0;
+  height: 100%;
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 16px;
+  overflow: hidden;
+}
+/* Scoped so the swiper rules in the legacy stylesheets keep owning work.html.
+   Three legacy declarations in style.css have to be neutralised here:
+     .swiper-container { height: 566px }   -> must follow the fixed row height
+     .swiper-wrapper   { max-width: 600px } -> would cap the track mid-panel
+     .swiper-container { border-radius }    -> the panel already rounds+clips
+   All are (0,1,0), so a scoped (0,2,0) selector wins without !important. */
+/* `position: relative` is load-bearing. Swiper's nav buttons are
+   `position: absolute`, and Swiper v11 puts the containing block on `.swiper` —
+   but this markup uses the v6-era `.swiper-container` class, which v11's CSS
+   never positions. The old about.html got away with it because its wrapper also
+   carried `.carousel { position: relative }`; this markup doesn't, so without
+   the line below the buttons escape to the initial containing block and land
+   outside the carousel entirely. */
+.rd-activities-main .swiper-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+/* style.css forces the buttons to 56px tall, but Swiper's centring offset is
+   still computed from --swiper-navigation-size (24px) -> margin-top: -12px,
+   leaving them 16px below centre. Centre them on their real height instead. */
+.rd-activities-main .swiper-button-prev,
+.rd-activities-main .swiper-button-next {
+  top: 50%;
+  margin-top: 0;
+  transform: translateY(-50%);
+}
+.rd-activities-main .swiper-wrapper {
+  max-width: none;
+  height: 100%;
+}
+.rd-activities-main .swiper-slide { height: 100%; }
+.rd-activities-main .swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.rd-activities-main .swiper-button-prev,
+.rd-activities-main .swiper-button-next { color: var(--rd-white); }
+
+/* ------------------------------------------------- About page responsive - */
+@media (max-width: 1439px) {
+  .rd-journey-intro { width: 40%; min-width: 300px; }
+}
+
+/* Stacking is a desktop affordance: on a narrow column the cards are taller
+   than the viewport, so pinning them would trap the reader. journey.js also
+   clears --rd-tag-x here; the reset below keeps the pills aligned if the
+   stylesheet somehow loads without the script. */
+@media (max-width: 1180px) {
+  .rd-work-card {
+    position: static;
+    --rd-tag-x: 0px;
+  }
+  .rd-work-body { height: auto; }
+
+  .rd-journey-inner { flex-direction: column; gap: 24px; }
+  .rd-journey-intro { position: static; width: 100%; min-width: 0; }
+  .rd-journey-intro .rd-section-heading,
+  .rd-journey-blurb { max-width: none; }
+  .rd-journey-list { width: 100%; }
+  .rd-pillar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* Stacked: the carousel keeps the fixed height, and the two cards sit
+     side by side underneath it on a shorter shared row. */
+  .rd-activities-row { flex-direction: column; height: auto; }
+  .rd-activities-side {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 220px;
+    flex-direction: row;
+  }
+  .rd-activities-main {
+    width: 100%;
+    height: var(--rd-activities-h);
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .rd-about-hero { padding-inline: 16px; }
+  .rd-journey-section,
+  .rd-philosophy-section,
+  .rd-creds-section,
+  .rd-activities-section { padding: 24px 16px; }
+
+  .rd-journey-inner,
+  .rd-activities-grid { padding: 0; }
+  .rd-split-head,
+  .rd-pillar-grid,
+  .rd-creds-quote-row { padding-inline: 0; }
+
+  .rd-split-head { flex-direction: column; gap: 16px; }
+  .rd-split-head-note { text-align: left; }
+  .rd-split-head .rd-section-heading br { display: none; }
+
+  .rd-journey-blurb { font-size: 16px; }
+  .rd-work-body { padding: 20px; }
+  .rd-work-tagrow { padding-inline: 0; }
+
+  .rd-pillar-grid { grid-template-columns: minmax(0, 1fr); }
+  .rd-pillar-card { min-height: 0; padding: 24px; }
+
+  .rd-creds-quote { font-size: 20px; }
+  .rd-creds-logos { gap: 24px; }
+  .rd-creds-logos img { width: 56px; height: 56px; }
+
+  /* One column on phones — the cards go back to sizing from their content, so
+     nothing has to scroll inside a 190px box on a small screen. */
+  .rd-activities-side { flex-direction: column; height: auto; }
+  .rd-activity-card { flex: 0 0 auto; }
+  .rd-activity-card > div { max-height: none; overflow-y: visible; }
+  .rd-activities-main { height: 280px; }
+}
+
+/* ---------------------------------------------------------- Responsive - */
+/* Below the 1440px design width everything reflows; above it the values
+   above reproduce the Figma frame exactly. */
+
+@media (max-width: 1439px) {
+  .rd-hero-content { width: auto; max-width: 952px; }
+  .rd-initiative-body { width: 100%; max-width: 544px; }
+}
+
+@media (max-width: 1180px) {
+  .rd-hero-headline { font-size: 40px; }
+  .rd-impact-grid { flex-wrap: wrap; gap: 40px; }
+  .rd-impact-card { flex: 1 0 40%; }
+  /* layout restacks here, so let the section grow with its content again */
+  .rd-initiatives-section { height: auto; }
+  .rd-initiative-card { height: auto; max-height: none; }
+  .rd-initiative-row { flex-direction: column; gap: 40px; }
+  .rd-initiative-detail { overflow-y: visible; }
+}
+
+/* Too short to squeeze the card into one screen without crushing it — let the
+   section grow and scroll normally. Must come after the base rule: media
+   queries add no specificity, so source order decides. */
+@media (max-height: 700px) {
+  .rd-initiatives-section { height: auto; }
+  .rd-initiative-card { height: auto; max-height: none; }
+  .rd-initiative-detail { overflow-y: visible; }
+  .rd-initiative-body { width: 100%; max-width: none; height: auto; }
+  .rd-initiative-media { width: 100%; height: 320px; flex: 0 0 auto; }
+}
+
+@media (max-width: 768px) {
+  .rd-nav-outer,
+  .rd-hero-section { padding-inline: 16px; }
+  .rd-impact-section { padding: 24px 16px; }
+  .rd-footer-outer { padding: 24px 16px; }
+  .rd-cta-outer { padding: 40px 16px; }
+
+  .rd-nav { position: relative; padding: 16px; }
+  .rd-nav-links {
+    display: none;
+    position: absolute;
+    top: 76px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px;
+    background: var(--rd-white);
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(19, 19, 19, 0.12);
+    z-index: 60;
+  }
+  .rd-nav-links.active { display: flex; }
+  .rd-menu-button { display: flex; }
+
+  .rd-hero-inner { gap: 48px; }
+  .rd-hero-row { flex-direction: column; align-items: flex-start; gap: 40px; padding: 16px 0; }
+  .rd-hero-content { width: 100%; }
+  .rd-hero-headline { font-size: 32px; }
+  .rd-hero-lead { font-size: 16px; }
+  .rd-hero-media { align-self: stretch; }
+  .rd-hero-media img { width: 100%; height: auto; aspect-ratio: 358 / 501; }
+
+  .rd-section-head,
+  .rd-glance,
+  .rd-impact-grid,
+  .rd-initiative-wrap { padding-inline: 0; }
+  .rd-section-heading { font-size: 24px; }
+
+  .rd-impact-grid { flex-direction: column; gap: 32px; padding-block: 24px; }
+  .rd-impact-card { flex: 1 1 auto; width: 100%; }
+
+  .rd-stat-bar { padding: 16px; }
+  .rd-stat-bar-row { flex-direction: column; gap: 16px; }
+  .rd-stat-bar-row > div { text-align: left; }
+
+  .rd-initiative-card { padding: 20px; min-width: 0; }
+  /* The 124px 3-up pill restacks; the white rules move to the horizontal edge. */
+  .rd-mini-stat-row { flex-direction: column; height: auto; padding: 8px 0; }
+  .rd-mini-stat-row > div {
+    width: 100%;
+    height: auto;
+    gap: 8px;
+    border-right: 0;
+    border-bottom: 1px solid var(--rd-white);
+  }
+  .rd-mini-stat-row > div:last-child { border-bottom: 0; }
+
+  .rd-cta-inner { padding: 0; }
+  .rd-cta-heading { font-size: 24px; }
+
+  .rd-footer-bar {
+    padding: 24px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    height: auto;
+  }
+  .rd-footer-brand { padding-inline: 0; }
+  .rd-footer-meta { align-items: flex-start; }
+}
+
+/* ================================================================ Case study
+   Detail-page shell — /case-studies/*.html rendered in the 2026 redesign
+   language. First used by healthcare.html (2026-08-03).
+
+   Deliberately built from the same tokens as the homepage rather than the
+   legacy case-2021.css stack, so a reader moving from a Selected Product
+   Initiatives card into the case study sees one design system, not two.
+   Reused as-is from the homepage: .rd-shell, .rd-btn*, .rd-detail-label,
+   .rd-mini-stat-row, .rd-cta-*, nav + footer.
+   Scoped under .rd-case so nothing here can touch the homepage.
+   ------------------------------------------------------------------------ */
+.rd-case { background: var(--rd-white); font-family: var(--rd-font); }
+
+.rd-case-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--rd-surface);
+  padding-bottom: 64px;
+}
+.rd-case-hero-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 64px 24px 0;
+}
+.rd-case-eyebrow {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rd-primary);
+}
+.rd-case-title {
+  max-width: 900px;
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 1.15;
+  color: var(--rd-ink);
+}
+.rd-case-lead {
+  max-width: 778px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--rd-ink);
+}
+
+/* Header block — framework §1. Role first, status never omitted. */
+.rd-case-meta {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px;
+  width: 100%;
+  padding-top: 32px;
+  border-top: 1px solid var(--rd-border);
+}
+.rd-case-meta div { display: flex; flex-direction: column; gap: 6px; }
+.rd-case-meta dt,
+.rd-case-meta .rd-case-meta-k {
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+  opacity: 0.6;
+}
+.rd-case-meta dd,
+.rd-case-meta .rd-case-meta-v {
+  margin: 0;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--rd-ink);
+}
+
+/* Body sections */
+.rd-case-section { padding: 72px 0; }
+.rd-case-section.is-tinted { background: var(--rd-surface); }
+.rd-case-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-inline: 24px;
+}
+.rd-case-h2 {
+  font-weight: 600;
+  font-size: 32px;
+  line-height: normal;
+  color: var(--rd-ink);
+}
+.rd-case-body { max-width: 778px; display: flex; flex-direction: column; gap: 16px; }
+.rd-case-body p,
+.rd-case-card p,
+.rd-case-list li {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--rd-ink);
+}
+/* style.css forces `list-style-type: disc` on li, which would number an <ol>
+   with bullets — so both list types are set explicitly here. */
+/* Block, not flex: flex items blockify and browsers disagree about whether a
+   list marker survives that. A plain block list keeps the bullets/numbers. */
+.rd-case-list { max-width: 778px; margin: 0; padding-left: 22px; }
+.rd-case-list > li + li { margin-top: 12px; }
+ul.rd-case-list > li { list-style-type: disc; }
+ol.rd-case-list > li { list-style-type: decimal; }
+.rd-case-list li::marker { color: var(--rd-ink); }
+.rd-case-list li strong { font-weight: 700; }
+
+/* 15-second summary — framework §2. Three rows, stands alone. */
+.rd-case-summary {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.rd-case-summary > div {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  padding: 24px;
+  border-bottom: 1px solid var(--rd-border-soft);
+}
+.rd-case-summary > div:last-child { border-bottom: 0; }
+.rd-case-summary .rd-case-meta-k { flex: 0 0 160px; padding-top: 2px; }
+.rd-case-summary p { flex: 1 1 auto; margin: 0; font-size: 17px; line-height: 1.5; color: var(--rd-ink); }
+
+/* Three-up card grid — discovery lenses, decision blocks */
+.rd-case-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+}
+.rd-case-grid.is-two { grid-template-columns: repeat(2, 1fr); }
+.rd-case-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+}
+.is-tinted .rd-case-card { background: var(--rd-white); }
+.rd-case-card h3 {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--rd-ink-black);
+}
+
+/* Figures — product map, screens */
+.rd-case-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+}
+.rd-case-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+}
+.rd-case-figure figcaption {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--rd-ink);
+  opacity: 0.75;
+}
+
+/* Evidence tag — framework Part 4: every number is labelled. */
+.rd-tag {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  margin-left: 8px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--rd-surface);
+  border: 1px solid var(--rd-border-muted);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+}
+/* Unfilled slot the author still owes. Loud on purpose — it must not ship
+   unnoticed. Delete the element, not the style, once the number lands. */
+.rd-todo {
+  display: block;
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px dashed var(--rd-primary);
+  border-radius: 12px;
+  background: rgba(1, 103, 156, 0.05);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--rd-primary);
+}
+
+.rd-case-back { display: inline-flex; }
+
+@media (max-width: 1024px) {
+  .rd-case-meta { grid-template-columns: repeat(3, 1fr); }
+  .rd-case-grid,
+  .rd-case-grid.is-two { grid-template-columns: 1fr 1fr; }
+  .rd-case-title { font-size: 36px; }
+}
+
+@media (max-width: 767px) {
+  .rd-case-hero-inner { padding: 40px 16px 0; gap: 24px; }
+  .rd-case-hero { padding-bottom: 40px; }
+  .rd-case-title { font-size: 28px; }
+  .rd-case-lead { font-size: 16px; }
+  .rd-case-meta { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .rd-case-section { padding: 48px 0; }
+  .rd-case-inner { padding-inline: 16px; gap: 24px; }
+  .rd-case-h2 { font-size: 24px; }
+  .rd-case-grid,
+  .rd-case-grid.is-two { grid-template-columns: 1fr; }
+  .rd-case-summary > div { flex-direction: column; gap: 8px; }
+  .rd-case-summary .rd-case-meta-k { flex: 0 0 auto; }
+}

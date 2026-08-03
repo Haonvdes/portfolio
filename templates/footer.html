@@ -1,24 +1,38 @@
-<div class="contact" style="margin-top: 40px;" data-aos="fade-up">
-    <h1 style="color: var(--text-utilities-decorate-primary); width: max-content;">
-        Let’s Build Something <br> Meaningful Together
-    </h1>
-        <button class="btn-primary"><a href="https://www.linkedin.com/in/stpnguyen/" target="_blank" style="text-decoration: none;">
-            Reach out</a></button>
-</div>
-
-<div style="padding-top: var(--p-16);padding-bottom: var(--p-16); border-top: 1px solid #C8DDEB;" >
-    <div class="container" style="display: flex; flex-direction: row; justify-content: space-between; align-items: flex-end;">
-       <div>
-        <a href="../index.html">
-            <img src="../public/logo.svg" alt="Company Logo">
-        </a>                        
-        <p class="md-regular">Designed and developed by Stephano</p>
-        
-       </div>
-        <div style="display: flex; gap: var(--m-16);">
-          <a href="mailto:stpnguyen.info@gmail.com"><img src="../public/ic_mail.svg" alt="logo"></a>
-          <a href="https://www.linkedin.com/in/stpnguyen/" target="_blank"><img src="../public/ic_linkedin.svg" alt="logo"></a>
-        </div>
-
+<!--
+  Shared footer bar — Figma node 40000028:3234 / 40000028:3235.
+  Injected into #footer-placeholder by js/script.js.
+  The closing CTA above it is per-page (see .rd-cta-outer in index.html), which
+  is why the old shared "Let's Build Something Meaningful Together" block is gone.
+  Image paths use ../public/ so they resolve from both / and /case-studies/.
+-->
+<div class="rd-footer-outer">
+  <div class="rd-footer-bar rd-shell">
+    <div class="rd-footer-brand">
+      <a href="/index.html" aria-label="Stephano Ng — home">
+        <img src="../public/logo.svg" alt="Stephano.ng" width="121" height="21" class="rd-wordmark-img">
+      </a>
+      <!-- Mirrors the nav tagline (templates/nav.html) — same copy, same format. -->
+      <p class="rd-footer-credentials">
+        <span class="rd-status">#opentowork</span> Product Manager,&nbsp; ex-UX Lead
+      </p>
     </div>
+
+    <div class="rd-footer-meta">
+      <p class="rd-footer-location">Ho Chi Minh, Vietnam</p>
+      <div class="rd-footer-social">
+        <!-- public/icons/* are the current Figma exports (24/25/25 wide, #131313),
+             matching nodes 40000028:3243 / :3246 / :3248. The older root-level
+             public/ic_mail.svg etc. are 25/26/26 and are left for legacy pages. -->
+        <a href="mailto:stpnguyen.info@gmail.com" aria-label="Email">
+          <img src="../public/icons/ic_mail.svg" alt="" width="24" height="24">
+        </a>
+        <a href="https://x.com/" target="_blank" rel="noopener" aria-label="X">
+          <img src="../public/icons/ic_x.svg" alt="" width="25" height="24">
+        </a>
+        <a href="https://www.linkedin.com/in/stpnguyen/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <img src="../public/icons/ic_linkedin.svg" alt="" width="25" height="24">
+        </a>
+      </div>
+    </div>
+  </div>
 </div>

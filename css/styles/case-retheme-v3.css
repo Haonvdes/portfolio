@@ -1,0 +1,598 @@
+/*
+  case-retheme-v3.css — colour and typography only
+  ===========================================================================
+  Loaded LAST by case-studies/*-v3.html, on top of the untouched 2021 stack
+  (style.css → style-2021.css → port-2021.css → case-2021.css).
+
+  THE ONE RULE FOR THIS FILE: colour and type only — colour, background,
+  border colour, shadow colour, fill, font-family, font-size, font-weight and
+  line-height. It must never set padding, margin, display, position, width,
+  height or radius. If you find yourself adding a layout property here, you are
+  in the wrong file — that is what the v2 rebuild is for.
+
+  (Scope note: this file originally changed typeface only. Type *scale* was
+  added 2026-08-07 at Hao's request, which is why line-height and font-size are
+  now in scope and the pages are taller than v1.)
+
+  Why the file exists: v1 of these three case studies is the design Hao wants
+  to keep. v2 rebuilt them in the .rd-case language and changed the structure.
+  v3 is the middle path — identical markup and layout to v1, wearing the 2026
+  palette and typeface.
+
+  ---------------------------------------------------------------------------
+  PALETTE MAPPING (legacy → 2026)
+
+    #0a64e0 / #0A64E0 / rgba(10,100,224,1)  primary blue → --rd-primary
+    #3e77c7                                 hover        → --rd-primary-hover
+    rgba(23,157,242,1) / #0079df / #1276ff  bright accent→ --rd-primary
+    #2488FF / #004eb9 / #1484a4 / #3498db   assorted blue→ --rd-primary
+    #393939 #333 #374151 #5e5e53            body ink     → --rd-ink
+    #6c6c6c #666 #6b7280 #C4C4C4 #B9B9B9    muted ink    → --rd-ink @ .7
+    #fffaf4 rgba(255,250,244,1)             warm cream   → --rd-surface
+    rgba(255,246,235,1) #f4f8ff #ebf4ff     tints        → --rd-surface
+    #E9F2FF #f0f7ff #F7F9FA #f8f8f8         tints        → --rd-surface
+    #fafafa #fbfbfb #f9fafb #fbfcfc         tints        → --rd-surface
+    rgb(241 245 253) rgb(237 243 255)       tints        → --rd-surface
+    #e3e3e3 #E3E3E3 #d6d6d6 #d4d4d4         borders      → --rd-border-soft
+    #e0dedd #c8ddeb #e5e7eb                 borders      → --rd-border-soft
+    #b3b3b3 #bac                            muted border → --rd-border-muted
+    Inter, Manrope                          typeface     → DM Sans
+  ===========================================================================
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap');
+
+/* --------------------------------------------------------------- Tokens - */
+/* The --rd-* set is redeclared here rather than imported from redesign.css so
+   a v3 page is self-contained and can't drift if redesign.css is rescoped. */
+:root {
+  --rd-ink: #0a2a30;
+  --rd-primary: #01679c;
+  --rd-primary-hover: #014a70;
+  --rd-surface: #f3f3ef;
+  --rd-white: #ffffff;
+  --rd-border: #666666;
+  --rd-border-soft: #e5e7eb;
+  --rd-border-muted: #999999;
+  /* Aliased to the token rather than redeclared, so there is one family
+     definition. redesign.css (loaded by lending-v3 and web-3-v3 for the shared
+     nav) reads --rd-font; pointing it here keeps the nav on the same stack. */
+  --rd-font: var(--font-ui);
+
+  /* Realigning the tokens.css variables recolours everything that already
+     consumes them — including web-3.html's inline `color: var(--grey-G500)`
+     attributes, which no selector of mine could otherwise reach. */
+  --grey-G950: var(--rd-ink);
+  --grey-G900: var(--rd-ink);
+  --grey-G800: var(--rd-ink);
+  --grey-G700: var(--rd-ink);
+  --grey-G600: var(--rd-ink);
+  --grey-G500: rgba(10, 42, 48, 0.75);
+  --grey-G400: rgba(10, 42, 48, 0.55);
+  --grey-G300: var(--rd-border-soft);
+  --grey-G200: var(--rd-border-soft);
+  --grey-G100: var(--rd-surface);
+  --grey-G50:  var(--rd-surface);
+
+  --primary-default: var(--rd-primary);
+  --blue-B700: var(--rd-primary);
+  --blue-B600: var(--rd-primary);
+  --blue-B500: var(--rd-primary);
+  --blue-B400: var(--rd-primary);
+  --blue-B300: var(--rd-primary-hover);
+  --blue-B200: var(--rd-surface);
+  --blue-B100: var(--rd-surface);
+  --blue-B50:  var(--rd-surface);
+
+  --text-neutral-body: var(--rd-ink);
+  --text-neutral-heading: var(--rd-ink);
+  --text-neutral-sub-heading: var(--rd-ink);
+  --text-neutral-display: var(--rd-ink);
+  --text-utilities-decorate-primary: var(--rd-primary);
+  --border-neutral-default: var(--rd-border-soft);
+  --border-primary-default: var(--rd-primary);
+  --bg-primary-default: var(--rd-primary);
+  --bg-surface-main: var(--rd-white);
+}
+
+/* ----------------------------------------------------------- Typography - */
+/*
+  Mapped onto the type system in css/styles/tokens.css — the SAME tokens
+  index.html and about.html resolve through redesign.css, so v3 and the
+  redesign now share one ladder.
+
+  Getting here took a correction worth recording. The first attempt mapped onto
+  a scale imported from docs/redesign/tokens.css, which turned out to be stale
+  and disagreed with the live design in three ways that were visible on screen:
+
+    body weight   docs said 400   live is 500   (400 reads noticeably lighter)
+    page title    docs said 40px  live is 48px
+    "tight" lh    docs said 1.1   live means 1.4
+
+  The live values were in redesign.css as --rd-fs-* / --rd-fw-* / --rd-lh-*.
+  Those are now aliases of the canonical tokens, and this file consumes the
+  canonical names directly. If docs and the rendered page ever disagree again,
+  the rendered page wins.
+
+  Legacy size → token, after snapping to the real ladder
+  (12/14/16/18/20/24/32/48 — there is no 40px or 22px rung):
+
+    40px page title   → --fs-4xl   48px   snapped up
+    clamp(34→42px)    → --fs-4xl   48px   fixed instead of fluid
+    32px h4           → --fs-3xl   32px   exact
+    22px h2           → --fs-2xl   24px   snapped up
+    20px h3 / .t_case → --fs-xl    20px   exact
+    16px body         → --fs-md    16px   exact
+    14px small        → --fs-sm    14px   exact
+    12px caption      → --fs-xs    12px   exact
+
+  Weights collapse onto three roles: body 500, heading 600, emphasis 700. The
+  legacy 800 and 900 both become --fw-emphasis, because the redesign
+  deliberately retired those — the same role was previously set 700 on one page
+  and 800 on another.
+
+  No root-size override is needed. The tokens are px, so style.css's
+  `html { font-size: 14px }` no longer distorts them — an earlier draft of this
+  file reset the root to 16px to fix rem-based tokens, and that workaround is
+  gone along with its side effects on the chat widget.
+
+  Everything below sets only family, size, weight and line-height. The layout
+  rules stay in the 2021 sheets.
+*/
+
+/* Base */
+body {
+  font-family: var(--font-ui);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-body);
+  line-height: var(--lh-prose);
+}
+/*
+  FAMILY — the utility classes MUST be listed here, not just the element names.
+
+  text-styles.css sets `font-family: Manrope` on .lg-*, .md-*, .sm-*,
+  .sub-heading and .display. Those are class selectors (0,1,0) and beat a bare
+  element selector (0,0,1), so an element-only rule left them on Manrope. This
+  was not theoretical: an audit of every visible text node found 126 elements
+  still rendering Manrope on web-3-v3 and 7 on lending-v3, because that page's
+  content is built almost entirely out of these utility classes.
+
+  Anything added to text-styles.css later needs adding here too.
+*/
+button, input, select, textarea,
+h1, h2, h3, h4, h5, h6,
+p, li, a, span, div, label, td, th, figcaption, blockquote,
+.display, .sub-heading,
+.lg-medium, .lg-regular, .lg-bold,
+.md-bold, .md-medium, .md-regular,
+.sm-bold, .sm-medium, .sm-regular,
+.title, .subtitle, .helptxt, .txt, .label, .value, .count,
+.t_case, .connect_item, .research_item, .competitor, .p_infor,
+.card-title, .cs-title, .cs-description, .article-card .card-description,
+/* component.css sets `font-family: Manrope` on .btn-primary. Same (0,1,0)
+   vs (0,0,1) problem as the text-styles.css utilities above — the bare
+   `button` selector in this list does not reach it. Caught by the audit as
+   the single remaining off-token element on work-v3.html (the password
+   modal's Submit button). .btn-ghosh is fine without listing: it sets a
+   font-size but no family. */
+.btn-primary {
+  font-family: var(--font-ui);
+}
+
+/*
+  FORM CONTROLS don't inherit type or colour from body — the UA stylesheet gives
+  them `font: 400 13.3333px system-ui` and `color: buttontext`. The audit caught
+  the tab buttons rendering black at 13.3px on marketing-platform-v3, and bare
+  <a> elements rendering black. Both are now on the system.
+*/
+button, input, select, textarea {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-body);
+  line-height: var(--lh-tight);
+  color: var(--rd-ink);
+}
+/* `a:link` / `a:visited`, not bare `a`. The UA stylesheet colours links via
+   `a:link { color: -webkit-link }`, which is (0,1,1) and beats a bare `a` at
+   (0,0,1) — so a plain `a { color: inherit }` leaves any anchor with an href
+   rendering browser-blue or black. One survived the first fix on lending-v3.
+
+   `:not(.rd-btn)` matters here too, same reasoning as redesign.css's own
+   `.rd-nav-links > a:not(.rd-btn)` rule: `a:link` at (0,1,1) outranks
+   `.rd-btn-primary` at (0,1,0), so without the guard this repainted the
+   shared nav's Linkedin button ink-dark on every v3 page instead of leaving
+   it white on its blue fill. */
+a:not(.rd-btn),
+a:link:not(.rd-btn),
+a:visited:not(.rd-btn) {
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+}
+/* Links inside running prose stay branded. Buttons and cards that happen to be
+   anchors keep whatever their own class sets. */
+p > a:not([class]),
+li > a:not([class]) {
+  color: var(--rd-primary);
+}
+/* Font Awesome and the Swiper icon fonts must keep their own families or the
+   glyphs turn into letters. */
+.fa, .fas, .far, .fab, .fal, .fad,
+[class^="fa-"], [class*=" fa-"],
+.swiper-button-next, .swiper-button-prev,
+.swiper-button-next::after, .swiper-button-prev::after {
+  font-family: revert;
+}
+
+/* Display + H1 — the case-study title. Tight, because at 48px the default
+   leading opens a visible gap between two-line headlines. */
+#Intro,
+#Intro_port,
+.display,
+h1 {
+  font-size: var(--fs-4xl);
+  font-weight: var(--fw-heading);
+  line-height: var(--lh-tight);
+}
+
+/* 48px was declared flat, with no responsive step — the v1 pages get 24px at
+   mobile from text-styles.css, but this rule overrode it. On web-3-v3.html the
+   word "Entertainment" then measured 391.8px of min-content on a 390px screen,
+   and because the hero wrapper is `display: flex; justify-content: center` the
+   overflowing line was centred: the headline started at -0.9px while the nav
+   wordmark sat at 16px. A heading cannot hold the page's left edge if it is
+   wider than the page. Ladder mirrors `.rd-case-title` in redesign.css. */
+@media (max-width: 1180px) {
+  #Intro,
+  #Intro_port,
+  .display,
+  h1 { font-size: 36px; }
+}
+@media (max-width: 768px) {
+  #Intro,
+  #Intro_port,
+  .display,
+  h1 { font-size: 28px; }
+}
+
+/* H2–H4 and section headings */
+h4 {
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-heading);
+  line-height: var(--lh-tight);
+}
+h2,
+.cs-title {
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-heading);
+  line-height: var(--lh-tight);
+}
+h3,
+.t_case {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-heading);
+  line-height: var(--lh-tight);
+}
+.sub-heading {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-emphasis);
+  line-height: var(--lh-tight);
+}
+
+/* Body copy — the tier that actually changes */
+p,
+li,
+.txt,
+.lg-regular,
+.cs-description,
+.article-card .card-description {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-body);
+  line-height: var(--lh-prose);
+}
+.lg-medium {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-body);
+  line-height: var(--lh-prose);
+}
+.lg-bold,
+.value,
+.subtitle,
+.title {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-emphasis);
+  line-height: var(--lh-prose);
+}
+
+/* Small body — labels, card meta, the dense case-study blocks */
+.md-regular,
+.label,
+.research_item,
+.block_goal,
+.connect_item,
+.p_infor,
+.helptxt {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-body);
+  line-height: var(--lh-prose);
+}
+.md-medium {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-body);
+  line-height: var(--lh-prose);
+}
+.md-bold {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-emphasis);
+  line-height: var(--lh-prose);
+}
+
+/* Captions and tags */
+.competitor,
+.sm-regular {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-body);
+  line-height: var(--lh-tight);
+}
+.sm-medium {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-body);
+  line-height: var(--lh-tight);
+}
+.sm-bold {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-emphasis);
+  line-height: var(--lh-tight);
+}
+/* Font Awesome and the Swiper icon fonts must keep their own families or the
+   glyphs turn into letters. */
+.fa, .fas, .far, .fab, .fal, .fad,
+[class^="fa-"], [class*=" fa-"],
+.swiper-button-next, .swiper-button-prev,
+.swiper-button-next::after, .swiper-button-prev::after {
+  font-family: revert;
+}
+
+/* ------------------------------------------------------------------ Ink - */
+/*
+  BASE INK — this rule is load-bearing, do not delete it.
+
+  style.css sets `html { color: var(--text-neutral-body) }`, and realigning
+  that token above is enough on its own for lending-v3 and web-3-v3. It is NOT
+  enough for marketing-platform-v3, which pulls the full Bootstrap 5 bundle
+  from the CDN. Bootstrap's Reboot sets `body { color: #212529 }`, and since
+  `body` is more specific than `html` for everything inside it, every element
+  that inherits — headings, spans, divs, list items — kept rendering in
+  Bootstrap's grey. Only <p> escaped, because style.css colours it directly.
+
+  Setting body here, in the last sheet in the cascade, puts the whole document
+  back on the 2026 ink. <p> is deliberately left to the token realignment
+  rather than switched to `inherit`: paragraphs sitting on the recoloured blue
+  washes are body-coloured in v1, and `inherit` would silently turn them white.
+*/
+body { color: var(--rd-ink); }
+
+.title,
+.subtitle,
+.value,
+.t_case,
+.count {
+  color: var(--rd-ink);
+}
+.connect_item { color: var(--rd-ink); }
+.helptxt { color: rgba(10, 42, 48, 0.7); }
+.cs-title { color: var(--rd-ink); }
+.cs-description,
+.article-card .card-description,
+.tab-content { color: rgba(10, 42, 48, 0.7); }
+#Intro_port { color: var(--rd-primary); }
+.status-message { color: var(--rd-ink); }
+
+/* -------------------------------------------------------------- Primary - */
+.cta,
+.cta_case { background-color: var(--rd-primary); }
+.cta:hover,
+.cta_case:hover { background-color: var(--rd-primary-hover); }
+
+.cover { background-color: var(--rd-primary); }
+#line { background-color: var(--rd-primary); }
+.learnmore { background-color: var(--rd-ink); }
+
+.tab button:hover { color: var(--rd-primary); }
+.tab button.active {
+  background-color: var(--rd-primary);
+  color: var(--rd-white);
+}
+
+#back_button {
+  background-color: var(--rd-surface);
+  border: 1px solid var(--rd-primary);
+  color: var(--rd-primary);
+}
+#back_button:hover {
+  background-color: var(--rd-primary);
+  border: 1px solid var(--rd-primary);
+  color: var(--rd-white);
+}
+
+/* Scroll-to-top pill. Same 150deg axis and stops, new hues. */
+#button {
+  background: linear-gradient(150deg, var(--rd-primary) 0%, var(--rd-primary-hover) 100%);
+}
+#button:hover {
+  background: linear-gradient(150deg, var(--rd-primary-hover) 0%, var(--rd-primary) 100%);
+}
+
+/* --------------------------------------------------- Surfaces, gradients - */
+/* Angles and colour-stop percentages are preserved exactly; only the hues
+   change, so nothing shifts position. */
+.s1 { background-color: var(--rd-surface); }
+.s4 { background-color: var(--rd-surface); }
+.goal { background-color: var(--rd-surface); border-color: var(--rd-border-muted); }
+.portfolio { background-color: var(--rd-surface); }
+
+.s2,
+#header {
+  background: linear-gradient(0deg, var(--rd-white) 0%, var(--rd-surface) 100%);
+}
+.s3,
+.bg_slider {
+  background: linear-gradient(180deg, var(--rd-white) 0%, var(--rd-surface) 40%, var(--rd-surface) 100%);
+}
+.s5 {
+  background: linear-gradient(180deg, var(--rd-white) 0%, var(--rd-surface) 100%);
+}
+
+/* The three sections that carried the bright blue-to-blue wash. */
+.highline,
+.block_goal,
+#p_left {
+  background: linear-gradient(150deg, var(--rd-primary) 0%, var(--rd-primary-hover) 100%);
+}
+
+.work-information,
+.stuff {
+  border-bottom: 1px solid var(--rd-border-soft);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.61) -14.02%, var(--rd-surface) 10.91%);
+}
+.header {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.61) 67.02%, rgba(243, 243, 239, 0.6) 100.88%);
+}
+.certificate {
+  background: linear-gradient(91deg, rgba(243, 243, 239, 0) 0.18%, var(--rd-surface) 56.25%);
+}
+/* v1 left this on style.css's --bg-surface-main, which this file aliases to
+   --rd-white — so the section sat in plain white, same as the header above
+   it and the (now white) cards inside it, with nothing to separate the three
+   layers. The homepage reserves --rd-surface for exactly this: the section
+   plane behind a white card. */
+.second-section {
+  border-top: 2px solid var(--rd-border-soft);
+  background-color: var(--rd-surface);
+}
+
+.cs-feature-item:hover,
+.cs-feature-item.cs-active {
+  background-color: var(--rd-surface);
+  border-bottom: 1px solid var(--rd-primary);
+}
+.cs-right-side { background-color: var(--rd-surface); }
+/* Found by the 2026-08-07 audit, pre-existing: case-studies.css gives
+   .outcome-highlight a literal #0079df fill, which is in this file's own
+   mapping table (bright accent → --rd-primary) but was never given a
+   selector. It was still rendering legacy blue on web-3-v3. */
+.outcome-highlight { background-color: var(--rd-primary); }
+.modal-header { background: var(--rd-surface); }
+/* Selected-project cards on work-v3.html: v1 put these on the same surface
+   tint as the modal header, so they blended into the (white) section behind
+   them. The homepage's equivalent card, .rd-initiative-card, sits in white
+   with a --rd-border edge and reserves the surface tint for the section —
+   splitting this rule off to match that pattern is what makes the card read
+   as a raised white surface instead of a grey patch. */
+.card {
+  background: var(--rd-white);
+  border-color: var(--rd-border);
+}
+
+/* --------------------------------------------------------------- Borders - */
+.research { border: solid 1px var(--rd-border-soft); }
+.competitor {
+  border: solid 1px var(--rd-border-soft);
+  background-color: var(--rd-white);
+}
+.p_infor {
+  background-color: var(--rd-white);
+  border: solid 1px var(--rd-border-soft);
+}
+.p_infor:hover { background-color: var(--rd-surface); }
+.p_detail { border-right: solid 1px var(--rd-border-soft); }
+.tab {
+  background-color: var(--rd-surface);
+  border: 1px solid var(--rd-border-soft);
+}
+.count { border: 1px solid var(--rd-ink); }
+.card-header-ar .icon { border: 1px solid var(--rd-border-soft); }
+.gallery > img { border-color: var(--rd-ink); }
+
+/* ------------------------------------------- Inline styles in the markup - */
+/*
+   v3 keeps the v1 HTML byte-for-byte, so the hardcoded colours in its
+   `style="…"` attributes cannot be edited out. Attribute selectors reach them
+   instead. `!important` is required only because an inline style outranks any
+   stylesheet — it is not used anywhere else in this file.
+*/
+[style*="#393939"] { color: var(--rd-ink) !important; }
+[style*="#004eb9"],
+[style*="#004EB9"],
+[style*="#2488FF"],
+[style*="#2488ff"] { color: var(--rd-primary) !important; }
+[style*="color: teal"],
+[style*="color:teal"] { color: var(--rd-primary) !important; }
+/* "Learn More" wireframe link on lending — inline `color: black`. */
+[style*="color: black"],
+[style*="color:black"] { color: var(--rd-ink) !important; }
+[style*="#C4C4C4"],
+[style*="#B9B9B9"] { color: rgba(10, 42, 48, 0.55) !important; }
+[style*="background-color: #F3F8FF"],
+[style*="background-color:#F3F8FF"] { background-color: var(--rd-surface) !important; }
+[style*="background-color:bisque"],
+[style*="background-color: bisque"] { background-color: var(--rd-surface) !important; }
+
+/* An inline `font-size: 30px` on the marketing-platform "Let's Explore" heading
+   is off the ladder — snapped to the nearest rung. */
+[style*="font-size: 30px"],
+[style*="font-size:30px"] { font-size: var(--fs-3xl) !important; }
+
+/* Carousel arrows: translucent black chrome, tinted to the ink so they read as
+   part of the palette rather than as a browser default. */
+.swiper-button-next,
+.swiper-button-prev { background-color: rgba(10, 42, 48, 0.53); }
+
+/* ------------------------------------------ Case Studies listing page - */
+/*
+   Added 2026-08-07 for work-v3.html, the /work.html listing. That page is not a
+   case study, but it runs on the same legacy stack (style.css → component.css,
+   text-styles.css, tokens.css, case-studies.css), so everything above already
+   reaches it: the :root realignment recolours the cards' `--border-neutral-
+   default` and `--bg-surface-main`, the typography block puts `.display`,
+   `.sub-heading` and `.lg-regular` on the ladder, and `.modal-header, .card`
+   and `.second-section` are already remapped.
+
+   These four are the only colours the listing page carries that nothing above
+   catches. Each is a literal in the 2021 sheets, not a token, so it needs a
+   selector. All four also read correctly on the three case studies, so they
+   live here rather than in a fifth stylesheet.
+*/
+
+/* `aliceblue` (#f0f8ff) is the legacy on-primary text colour — a cold, slightly
+   blue white that reads as a mistake next to --rd-white. It appears twice: on
+   .btn-ghosh's own hover and again on .card:hover .btn-ghosh, which is how the
+   listing cards light their "Learn more" button when you hover the whole card.
+   Both need remapping or the two states disagree with each other. */
+.btn-ghosh:hover,
+.card:hover .btn-ghosh { color: var(--rd-white); }
+
+/* The password modal's error line is a bare `color: red` — pure #ff0000, off
+   the palette entirely. --red-R600 is the ramp's error rung and the only red
+   the design system defines. (tokens.css also has --text-error, but it is
+   written `(var(--red-R600))` with stray parens and resolves to nothing, so
+   this consumes the ramp member directly.) */
+.error-message { color: var(--red-R600); }
+
+/* Modal scrim: same 0.5 coverage, tinted to the ink so the dimmed page keeps a
+   warm cast instead of going neutral grey. Matches the carousel-arrow chrome
+   above, which took the same treatment. */
+.modal { background-color: rgba(10, 42, 48, 0.5); }
+
+/* -------------------------------------------------- Reviewed, left alone - */
+/*
+   These carry a colour and are deliberately NOT remapped:
+
+   - `color: white` / `#ffff` in the markup, and `.expect_item`'s
+     rgba-white divider, all sit on top of the recoloured blue washes and
+     have to stay white to stay legible.
+   - `.growth`, `.stage-item`, `.skeleton-block`, `#club-section`,
+     `#playback-info`, `#personal-section`, `.test` in style.css read their
+     colours through `var(--border-neutral-default)`, `var(--grey-G100)` and
+     friends. Those variables are realigned in the :root block above, so these
+     rules recolour on their own and must not be duplicated here.
+*/

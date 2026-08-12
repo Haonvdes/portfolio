@@ -2,10 +2,17 @@
 <html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
    <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- No maximum-scale / user-scalable=no: blocking pinch-zoom fails WCAG 1.4.4. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <link rel="icon" type="image/x-icon" href="./public/favicon.png">
     <title>About | Stephano Ng — Product Manager, ex-UX Lead</title>
     <link rel="stylesheet" href="./css/styles/style.css">
+    <!-- DM Sans is the redesign's typeface (--rd-font). Nothing in the style.css
+         import chain loads it, so without this the pages silently fell back to
+         Manrope, which has wider metrics and changes every line length. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap">
     <!-- Linked directly (not @import'ed from style.css) so a revert of the legacy
          stylesheet can't silently unstyle the redesign. Must stay after style.css
          so .rd-* rules win the cascade. -->
@@ -75,13 +82,31 @@
     <section class="rd-journey-section" data-aos="fade-up">
         <div class="rd-journey-inner rd-shell">
             <div class="rd-journey-intro" data-node-id="40000113:8666">
-                <h2 class="rd-section-heading">My Path of Growth and Leadership</h2>
-                <p class="rd-journey-blurb">Experience in crafting high-quality digital products and solutions that exceed customer expectations.</p>
+                <h2 class="rd-section-heading">Professional Journey</h2>
+                <p class="rd-journey-blurb">From hands-on product design to leading cross-functional teams &mdash; across finance, banking, lending, Web3 and automotive. Pick a period to see what the work involved.</p>
+
+                <!-- Timeline index — the homepage's .rd-deck-index component
+                     (numbered rail + sliding marker), same markup and styling.
+                     Clicking a row scrolls that card to the front; js/journey.js
+                     mirrors initiatives.js, toggling .is-current and moving the
+                     marker. -->
+                <ul class="rd-deck-index" id="journey-index">
+                    <li><button type="button" aria-controls="work-horizons"><span class="n">01</span><span>Horizons Technology Vietnam</span></button></li>
+                    <li><button type="button" aria-controls="work-fpt"><span class="n">02</span><span>FPT Software</span></button></li>
+                    <li><button type="button" aria-controls="work-aperia"><span class="n">03</span><span>Aperia Solutions</span></button></li>
+                    <li><button type="button" aria-controls="work-tinhvan"><span class="n">04</span><span>Tinh Van Software</span></button></li>
+                    <li><button type="button" aria-controls="work-panicbear"><span class="n">05</span><span>Panic Bear</span></button></li>
+                </ul>
             </div>
 
-            <!-- Company / role / dates are the real history from work-experience.html.
-                 The Figma cards carry repeated lorem; the scope-of-work bullets below
-                 are drafted from each role and should be confirmed by Hao.
+            <!-- Dates follow Hao's BHXH (social-insurance) contribution record, which
+                 is the authoritative timeline — it corrected three employer names and
+                 four date ranges that work-experience.html and both resumes had wrong,
+                 and it is why FPT now closes at Dec 2025 instead of "Now".
+                 Roles + scope of work come from [Stephano Ng] Resume_PM/PD.pdf, rewritten
+                 in a PM voice (outcomes and prioritisation rather than design output).
+                 The Horizons card has NO source material — its summary and bullets are
+                 drafted and need Hao's confirmation.
                  Interaction (js/journey.js): sticky-stacking cards per
                  scroll-stacking-timeline-spec.md. The scale/lift transform is
                  deliberately NOT applied — Hao removed it on 2026-08-02 because
@@ -91,12 +116,36 @@
             <div class="rd-journey-list">
                 <article class="rd-work-card">
                     <div class="rd-work-tagrow">
-                        <button class="rd-work-tag" type="button" aria-controls="work-fpt" aria-current="true">Oct, 2021 - Now</button>
+                        <button class="rd-work-tag" type="button" aria-controls="work-horizons" aria-current="true">Jan, 2026 - Jun, 2026</button>
+                    </div>
+                    <div class="rd-work-body" id="work-horizons">
+                            <div class="rd-work-head">
+                                <h3 class="rd-work-title">UX &amp; Product Consultant at Horizons Technology Vietnam</h3>
+                                <p class="rd-work-meta">Consulted on product and UX direction for an in-house platform team — framing the problem before the solution, prioritising what earned a place on the roadmap, and keeping design decisions tied to business outcomes.</p>
+                            </div>
+                            <div class="rd-work-scope">
+                                <div class="rd-work-scope-head">
+                                    <p class="rd-work-scope-label">Scope of work:</p>
+                                    <!-- journey.js injects the .rd-work-more chevron here when the list runs past 4 items -->
+                                </div>
+                                <ul class="rd-work-scope-list">
+                                    <li>Partnered with the in-house team to frame product problems before committing to a solution.</li>
+                                    <li>Ran discovery with stakeholders and turned the findings into a prioritised backlog.</li>
+                                    <li>Set the UX direction and reviewed delivery against it.</li>
+                                    <li>Advised on ways of working so design, engineering and business stayed aligned through delivery.</li>
+                                </ul>
+                            </div>
+                    </div>
+                </article>
+
+                <article class="rd-work-card">
+                    <div class="rd-work-tagrow">
+                        <button class="rd-work-tag" type="button" aria-controls="work-fpt">Oct, 2021 - Dec, 2025</button>
                     </div>
                     <div class="rd-work-body" id="work-fpt">
                             <div class="rd-work-head">
-                                <h3 class="rd-work-title">Lead Product Designer at FPT Software</h3>
-                                <p class="rd-work-meta">Leading enterprise product design across ERP, lending, banking and automotive platforms, working alongside engineering and business stakeholders from discovery through delivery.</p>
+                                <h3 class="rd-work-title">Project Manager / Lead Product Designer at FPT Software</h3>
+                                <p class="rd-work-meta">Led a cross-functional team of 10 on a B2B auction platform serving the VN, US and JP markets — owning UX/UI strategy and holding design decisions to the business goals across finance, Web3 and automotive.</p>
                             </div>
                             <div class="rd-work-scope">
                                 <div class="rd-work-scope-head">
@@ -104,25 +153,25 @@
                                     <!-- journey.js injects the .rd-work-more chevron here when the list runs past 4 items -->
                                 </div>
                                 <ul class="rd-work-scope-list">
-                                    <li>Shape product strategy and roadmap with business stakeholders, translating customer research into prioritised opportunities.</li>
-                                    <li>Lead a cross-functional design practice and own the design system that keeps delivery teams aligned.</li>
-                                    <li>Run discovery with enterprise customers and turn the findings into problem statements the team can build against.</li>
-                                    <li>Facilitate prioritisation across business, engineering and design so scope reflects value rather than volume.</li>
-                                    <li>Partner with engineering leads on feasibility and phasing, keeping delivery honest about trade-offs.</li>
-                                    <li>Define success metrics up front and review them post-release to decide what gets iterated or dropped.</li>
+                                    <li>Led a cross-functional team of 10, owning UX/UI strategy and execution for a B2B auction platform across VN, US and JP.</li>
+                                    <li>Set the UX/UI architecture direction and held delivery to it, signing off high-impact work before release.</li>
+                                    <li>Found and cleared design bottlenecks to protect delivery throughput.</li>
+                                    <li>Aligned UX, engineering and product around one set of design decisions.</li>
+                                    <li>Built tailored solution proposals that won new customers by tying UX/UI to their business needs.</li>
+                                    <li>Reviewed high-visibility releases against the agreed scope before they shipped.</li>
                                 </ul>
                             </div>
-                        </div>
+                    </div>
                 </article>
 
                 <article class="rd-work-card">
                     <div class="rd-work-tagrow">
-                        <button class="rd-work-tag" type="button" aria-controls="work-aperia">Oct, 2019 - May, 2021</button>
+                        <button class="rd-work-tag" type="button" aria-controls="work-aperia">Feb, 2020 - Jun, 2021</button>
                     </div>
                     <div class="rd-work-body" id="work-aperia">
                             <div class="rd-work-head">
-                                <h3 class="rd-work-title">Sr. Product Designer at Aperia VietNam</h3>
-                                <p class="rd-work-meta">Designing data-heavy B2B products for a US fleet-services platform, partnering directly with product and engineering counterparts across time zones.</p>
+                                <h3 class="rd-work-title">Sr. Product Designer at Aperia Solutions</h3>
+                                <p class="rd-work-meta">Worked across ten core banking products, establishing the shared design system and turning customer requirements into changes that shipped.</p>
                             </div>
                             <div class="rd-work-scope">
                                 <div class="rd-work-scope-head">
@@ -130,24 +179,23 @@
                                     <!-- journey.js injects the .rd-work-more chevron here when the list runs past 4 items -->
                                 </div>
                                 <ul class="rd-work-scope-list">
-                                    <li>Ran discovery and usability testing with operators to validate flows before build.</li>
-                                    <li>Delivered end-to-end product design for web and mobile, from concept to production hand-off.</li>
-                                    <li>Designed dense telemetry dashboards that stayed readable under real fleet data volumes.</li>
-                                    <li>Built and maintained the shared component library used across the product suite.</li>
-                                    <li>Worked asynchronously with US product and engineering counterparts across a 12-hour offset.</li>
+                                    <li>Helped establish a design system serving 10 core banking products, giving teams a consistent, scalable base.</li>
+                                    <li>Gathered requirements directly from customers and turned them into prioritised product improvements.</li>
+                                    <li>Produced wireframes, prototypes and UX frameworks to raise usability across the financial platforms.</li>
+                                    <li>Held products to consistent behaviour so the banking ecosystem read as one product.</li>
                                 </ul>
                             </div>
-                        </div>
+                    </div>
                 </article>
 
                 <article class="rd-work-card">
                     <div class="rd-work-tagrow">
-                        <button class="rd-work-tag" type="button" aria-controls="work-tinhvan">Jan, 2019 - Oct, 2019</button>
+                        <button class="rd-work-tag" type="button" aria-controls="work-tinhvan">Aug, 2019 - Oct, 2019</button>
                     </div>
                     <div class="rd-work-body" id="work-tinhvan">
                             <div class="rd-work-head">
-                                <h3 class="rd-work-title">Product Designer at Tinh Van Outsourcing</h3>
-                                <p class="rd-work-meta">Building government and enterprise web products under tight delivery cycles, balancing compliance requirements with usability.</p>
+                                <h3 class="rd-work-title">Product Designer at Tinh Van Software</h3>
+                                <p class="rd-work-meta">Designed the lending experience for a service reaching more than 500,000 customers, working with stakeholders to fit the business rules to what users could actually complete.</p>
                             </div>
                             <div class="rd-work-scope">
                                 <div class="rd-work-scope-head">
@@ -155,24 +203,23 @@
                                     <!-- journey.js injects the .rd-work-more chevron here when the list runs past 4 items -->
                                 </div>
                                 <ul class="rd-work-scope-list">
-                                    <li>Produced wireframes, prototypes and specs for multi-module enterprise systems.</li>
-                                    <li>Worked with QA and engineering to keep the shipped product faithful to the design intent.</li>
-                                    <li>Translated regulatory and compliance requirements into flows people could actually complete.</li>
-                                    <li>Ran stakeholder reviews to close decisions early rather than late in the build.</li>
-                                    <li>Documented patterns so several parallel delivery teams stayed visually consistent.</li>
+                                    <li>Owned UX for a lending service serving 500,000+ customers.</li>
+                                    <li>Worked with stakeholders to turn business requirements into flows people could complete.</li>
+                                    <li>Ran user research and usability testing to close the gap on product-market fit.</li>
+                                    <li>Partnered with engineering to ship responsive, accessible interfaces.</li>
                                 </ul>
                             </div>
-                        </div>
+                    </div>
                 </article>
 
                 <article class="rd-work-card">
                     <div class="rd-work-tagrow">
-                        <button class="rd-work-tag" type="button" aria-controls="work-panicbear">Jan, 2018 - Nov, 2018</button>
+                        <button class="rd-work-tag" type="button" aria-controls="work-panicbear">Dec, 2018 - Mar, 2019</button>
                     </div>
                     <div class="rd-work-body" id="work-panicbear">
                             <div class="rd-work-head">
                                 <h3 class="rd-work-title">UI/UX Designer at Panic Bear</h3>
-                                <p class="rd-work-meta">Where it started — crafting interfaces for client web and mobile products in a small studio team.</p>
+                                <p class="rd-work-meta">First product role — improving the storefront experience for an electronics business selling into the Australian market, with conversion as the measure.</p>
                             </div>
                             <div class="rd-work-scope">
                                 <div class="rd-work-scope-head">
@@ -180,83 +227,12 @@
                                     <!-- journey.js injects the .rd-work-more chevron here when the list runs past 4 items -->
                                 </div>
                                 <ul class="rd-work-scope-list">
-                                    <li>Designed responsive interfaces and visual systems for client-facing products.</li>
-                                    <li>Turned client briefs into concepts, prototypes and production-ready UI.</li>
-                                    <li>Presented and defended design directions directly to clients.</li>
-                                    <li>Prepared assets and specs for hand-off to front-end developers.</li>
-                                    <li>Iterated on feedback across short studio project cycles.</li>
+                                    <li>Improved UX for electronics products in the Australian market, lifting usability and conversion.</li>
+                                    <li>Built interactive prototypes and ran user testing to validate interactions before build.</li>
+                                    <li>Contributed to UX strategy and sharpened digital touchpoints to raise engagement.</li>
+                                    <li>Kept design documentation and style guides current so work stayed consistent across projects.</li>
                                 </ul>
                             </div>
-                        </div>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==== Section 3 — Product Philosophy and Expertises (Figma 40000037:6768) ==== -->
-    <section class="rd-philosophy-section" data-aos="fade-up">
-        <div class="rd-philosophy-inner rd-shell">
-            <div class="rd-split-head">
-                <h2 class="rd-section-heading">Product Philosophy<br>and Expertises</h2>
-                <p class="rd-split-head-note">I believe great products are built by aligning customer needs, business goals, and engineering execution. My role is to connect these perspectives, prioritize what matters most, and help teams deliver measurable outcomes.</p>
-            </div>
-
-            <div class="rd-pillar-grid">
-                <article class="rd-pillar-card">
-                    <img class="rd-pillar-watermark" src="./public/ar_communication.png" alt="" aria-hidden="true">
-                    <div class="rd-pillar-body">
-                        <h3>Communication Platform</h3>
-                        <p>Enabling on-chain transactions for creating, registering, and managing IP across multiple chains.</p>
-                    </div>
-                </article>
-                <article class="rd-pillar-card">
-                    <img class="rd-pillar-watermark" src="./public/automotive.png" alt="" aria-hidden="true">
-                    <div class="rd-pillar-body">
-                        <h3>Dealertrack</h3>
-                        <p>Enabling on-chain transactions for creating, registering, and managing IP across multiple chains.</p>
-                    </div>
-                </article>
-                <article class="rd-pillar-card">
-                    <img class="rd-pillar-watermark" src="./public/banking.png" alt="" aria-hidden="true">
-                    <div class="rd-pillar-body">
-                        <h3>Banking Platform</h3>
-                        <p>Enabling on-chain transactions for creating, registering, and managing IP across multiple chains.</p>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==== Section 4 — AI Catching (Figma 40000135:3716) ====
-         The Figma frame duplicates the philosophy cards verbatim; copy below is a
-         placeholder written to the right shape and is meant to be replaced. -->
-    <section class="rd-philosophy-section" data-aos="fade-up">
-        <div class="rd-philosophy-inner rd-shell">
-            <div class="rd-split-head">
-                <h2 class="rd-section-heading">AI Catching</h2>
-                <p class="rd-split-head-note">I treat AI as a working tool rather than a headline. It earns a place in a product when it removes real friction for the customer and holds up under evaluation — not because the technology is available.</p>
-            </div>
-
-            <div class="rd-pillar-grid">
-                <article class="rd-pillar-card">
-                    <img class="rd-pillar-watermark" src="./public/research1.png" alt="" aria-hidden="true">
-                    <div class="rd-pillar-body">
-                        <h3>AI-Assisted Discovery</h3>
-                        <p>Using language models to synthesise research, cluster feedback at scale, and surface product opportunities far faster than manual analysis.</p>
-                    </div>
-                </article>
-                <article class="rd-pillar-card">
-                    <img class="rd-pillar-watermark" src="./public/ar_automation.png" alt="" aria-hidden="true">
-                    <div class="rd-pillar-body">
-                        <h3>Prompt &amp; Evaluation Design</h3>
-                        <p>Designing prompt systems with evaluation loops behind them, so AI features behave predictably once they reach production.</p>
-                    </div>
-                </article>
-                <article class="rd-pillar-card">
-                    <img class="rd-pillar-watermark" src="./public/aura_dev3.png" alt="" aria-hidden="true">
-                    <div class="rd-pillar-body">
-                        <h3>AI in Delivery</h3>
-                        <p>Embedding AI into everyday delivery — spec drafting, test generation, release notes — to shorten cycle time without loosening quality.</p>
                     </div>
                 </article>
             </div>
@@ -291,11 +267,13 @@
     </section>
 
     <!-- ==== Section 6 — Professional Activities (Figma 40000079:7055) ====
-         The two left cards are live data: js/socialize.js fills #personal-section
-         (Strava) and #playback-info (Spotify). Those ids must stay. -->
+         The two left cards are live data: js/socialize.js fills #club-section
+         (Strava group stats) and #playback-info (Spotify). Those ids must stay. -->
     <section class="rd-activities-section" data-aos="fade-up">
         <div class="rd-split-head rd-shell">
-            <h2 class="rd-section-heading">Personal<br>Activities</h2>
+            <!-- Trailing space before the <br> is load-bearing: the mobile rule
+                 hides the <br>, and without it the two words run together. -->
+            <h2 class="rd-section-heading">Personal <br>Activities</h2>
             <p class="rd-split-head-note rd-split-head-note-sm">Beyond the product work: a running club I show up for every week, the music that keeps the focus going, and the teams I have had the luck to build things with.</p>
         </div>
 
@@ -303,7 +281,7 @@
             <div class="rd-activities-row">
                 <div class="rd-activities-side">
                     <div class="rd-activity-card">
-                        <div id="personal-section"></div>
+                        <div id="club-section"></div>
                     </div>
                     <div class="rd-activity-card">
                         <div id="playback-info"></div>
@@ -338,19 +316,7 @@
 <!-- ======= Section 7 — closing CTA + footer bar (Figma 40000113:8484) ======= -->
 <!-- Identical structure to index.html so the two pages stay in lockstep. -->
 <div class="rd-closing">
-    <div class="rd-cta-outer" data-aos="fade-up">
-        <div class="rd-cta-inner rd-shell">
-            <div class="rd-cta-block">
-                <h2 class="rd-cta-heading">Great products are rarely the result of great ideas alone.</h2>
-                <div class="rd-cta-sub">
-                    <p>They come from understanding customer problems, aligning business goals, and helping teams make informed decisions together. Looking for someone who can bridge business, design, and engineering?</p>
-                    <a href="https://www.linkedin.com/in/stpnguyen/" target="_blank" rel="noopener" class="rd-btn rd-btn-primary">Let's connect</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer id="footer-placeholder"></footer>
+<footer id="footer-placeholder"></footer>
 </div>
 
 <script src="./js/script.js"></script>

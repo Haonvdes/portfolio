@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const contentMap = {
     SeekHype: {
-        img: "/public/sh_case.webp",
+        img: "../public/sh_case-1400.webp",
         main: ["NFT Marketplace", "Decentralized Exchange", "Staking and Governance", "DAO and Community"],
         audience: ["Crypto Investors", "Developers", "Traders"],
         format: ["Web App", "Mobile Web App"],
@@ -198,7 +198,7 @@ const contentMap = {
         description: "SeekHype is an innovative platform for discovering and trading trending NFTs, designed to make the NFT space accessible to Web2 users. It offers a user-friendly interface and seamless integration with Aura Network, ensuring secure and transparent transactions. SeekHype empowers creators, collectors, and investors by bridging the digital and physical worlds, enabling ownership of unique IRL NFTs like artwork, merchandise, and experiences"
     },
     Scan: {
-        img: "/public/sc_cover.png",
+        img: "../public/sc_cover-1400.webp",
         main: ["Security Audit", "Transaction Verification", "Smart Contract Analysis"],
         audience: ["Blockchain Developers", "Security Analysts"],
         format: ["Web App", "Mobile Web App"],
@@ -207,7 +207,7 @@ const contentMap = {
         description: "Scan is a blockchain explorer focused on tracking transactions and analyzing smart contracts. It provides essential tools for blockchain developers and security analysts to audit security, verify transactions, and optimize smart contract functionality. With an emphasis on user experience and interface optimization, Scan simplifies complex blockchain data for its users"
     },
     Swap: {
-        img: "/public/sw_case.png",
+        img: "../public/sw_case-1400.webp",
         main: ["Token Swapping", "Liquidity Pools", "Yield Farming"],
         audience: ["DeFi Users", "Liquidity Providers"],
         format: ["Web App", "Mobile Web App"],
@@ -216,7 +216,7 @@ const contentMap = {
         description: "Swap facilitates seamless token exchanges across multiple blockchain networks. It supports token swapping, liquidity pools, and yield farming, making it ideal for DeFi users and liquidity providers. The platform prioritizes branding, user experience, and development to enhance accessibility for decentralized finance enthusiasts"
     },
     Safe: {
-        img: "/public/sf_cover.png",
+        img: "../public/sf_cover-1400.webp",
         main: ["Digital Wallet", "Multi-Signature Support", "Secure Storage"],
         audience: ["Crypto Holders", "Institutional Investors"],
         format: ["Web App", "Mobile Web App"],
@@ -225,7 +225,7 @@ const contentMap = {
         description: "Safe offers secure storage solutions for digital assets through its digital wallet with multi-signature support. Tailored for crypto holders and institutional investors, Safe ensures optimal security while enhancing user interface and experience across web and mobile platforms"
     },
     Bot: {
-        img: "/public/ab_cover.png",
+        img: "../public/ab_cover-1400.webp",
         main: ["Digital Wallet", "Multi-Signature Support", "Secure Storage"],
         audience: ["Crypto Holders", "Institutional Investors"],
         format: ["Web App", "Mobile Web App"],
@@ -234,7 +234,7 @@ const contentMap = {
         description: "Bot is a toolkit designed for developers working on the Aura Network. It focuses on enhancing security, user privacy, and cross-platform development to provide robust solutions for building blockchain applications"
     },
     Box: {
-        img: "/public/sh_case.webp",
+        img: "../public/sh_case-1400.webp",
         main: ["Digital Wallet", "Multi-Signature Support", "Secure Storage"],
         audience: ["Crypto Holders", "Institutional Investors"],
         format: ["Web App", "Mobile Web App"],
@@ -243,7 +243,7 @@ const contentMap = {
         description: "Dev is a toolkit for developers building on the Aura Network."
     },
     Index: {
-        img: "/public/sh_case.webp",
+        img: "../public/sh_case-1400.webp",
         main: ["Crypto Index Funds", "Automated Portfolio", "Market Analysis"],
         audience: ["Passive Investors", "Portfolio Managers"],
         format: ["Web App", "Mobile Web App"],
@@ -253,14 +253,72 @@ const contentMap = {
     }
 };
 
-// Function to load content
+/* --------------------------------------------------------------------------
+   Showcase image loading.
+
+   The old version set `img.src = data.img` and raised opacity to 1 in the SAME
+   tick, so the panel faded in while the bytes were still arriving — the user
+   watched an empty box for as long as the download took. Combined with 0.7–1.8MB
+   full-resolution PNGs, that read as "broken", not "loading".
+
+   Fixes, in order of impact:
+     1. Images are now 1400px WebP (~540KB for all five, down from 4.7MB).
+     2. Decode before reveal — fade-in waits for the pixels, so the box is never
+        empty. If a swap is instant (cached) there is no perceptible wait.
+     3. Prefetch — the other panels are warmed on idle and on button hover, so
+        every click after the first resolves from cache.
+   -------------------------------------------------------------------------- */
+
+const imageCache = new Map();
+
+// Resolves once the bytes are decoded and safe to paint.
+function preloadImage(src) {
+    if (imageCache.has(src)) return imageCache.get(src);
+
+    const p = new Promise((resolve) => {
+        const img = new Image();
+        img.src = src;
+        const done = () => resolve(src);
+        // decode() gives us "ready to paint" rather than merely "downloaded".
+        if (img.decode) {
+            img.decode().then(done).catch(done); // a failed decode still resolves
+        } else {
+            img.onload = done;
+            img.onerror = done;
+        }
+    });
+
+    imageCache.set(src, p);
+    return p;
+}
+
+// Warm every other panel without competing with the visible one.
+function prefetchShowcaseImages() {
+    const srcs = [...new Set(Object.values(contentMap).map((d) => d.img))];
+    srcs.forEach((src) => preloadImage(src));
+}
+
+// Guards against a stale response painting over a newer selection when the
+// visitor clicks through the buttons quickly.
+let showcaseRequestId = 0;
+
 function loadContent(key, shouldScroll = false) {
     const data = contentMap[key];
+    if (!data) return;
+
     const descriptionElement = document.getElementById("casedescription");
     const displayImage = document.getElementById("displayImage");
     const factCard = document.getElementById("showCaseDetail");
+    if (!descriptionElement || !displayImage || !factCard) return;
 
-    // Add fade-out transition
+    const requestId = ++showcaseRequestId;
+
+    // Button state and CTA update immediately — they cost nothing and give the
+    // click instant feedback even if the image needs a moment.
+    updateActiveButton(key);
+    const ctaButton = document.getElementById("ctaButton");
+    if (ctaButton) ctaButton.href = data.link;
+
     descriptionElement.style.transition = "opacity 0.3s";
     displayImage.style.transition = "opacity 0.3s";
     factCard.style.transition = "opacity 0.3s";
@@ -268,28 +326,25 @@ function loadContent(key, shouldScroll = false) {
     displayImage.style.opacity = 0;
     factCard.style.opacity = 0;
 
-    setTimeout(() => {
-        // Update content after fade-out
+    // Text swaps on the fade-out; the image waits for its decode.
+    const faded = new Promise((resolve) => setTimeout(resolve, 300));
+
+    Promise.all([faded, preloadImage(data.img)]).then(() => {
+        if (requestId !== showcaseRequestId) return; // superseded by a later click
+
         descriptionElement.textContent = data.description || "Description not available.";
         displayImage.src = data.img;
+        displayImage.alt = data.alt || key + " showcase";
 
         updateList("fact-main", data.main);
         updateList("fact-audience", data.audience);
         updateList("fact-format", data.format);
         updateList("fact-scope", data.scope);
 
-        // Add fade-in transition
         descriptionElement.style.opacity = 1;
         displayImage.style.opacity = 1;
         factCard.style.opacity = 1;
-    }, 300);
-
-    // Update active button class
-    updateActiveButton(key);
-
-    // Update call-to-action button link dynamically
-    const ctaButton = document.getElementById("ctaButton");
-    ctaButton.href = data.link;
+    });
 }
 
 function updateList(id, items) {
@@ -303,25 +358,58 @@ function updateList(id, items) {
     });
 }
 
+/*
+  The pills are styled by .showcase .button-group in case-studies.css, matching
+  the homepage tab strip. Selection is carried by aria-pressed (these are
+  toggle buttons, not links), with .is-active as a parallel styling hook.
+  The old version swapped .btn-primary/.btn-secondary, which brought the legacy
+  6px-bottom-border button with it.
+*/
 function updateActiveButton(selectedKey) {
-    // Get all buttons
     const buttons = document.querySelectorAll(".button-group button");
     buttons.forEach(button => {
-        // Check if the button's onclick matches the selected key
-        if (button.getAttribute("onclick").includes(selectedKey)) {
-            button.classList.remove("btn-secondary");
-            button.classList.add("btn-primary");
-        } else {
-            button.classList.remove("btn-primary");
-            button.classList.add("btn-secondary");
-        }
+        const match = /loadContent\('([^']+)'/.exec(button.getAttribute("onclick") || "");
+        const isActive = !!match && match[1] === selectedKey;
+        button.classList.toggle("is-active", isActive);
+        button.setAttribute("aria-pressed", isActive ? "true" : "false");
     });
 }
 
-// Load default content on page load WITHOUT scrolling
-window.onload = function () {
+// Load default content on page load WITHOUT scrolling.
+// Runs on DOMContentLoaded rather than window.onload so the first panel isn't
+// waiting on every third-party script and image on the page to finish.
+function initShowcase() {
+    if (!document.getElementById("displayImage")) return; // not a showcase page
+
     loadContent('SeekHype', false);
-};
+
+    // Hovering a button is a strong signal of intent — warm that panel now so
+    // the click itself is instant.
+    document.querySelectorAll(".button-group button").forEach((button) => {
+        const match = /loadContent\('([^']+)'/.exec(button.getAttribute("onclick") || "");
+        if (!match) return;
+        const entry = contentMap[match[1]];
+        if (!entry) return;
+        const warm = () => preloadImage(entry.img);
+        button.addEventListener("mouseenter", warm, { once: true });
+        button.addEventListener("focus", warm, { once: true });
+    });
+
+    // Belt and braces: warm everything once the browser is idle. ~390KB total
+    // for the four panels the visitor hasn't seen yet.
+    const warmAll = () => prefetchShowcaseImages();
+    if ("requestIdleCallback" in window) {
+        requestIdleCallback(warmAll, { timeout: 3000 });
+    } else {
+        setTimeout(warmAll, 1500);
+    }
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initShowcase);
+} else {
+    initShowcase();
+}
 
 
 

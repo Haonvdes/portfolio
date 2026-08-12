@@ -23,12 +23,12 @@
      card's approach to the sticky line, so the pills travel into place as you
      scroll instead of being pre-fanned on load.
 
-  2. SELECTION
+  2. NAVIGATION
      Scrolling decides which card is at the front — that is just DOM order plus
-     sticky. Clicking a year overrides it by raising that card's z-index, which
-     is what lets the reader browse the strip once it has fully assembled. The
-     override is dropped on the next scroll, so scrolling always resumes the
-     natural sequence rather than leaving a card stuck in front forever.
+     sticky. Two controls jump between them: the pills on the cards, and the
+     numbered rail in the left column (.rd-deck-index, the same component as the
+     homepage initiative rail). Both do the one thing — scroll the chosen card to
+     the front — so scroll position and the visible card can never disagree.
 
   3. SHOW MORE / LESS
      Lists longer than 4 bullets collapse behind the chevron beside
@@ -67,19 +67,23 @@
   var entries = Array.prototype.slice
     .call(list.querySelectorAll('.rd-work-card'))
     .map(function (card) {
+      var body = card.querySelector('.rd-work-body');
       return {
         card: card,
-        body: card.querySelector('.rd-work-body'),
-        tag: card.querySelector('.rd-work-tag')
+        body: body,
+        tag: card.querySelector('.rd-work-tag'),
+        // Paired by aria-controls rather than by index, so reordering the cards
+        // or the index can't silently mismatch them.
+        navItem: body
+          ? document.querySelector(
+              '.rd-deck-index button[aria-controls="' + body.id + '"]'
+            )
+          : null
       };
     });
   if (!entries.length) return;
 
-  var SCROLL_SLOP = 4; // px of scroll that still counts as "hasn't moved"
-
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var selected = -1; // explicit click; -1 means "follow the scroll"
-  var selectedAtY = 0; // page offset when that click happened
   var ticking = false;
 
   function isStacked() {
@@ -105,6 +109,24 @@
     return marker;
   });
 
+
+  /* Sliding indicator in the rail — created here rather than authored in the
+     HTML because it is pure decoration and must not exist without JS to move it. */
+  var rail = document.querySelector('.rd-deck-index');
+  var railMarker = null;
+  if (rail) {
+    railMarker = document.createElement('span');
+    railMarker.className = 'rd-deck-marker';
+    rail.appendChild(railMarker);
+  }
+  function moveMarker(i) {
+    if (!railMarker) return;
+    var e = entries[i];
+    var li = e && e.navItem ? e.navItem.parentNode : null;
+    if (!li) return;
+    railMarker.style.height = li.offsetHeight + 'px';
+    railMarker.style.transform = 'translateY(' + li.offsetTop + 'px)';
+  }
 
   // Card heights change when a list is expanded, so this has to re-run then too.
   function positionMarkers() {
@@ -154,18 +176,20 @@
 
   /* --------------------------------------------------------- 2. selection - */
 
-  // `is-selected` follows the click alone; `aria-current` follows whichever card
-  // is actually in front. Keeping them independent matters: tying is-selected to
-  // frontIndex too meant a click could only ever re-select the card that was
-  // already on top, which is the one case where nothing visibly happens.
+  // Marks the card that is currently at the front of the stack, in both places
+  // that show it: the on-card pill and the rail. Driven from one function so the
+  // two can never disagree.
   function paint(frontIndex) {
     entries.forEach(function (e, i) {
-      e.card.classList.toggle('is-selected', selected === i);
       if (e.tag) {
         if (i === frontIndex) e.tag.setAttribute('aria-current', 'true');
         else e.tag.removeAttribute('aria-current');
       }
+      if (e.navItem && e.navItem.parentNode) {
+        e.navItem.parentNode.classList.toggle('is-current', i === frontIndex);
+      }
     });
+    moveMarker(frontIndex);
   }
 
   function update() {
@@ -173,7 +197,6 @@
 
     if (!isStacked()) {
       entries.forEach(function (e) {
-        e.card.classList.remove('is-selected');
         e.card.style.removeProperty('--rd-tag-x');
         if (e.tag) e.tag.removeAttribute('aria-current');
       });
@@ -204,15 +227,24 @@
       );
     });
 
-    paint(selected >= 0 ? selected : front);
+    paint(front);
+  }
+
+  // Both controls do the same thing: bring the card to the front by scrolling to
+  // it. Scrolling the MARKER rather than computing a scrollTo target is what
+  // makes this cooperate with scroll-snap — the marker is itself a snap target
+  // and carries scroll-margin-top, so the snap engine agrees with where we
+  // asked to go instead of yanking the page back to the nearest snap point.
+  function goTo(i) {
+    markers[i].scrollIntoView({
+      block: 'start',
+      behavior: reduceMotion.matches ? 'auto' : 'smooth'
+    });
   }
 
   entries.forEach(function (e, i) {
-    if (!e.tag) return;
-    e.tag.addEventListener('click', function () {
-      selected = i;
-      selectedAtY = window.pageYOffset;
-      update();
+    [e.tag, e.navItem].forEach(function (el) {
+      if (el) el.addEventListener('click', function () { goTo(i); });
     });
   });
 
@@ -319,17 +351,6 @@
   /* ------------------------------------------------------------- wiring - */
 
   function onScroll() {
-    // Scrolling resumes the natural stacking order — but only a real one.
-    // Clicking a pill focuses the button, and the browser will nudge the page
-    // to reveal a focused element; with mandatory snap on the page that nudge
-    // is enough to fire scroll and wipe the selection in the same instant it
-    // was made, so the click looked like it did nothing.
-    if (
-      selected >= 0 &&
-      Math.abs(window.pageYOffset - selectedAtY) > SCROLL_SLOP
-    ) {
-      selected = -1;
-    }
     if (ticking) return;
     ticking = true;
     window.requestAnimationFrame(update);

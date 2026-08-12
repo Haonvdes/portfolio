@@ -1,0 +1,205 @@
+/*
+  grid.css — the ONE page grid for every page in this portfolio.
+  ================================================================
+
+  Why this file exists
+  --------------------
+  The site was running two grids at once and they never agreed:
+
+    A. `.rd-shell` (redesign.css) — a 1440px column inside a 40px section
+       gutter, with 24px of inner padding, so page-level text ink lands on a
+       64px line. Used by index.html, about.html, case-studies/healthcare.html
+       and the v2/v3 rebuilds.
+
+    B. Bootstrap `.container` (bootstrap-grid.css) — stepped max-widths
+       (343/358/398/544/736/960/1140/1280) that are auto-centred, so the ink
+       edge is a *derived* number that moves with the viewport. Used by
+       work.html and the 2021-era case studies.
+
+  Measured drift between them: 32px at 1024, 49px at 1366, 16px at 1440,
+  56px at 1920. Grid B also caps the content column at 1280px where grid A
+  allows 1392px. `work.html` misaligned against *itself*, because redesign.css
+  neutralises `#nav-placeholder.container` — so the nav sat on grid A's 64px
+  line while the hero headline sat on grid B's 80px, plus 16px more from
+  `.experience`'s own padding.
+
+  Grid A wins: it is the grid the Figma design is actually drawn on.
+
+  What `.rd-grid` is
+  ------------------
+  A single element that reproduces grid A's geometry EXACTLY at every width,
+  so it can replace a `.container` in place without needing the two-element
+  section+shell nesting.
+
+    ink left edge = max(40, (100vw - 1440) / 2) + 24
+
+  which `max-width: 1520px` (= 1440 + 2x40) plus `padding-inline: 64px`
+  (= 40 + 24) produces identically:
+
+    viewport   .rd-grid ink left    was (.container)
+    390        16                   16
+    768        16                   16
+    1024       64                   32
+    1280       64                   70
+    1366       64                   113
+    1440       64                   80
+    1520       64                   120
+    1920       264                  320
+
+  Ink width is 1392px once the column is capped, 100vw-128 below that.
+
+  Rules of use
+  ------------
+  * One `.rd-grid` per nesting chain. It is an ABSOLUTE inset from the
+    viewport, not a relative one, so two of them nested inset twice. If a
+    block already sits inside a `.rd-grid`, give it `.rd-grid-inner` (or no
+    grid class at all) instead.
+  * Full-bleed backgrounds go on the wrapper OUTSIDE the `.rd-grid`
+    (`.container-fluid`, `<section>`), never on the grid element itself.
+  * Bootstrap `.row` / `.col-*` still work inside `.rd-grid`: `.row`'s -15px
+    margin and `.col`'s +15px padding net to zero, so column ink stays on the
+    64px line.
+  * Do not add horizontal padding to children of `.rd-grid`. Every historical
+    misalignment on this site was an ADDITIVE inset, not a wrong value.
+
+  Verify with a width sweep, not a screenshot — see docs/redesign/grid.md.
+*/
+
+:root {
+  /* The design column, including the 24px inner padding it carries. */
+  --grid-max: 1440px;
+  /* Page gutter, outside the column. Only binds below 1520px. */
+  --grid-gutter: 40px;
+  /* Inner padding, inside the column. Binds at every width. */
+  --grid-inner: 24px;
+  /* The ink line. Everything page-level shares this left edge. */
+  --grid-edge: calc(var(--grid-gutter) + var(--grid-inner));   /* 64px */
+  --grid-edge-sm: 16px;                                        /* <=768px */
+  /* Outer box of .rd-grid: column + both gutters. */
+  --grid-outer: calc(var(--grid-max) + 2 * var(--grid-gutter)); /* 1520px */
+
+  /* Column grid, for anything that wants real columns rather than flow. */
+  --grid-columns: 12;
+  --grid-col-gap: 24px;
+}
+
+.rd-grid {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--grid-outer);
+  margin-inline: auto;
+  padding-inline: var(--grid-edge);
+}
+
+/* Nested inside another .rd-grid — carries no inset of its own.
+   Also neutralises a stray Bootstrap `.container` that could not be removed
+   from the markup safely (e.g. one a script or a third-party widget writes). */
+.rd-grid-inner,
+.rd-grid .container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   The 1440px column, and the shared nav/footer chrome.
+
+   These live here rather than in redesign.css because `templates/nav.html` and
+   `templates/footer.html` are injected into EVERY page, but only index, about,
+   work and healthcare load redesign.css. On the 2021 case studies (lending,
+   marketing-platform, web-3) the chrome therefore had no shell and no gutter,
+   so the wordmark inherited Bootstrap's centred `.container` instead — 32px at
+   1024, 113px at 1366, 320px at 1920, against a 64px heading.
+
+   grid.css is imported by style.css, which every page loads, so putting the
+   HORIZONTAL geometry here makes the chrome land on the grid unconditionally.
+   redesign.css keeps the visual treatment (pill, blur, height, vertical
+   rhythm) and its context-specific overrides — it is loaded after this file,
+   so those still win where they exist.
+   --------------------------------------------------------------------------- */
+
+.rd-shell {
+  width: 100%;
+  max-width: var(--grid-max);
+  margin-inline: auto;
+}
+
+/* Both placeholders are flex children on some pages and would otherwise shrink
+   to their content, collapsing the bar. */
+#nav-placeholder,
+#footer-placeholder {
+  width: 100%;
+}
+
+/* On the 2021 pages the placeholder itself carries `.container`, so the bar
+   inherited that grid's max-width and auto margins. Neutralise it; the gutter
+   below is then the only inset. */
+#nav-placeholder.container,
+#footer-placeholder.container {
+  max-width: none;
+  width: 100%;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+
+/* gutter (40) + inner (24) = the 64px ink line, same as .rd-grid. */
+.rd-nav-outer,
+.rd-footer-outer {
+  padding-inline: var(--grid-gutter);
+}
+.rd-nav,
+.rd-footer-brand,
+.rd-footer-meta {
+  padding-inline: var(--grid-inner);
+}
+
+@media (max-width: 768px) {
+  .rd-nav-outer,
+  .rd-footer-outer {
+    padding-inline: var(--grid-edge-sm);
+  }
+  .rd-nav,
+  .rd-footer-brand,
+  .rd-footer-meta {
+    padding-inline: 0;
+  }
+}
+
+/* Legacy additive insets.
+   `.experience` carries `padding: var(--p-16)` from style.css. On
+   work-experience.html that is a card's own padding and must stay, but on
+   work.html / case-studies/work.html the same class wraps the page <h1>, so
+   the 16px pushed the headline to 80px while the nav sat at 64px. Zeroing it
+   only where the element is a direct child of the page grid keeps both uses
+   correct. Add to this list rather than editing the component rule. */
+.rd-grid > .experience {
+  padding-inline: 0;
+}
+
+/* Optional 12-column track. `.rd-grid` sets the page inset; this sets the
+   columns inside it. Kept separate so a grid element that only needs the
+   inset does not pay for a grid formatting context. */
+.rd-grid-cols {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  gap: var(--grid-col-gap);
+}
+
+/* Full-bleed escape hatch: breaks a child back out to the viewport edges
+   from inside a .rd-grid, without needing to restructure the markup. */
+.rd-grid-bleed {
+  width: calc(100% + 2 * var(--grid-edge));
+  margin-inline: calc(-1 * var(--grid-edge));
+}
+
+@media (max-width: 768px) {
+  .rd-grid {
+    padding-inline: var(--grid-edge-sm);
+  }
+  .rd-grid-bleed {
+    width: calc(100% + 2 * var(--grid-edge-sm));
+    margin-inline: calc(-1 * var(--grid-edge-sm));
+  }
+}

@@ -6,6 +6,15 @@
         <link rel="icon" type="image/x-icon" href="./public/favicon.png">
         <title>Stephano Ng | Practical AI, Product Design and Professional Project Management</title>
         <link rel="stylesheet" href="./css/styles/style.css">
+        <!-- js/script.js injects the 2026 nav + footer templates into this page's
+             placeholders, but nothing was styling them: the bar rendered in Times
+             New Roman with the footer flush at x=0. redesign.css is scoped entirely
+             to .rd-* and the two placeholder ids, so it can only reach that chrome —
+             the 2021 page body is untouched. -->
+        <link rel="stylesheet" href="./css/styles/redesign.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap">
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
         <script>
         window.dataLayer = window.dataLayer || [];
@@ -40,7 +49,7 @@
 <header class="header"  style="height: 20vh">
     <div class="container" id="nav-placeholder"></div>
 
-    <div class="container first-section"; style="height: 20vh; min-height: 460px;">
+    <div class="rd-grid first-section"; style="height: 20vh; min-height: 460px;">
     <div class="experience">
        <h1 class="display animate__animated animate__fadeIn" style="margin-top: var(--m-0);">From Concept to Execution<br>Building the Future of Digital Experiences</h1>
         <p class="lg-regular animate__animated animate__fadeIn" style="padding-top: 24px; max-width: 820px; line-height: 28px;">
@@ -52,7 +61,7 @@
 <body>
     <section class="container-fluid">
     <div class="second-section" style="top: 0; border-radius: 0;" >
-        <div class="container">
+        <div class="rd-grid">
             <div class="introduce">
                <div>
                 <p class=" sub-heading animate__animated animate__fadeIn" style="padding-bottom: var(--p-16);" data-aos="fade-up">

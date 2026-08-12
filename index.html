@@ -2,14 +2,26 @@
 <html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
    <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- No maximum-scale / user-scalable=no: blocking pinch-zoom fails WCAG 1.4.4
+         and is the single most common mobile accessibility defect. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <link rel="icon" type="image/x-icon" href="./public/favicon.png">
     <title>Stephano Ng | Product Manager — customer needs, business goals, execution</title>
     <link rel="stylesheet" href="./css/styles/style.css">
+    <!-- DM Sans is the redesign's typeface (--rd-font). Nothing in the style.css
+         import chain loads it, so without this the pages silently fell back to
+         Manrope, which has wider metrics and changes every line length. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap">
     <!-- Linked directly (not @import'ed from style.css) so a revert of the legacy
          stylesheet can't silently unstyle the redesign. Must stay after style.css
          so .rd-* rules win the cascade. -->
     <link rel="stylesheet" href="./css/styles/redesign.css">
+    <!-- Desktop vertical scroll-snap deck for Selected Product Initiatives
+         (added 2026-08-07). Must stay after redesign.css so its rules win the
+         cascade on desktop; mobile (<=768px) keeps the swipe carousel. -->
+    <link rel="stylesheet" href="./css/styles/initiatives-desktop.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
@@ -66,36 +78,38 @@
 
 <main>
     <!-- ==== Section 2 — Selected Product Initiatives (Figma 40000124:720) ==== -->
-    <section class="rd-initiatives-section" data-aos="fade-up">
+    <section class="rd-initiatives-section">
         <div class="rd-initiatives-inner rd-shell">
-            <div class="rd-section-head">
-                <div class="rd-head-row">
-                    <h2 class="rd-section-heading">Selected Product Initiatives</h2>
-                    <a href="/work.html" class="rd-btn rd-btn-text">View All</a>
-                </div>
+            <!-- Desktop: this becomes the sticky left rail beside the card stack.
+                 Mobile: it stays a plain heading block above the carousel. -->
+            <div class="rd-section-head rd-initiatives-rail">
+                <!-- Heading, intro and index are direct children so DOM order IS
+                     the desktop reading order. The "View All" link that used to
+                     end the rail (and the .rd-head-row wrapper before it) is
+                     gone — removed 2026-08-12. -->
+                <h2 class="rd-section-heading">Selected Product Initiatives</h2>
                 <p class="rd-section-intro">
                     I believe great products are built by aligning customer needs, business goals, and engineering execution. My role is to connect these perspectives, prioritize what matters most, and help teams deliver measurable outcomes.
                 </p>
+
+                <!-- Desktop position indicator + jump control. Hidden below 769px,
+                     where .rd-deck-dots does the same job for the carousel. -->
+                <ul class="rd-deck-index" id="deck-index">
+                    <li><button type="button" data-index="0"><span class="n">01</span><span>Lending</span></button></li>
+                    <li><button type="button" data-index="1"><span class="n">02</span><span>Web3</span></button></li>
+                    <li><button type="button" data-index="2"><span class="n">03</span><span>Communication</span></button></li>
+                    <li><button type="button" data-index="3"><span class="n">04</span><span>Marketing</span></button></li>
+                </ul>
             </div>
 
             <div class="rd-initiative-wrap">
-                <!-- Tab strip — Figma 40000132:3660. Tabs 2-4 are placeholders in the
-                     design ("Sample Text Will Be Replaced"); real titles + panels to follow. -->
-                <div class="rd-tabs" role="tablist" aria-label="Product initiatives">
-                    <button class="rd-tab" role="tab" id="tab-hd" aria-controls="panel-hd" aria-selected="true" type="button">
-                        <span>Lending Services</span>
-                    </button>
-                    <button class="rd-tab" role="tab" id="tab-aura" aria-controls="panel-aura" aria-selected="false" type="button">
-                        <span>Web3 Services</span>
-                    </button>
-                    <button class="rd-tab" role="tab" id="tab-comms" aria-controls="panel-comms" aria-selected="false" type="button">
-                        <span>Communication Services</span>
-                    </button>
-                    <button class="rd-tab" role="tab" id="tab-isystem" aria-controls="panel-isystem" aria-selected="false" type="button">
-                        <span>Marketing Services</span>
-                    </button>
-                </div>
-
+                <!-- Desktop >=769px: the deck is a vertical scroll-snap stack — one
+                     full-viewport card per scroll, fading in from the bottom; the dots
+                     are the control and position indicator. Below 768px the deck is a
+                     horizontal scroll-snap carousel the reader swipes; the dots are the
+                     control and run autoplay. js/initiatives.js keeps dots and scroll
+                     position in sync in both modes. -->
+                <div class="rd-initiative-deck" id="initiative-deck">
                 <!-- HD Saison — carries the "I run rigorous discovery and frame problems"
                      claim (Case-Study-Framework.md, Part 0). Every figure is sourced in
                      HD-Saison-Research-and-Rewrite.md. Evidence labelling per the
@@ -106,7 +120,7 @@
                      The durability proof (shipped May 2022, still live at v1.1.30 four
                      years on) moved into the closing paragraph, where it reads as an
                      outcome rather than a bare date. -->
-                <div class="rd-initiative-panel is-active" role="tabpanel" id="panel-hd" aria-labelledby="tab-hd">
+                <div class="rd-initiative-panel is-active" id="panel-hd">
                 <article class="rd-initiative-card">
                     <div class="rd-initiative-row">
                         <div class="rd-initiative-body">
@@ -115,19 +129,19 @@
                                 <p class="rd-initiative-desc">Vietnam's oldest consumer finance company originated every loan in-branch. It became a mobile app for applying, signing and servicing a loan without visiting one.</p>
                             </div>
 
-                            <div class="rd-initiative-detail">
+                            <div class="rd-detail-block rd-detail-outcome">
+                                <p class="rd-detail-label">Outcome</p>
+                                <div class="rd-mini-stat-row">
+                                    <div><strong>6M+</strong><span>Customers in scope, 16,000+ service points</span></div>
+                                    <div><strong>3–5h → 2h</strong><span>Approval time (target)</span></div>
+                                    <div><strong>8 → 1</strong><span>Signatures to close a loan</span></div>
+                                </div>
+                            </div>
+
+                            <div class="rd-initiative-detail" id="detail-hd">
                                 <div class="rd-detail-block">
                                     <p class="rd-detail-label">Problem</p>
                                     <p>HD Saison originated 100% of loans in-branch — the only lender in its five-company peer set with no digital path at all, while rivals ran 66–86% offline and the market grew 23.7% a year. Borrowing meant a 3–5 hour visit and eight separate signatures.</p>
-                                </div>
-
-                                <div class="rd-detail-block rd-detail-outcome">
-                                    <p class="rd-detail-label">Outcome</p>
-                                    <div class="rd-mini-stat-row">
-                                        <div><strong>6M+</strong><span>Customers in scope, 16,000+ service points</span></div>
-                                        <div><strong>3–5h → 2h</strong><span>Approval time (target)</span></div>
-                                        <div><strong>8 → 1</strong><span>Signatures to close a loan</span></div>
-                                    </div>
                                 </div>
 
                                 <div class="rd-detail-para">
@@ -135,7 +149,9 @@
                                 </div>
                             </div>
 
-                            <a href="./case-studies/lending.html" class="rd-btn rd-btn-text">Learn More</a>
+                            <div class="rd-initiative-actions">
+                                <a href="./case-studies/lending.html" class="rd-btn rd-btn-text">Learn More</a>
+                            </div>
                         </div>
 
                         <div class="rd-initiative-media">
@@ -150,7 +166,7 @@
                      sourced in Aura-Network-Research-and-Rewrite.md; both outcome numbers
                      are cumulative network totals published by aura.network, so they are
                      labelled "public" rather than presented as personal results. -->
-                <div class="rd-initiative-panel" role="tabpanel" id="panel-aura" aria-labelledby="tab-aura" hidden>
+                <div class="rd-initiative-panel" id="panel-aura">
                 <article class="rd-initiative-card">
                     <div class="rd-initiative-row">
                         <div class="rd-initiative-body">
@@ -159,7 +175,15 @@
                                 <p class="rd-initiative-desc">A permissioned NFT chain with a closed developer pool became a permissionless, EVM-compatible Layer 1 open to any Ethereum-toolchain builder.</p>
                             </div>
 
-                            <div class="rd-initiative-detail">
+                            <div class="rd-detail-block rd-detail-outcome">
+                                <p class="rd-detail-label">Outcome</p>
+                                <div class="rd-mini-stat-row">
+                                    <div><strong>14.5M+</strong><span>Smart contracts deployed (public)</span></div>
+                                    <div><strong>141K+</strong><span>Unique active addresses (public)</span></div>
+                                </div>
+                            </div>
+
+                            <div class="rd-initiative-detail" id="detail-aura">
                                 <div class="rd-detail-block">
                                     <p class="rd-detail-label">Problem</p>
                                     <p>Aura ran as a permissioned CosmWasm chain built for NFTs. Onboarding a team meant teaching them an unfamiliar stack, behind an approval gate — so the addressable developer pool was a fraction of the EVM world's.</p>
@@ -167,20 +191,14 @@
 
                                 <!-- Two metrics, per the framework's card rule. The stat pill
                                      flexes, so two cells fill the same 124px bar as three. -->
-                                <div class="rd-detail-block rd-detail-outcome">
-                                    <p class="rd-detail-label">Outcome</p>
-                                    <div class="rd-mini-stat-row">
-                                        <div><strong>14.5M+</strong><span>Smart contracts deployed (public)</span></div>
-                                        <div><strong>141K+</strong><span>Unique active addresses (public)</span></div>
-                                    </div>
-                                </div>
-
                                 <div class="rd-detail-para">
                                     <p>I chose a dual-environment upgrade over a full migration: EVM alongside CosmWasm, widening the developer funnel without breaking the dApps already live. The price was a known address seam I shipped visibly rather than hold the release for. What I killed to pay for it was the NFT-first consumer roadmap.</p>
                                 </div>
                             </div>
 
-                            <a href="./case-studies/web-3.html" class="rd-btn rd-btn-text">Learn More</a>
+                            <div class="rd-initiative-actions">
+                                <a href="./case-studies/web-3.html" class="rd-btn rd-btn-text">Learn More</a>
+                            </div>
                         </div>
 
                         <div class="rd-initiative-media">
@@ -210,7 +228,7 @@
                      the two real numbers (baseline → after, plus an evidence tag) and
                      delete the [ADD] markers. Until then this card ships incomplete on
                      purpose — nothing unverified goes live. -->
-                <div class="rd-initiative-panel" role="tabpanel" id="panel-comms" aria-labelledby="tab-comms" hidden>
+                <div class="rd-initiative-panel" id="panel-comms">
                 <article class="rd-initiative-card">
                     <div class="rd-initiative-row">
                         <div class="rd-initiative-body">
@@ -219,20 +237,20 @@
                                 <p class="rd-initiative-desc">Pharma speaker programs ran on email, spreadsheets and a legacy portal. They became one multi-tenant platform where a rep, a compliance monitor and an accountant work the same program record.</p>
                             </div>
 
+                            <div class="rd-detail-block rd-detail-outcome">
+                                <p class="rd-detail-label">Outcome</p>
+                                <div class="rd-mini-stat-row">
+                                    <div><strong>[ADD]</strong><span>Baseline → after (label: measured / target / estimated)</span></div>
+                                    <div><strong>[ADD]</strong><span>Second outcome measure</span></div>
+                                </div>
+                            </div>
+
                             <!-- Detail stack — Figma 40000124:734. Order is Problem framing →
                                  Outcome stats → closing paragraph. -->
-                            <div class="rd-initiative-detail">
+                            <div class="rd-initiative-detail" id="detail-comms">
                                 <div class="rd-detail-block">
                                     <p class="rd-detail-label">Problem</p>
                                     <p>Seventeen roles touch a single speaker program — rep, manager, speaker, coordinator, compliance, accounting, auditor — each with its own approval gate and its own definition of "done". Mapped end to end, that came to 496 user stories across 13 workflow areas, all of it competing for one MVP.</p>
-                                </div>
-
-                                <div class="rd-detail-block rd-detail-outcome">
-                                    <p class="rd-detail-label">Outcome</p>
-                                    <div class="rd-mini-stat-row">
-                                        <div><strong>[ADD]</strong><span>Baseline → after (label: measured / target / estimated)</span></div>
-                                        <div><strong>[ADD]</strong><span>Second outcome measure</span></div>
-                                    </div>
                                 </div>
 
                                 <div class="rd-detail-para">
@@ -243,7 +261,9 @@
                             <!-- Sibling of .rd-initiative-detail, not a child: the detail block
                                  flexes to fill so this pins to the bottom (Figma 40000132:3671,
                                  y=622 of a 662px column). -->
-                            <a href="./case-studies/healthcare.html" class="rd-btn rd-btn-text">Learn More</a>
+                            <div class="rd-initiative-actions">
+                                <a href="./case-studies/healthcare.html" class="rd-btn rd-btn-text">Learn More</a>
+                            </div>
                         </div>
 
                         <div class="rd-initiative-media">
@@ -273,7 +293,7 @@
                      No launch metric appears anywhere on this card, because there is none:
                      the company folded before GA. The closing paragraph says so outright
                      rather than letting the reader assume it shipped. -->
-                <div class="rd-initiative-panel" role="tabpanel" id="panel-isystem" aria-labelledby="tab-isystem" hidden>
+                <div class="rd-initiative-panel" id="panel-isystem">
                 <article class="rd-initiative-card">
                     <div class="rd-initiative-row">
                         <div class="rd-initiative-body">
@@ -282,18 +302,18 @@
                                 <p class="rd-initiative-desc">A startup was building eight apps at once for three user types. It became one transaction spine — book, check in, pay — with everything else sequenced behind it.</p>
                             </div>
 
-                            <div class="rd-initiative-detail">
+                            <div class="rd-detail-block rd-detail-outcome">
+                                <p class="rd-detail-label">Outcome</p>
+                                <div class="rd-mini-stat-row">
+                                    <div><strong>8 → 1</strong><span>Parallel apps resolved into one sequenced flow</span></div>
+                                    <div><strong>50 vs 54,000</strong><span>Salons on platform vs addressable market (client-reported / industry)</span></div>
+                                </div>
+                            </div>
+
+                            <div class="rd-initiative-detail" id="detail-isystem">
                                 <div class="rd-detail-block">
                                     <p class="rd-detail-label">Problem</p>
                                     <p>iSystem wanted 20% of a 54,000-salon US market and had 50 salons on the platform — a 220x gap. Against that, one team was scoped to build eight apps in parallel, and the plan gave four of them to the 400 staff and owners while 7,730 customers waited on the other four.</p>
-                                </div>
-
-                                <div class="rd-detail-block rd-detail-outcome">
-                                    <p class="rd-detail-label">Outcome</p>
-                                    <div class="rd-mini-stat-row">
-                                        <div><strong>8 → 1</strong><span>Parallel apps resolved into one sequenced flow</span></div>
-                                        <div><strong>50 vs 54,000</strong><span>Salons on platform vs addressable market (client-reported / industry)</span></div>
-                                    </div>
                                 </div>
 
                                 <div class="rd-detail-para">
@@ -301,7 +321,9 @@
                                 </div>
                             </div>
 
-                            <a href="./case-studies/marketing-platform.html" class="rd-btn rd-btn-text">Learn More</a>
+                            <div class="rd-initiative-actions">
+                                <a href="./case-studies/marketing-platform.html" class="rd-btn rd-btn-text">Learn More</a>
+                            </div>
                         </div>
 
                         <div class="rd-initiative-media">
@@ -310,6 +332,17 @@
                     </div>
                 </article>
                 </div>
+                </div>
+
+                <!-- Position indicator + control. On desktop (>=769px) it's a
+                     sticky bar at the bottom of the viewport while the deck is in
+                     view; on mobile (<=768px) it sits under the swipe carousel. -->
+                <div class="rd-deck-dots" id="deck-dots">
+                    <button type="button" class="rd-deck-dot" data-index="0" aria-label="Show Lending Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
+                    <button type="button" class="rd-deck-dot" data-index="1" aria-label="Show Web3 Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
+                    <button type="button" class="rd-deck-dot" data-index="2" aria-label="Show Communication Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
+                    <button type="button" class="rd-deck-dot" data-index="3" aria-label="Show Marketing Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
+                </div>
             </div>
         </div>
     </section>
@@ -317,32 +350,29 @@
     <section class="rd-impact-section" data-aos="fade-up">
         <div class="rd-impact-inner rd-shell">
             <div class="rd-section-head">
-                <h2 class="rd-section-heading">How I Create Impact</h2>
-                <p class="rd-section-intro">
-                    I create impact by translating customer insights into product decisions, aligning cross-functional teams around shared goals, and ensuring every initiative delivers measurable business value.
-                </p>
+                <h2 class="rd-section-heading rd-impact-quote">&ldquo; The best products are rarely the result of great ideas alone. They come from understanding customers, making thoughtful decisions, and helping teams move in the same direction &rdquo;</h2>
             </div>
 
             <div class="rd-impact-grid">
                 <div class="rd-impact-card">
-                    <img class="rd-impact-icon" src="./public/Customer-Centered%20Discovery.svg" alt="" width="40" height="40">
-                    <h3>Customer-Centered <br>Discovery</h3>
+                    <img class="rd-impact-icon" src="./public/Strategic%20Product%20Thinking.svg" alt="" width="40" height="40">
+                    <h3>Understand the Customer</h3>
                     <p>Transforming customer insights into product opportunities with clear business value.</p>
                 </div>
                 <div class="rd-impact-card">
-                    <img class="rd-impact-icon" src="./public/Strategic%20Product%20Thinking.svg" alt="" width="40" height="40">
-                    <h3>Strategic-Product <br>Thinking</h3>
+                    <img class="rd-impact-icon" src="./public/Customer-Centered%20Discovery.svg" alt="" width="40" height="40">
+                    <h3>Make Better Decisions</h3>
                     <p>Prioritizing opportunities by balancing customer value, business goals, and technical feasibility.</p>
                 </div>
                 <div class="rd-impact-card">
                     <img class="rd-impact-icon" src="./public/Cross-functional%20Leadership.svg" alt="" width="40" height="40">
-                    <h3>Cross-functional <br>Leadership</h3>
+                    <h3>Align the Team</h3>
                     <p>Leading cross-functional collaboration to move ideas from discovery to delivery.</p>
                 </div>
                 <div class="rd-impact-card">
                     <img class="rd-impact-icon" src="./public/Outcome-driven%20%20Execution.svg" alt="" width="40" height="40">
-                    <h3>Outcome-driven <br>Execution</h3>
-                    <p>Focusing on product outcomes through continuous validation and iteration.</p>
+                    <h3>Own the Outcome</h3>
+                    <p>Measuring whether what we build creates meaningful product and business value.</p>
                 </div>
             </div>
 
@@ -350,9 +380,9 @@
                 <p class="rd-glance-label">At a Glance</p>
                 <div class="rd-stat-bar">
                     <div class="rd-stat-bar-row">
-                        <div>8+ Years building digital products</div>
-                        <div>10+ Enterprise initiatives</div>
-                        <div>5 Industries</div>
+                        <div><strong>7+ Years</strong><span>Building digital products</span></div>
+                        <div><strong>10+</strong><span>Enterprise initiatives</span></div>
+                        <div><strong>5</strong><span>Industries</span></div>
                     </div>
                 </div>
             </div>
@@ -363,19 +393,7 @@
 
 <!-- ======= Section 4 — closing CTA + footer bar (Figma 40000028:3230) ======= -->
 <div class="rd-closing">
-    <div class="rd-cta-outer" data-aos="fade-up">
-        <div class="rd-cta-inner rd-shell">
-            <div class="rd-cta-block">
-                <h2 class="rd-cta-heading">Great products are rarely the result of great ideas alone.</h2>
-                <div class="rd-cta-sub">
-                    <p>Looking for someone who bridges business, design, and engineering to build products that matter?</p>
-                    <a href="https://www.linkedin.com/in/stpnguyen/" target="_blank" rel="noopener" class="rd-btn rd-btn-primary">Let's connect</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer id="footer-placeholder"></footer>
+<footer id="footer-placeholder"></footer>
 </div>
 
 </body>

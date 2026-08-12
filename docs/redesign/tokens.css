@@ -1,122 +1,21 @@
 /*
-  Design Tokens — Portfolio Redesign
-  Generated 2026-08-02. See docs/design-tokens.md for rationale.
+  ARCHIVED — NOT THE SOURCE OF TRUTH. DO NOT LINK OR COPY VALUES FROM THIS FILE.
+  ============================================================================
+  The real token set is css/styles/tokens.css, imported by css/styles/style.css
+  on every page. See docs/redesign/design-tokens.md for the rationale.
 
-  These are CSS custom properties only — no build step, no preprocessor.
-  Link this file before any page stylesheet:
-    <link rel="stylesheet" href="/css/tokens.css">
-    <link rel="stylesheet" href="/css/site.css">
+  This file was an early-prototype copy (2026-08-02) that was never maintained.
+  By 2026-08-07 it disagreed with the live design on, at least:
+
+      body font weight   said 400   actually 500
+      page title size    said 40px  actually 48px
+      --lh-tight         said 1.1   actually 1.4
+      primary text       said #131313  actually #0a2a30
+      page background    said #f4f3ef  actually #f3f3ef
+      ink                said a 5-step ramp; the design uses ONE ink
+
+  Those values were read back as authoritative and shipped into the v3 case
+  studies before the mistake was caught on screen. The contents are removed
+  rather than corrected, so this can't happen twice — there is no reason to
+  maintain a second copy of the tokens.
 */
-
-:root {
-  /* ---------- Color primitives ---------- */
-
-  /* Ink (warm neutral, replaces old cool grey/G200-G300 scale) */
-  --ink-900: #131313; /* primary text */
-  --ink-700: #3f3f3d; /* secondary text */
-  --ink-500: #6b6a66; /* muted / placeholder text */
-  --ink-300: #a9a79f; /* disabled text, faint icons */
-  --ink-100: #e4e1d9; /* borders, dividers */
-
-  /* Surface (warm off-white, replaces old #ffffff-on-#e5e7eb pairing) */
-  --surface-0: #ffffff;   /* cards, elevated panels */
-  --surface-50: #f4f3ef;  /* page background */
-  --surface-100: #ece9e2; /* subtle section band */
-
-  /* Brand primary — sampled from the actual button fill in the Figma frames (#01679c) */
-  --primary-900: #014a70; /* hover / pressed */
-  --primary-700: #01679c; /* base — buttons, links, active states */
-  --primary-500: #1580b8; /* lighter accents */
-  --primary-100: #d6ebf4; /* tint backgrounds, badges */
-
-  /* Accent / success — sampled from the "#opentowork" status tag */
-  --accent-700: #157f3c; /* text on light surfaces (~4.6:1 on surface-50) */
-  --accent-500: #22a559; /* base — dots, icons */
-  --accent-100: #dff3e6; /* tint background */
-
-  --text-inverse: #ffffff;
-
-  /* ---------- Semantic aliases (use these in page CSS) ---------- */
-  --color-bg-page: var(--surface-50);
-  --color-bg-surface: var(--surface-0);
-  --color-bg-section-alt: var(--surface-100);
-
-  --color-text-primary: var(--ink-900);
-  --color-text-secondary: var(--ink-700);
-  --color-text-muted: var(--ink-500);
-  --color-text-inverse: var(--text-inverse);
-
-  --color-border-default: var(--ink-100);
-
-  --color-brand-primary: var(--primary-700);
-  --color-brand-primary-hover: var(--primary-900);
-  --color-brand-primary-tint: var(--primary-100);
-
-  --color-accent: var(--accent-500);
-  --color-accent-text: var(--accent-700);
-  --color-accent-tint: var(--accent-100);
-
-  /* ---------- Typography ---------- */
-  /* DM Sans: all UI/body/heading text. Raleway: wordmark ("STEPHANO.NG") only. */
-  --font-ui: "DM Sans", system-ui, -apple-system, sans-serif;
-  --font-wordmark: "Raleway", system-ui, sans-serif;
-
-  --fw-regular: 400;
-  --fw-medium: 500;
-  --fw-semibold: 600;
-  --fw-bold: 700;
-  --fw-extrabold: 800;
-
-  --fs-display: 3rem;      /* 48px — page hero, rare use */
-  --fs-h1: 2.5rem;         /* 40px */
-  --fs-h2: 2rem;           /* 32px */
-  --fs-h3: 1.375rem;       /* 22px */
-  --fs-subheading: 1rem;   /* 16px, extrabold */
-  --fs-body-lg: 1.25rem;   /* 20px — hero subhead / lead paragraphs */
-  --fs-body-md: 1rem;      /* 16px — default body/nav */
-  --fs-body-sm: 0.875rem;  /* 14px */
-  --fs-caption: 0.75rem;   /* 12px — tags, meta */
-
-  --lh-tight: 1.1;
-  --lh-normal: 1.4;
-  --lh-relaxed: 1.6;
-
-  --wordmark-letter-spacing: 0.1em; /* matches 1.6px on 16px in Figma */
-
-  /* ---------- Spacing scale (4px base) ---------- */
-  --space-1: 0.25rem;  /* 4px */
-  --space-2: 0.5rem;   /* 8px */
-  --space-3: 0.75rem;  /* 12px */
-  --space-4: 1rem;     /* 16px */
-  --space-5: 1.5rem;   /* 24px */
-  --space-6: 2rem;     /* 32px */
-  --space-7: 2.5rem;   /* 40px */
-  --space-8: 3rem;     /* 48px */
-  --space-9: 4rem;     /* 64px */
-  --space-10: 5rem;    /* 80px */
-  --space-11: 6rem;    /* 96px */
-  --space-12: 8rem;    /* 128px */
-
-  /* ---------- Radius ---------- */
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-full: 999px; /* pill buttons */
-
-  /* ---------- Shadow ---------- */
-  --shadow-nav: 0px 4px 2px rgba(224, 224, 224, 0.25);
-  --shadow-sm: 0 1px 2px rgba(19, 19, 19, 0.06);
-  --shadow-md: 0 4px 12px rgba(19, 19, 19, 0.08);
-  --shadow-lg: 0 12px 32px rgba(19, 19, 19, 0.12);
-
-  /* ---------- Layout ---------- */
-  --container-max: 1440px;
-  --container-padding: 24px;   /* mobile gutter */
-  --container-padding-lg: 240px; /* desktop side margin, matches 1920 canvas */
-
-  /* ---------- Breakpoints (for reference — use in @media manually) ---------- */
-  --bp-mobile: 375px;
-  --bp-tablet: 768px;
-  --bp-desktop: 1024px;
-  --bp-wide: 1440px;
-}

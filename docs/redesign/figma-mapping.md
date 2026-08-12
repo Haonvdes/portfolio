@@ -1,5 +1,17 @@
 # Homepage → Figma node mapping
 
+> **The node map below is still accurate and useful. The transcribed *values*
+> are a point-in-time record of what Figma held on 2026-08-02 — they are not
+> current and must not be copied into CSS.**
+>
+> Known to have changed since: the design collapsed every text tone onto a
+> single deep teal ink (`#0a2a30`), so the `#131313` / `#000000` / `#374151`
+> rows in the colour table below no longer describe the site. The type table
+> lists 49/600 for the hero where the live token is 48px, and weights 800 where
+> the redesign consolidated to three roles (500/600/700).
+>
+> For values, use `css/styles/tokens.css`. See `docs/redesign/design-tokens.md`.
+
 Design file: `Wrapup` (`R2444s7q1V2Rp7Ubd6l5BH`), page `UI V1.0`, section `40000102:8463` "Final Design".
 Homepage root: `40000028:3126`. Canvas 1920px wide, content column 1440px, 240px side margins.
 

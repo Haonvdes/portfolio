@@ -1,10 +1,27 @@
 <!--
-  Shared footer bar — Figma node 40000028:3234 / 40000028:3235.
+  Shared closing CTA + footer bar — Figma node 40000028:3234 / 40000028:3235.
   Injected into #footer-placeholder by js/script.js.
-  The closing CTA above it is per-page (see .rd-cta-outer in index.html), which
-  is why the old shared "Let's Build Something Meaningful Together" block is gone.
+
+  The CTA moved in here on 2026-08-07: it used to be duplicated per page with
+  slightly different copy on each, so every page now closes on the same message.
+  Do NOT put data-aos on it — AOS initialises before this template is fetched,
+  so an animated element would stay at opacity 0.
   Image paths use ../public/ so they resolve from both / and /case-studies/.
 -->
+<div class="rd-cta-outer">
+  <div class="rd-cta-inner rd-shell">
+    <div class="rd-cta-block">
+      <h2 class="rd-cta-heading">Looking for your next product partner?</h2>
+      <div class="rd-cta-sub">
+        <p>I&rsquo;m open to Product Manager and Product Lead opportunities where I can bring together product thinking, design, and cross-functional leadership.</p>
+        <a href="https://www.linkedin.com/in/stpnguyen/" target="_blank" rel="noopener" class="rd-btn rd-btn-primary">
+          Let&rsquo;s connect <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="rd-footer-outer">
   <div class="rd-footer-bar rd-shell">
     <div class="rd-footer-brand">

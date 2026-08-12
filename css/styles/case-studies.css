@@ -252,7 +252,7 @@
   background-color: white;
 }
 & .card-header-ar span {
-  border: 1px solid var(--border-neutral-white);
+  border: 1px solid var(--neutral-white);
   color: white;
 }
 
@@ -286,6 +286,75 @@
   gap: 16px;
   flex-direction: column;
   width: 100%;
+}
+
+/* ---------------------------------------- Showcase pills ("Our Effort") --- */
+/*
+  Same control language as the homepage tab strip (.rd-tab in redesign.css):
+  flat 44px pill, outlined when inactive, filled primary when active.
+
+  Why not reuse .rd-tab directly: redesign.css is not linked on the case-study
+  pages and pulling it in would restyle far more than this one control. The
+  geometry, colours and weights below are copied from it deliberately — if
+  .rd-tab changes on the homepage, change these to match.
+
+  Why not the legacy .btn-primary/.btn-secondary they replace: those carry a
+  6px bottom border, which reads as a chunky 3D button and is the one piece of
+  the old visual language the redesign explicitly dropped.
+*/
+.showcase .button-group {
+  --pill-ink: #0a2a30;         /* --rd-ink */
+  --pill-ink-inverse: #ffffff; /* --rd-ink-inverse */
+  --pill-primary: #01679c;     /* --rd-primary */
+  --pill-border: #999999;      /* --rd-border-muted */
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.showcase .button-group button {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 44px;
+  margin: 0;
+  padding: 0 20px;
+  background: #ffffff;
+  border: 1px solid var(--pill-border);
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-body);
+  line-height: normal;
+  text-align: center;
+  color: var(--pill-ink);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.showcase .button-group button:hover {
+  border-color: var(--pill-primary);
+  color: var(--pill-primary);
+}
+
+/* aria-pressed is the state the JS toggles; .is-active is kept as a styling
+   hook so the rule still holds if the markup is ever driven another way. */
+.showcase .button-group button.is-active,
+.showcase .button-group button[aria-pressed="true"] {
+  background: var(--pill-primary);
+  border-color: var(--pill-primary);
+  font-weight: var(--fw-heading);
+  color: var(--pill-ink-inverse);
+}
+
+.showcase .button-group button:focus-visible {
+  outline: 2px solid var(--pill-primary);
+  outline-offset: 2px;
 }
 
 .show-case-detail {

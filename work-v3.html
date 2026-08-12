@@ -5,7 +5,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <link rel="icon" type="image/x-icon" href="./public/favicon.png">
         <title>Stephano Ng | Practical AI, Product Design and Professional Project Management</title>
-        <link rel="stylesheet" href="../css/styles/style.css">
+        <link rel="stylesheet" href="./css/styles/style.css">
+    <!-- v3 retheme: colour + typography only. The markup below is byte-identical
+         to work.html; these three links are the entire diff.
+
+         DM Sans backs --font-ui. case-retheme-v3.css @imports it too, but
+         declaring it here as well means the face is requested in the document
+         head rather than discovered one round-trip later inside the sheet. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap">
+    <!-- js/script.js fills #nav-placeholder and #footer-placeholder from
+         templates/nav.html and templates/footer.html, both of which are built
+         entirely from .rd-* classes. Without redesign.css they render unstyled
+         — the same reason lending-v3 and web-3-v3 load it. -->
+    <link rel="stylesheet" href="./css/styles/redesign.css">
+    <!-- Must load LAST. -->
+    <link rel="stylesheet" href="./css/styles/case-retheme-v3.css">
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
         <script>
         window.dataLayer = window.dataLayer || [];
@@ -37,28 +53,28 @@
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-<header class="header"  style="height: 20vh">
-    <div class="container" id="nav-placeholder"></div>
+<header class="rd-hero-section" style="min-height: 0;">
+    <div id="nav-placeholder"></div>
 
-    <div class="rd-grid first-section"; style="height: 60vh; min-height: 460px;">
+    <div class="first-section rd-shell" style="height: 20vh; min-height: 460px; padding: 24px;">
     <div class="experience">
-       <h1 class="display animate__animated animate__fadeIn" style="margin-top: var(--m-0);">The Blockchain for<br>Enterprise, Entertainment & Goverment</h1>
+       <h1 class="display animate__animated animate__fadeIn" style="margin-top: var(--m-0);">From Concept to Execution<br>Building the Future of Digital Experiences</h1>
         <p class="lg-regular animate__animated animate__fadeIn" style="padding-top: 24px; max-width: 820px; line-height: 28px;">
-            Aura Network is building the next generation of blockchain infrastructure, powering both enterprise transformation and entertainment innovation with enhanced efficiency, transparency, and accessibility.        
+            Experience in crafting high-quality digital products and solutions that exceed client expectations. My expertise spans UI/UX design, project management, and software development, allowing me to seamlessly deliver impactful results. From ideation to execution, I ensure every detail aligns with business goals and user needs."
         </p>
 </div>
     </div>
 </header>
 <body>
     <section class="container-fluid">
-    <div class="second-section" style="top: 0; border-radius: 0;" >
-        <div class="rd-grid">
+    <div class="second-section" style="top: 0; border-radius: 0; padding-inline: 40px;" >
+        <div class="rd-shell" style="padding-inline: 24px;">
             <div class="introduce">
                <div>
                 <p class=" sub-heading animate__animated animate__fadeIn" style="padding-bottom: var(--p-16);" data-aos="fade-up">
                     Selected Project
                 </p>
-                <div class="container usecase" data-aos="fade-up"> 
+                <div class="usecase" data-aos="fade-up">
                     <div class="grid-container">
                         <!-- First row - Large card -->
                         <div class="card large-card" data-case-study="web-3">
@@ -232,60 +248,6 @@
                                         </div>
                                     </div>
                                 </div>
-    <div class="chat-bubble animate__animated animate__fadeIn" id="chatBubble">
-        <img src="./public/ic_generativeAI.svg" alt="">
-    </div>
-    <div class="chat-container animate__animated animate__fadeIn" id="chatContainer">
-        <div class="head-chat">
-            <h2 class="sub-heading">Job Fit Assessment</h2>
-            <p class="md-medium">Discover how my skills align with job requirements using AI-powered analysis.</p>
-        </div>
-        <form id="jobForm" class="form-container" enctype="multipart/form-data">
-            <div class="form-data">
-                <label class="md-bold" for="userEmail">Your Email:</label>
-                <input class="md-medium" type="email" id="userEmail" required placeholder="Enter your email">
-            </div>
-            <div class="form-data">
-                <label class="md-bold" for="jobDescription">Job Description:</label>
-                <textarea class="md-medium" id="jobDescription" placeholder="Paste the job description here..."></textarea>
-            </div>
-    
-    <!-- File upload section with icon support -->
-    <div class="form-data">
-    <label class="sm-medium" for="jobFile">Or upload a file:</label>
-    <div class="file-upload-container" id="dropZone">
-    <svg class="upload-icon" id="uploadIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M9 16H15V10H19L12 3L5 10H9V16Z" fill="currentColor"/>
-      <path d="M5 18H19V20H5V18Z" fill="currentColor"/>
-    </svg>
-    <input class="hidden-file-input" type="file" id="jobFile" accept=".pdf,.doc,.docx,.txt,.rtf">
-    <p class="md-medium upload-instructions" id="uploadInstructions">Drop your job description file here (PDF/DOCX)</p>
-    
-    <div class="file-info" id="fileInfo">
-      <div class="file-info-content">
-        <div id="fileIconContainer" class="file-icon-container">
-          <!-- File icon will be inserted here dynamically -->
-        </div>
-        <div class="file-name">
-          <span id="fileName" class="sm-medium">filename.pdf</span>
-        </div>
-        <div class="remove-file" id="removeFile">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="currentColor"/>
-          </svg>
-        </div>
-      </div>
-    </div>
-    </div>
-    </div>
-              
-            <button class="btn-primary" type="submit">Analyze Job</button>
-            <p class="response" id="responseMessage"></p>
-    
-        </form>
-        <div id="resultBox"></div>
-    </div>
-
 
 
 

@@ -2,7 +2,8 @@
 <html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- No maximum-scale / user-scalable=no: blocking pinch-zoom fails WCAG 1.4.4. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <link rel="icon" type="image/x-icon" href="../public/favicon.png">
     <title>Speaker Bureau Platform | Case Study — Stephano Ng</title>
 
@@ -410,19 +411,7 @@
 <!-- Closing CTA + footer — identical to index.html and about.html so all three
      pages stay in lockstep. -->
 <div class="rd-closing">
-    <div class="rd-cta-outer" data-aos="fade-up">
-        <div class="rd-cta-inner rd-shell">
-            <div class="rd-cta-block">
-                <h2 class="rd-cta-heading">Great products are rarely the result of great ideas alone.</h2>
-                <div class="rd-cta-sub">
-                    <p>Looking for someone who bridges business, design, and engineering to build products that matter?</p>
-                    <a href="https://www.linkedin.com/in/stpnguyen/" target="_blank" rel="noopener" class="rd-btn rd-btn-primary">Let's connect</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer id="footer-placeholder"></footer>
+<footer id="footer-placeholder"></footer>
 </div>
 
 <!-- js/script.js detects the /case-studies/ path and rewrites the nav + footer

@@ -26,8 +26,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (menuToggle && menu) {
                 menuToggle.addEventListener("click", function () {
-                    menu.classList.toggle("active");
-                    menuToggle.classList.toggle("active");
+                    const isOpen = menu.classList.toggle("active");
+                    menuToggle.classList.toggle("active", isOpen);
+                    menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+                    document.body.classList.toggle("nav-open", isOpen);
+                });
+
+                // Full-page menu covers the whole viewport, so a tapped link
+                // needs the menu (and the scroll lock) cleared immediately —
+                // otherwise the next page can load underneath a still-open,
+                // scroll-locked overlay for a moment.
+                menu.querySelectorAll("a").forEach(function (link) {
+                    link.addEventListener("click", function () {
+                        menu.classList.remove("active");
+                        menuToggle.classList.remove("active");
+                        menuToggle.setAttribute("aria-expanded", "false");
+                        document.body.classList.remove("nav-open");
+                    });
                 });
                 console.log("Menu toggle event listener added successfully.");
             } else {

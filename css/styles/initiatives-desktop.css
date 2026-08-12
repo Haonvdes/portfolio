@@ -1,0 +1,241 @@
+/* ======================================================================
+   Selected Product Initiatives — Desktop sticky stack
+   Rewritten 2026-08-09. Replaces the 2026-08-07 "one 100vh container with
+   an inner scroll track" presentation.
+
+   WHY IT CHANGED
+   The deck used to be its own scroll container, with js/initiatives.js
+   forwarding wheel events into it and releasing them at the ends. That is a
+   scroll-within-a-scroll: the page is already snap-bound to this section, so
+   the deck had to swallow every gesture and hand it back — fiddly on
+   trackpads, awkward for keyboard users, and it hid three of four cards
+   behind a control most readers never found.
+
+   The new model is the one the About page journey already uses, so the site
+   has ONE stacking pattern rather than two:
+
+     • every panel is laid out and shares one sticky top, so each parks until
+       the next scrolls up over it, receding behind a damped scale/blur/dim
+       pass written by js/initiatives.js;
+     • the snap targets are zero-size .rd-deck-snap markers placed at each
+       panel's resting offset — NOT the panels. A stuck element is a broken
+       snap target: its snap area travels with the viewport and the scroller
+       chases itself. (Same note lives on .rd-work-snap in redesign.css.)
+     • the markers must not be visibility:hidden — browsers skip hidden boxes
+       when collecting snap targets, so there would be nothing to land on.
+     • the section gives up its own snap point, exactly as .rd-journey-section
+       does, or the first gesture is spent re-landing on the section top
+       instead of moving to card 1.
+     • `scroll-snap-stop: always` is what enforces ONE card per gesture;
+       `mandatory` alone lets a fast flick carry through two or three.
+
+   Mobile (<=768px) is untouched — horizontal swipe carousel with dots and
+   autoplay, see redesign.css @media (max-width: 768px).
+   ----------------------------------------------------------------------
+   Scoping: linked AFTER redesign.css in index.html, so these rules win the
+   cascade where they overlap. Rules that must apply at every width (the
+   markers, the rail index base) sit outside the media gate on purpose.
+   ====================================================================== */
+
+:root {
+  /* Resting offset of a parked card AND the scroll-margin of its snap marker.
+     These must stay equal or a card lands off its own snap point. Read back by
+     js/initiatives.js, which falls back to 88 if the property is missing. */
+  --rd-deck-top: 88px;
+}
+
+/* Zero-size snap targets, created by js/initiatives.js at every width.
+   Deliberately OUTSIDE the desktop gate: on mobile the deck is a horizontal
+   flex track, and four unstyled spans would become flex items and push the
+   carousel out of alignment. Taking them out of flow everywhere costs nothing.
+   NOT visibility:hidden — see the header note. */
+.rd-deck-snap {
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  background: transparent;
+}
+
+/* ---------------------------------------------------------- rail index --- */
+/* Desktop position indicator and jump control; .rd-deck-dots does this job on
+   mobile. Base rules live here (unggated) so the desktop `display: block`
+   below can win on source order — media queries add no specificity. */
+.rd-deck-index {
+  display: none;
+  position: relative;
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  border-top: 1px solid #d9d6cd;
+}
+.rd-deck-index li {
+  list-style: none;
+  padding: 0;
+  border-bottom: 1px solid #d9d6cd;
+}
+.rd-deck-index button {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 0 14px 16px;
+  background: none;
+  border: 0;
+  font-family: var(--rd-font);
+  font-size: 15px;
+  font-weight: 500;
+  color: #8a8880;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.rd-deck-index button .n {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+.rd-deck-index li.is-current button {
+  color: var(--rd-primary);
+  font-weight: 700;
+}
+.rd-deck-index button:hover { color: var(--rd-primary); }
+.rd-deck-index button:focus-visible {
+  outline: 2px solid var(--rd-primary);
+  outline-offset: 2px;
+}
+
+/* Moved by JS, eased by CSS, so the active row glides instead of snapping. */
+.rd-deck-marker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 0;
+  border-radius: 2px;
+  background: var(--rd-primary);
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              height 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ============================== desktop ================================== */
+@media (min-width: 769px) {
+  /* The section is now as tall as its four cards, not one viewport, and the
+     markers are its stops. */
+  .rd-initiatives-section {
+    display: block;
+    height: auto;
+    min-height: 0;
+    padding: clamp(24px, 4vh, 40px) 40px;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+  .rd-initiatives-inner {
+    display: block;
+    height: auto;
+    min-height: 0;
+  }
+  .rd-initiatives-inner .rd-section-head {
+    flex: 0 0 auto;
+    padding-block: 0;
+  }
+
+  .rd-initiative-wrap {
+    display: block;
+    min-height: 0;
+    width: 100%;
+    padding: 0;
+    gap: 0;
+  }
+
+  /* position: relative is what the absolutely-placed markers resolve against.
+     padding-bottom is tail slack so the LAST card can still reach its parked
+     position instead of stopping dead when the document ends. */
+  .rd-initiative-deck {
+    display: block;
+    position: relative;
+    flex: none;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+    scroll-snap-type: none;
+    padding-bottom: 40vh;
+  }
+
+  /* Every panel is laid out — the base rule shows only .is-active — and they
+     share one sticky top so they stack. .is-active is (0,2,0), so it has to be
+     named here or the parked cards would lay out differently from the live one.
+     `animation: none` kills the tab-era fade, which would otherwise replay
+     every time JS toggles the class. */
+  .rd-initiative-panel,
+  .rd-initiative-panel[hidden],
+  .rd-initiative-panel.is-active {
+    display: block;
+    position: sticky;
+    top: var(--rd-deck-top);
+    flex: none;
+    height: auto;
+    min-height: 0;
+    width: 100%;
+    padding: 0;
+    opacity: 1;
+    animation: none;
+    transition: none;              /* the rAF pass owns these properties now */
+    scroll-snap-align: none;
+    /* scale from the top edge, so a receding card sinks into the stack rather
+       than shrinking toward its middle and drifting off the sticky line */
+    transform-origin: 50% 0%;
+    will-change: transform, opacity, filter;
+    backface-visibility: hidden;
+  }
+  .rd-initiative-panel + .rd-initiative-panel { margin-top: 40px; }
+
+  .rd-deck-snap {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    scroll-margin-top: var(--rd-deck-top);
+  }
+
+  /* A DEFINITE height, not `height:auto` + `max-height`. The card's inner chain
+     ends in `.rd-initiative-detail { flex: 1 1 0 }`, and a flex-basis of 0 in an
+     auto-height column has no free space to grow into — the detail block would
+     collapse to nothing and every card would render as a title and a stat bar.
+     A real height keeps the existing squeeze working: the fixed parts hold and
+     only the detail gives, truncating under its ::after fade. */
+  .rd-initiative-card {
+    height: calc(100vh - var(--rd-deck-top) - 40px);
+    min-height: 0;
+    max-height: none;
+  }
+
+  /* The rail index replaces the carousel dots above the breakpoint. */
+  .rd-deck-dots { display: none; }
+  .rd-deck-index { display: block; }
+
+  /* No autoplay on desktop; the pill tabs are long gone. */
+  .rd-tabs,
+  .rd-tab-progress,
+  .rd-deck-dot-progress { display: none; }
+}
+
+/* Rail beside the stack only where there is room for a 360px column. Between
+   769 and 1180 it stays a normal heading block above the cards. */
+@media (min-width: 1181px) {
+  .rd-initiatives-inner {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .rd-initiatives-rail {
+    position: sticky;
+    top: var(--rd-deck-top);
+    align-self: start;
+  }
+  .rd-initiatives-rail .rd-section-intro { margin-top: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-deck-marker,
+  .rd-deck-index button { transition: none; }
+  .rd-initiative-panel { filter: none !important; }
+}

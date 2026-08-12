@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+<head>
+    <meta charset="UTF-8">
+    <!-- No maximum-scale / user-scalable=no: v1 of this page set
+         maximum-scale=1, user-scalable=no, which fails WCAG 1.4.4. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.png">
+    <title>Aura Network — we stopped being an NFT chain | Case Study — Stephano Ng</title>
+
+    <!-- Same two stylesheets as index.html, in the same order: style.css first,
+         redesign.css after so the .rd-* rules win the cascade. -->
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7VM3QDKCYW');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PF5XGDGK');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta property="og:title" content="Aura Network — we stopped being an NFT chain | Stephano Ng">
+    <meta property="og:description" content="A permissioned NFT chain with a closed developer pool became a permissionless, EVM-compatible Layer 1. The decision was what to cancel.">
+    <meta property="og:image" content="../public/ar_casecover.webp">
+    <meta property="og:type" content="article">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+</head>
+<body class="rd-case">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!--
+  ============================================================================
+  Aura Network — case study, v2 (2026-08-06)
+  ----------------------------------------------------------------------------
+  REBUILD of case-studies/web-3.html in the 2026 redesign language
+  (.rd-case / --rd-* tokens), matching healthcare.html. v1 untouched.
+  Content from Aura-Network-Research-and-Rewrite.md (Part D).
+
+  Assigned claim: "I own a roadmap and decide what not to build."
+  The decision is cancelling the NFT app-chain, not shipping EVM.
+
+  TENURE IS THE FILTER: 27 Jul 2022 – 5 Jun 2024. Several claims on v1
+  described things that happened after Hao left.
+
+  SUBSTANTIVE CORRECTIONS vs v1 — the first three are checkable in two
+  minutes by anyone who opens aura.network:
+    1. "Launch of mainnet 'Serenity' in June 2022" — wrong on three counts.
+       Serenity was a TESTNET, released Apr 2022. The mainnet was XSTAXY and
+       it went live 20 Mar 2023.
+    2. "Integration with networks like Arbitrum and Polygon" — Aura is
+       Cosmos/IBC. The May 2024 EVM upgrade ENABLES PORTING dApps from
+       Ethereum, BNB Chain and Arbitrum. No Polygon integration is published.
+    3. "Strategic alliances with FPT Corporation" was listed as business
+       impact. FPT invested Feb 2025, 8½ months AFTER the stated end date.
+       Moved to §7 and dated post-exit, with the RWA repositioning and the
+       Sierra Leone agreement.
+    4. The three headline numbers (20+ / 141K+ / 1.5B) all carried the same
+       truncated caption: "Daaps, The entertainment industry struggles with
+       managing and" — shipped placeholder text. Removed; the numbers are now
+       labelled cumulative public totals measured after exit, and the fourth
+       and most product-legible stat (14.5M+ deployed contracts) is used.
+    5. "20% Effort reduction" appeared THREE TIMES identically in the
+       Automation block. Placeholder. The block is cut.
+    6. Solution #3 "Adapting to Evolving Compliance Standards" had body text
+       about entertainment media rights. Mismatched paste. Gone.
+    7. Dead CTA: beta.seekhype.io returns an empty response and SeekHype is
+       absent from Aura's ecosystem page. Removed.
+    8. Root-absolute image paths (/public/…) 404 on GitHub Pages, and
+       ..//public/ has a double slash. All paths here are ../public/.
+    9. The generic Scrum-ceremony block (backlog refinement → sprint planning
+       → DSU → review → retro) is cut. It described any Scrum team.
+   10. Positioning fixed: v1 said "The Blockchain for Enterprise,
+       Entertainment & Government … NFT utility and real-world asset
+       tokenization" — the Feb 2025 line with RWA removed and NFT bolted back
+       on, matching neither era.
+
+  EDITORIAL PASS (2026-08-06, approved by Hao):
+    - "The 15-second version" → "In short".
+    - H1 "Deciding to stop being an NFT chain" → "We stopped being an NFT chain".
+    - "took off the table to make room for it" → "cancelled to make room".
+    - "The decision is the other one" → named explicitly.
+    - Images reinstated. NOTE: unlike the other two case studies, there are no
+      product screenshots in public/ for Aurascan, Aura Safe or the address
+      conversion flow — only team and process artifacts. If you have explorer
+      or multisig screens, this is the page that needs them most.
+  ============================================================================
+-->
+
+<header class="rd-case-hero">
+    <div id="nav-placeholder"></div>
+
+    <div class="rd-case-hero-inner rd-shell">
+        <p class="rd-case-eyebrow">Case study · Web3 infrastructure</p>
+        <h1 class="rd-case-title">We stopped being an NFT chain</h1>
+        <p class="rd-case-lead">
+            Aura Network ran as a permissioned CosmWasm chain built for NFTs. Every new dApp needed
+            bespoke onboarding, and the pool of developers who could build on it was a fraction of
+            the EVM world's. The work I own here is not the EVM upgrade. It is the roadmap we
+            cancelled to make room for it.
+        </p>
+
+        <!-- §1 Header block. Role first, always. Status is not optional. -->
+        <div class="rd-case-meta">
+            <div>
+                <span class="rd-case-meta-k">Role</span>
+                <span class="rd-case-meta-v">Product manager &amp; lead product designer</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Domain</span>
+                <span class="rd-case-meta-v">Web3 infrastructure — Layer 1 blockchain</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Timeline</span>
+                <span class="rd-case-meta-v">Jul 2022 – Jun 2024 (23 months)</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Team</span>
+                <span class="rd-case-meta-v">10 — PM/design lead, designers, protocol and application engineers</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Platform</span>
+                <span class="rd-case-meta-v">Protocol + web — explorer, multisig, indexer</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Status</span>
+                <span class="rd-case-meta-v">Shipped. I left two weeks after the EVM release; later outcomes owned by others.</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- ================= §2 — In short ================= -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">In short</h2>
+
+            <div class="rd-case-summary">
+                <div>
+                    <span class="rd-case-meta-k">The problem</span>
+                    <p>Aura ran as a permissioned CosmWasm chain built for NFTs. Every new dApp needed bespoke onboarding, and the pool of developers who could build on it was a fraction of the EVM world's.</p>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">What I decided</span>
+                    <p>Stop building the NFT-first consumer surface and reposition the chain as permissionless and EVM-compatible, accepting a known address-model compromise to ship inside one release cycle.</p>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">What changed</span>
+                    <p>Aura shipped EVM compatibility in May 2024 and became a general-purpose L1. Ecosystem totals now stand at 20+ dApps and 14.5M+ deployed contracts <span class="rd-tag">public · cumulative</span>, measured after my exit.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §3 — Discovery ================= -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Discovery</h2>
+
+            <figure class="rd-case-figure">
+                <img src="../public/ar_casecover.webp" alt="Aura Network — a Layer 1 blockchain for enterprise, entertainment and government" loading="lazy">
+                <figcaption>Aura at the start of my tenure: a permissioned chain built for NFTs, with a closed developer pool.</figcaption>
+            </figure>
+
+            <div class="rd-case-grid">
+                <div class="rd-case-card">
+                    <h3>User insight</h3>
+                    <p>
+                        Our users were developers, not consumers. Onboarding a team meant teaching
+                        CosmWasm and Rust to people who already had audited Solidity in hand. The
+                        objection was never "we don't want to build on Aura" — it was "we'd have to
+                        rewrite."
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Data insight</h3>
+                    <p>
+                        The NFT-native cohort the chain was designed for contracted sharply through
+                        2023. Meanwhile our own infrastructure carried steady usage from ordinary
+                        contract and wallet activity. The tooling had found a different audience than
+                        the positioning had.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Business insight</h3>
+                    <p>
+                        Aura's stated market was emerging countries, Southeast Asia first. Enterprise
+                        and government pipelines there ask for asset verification, compliance and
+                        audit trails, not collectibles. Every serious inbound conversation drifted
+                        toward tokenizing something real.
+                    </p>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    The permission gate compounded the developer problem: builders had to ask before
+                    they could ship. And continuing to sell an NFT chain meant selling against our own
+                    pipeline.
+                </p>
+                <h3 class="rd-case-meta-k">The four questions, answered in writing</h3>
+                <ol class="rd-case-list">
+                    <li><strong>Who and what problem?</strong> Web3 developers and enterprise integrators who couldn't deploy on Aura without rewriting in an unfamiliar stack, behind a permission gate.</li>
+                    <li><strong>Why now?</strong> Cosmos-native EVM tooling had matured enough to integrate rather than build, and the NFT thesis was visibly decaying. Waiting a year meant paying to maintain a positioning we no longer believed.</li>
+                    <li><strong>What outcome would tell us it worked?</strong> Any Ethereum-toolchain team able to deploy without a rewrite or an approval step, with the leading indicator being external dApps deploying without our hand-holding.</li>
+                    <li><strong>Is it feasible?</strong> Yes, with one caveat: Ethereum and Cosmos generate addresses differently, so full unification was not achievable in the release window.</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §4 — The decision ================= -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">The decision: cancelling the NFT app-chain</h2>
+            <div class="rd-case-body">
+                <p>
+                    Aura spent 2021–2023 as a permissioned CosmWasm chain focused on NFTs, in its own
+                    words. On 23 May 2024 it shipped Aura EVM and became a permissionless,
+                    general-purpose, EVM-compatible L1. The company calls that "a pivotal shift in
+                    Aura's trajectory" and its "second phase." The integration is the visible half.
+                    The cancellation is the half that mattered.
+                </p>
+            </div>
+
+            <div class="rd-case-grid is-two">
+                <div class="rd-case-card">
+                    <h3>Options on the table</h3>
+                    <p>
+                        <strong>A — Stay a permissioned NFT app-chain</strong> and go deeper on
+                        vertical NFT tooling. Cheapest; bets the company on a contracting
+                        segment.<br><br>
+                        <strong>B — Full migration to EVM.</strong> Cleanest developer story; breaks
+                        every existing CosmWasm dApp and every deployed address.<br><br>
+                        <strong>C — Dual-environment.</strong> EVM alongside CosmWasm, separated into
+                        address zones, conversion between them, unification deferred.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Criteria I judged on</h3>
+                    <p>
+                        Developer reach, cost to existing builders, time to ship, and reversibility.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>What I chose</h3>
+                    <p>
+                        Option C, the only one that widened the developer funnel without breaking the
+                        dApps already live. The price was a real defect: a user cannot use one
+                        address across both environments, only convert between them.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>What I killed</h3>
+                    <p>
+                        The NFT-first consumer roadmap. Twilight Hub, the metaverse and NFT
+                        destination in our original architecture, and the NFT launchpad both came off
+                        the plan.
+                    </p>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    I chose to ship that address defect visibly, documented in the release notes and
+                    put to a governance vote, rather than hold the upgrade for a quarter to abstract
+                    it away. Reach compounds; the address seam was a fix we could make later against
+                    a larger ecosystem.
+                </p>
+                <p>
+                    Twilight Hub and the launchpad were the most fundable-sounding items we had, and
+                    the reason several people had joined the company. Cutting them was the decision.
+                    The EVM integration was the consequence.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §5 — Solution design ================= -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Solution design</h2>
+            <div class="rd-case-body">
+                <p>
+                    The visible work was making one chain read as one product while it ran two
+                    execution environments. Three surfaces carried the decision.
+                </p>
+            </div>
+
+            <div class="rd-case-grid">
+                <div class="rd-case-card">
+                    <h3>Aurascan — the explorer</h3>
+                    <p>
+                        Had to render CosmWasm and EVM transactions in one history without asking
+                        users to know which zone they were in. Still live in the ecosystem today.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Address conversion</h3>
+                    <p>
+                        The seam. The flow had to make "these two addresses are you" legible without
+                        a lecture on address derivation — the hardest piece of interface work in the
+                        release.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Aura Safe — multisig</h3>
+                    <p>
+                        Fine-grain access control was our enterprise wedge and had to survive the
+                        change intact. Still live in the ecosystem today.
+                    </p>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    <strong>Validation.</strong> Expert usability inspection against the existing
+                    flows, plus dogfooding by our own integrators as first users of the conversion
+                    path — appropriate for an enhancement to live surfaces rather than a net-new
+                    experience. The upgrade itself went to an on-chain governance vote before release.
+                </p>
+            </div>
+
+            <div class="rd-case-gallery is-two">
+                <figure>
+                    <img src="../public/ar_team.png" alt="The Aura Network product team's shared working board" loading="lazy">
+                    <figcaption>Ten people across protocol, application and design.</figcaption>
+                </figure>
+                <figure>
+                    <img src="../public/ar_communication.png" alt="Communication plan and RACI chart for the Aura Network product team" loading="lazy">
+                    <figcaption>The communication plan and RACI. A decision put to an on-chain vote needs its accountabilities written down first.</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §6 — Delivery ================= -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Delivery</h2>
+            <div class="rd-case-body">
+                <p>
+                    Two things moved between spec and ship. Address unification was cut to a
+                    post-release roadmap item once we confirmed the decimal mismatch between the two
+                    environments couldn't be reconciled in the window, and we adopted an existing
+                    conversion module rather than building our own.
+                </p>
+                <p>
+                    The programme also ran in the shadow of the mainnet experience. Xstaxy was
+                    announced for 1 October 2022, slipped to November, and shipped on
+                    <strong>20 March 2023</strong> after fifteen months of development. I was present
+                    for the whole of that five-month slip, and it is exactly why I scoped the EVM
+                    upgrade to one release with a stated, accepted defect instead of a complete
+                    migration.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §7 — Learning and follow-up ================= -->
+    <!-- Everything post-5 Jun 2024 lives here, explicitly dated. v1 claimed
+         several of these as business impact. -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Learning and follow-up</h2>
+            <div class="rd-case-body">
+                <p>
+                    <strong>Shipped, not measured by me.</strong> Aura EVM went live 23 May 2024; I
+                    left on 5 June 2024, before any meaningful adoption cycle. What I would have
+                    tracked: external contract deployments per month split by environment, and the
+                    share of new dApps arriving without direct BD involvement, which is the real test
+                    of whether permissionless changed anything.
+                </p>
+            </div>
+
+            <div class="rd-case-grid">
+                <div class="rd-case-card">
+                    <h3>1.5B+ transactions</h3>
+                    <p>Cumulative network total, published by Aura today <span class="rd-tag">public</span>. Not my result.</p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>14.5M+ contracts deployed</h3>
+                    <p>Cumulative network total <span class="rd-tag">public</span>. The most product-legible of the four, and the one v1 of this page never used.</p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>141,000+ active addresses</h3>
+                    <p>Unique, cumulative <span class="rd-tag">public</span>. Across 20+ dApps in the ecosystem.</p>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    The strategic bet resolved after I left, and it resolved in favour of the
+                    direction. Aura took strategic investment from FPT Corporation in
+                    <strong>February 2025</strong>, formally repositioned as "the RWA chain for
+                    enterprise, entertainment and government" that same month, and signed a blockchain
+                    agreement with the Government of Sierra Leone days later. All three are eight or
+                    more months after my exit. I owned the decision to stop being an NFT chain. I did
+                    not own what it became next.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §8 — What I'd do differently ================= -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">What I'd do differently</h2>
+            <div class="rd-case-body">
+                <p>
+                    For most of 2023 I read the NFT-market contraction as a market problem, and only
+                    acted on it as a <em>positioning</em> problem in 2024. The signal was in our own
+                    product data much earlier: our infrastructure tools were being used for ordinary
+                    contract activity while we kept describing ourselves as an NFT chain. That "who is
+                    actually using us, and for what" analysis belonged at the start of 2023, not the
+                    end.
+                </p>
+                <p>
+                    The address-conversion flow should also have shipped with usage instrumentation on
+                    day one. I left having knowingly accepted a UX defect and with no way to prove how
+                    much it cost.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <a href="/work.html" class="rd-btn rd-btn-text rd-case-back">← Back to all case studies</a>
+        </div>
+    </section>
+</main>
+
+<!-- Closing CTA + footer — identical to index.html, about.html and
+     healthcare.html so every page stays in lockstep. -->
+<div class="rd-closing">
+<footer id="footer-placeholder"></footer>
+</div>
+
+<script src="../js/script.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/socialize.js"></script>
+</body>
+</html>

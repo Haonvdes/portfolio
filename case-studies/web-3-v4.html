@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.png">
+    <title>Aura Network — we stopped being an NFT chain | Case Study — Stephano Ng</title>
+
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7VM3QDKCYW');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PF5XGDGK');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta property="og:title" content="Aura Network — we stopped being an NFT chain | Stephano Ng">
+    <meta property="og:description" content="A permissioned NFT chain became a permissionless, EVM-compatible Layer 1. I owned the roadmap decision and the interface that had to absorb it.">
+    <meta property="og:image" content="../public/ar_casecover.webp">
+    <meta property="og:type" content="article">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+</head>
+<body class="rd-case">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!--
+  ============================================================================
+  Aura Network — case study, v4 (2026-08-09)
+  ----------------------------------------------------------------------------
+  WHAT V4 IS: v2's content spine, re-cut for a HYBRID product design +
+  product management position. v1, v2 and v3 untouched.
+
+  v2 answered "can this person frame and decide?" (the PM box) and left the
+  design box empty — the audit found ZERO craft-evidence words on v1
+  (wireframe, user flow, journey map, usability, design system, prototype,
+  persona, accessibility, handoff, spec) and zero screens of Hao's own work.
+
+  A hybrid reviewer checks three boxes, in ascending order of rarity:
+    1. Can they frame and decide?           → §3, §4      (kept from v2)
+    2. Can they actually build the thing?   → §5, §6      (NEW in v4)
+    3. Does being BOTH change the outcome?  → §6          (NEW — the point)
+
+  Box 3 is why hybrid roles exist and is the box almost every candidate
+  leaves empty. The address-seam story fills it: an engineering constraint,
+  accepted as a PM trade-off, that lands entirely as an interface problem.
+
+  CHANGES vs v2
+    + "Scope" row added to the header meta, split product / design. The v1
+      scope line read "UX / Brand / 3D / Graphic", which reads as visual
+      production and pulls against a product-design claim.
+    + "Where the two roles met" block in the hero — hybrid reviewers ask this
+      in the first fifteen minutes; answering unprompted is cheap and rare.
+    + §5 NEW "One system, six surfaces" — the design-system story. Craft
+      evidence for the design reader, a capacity decision for the PM reader.
+    + §6 NEW "The address seam" — promoted from one card in v2's solution
+      grid to its own section. This is the hybrid peak.
+    + §7 explorer IA expanded; SeekHype screens used as real craft evidence.
+    + §9 NEW artifact table with "What I owned" and "The design call" columns,
+      replacing v1's Fact Card, which was a spec sheet rather than craft.
+    - v2's team/RACI gallery dropped. Process artifacts read as project
+      management, which is the thing this page is trying to stop signalling.
+
+  FACTS: unchanged from v2, sourced in Aura-Network-Research-and-Rewrite.md.
+  Tenure is the filter — 27 Jul 2022 to 5 Jun 2024. Anything later is §10.
+
+  >>> CLAIMS TO CONFIRM BEFORE THIS GOES LIVE <<<
+  Marked inline with TO CONFIRM. All are things only Hao can verify:
+    a) §5 — that a shared component set / token system actually existed as an
+       artifact. If it was informal convergence rather than a built system,
+       soften to "shared patterns" and drop the word "system".
+    b) §5 — the six-surface count and which ones shared the system.
+    c) §6 — that the conversion flow was designed by him, and whether any
+       screens of it survive.
+    d) §9 — the per-surface ownership split in the table.
+  Where an artifact is missing, the figure slot is commented, not faked.
+  ============================================================================
+-->
+
+<header class="rd-case-hero">
+    <div id="nav-placeholder"></div>
+
+    <div class="rd-case-hero-inner rd-shell">
+        <p class="rd-case-eyebrow">Case study · Web3 infrastructure · Product + design</p>
+        <h1 class="rd-case-title">We stopped being an NFT chain</h1>
+        <p class="rd-case-lead">
+            Aura Network ran as a permissioned CosmWasm chain built for NFTs. Every new dApp needed
+            bespoke onboarding, and the pool of developers who could build on it was a fraction of
+            the EVM world's. I owned the decision to cancel that roadmap — and then had to design
+            the interface that absorbed what the decision cost.
+        </p>
+
+        <!-- §1 Header block. Role first, always. Scope split across the two
+             disciplines so a hybrid reviewer can see both halves at a glance. -->
+        <div class="rd-case-meta">
+            <div>
+                <span class="rd-case-meta-k">Role</span>
+                <span class="rd-case-meta-v">Product manager &amp; lead product designer</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Product scope</span>
+                <span class="rd-case-meta-v">Discovery, roadmap, prioritisation, release trade-offs</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Design scope</span>
+                <span class="rd-case-meta-v">UX, flows, design system, interface craft across six surfaces</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Domain</span>
+                <span class="rd-case-meta-v">Web3 infrastructure — Layer 1 blockchain</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Timeline</span>
+                <span class="rd-case-meta-v">Jul 2022 – Jun 2024 (23 months)</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Team</span>
+                <span class="rd-case-meta-v">10 — PM/design lead, designers, protocol and application engineers</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Platform</span>
+                <span class="rd-case-meta-v">Protocol + web — explorer, multisig, indexer, marketplace</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Status</span>
+                <span class="rd-case-meta-v">Shipped. I left two weeks after the EVM release; later outcomes owned by others.</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- ================= §2 — In short ================= -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">In short</h2>
+
+            <div class="rd-case-summary">
+                <div>
+                    <span class="rd-case-meta-k">The problem</span>
+                    <p>Aura ran as a permissioned CosmWasm chain built for NFTs. Every new dApp needed bespoke onboarding, and the pool of developers who could build on it was a fraction of the EVM world's.</p>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">What I decided</span>
+                    <p>Stop building the NFT-first consumer surface and reposition the chain as permissionless and EVM-compatible, accepting a known address-model compromise to ship inside one release cycle.</p>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">What changed</span>
+                    <p>Aura shipped EVM compatibility in May 2024 and became a general-purpose L1. Ecosystem totals now stand at 20+ dApps and 14.5M+ deployed contracts <span class="rd-tag">public · cumulative</span>, measured after my exit.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §3 — Where the two roles met =================
+         NEW in v4. Deliberately early: it frames everything after it, and it
+         is the question a hybrid interviewer opens with. -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Where the two roles met</h2>
+            <div class="rd-case-body">
+                <p>
+                    I held both hats on this team, which is only interesting where they conflicted.
+                    Three places they did:
+                </p>
+            </div>
+
+            <div class="rd-case-grid">
+                <div class="rd-case-card">
+                    <h3>Scope cuts happened in design review</h3>
+                    <p>
+                        Because I owned the spec and the screens, features died at the wireframe
+                        stage rather than after a sprint of engineering. The NFT launchpad was
+                        cancelled from a flow that made its cost obvious, not from a roadmap
+                        spreadsheet.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>I had to live with my own trade-offs</h3>
+                    <p>
+                        The PM in me accepted a defect in the address model to ship on time. The
+                        designer in me then had to make that defect survivable for a real user. No
+                        one to hand it to — which is the honest argument for the hybrid role.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Where they fought, the product won</h3>
+                    <p>
+                        Six surfaces and ten people meant the designer's instinct to perfect each one
+                        was wrong. I chose a shared system over bespoke craft, and accepted that
+                        every surface would be slightly less special.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §4 — Discovery ================= -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Discovery</h2>
+
+            <figure class="rd-case-figure">
+                <img src="../public/ar_casecover.webp" alt="Aura Network — a Layer 1 blockchain for enterprise, entertainment and government" loading="lazy">
+                <figcaption>Aura at the start of my tenure: a permissioned chain built for NFTs, with a closed developer pool.</figcaption>
+            </figure>
+
+            <div class="rd-case-grid">
+                <div class="rd-case-card">
+                    <h3>User insight</h3>
+                    <p>
+                        Our users were developers, not consumers. Onboarding a team meant teaching
+                        CosmWasm and Rust to people who already had audited Solidity in hand. The
+                        objection was never "we don't want to build on Aura" — it was "we'd have to
+                        rewrite."
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Data insight</h3>
+                    <p>
+                        The NFT-native cohort the chain was designed for contracted sharply through
+                        2023. Meanwhile our own infrastructure carried steady usage from ordinary
+                        contract and wallet activity. The tooling had found a different audience than
+                        the positioning had.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Business insight</h3>
+                    <p>
+                        Aura's stated market was emerging countries, Southeast Asia first. Enterprise
+                        and government pipelines there ask for asset verification, compliance and
+                        audit trails, not collectibles. Every serious inbound conversation drifted
+                        toward tokenizing something real.
+                    </p>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    The permission gate compounded the developer problem: builders had to ask before
+                    they could ship. And continuing to sell an NFT chain meant selling against our own
+                    pipeline.
+                </p>
+                <h3 class="rd-case-meta-k">The four questions, answered in writing</h3>
+                <ol class="rd-case-list">
+                    <li><strong>Who and what problem?</strong> Web3 developers and enterprise integrators who couldn't deploy on Aura without rewriting in an unfamiliar stack, behind a permission gate.</li>
+                    <li><strong>Why now?</strong> Cosmos-native EVM tooling had matured enough to integrate rather than build, and the NFT thesis was visibly decaying. Waiting a year meant paying to maintain a positioning we no longer believed.</li>
+                    <li><strong>What outcome would tell us it worked?</strong> Any Ethereum-toolchain team able to deploy without a rewrite or an approval step, with the leading indicator being external dApps deploying without our hand-holding.</li>
+                    <li><strong>Is it feasible?</strong> Yes, with one caveat: Ethereum and Cosmos generate addresses differently, so full unification was not achievable in the release window.</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §5 — The decision ================= -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">The decision: cancelling the NFT app-chain</h2>
+            <div class="rd-case-body">
+                <p>
+                    Aura spent 2021–2023 as a permissioned CosmWasm chain focused on NFTs, in its own
+                    words. On 23 May 2024 it shipped Aura EVM and became a permissionless,
+                    general-purpose, EVM-compatible L1. The company calls that "a pivotal shift in
+                    Aura's trajectory" and its "second phase." The integration is the visible half.
+                    The cancellation is the half that mattered.
+                </p>
+            </div>
+
+            <div class="rd-case-grid is-two">
+                <div class="rd-case-card">
+                    <h3>Options on the table</h3>
+                    <p>
+                        <strong>A — Stay a permissioned NFT app-chain</strong> and go deeper on
+                        vertical NFT tooling. Cheapest; bets the company on a contracting
+                        segment.<br><br>
+                        <strong>B — Full migration to EVM.</strong> Cleanest developer story; breaks
+                        every existing CosmWasm dApp and every deployed address.<br><br>
+                        <strong>C — Dual-environment.</strong> EVM alongside CosmWasm, separated into
+                        address zones, conversion between them, unification deferred.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Criteria I judged on</h3>
+                    <p>
+                        Developer reach, cost to existing builders, time to ship, and reversibility.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>What I chose</h3>
+                    <p>
+                        Option C, the only one that widened the developer funnel without breaking the
+                        dApps already live. The price was a real defect: a user cannot use one
+                        address across both environments, only convert between them.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>What I killed</h3>
+                    <p>
+                        The NFT-first consumer roadmap. Twilight Hub, the metaverse and NFT
+                        destination in our original architecture, and the NFT launchpad both came off
+                        the plan.
+                    </p>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    I chose to ship that address defect visibly, documented in the release notes and
+                    put to a governance vote, rather than hold the upgrade for a quarter to abstract
+                    it away. Reach compounds; the address seam was a fix we could make later against
+                    a larger ecosystem.
+                </p>
+                <p>
+                    Twilight Hub and the launchpad were the most fundable-sounding items we had, and
+                    the reason several people had joined the company. Cutting them was the decision.
+                    The EVM integration was the consequence.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §6 — One system, six surfaces =================
+         NEW in v4. The design-system story: craft evidence for the design
+         reader, a capacity decision for the PM reader.
+
+         TO CONFIRM (a) and (b): that a shared component/token set existed as a
+         real artifact, and the six-surface list. If it was informal
+         convergence, soften "system" to "shared patterns" throughout and drop
+         the ratio claim in the closing paragraph. -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">One system, six surfaces</h2>
+            <div class="rd-case-body">
+                <p>
+                    Aura shipped an explorer, a multisig wallet, an indexer, a marketplace, a swap and
+                    a bot — six product surfaces, ten people, one designer-shaped hole in the middle.
+                    Designing each one properly was arithmetically impossible. So the first design
+                    decision was not a screen; it was to stop designing screens.
+                </p>
+            </div>
+
+            <div class="rd-case-grid">
+                <div class="rd-case-card">
+                    <h3>What we built once</h3>
+                    <p>
+                        A shared type scale, colour and spacing set, and the components every surface
+                        repeats: address display and truncation, transaction rows, network and status
+                        badges, empty and pending states, wallet-connect. Blockchain products are
+                        mostly these five things wearing different hats.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>What each surface kept</h3>
+                    <p>
+                        Only what genuinely differed: the explorer's data density, the multisig's
+                        signature ceremony, the marketplace's media-forward browsing. Everything else
+                        inherited, whether or not that was the prettiest answer for that product.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Why it was a PM decision too</h3>
+                    <p>
+                        A system is capacity, not taste. Six bespoke designs would have consumed the
+                        design capacity that the EVM transition later needed — the transition that
+                        touched every one of these surfaces at once. Building the system in 2023 is
+                        what made 2024's re-plumbing affordable.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Real craft evidence. SeekHype is the one surface with product
+                 screens in public/ (sh_01–sh_07). is-screens crops 9:16 from
+                 the top, which suits the 438px-wide mobile captures. -->
+            <div class="rd-case-gallery is-screens">
+                <figure>
+                    <img src="../public/sh_02.png" alt="SeekHype marketplace — browsing view on mobile" loading="lazy">
+                    <figcaption>Marketplace browse. Media-forward, because this is the one surface where the asset is the point.</figcaption>
+                </figure>
+                <figure>
+                    <img src="../public/sh_05.png" alt="SeekHype — asset detail and ownership state" loading="lazy">
+                    <figcaption>Ownership and provenance state, using the shared address and badge components.</figcaption>
+                </figure>
+                <figure>
+                    <img src="../public/sh_06.png" alt="SeekHype — transaction and confirmation step" loading="lazy">
+                    <figcaption>The confirmation step. Same transaction row component the explorer uses.</figcaption>
+                </figure>
+            </div>
+
+            <!-- TO CONFIRM (b): if Aurascan / Aura Safe screens exist, they
+                 belong here as a second gallery — the system claim is much
+                 stronger shown across two products than one. There are no
+                 explorer or multisig captures in public/ at present, so this
+                 slot is left empty rather than filled with marketing covers.
+            <div class="rd-case-gallery is-two"> … </div>
+            -->
+
+            <div class="rd-case-body">
+                <p>
+                    <strong>Validation.</strong> Expert usability inspection against the live surfaces,
+                    plus dogfooding by our own integrators. For enhancements to shipped products that
+                    is the proportionate method; moderated testing was reserved for genuinely new
+                    flows, of which the address conversion below was the only one.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §7 — The address seam =================
+         NEW in v4, and the reason v4 exists. In v2 this was one card in the
+         solution grid. It is the only story on the page where the engineering
+         constraint, the product trade-off and the interface problem are the
+         same problem — which is exactly what a hybrid role is hiring for.
+
+         TO CONFIRM (c): that Hao designed this flow, and whether screens
+         survive. The narrative is safe either way; the figure slot is not. -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">The address seam: where the trade-off landed</h2>
+            <div class="rd-case-body">
+                <p>
+                    Every decision above arrives, eventually, at one screen. This is that screen's
+                    problem.
+                </p>
+            </div>
+
+            <div class="rd-case-grid is-two">
+                <div class="rd-case-card">
+                    <h3>1 · The constraint</h3>
+                    <p>
+                        Ethereum and Cosmos derive addresses differently and count decimals
+                        differently — eighteen against six. One account cannot be both. Unifying them
+                        was not a design preference we could argue for; it was outside the release
+                        window.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>2 · The trade-off I accepted</h3>
+                    <p>
+                        Ship the two environments as separate address zones with conversion between
+                        them, rather than hold the upgrade a quarter. Reach compounds. But I had just
+                        agreed that every user would now have two addresses and no way to use one.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>3 · The interface problem</h3>
+                    <p>
+                        Make "these two addresses are both you" legible to someone who will never care
+                        why. No jargon, no lecture on derivation paths, and no moment where a user
+                        believes they have lost funds because their balance is on the other side of a
+                        seam they didn't know existed.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>4 · How it was designed</h3>
+                    <p>
+                        One identity, two representations — never two accounts. Conversion presented
+                        as moving your own money between your own pockets, with the destination
+                        address always shown before confirmation and the previous address never
+                        hidden. The word "zone" appears nowhere in the interface.
+                    </p>
+                </div>
+            </div>
+
+            <!-- TO CONFIRM (c): the conversion flow diagram or screens belong
+                 here. Nothing in public/ matches, and a marketing cover would
+                 be worse than an honest gap. If the Figma frames survive, a
+                 three-step flow image is the single highest-value asset that
+                 could be added to this entire page.
+            <figure class="rd-case-figure"> … </figure>
+            -->
+
+            <div class="rd-case-body">
+                <p>
+                    <strong>What I got wrong.</strong> I shipped this flow without instrumentation. I
+                    knew I was accepting a defect and I had no way to measure what it cost — how many
+                    users converted, how many stalled, how many opened support. Designing the
+                    mitigation and skipping the measurement is a product-manager failure, not a design
+                    one, and I owned both jobs.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §8 — Delivery ================= -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Delivery</h2>
+            <div class="rd-case-body">
+                <p>
+                    Two things moved between spec and ship. Address unification was cut to a
+                    post-release roadmap item once we confirmed the decimal mismatch couldn't be
+                    reconciled in the window, and we adopted an existing conversion module rather than
+                    building our own.
+                </p>
+                <p>
+                    The programme also ran in the shadow of the mainnet experience. Xstaxy was
+                    announced for 1 October 2022, slipped to November, and shipped on
+                    <strong>20 March 2023</strong> after fifteen months of development. I was present
+                    for the whole of that five-month slip, and it is exactly why I scoped the EVM
+                    upgrade to one release with a stated, accepted defect instead of a complete
+                    migration.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §9 — What I owned, surface by surface =================
+         NEW in v4. Replaces v1's "Fact Card", which listed Main Feature /
+         Audience / Format / Scope — a spec sheet that said nothing about Hao.
+         The two columns that matter to a hybrid reviewer are what he owned and
+         what he decided.
+
+         TO CONFIRM (d): the ownership split per surface. -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">What I owned, surface by surface</h2>
+
+            <div class="rd-case-table-wrap">
+                <table class="rd-case-table">
+                    <thead>
+                        <tr>
+                            <th>Surface</th>
+                            <th>What I owned</th>
+                            <th>The design call</th>
+                            <th>Status today</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Aurascan — explorer</td>
+                            <td>Product + design</td>
+                            <td>One transaction history across two execution environments</td>
+                            <td>Live</td>
+                        </tr>
+                        <tr>
+                            <td>Aura Safe — multisig</td>
+                            <td>Product + design</td>
+                            <td>Kept the signature ceremony intact through the upgrade</td>
+                            <td>Live</td>
+                        </tr>
+                        <tr>
+                            <td>Aura Index — indexer</td>
+                            <td>Product</td>
+                            <td>Developer-facing; inherited the system wholesale</td>
+                            <td>Live</td>
+                        </tr>
+                        <tr class="is-subject">
+                            <td>Address conversion</td>
+                            <td>Product + design</td>
+                            <td>One identity, two representations — never two accounts</td>
+                            <td>Shipped May 2024</td>
+                        </tr>
+                        <tr>
+                            <td>SeekHype — marketplace</td>
+                            <td>Design</td>
+                            <td>The one surface allowed to break the system for media</td>
+                            <td>Retired</td>
+                        </tr>
+                        <tr>
+                            <td>Aura Swap</td>
+                            <td>Design</td>
+                            <td>Inherited the transaction and address components unchanged</td>
+                            <td>Retired</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    Two of the six are no longer in Aura's published ecosystem. That is what happens
+                    to the consumer-facing half of a chain that decides to stop being a consumer
+                    product — including the marketplace I had spent the most design time on.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §10 — Learning and follow-up ================= -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Learning and follow-up</h2>
+            <div class="rd-case-body">
+                <p>
+                    <strong>Shipped, not measured by me.</strong> Aura EVM went live 23 May 2024; I
+                    left on 5 June 2024, before any meaningful adoption cycle. What I would have
+                    tracked: external contract deployments per month split by environment, and the
+                    share of new dApps arriving without direct BD involvement, which is the real test
+                    of whether permissionless changed anything.
+                </p>
+            </div>
+
+            <div class="rd-case-grid">
+                <div class="rd-case-card">
+                    <h3>1.5B+ transactions</h3>
+                    <p>Cumulative network total, published by Aura today <span class="rd-tag">public</span>. Not my result.</p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>14.5M+ contracts deployed</h3>
+                    <p>Cumulative network total <span class="rd-tag">public</span>. The most product-legible of the four, and the one v1 of this page never used.</p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>141,000+ active addresses</h3>
+                    <p>Unique, cumulative <span class="rd-tag">public</span>. Across 20+ dApps in the ecosystem.</p>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    The strategic bet resolved after I left, and it resolved in favour of the
+                    direction. Aura took strategic investment from FPT Corporation in
+                    <strong>February 2025</strong>, formally repositioned as "the RWA chain for
+                    enterprise, entertainment and government" that same month, and signed a blockchain
+                    agreement with the Government of Sierra Leone days later. All three are eight or
+                    more months after my exit. I owned the decision to stop being an NFT chain. I did
+                    not own what it became next.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §11 — What I'd do differently ================= -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">What I'd do differently</h2>
+            <div class="rd-case-body">
+                <p>
+                    For most of 2023 I read the NFT-market contraction as a market problem, and only
+                    acted on it as a <em>positioning</em> problem in 2024. The signal was in our own
+                    product data much earlier: our infrastructure tools were being used for ordinary
+                    contract activity while we kept describing ourselves as an NFT chain. That "who is
+                    actually using us, and for what" analysis belonged at the start of 2023, not the
+                    end.
+                </p>
+                <p>
+                    And I would instrument the address-conversion flow on day one. Holding both roles
+                    let me design a mitigation for my own trade-off inside a single release — but it
+                    also meant no one was standing outside the decision asking how we would know
+                    whether the mitigation worked. That is the failure mode of the hybrid role, and I
+                    walked straight into it.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <a href="/work.html" class="rd-btn rd-btn-text rd-case-back">← Back to all case studies</a>
+        </div>
+    </section>
+</main>
+
+<!-- Closing CTA + footer — identical to index.html, about.html and
+     healthcare.html so every page stays in lockstep. -->
+<div class="rd-closing">
+<footer id="footer-placeholder"></footer>
+</div>
+
+<script src="../js/script.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/socialize.js"></script>
+</body>
+</html>

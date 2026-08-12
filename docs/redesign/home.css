@@ -1,4 +1,16 @@
 /*
+  ARCHIVED PROTOTYPE — NOT THE LIVE SITE. DO NOT COPY VALUES FROM THIS FILE.
+  ============================================================================
+  Part of the standalone early-prototype snapshot in docs/redesign/ (2026-08-02).
+  Nothing links it, index-standalone.html's own <link> paths are broken, and its
+  colours and type are out of date.
+
+  Live styles:  css/styles/redesign.css     (home, about, healthcare)
+  Live tokens:  css/styles/tokens.css       (source of truth)
+  Rationale:    docs/redesign/design-tokens.md
+*/
+
+/*
   Homepage styles — Portfolio Redesign
   Link after tokens.css + site.css:
     <link rel="stylesheet" href="css/home.css">

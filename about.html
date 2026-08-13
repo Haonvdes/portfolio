@@ -48,30 +48,31 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-<!-- ============ Section 1 — nav + bio (Figma 40000113:8592) ============ -->
-<!-- Reuses .rd-hero-inner / .rd-hero-row / .rd-hero-media from the homepage —
-     the about hero is the same shell with a text block instead of a headline. -->
+<!-- ============ Section 1 — nav + hero (Figma 40000188:5690) ============ -->
+<!-- Reuses .rd-hero-inner / .rd-hero-row / .rd-hero-content / .rd-hero-headline-group /
+     .rd-hero-headline / .rd-hero-lead from the homepage hero — only the illustration
+     column (.rd-about-hero-media) is specific to this page. -->
 <header class="rd-about-hero">
     <div id="nav-placeholder"></div>
 
     <div class="rd-hero-inner rd-shell">
-        <div class="rd-hero-row" data-node-id="40000113:8604">
-            <div class="rd-about-bio" data-node-id="40000113:8605">
-                <p>Hi there,</p>
-                <p>From creative world to strategic leader, my journey began in the creative world of product design, where I spent over three years crafting intuitive and visually appealing user experiences. During this time, I realized that my passion extended beyond design—I was drawn to the bigger picture aligning creativity with business strategies to deliver meaningful outcomes.</p>
-                <p class="rd-about-bio-lead">Bridging Teams and Driving Success</p>
-                <p>This curiosity led me to pursue certifications in project management (PMP, PMI-ACP, PSM), allowing me to combine my design expertise with leadership skills. Now, I thrive on bridging the gap between teams and transforming ideas into impactful results. My ability to connect with people, understand their needs, and drive collaboration has been my greatest asset in leading projects to success.</p>
-                <p class="rd-about-bio-lead">A Journey of Growth and Purpose</p>
-                <p>Currently, I&rsquo;m expanding my horizons by studying Business Administration as a stepping stone toward my long-term goal of leading innovative projects and businesses. Beyond my career, I&rsquo;m passionate about learning, reading, and pushing my boundaries—whether it&rsquo;s in the gym, at church, or exploring new ways to grow.</p>
-                <p>Life for me is about continuous learning, meaningful connections, and leaving a positive impact on every project and person I work with. Check out
-                    <a href="https://drive.google.com/file/d/1h9E36dyB3P83pFDXZvlvhNZR4BPwNAGF/view?usp=sharing" target="_blank" rel="noopener" class="rd-about-bio-link">my CV 🔗</a>
-                    to learn more about my journey and experience.</p>
+        <div class="rd-hero-row" data-node-id="40000188:5704">
+            <div class="rd-hero-content">
+                <div class="rd-hero-headline-group">
+                    <h1 class="rd-hero-headline animate__animated animate__fadeIn">
+                        From designing experiences <br>to shaping products.
+                    </h1>
+                    <p class="rd-hero-lead animate__animated animate__fadeIn">
+                        My background sits at the intersection of design, business, and cross-functional collaboration. Beyond designing products, I&rsquo;ve worked with stakeholders to shape proposals, communicate complex ideas, align teams, and turn business needs into actionable product decisions.
+                    </p>
+                    <!-- The present-status line used to sit here. Moved into the
+                         Professional Journey rail on 2026-08-13 at Hao's request —
+                         see .rd-journey-status below. -->
+                </div>
             </div>
 
-            <!-- TODO: Figma uses a different portrait here (node 40000113:8609).
-                 Export it and swap this src; personal_image.webp is the stand-in. -->
-            <div class="rd-hero-media">
-                <img src="./public/personal_image.webp" alt="Stephano Ng" width="358" height="501">
+            <div class="rd-about-hero-media animate__animated animate__fadeIn">
+                <img src="./public/profile_about.png" alt="Illustrated portrait of Stephano Ng" width="782" height="716">
             </div>
         </div>
     </div>
@@ -83,7 +84,19 @@
         <div class="rd-journey-inner rd-shell">
             <div class="rd-journey-intro" data-node-id="40000113:8666">
                 <h2 class="rd-section-heading">Professional Journey</h2>
-                <p class="rd-journey-blurb">From hands-on product design to leading cross-functional teams &mdash; across finance, banking, lending, Web3 and automotive. Pick a period to see what the work involved.</p>
+                <!-- Career framing + present status, merged into one paragraph on
+                     2026-08-13 at Hao's request (they were two separate <p>s, and before
+                     that the status line lived in the hero).
+                     The status half exists because the timeline below closes at Jun 2026
+                     and nothing else on the page accounts for the months since — a reader
+                     fills that gap themselves. It sits ABOVE the 01–05 index because that
+                     list is reverse chronological, so "now" belongs before the most recent
+                     role, not after the oldest.
+                     This is the ONE place on the site that should carry availability — see
+                     the note in templates/nav.html about not repeating #opentowork on every
+                     page.
+                     >>> HAO: update or delete the month when the next role starts. -->
+                <p class="rd-journey-blurb">Each step in my career has taken me closer to the bigger picture: understanding the problem, shaping the direction, and bringing people together to build the right thing. The next one is where that becomes the whole job. <span class="rd-status">Available now</span> &mdash; my engagement at Horizons Technology closed in June 2026, and I&rsquo;m looking at Product Manager roles in fintech, lending and enterprise platforms.</p>
 
                 <!-- Timeline index — the homepage's .rd-deck-index component
                      (numbered rail + sliding marker), same markup and styling.
@@ -144,8 +157,23 @@
                     </div>
                     <div class="rd-work-body" id="work-fpt">
                             <div class="rd-work-head">
+                                <!-- Deliberately generic — no project named (Hao, 2026-08-13).
+                                     The split matters even without names: his correction of
+                                     2026-08-09 stands, that on the Web3 engagement he was Lead
+                                     Product Design and NOT PM (he framed the platform trade-offs
+                                     and drove alignment; the founders decided). A bare "Project
+                                     Manager" covering all four years would read as if it included
+                                     that one, which an interviewer can catch against the case
+                                     study. "PM on some, lead product designer on others" is true
+                                     of every engagement without claiming any specific one.
+                                     >>> HAO: the PM engagements are the strongest PM evidence you
+                                     have and none of them appears anywhere on this site. Worth a
+                                     card on the homepage, not just a clause here. -->
                                 <h3 class="rd-work-title">Project Manager / Lead Product Designer at FPT Software</h3>
-                                <p class="rd-work-meta">Led a cross-functional team of 10 on a B2B auction platform serving the VN, US and JP markets — owning UX/UI strategy and holding design decisions to the business goals across finance, Web3 and automotive.</p>
+                                <!-- Keep to three lines. The card height is fixed at
+                                     --rd-work-h: 420px and a fourth line overflows it by 8px —
+                                     measured, so check after any rewrite. -->
+                                <p class="rd-work-meta">Four years across finance, Web3 and automotive engagements serving the VN, US and JP markets &mdash; project manager on some, lead product designer on others.</p>
                             </div>
                             <div class="rd-work-scope">
                                 <div class="rd-work-scope-head">
@@ -239,29 +267,61 @@
         </div>
     </section>
 
-    <!-- ==== Section 5 — certifications (Figma 40000137:3785) ==== -->
-    <section class="rd-creds-section" data-aos="fade-up">
-        <div class="rd-creds-inner rd-shell">
-            <div class="rd-creds-quote-row">
-                <p class="rd-creds-quote">I continuously sharpen my product thinking through formal certifications, hands-on practice, and cross-functional leadership.</p>
+    <!-- ==== Section 5 — What I've Learned Along the Way (Figma 40000188:5716) ====
+         Replaced the old single-quote + logo strip. One viewport tall, per the
+         1024px Figma frame.
+         The three 60px lesson icons are Hao's Figma exports in public/. They are
+         applied as CSS masks, not <img>: the files hardcode fill="black", and a
+         mask lets the colour come from --rd-ink like every other mark on the
+         page, so a token change still reaches them. -->
+    <section class="rd-learn-section" data-aos="fade-up">
+        <div class="rd-learn-inner rd-shell">
+            <div class="rd-learn-head">
+                <h2 class="rd-section-heading">What I&rsquo;ve Learned<br>Along the Way</h2>
+                <p class="rd-learn-intro">Each role has expanded how I think about building products&mdash;from crafting experiences to understanding business problems, leading teams, and making decisions that create value.</p>
+
+                <div class="rd-learn-card">
+                        <article class="rd-learn-lesson">
+                            <span class="rd-learn-icon rd-icon-design" aria-hidden="true"></span>
+                            <h3>From interfaces to people.</h3>
+                            <p>Design taught me to understand how people experience products.</p>
+                        </article>
+                        <article class="rd-learn-lesson">
+                            <span class="rd-learn-icon rd-icon-teams" aria-hidden="true"></span>
+                            <h3>From individuals to teams.</h3>
+                            <p>Leadership taught me to align people around a shared direction.</p>
+                        </article>
+                        <article class="rd-learn-lesson">
+                            <span class="rd-learn-icon rd-icon-goal" aria-hidden="true"></span>
+                            <h3>From products to outcomes.</h3>
+                            <p>Business taught me to connect product decisions to measurable value.</p>
+                        </article>
+                </div>
             </div>
 
-            <div class="rd-creds-logos">
-                <a href="https://www.credly.com/badges/ab2290b3-212e-4db2-8a89-53bff99a7db4/public_url" target="_blank" rel="noopener" title="Project Management Professional (PMP)">
-                    <img src="./public/cert_pmp.png" alt="PMP certification" width="80" height="80">
-                </a>
-                <a href="https://www.credly.com/badges/97dcfae2-dbce-4e6b-86fb-e76c17cd6bf0/public_url" target="_blank" rel="noopener" title="PMI Agile Certified Practitioner (PMI-ACP)">
-                    <img src="./public/cert_agile.png" alt="PMI-ACP certification" width="80" height="80">
-                </a>
-                <a href="https://www.credly.com/badges/6fbbbe85-014a-4689-8433-b05a1383e851/public_url" target="_blank" rel="noopener" title="Professional Scrum Master (PSM)">
-                    <img src="./public/cert_psm.png" alt="PSM certification" width="80" height="80">
-                </a>
-                <a href="https://www.credly.com/badges/68c137b7-52ec-4bfb-a072-e68d977eeff3/public_url" target="_blank" rel="noopener" title="Prompt Engineering for Project Managers">
-                    <img src="./public/cert_promtEn.png" alt="Prompt Engineering certification" width="80" height="80">
-                </a>
-                <a href="https://www.credly.com/badges/3ab5df38-46de-415f-a9e6-531fc9f78718/public_url" target="_blank" rel="noopener" title="Practical Application of Generative AI">
-                    <img src="./public/cert_promtEngenAI.png" alt="Generative AI certification" width="80" height="80">
-                </a>
+            <div class="rd-learn-foot">
+                <div class="rd-learn-foot-copy">
+                    <h3 class="rd-section-heading">These lessons continue to shape what I learn next.</h3>
+                    <p class="rd-learn-intro">I continuously sharpen my product thinking through formal certifications, hands-on practice, and cross-functional leadership.</p>
+                </div>
+
+        <div class="rd-creds-logos">
+            <a href="https://www.credly.com/badges/ab2290b3-212e-4db2-8a89-53bff99a7db4/public_url" target="_blank" rel="noopener" title="Project Management Professional (PMP)">
+                <img src="./public/cert_pmp.png" alt="PMP certification" width="80" height="80">
+            </a>
+            <a href="https://www.credly.com/badges/97dcfae2-dbce-4e6b-86fb-e76c17cd6bf0/public_url" target="_blank" rel="noopener" title="PMI Agile Certified Practitioner (PMI-ACP)">
+                <img src="./public/cert_agile.png" alt="PMI-ACP certification" width="80" height="80">
+            </a>
+            <a href="https://www.credly.com/badges/6fbbbe85-014a-4689-8433-b05a1383e851/public_url" target="_blank" rel="noopener" title="Professional Scrum Master (PSM)">
+                <img src="./public/cert_psm.png" alt="PSM certification" width="80" height="80">
+            </a>
+            <a href="https://www.credly.com/badges/68c137b7-52ec-4bfb-a072-e68d977eeff3/public_url" target="_blank" rel="noopener" title="Prompt Engineering for Project Managers">
+                <img src="./public/cert_promtEn.png" alt="Prompt Engineering certification" width="80" height="80">
+            </a>
+            <a href="https://www.credly.com/badges/3ab5df38-46de-415f-a9e6-531fc9f78718/public_url" target="_blank" rel="noopener" title="Practical Application of Generative AI">
+                <img src="./public/cert_promtEngenAI.png" alt="Generative AI certification" width="80" height="80">
+            </a>
+        </div>
             </div>
         </div>
     </section>
@@ -280,10 +340,10 @@
         <div class="rd-activities-grid rd-shell">
             <div class="rd-activities-row">
                 <div class="rd-activities-side">
-                    <div class="rd-activity-card">
+                    <div class="rd-activity-card rd-activity-card--strava">
                         <div id="club-section"></div>
                     </div>
-                    <div class="rd-activity-card">
+                    <div class="rd-activity-card rd-activity-card--spotify">
                         <div id="playback-info"></div>
                     </div>
                 </div>

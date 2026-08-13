@@ -83,7 +83,9 @@
   background: none;
   border: 0;
   font-family: var(--rd-font);
-  font-size: 15px;
+  /* Was a hardcoded 15px, which is not on the --fs-* ladder (12/14/16/…) and
+     read a step off from every other button on the page. */
+  font-size: var(--rd-fs-md);
   font-weight: 500;
   color: #8a8880;
   text-align: left;
@@ -238,4 +240,18 @@
   .rd-deck-marker,
   .rd-deck-index button { transition: none; }
   .rd-initiative-panel { filter: none !important; }
+}
+
+/* Under 700px of viewport height the deck stops being one-card-per-viewport —
+   scroll snapping is already disabled there (redesign.css). The fixed
+   `calc(100vh - …)` card height above would leave the card shorter than its own
+   fixed parts (head + outcome bar + actions, with the detail already hidden by
+   `max-height: 820px`), so it has to grow instead. This sheet loads after
+   redesign.css, so relaxing it has to happen here. */
+@media (min-width: 769px) and (max-height: 700px) {
+  .rd-initiative-card {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+  }
 }

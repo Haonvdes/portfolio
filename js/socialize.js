@@ -161,7 +161,13 @@ async function getLatestStravaActivities(clubId) {
 
     // Add the content for the summary
     summaryElement.innerHTML = `
-      <p class="sub-heading">Unstoppable Team</p>
+      <!-- Club label. NOT from the API — the /strava/club/:id/latest payload only
+           returns totals, the week range, the feed URLs and latestActivities, so
+           this is ours to write. Renamed from "Unstoppable Team" 2026-08-13:
+           the leaderboard below already proves the team turns up every week, so
+           the label should say something about that rather than be a superlative.
+           Alternatives Hao can swap in: "Every Week, Together" / "Consistency Over Speed". -->
+      <p class="sub-heading">Show Up Together</p>
       <p class="md-regular">Week: ${formattedWeek}</p>
       <div class="strava-club">
         ${['Total Distance', 'Total Time', 'Total Activities']
@@ -239,7 +245,7 @@ async function getLatestStravaActivities(clubId) {
   } catch (error) {
     console.error('Error fetching club data:', error.message);
     document.getElementById('club-section').innerHTML =
-      '<p class="md-medium" style="padding:var(--p-16)">Oops! Something went wrong; trying to load again shortly.</p>';
+      '<p class="md-medium">Oops! Something went wrong; trying to load again shortly.</p>';
   }
 }
 

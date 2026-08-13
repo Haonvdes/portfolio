@@ -8,14 +8,10 @@
     <link rel="stylesheet" href="../css/styles/style-2021.css">
     <link rel="stylesheet" href="../css/styles/port-2021.css">
     <link rel="stylesheet" href="../css/styles/case-2021.css">
-    <link rel="shortcut icon" type="image/png" href="../public/favicon.png" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=inter">
+    <link rel="shortcut icon" type="image/png" href="..../public/favicon.png" />
+    <link rel="stylesheet" href="htps://fonts.googleapis.com/css?family=inter">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap-grid.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
-    <link rel="stylesheet" href="../css/styles/redesign.css">
-    <!-- v3 retheme: colour + typography only. Must load LAST. -->
-    <link rel="stylesheet" href="../css/styles/case-retheme-v3.css">
-    <link rel="stylesheet" href="../css/styles/back-to-top.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -45,18 +41,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
   </head>
   <body>
-    <!-- Back to top. Inline SVG arrow: the page's icon font is the Font Awesome
-         *Pro* CDN, whose webfont needs a licence, so the glyph never resolved
-         and this rendered as stray bars. Styles in css/styles/back-to-top.css,
-         behaviour in js/back-to-top.js — no jQuery, so web-3-v3 can use it too. -->
-    <button type="button" class="rd-to-top" aria-label="Back to top">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-           stroke-linejoin="round" aria-hidden="true" focusable="false">
-        <line x1="12" y1="20" x2="12" y2="5"></line>
-        <polyline points="5 12 12 5 19 12"></polyline>
-      </svg>
-    </button>
+    <a id="button">
+      <i class="fas fa-chevron-up"></i>
+    </a>
     <div class="container" id="nav-placeholder"></div>
 
     <div class="container-fluid">
@@ -538,8 +525,7 @@
     </section>
 
 
-  <script src="../js/back-to-top.js"></script>
-</body>
+  </body>
   <footer class="container-fluid" id="footer-placeholder" data-aos="fade-up"></footer>
   <script src="../js/script.js"></script>
   <script src="../js/script-2021.js"></script>

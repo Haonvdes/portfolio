@@ -84,6 +84,13 @@
   /* About §6 row height — Figma 40000079:7381. One value drives both the
      carousel and the Strava/Spotify column so they can never drift apart. */
   --rd-activities-h: 403px;
+  /* Shared floor for BOTH activity cards. The number comes from Spotify, whose
+     payload is fixed (162px of content + 32 padding + 2 border) — but it is
+     applied to Strava too so the two cards are level whenever Strava has little
+     or no data. Strava grows past it once activities arrive; Spotify never
+     does. Renamed from --rd-spotify-h on 2026-08-13 when it stopped being
+     Spotify-specific. */
+  --rd-activity-min-h: 196px;
   /* About §2 work card height. Fixed so switching year tabs never reflows the
      page; sized to hold the head plus 4 collapsed bullets. */
   --rd-work-h: 420px;
@@ -238,7 +245,10 @@
   border-radius: 999px;
   font-family: var(--rd-font);
   font-weight: var(--rd-fw-body);
-  font-size: var(--rd-fs-sm);
+  /* --rd-fs-md, not -sm: one size for every button-like control sitewide
+     (.rd-btn, .rd-deck-index button, .rd-work-tag, .rd-tab), and it matches
+     the nav links the Linkedin pill sits beside. */
+  font-size: var(--rd-fs-md);
   line-height: normal;
   text-align: center;
   text-decoration: none;
@@ -417,9 +427,10 @@
 .rd-detail-para p,
 .rd-detail-block p:last-child,
 .rd-cta-sub p,
-.rd-about-bio p,
 .rd-split-head-note,
 .rd-journey-blurb,
+.rd-learn-intro,
+.rd-learn-lesson p,
 .rd-case-body p, .rd-case-card p, .rd-case-list li {
   font-size: var(--rd-fs-md);
   font-weight: var(--rd-fw-body);
@@ -430,7 +441,6 @@
 /* Section headings — homepage, about and case studies. */
 .rd-section-heading,
 .rd-cta-heading,
-.rd-creds-quote,
 .rd-case-h2 {
   font-size: var(--rd-fs-3xl);
   font-weight: var(--rd-fw-heading);
@@ -451,6 +461,14 @@
 /* Eyebrow / stat label. */
 .rd-glance-label {
   font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: normal;
+  color: var(--rd-ink);
+}
+
+/* Card title — About §5 lessons (Figma 40000201:524, 20px/800). */
+.rd-learn-lesson h3 {
+  font-size: var(--rd-fs-xl);
   font-weight: var(--rd-fw-emphasis);
   line-height: normal;
   color: var(--rd-ink);
@@ -562,23 +580,21 @@ html:has(body.rd-home) {
 .rd-hero-lead {
   width: 100%;
 }
-.rd-hero-media {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  padding: 16px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(67px);
-  -webkit-backdrop-filter: blur(67px);
+
+/* Homepage hero has no side image (removed 2026-08-13), so its content
+   column can use the full row width instead of the 952px it shared with
+   the old media panel. The headline gets room to land on two lines; the
+   lead paragraph keeps its original measure so it doesn't stretch edge
+   to edge. */
+.rd-hero-section .rd-hero-content {
+  width: 100%;
+  max-width: 1200px;
 }
-.rd-hero-media img {
-  display: block;
-  width: 358px;
-  height: 501px;
-  object-fit: cover;
-  border-radius: 16px;
+.rd-hero-section .rd-hero-headline {
+  max-width: 1200px;
+}
+.rd-hero-section .rd-hero-lead {
+  max-width: 952px;
 }
 
 /* ------------------------------------ Section 2 — How I Create Impact (5907) */
@@ -635,21 +651,16 @@ html:has(body.rd-home) {
   height: 40px;
   flex-shrink: 0;
 }
-/* All four titles are two lines in Figma (52px box = 2 x 26px). The <br> in the
-   markup sets the break point; min-height reserves the second line's space so
-   the descriptions below stay aligned even if a title collapses to one line at
-   an intermediate width. 1.3 is DM Sans's `normal` leading, pinned so the
-   52px works out exactly. */
+@media (min-width: 769px) {
+  .rd-impact-card img.rd-impact-icon {
+    width: 60px;
+    height: 60px;
+  }
+}
 .rd-impact-card h3 {
   font-weight: var(--rd-fw-heading);
   font-size: var(--rd-fs-xl);
   line-height: var(--rd-lh-heading);
-  /* Two lines' worth. The titles no longer carry a hard <br>, so they wrap
-     naturally — and at some widths one title wraps while its neighbours don't.
-     Reserving the second line keeps all four descriptions on the same baseline.
-     Dropped at ≤768 (below) where the cards stack and there is nothing to align
-     against, so this would just be 28px of dead space under every title. */
-  min-height: 52px;
   color: var(--rd-ink);
 }
 .rd-impact-card p {
@@ -983,7 +994,11 @@ html:has(body.rd-home) {
   height: 100%;
   min-height: 0;
   align-items: stretch;
-  padding: clamp(22px, 3.2vh, 40px);
+  /* Named so .rd-initiative-media can bleed out by exactly this much. Every
+     breakpoint that used to re-set `padding` now re-sets this instead, and the
+     image bleed follows automatically. */
+  --rd-card-pad: clamp(22px, 3.2vh, 40px);
+  padding: var(--rd-card-pad);
   background: var(--rd-white);
   border: 1px solid var(--rd-border);
   border-radius: 16px;
@@ -994,7 +1009,7 @@ html:has(body.rd-home) {
   flex: 1 0 0;
   min-width: 0;
   height: 100%;
-  gap: 80px;
+  gap: 40px;
   /* Stretch, not flex-start: with the card on auto height the media column has
      no percentage to resolve against, so it has to take its height from the
      row. `align-items: flex-start` would collapse it to zero — the same failure
@@ -1078,14 +1093,12 @@ html:has(body.rd-home) {
   width: 100%;
   overflow: hidden;
 }
-/* The "PROBLEM" label is dropped from the card. In the space the truncation
-   leaves at 1440x900 — 72px — the label plus its gap ate 38 of it, so the card
-   showed a heading and a line and a half of prose. Without it the same space is
-   three clean lines that read as a teaser. The label still does its job on the
-   case-study page, where the section actually needs naming.
-   Kept on .rd-detail-outcome, which sits outside this block: numbers without a
-   label are just numbers. */
-.rd-initiative-detail .rd-detail-label { display: none; }
+/* "PROBLEM" was hidden here while the detail block only got 72px at 1440x900 —
+   the label plus its gap ate 38 of that, leaving a line and a half of prose.
+   The scroll-snap deck rebuild changed the budget: the same block now measures
+   307px at 1440x900 and 444px at 1920x1080, and all four prose lines fit with
+   the label shown. Restored 2026-08-12. Below `max-height: 820px` the whole
+   detail block is hidden anyway, so there is nothing to trade off there. */
 
 /* Fade so the cut reads as "there is more", not as a rendering fault. Sits
    above the copy but must not eat clicks. */
@@ -1118,7 +1131,13 @@ p.rd-detail-label {
   align-items: center;
   gap: 0;
   width: 100%;
-  height: clamp(92px, 12vh, 124px);
+  /* A floor, not a cap. As `height` this clipped its own captions: the longer
+     ones wrap to three lines and were cut mid-line — 4px at 1440x900, 10px at
+     1440x800 and 44px at 769px once the copy column narrowed. The bar is
+     `flex: 0 0 auto`, so the extra height comes out of the detail block below,
+     which is designed to truncate under a fade. Numbers have to be readable;
+     the prose teaser does not have to be complete. */
+  min-height: clamp(92px, 12vh, 124px);
   padding: 0;
   background: var(--rd-surface);
   border-radius: 12px;
@@ -1182,13 +1201,21 @@ p.rd-detail-label {
    628px and dragged the whole section to 1061px on a 900px screen. Out of flow,
    it contributes nothing and the column simply stretches to whatever height the
    copy beside it needs. */
+/* The cover bleeds to the card's top, right and bottom edges — only the copy
+   column keeps the card's inset. Negative margins rather than moving the padding
+   onto .rd-initiative-body, because the body is a fixed 544px border-box and
+   padding would have eaten 40px of the text measure. The card's own
+   `overflow: hidden` + 16px radius clips the corners, so the media needs no
+   radius of its own; a 24px one inside a 16px card left slivers of white. */
 .rd-initiative-media {
   position: relative;
   flex: 1 0 0;
   min-width: 0;
   align-self: stretch;
   height: auto;
-  border-radius: 24px;
+  margin: calc(-1 * var(--rd-card-pad)) calc(-1 * var(--rd-card-pad))
+          calc(-1 * var(--rd-card-pad)) 0;
+  border-radius: 0;
   overflow: hidden;
 }
 .rd-initiative-media img {
@@ -1302,6 +1329,21 @@ p.rd-detail-label {
   justify-content: center;
   width: 100%;
 }
+/* The CTA buttons sit on one row under the paragraph (.rd-cta-sub is a column,
+   so without this wrapper a second button would stack underneath the first). */
+.rd-cta-actions {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+/* "Learn More -> /about.html" is homepage-only, but the footer is shared, so
+   it ships in the template and is revealed by the page's body class. Anywhere
+   else it is not just redundant — on About it would link to the current page. */
+.rd-cta-home-only { display: none; }
+.rd-home .rd-cta-home-only { display: inline-flex; }
+
 .rd-cta-sub p {
   max-width: var(--rd-measure);
   text-align: center;
@@ -1309,7 +1351,7 @@ p.rd-detail-label {
 
 /* ==========================================================================
    About page — Figma "Wrapup" → node 40000028:3949 ("about")
-     40000113:8592  nav + bio            40000135:3716  AI Catching
+     40000188:5690  nav + hero (Journey) 40000135:3716  AI Catching
      40000113:8615  Path of Growth       40000137:3785  certifications
      40000037:6768  Product Philosophy   40000079:7055  Professional Activities
      40000113:8484  closing CTA + footer bar
@@ -1319,34 +1361,51 @@ p.rd-detail-label {
    --rd-* token declared in :root.
    ========================================================================== */
 
-/* --------------------------------------------- About §1 — nav + bio (8592) */
+/* --------------------------------------------- About §1 — nav + hero (5690) */
 /* Same shell as .rd-hero-section; reuses .rd-hero-inner / .rd-hero-row /
-   .rd-hero-media for the row itself. */
-/* Figma's bannerContent is a 952px column holding an 839px text box; 839 is the
-   measure that matters. Allowed to shrink (not grow) so the 390px portrait keeps
-   its size as the viewport narrows. */
-.rd-about-bio {
-  display: flex;
-  flex: 0 1 839px;
+   .rd-hero-content / .rd-hero-headline-group / .rd-hero-headline / .rd-hero-lead
+   from the homepage hero — only the illustration column is specific to this page. */
+/* Figma's bannerContent (the text column) is `flex: 1 0 0`, not the homepage's
+   fixed 952px — the 782px illustration here is more than double the homepage
+   portrait, so the text has to yield space to it instead of the reverse. */
+.rd-about-hero .rd-hero-content {
+  width: auto;
+  max-width: none;
+  flex: 1 1 0;
   min-width: 0;
-  flex-direction: column;
-  gap: 16px;
-  align-items: flex-start;
 }
-.rd-about-bio p {
-  width: 100%;   /* the design's `normal` leading is too tight for a long read */
-  max-width: var(--rd-measure);
+/* Figma specs this headline at 32px, but 4xl matches the homepage hero for
+   consistency across the two pages. */
+.rd-about-hero .rd-hero-headline {
+  max-width: none;
 }
-.rd-about-bio-lead {
-  font-weight: var(--rd-fw-emphasis);
-  margin-top: 8px;
+
+.rd-about-hero-media {
+  position: relative;
+  flex-shrink: 0;
+  width: 782px;
+  height: 715px;
+  overflow: hidden;
 }
-.rd-about-bio-link {
-  color: var(--rd-primary);
-  text-decoration: underline;
-  text-underline-position: from-font;
+.rd-about-hero-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom;
 }
-.rd-about-bio-link:hover { color: var(--rd-primary-hover); }
+/* Figma fades the illustration's bottom edge into the section background
+   (a 680px-wide gradient inset 86px from the left) rather than hard-cropping it. */
+.rd-about-hero-media::after {
+  content: '';
+  position: absolute;
+  left: 86px;
+  right: 16px;
+  bottom: 0;
+  height: 167px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--rd-surface));
+  pointer-events: none;
+}
 
 /* ------------------------------- About §2 — Path of Growth and Leadership (8615) */
 .rd-journey-section {
@@ -1385,6 +1444,15 @@ p.rd-detail-label {
   max-width: 426px;
 }
 
+/* The present-status sentence lives INSIDE .rd-journey-blurb (merged 2026-08-13
+   at Hao's request), so it needs no box of its own — only the emphasis on the
+   "Available now" lead-in. The `.rd-status` green comes from the unscoped rule
+   near the top of this file, the same one the nav tagline uses, so the colour
+   stays identical across the site. */
+.rd-journey-blurb .rd-status {
+  font-weight: var(--rd-fw-emphasis);
+}
+
 /* Timeline index — the same component as the homepage's initiative rail.
    Declared here (shared) rather than in initiatives-desktop.css so About can use
    it too; index.html loads that file afterwards and its identical rules win, so
@@ -1412,7 +1480,9 @@ p.rd-detail-label {
   background: none;
   border: 0;
   font-family: var(--rd-font);
-  font-size: 15px;
+  /* Was a hardcoded 15px, which is not on the --fs-* ladder (12/14/16/…) and
+     read a step off from every other button on the page. */
+  font-size: var(--rd-fs-md);
   font-weight: 500;
   color: #8a8880;
   text-align: left;
@@ -1509,7 +1579,7 @@ html:has(body.rd-about) {
 }
 .rd-about-hero,
 .rd-philosophy-section,
-.rd-creds-section,
+.rd-learn-section,
 .rd-activities-section {
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -1561,7 +1631,10 @@ html:has(body.rd-about) {
   border-radius: 20px 20px 0 0;
   font-family: var(--rd-font);
   font-weight: var(--rd-fw-emphasis);
-  font-size: var(--rd-fs-sm);
+  /* Same --rd-fs-md as .rd-btn / .rd-deck-index. js/journey.js re-measures the
+     pill widths and tightens the overlap step, so the wider strip still fits
+     the card. */
+  font-size: var(--rd-fs-md);
   line-height: normal;
   text-transform: uppercase;
   white-space: nowrap;
@@ -1718,7 +1791,7 @@ html:has(body.rd-about) {
 
 /* ------------------ About §3/§4 — Product Philosophy + AI Catching (6768/3716) */
 .rd-philosophy-section,
-.rd-creds-section {
+.rd-learn-section {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1726,7 +1799,7 @@ html:has(body.rd-about) {
   background: var(--rd-surface);
 }
 .rd-philosophy-inner,
-.rd-creds-inner {
+.rd-learn-inner {
   display: flex;
   flex-direction: column;
   gap: 40px;              /* site-wide head -> content spacing */
@@ -1806,16 +1879,97 @@ html:has(body.rd-about) {
   color: var(--rd-ink);
 }
 
-/* ------------------------------------- About §5 — certifications (3785) */
-.rd-creds-quote-row {
-  display: flex;
-  align-items: flex-start;
+/* ------------------- About §5 — What I've Learned Along the Way (5716) */
+/* One viewport tall, matching the 1024px Figma frame. min-height rather than
+   height so a long line at an awkward width can still push it taller instead of
+   clipping. */
+.rd-learn-section {
+  min-height: 100vh;
+  min-height: 100svh;
   justify-content: center;
+}
+/* Figma 40000188:5718 — 60px between the lessons block and the closing block,
+   wider than the site's usual 40px head->content step, so it is set here rather
+   than inherited from .rd-learn-inner. */
+.rd-learn-inner { gap: 60px; padding: 24px; }
+.rd-learn-head {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+}
+/* No colour override here on purpose: --rd-ink-soft (#333) was folded into
+   --rd-ink by the token consolidation, and .rd-section-heading already carries
+   it. */
+.rd-learn-intro { max-width: 682px; }
+
+/* The three lessons share one bordered surface (Figma 40000201:517). */
+.rd-learn-card {
+  display: flex;
+  gap: 80px;
+  align-items: flex-start;
   width: 100%;
   padding: 24px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
 }
-.rd-creds-quote {
-  max-width: 1095px;
+.rd-learn-lesson {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+/* Hao's Figma exports, applied as masks rather than <img>. The files hardcode
+   fill="black"; a mask discards their fill and paints them in currentColor
+   instead, so the icons sit on --rd-ink like every other mark on the page and a
+   token change still reaches them. Paths are relative to this stylesheet
+   (css/styles/ -> ../../public/). */
+.rd-learn-icon {
+  display: block;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  color: var(--rd-ink);
+  background-color: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+.rd-icon-design {
+  -webkit-mask-image: url("../../public/ic_design.svg");
+  mask-image: url("../../public/ic_design.svg");
+}
+.rd-icon-teams {
+  -webkit-mask-image: url("../../public/ic_teams.svg");
+  mask-image: url("../../public/ic_teams.svg");
+}
+.rd-icon-goal {
+  -webkit-mask-image: url("../../public/ic_goal.svg");
+  mask-image: url("../../public/ic_goal.svg");
+}
+
+/* Closing statement + credential strip, centred (Figma 40000201:543). */
+.rd-learn-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  width: 100%;
+}
+.rd-learn-foot-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
   text-align: center;
 }
 .rd-creds-logos {
@@ -1848,17 +2002,22 @@ html:has(body.rd-about) {
   background: var(--rd-surface);
 }
 .rd-activities-grid { padding: 24px; }
-/* The row is a definite height (not min-height) so the carousel is fixed and the
-   Strava/Spotify column divides that exact same height between its two cards —
-   403px = 2 cards + the 24px gap, i.e. 189.5px each, which is what Figma draws
-   (188px / 191px). A min-height would let a long Spotify track title grow the
-   row and push the carousel out of sync. */
+/* Content-driven height with a floor, which is what the pre-redesign homepage
+   did (`.socialize { height: fit-content }` — see git fcc5e48:index.html). The
+   redesign replaced it with a definite `height: var(--rd-activities-h)`, and
+   that is what started hiding Strava data: `.rd-activity-card { flex: 1 1 0 }`
+   split the 403px equally, so Strava got 190px for 258px of content (102px
+   behind a scrollbar nobody finds) while Spotify wasted 158px on 32px.
+   Now the taller card sets the row height and the carousel stretches to match,
+   exactly as the old build behaved. --rd-activities-h stays as the floor so the
+   designed 403px still holds whenever the data is small. */
 .rd-activities-row {
   display: flex;
   gap: 24px;
   align-items: stretch;
   width: 100%;
-  height: var(--rd-activities-h);
+  height: auto;
+  min-height: var(--rd-activities-h);
 }
 .rd-activities-side {
   display: flex;
@@ -1866,13 +2025,15 @@ html:has(body.rd-about) {
   flex-direction: column;
   gap: 24px;
   width: 367px;
-  height: 100%;
+  height: auto;
   min-height: 0;
 }
 .rd-activity-card {
   display: flex;
-  flex: 1 1 0;
-  min-height: 0;   /* without this a flex item refuses to shrink below content */
+  /* `0 0 auto`, not `1 1 0`: size to your own content instead of taking an equal
+     share of the parent. This is the whole fix. */
+  flex: 0 0 auto;
+  min-height: 0;
   flex-direction: column;
   align-items: flex-start;
   padding: 16px;
@@ -1884,11 +2045,40 @@ html:has(body.rd-about) {
 /* Live data can run longer than the card (a long track title, a slow API
    swapping in the error message), so the injected block scrolls inside the
    fixed card rather than clipping or blowing the row height. */
+/* No inner scroll any more. The card now grows to its content, so capping the
+   injected block at 100% and scrolling it just hid Strava data behind a
+   scrollbar with no affordance. */
 .rd-activity-card > div {
   width: 100%;
-  max-height: 100%;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  max-height: none;
+  overflow-y: visible;
+}
+/* Both cards share the floor so the empty/error state reads as two equal boxes
+   rather than a 66px stub next to a 196px one. A FLOOR, not a fixed height: the
+   font comes from a CDN, so a fallback render is a few px taller and `height`
+   would clip it — the trap `.rd-mini-stat-row` fell into. It also reserves the
+   space so neither card jumps when its fetch lands. Strava is the only one that
+   grows past it. */
+.rd-activity-card--strava,
+.rd-activity-card--spotify { min-height: var(--rd-activity-min-h); }
+/* style.css styles #club-section / #playback-info / #personal-section as
+   STANDALONE widgets — a fixed 400px width plus their own 16px padding, 1px
+   border and 16px radius. Inside .rd-activity-card that is a box drawn inside
+   a box, and the 400px overflowed the 367px card by 33px (the Spotify text ran
+   past the card's right edge). The ID selectors are (1,0,0), so the shared
+   `.rd-activity-card > div` rule above at (0,1,1) never stood a chance — these
+   have to be re-stated at (1,1,1). The card already supplies the frame. */
+.rd-activity-card > #club-section,
+.rd-activity-card > #playback-info,
+.rd-activity-card > #personal-section {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  overflow-wrap: anywhere;
 }
 
 /* js/socialize.js injects legacy markup (.sub-heading, .md-regular, .md-bold,
@@ -1976,7 +2166,17 @@ html:has(body.rd-about) {
   --swiper-navigation-sides-offset: 16px;
   flex: 1 0 0;
   min-width: 0;
-  height: 100%;
+  /* The carousel FOLLOWS the Strava/Spotify column; it must never drive the row
+     height itself. `height: auto` + `align-self: stretch` alone was not enough:
+     an auto-height flex item still contributes its content to the line's cross
+     size, so a portrait slide at its natural height made the carousel the
+     tallest item and dragged the whole section to ~1500px.
+     Taking the slide track out of flow (position: absolute below) is what makes
+     the box purely a follower — its content can no longer push it. */
+  position: relative;
+  height: auto;
+  align-self: stretch;
+  min-height: 0;
   border: 1px solid var(--rd-border-soft);
   border-radius: 16px;
   overflow: hidden;
@@ -1994,8 +2194,12 @@ html:has(body.rd-about) {
    carried `.carousel { position: relative }`; this markup doesn't, so without
    the line below the buttons escape to the initial containing block and land
    outside the carousel entirely. */
+/* Out of flow on purpose — see .rd-activities-main. `inset: 0` makes the track
+   exactly the panel's box, so slide/image heights resolve against a real number
+   while contributing nothing back to the row's height. */
 .rd-activities-main .swiper-container {
-  position: relative;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   border-radius: 0;
@@ -2045,13 +2249,18 @@ html:has(body.rd-about) {
   .rd-journey-blurb { max-width: none; }
   .rd-journey-list { width: 100%; }
   .rd-pillar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* 80px between three columns needs the full 1440 column to breathe. */
+  .rd-learn-card { gap: 40px; }
   /* Stacked: the carousel keeps the fixed height, and the two cards sit
      side by side underneath it on a shorter shared row. */
   .rd-activities-row { flex-direction: column; height: auto; }
   .rd-activities-side {
     flex: 0 0 auto;
     width: 100%;
-    height: 220px;
+    /* Floor, not a fixed height — 220px was clipping 72px of Strava here too.
+       Side by side, so the cards keep equal widths and stretch to the taller. */
+    height: auto;
+    min-height: 220px;
     flex-direction: row;
   }
   .rd-activities-main {
@@ -2065,14 +2274,21 @@ html:has(body.rd-about) {
   .rd-about-hero { padding-inline: 16px; }
   .rd-journey-section,
   .rd-philosophy-section,
-  .rd-creds-section,
+  .rd-learn-section,
   .rd-activities-section { padding: 24px 16px; }
+
+  /* The 80px column gap is a desktop measure; stacked, the lessons only need
+     the normal block rhythm. And the section stops being one viewport tall —
+     three stacked lessons plus the closing block cannot fit a phone screen. */
+  .rd-learn-section { min-height: 0; }
+  .rd-learn-inner { gap: 40px; padding: 0; }
+  .rd-learn-card { flex-direction: column; gap: 32px; padding: 20px; }
+  .rd-learn-foot-copy { text-align: left; align-items: flex-start; }
 
   .rd-journey-inner,
   .rd-activities-grid { padding: 0; }
   .rd-split-head,
   .rd-pillar-grid,
-  .rd-creds-quote-row { padding-inline: 0; }
 
   .rd-split-head { flex-direction: column; gap: 16px; }
   .rd-split-head-note { text-align: left; }
@@ -2124,7 +2340,6 @@ html:has(body.rd-about) {
   .rd-pillar-grid { grid-template-columns: minmax(0, 1fr); }
   .rd-pillar-card { min-height: 0; padding: 24px; }
 
-  .rd-creds-quote { font-size: var(--rd-fs-xl); }
   .rd-creds-logos { gap: 24px; }
   .rd-creds-logos img { width: 56px; height: 56px; }
 
@@ -2134,6 +2349,17 @@ html:has(body.rd-about) {
   .rd-activity-card { flex: 0 0 auto; }
   .rd-activity-card > div { max-height: none; overflow-y: visible; }
   .rd-activities-main { height: 280px; }
+}
+
+/* 769-1180 only. The two cards sit SIDE BY SIDE here, so they need equal widths
+   (`flex: 1 1 0` sizes the main axis, which is horizontal in this band) and take
+   their height from the taller one. Gating on min-width matters: written into
+   the plain `max-width: 1180px` block this rule also reached mobile, where the
+   main axis is vertical again — it beat `.rd-activity-card { flex: 0 0 auto }`
+   on specificity and collapsed the Strava card to 34px with its content
+   spilling 769px out of the box. */
+@media (min-width: 769px) and (max-width: 1180px) {
+  .rd-activities-side > .rd-activity-card { flex: 1 1 0; }
 }
 
 /* ---------------------------------------------------------- Responsive - */
@@ -2149,12 +2375,47 @@ html:has(body.rd-about) {
      was simply too narrow for both children. */
   .rd-hero-content { width: auto; max-width: 952px; flex-shrink: 1; min-width: 0; }
   .rd-initiative-body { width: 100%; max-width: 544px; }
+  /* The illustration is 782px wide — more than double the homepage portrait —
+     so it needs to shrink alongside the text column instead of just the
+     row's flex-shrink:1 default fixed-width behaviour. */
+  .rd-about-hero-media {
+    width: auto;
+    height: auto;
+    max-width: 782px;
+    flex: 1 1 320px;
+    min-width: 0;
+    aspect-ratio: 782 / 715;
+  }
 }
 
 @media (max-width: 1180px) {
   .rd-hero-headline { font-size: 40px; }
   .rd-impact-grid { flex-wrap: wrap; gap: 40px; }
   .rd-impact-card { flex: 1 0 40%; }
+}
+
+/* 769–1180: the row stays HORIZONTAL (Hao's call, 2026-08-12). It used to
+   restack here, which put a column-flow card inside the fixed
+   `calc(100vh - …)` height that initiatives-desktop.css pins from 769px up —
+   the card overflowed itself by 349–426px and the cover was clipped entirely
+   out of view. Keeping the row horizontal keeps one card per viewport, which
+   is what the scroll-snap deck is built around.
+
+   The copy column has to become shrinkable to survive it: the base rule pins
+   it at 544px with `flex-shrink: 0`, which at 769px left the image 57px wide.
+   3:2 rather than an even split because the text needs the room — the outcome
+   bar is three cells across. */
+@media (min-width: 769px) and (max-width: 1180px) {
+  .rd-initiative-body {
+    flex: 3 1 0;
+    width: auto;
+    min-width: 0;
+    max-width: 544px;
+  }
+  .rd-initiative-media { flex: 2 1 0; min-width: 0; }
+}
+
+@media (max-width: 768px) {
   /* layout restacks here, so let the section grow with its content again */
   .rd-initiatives-section { height: auto; }
   .rd-initiative-card { height: auto; max-height: none; min-width: 0; }
@@ -2188,11 +2449,16 @@ html:has(body.rd-about) {
      height derived from the full-width column instead. 16:10 is a compromise
      across covers that run from 0.95:1 to 3.17:1; it crops rather than
      letterboxes, and the case-study page is where the full image lives. */
+  /* Stacked: the cover sits under the copy, so it bleeds left/right/bottom
+     instead of top/right/bottom. `width: calc(100% + 2 * pad)` is required —
+     `width: 100%` would pin it to the padded box and the negative margin would
+     only slide it sideways (same trap as #nav-placeholder). */
   .rd-initiative-media {
     flex: 0 0 auto;
-    width: 100%;
+    width: calc(100% + 2 * var(--rd-card-pad));
     height: auto;
     aspect-ratio: 16 / 10;
+    margin: 0 calc(-1 * var(--rd-card-pad)) calc(-1 * var(--rd-card-pad));
   }
 }
 
@@ -2202,9 +2468,15 @@ html:has(body.rd-about) {
    link was pushed out of the card altogether. Below 820px the card drops to
    thumbnail, title, description, outcomes and CTA — the same shape as mobile,
    for the same reason. */
-@media (max-height: 820px) {
-  .rd-initiative-detail { display: none; }
-}
+/* Threshold lowered 820px -> 700px on 2026-08-12. The 820 figure came from the
+   old card, where the block was down to 2px of text at 1366x768 and 19px at
+   1440x800 — noise under a 64px fade. The sticky-stack rebuild changed the
+   budget: re-measured with the rule off, the block now gets 198px at 1440x820,
+   181px at 1440x800, 154px at 1366x768 and 113px at 1280x720 — four of five
+   prose lines on every common laptop, with no card overflow and "Learn More"
+   still 26px inside the card. Below 700px the card goes auto-height (see
+   initiatives-desktop.css) and `flex: 1 1 0` in an auto-height column settles
+   at 0, so hiding it there is still right. */
 
 /* Too short to squeeze the card into one screen without crushing it — let the
    section grow and scroll normally. Must come after the base rule: media
@@ -2212,9 +2484,13 @@ html:has(body.rd-about) {
 @media (max-height: 700px) {
   .rd-initiatives-section { height: auto; }
   .rd-initiative-card { height: auto; max-height: none; }
-  .rd-initiative-detail { overflow-y: visible; }
-  .rd-initiative-body { width: 100%; max-width: none; height: auto; }
-  .rd-initiative-media { width: 100%; height: 320px; flex: 0 0 auto; }
+  .rd-initiative-detail { display: none; overflow-y: visible; }
+  /* The `.rd-initiative-body { width: 100% }` / `.rd-initiative-media
+     { width: 100%; height: 320px }` pair that used to live here was written for
+     the stacked card. The row is horizontal from 769px up now, so forcing the
+     media to full width pushed the copy column out of the card — 146px of
+     overflow at 1180x700, with "Learn More" below the card edge. The ≤768 block
+     already covers the stacked case. */
 }
 
 @media (max-width: 768px) {
@@ -2308,9 +2584,9 @@ html:has(body.rd-about) {
   .rd-nav-links > a:not(.rd-btn) {
     font-size: var(--rd-fs-2xl);
   }
-  .rd-nav-links > a.rd-btn {
-    font-size: var(--rd-fs-md);
-  }
+  /* .rd-nav-links > a.rd-btn needs no font-size override here — the base
+     .rd-btn rule is already --rd-fs-md. The `:not(.rd-btn)` above is what
+     keeps the 2xl menu-link size off the Linkedin pill. */
   /* Prevent the page behind the menu from scrolling while it's open. */
   body.nav-open { overflow: hidden; }
 
@@ -2319,8 +2595,8 @@ html:has(body.rd-about) {
   .rd-hero-content { width: 100%; }
   .rd-hero-headline { font-size: var(--rd-fs-3xl); }
   .rd-hero-lead { font-size: var(--rd-fs-md); }
-  .rd-hero-media { align-self: stretch; }
-  .rd-hero-media img { width: 100%; height: auto; aspect-ratio: 358 / 501; }
+  .rd-about-hero-media { align-self: stretch; width: 100%; height: auto; aspect-ratio: 782 / 715; }
+  .rd-about-hero-media::after { left: 0; right: 0; }
 
   .rd-section-head,
   .rd-glance,
@@ -2330,9 +2606,6 @@ html:has(body.rd-about) {
 
   .rd-impact-grid { flex-direction: column; gap: 32px; padding-block: 24px; }
   .rd-impact-card { flex: 1 1 auto; width: 100%; }
-  /* Stacked one per row — no sibling to line up with, so the reserved second
-     line would only add 28px of empty space under each title. */
-  .rd-impact-card h3 { min-height: 0; }
 
   .rd-stat-bar { padding: 16px; }
   .rd-stat-bar-row { flex-direction: column; gap: 16px; }
@@ -2390,7 +2663,7 @@ html:has(body.rd-about) {
   .rd-initiative-body > .rd-detail-outcome,
   .rd-initiative-detail { display: none; }
 
-  .rd-initiative-card { padding: 16px; min-width: 0; }
+  .rd-initiative-card { --rd-card-pad: 16px; padding: var(--rd-card-pad); min-width: 0; }
   .rd-initiative-row { gap: 20px; }
   /* Content-sized again: with the detail block gone there is nothing left to
      absorb slack, so the desktop "fill the height you are given" chain would
@@ -2746,7 +3019,6 @@ ol.rd-case-list > li { list-style-type: decimal; }
 
   .rd-section-heading { font-size: 22px; }
   .rd-cta-heading { font-size: 22px; }
-  .rd-creds-quote { font-size: var(--rd-fs-lg); }
 
   /* Long unbroken tokens — "3–5h → 2h", "50 vs 54,000", URLs in case-study copy
      — are the usual cause of a stray horizontal scrollbar at this width. */
@@ -2756,7 +3028,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
   .rd-case-list li,
   .rd-initiative-title { overflow-wrap: break-word; }
 
-  .rd-initiative-card { padding: 16px; }
+  .rd-initiative-card { --rd-card-pad: 16px; padding: var(--rd-card-pad); }
   .rd-work-body { padding: 16px; }
   .rd-pillar-card { padding: 20px; }
   .rd-stat-bar { padding: 14px; }
@@ -2773,7 +3045,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
    Gated on `pointer: coarse` rather than a width, so a narrow desktop window
    keeps the designed density and only real touch devices pay the extra pixels.
    WCAG 2.5.8 asks for 24x24 CSS px; inline links inside a paragraph are exempt
-   under the "inline" exception, which is why .rd-about-bio-link is left alone. */
+   under the "inline" exception. */
 @media (pointer: coarse) {
   /* The chevron is a 7px glyph in a 20px box — under the minimum, and easy to
      miss with a thumb. Negative margin absorbs the growth so the "Scope of

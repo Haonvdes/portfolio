@@ -63,14 +63,19 @@ document.addEventListener("DOMContentLoaded", function () {
         updateProcess();
     }
     
-    // Only initialize password modal on work.html
+    // The case-study cards only exist on work.html
     if (window.location.pathname.includes('work.html')) {
-        initializePasswordModal();
+        initializeCaseStudyLinks();
     }
     
     // Initialize Swiper if the container exists
     if (document.querySelector('.swiper-container')) {
         const swiper = new Swiper('.swiper-container', {
+            // The Strava fetch lands AFTER this runs and can grow the row, which
+            // leaves Swiper's cached slide dimensions stale. These two make it
+            // re-measure itself instead of needing a manual .update() call.
+            observer: true,
+            observeParents: true,
             loop: true,                // Enable infinite loop
             autoplay: {                // Auto-slide settings
                 delay: 3000,           // 3 seconds per slide
@@ -144,130 +149,38 @@ function openHastag(evt, tagName) {
     });
   }
   
-  // Password modal
-  function initializePasswordModal() {
-      const modal = document.getElementById('passwordModal');
-      const closeBtn = document.querySelector('.modal-icon');
-      const submitBtn = document.getElementById('submitPassword');
-      const passwordInput = document.getElementById('passwordInput');
-      const modalError = document.getElementById('modalError');
-  
-      if (!modal || !closeBtn || !submitBtn || !passwordInput || !modalError) {
-          console.warn('Password modal elements not found');
-          return;
-      }
-  
-      // Function to check if the user has a valid JWT token
-      const hasValidToken = () => {
-          const token = sessionStorage.getItem('caseStudyToken');
-          if (!token) return false;
-  
-          try {
-              const base64Url = token.split('.')[1];
-              const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-              const payload = JSON.parse(window.atob(base64));
-  
-              return payload?.exp && payload.exp * 1000 > Date.now();
-          } catch (error) {
-              console.error("Error decoding JWT:", error);
-              return false;
-          }
-      };
-  
-      // Function to close modal
-      const closeModal = () => {
-          modal.style.display = 'none';
-      };
-  
-      // Close button click handler
-      closeBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          closeModal();
-      });
-  
-      // Close modal when clicking outside
-      window.addEventListener('click', (event) => {
-          if (event.target === modal) {
-              modal.style.display = 'none';
-          }
-      });
-  
-// Function to load the case study content
-const loadCaseStudy = (caseStudyName) => {
-    const formattedName = caseStudyName.toLowerCase().replace(/\s+/g, '-');
-    window.location.href = `case-studies/${formattedName}.html`;
-};
+  // Case-study card routing.
+  //
+  // The password gate was removed on 2026-08-12 — case studies are open to
+  // everyone now. Removed with it: the #passwordModal flow, the JWT kept in
+  // sessionStorage, and the POST to https://api.stpnguyen.com/api/verify.
+  // The modal markup is still in work.html but is never shown; the per-page
+  // guard in case-studies/web-3.html was already commented out.
+  function initializeCaseStudyLinks() {
+      document.querySelectorAll('[data-case-study]').forEach((card) => {
+          // Cards flagged data-status="coming-soon" have no page under
+          // /case-studies/ yet, so routing them would land on a 404. They are
+          // styled as disabled in case-retheme-v3.css; skipping the listener
+          // here is what makes that styling true. When a page ships, delete the
+          // attribute from that card in work.html — nothing else needs editing.
+          if (card.dataset.status === 'coming-soon') return;
 
-// Event listener for case study buttons
-document.querySelectorAll('[data-case-study]').forEach(button => {
-    button.addEventListener('click', (e) => {
-        const caseStudyName = e.currentTarget.dataset.caseStudy;
-
-        if (!caseStudyName) {
-            console.error("Error: Button missing data-case-study attribute");
-            return;
-        }
-
-        console.log("Button Clicked: caseStudyName =", caseStudyName);
-
-        if (hasValidToken()) {
-            loadCaseStudy(caseStudyName);
-        } else {
-            modal.style.display = 'block';
-            passwordInput.value = '';
-            modalError.style.display = 'none';
-            modal.dataset.pendingCaseStudy = caseStudyName;
-        }
-    });
-});
-
-  
-      // Handle password submission
-      submitBtn.addEventListener('click', async () => {
-          const password = passwordInput.value;
-          modalError.style.display = 'none';
-          submitBtn.disabled = true;
-  
-          try {
-              const response = await fetch('https://api.stpnguyen.com/api/verify', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ password })
-              });
-  
-              const data = await response.json();
-  
-              if (data.success) {
-                  sessionStorage.setItem('caseStudyToken', data.token);
-                  modal.style.display = 'none';
-  
-                  const caseStudyName = modal.dataset.pendingCaseStudy;
-                  if (caseStudyName && caseStudyName !== "undefined") {
-                      loadCaseStudy(caseStudyName);
-                  } else {
-                      console.error("Error: caseStudyName is undefined or invalid");
-                  }
-              } else {
-                  modalError.textContent = data.message;
-                  modalError.style.display = 'block';
+          card.addEventListener('click', (e) => {
+              const name = e.currentTarget.dataset.caseStudy;
+              if (!name) {
+                  console.error('Card is missing its data-case-study attribute');
+                  return;
               }
-          } catch (error) {
-              console.error("Error verifying password:", error);
-              modalError.textContent = 'Something went wrong, trying to load again shortly.';
-              modalError.style.display = 'block';
-          } finally {
-              submitBtn.disabled = false;
-          }
+              const slug = name.toLowerCase().replace(/\s+/g, '-');
+              window.location.href = `case-studies/${slug}.html`;
+          });
       });
-  
-      // Handle Enter key in password input
-      passwordInput.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter') {
-              submitBtn.click();
-          }
-      });
+
+      // Belt and braces: if the leftover modal markup is present, keep it shut.
+      const modal = document.getElementById('passwordModal');
+      if (modal) modal.style.display = 'none';
   }
+
   //case study //
   
   document.addEventListener("DOMContentLoaded", function () {

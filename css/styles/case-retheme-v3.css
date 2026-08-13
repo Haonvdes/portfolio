@@ -583,6 +583,78 @@ body { color: var(--rd-ink); }
    above, which took the same treatment. */
 .modal { background-color: rgba(10, 42, 48, 0.5); }
 
+/* ------------------------------------- Cards whose case study isn't built - */
+/*
+   Added 2026-08-13. work.html lists eight sectors but only web-3, lending and
+   marketing-platform have a page under /case-studies/ — the other five routed
+   straight to a 404. Those cards now carry data-status="coming-soon";
+   js/script.js skips them when it wires up the click handler, and the rules
+   below are what tells the reader that, rather than leaving a card that looks
+   live and does nothing. Ship a page → delete the attribute in work.html and
+   the card returns to normal with no CSS change.
+
+   The desaturated image and the dimmed body copy do the work; the title stays
+   at full contrast so the sector is still legible at a glance.
+*/
+.card[data-status="coming-soon"],
+.card[data-status="coming-soon"]:hover { cursor: default; }
+
+.card[data-status="coming-soon"] .card-image {
+  filter: grayscale(1);
+  opacity: 0.55;
+}
+/* style.css scales .card-image on card hover; that reads as "clickable". */
+.card[data-status="coming-soon"]:hover .card-image { transform: none; }
+
+.card[data-status="coming-soon"] .card-header p { opacity: 0.6; }
+
+.rd-soon-badge {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border: 1px solid var(--rd-border);
+  border-radius: 999px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-body);
+  line-height: 1.6;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(10, 42, 48, 0.55);
+}
+
+/* ------------------------------------------- Foot of the card grid - */
+/*
+   Reported 2026-08-13: the last row of cards ran straight into the footer.
+   `.second-section` (style.css:180) sets `padding-top: var(--p-24)` and no
+   bottom padding at all — measured at 1440px, the last card's bottom edge and
+   the section's bottom edge were the same y (2564.39), so the cream plane
+   terminated on the card border and the CTA's white started on the next pixel.
+   None of style.css's five `.second-section` media-query blocks set one either,
+   so this rule is the only source and needs no !important.
+
+   80px is the --p-80 rung and twice the 40px grid gap — the section closes on a
+   beat that already exists in the layout. Halved at phone widths, where the
+   grid is a single column and 80px of empty cream reads as a loading error.
+*/
+.second-section { padding-bottom: var(--p-80); }
+
+@media (max-width: 768px) {
+  .second-section { padding-bottom: var(--p-48); }
+}
+
+/* .btn-ghosh:hover and .card:hover .btn-ghosh (both above and in style.css)
+   fill the button with --rd-primary. A disabled button must beat both, hence
+   the paired selectors rather than one. */
+.btn-ghosh[disabled],
+.btn-ghosh[disabled]:hover,
+.card[data-status="coming-soon"]:hover .btn-ghosh[disabled] {
+  padding: 8px 8px 8px 0;
+  background-color: transparent;
+  color: rgba(10, 42, 48, 0.45);
+  cursor: not-allowed;
+}
+
 /* -------------------------------------------------- Reviewed, left alone - */
 /*
    These carry a colour and are deliberately NOT remapped:

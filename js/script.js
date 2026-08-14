@@ -285,10 +285,20 @@ function openHastag(evt, tagName) {
   
 const processData = {};
 
+// These templates are consumed from two directory depths — the site root and
+// /case-studies/ — so both the fetch and the asset paths inside the markup have
+// to be resolved against the page, not hardcoded. Same rule as loadComponent()
+// above; declared separately because this block runs at script load, outside
+// the DOMContentLoaded closure.
+const processBasePath = window.location.pathname.includes('/case-studies/') ? '../' : './';
+
 // Function to load an HTML file
 async function loadTemplate(name) {
-    const response = await fetch(`./templates/${name}.html`);
-    return response.text();
+    const response = await fetch(`${processBasePath}templates/${name}.html`);
+    const html = await response.text();
+    // product.html and sprint.html embed "./public/*.svg". Rewriting here keeps
+    // the templates themselves portable instead of pinning them to one depth.
+    return html.split('"./public/').join(`"${processBasePath}public/`);
 }
 
 // Load all templates asynchronously

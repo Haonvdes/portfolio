@@ -633,3 +633,56 @@
     border-radius: 0 0 16px 16px;
   }
 }
+
+/* --------------------------------------- Process block (case-study tabs) ---
+   The phase / sprint / product selector that used to sit on the homepage, now
+   the Process view inside the "#processes and tools" tab on web-3.html.
+   js/script.js injects templates/{phase,sprint,product}.html into
+   #processContent; the stage diagram and legend styles it relies on
+   (.stage, .stage-item, .stage-info, .stage-info-sum) already live in
+   style.css and are shared with the #team tab.
+
+   Card chrome is copied from .cs-container rather than reusing it, because
+   .cs-container is a hard 2-column grid and both the selector row and the
+   full-bleed PDLC / Scrum diagrams want the whole width. */
+.cs-process-block {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  padding: 40px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.cs-process-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* The label and the <select> read as one sentence, so they stay on one line
+   and wrap together rather than the control dropping to its own row. */
+.cs-process-selector {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* style.css gives .stage-info `overflow: scroll`, which paints permanent
+   scrollbar gutters on both axes. Only the horizontal one is real here — the
+   five-stage row is wider than the card — so the vertical gutter is a
+   ~15px strip of dead space under every legend. */
+.cs-process-block .stage-info {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+@media (max-width: 768px) {
+  .cs-process-block {
+    padding: 24px;
+    gap: 24px;
+  }
+}

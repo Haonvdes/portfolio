@@ -331,10 +331,7 @@
             class="hastag-items"
             onclick="openHastag(event,'processes&tools')"
           >
-            <p class="lg-regular">#processes</p>
-          </button>
-          <button class="hastag-items" onclick="openHastag(event,'activities')">
-            <p class="lg-regular">#activities</p>
+            <p class="lg-regular">#processes and tools</p>
           </button>
         </div>
       </div>
@@ -462,6 +459,7 @@
                 <p
                   class="sub-heading"
                   style="
+                    grid-column: span 2;
                     padding: 16px;
                     border-bottom: 1px solid var(--border-neutral-default);
                   "
@@ -713,29 +711,45 @@
               </div>
             </div>
             <div id="tool" class="cs-feature-section" data-aos="fade-up"></div>
-            <div
-              id="process"
-              class="cs-feature-section"
-              data-aos="fade-up"
-            ></div>
+            <!--
+              The process view is the phase/sprint/product selector that used to
+              live on the homepage; js/script.js injects templates/{phase,sprint,
+              product}.html into #processContent. Deliberately NOT id="process" —
+              that id is what js/case-studies.js renders its placeholder-image
+              carousel into, and this replaces that carousel. Also deliberately
+              not class="information": openHastag() hides every .information
+              element when switching tabs and only restores the panel it was
+              given, so a nested one would stay display:none.
+            -->
+            <div id="process-block" class="cs-process-block" data-aos="fade-up">
+              <div class="cs-process-intro">
+                <div class="cs-process-selector">
+                  <label for="phaseSelector" class="sub-heading"
+                    >Driving Success Across Every:</label
+                  >
+                  <select
+                    id="phaseSelector"
+                    onchange="updateProcess()"
+                    class="sub-heading"
+                  >
+                    <option value="phase">Phase</option>
+                    <option value="sprint">Sprint</option>
+                    <option value="product">Product</option>
+                  </select>
+                </div>
+                <p class="lg-medium">
+                  My structured yet flexible project management process ensures
+                  no detail is overlooked. From ideation to execution and
+                  beyond, I collaborate with stakeholders, adapt to challenges,
+                  and deliver high-quality results that align with both user
+                  needs and business goals.
+                </p>
+              </div>
+              <div id="processContent">
+                <!-- templates/{phase,sprint,product}.html injected here -->
+              </div>
+            </div>
           </section>
-        </div>
-        <div
-          id="activities"
-          class="information animate__animated animate__fadeIn"
-        >
-          <div>
-            <p class="sub-heading" style="padding-bottom: var(--p-8)">
-              Project success starts here
-            </p>
-            <p class="lg-medium">
-              Success isn’t just about the work—it’s about the people behind it.
-              I dedicate time to mentoring, building team cohesion, and
-              fostering an environment where everyone thrives. By investing in
-              growth and teamwork, I ensure every member contributes to and
-              celebrates shared achievements.
-            </p>
-          </div>
         </div>
       </div>
     </section>

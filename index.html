@@ -275,7 +275,14 @@
                                  flexes to fill so this pins to the bottom (Figma 40000132:3671,
                                  y=622 of a 662px column). -->
                             <div class="rd-initiative-actions">
-                                <a href="./case-studies/healthcare.html" class="rd-btn rd-btn-text">Learn More</a>
+                                <!-- Held back 2026-08-13. ./case-studies/healthcare.html exists
+                                     and renders, but is not ready to be linked yet — same call as
+                                     the five work.html cards. A <button disabled> rather than a
+                                     styled <a>, because a disabled anchor is not a thing: an <a
+                                     href> stays keyboard-focusable and navigable no matter what
+                                     CSS says. To ship it, restore the line below:
+                                     <a href="./case-studies/healthcare.html" class="rd-btn rd-btn-text">Learn More</a> -->
+                                <button type="button" class="rd-btn rd-btn-text" disabled aria-disabled="true">Coming soon</button>
                             </div>
                         </div>
 

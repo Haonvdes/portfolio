@@ -274,6 +274,21 @@
 }
 .rd-btn-text:hover { text-decoration: underline; }
 
+/* Held-back CTA. Added 2026-08-13 for the Communication initiative card, whose
+   case study is written but not ready to link — the same "coming soon" state the
+   five unbuilt work.html cards carry, expressed on the redesign's own button.
+   Only .rd-btn-text uses it today, but it is written against .rd-btn so any
+   variant can be held back the same way; the :hover pair is what stops the
+   underline (and the primary fill, if a filled button is ever disabled) from
+   still promising a click. Colour matches the work.html disabled button. */
+.rd-btn[disabled],
+.rd-btn[disabled]:hover {
+  color: rgba(10, 42, 48, 0.45);
+  background: none;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
 /* Hamburger — reuses the #menu-toggle / #menu-links ids js/script.js binds */
 .rd-menu-button {
   display: none;

@@ -2096,6 +2096,43 @@ html:has(body.rd-about) {
   overflow-wrap: anywhere;
 }
 
+/* Strava nests two panels inside the card — style.css gives `.club-summary`
+   16px + a grey fill and `.latest-activities` 16px — so on top of the card's
+   own 16px its content sat 32px from the edge while Spotify (whose
+   #playback-info has no wrapper) sat at 16px. Fixed from the OTHER side than
+   the obvious one: the panels keep their 16px and the Strava card drops its
+   own, so the grey band and the divider under the stats run full-bleed to the
+   card's rounded corners (Hao's design, 2026-08-14) and every line of Strava
+   text still lands on Spotify's 16px edge. Zeroing the panels instead would
+   have aligned the text but shrunk the band into a floating grey box.
+   Spotify keeps the card padding — it has no inner panel to supply it. */
+.rd-activity-card--strava { padding: 0; }
+/* `box-sizing` is NOT global on this site: both panels are `width: 100%` in
+   style.css, so with the card's padding gone their 32px of horizontal padding
+   was added ON TOP of the full card width and the band overflowed 31px to the
+   right, silently clipped by the card's `overflow: hidden`. */
+.rd-activity-card .club-summary,
+.rd-activity-card .latest-activities {
+  box-sizing: border-box;
+  padding: 16px;
+}
+/* Inline `margin-bottom: 40px` from socialize.js; only !important reaches it. */
+.rd-activity-card .club-summary > img {
+  margin-bottom: 24px !important;
+}
+
+/* The club feed link now sits on the club name (socialize.js). Inline-flex so
+   the icon rides the cap height instead of the text baseline. */
+.rd-activity-card .sub-heading .club-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+.rd-activity-card .sub-heading .club-link:hover { text-decoration: underline; }
+.rd-activity-card .sub-heading .club-link svg { flex-shrink: 0; }
+
 /* js/socialize.js injects legacy markup (.sub-heading, .md-regular, .md-bold,
    .strava-club, .club-data, .track-info, .song) into #personal-section and
    #playback-info. These rules re-skin that markup to the redesign tokens; they
@@ -2375,6 +2412,34 @@ html:has(body.rd-about) {
    spilling 769px out of the box. */
 @media (min-width: 769px) and (max-width: 1180px) {
   .rd-activities-side > .rd-activity-card { flex: 1 1 0; }
+  /* Side by side in this band, Spotify is ~180px of content and Strava ~700px,
+     so the row stretched to Strava and left Spotify half empty. Drop the
+     leaderboard here and the two cards read as a matched pair — the club feed
+     link lives on the club name now, so nothing becomes unreachable. */
+  .rd-activity-card--strava .latest-activities { display: none; }
+  /* Both floors have to go with it, or the cards keep the height the hidden
+     list used to justify and the grey band ends in a strip of dead white —
+     which reads as the list being clipped rather than deliberately dropped.
+     `min-height: 0` is not enough on its own: .rd-activities-side carries a
+     220px floor of its own in the shared <=1180 block. */
+  .rd-activities-side { min-height: 0; }
+  .rd-activity-card--strava,
+  .rd-activity-card--spotify { min-height: 0; }
+  /* Whichever card ends up taller sets the row (Spotify usually, by ~9px), so
+     the band has to stretch or the leftover comes back as white under the grey.
+     `flex` on .club-summary alone does nothing — the card's flex CHILD is the
+     injected `#club-section` wrapper, and a block container passes no free
+     height down. The whole chain has to grow. */
+  .rd-activity-card--strava > #club-section {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+  }
+  .rd-activity-card--strava .club-summary {
+    border-bottom: 0;
+    flex: 1 1 auto;
+    border-radius: 16px;
+  }
 }
 
 /* ---------------------------------------------------------- Responsive - */
@@ -2610,6 +2675,20 @@ html:has(body.rd-about) {
   .rd-hero-content { width: 100%; }
   .rd-hero-headline { font-size: var(--rd-fs-3xl); }
   .rd-hero-lead { font-size: var(--rd-fs-md); }
+
+  /* HOMEPAGE ONLY — restore the vertical centring that this breakpoint silently
+     drops (Hao, 2026-08-14). Desktop centres the hero in the space under the
+     nav via .rd-hero-inner's `justify-content: center` plus .rd-hero-row's
+     `align-items: center`; that second half is a CROSS-axis rule, and the line
+     above flips .rd-hero-row to `flex-direction: column`, which makes vertical
+     the MAIN axis. align-items stops reaching it, the default
+     `justify-content: flex-start` takes over, and the text pins to the top —
+     measured 354px of dead space beneath it at 390x844.
+
+     Scoped to .rd-hero-section: About's row has a second child (the portrait),
+     and centring that pair is a different question. Do not widen the selector. */
+  .rd-hero-section .rd-hero-row { justify-content: center; }
+
   .rd-about-hero-media { align-self: stretch; width: 100%; height: auto; aspect-ratio: 782 / 715; }
   .rd-about-hero-media::after { left: 0; right: 0; }
 

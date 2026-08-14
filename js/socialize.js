@@ -152,6 +152,19 @@ async function getLatestStravaActivities(clubId) {
     // Format week range
     const formattedWeek = data.currentWeek;
 
+    // The club feed link lives on the club name, not on the activities list:
+    // the 769-1180px band hides that list, and the link has to survive it.
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const clubFeedUrl = isMobile
+      ? data.clubFeedUrlMobile
+      : data.clubFeedUrlDesktop;
+    const externalIcon = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>`;
+
     // Create the image element
     const imageElement = document.createElement('img');
     imageElement.src = 'public/strava-logo.png';
@@ -167,7 +180,9 @@ async function getLatestStravaActivities(clubId) {
            the leaderboard below already proves the team turns up every week, so
            the label should say something about that rather than be a superlative.
            Alternatives Hao can swap in: "Every Week, Together" / "Consistency Over Speed". -->
-      <p class="sub-heading">Show Up Together</p>
+      <p class="sub-heading">
+        <a class="club-link" href="${clubFeedUrl}" target="_blank" rel="noopener">Show Up Together${externalIcon}</a>
+      </p>
       <p class="md-regular">Week: ${formattedWeek}</p>
       <div class="strava-club">
         ${['Total Distance', 'Total Time', 'Total Activities']
@@ -189,28 +204,14 @@ async function getLatestStravaActivities(clubId) {
     const activitiesSection = document.createElement('div');
     activitiesSection.classList.add('latest-activities');
 
-    // Determine whether the user is on a mobile device
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-    // Choose the appropriate URL
-    const clubFeedUrl = isMobile
-      ? data.clubFeedUrlMobile
-      : data.clubFeedUrlDesktop;
-
-    // Header for Latest Activities with clickable icon
+    // Header for Latest Activities (label only)
     const headerContainer = document.createElement('div');
     headerContainer.style.display = 'flex';
     headerContainer.style.alignItems = 'start';
     headerContainer.style.paddingBottom = 'var(--p-8)';
+    // The external link moved up to the club name; this is now just a label.
     headerContainer.innerHTML = `
-      <a href="${clubFeedUrl}" target="_blank" style="display: flex;align-items: center;width: 100%;color: var(--text-neutral-body);gap: var(--m-8);text-decoration: none;justify-content: space-between;" class="md-bold"> 
-        Latest Activities
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-          <polyline points="15 3 21 3 21 9"></polyline>
-          <line x1="10" y1="14" x2="21" y2="3"></line>
-        </svg>
-      </a>
+      <p class="md-bold" style="width: 100%; color: var(--text-neutral-body); margin: 0;">Latest Activities</p>
     `;
     activitiesSection.appendChild(headerContainer);
 

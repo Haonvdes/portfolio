@@ -1,4 +1,10 @@
 :root{
+  /* Zero rung. The ladder started at --m-2/--p-2, so `margin: var(--m-0)` in
+     text-styles.css and `padding: var(--p-0)` in style.css resolved to nothing
+     and those declarations were silently inert. Added 2026-08-07 — see the
+     dangling-reference audit. */
+  --m-0: 0;
+  --p-0: 0;
   --m-2: 2px;
   --m-4: 4px;
   --m-6: 6px;
@@ -50,35 +56,20 @@
   --r-40: var(--m-40);
   --text-error:(var(--red-R600));
   --button-bg-primary-default: var(--bg-primary-default);
-  --button-border-primary: var(--border-primary-default);
   --button-text-primary: var(--text-neutral-white);
   --button-text-secondary : var(--text-utilities-decorate-primary);
-  --button-text-secondary-hover: var(--button-text-primary);
-  --tab-bg-active: var(--bg-primary-default);
-  --tab-bg-default: var(--bg-surface-main);
-  --tab-text-active: var(--text-neutral-body);
-  --tab-text-default: var(--text-neutral-body);
   --bg-primary-default: var(--primary-default);
   --border-primary-default: var(--blue-B700);
   --text-neutral-white: var(--neutral-white);
   --text-utilities-decorate-primary: var(--blue-B700);
   --bg-surface-main: var(--neutral-white);
   --text-neutral-body: var(--grey-G600);
-  --bg-neutral-disable: var(--neutral-black);
-  --bg-neutral-input: var(--grey-G200);
-  --bg-surface-card: var(--neutral-white);
-  --bg-surface-main-inverse: var(--grey-G950);
   --bg-surface-modal: var(--neutral-white);
   --bg-surface-transparent: var(--neutral-transparent);
-  --border-neutral-black: var(--neutral-black);
   --border-neutral-default: var(--grey-G200);
-  --border-neutral-input: var(--grey-G200);
   --text-neutral-display: var(--grey-G950);
   --text-neutral-heading: var(--grey-G700);
   --text-neutral-sub-heading: var(--grey-G600);
-  --text-utilities-link-default: var(--blue-B400);
-  --text-utilities-link-hover: var(--blue-B300);
-  --text-utilities-link-visited: var(--blue-B500);
   --primary-default: rgb(0, 144, 218);
   --blue-B700: rgb(1, 103, 156);
   --neutral-white: rgb(255, 255, 255);
@@ -111,17 +102,7 @@
   --grey-G800: rgb(31, 41, 55);
   --grey-G900: rgb(17, 24, 39);
   --grey-G950: rgb(3, 7, 18);
-  --neutral-black: rgb(0, 0, 0);
   --neutral-transparent: rgba(255, 255, 255, 0);
-  --neutral-white-10: rgba(255, 255, 255, 0.1);
-  --neutral-white-20: rgba(255, 255, 255, 0.1);
-  --neutral-white-30: rgba(255, 255, 255, 0.1);
-  --neutral-white-40: rgba(255, 255, 255, 0.1);
-  --neutral-white-50: rgba(255, 255, 255, 0.1);
-  --neutral-white-60: rgba(255, 255, 255, 0.1);
-  --neutral-white-70: rgba(255, 255, 255, 0.1);
-  --neutral-white-80: rgba(255, 255, 255, 0.1);
-  --neutral-white-90: rgba(255, 255, 255, 0.1);
   --red-R100: rgb(254, 226, 226);
   --red-R200: rgb(254, 202, 202);
   --red-R300: rgb(252, 165, 165);
@@ -144,4 +125,67 @@
   --yellow-Y800: rgb(133, 77, 14);
   --yellow-Y900: rgb(113, 63, 18);
   --yellow-Y950: rgb(66, 32, 6);
+
+  /* ================= Type system — SOURCE OF TRUTH =================
+     Corrected 2026-08-07. This ladder is transcribed from the values that
+     index.html and about.html actually render, which lived in redesign.css as
+     --rd-fs-* / --rd-fw-* / --rd-lh-*. redesign.css now aliases these instead
+     of declaring its own, so there is exactly one place to change a value.
+
+     An earlier pass imported a *different* scale from docs/redesign/tokens.css.
+     That file was written 2026-08-02 and never kept up: it said body weight 400
+     (the real value is 500), page titles 40px (really 48px), and it defined
+     "tight" as 1.1 when the live meaning is 1.4. Those numbers are wrong — do
+     not reintroduce them from the docs copy. If docs and the rendered page
+     disagree, the rendered page wins.
+
+     Sizes off this ladder (15/17/19/22/28/36/40px) survive only on the legacy
+     case-study pages and in responsive step-downs. They stay literal so they
+     are easy to spot and retire. */
+  --font-ui: "DM Sans", "Manrope", system-ui, -apple-system, sans-serif;
+  --font-wordmark: "Raleway", system-ui, sans-serif;
+
+  --fs-xs: 12px;    /* nav tagline, footer credentials, tags */
+  --fs-sm: 14px;    /* buttons, metadata, captions */
+  --fs-md: 16px;    /* body copy — the default */
+  --fs-lg: 18px;    /* case-study lead */
+  --fs-xl: 20px;    /* hero lead, journey blurb, impact card title */
+  --fs-2xl: 24px;   /* card + panel titles */
+  --fs-3xl: 32px;   /* section headings */
+  --fs-4xl: 48px;   /* page titles */
+
+  /* Three weights, by role. Note body is 500, not 400 — the whole redesign
+     runs on a medium body weight and 400 reads noticeably lighter than the
+     rest of the site. */
+  --fw-body: 500;       /* all prose + UI text */
+  --fw-heading: 600;    /* headings, card + section titles */
+  --fw-emphasis: 700;   /* eyebrows, labels, stat numbers, inline strong */
+
+  --lh-prose: 1.6;      /* multi-line body copy meant to be read */
+  --lh-tight: 1.4;      /* labels, captions, single-line UI text */
+  --lh-heading: 1.3;    /* wrapping card titles */
+
+  --measure: 778px;     /* max line length for long-form copy (~97ch at 16px) */
+
+  /* ---- Colour ramps: audited 2026-08-07, partial members deliberately kept ----
+     A full reference audit (every var() in every loaded stylesheet, every HTML
+     inline style including the JS-injected templates/, and every JS file, with
+     transitive resolution) found these ramp members unreferenced:
+
+       --grey-G300, G800, G900
+       --blue-B400
+       --red-R50, R200, R300, R400, R800, R900, R950
+       --emerald-E300, E400, E800, E900, E950
+       --yellow-Y50, Y500, Y600, Y800, Y950
+
+     They are KEPT ON PURPOSE. Each ramp still has live members, so deleting the
+     dead ones leaves a scale with holes in it (--red-R100, R500, R600, R700 and
+     nothing else), which is worse to work with than a complete ladder and
+     invites someone to "helpfully" re-add a step at the wrong value.
+
+     Fully-dead groups were removed instead: --neutral-white-10..90 (all nine,
+     and all nine had the same wrong value of 0.1), --tab-*, and the unused
+     --text-utilities-link-* / --bg-* / --border-* semantic aliases.
+
+     If a whole ramp ever goes dead, delete the whole ramp. Don't thin them. */
 }

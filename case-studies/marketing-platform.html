@@ -12,6 +12,15 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=inter" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <!-- This page has no #nav-placeholder, but it DOES have #footer-placeholder,
+         and js/script.js injects the shared footer (now carrying the closing CTA)
+         into it. Without redesign.css that chrome renders unstyled. Every
+         selector in it is scoped to .rd-* or the two placeholder ids, so the
+         2021 page body is untouched. -->
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+    <!-- v3 retheme: colour + typography only. Must load LAST. -->
+    <link rel="stylesheet" href="../css/styles/case-retheme-v3.css">
+    <link rel="stylesheet" href="../css/styles/back-to-top.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -19,12 +28,21 @@
   </head>
   <body>
   
-    <a id="button">
-      <i class="fas fa-chevron-up"></i>
-    </a>
+    <!-- Back to top. Inline SVG arrow: the page's icon font is the Font Awesome
+         *Pro* CDN, whose webfont needs a licence, so the glyph never resolved
+         and this rendered as stray bars. Styles in css/styles/back-to-top.css,
+         behaviour in js/back-to-top.js — no jQuery, so web-3-v3 can use it too. -->
+    <button type="button" class="rd-to-top" aria-label="Back to top">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+           stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <line x1="12" y1="20" x2="12" y2="5"></line>
+        <polyline points="5 12 12 5 19 12"></polyline>
+      </svg>
+    </button>
     <section id="header">
       <div id="wrapper">
-        <div class="container">
+        <div class="rd-grid">
           <div class="row header_cnt">
             <div class="col-sm-12 col-md-7 col-lg-6">
               <h1 id="Intro">
@@ -66,7 +84,7 @@
     </section>
     <section class="introduction">
       <div id="wrapper">
-        <div class="container content">
+        <div class="rd-grid content">
           <div class="block">
             <div class="row justify-content-center">
               <div class="col-12 col-lg-8">
@@ -115,7 +133,7 @@
     </section>
     <section class="ourgoal">
       <div class="container-fluid block_goal">
-        <div class="container content">
+        <div class="rd-grid content">
           <div class="expect">
             <div class="row justify-content-center" style="margin-bottom: 24px;">
               <div class="col-12 col-lg-8">
@@ -148,7 +166,7 @@
     </section>
     <section class="s5 stay-connect">
       <div id="wrapper">
-        <div class="container content block">
+        <div class="rd-grid content block">
           <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
               <h2 class="t_case">Stay Connected</h2>
@@ -192,7 +210,7 @@
         </span>
       </div>
       <div id="wrapper">
-        <div class="container block">
+        <div class="rd-grid block">
           <div class="row justify-content-center">
             <div class="col-sm-12 col-md-4 col-lg-3">
               <div id="p_left">
@@ -245,7 +263,7 @@
     </section>
     <section class="Exploring">
       <div id="wrapper">
-        <div class="container content">
+        <div class="rd-grid content">
           <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
               <h2 class="t_case">Let’s Explore Individual Product</h2>
@@ -263,7 +281,7 @@
           </div>
         </div>
         <div id="Customer" class="tabcontent">
-          <div class="container block1 iBooking">
+          <div class="rd-grid block1 iBooking">
             <div class="row" style="align-items: center;">
               <div class="col-12 col-md-7 col-lg-7">
                 
@@ -299,7 +317,7 @@
           </div>
           <div class="container-fluid iMembership">
             <div class="container-fluid" style="background-color: #F3F8FF;">
-              <div class="container block1">
+              <div class="rd-grid block1">
                 <div class="row iframe">
                   <div class="col-sm-12 col-md-5 col-lg-5" style="padding-bottom: 24px;">
                     <!-- <img src="../public/hd/dots-1.png" class="t1 img-fluid" alt="image" id="dots"> -->
@@ -343,7 +361,7 @@
               </div>
             </div>
             <div class="membercard">
-              <div class="container" style="padding: 40px 16px 40px 16px;">
+              <div class="rd-grid" style="padding: 40px 16px 40px 16px;">
                 <div class="row">
                   <div class="col-12 col-md-4 col-lg-4">
                     <img src="../public/is/Card1.png" class="img-fluid" alt="image">
@@ -359,7 +377,7 @@
             </div>
             <div class="Spin">
               <div class="container-fluid" style="background-color: #F3F8FF;">
-                <div class="container block1">
+                <div class="rd-grid block1">
                   <div class="row iframe">
                     <div class="col-sm-12 col-md-5 col-lg-5">
                       <div class="row" style="margin-bottom: 24px;">
@@ -383,7 +401,7 @@
               </div>
             </div>
           </div>
-          <div class="container block1 icheckin">
+          <div class="rd-grid block1 icheckin">
             <div class="row justify-content-center">
               <div class="tab-w" style="margin:40px 0 8px 0">
                 <img src="../public/is/IC_Checkin.svg" alt="" style="padding-bottom: 16px;">
@@ -417,7 +435,7 @@
             </div>
           </div>
           <div class="container-fluid iReview" style="background-color: #F3F8FF;">
-            <div class="container block1 iReview">
+            <div class="rd-grid block1 iReview">
               <div class="row iframe">
                 <div class="col-sm-12 col-md-7 col-lg-7" >
                   <!-- <img src="../public/hd/pattern_1.png" class="t1 img-fluid" alt="image" id="pattern_1"> -->
@@ -455,7 +473,7 @@
         </div>
         <!-- End for custome -->
         <div id="Staff" class="tabcontent">
-          <div class="container block1 iCheckin">
+          <div class="rd-grid block1 iCheckin">
             <div class="row iframe">
               <div class="col-12 col-md-5 col-lg-5" style="margin-bottom: 24px;">
                 <img src="../public/hd/dots-1.png" class="t1 img-fluid" alt="image" id="dots1">
@@ -476,7 +494,7 @@
             </div>
           </div>
           <div class="container-fluid block1 Ipos">
-           <div class="container">
+           <div class="rd-grid">
             <div class="row" style="align-items: center;">
               <div class="col-12 col-md-5 col-lg-5"style="margin-bottom: 24px">
                 <img src="../public/is/IC_POS.svg" alt="" style="padding-bottom: 16px;">
@@ -495,7 +513,7 @@
             </div>
            </div>
           </div>
-          <div class="container iStaff">     
+          <div class="rd-grid iStaff">     
             <div class="row iframe">
               <div class="col-12 col-md-7 col-lg-7">
                 <img src="../public/is/staff.png" alt="image" class="img-fluid">
@@ -528,7 +546,7 @@
       </div>
       <!-- End for Staff -->
       <div id="Owner" class="tabcontent">
-        <div class="container block1 CRM">
+        <div class="rd-grid block1 CRM">
           <div class="row" style="align-items: center;">
             <div class="col-12 col-md-5 col-lg-5" style="padding-bottom: 24px;">
               <img src="../public/is/IC_Management.svg" alt="" style="padding-bottom: 16px;">
@@ -546,7 +564,7 @@
           </div>
         </div>
         <div class="container-fluid block1 ipos" style="background-color: #F3F8FF;">
-       <div class="container">
+       <div class="rd-grid">
         <div class="row iframe" style="align-items: center;">
           <div class="col-12 col-md-7 col-lg-7" style="padding-top: 40px;">
             <img src="../public/is/owner.png" alt="image" class="img-fluid">
@@ -571,5 +589,6 @@
     <script src="../js/ai-chat.js"></script>
     <script src="../js/socialize.js"></script>
     
-  </body>
+  <script src="../js/back-to-top.js"></script>
+</body>
 </html>

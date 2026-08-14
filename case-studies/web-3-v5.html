@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.png">
+    <title>Aura Network — holding six products together through a platform change | Stephano Ng</title>
+
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7VM3QDKCYW');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PF5XGDGK');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta property="og:title" content="Aura Network — holding six products together through a platform change | Stephano Ng">
+    <meta property="og:description" content="Lead product designer for a Layer 1 blockchain: running the design function across six surfaces, and defining products with four engineering groups while the platform changed underneath them.">
+    <meta property="og:image" content="../public/ar_casecover.webp">
+    <meta property="og:type" content="article">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+</head>
+<body class="rd-case">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!--
+  ============================================================================
+  Aura Network — case study, v5 (2026-08-09)
+  ----------------------------------------------------------------------------
+  WHAT V5 IS, AND WHY IT REPLACES V4.
+
+  v4 was built on a wrong premise. It cast Hao as a hybrid PM + hands-on
+  product designer: it claimed he made the EVM trade-off call and designed the
+  address-conversion flow himself. Hao corrected both on 2026-08-09:
+
+    - His role was LEAD PRODUCT DESIGN — running the design function for the
+      team (standards, system, review, capacity) and defining products with
+      other teams. Operational, not execution.
+    - On the EVM address-seam trade-off he FRAMED the problem and the options
+      and drove alignment. Leadership made the call.
+
+  Every craft-execution and decision-ownership claim in v4 is therefore false
+  and is removed here. v1–v4 are left untouched.
+
+  ARCHETYPE. This is not a full-cycle case study, and forcing it into that
+  shape is what produced v4's overclaiming. Per Case-Study-Framework.md Part 3
+  it is two archetypes at once:
+    - "Discovery-led" — framed the problem, someone else decided. Expand §3
+      and §4, compress delivery, be direct in the header status.
+    - "Systems or internal" — users are internal teams, business value is cost
+      and velocity.
+
+  THE REHABILITATED BLOCK. The audit told Hao to cut v1's RACI chart,
+  communication plan and ways-of-working material as "process theatre". That
+  judgement was made against a craft-execution profile that isn't his. For an
+  operational design lead this material is the closest thing on the page to
+  real evidence — it was simply written generically. §5 keeps the substance
+  and makes it specific to Aura. Generic ceremony is worthless; "here is how
+  six surfaces stayed coherent across four engineering groups" is the case.
+
+  THE DISTINCTIVE BLOCK is §2, "What I owned, and what I didn't". Explicit
+  decision rights are rare on a portfolio and are exactly what a hiring
+  manager is trying to establish. Volunteering the boundary reads as
+  confidence, and it stops every claim after it from being probed.
+
+  FACTS unchanged, sourced in Aura-Network-Research-and-Rewrite.md. Tenure is
+  the filter — 27 Jul 2022 to 5 Jun 2024; anything later sits in §8, dated.
+
+  NOTE: that research doc and the Aura card now on index.html both still say
+  Hao owned the EVM decision. Both need the same correction applied.
+
+  >>> TO CONFIRM BEFORE PUBLISHING <<<
+    a) §2 and §5 — the count of engineering groups ("four") and the surface
+       list. Placeholder based on the ten-person team; correct if wrong.
+    b) §5 — that the design system existed as a built artifact rather than
+       informal convergence. If informal, change "system" to "shared patterns"
+       and drop the reuse claim.
+    c) §6 — who specifically made the EVM call (CEO? protocol lead? joint?).
+       Naming the decider is stronger than "leadership".
+    d) All figure captions describe team output under his direction. Confirm
+       that framing is accurate for the SeekHype screens.
+  ============================================================================
+-->
+
+<header class="rd-case-hero">
+    <div id="nav-placeholder"></div>
+
+    <div class="rd-case-hero-inner rd-shell">
+        <p class="rd-case-eyebrow">Case study · Web3 infrastructure · Design leadership &amp; product definition</p>
+        <h1 class="rd-case-title">Holding six products together through a platform change</h1>
+        <p class="rd-case-lead">
+            Aura Network ran six product surfaces with a ten-person team. Partway through, the chain
+            itself changed underneath all of them — from a permissioned NFT app-chain to a
+            general-purpose, EVM-compatible Layer 1. I led the design function through that, and my
+            job was not to draw the screens. It was to make sure six products still felt like one
+            company, and that four groups of engineers agreed what they were building.
+        </p>
+
+        <!-- §1 Header block. Role first. "Decision rights" is not a standard
+             row; it is here because the honest answer to "what did you
+             actually control" is the fastest way to make everything below it
+             credible. -->
+        <div class="rd-case-meta">
+            <div>
+                <span class="rd-case-meta-k">Role</span>
+                <span class="rd-case-meta-v">Lead product design — running the design function and product definition</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Decision rights</span>
+                <span class="rd-case-meta-v">I owned design standards, the system and where design capacity went. Platform and roadmap calls sat with the founders.</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Domain</span>
+                <span class="rd-case-meta-v">Web3 infrastructure — Layer 1 blockchain</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Timeline</span>
+                <span class="rd-case-meta-v">Jul 2022 – Jun 2024 (23 months)</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Team</span>
+                <span class="rd-case-meta-v">10 — design lead, designers, protocol and application engineers</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Surfaces</span>
+                <span class="rd-case-meta-v">Six — explorer, multisig, indexer, marketplace, swap, bot</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Status</span>
+                <span class="rd-case-meta-v">Shipped. I left two weeks after the EVM release; later outcomes owned by others.</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- ================= §2 — What I owned, and what I didn't ================= -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">What I owned, and what I didn't</h2>
+            <div class="rd-case-body">
+                <p>
+                    Design leadership at a ten-person company is mostly a question of authority, so
+                    it is worth being exact about mine before anything else. Nothing below this line
+                    is a claim I can't answer questions about.
+                </p>
+            </div>
+
+            <div class="rd-case-grid">
+                <div class="rd-case-card">
+                    <h3>I owned</h3>
+                    <p>
+                        The design function: standards, the shared system, review, hiring and
+                        onboarding into the team, and — the one with real teeth — where design
+                        capacity went each cycle across six surfaces.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>I drove, jointly</h3>
+                    <p>
+                        Product definition. What each surface was for, what it would and wouldn't do,
+                        and what "done" meant — worked out with engineering leads and the founders
+                        rather than handed down to them.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>I framed, others decided</h3>
+                    <p>
+                        The platform calls. The EVM transition and the address-model trade-off were
+                        founder decisions. My contribution was making the options and their real
+                        costs legible enough that the decision could be made properly. See §6.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §3 — In short ================= -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">In short</h2>
+
+            <div class="rd-case-summary">
+                <div>
+                    <span class="rd-case-meta-k">The problem</span>
+                    <p>Six product surfaces, ten people, and no shared definition of what any of them were. Each surface was being specified by whichever engineer picked it up, and the design team was being consumed answering questions that should have been settled once.</p>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">What I did</span>
+                    <p>Built the design function as an operating model rather than a service desk: one shared system, a written definition process with named accountabilities, and an explicit capacity allocation across the six surfaces.</p>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">What changed</span>
+                    <p>When the platform changed underneath every surface in 2024, the re-plumbing was affordable. Aura shipped EVM compatibility in May 2024; the ecosystem now reports 20+ dApps and 14.5M+ deployed contracts <span class="rd-tag">public · cumulative</span>, measured after my exit.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §4 — Discovery =================
+         Systems archetype: the users here are internal teams as well as
+         external developers, and business value is cost and velocity. -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Discovery</h2>
+
+            <figure class="rd-case-figure">
+                <img src="../public/ar_casecover.webp" alt="Aura Network — a Layer 1 blockchain for enterprise, entertainment and government" loading="lazy">
+                <figcaption>Aura at the start of my tenure: a permissioned chain built for NFTs, six surfaces, and no shared definition of what any of them were.</figcaption>
+            </figure>
+
+            <div class="rd-case-grid">
+                <div class="rd-case-card">
+                    <h3>Internal users — the teams</h3>
+                    <p>
+                        Engineers were making product decisions by default, because nobody had made
+                        them on purpose. The same questions — what happens in an empty state, how is
+                        an address displayed, what does a pending transaction look like — were being
+                        re-answered on every surface, differently each time.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>External users — the developers</h3>
+                    <p>
+                        Aura's actual customers were builders, not consumers. Onboarding a team meant
+                        teaching CosmWasm and Rust to people who already had audited Solidity in hand.
+                        The objection was never "we don't want to build on Aura" — it was "we'd have
+                        to rewrite."
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Business insight</h3>
+                    <p>
+                        Six inconsistent surfaces read as six small companies rather than one
+                        platform, which is a credibility problem when the pipeline is enterprise and
+                        government. Coherence wasn't an aesthetic goal; it was a sales one.
+                    </p>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    The cost was rework. Every surface that solved a shared problem privately had to
+                    be revisited when the shared answer changed — and with a platform migration
+                    already visible on the horizon, that bill was going to arrive all at once.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §5 — Running the design function =================
+         The core section. This is the material the earlier audit told Hao to
+         cut as process theatre; for an operational design lead it is the
+         evidence, provided it is specific to Aura rather than generic Scrum.
+
+         TO CONFIRM (a) and (b). -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Running the design function</h2>
+            <div class="rd-case-body">
+                <p>
+                    Six surfaces and a handful of designers means the arithmetic never works. The
+                    only way out is to stop treating design as a queue of requests and start treating
+                    it as a system with a capacity budget. Three things did the work.
+                </p>
+            </div>
+
+            <div class="rd-case-grid">
+                <div class="rd-case-card">
+                    <h3>One system, built once</h3>
+                    <p>
+                        A shared type scale, colour and spacing set, and the components every
+                        blockchain surface repeats: address display and truncation, transaction rows,
+                        network and status badges, empty and pending states, wallet-connect. Solve
+                        those five once and most of a Web3 product is already designed.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Capacity allocated, not requested</h3>
+                    <p>
+                        Each cycle I said out loud which surfaces got design time and which were on
+                        their own with the system. Naming the starved surface is the part people
+                        avoid, and it is the only thing that makes the allocation real rather than
+                        aspirational.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Two operating modes, on purpose</h3>
+                    <p>
+                        Continuous work — campaigns, content, small fixes — ran flow-based and was
+                        pulled just in time. Product work ran in timeboxed iterations with a defined
+                        goal. Forcing both through one process is what makes design teams look slow
+                        at everything.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Team output under Hao's direction, captioned as such. These are
+                 the only product screens in public/ (sh_01–sh_07, SeekHype).
+                 TO CONFIRM (d). -->
+            <div class="rd-case-gallery is-screens">
+                <figure>
+                    <img src="../public/sh_02.png" alt="SeekHype marketplace — browse view" loading="lazy">
+                    <figcaption>Marketplace browse. The one surface allowed to break the system, because here the asset is the point.</figcaption>
+                </figure>
+                <figure>
+                    <img src="../public/sh_05.png" alt="SeekHype — ownership and provenance state" loading="lazy">
+                    <figcaption>Ownership state, using the shared address and badge components rather than its own.</figcaption>
+                </figure>
+                <figure>
+                    <img src="../public/sh_06.png" alt="SeekHype — confirmation step" loading="lazy">
+                    <figcaption>Confirmation, on the same transaction row component the explorer uses. Work by the design team I led.</figcaption>
+                </figure>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    <strong>Validation.</strong> Expert usability inspection against the live
+                    surfaces, plus dogfooding by our own integrators — proportionate for enhancements
+                    to shipped products. Moderated testing was held back for genuinely new flows.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §6 — Defining products across teams ================= -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Defining products across teams</h2>
+            <div class="rd-case-body">
+                <p>
+                    The harder half of the job was not inside the design team. Six surfaces were
+                    being built by different groups of engineers, and the expensive failures were
+                    never technical — they were two teams confidently building to two different
+                    understandings of the same feature.
+                </p>
+            </div>
+
+            <div class="rd-case-grid is-two">
+                <div class="rd-case-card">
+                    <h3>Definition before estimation</h3>
+                    <p>
+                        Nothing entered a sprint until what it was for, who it was for and what it
+                        would not do were written down and agreed. Most of the arguments I mediated
+                        turned out to be definition problems wearing an engineering costume.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Named accountabilities</h3>
+                    <p>
+                        A written accountability map per surface — who decides, who is consulted, who
+                        is merely informed. At ten people this sounds like overhead until the first
+                        time a decision has to be made without the founders in the room.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Communication as a designed artifact</h3>
+                    <p>
+                        Which decisions get written down, where they live, and how a team that missed
+                        the conversation catches up. Distributed contributors across time zones make
+                        this the difference between a decision and a rumour.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Translation, constantly</h3>
+                    <p>
+                        The recurring job was carrying one intent between three vocabularies —
+                        protocol engineers, application engineers, and founders selling to
+                        enterprises. Same decision, three descriptions, no drift between them.
+                    </p>
+                </div>
+            </div>
+
+            <figure class="rd-case-figure">
+                <img src="../public/ar_communication.png" alt="Communication plan and accountability map for the Aura Network product team" loading="lazy">
+                <figcaption>The communication plan and accountability map. Unglamorous, and the reason the EVM transition below could be argued out in weeks rather than months.</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <!-- ================= §7 — Framing the platform trade-off =================
+         HONEST VERSION. v4 claimed Hao made this call and designed the
+         mitigation. He framed it; the founders decided.
+         TO CONFIRM (c): name the decider. -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Framing the platform trade-off</h2>
+            <div class="rd-case-body">
+                <p>
+                    In 2024 Aura moved from a permissioned CosmWasm chain built for NFTs to a
+                    permissionless, general-purpose, EVM-compatible L1 — what the company calls "a
+                    pivotal shift in its trajectory". That call was the founders'. What I owned was
+                    making it a decision rather than a drift.
+                </p>
+            </div>
+
+            <div class="rd-case-grid is-two">
+                <div class="rd-case-card">
+                    <h3>The constraint, in plain language</h3>
+                    <p>
+                        Ethereum and Cosmos derive addresses differently and count decimals
+                        differently. One account cannot be both, and unifying them was outside the
+                        release window. My first job was getting that stated in words a
+                        non-engineer could weigh.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>The options, with their real costs</h3>
+                    <p>
+                        Stay a permissioned NFT chain and bet on a contracting segment. Migrate fully
+                        and break every live dApp and deployed address. Or run both environments in
+                        separate address zones, with conversion between them and unification
+                        deferred.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>What I argued for</h3>
+                    <p>
+                        The third, and I said plainly what it cost: every user would end up with two
+                        addresses and no way to use one. I would rather ship a defect we had named
+                        than one we discovered later.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>What it meant for design</h3>
+                    <p>
+                        A decision I did not make landed as work my team had to absorb — an interface
+                        that makes "these two addresses are both you" legible to someone who will
+                        never care why. That is the ordinary condition of design leadership.
+                    </p>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    The founders chose the third option and it shipped in May 2024, documented in the
+                    release notes and put to an on-chain governance vote. The part I would defend is
+                    not the outcome — it is that the trade-off was visible to everyone in the room
+                    beforehand, including the cost.
+                </p>
+                <p>
+                    It also cost my own team directly: the NFT-first consumer surfaces we had been
+                    investing design capacity in came off the plan. Redirecting that capacity, and
+                    telling the designers who had built it why, was mine to do.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §8 — Outcomes and follow-up ================= -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Outcomes and follow-up</h2>
+            <div class="rd-case-body">
+                <p>
+                    <strong>Shipped, not measured by me.</strong> Aura EVM went live 23 May 2024; I
+                    left on 5 June 2024, before any adoption cycle. What I would have tracked for the
+                    design function: rework hours per release, and the share of surface-level
+                    questions answered by the system instead of by a designer.
+                </p>
+            </div>
+
+            <div class="rd-case-grid">
+                <!-- Help text kept to one clause each: the rd-tag chip already
+                     carries the evidence label, so the prose doesn't repeat it.
+                     "Not my result" stays on the first card — the caveat has to
+                     appear at least once inside the grid, not only above it. -->
+                <div class="rd-case-card">
+                    <h3>1.5B+ transactions</h3>
+                    <p>Network total <span class="rd-tag">public</span>. Not my result.</p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>14.5M+ contracts deployed</h3>
+                    <p>Network total <span class="rd-tag">public</span>, across the ecosystem.</p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>141,000+ active addresses</h3>
+                    <p>Unique, across 20+ dApps <span class="rd-tag">public</span>.</p>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    The strategic bet resolved after I left, and in favour of the direction. Aura took
+                    strategic investment from FPT Corporation in <strong>February 2025</strong>,
+                    repositioned as "the RWA chain for enterprise, entertainment and government" that
+                    same month, and signed a blockchain agreement with the Government of Sierra Leone
+                    days later — all eight or more months after my exit, and none of them mine.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §9 — What I'd do differently ================= -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">What I'd do differently</h2>
+            <div class="rd-case-body">
+                <p>
+                    I built the design system and the definition process and then never measured
+                    either. I can describe what they prevented but I cannot prove it, because I never
+                    baselined rework or cycle time before introducing them. For an operational role
+                    that is the wrong thing to be missing — the whole argument for design operations
+                    is a cost argument, and I left without the numbers to make it.
+                </p>
+                <p>
+                    I was also slower than I should have been to escalate the positioning problem. Our
+                    own surfaces were being used for ordinary contract activity while we kept
+                    describing ourselves as an NFT chain, and that was visible in what my team was
+                    being asked to design well before it reached a founder conversation. Framing is
+                    the job I claim here; I should have framed that one a year earlier.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <a href="/work.html" class="rd-btn rd-btn-text rd-case-back">← Back to all case studies</a>
+        </div>
+    </section>
+</main>
+
+<!-- Closing CTA + footer — identical to index.html, about.html and
+     healthcare.html so every page stays in lockstep. -->
+<div class="rd-closing">
+<footer id="footer-placeholder"></footer>
+</div>
+
+<script src="../js/script.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/socialize.js"></script>
+</body>
+</html>

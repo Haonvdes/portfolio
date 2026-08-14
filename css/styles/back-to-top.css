@@ -1,0 +1,93 @@
+/*
+  back-to-top.css — self-contained "back to top" control for the v3 case studies
+  ===========================================================================
+  Why this exists rather than reusing the 2021 `#button`:
+
+  - The old control lived in style-2021.css and was driven by jQuery in
+    script-2021.js. web-3-v3 loads neither, so it had no back-to-top at all.
+  - Its icon came from pro.fontawesome.com — the *Pro* CDN. The stylesheet
+    serves without a licence but the webfont does not, so the glyph never
+    resolved and the button rendered as stray bars. The arrow here is an inline
+    SVG in the markup: no network dependency, no licence question.
+  - Geometry is copied from the original (50px circle, bottom 40px, right 24px)
+    so the three v3 pages look the way lending and marketing already did.
+
+  The old `#button` rules and the jQuery handler are left in place untouched —
+  with no element carrying id="button" they simply never match, and
+  `$('#button')` returns an empty set whose .addClass/.on are no-ops. Nothing
+  needed to be deleted from the shared 2021 files, which v1 still depends on.
+
+  Colours come from --rd-* (declared in case-retheme-v3.css, which every v3
+  page loads); the literals are fallbacks only.
+*/
+
+.rd-to-top {
+  position: fixed;
+  bottom: 40px;
+  right: 24px;
+  z-index: 90;
+
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(
+    150deg,
+    var(--rd-primary, #01679c) 0%,
+    var(--rd-primary-hover, #014a70) 100%
+  );
+  box-shadow: 0 2px 10px rgba(10, 42, 48, 0.2);
+
+  /* Hidden until scrolled. visibility (not display) so the transition runs and
+     the button stays out of the tab order while hidden. */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.4s, visibility 0.4s, transform 0.4s, background 0.3s;
+}
+
+.rd-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.rd-to-top:hover {
+  background: linear-gradient(
+    150deg,
+    var(--rd-primary-hover, #014a70) 0%,
+    var(--rd-primary, #01679c) 100%
+  );
+}
+
+.rd-to-top:focus-visible {
+  outline: 2px solid var(--rd-primary, #01679c);
+  outline-offset: 3px;
+}
+
+/* The arrow inherits the button's colour, so there is one place to change it. */
+.rd-to-top svg {
+  display: block;
+  stroke: currentColor;
+}
+
+/* The chat bubble is fixed at bottom:20px/right:20px and is 50px tall, so it
+   occupies 20–70px. Lifting the button clear on small screens stops the two
+   circles overlapping if the chat widget is ever loaded on these pages. */
+@media (max-width: 767px) {
+  .rd-to-top {
+    bottom: 88px;
+    right: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-to-top { transition: none; }
+}

@@ -1,0 +1,21 @@
+/*
+  ARCHIVED — NOT THE SOURCE OF TRUTH. DO NOT LINK OR COPY VALUES FROM THIS FILE.
+  ============================================================================
+  The real token set is css/styles/tokens.css, imported by css/styles/style.css
+  on every page. See docs/redesign/design-tokens.md for the rationale.
+
+  This file was an early-prototype copy (2026-08-02) that was never maintained.
+  By 2026-08-07 it disagreed with the live design on, at least:
+
+      body font weight   said 400   actually 500
+      page title size    said 40px  actually 48px
+      --lh-tight         said 1.1   actually 1.4
+      primary text       said #131313  actually #0a2a30
+      page background    said #f4f3ef  actually #f3f3ef
+      ink                said a 5-step ramp; the design uses ONE ink
+
+  Those values were read back as authoritative and shipped into the v3 case
+  studies before the mistake was caught on screen. The contents are removed
+  rather than corrected, so this can't happen twice — there is no reason to
+  maintain a second copy of the tokens.
+*/

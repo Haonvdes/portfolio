@@ -1,0 +1,176 @@
+/*
+  ARCHIVED PROTOTYPE — NOT THE LIVE SITE. DO NOT COPY VALUES FROM THIS FILE.
+  ============================================================================
+  Part of the standalone early-prototype snapshot in docs/redesign/ (2026-08-02).
+  Nothing links it, index-standalone.html's own <link> paths are broken, and its
+  colours and type are out of date.
+
+  Live styles:  css/styles/redesign.css     (home, about, healthcare)
+  Live tokens:  css/styles/tokens.css       (source of truth)
+  Rationale:    docs/redesign/design-tokens.md
+*/
+
+/*
+  Site-wide base styles — Portfolio Redesign
+  Link after tokens.css:
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/site.css">
+*/
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-body-md);
+  line-height: var(--lh-normal);
+  color: var(--color-text-primary);
+  background: var(--color-bg-page);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { margin: 0; padding: 0; list-style: none; }
+h1, h2, h3, p { margin: 0; }
+button { font: inherit; cursor: pointer; }
+
+.container {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  height: 40px;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  font-size: var(--fs-body-sm);
+  font-weight: var(--fw-medium);
+  border: none;
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+}
+.btn-primary {
+  background: var(--color-brand-primary);
+  color: var(--color-text-inverse);
+}
+.btn-primary:hover { background: var(--color-brand-primary-hover); }
+
+/* ---------- Site header / nav ---------- */
+.site-header {
+  position: sticky;
+  top: var(--space-5);
+  z-index: 50;
+  margin-inline: auto;
+  margin-top: var(--space-5);
+  max-width: calc(var(--container-max) - var(--container-padding) * 2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-nav);
+}
+
+.wordmark {
+  font-family: var(--font-wordmark);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-body-md);
+  letter-spacing: var(--wordmark-letter-spacing);
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+}
+
+.user-tagline {
+  margin-top: var(--space-1);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-medium);
+  color: var(--color-text-primary);
+}
+.user-tagline .tag-accent {
+  color: var(--color-accent-text);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+.nav-links a {
+  font-size: var(--fs-body-md);
+  font-weight: var(--fw-medium);
+  color: var(--color-text-primary);
+}
+.nav-links a.is-active {
+  color: var(--color-brand-primary);
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  padding: var(--space-2);
+}
+.nav-toggle svg { display: block; }
+
+/* ---------- Site footer ---------- */
+.site-footer {
+  padding-block: var(--space-8) var(--space-6);
+  border-top: 1px solid var(--color-border-default);
+}
+.footer-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+}
+.footer-credentials {
+  margin-top: var(--space-1);
+  font-size: var(--fs-caption);
+  color: var(--color-text-muted);
+}
+.footer-meta {
+  text-align: right;
+}
+.footer-location {
+  font-size: var(--fs-body-sm);
+  color: var(--color-text-primary);
+}
+.footer-social {
+  margin-top: var(--space-3);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+.footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-default);
+}
+.footer-social a:hover {
+  background: var(--color-bg-section-alt);
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: inline-flex; }
+  .footer-row { flex-direction: column; }
+  .footer-meta { text-align: left; }
+  .footer-social { justify-content: flex-start; }
+}

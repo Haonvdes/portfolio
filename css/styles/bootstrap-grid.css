@@ -74,11 +74,18 @@ body{
   }
 }
 
-@media (min-width: 2560) {
+/* `min-width: 2560` (no unit) is an invalid media feature value, so this rule
+   never applied and 1280px was the real ceiling at any width. Left disabled
+   rather than corrected: page layout now uses `.rd-grid` (css/styles/grid.css),
+   which caps at 1440px + gutters. `.container` survives only inside a
+   `.rd-grid`, where grid.css strips its max-width anyway.
+
+@media (min-width: 2560px) {
   .container {
     max-width: 1440px;
   }
 }
+*/
 .container-fluid {
   width: 100%;
   margin-right: auto;

@@ -2,16 +2,32 @@
 <html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
    <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- No maximum-scale / user-scalable=no: blocking pinch-zoom fails WCAG 1.4.4
+         and is the single most common mobile accessibility defect. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <link rel="icon" type="image/x-icon" href="./public/favicon.png">
-    <title>Stephano Ng | Practical AI, Product Design and Professional Project Management</title>
+    <title>Stephano Ng | Product Manager — customer needs, business goals, execution</title>
     <link rel="stylesheet" href="./css/styles/style.css">
+    <!-- DM Sans is the redesign's typeface (--rd-font). Nothing in the style.css
+         import chain loads it, so without this the pages silently fell back to
+         Manrope, which has wider metrics and changes every line length. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap">
+    <!-- Linked directly (not @import'ed from style.css) so a revert of the legacy
+         stylesheet can't silently unstyle the redesign. Must stay after style.css
+         so .rd-* rules win the cascade. -->
+    <link rel="stylesheet" href="./css/styles/redesign.css">
+    <!-- Desktop vertical scroll-snap deck for Selected Product Initiatives
+         (added 2026-08-07). Must stay after redesign.css so its rules win the
+         cascade on desktop; mobile (<=768px) keeps the swipe carousel. -->
+    <link rel="stylesheet" href="./css/styles/initiatives-desktop.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    
+
     gtag('config', 'G-7VM3QDKCYW');
     </script>
     <!-- Google Tag Manager -->
@@ -22,8 +38,8 @@
     })(window,document,'script','dataLayer','GTM-PF5XGDGK');</script>
     <!-- End Google Tag Manager -->
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Stephano Ng | Practical AI, UXD and PMP">
-    <meta property="og:description" content="Stephano specialize in bridging the gap between business strategy and user-centered solutions that drive measurable results.">
+    <meta property="og:title" content="Stephano Ng | Product Manager, ex-UX Lead">
+    <meta property="og:description" content="Building products that connect customer needs, business goals, and execution.">
     <meta property="og:image" content="./public/assets/og-img.png">
     <meta property="og:url" content="www.stpnguyen.com">
     <meta property="og:type" content="website">
@@ -31,342 +47,379 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
    </head>
-<body>
+<body class="rd-home">
     <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-<header class="header">
-    <div class="container" id="nav-placeholder"></div>
-    <div class="container first-section">
-        <div class="experience">
-            <p class="lg-bold animate__animated animate__fadeIn" style="text-transform: uppercase;font-weight: 700;">Stephano - Practical AI, UXD and PMP</p><br>
-        <h1 class="display animate__animated animate__fadeIn" style="margin-top: var(--m-0); font-size: clamp(36px, 2vw, 44px);">I specialize in bridging the gap between business strategy and user-centered solutions that drive measurable results.</h1>
-    </div>
-    <div class="animate__animated animate__fadeIn focused img" id="one">
 
-        <img src="./public/personal_image.webp" alt=" profile image">
-    </div>
+<!-- ============ Section 1 — nav + hero (Figma 40000031:5463 / 5788) ============ -->
+<header class="rd-hero-section">
+    <div id="nav-placeholder"></div>
+
+    <div class="rd-hero-inner rd-shell">
+        <div class="rd-hero-row" data-node-id="40000031:5803">
+            <div class="rd-hero-content">
+                <div class="rd-hero-headline-group">
+                    <h1 class="rd-hero-headline animate__animated animate__fadeIn">
+                        Building products that connect<br>customer needs, business goals, and execution.
+                    </h1>
+                    <!-- "nearly eight years" — NOT "over eight". The BHXH-verified timeline on
+                         about.html starts Dec 2018, which is 7y8m as of Aug 2026, and the
+                         At a Glance bar further down this page says "7+ Years". "Over eight"
+                         contradicted both, and a reader can falsify it by adding up the About
+                         page. Corrected 2026-08-13. Chotot-PM-Profile-Tailoring.md recommends
+                         "8+ years everywhere", but it counted from work-experience.html's
+                         Jan 2018 start, which the BHXH record superseded — do not restore it. -->
+                    <p class="rd-hero-lead animate__animated animate__fadeIn">
+                        I help organizations transform complex business problems into digital products that deliver measurable value. With nearly eight years of experience leading enterprise product design, I collaborate closely with engineering, business, and stakeholders to shape strategy, prioritize opportunities, and deliver products that matter.
+                    </p>
+                </div>
+            </div>
         </div>
+    </div>
 </header>
+
 <main>
-    <section class="container-fluid">
-    <div class="second-section">
-        <div class="container">
-            <div class="introduce">
-               <div class="emphasize">
-                <h1 class="animate__animated animate__fadeIn" style="color: var(--text-utilities-decorate-primary); width: max-content;">
-                    My Path of Growth and <br>Leadership 
-                </h1>
-                <button class="btn-secondary animate__animated animate__fadeIn"><a href="about.html">
-                    My Story</a></button>
-               </div>
-                <div>
-                    <p class="lg-medium animate__animated animate__fadeIn" data-aos="fade-up">
-                        With over five years of experience, I specialize in bridging the gap between business strategy and user-centered solutions that drive measurable results while empowering the team to achieve their best work.                </p>
-            </div>
-               <div>
-               </div>
-            </div>
-            <div class="things" data-aos="fade-up">
-                <div class="growth " style="width: 800px;">
-                    <div class="tagline">
-                        <p class="sub-heading">Work Experience</p>
-                    </div>
-                    <div class="experience" data-aos="fade-up">
-                        <div class="company 01">
-                            <p class="md-bold">FPT Software</p>
-                            <div class="company-infor">
-                                <p class="md-medium">PM, Lead Product Designers</p>
-                            <p class="md-medium">Oct, 2021 - Present</p>
-                            </div>
-                        </div>
-                        <div class="company 02">
-                            <p class="md-bold">Aperia VietNam</p>
-                            <div class="company-infor">
-                                <p class="md-medium">Product Designer</p>
-                            <p class="md-medium">Oct, 2019 - Jun, 2021</p>
-                            </div>
-                        </div>
-                        <div class="company 03">
-                            <p class="md-bold">Tinh Van Group</p>
-                            <div class="company-infor">
-                                <p class="md-medium">Product Designer</p>
-                            <p class="md-medium">March, 2019 - Oct, 2019</p>
-                            </div>
-                        </div>
-                        <div class="company 04">
-                            <p class="md-bold">Panic Bear Consulting</p>
-                            <div class="company-infor">
-                                <p class="md-medium">UI/UX Designer</p>
-                            <p class="md-medium">Oct, 2018 - Oct, 2019</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
-            <div class="growth" data-aos="fade-up">
-                <div class="tagline">
-                    <p class="sub-heading">Empowered by Expertise</p>
-                </div>
-                <div class="focused">
-                    <div class="company 01">
-                        <p class="md-bold">Product Discovery</p>
-                        <div class="company-infor">
-                            <p class="md-medium">Make the business’s decisions more confident.</p>
-                        </div>
-                    </div>
-                    <div class="company 02">
-                        <p class="md-bold">Product Leadership</p>
-                        <div class="company-infor">
-                            <p class="md-medium">Balance the product, processes, and tech.</p>
-                        </div>
-                    </div>
-                    <div class="company 03">
-                        <p class="md-bold">Artifact Intelligent</p>
-                        <div class="company-infor">
-                            <p class="md-medium">Help product growth fast and more efficient.</p>
-                        </div>
-                    </div>
-                    <div class="company 04">
-                        <p class="md-bold">Agile and Scrum</p>
-                        <div class="company-infor">
-                            <p class="md-medium">Responding to change over following a plan.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-            <div class="certificate" data-aos="fade-up">
-                <h2>No <span style="color:var(--grey-G300);">boundaries,</span><br> Certified Success with<br> Reward and Global Certificates</h2>
-                <div class="badge">
-                    <div class="awward-item">
-                        <a href="https://www.credly.com/badges/ab2290b3-212e-4db2-8a89-53bff99a7db4/public_url" target="_blank">
-                            <img src="./public/cert_pmp.png" alt="certificate_pmp">
-                        </a>
-                        <div class="company 01">
-                            <div class="company-infor">
-                                <p class="md-medium">Project Management Professional</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="awward-item">
-                        <a href="https://www.credly.com/badges/97dcfae2-dbce-4e6b-86fb-e76c17cd6bf0/public_url" target="_blank">
-                            <img src="./public/cert_agile.png" alt="certificate_agile">                        
-                        </a>
-                        <div class="company 01">
-                            <div class="company-infor">
-                                <p class="md-medium">Certified Agile Practioner</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="awward-item">
-                        <a href="https://www.credly.com/badges/3ab5df38-46de-415f-a9e6-531fc9f78718/public_url" target="_blank">
-                            <img src="./public/cert_promtEn.png" alt="certificate_AI">
-                        </a>                        <div class="company 01">
-                            <div class="company-infor">
-                                <p class="md-medium">Practical Application of Gen AI</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="awward-item">
-                        <a href="https://www.credly.com/badges/68c137b7-52ec-4bfb-a072-e68d977eeff3/public_url" target="_blank">
-                            <img src="./public/cert_promtEn.png" alt="certificate_AI">                        
-                        </a>                          <div class="company 01">
-                            <div class="company-infor">
-                                <p class="md-medium">Prompt Engineering for Project Managers</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="awward-item">
-                        <a href="https://www.credly.com/badges/6fbbbe85-014a-4689-8433-b05a1383e851/public_url" target="_blank">
-                            <img src="./public/cert_psm.png" alt="certificate_PSM">
-                        </a>
-                        <div class="company 01">
-                            <div class="company-infor">
-                                <p class="md-medium">Profressionanl Scrum Master</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="awward-item">
-                        <img src="./public/assets/awward.png" alt="awward_image" style="height: 60px; width: 60px;">
-
-                        <div class="company 01">
-                            <div class="company-infor">
-                                <p class="md-medium">Dreamteam at FPT DES</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-        <div class="section stuff" data-aos="fade-up">
-            <div class="container stuff-header">
-                <h1 style="color: var(--text-utilities-decorate-primary); text-align: center;">
-                    Staying Innovative <br>
-                    and Ahead the Curve
-                </h1>                
-                <p class="lg-medium" style="text-align: center; max-width: 1000px;">
-                    Discover how my passion for innovation shapes every step of my journey in creating cutting-edge digital solutions. Dive into my specialize domain, processes, and the team moments that keep me inspired and ahead of the game.                </p>
-                </div>
-                <!-- Tab links -->
-                <div class="hastag">
-                    <button class="hastag-items" onclick="openHastag(event,'domain')" id="defaultOpen">
-                        <p class="lg-regular">#domain</p>
-                    </button>
-                    <button class="hastag-items" onclick="openHastag(event,'process')">
-                        <p class="lg-regular">#process</p>
-                    </button>
-                    <button class="hastag-items" onclick="openHastag(event,'activities')">
-                        <p class="lg-regular">#activities</p>
-                    </button>
-                </div>
-            </div>
-            <div class="container" style="margin-top: -40px;" data-aos="fade-up">
-                <!-- Tab content -->
-                <div id="domain" class="information animate__animated animate__fadeIn">
-                <div>
-                    <p class="sub-heading" style="padding-bottom: var(--p-8);">Turning Vision into Reality</p>
-                <p class="lg-medium">I craft high-quality digital solutions that drive innovation and business success across various industries. 
-                    I specialize in building scalable and impactful products—from blockchain and banking platforms to enterprise solutions and sustainability initiatives.                
-                    By aligning technology with business goals, I ensure seamless user experiences and measurable outcomes.</p>
-
-                </div>
-                    <div class="domain">
-                <div class="domain-item">
-                <img src="./public/ic_web3.svg" alt="">
-                <p class="sub-heading">Web 3</p>
-                <p class="md-medium">
-                    Developing decentralized applications and blockchain solutions with a strong focus on security, scalability, and a seamless user experience.                
+    <!-- ==== Section 2 — Selected Product Initiatives (Figma 40000124:720) ==== -->
+    <section class="rd-initiatives-section">
+        <div class="rd-initiatives-inner rd-shell">
+            <!-- Desktop: this becomes the sticky left rail beside the card stack.
+                 Mobile: it stays a plain heading block above the carousel. -->
+            <div class="rd-section-head rd-initiatives-rail">
+                <!-- Heading, intro and index are direct children so DOM order IS
+                     the desktop reading order. The "View All" link that used to
+                     end the rail (and the .rd-head-row wrapper before it) is
+                     gone — removed 2026-08-12. -->
+                <h2 class="rd-section-heading">Selected Product Initiatives</h2>
+                <p class="rd-section-intro">
+                    Good product decisions happen at the intersection of customer needs, business priorities, and execution. I focus on finding the right problems, making the right trade-offs, and turning decisions into outcomes.
                 </p>
-                </div>
-                <div class="domain-item">
-                <img src="./public/ic_banking.svg" alt="">
-                <p class="sub-heading">Banking</p>
-                <p class="md-medium">
-                    Building innovative digital banking platforms and modern payment systems that enhance financial services through cutting-edge digital product.                
-                </p>
-                </div>
-                <div class="domain-item">
-                    <img src="./public/ic_lending.svg" alt="">
-                    <p class="sub-heading">Lending</p>
-                    <p class="md-medium">
-                        Creating advanced lending platforms that optimize loan origination, automate credit risk assessment, and enhance borrower experiences.
-                    </p>
-                    </div>
-                
-                    <div class="domain-item">
-                        <img src="./public/ic_erp.svg" alt="">
-                        <p class="sub-heading">Enterprise Resource Planning</p>
-                        <p class="md-medium">
-                            Delivering ERP solutions that streamline business operations, enhance efficiency, and drive data-driven decision-making through integrated processes.                
-                        </p>
-                        </div>
 
-                <div class="domain-item">
-                    <img src="./public/ic_automotive.svg" alt="">
-                    <p class="sub-heading">Automotive</p>
-                    <p class="md-medium">
-                        Developing intelligent mobility solutions for dealer management systems, optimizing automotive operations with smart technology and automation.                     
-                    </p>
-                    <!-- <div class="domain-knowledge" style="display: flex; flex-direction: column; gap: 8px;">
-                        <p class="md-bold">User esearch</p>
-                        <p class="md-bold">Data Centralization</p>
-                        <p class="md-bold">Domain Knowledge</p>
-                        <p class="md-bold">Domain Knowledge</p>
-                        <p class="md-bold">Domain Knowledge</p>
-    
-                    </div> -->
-                    </div>
-              
-
-                <div class="domain-item">
-                    <img src="./public/ic_esg.svg" alt="">
-                    <p class="sub-heading">ESG & Sustainability</p>
-                    <p class="md-medium">
-                        Developing platforms for sustainability tracking, reporting, and environmental impact assessments to help businesses achieve their ESG goals.                    
-                    </p>
-                    </div>
-                </div>
-   
-            
+                <!-- Desktop position indicator + jump control. Hidden below 769px,
+                     where .rd-deck-dots does the same job for the carousel. -->
+                <ul class="rd-deck-index" id="deck-index">
+                    <li><button type="button" data-index="0"><span class="n">01</span><span>Lending</span></button></li>
+                    <li><button type="button" data-index="1"><span class="n">02</span><span>Web3</span></button></li>
+                    <li><button type="button" data-index="2"><span class="n">03</span><span>Communication</span></button></li>
+                    <li><button type="button" data-index="3"><span class="n">04</span><span>Marketing</span></button></li>
+                </ul>
             </div>
-                <div id="process" class="information animate__animated animate__fadeIn">
-                    <div>
-                        <label for="phaseSelector" class="sub-heading">Driving Success Across Every:</label>
-                        <select id="phaseSelector" onchange="updateProcess()" class="sub-heading">
-                            <option value="phase">Phase</option>
-                            <option value="sprint">Sprint</option>
-                            <option value="Product">Product</option>
-                        </select>
-                        <p class="lg-medium" style="padding-top: var(--p-16);">My structured yet flexible project management process ensures no detail is overlooked. 
-                            From ideation to execution and beyond, I collaborate with stakeholders, adapt to challenges, and deliver high-quality results that align with both user needs and business goals.
-                        </p>
-                    </div>
-                  
 
-                    <div class="container" id="processContent">
-                        <!-- Default content displayed initially -->
-                    </div>
-                    </div>
-            <div id="activities" class="information animate__animated animate__fadeIn">
-                    <div>
-                        <p class="sub-heading" style="padding-bottom: var(--p-8)";>Project success starts here</p>
-                        <p class="lg-medium">Success isn’t just about the work—it’s about the people behind it. I dedicate time to mentoring, building team cohesion, and fostering an environment where everyone thrives. By investing in growth and teamwork, I ensure every member contributes to and celebrates shared achievements.</p>
-    
-                    </div>
-                    <div class="socialize">
-                        <div class="team-activities carousel">
-                            <div class="swiper-container">
-                                <div class="swiper-wrapper">
-                                    <!-- Add 15 slides -->
-                                    <div class="swiper-slide" effect="fade"><img src="./public/team_img_01.jpg" alt="team image"></div>
-                                    <div class="swiper-slide" effect="fade"><img src="./public/team_img_02.jpeg" alt="team image"></div>
-                                    <div class="swiper-slide" effect="fade"><img src="./public/team_img_03.jpeg" alt="team image"></div>
-                                    <div class="swiper-slide" effect="fade"><img src="./public/team_img_04.jpeg" alt="team image"></div>
-                                    <div class="swiper-slide" effect="fade"><img src="./public/team_img_05.jpg" alt="team image"></div>
-                                    <div class="swiper-slide" effect="fade"><img src="./public/team_img_06.JPG" alt="team image"></div>
-                                    <div class="swiper-slide" effect="fade"><img src="./public/team_img_07.JPG" alt="team image"></div>
-                                    <div class="swiper-slide" effect="fade"><img src="./public/team_img_08.jpeg" alt="team image"></div>
-                                    <div class="swiper-slide" effect="fade"><img src="./public/team_img_09.jpg" alt="team image"></div>
-                                    <div class="swiper-slide" effect="fade"><img src="./public/team_img_10.jpeg" alt="team image"></div>
-                                    <div class="swiper-slide" effect="fade"><img src="./public/team_img_11.jpg" alt="team image"></div>
-                                    <div class="swiper-slide" effect="fade"><img src="./public/team_img_12.jpg" alt="team image"></div>
+            <div class="rd-initiative-wrap">
+                <!-- Desktop >=769px: the deck is a vertical scroll-snap stack — one
+                     full-viewport card per scroll, fading in from the bottom; the dots
+                     are the control and position indicator. Below 768px the deck is a
+                     horizontal scroll-snap carousel the reader swipes; the dots are the
+                     control and run autoplay. js/initiatives.js keeps dots and scroll
+                     position in sync in both modes. -->
+                <div class="rd-initiative-deck" id="initiative-deck">
+                <!-- HD Saison — carries the "I run rigorous discovery and frame problems"
+                     claim (Case-Study-Framework.md, Part 0). Every figure is sourced in
+                     HD-Saison-Research-and-Rewrite.md. Evidence labelling per the
+                     framework: 6M+/16,000 is scope at launch (Dec 2021, HD Saison
+                     published figure — company scale, NOT a personal result); 2h approval
+                     is explicitly tagged "(target)" because it was never measured; 8 → 1
+                     signatures is client-reported from HD Saison process docs.
+                     The durability proof (shipped May 2022, still live at v1.1.30 four
+                     years on) moved into the closing paragraph, where it reads as an
+                     outcome rather than a bare date. -->
+                <div class="rd-initiative-panel is-active" id="panel-hd">
+                <article class="rd-initiative-card">
+                    <div class="rd-initiative-row">
+                        <div class="rd-initiative-body">
+                            <div class="rd-initiative-head">
+                                <h3 class="rd-initiative-title">HD Saison: getting consumer lending off the counter</h3>
+                                <p class="rd-initiative-desc">Vietnam's oldest consumer finance company originated every loan in-branch. It became a mobile app for applying, signing and servicing a loan without visiting one.</p>
+                            </div>
 
+                            <div class="rd-detail-block rd-detail-outcome">
+                                <p class="rd-detail-label">Outcome</p>
+                                <div class="rd-mini-stat-row">
+                                    <div><strong>6M+</strong><span>Customers in scope</span></div>
+                                    <div><strong>5h → 2h</strong><span>Approval time (target)</span></div>
+                                    <div><strong>8 → 1</strong><span>Signatures per loan</span></div>
                                 </div>
-                                <!-- Navigation buttons -->
-                                <div class="swiper-button-prev"></div>
-                                <div class="swiper-button-next"></div>
+                            </div>
+
+                            <div class="rd-initiative-detail" id="detail-hd">
+                                <div class="rd-detail-block">
+                                    <p class="rd-detail-label">Problem</p>
+                                    <p>HD Saison originated 100% of loans in-branch — the only lender in its five-company peer set with no digital path at all, while rivals ran 66–86% offline and the market grew 23.7% a year. Borrowing meant a 3–5 hour visit and eight separate signatures.</p>
+                                </div>
+
+                                <div class="rd-detail-para">
+                                    <p>I reframed a four-goal client brief around one problem — get origination off the counter — and sequenced OTP e-signature first, because nothing downstream works while a branch visit exists to collect eight wet signatures. What I killed was remarketing, ranked equally by the client: you cannot retarget a base you can only reach in a branch. The app shipped in May 2022 and is still live four years on, with e-signature in HD Saison's production flow today.</p>
+                                </div>
+                            </div>
+
+                            <div class="rd-initiative-actions">
+                                <a href="./case-studies/lending.html" class="rd-btn rd-btn-text">Learn More</a>
                             </div>
                         </div>
-                                                <!-- Strava Activity Info -->
-                                                <div id="club-section"></div>
 
-                      </div>                
+                        <div class="rd-initiative-media">
+                            <img src="./public/UC_lending.png" alt="HD Saison lending case study cover">
+                        </div>
                     </div>
+                </article>
+                </div>
 
-        
-                <div>
-                
+                <!-- Aura Network — carries the "I own a roadmap and decide what not to
+                     build" claim (Case-Study-Framework.md, Part 0). Copy and figures are
+                     sourced in Aura-Network-Research-and-Rewrite.md; both outcome numbers
+                     are cumulative network totals published by aura.network, so they are
+                     labelled "public" rather than presented as personal results. -->
+                <div class="rd-initiative-panel" id="panel-aura">
+                <article class="rd-initiative-card">
+                    <div class="rd-initiative-row">
+                        <div class="rd-initiative-body">
+                            <div class="rd-initiative-head">
+                                <h3 class="rd-initiative-title">Aura Network: from NFT chain to open L1</h3>
+                                <p class="rd-initiative-desc">A permissioned NFT chain with a closed developer pool became a permissionless, EVM-compatible Layer 1 open to any Ethereum-toolchain builder.</p>
+                            </div>
+
+                            <div class="rd-detail-block rd-detail-outcome">
+                                <p class="rd-detail-label">Outcome</p>
+                                <div class="rd-mini-stat-row">
+                                    <div><strong>14.5M+</strong><span>Smart contracts (public)</span></div>
+                                    <div><strong>141K+</strong><span>Active addresses (public)</span></div>
+                                </div>
+                            </div>
+
+                            <div class="rd-initiative-detail" id="detail-aura">
+                                <div class="rd-detail-block">
+                                    <p class="rd-detail-label">Problem</p>
+                                    <p>Aura ran as a permissioned CosmWasm chain built for NFTs. Onboarding a team meant teaching them an unfamiliar stack, behind an approval gate — so the addressable developer pool was a fraction of the EVM world's.</p>
+                                </div>
+
+                                <!-- Two metrics, per the framework's card rule. The stat pill
+                                     flexes, so two cells fill the same 124px bar as three. -->
+                                <div class="rd-detail-para">
+                                    <p>I chose a dual-environment upgrade over a full migration: EVM alongside CosmWasm, widening the developer funnel without breaking the dApps already live. The price was a known address seam I shipped visibly rather than hold the release for. What I killed to pay for it was the NFT-first consumer roadmap.</p>
+                                </div>
+                            </div>
+
+                            <div class="rd-initiative-actions">
+                                <a href="./case-studies/web-3.html" class="rd-btn rd-btn-text">Learn More</a>
+                            </div>
+                        </div>
+
+                        <div class="rd-initiative-media">
+                            <img src="./public/ar_casecover.webp" alt="Aura Network case study cover">
+                        </div>
+                    </div>
+                </article>
                 </div>
-        
+
+                <!-- Speaker bureau platform (client unnamed — NDA) — carries the "I prioritise across
+                     conflicting user segments" claim (Case-Study-Framework.md, Part 0).
+                     Replaced the "Improving communication workflow" placeholder on
+                     2026-08-03: that card had no outcome slot and its design-system-drift
+                     subject is in fact a workstream OF this project (color-drift-report.md),
+                     so it is folded into the case study rather than kept as a stub.
+
+                     Every figure below is counted directly from the source set in
+                     "case study 1/" and listed in CASE-STUDY-1-SOURCE-INVENTORY.md:
+                       17 roles + 3 personas   — 1.2.1 Personas
+                       496 user stories        — grep "I WANT" across the 19 role backlogs
+                       13 workflow areas       — swimlanes in image-20250531-113204.png
+                     These are SCOPE figures, not outcome figures — which is exactly why
+                     they sit in Problem framing and NOT in the stat bar. The framework
+                     bans effort metrics as headline numbers.
+
+                     OUTCOME STATS — both are sourced, neither is invented:
+                       3 → 1  The accounting spec documents the as-is: the reconciliation
+                              team cross-references expenses DAILY across three systems
+                              (the bureau platform, the corporate card, the ledger) on a
+                              77–102 column client report. "→ 1" is the design intent, so
+                              the cell is tagged (target) — it was never measured.
+                       17     Roles served by one system of record. Population affected,
+                              which the framework permits as a headline; "17 roles mapped"
+                              would be effort and is banned. Note the wording carefully.
+                     >>> HAO: replace 3 → 1 the moment you can source a real before/after
+                     on approval cycle time — that is the stronger claim. -->
+                <!-- NDA: the source docs name the pharma tenants (and the client's own
+                     accounting leads). None of that appears here and none of it should. -->
+                <div class="rd-initiative-panel" id="panel-comms">
+                <article class="rd-initiative-card">
+                    <div class="rd-initiative-row">
+                        <div class="rd-initiative-body">
+                            <div class="rd-initiative-head">
+                                <h3 class="rd-initiative-title">A speaker-bureau platform for 17 roles</h3>
+                                <p class="rd-initiative-desc">Pharma speaker programs ran on email, spreadsheets and a legacy portal. They became one multi-tenant platform where a rep, a compliance monitor and an accountant work the same program record.</p>
+                            </div>
+
+                            <div class="rd-detail-block rd-detail-outcome">
+                                <p class="rd-detail-label">Outcome</p>
+                                <div class="rd-mini-stat-row">
+                                    <div><strong>3 → 1</strong><span>Systems reconciled (target)</span></div>
+                                    <div><strong>17</strong><span>Roles on one system</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Detail stack — Figma 40000124:734. Order is Problem framing →
+                                 Outcome stats → closing paragraph. -->
+                            <div class="rd-initiative-detail" id="detail-comms">
+                                <div class="rd-detail-block">
+                                    <p class="rd-detail-label">Problem</p>
+                                    <p>Seventeen roles touch a single speaker program — rep, manager, speaker, coordinator, compliance, accounting, auditor — each with its own approval gate and its own definition of "done". Mapped end to end, that came to 496 user stories across 13 workflow areas, all of it competing for one MVP.</p>
+                                </div>
+
+                                <div class="rd-detail-para">
+                                    <p>I cut the backlog to the program-request spine — the one flow all 17 roles touch — and shipped the four roles that own it end to end. What I deferred was every role that only reads the record: attendee self-service, auditor tooling, the rookie onboarding track. The trade was reach for coherence: fewer roles served, but no half-built approval chain in production.</p>
+                                </div>
+                            </div>
+
+                            <!-- Sibling of .rd-initiative-detail, not a child: the detail block
+                                 flexes to fill so this pins to the bottom (Figma 40000132:3671,
+                                 y=622 of a 662px column). -->
+                            <div class="rd-initiative-actions">
+                                <!-- Held back 2026-08-13. ./case-studies/healthcare.html exists
+                                     and renders, but is not ready to be linked yet — same call as
+                                     the five work.html cards. A <button disabled> rather than a
+                                     styled <a>, because a disabled anchor is not a thing: an <a
+                                     href> stays keyboard-focusable and navigable no matter what
+                                     CSS says. To ship it, restore the line below:
+                                     <a href="./case-studies/healthcare.html" class="rd-btn rd-btn-text">Learn More</a> -->
+                                <button type="button" class="rd-btn rd-btn-text" disabled aria-disabled="true">Coming soon</button>
+                            </div>
+                        </div>
+
+                        <div class="rd-initiative-media">
+                            <img src="./public/hc_cover.webp" alt="Role-by-feature product map for the speaker-bureau platform">
+                        </div>
+                    </div>
+                </article>
+                </div>
+
+                <!-- iSystem — replaced the "Initiative 04" placeholder on 2026-08-03.
+                     Copy and every figure are sourced in iSystem-Research-and-Rewrite.md.
+
+                     CLAIM: "I sequence a dependency chain and refuse the parallel build."
+                     Deliberately NOT the "conflicting user segments" claim assigned in
+                     Case-Study-Framework.md Part 0 — the speaker-bureau card above already
+                     carries that one, and Part 0 forbids two case studies proving the same
+                     thing. That one is arbitration (17 roles competing for one MVP);
+                     iSystem is ordering
+                     (each phase makes the next possible). >>> HAO: if you disagree, the
+                     two cards are the ones to re-balance.
+
+                     Evidence labelling per the framework:
+                       50 → 54,000  — 50 salons is CLIENT-REPORTED; 54,000 US nail salons
+                                      is the 2022 industry figure. Tagged in the <span>.
+                       95% / 4 of 8 — arithmetic on the client-reported 7,730 / 350 / 50
+                                      segment counts. Tagged client-reported.
+                     No launch metric appears anywhere on this card, because there is none:
+                     the company folded before GA. The closing paragraph says so outright
+                     rather than letting the reader assume it shipped. -->
+                <div class="rd-initiative-panel" id="panel-isystem">
+                <article class="rd-initiative-card">
+                    <div class="rd-initiative-row">
+                        <div class="rd-initiative-body">
+                            <div class="rd-initiative-head">
+                                <h3 class="rd-initiative-title">iSystem: eight salon apps cut to one spine</h3>
+                                <p class="rd-initiative-desc">A startup was building eight apps at once for three user types. It became one transaction spine — book, check in, pay — with everything else sequenced behind it.</p>
+                            </div>
+
+                            <div class="rd-detail-block rd-detail-outcome">
+                                <p class="rd-detail-label">Outcome</p>
+                                <div class="rd-mini-stat-row">
+                                    <div><strong>8 → 1</strong><span>Parallel apps unified</span></div>
+                                    <div><strong>50 vs 54,000</strong><span>Salons vs market (reported)</span></div>
+                                </div>
+                            </div>
+
+                            <div class="rd-initiative-detail" id="detail-isystem">
+                                <div class="rd-detail-block">
+                                    <p class="rd-detail-label">Problem</p>
+                                    <p>iSystem wanted 20% of a 54,000-salon US market and had 50 salons on the platform — a 220x gap. Against that, one team was scoped to build eight apps in parallel, and the plan gave four of them to the 400 staff and owners while 7,730 customers waited on the other four.</p>
+                                </div>
+
+                                <div class="rd-detail-para">
+                                    <p>I sequenced the build around the only order the eight apps actually support: check-in is meaningless without a booking, the POS has nothing to total without a check-in, and every owner report is a query over transactions that do not exist until those three ship. What I killed was the remarketing suite — the client's own stated priority — because a retention tool has nothing to retain against on day one. The spine was specced and prototyped; iSystem folded before it reached general availability, so no launch number here is mine to claim.</p>
+                                </div>
+                            </div>
+
+                            <div class="rd-initiative-actions">
+                                <a href="./case-studies/marketing-platform.html" class="rd-btn rd-btn-text">Learn More</a>
+                            </div>
+                        </div>
+
+                        <div class="rd-initiative-media">
+                            <img src="./public/marketing.png" alt="iSystem salon platform case study cover">
+                        </div>
+                    </div>
+                </article>
                 </div>
                 </div>
+
+                <!-- Position indicator + control. On desktop (>=769px) it's a
+                     sticky bar at the bottom of the viewport while the deck is in
+                     view; on mobile (<=768px) it sits under the swipe carousel. -->
+                <div class="rd-deck-dots" id="deck-dots">
+                    <button type="button" class="rd-deck-dot" data-index="0" aria-label="Show Lending Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
+                    <button type="button" class="rd-deck-dot" data-index="1" aria-label="Show Web3 Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
+                    <button type="button" class="rd-deck-dot" data-index="2" aria-label="Show Communication Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
+                    <button type="button" class="rd-deck-dot" data-index="3" aria-label="Show Marketing Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
+                </div>
+            </div>
         </div>
-        
-        </div>
-
-     </div>
-
     </section>
+    <!-- ======== Section 3 — How I Create Impact (Figma 40000031:5907) ======== -->
+    <section class="rd-impact-section" data-aos="fade-up">
+        <div class="rd-impact-inner rd-shell">
+            <div class="rd-section-head">
+                <h2 class="rd-section-heading rd-impact-quote">&ldquo; The best products are rarely the result of great ideas alone. They come from understanding customers, making thoughtful decisions, and helping teams move in the same direction. That belief shapes how I approach product decisions—from understanding the problem to measuring the impact. &rdquo;</h2>
+            </div>
+
+            <div class="rd-impact-grid">
+                <div class="rd-impact-card">
+                    <img class="rd-impact-icon" src="./public/Strategic%20Product%20Thinking.svg" alt="" width="40" height="40">
+                    <h3>Understand the Customer</h3>
+                    <p>Transforming customer insights into product opportunities with clear business value.</p>
+                </div>
+                <div class="rd-impact-card">
+                    <img class="rd-impact-icon" src="./public/Customer-Centered%20Discovery.svg" alt="" width="40" height="40">
+                    <h3>Make Better Decisions</h3>
+                    <p>Prioritizing opportunities by balancing customer value, business goals, and technical feasibility.</p>
+                </div>
+                <div class="rd-impact-card">
+                    <img class="rd-impact-icon" src="./public/Cross-functional%20Leadership.svg" alt="" width="40" height="40">
+                    <h3>Align the Team</h3>
+                    <p>Leading cross-functional collaboration to move ideas from discovery to delivery.</p>
+                </div>
+                <div class="rd-impact-card">
+                    <img class="rd-impact-icon" src="./public/Outcome-driven%20%20Execution.svg" alt="" width="40" height="40">
+                    <h3>Own the Outcome</h3>
+                    <p>Measuring whether what we build creates meaningful product and business value.</p>
+                </div>
+            </div>
+
+            <div class="rd-glance">
+                <p class="rd-glance-label">At a Glance</p>
+                <div class="rd-stat-bar">
+                    <div class="rd-stat-bar-row">
+                        <div><strong>7+ Years</strong><span>Building digital products</span></div>
+                        <div><strong>10+</strong><span>Enterprise initiatives</span></div>
+                        <div><strong>5</strong><span>Industries</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </main>
 
+<!-- ======= Section 4 — closing CTA + footer bar (Figma 40000028:3230) ======= -->
+<div class="rd-closing">
+<footer id="footer-placeholder"></footer>
+</div>
 
-<footer class="container-fluid" id="footer-placeholder" data-aos="fade-up"></footer>
 </body>
 <script src="./js/script.js"></script>
 <script src="./js/ai-chat.js"></script>
 <script src="./js/socialize.js"></script>
+<script src="./js/initiatives.js"></script>
 
 </html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+<head>
+    <meta charset="UTF-8">
+    <!-- No maximum-scale / user-scalable=no: blocking pinch-zoom fails WCAG 1.4.4. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.png">
+    <title>iSystem — eight apps for fifty salons | Case Study — Stephano Ng</title>
+
+    <!-- Same two stylesheets as index.html, in the same order: style.css first,
+         redesign.css after so the .rd-* rules win the cascade. The legacy
+         style-2021 / port-2021 / case-2021 stack that v1 of this page loaded is
+         deliberately NOT loaded — this page is built in the 2026 redesign
+         language so it matches the card the reader clicked. -->
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7VM3QDKCYW');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PF5XGDGK');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta property="og:title" content="iSystem — eight apps for fifty salons | Stephano Ng">
+    <meta property="og:description" content="A client with fifty salons and eight apps in flight. How the ecosystem was cut to one transaction spine: book, check in, pay.">
+    <meta property="og:image" content="../public/is/cover_isystem.png">
+    <meta property="og:type" content="article">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+</head>
+<body class="rd-case">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!--
+  ============================================================================
+  iSystem — case study, v2 (2026-08-06)
+  ----------------------------------------------------------------------------
+  REBUILD of case-studies/marketing-platform.html in the 2026 redesign language
+  (.rd-case / --rd-* tokens), matching healthcare.html. v1 left untouched.
+  Content from iSystem-Research-and-Rewrite.md (Part C). Structure follows
+  Case-Study-Framework.md sections 1–8.
+
+  Assigned claim: "I prioritise across conflicting user segments."
+
+  SUBSTANTIVE CORRECTIONS vs v1:
+    1. NAV RESTORED — v1 had no #nav-placeholder, so a reader had no way back.
+    2. ALL 7 DEAD INVISION CTAs REMOVED. InVision killed its prototyping
+       product on 31 Dec 2024; those buttons have been blank for ~19 months.
+    3. STATUS ADDED — the company folded. v1 read as a tour of eight live apps.
+    4. Every user figure tagged CLIENT-REPORTED (7,730 / 350 / 50).
+    5. 11 visible misspellings fixed: Marketting, Desinger, Onwner (x3),
+       Managemnt, Consitent, Chose (x2), reivew, refferal, iamge.
+    6. The eight-icon grid, rendered twice verbatim in v1, appears once.
+    7. Sections 2, 4, 6, 7, 8 written — v1 had none of them. Section 5, ~80%
+       of v1, is cut to the spine plus the two decisions carrying it.
+
+  EDITORIAL PASS (2026-08-06, approved by Hao):
+    - Prose cut ~35% to land inside the framework's 800–1,200 band.
+    - Design work reinstated: the first draft of this rebuild carried 2 images
+      against v1's 67. The screens are the evidence in a design portfolio, so
+      they're back via .rd-case-gallery.
+    - Card copy capped at ~40 words; overflow moved to body text.
+    - "The 15-second version" → "In short" (framework jargon on a public page).
+    - H1 "Eight apps, three user types, fifty salons" → "Eight apps for fifty
+      salons". §4 "which app is not first" → "what ships last".
+    - Jargon, em-dash density, and the repeated "220x" / "honest" all reduced.
+
+  >>> HAO — search for "rd-todo" for the gaps only you can close (Part E).
+  ============================================================================
+-->
+
+<header class="rd-case-hero">
+    <div id="nav-placeholder"></div>
+
+    <div class="rd-case-hero-inner rd-shell">
+        <p class="rd-case-eyebrow">Case study · SMB vertical SaaS</p>
+        <h1 class="rd-case-title">Eight apps for fifty salons</h1>
+        <p class="rd-case-lead">
+            iSystem set out to build an operating system for US nail salons: booking, check-in,
+            payments, loyalty and owner analytics on one shared account. It wanted 20% of a
+            54,000-salon market and had fifty salons signed up. Eight apps were in flight at once,
+            for one design team.
+        </p>
+
+        <!-- §1 Header block. Role first, always. Status is not optional. -->
+        <div class="rd-case-meta">
+            <div>
+                <span class="rd-case-meta-k">Role</span>
+                <span class="rd-case-meta-v">Product designer, driving product decisions</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Domain</span>
+                <span class="rd-case-meta-v">SMB vertical SaaS · US nail-salon industry</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Timeline</span>
+                <span class="rd-case-meta-v">[ADD — start date] · handed off Dec 2021</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Team</span>
+                <span class="rd-case-meta-v">[ADD — size and composition]</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Platform</span>
+                <span class="rd-case-meta-v">Web · iOS · Android · in-salon tablet</span>
+            </div>
+            <div>
+                <span class="rd-case-meta-k">Status</span>
+                <span class="rd-case-meta-v">Specced, prototyped, handed off. The company later folded; the full ecosystem never reached general availability.</span>
+            </div>
+        </div>
+
+        <p class="rd-todo">
+            Header gaps: the real start date ("Created Dec 2021" was a single date, and Dec 2021 is
+            almost certainly handoff), and team composition — how many engineers, anyone else on
+            design, a PM on the client side?
+        </p>
+    </div>
+</header>
+
+<main>
+    <!-- ================= §2 — In short ================= -->
+    <!-- Framework §2. Most readers stop here, so it has to stand alone. -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">In short</h2>
+
+            <div class="rd-case-summary">
+                <div>
+                    <span class="rd-case-meta-k">The problem</span>
+                    <p>iSystem wanted 20% of a 54,000-salon market and had fifty salons on the platform <span class="rd-tag">client-reported</span>, while asking one design team to build eight apps at once for three user types with opposed needs.</p>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">What I decided</span>
+                    <p>I sequenced the eight apps around a single transaction spine, book to check-in to pay, and pushed the owner-facing remarketing suite behind it. Remarketing was the client's stated priority.</p>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">What changed</span>
+                    <p>The team stopped building eight products in parallel and started building one. The sequence was accepted and specced. The company folded before the later phases shipped, so no launch metric is mine to claim.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §3 — Discovery ================= -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Discovery</h2>
+            <div class="rd-case-body">
+                <p>
+                    A nail salon looks like one business and behaves like three. A customer books,
+                    arrives, pays and leaves. A technician works a queue and a tip split. An owner
+                    wants to know who earns, which promotion converts, and who has not returned in
+                    sixty days. iSystem's answer was eight applications, all scheduled to be built
+                    by one design team at once.
+                </p>
+            </div>
+
+            <figure class="rd-case-figure">
+                <img src="../public/is/cover_isystem.png" alt="The iSystem ecosystem: iBooking, iCheckin, iPOS, iReview, Membership, Remarketing System, iStaff and Owner Management" loading="lazy">
+                <figcaption>The full ecosystem as briefed. Eight apps across three user types, and the client wanted them concurrent.</figcaption>
+            </figure>
+
+            <div class="rd-case-grid">
+                <div class="rd-case-card">
+                    <h3>User insight</h3>
+                    <p>
+                        Three user types whose interests actively conflict. The customer wants to
+                        book in under a minute. The technician wants an accurate queue and a correct
+                        tip split. The owner wants data, and every feature serving that appetite adds
+                        a step for whoever is holding the tablet.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Data insight</h3>
+                    <p>
+                        7,730 customers, 350 staff, 50 owners <span class="rd-tag">client-reported</span>:
+                        a 155 : 7 : 1 ratio. But four of the eight apps were for the owners and their
+                        staff. <strong>95% of users were scheduled to get half the product.</strong>
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Business insight</h3>
+                    <p>
+                        Roughly half of the 54,000 US nail salons are Vietnamese-owned, over 80% in
+                        California <span class="rd-tag">public</span>. That is why a Vietnam-based
+                        team was selling US salon software: buyer and builder shared a language and
+                        a community.
+                    </p>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    Check-in is where the user conflict is sharpest. The owner wants identity and
+                    marketing consent. The walk-in wants a number and a chair. Whichever way that
+                    screen resolves, someone loses, and the whole ecosystem argument runs through it.
+                </p>
+                <p>
+                    The market was real. The 20% ambition was not. Fifty salons against 54,000 is
+                    0.09% penetration, roughly 220 times short of the stated goal, and both numbers
+                    were already on the client's own deck one slide apart. At that gap, the binding
+                    constraint is not feature coverage. It is whether the first fifty salons can run
+                    a whole working day on the system without falling back to paper.
+                </p>
+                <p>
+                    The brief itself named three criteria: <strong>consistent</strong> (apps and
+                    brands easily distinguishable), <strong>friendly</strong> (easy to move between
+                    apps), and <strong>attractive</strong> (increase demand). Those are aesthetic
+                    tests for what turned out to be an operational problem, and the next section is
+                    the record of overriding them.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §4 — The decision ================= -->
+    <!-- The section that makes this a PM case study rather than a design one. -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">The decision: what ships last</h2>
+            <div class="rd-case-body">
+                <p>
+                    Eight apps across three user types is not a backlog you can rank. Sliced by user
+                    type, you ship a consumer app that books appointments no salon can receive.
+                    Sliced by who signs the cheque, you ship an owner dashboard with nothing to
+                    report. The only question worth answering was which sequence leaves a working
+                    salon at the end of every phase.
+                </p>
+            </div>
+
+            <div class="rd-case-grid is-two">
+                <div class="rd-case-card">
+                    <h3>Options on the table</h3>
+                    <p>
+                        <strong>A — Owner-first.</strong> CRM, analytics and remarketing. What the
+                        client asked for, and it ships an empty dashboard.<br><br>
+                        <strong>B — Customer-first.</strong> The four consumer apps. Buys adoption;
+                        bookings arrive with nowhere to land.<br><br>
+                        <strong>C — Transaction spine.</strong> Booking to check-in to payment as one
+                        flow, then loyalty, then owner tooling on the data it produces.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>Criteria I judged on</h3>
+                    <p>
+                        Does a salon get through a whole working day on it? Does it generate the data
+                        the later apps depend on? Can we validate it with the fifty salons we already
+                        had, rather than the fifty thousand we did not?
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>What I chose</h3>
+                    <p>
+                        Option C, the only sequence where each phase makes the next possible.
+                        Check-in has no meaning without a booking, the POS has nothing to total
+                        without a check-in, and every owner report is a query over transactions that
+                        don't exist until the first three ship.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>What I killed</h3>
+                    <p>
+                        The remarketing suite, the lucky-spin referral mechanic and gift cards, all
+                        pushed behind the spine despite remarketing being the client's stated
+                        priority. A retention tool is worthless with no transaction history to retain
+                        against.
+                    </p>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    I treated the eight apps as one product with three front doors rather than eight
+                    products sharing a logo. Spending the first build cycle on acquisition mechanics
+                    for fifty salons was optimising the wrong end of the funnel.
+                </p>
+                <p class="rd-todo">Confirm this narrative before it ships. The options, criteria and kill list are reconstructed from the artifacts: the spine is the only sequence the eight apps support, and remarketing is visibly the client's priority. You need to confirm you made this call, in these terms. An interviewer will probe this section hardest.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §5 — Solution design ================= -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Solution design</h2>
+            <div class="rd-case-body">
+                <p>
+                    The spine is one flow crossing three surfaces. The customer books in four steps
+                    and verifies by OTP. That booking lands on the staff waiting list at check-in,
+                    where reception assigns a technician. The check-in record totals into iPOS at
+                    payment. One record, three views: the customer sees a confirmation, the
+                    technician sees a queue position, the owner sees a line of revenue.
+                </p>
+            </div>
+
+            <div class="rd-case-gallery is-screens">
+                <figure>
+                    <img src="../public/is/customer_1.png" alt="iBooking — choose staff, select date and time, select services, confirm with OTP" loading="lazy">
+                    <figcaption>1 · iBooking. Four steps and an OTP.</figcaption>
+                </figure>
+                <figure>
+                    <img src="../public/is/customer_2.png" alt="iCheckin — appointment or walk-in selection, booking lookup, review and confirm" loading="lazy">
+                    <figcaption>2 · iCheckin. The booking becomes a queue position.</figcaption>
+                </figure>
+                <figure>
+                    <img src="../public/is/ipos1.png" alt="iPOS — cost calculation linked to the iCheckin record" loading="lazy">
+                    <figcaption>3 · iPOS. Nothing to total until check-in exists.</figcaption>
+                </figure>
+            </div>
+
+            <div class="rd-case-grid is-two">
+                <div class="rd-case-card">
+                    <h3>OTP at booking</h3>
+                    <p>
+                        An extra step on the flow with the highest drop-off risk, kept on purpose.
+                        Without a verified number, no-shows are uncontactable and the loyalty layer
+                        has no identity to attach to. I traded conversion for a customer record the
+                        later apps could build on.
+                    </p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>One design system, eight apps</h3>
+                    <p>
+                        Each app alone would have been better with a bespoke pattern set. Shared
+                        components meant a technician moving between iCheckin and iPOS mid-shift
+                        never relearned anything, and one designer could hold eight surfaces.
+                    </p>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    That second point is also the truthful version of the client's "consistent"
+                    brief: not brand consistency, muscle-memory consistency.
+                </p>
+                <p>
+                    The five apps behind the spine were specced and prototyped, then sequenced after
+                    it. They are the part of this project a portfolio wants to lead with, and the
+                    part a case study should not.
+                </p>
+            </div>
+
+            <div class="rd-case-gallery is-four is-screens">
+                <figure>
+                    <img src="../public/is/customer_4.png" alt="Membership — salon information, gift cards, lucky spin and e-wallet top-up" loading="lazy">
+                    <figcaption>Membership. Gift cards, e-wallet, loyalty.</figcaption>
+                </figure>
+                <figure>
+                    <img src="../public/is/customer_3.png" alt="iReview — scan a QR code, select staff, choose services, review and receive a gift card" loading="lazy">
+                    <figcaption>iReview. QR at the chair, feedback on the way out.</figcaption>
+                </figure>
+                <figure>
+                    <img src="../public/is/staff.png" alt="iStaff — appointments, income and activity history for technicians" loading="lazy">
+                    <figcaption>iStaff. Appointments, income, history.</figcaption>
+                </figure>
+                <figure>
+                    <img src="../public/is/owner.png" alt="Owner management CRM — business metrics, customer information and campaign creation" loading="lazy">
+                    <figcaption>Owner CRM. Empty until the spine runs.</figcaption>
+                </figure>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    <strong>On the prototypes.</strong> Every flow here was built as an interactive
+                    InVision prototype. InVision shut its prototyping product down on 31 December
+                    2024 and deleted the hosted files, so the seven "Play Prototype" links this page
+                    used to carry have returned blank ever since. They are removed rather than left
+                    to fail silently.
+                </p>
+                <p class="rd-todo">Name the validation method. Expert inspection, or moderated testing with real salon staff? The framework treats naming the method as what separates you from people who shipped on instinct. "Not validated, and here is why" is an acceptable answer.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §6 — Delivery ================= -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Delivery</h2>
+            <div class="rd-case-body">
+                <p class="rd-todo">Unfilled. What changed between spec and handoff — scope cuts, technical constraints, anything the client rejected? Two or three sentences is enough, and this is where technical partnership becomes visible. If nothing was built beyond the prototypes, say so plainly and this section gets cut rather than padded.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §7 — Learning and follow-up ================= -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Learning and follow-up</h2>
+            <div class="rd-case-body">
+                <p>
+                    <strong>Not shipped as a full ecosystem. The company folded.</strong> The spine
+                    was specced, prototyped and handed off in Dec 2021; the later phases were never
+                    built. I set one target in discovery, a salon completing a full day without
+                    paper, and never got to measure it. No number on this page is a launch outcome,
+                    and I won't imply otherwise.
+                </p>
+                <p>
+                    What I would have tracked, in order: the share of daily transactions originating
+                    in the app rather than on paper; walk-in check-in completion rate; and the ratio
+                    of repeat to first-time customers at sixty days. That last one is the only metric
+                    that would have justified the remarketing suite I deferred.
+                </p>
+                <p class="rd-todo">If you know when and why iSystem folded, one clause here makes the whole page more credible. "I don't know what happened after handoff" also works — say it rather than leave the reader wondering.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= §8 — What I'd do differently ================= -->
+    <section class="rd-case-section">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">What I'd do differently</h2>
+            <div class="rd-case-body">
+                <p>
+                    The eight-app scope was handed to me and I never challenged the number. I spent
+                    my leverage sequencing <em>within</em> it, when with fifty salons and that gap to
+                    the stated goal, the right recommendation was three apps and a waiting list. I
+                    sequenced well inside a scope I should have refused.
+                </p>
+                <p>
+                    I also took "consistent, friendly, attractive" at face value for too long. Those
+                    are aesthetic criteria, and they framed the first weeks as a visual-consistency
+                    problem across eight apps when the real question was whether a salon could get
+                    through a Saturday. I reached the spine argument through design work rather than
+                    through the client's own retention numbers, which I never asked for.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <a href="/work.html" class="rd-btn rd-btn-text rd-case-back">← Back to all case studies</a>
+        </div>
+    </section>
+</main>
+
+<!-- Closing CTA + footer — identical to index.html, about.html and
+     healthcare.html so every page stays in lockstep. -->
+<div class="rd-closing">
+<footer id="footer-placeholder"></footer>
+</div>
+
+<!-- js/script.js detects the /case-studies/ path and rewrites the nav + footer
+     fetch to ../templates/, so these load correctly from this subfolder. -->
+<script src="../js/script.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/socialize.js"></script>
+</body>
+</html>

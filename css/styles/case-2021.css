@@ -9,11 +9,14 @@
 
 
 /* Text style */
+/* max-width removed. This was a THIRD page column, competing with Bootstrap's
+   `.container` and now with `.rd-grid`: it capped the page at 1280 and centred
+   it, so the `.rd-grid` inside started at 80px and added its own 64px gutter on
+   top — the lending / marketing-platform <h1> landed at 144px against a 64px
+   nav, and at 384px on a 1920 screen. Page width is `.rd-grid`'s job
+   (css/styles/grid.css); this element is now just a flow wrapper. */
 #wrapper {
   width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  
 }
 .research {
   border: solid 1px #d6d6d6;

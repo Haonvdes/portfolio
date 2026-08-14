@@ -1,24 +1,61 @@
-<div class="contact" style="margin-top: 40px;" data-aos="fade-up">
-    <h1 style="color: var(--text-utilities-decorate-primary); width: max-content;">
-        Let’s Build Something <br> Meaningful Together
-    </h1>
-        <button class="btn-primary"><a href="https://www.linkedin.com/in/stpnguyen/" target="_blank" style="text-decoration: none;">
-            Reach out</a></button>
+<!--
+  Shared closing CTA + footer bar — Figma node 40000028:3234 / 40000028:3235.
+  Injected into #footer-placeholder by js/script.js.
+
+  The CTA moved in here on 2026-08-07: it used to be duplicated per page with
+  slightly different copy on each, so every page now closes on the same message.
+  Do NOT put data-aos on it — AOS initialises before this template is fetched,
+  so an animated element would stay at opacity 0.
+  Image paths use ../public/ so they resolve from both / and /case-studies/.
+-->
+<div class="rd-cta-outer">
+  <div class="rd-cta-inner rd-shell">
+    <div class="rd-cta-block">
+      <h2 class="rd-cta-heading">Looking for your next product partner?</h2>
+      <div class="rd-cta-sub">
+        <p>I&rsquo;m open to Product Manager and Product Lead opportunities where I can bring together product thinking, design, and cross-functional leadership.</p>
+        <div class="rd-cta-actions">
+          <a href="https://www.linkedin.com/in/stpnguyen/" target="_blank" rel="noopener" class="rd-btn rd-btn-primary">
+            Let&rsquo;s connect <span aria-hidden="true">&rarr;</span>
+          </a>
+          <!-- Homepage only. The footer is shared, so this is hidden by default
+               and revealed by `.rd-home` in redesign.css — no per-page markup and
+               no JS. On About it would just link to the page you are on. -->
+          <a href="/about.html" class="rd-btn rd-btn-text rd-cta-home-only">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div style="padding-top: var(--p-16);padding-bottom: var(--p-16); border-top: 1px solid #C8DDEB;" >
-    <div class="container" style="display: flex; flex-direction: row; justify-content: space-between; align-items: flex-end;">
-       <div>
-        <a href="../index.html">
-            <img src="../public/logo.svg" alt="Company Logo">
-        </a>                        
-        <p class="md-regular">Designed and developed by Stephano</p>
-        
-       </div>
-        <div style="display: flex; gap: var(--m-16);">
-          <a href="mailto:stpnguyen.info@gmail.com"><img src="../public/ic_mail.svg" alt="logo"></a>
-          <a href="https://www.linkedin.com/in/stpnguyen/" target="_blank"><img src="../public/ic_linkedin.svg" alt="logo"></a>
-        </div>
-
+<div class="rd-footer-outer">
+  <div class="rd-footer-bar rd-shell">
+    <div class="rd-footer-brand">
+      <a href="/index.html" aria-label="Stephano Ng — home">
+        <img src="../public/logo.svg" alt="Stephano.ng" width="121" height="21" class="rd-wordmark-img">
+      </a>
+      <!-- Mirrors the nav tagline (templates/nav.html) — same copy, same format. -->
+      <p class="rd-footer-credentials">
+        <span class="rd-status">#opentowork</span> Product Manager,&nbsp; ex-UX Lead
+      </p>
     </div>
+
+    <div class="rd-footer-meta">
+      <p class="rd-footer-location">Ho Chi Minh, Vietnam</p>
+      <div class="rd-footer-social">
+        <!-- public/icons/* are the current Figma exports (24/25/25 wide, #131313),
+             matching nodes 40000028:3243 / :3246 / :3248. The older root-level
+             public/ic_mail.svg etc. are 25/26/26 and are left for legacy pages. -->
+        <a href="mailto:stpnguyen.info@gmail.com" aria-label="Email">
+          <img src="../public/icons/ic_mail.svg" alt="" width="24" height="24">
+        </a>
+        <a href="https://x.com/" target="_blank" rel="noopener" aria-label="X">
+          <img src="../public/icons/ic_x.svg" alt="" width="25" height="24">
+        </a>
+        <a href="https://www.linkedin.com/in/stpnguyen/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <img src="../public/icons/ic_linkedin.svg" alt="" width="25" height="24">
+        </a>
+      </div>
+    </div>
+  </div>
 </div>

@@ -33,7 +33,7 @@
     .btn-secondary{
         padding: var(--p-8) var(--p-16) var(--p-8) var(--p-16);
         border-radius: 999px;
-        background: var(--button-bg-ghost-default);
+        background: var(--bg-surface-transparent);
         border: 1px solid var(--border-primary-default, #01679C);
         color: var(--button-text-secondary);
         font-size: 14px;

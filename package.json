@@ -18,7 +18,8 @@
     "swiper": "^11.2.1"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "push": "bash scripts/push.sh"
   },
   "devDependencies": {
     "prettier": "^3.5.3"

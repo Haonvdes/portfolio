@@ -56,7 +56,13 @@
 <header class="rd-hero-section" style="min-height: 0;">
     <div id="nav-placeholder"></div>
 
-    <div class="first-section rd-shell" style="height: 20vh; min-height: 460px; padding: 24px;">
+    <!-- NO .rd-grid here: .rd-hero-section already carries the 40px page gutter
+         (16px at <=768), so a .rd-grid would inset twice (grid.md rule 1). This is
+         the same outer/inner chain as the nav — the hero owns the gutter, this
+         element owns the 24px inner padding, which grid.css now steps to 0 at
+         <=768. It used to be a flat inline `padding: 24px`, which left the <h1>
+         at 40px on mobile while the nav sat at 16px. -->
+    <div class="first-section rd-shell" style="height: 20vh; min-height: 460px; padding-block: 24px;">
     <div class="experience">
        <h1 class="display animate__animated animate__fadeIn" style="margin-top: var(--m-0);">From Concept to Execution<br>Building the Future of Digital Experiences</h1>
         <p class="lg-regular animate__animated animate__fadeIn" style="padding-top: 24px; max-width: 820px; line-height: 28px;">
@@ -67,8 +73,11 @@
 </header>
 <body>
     <section class="container-fluid">
-    <div class="second-section" style="top: 0; border-radius: 0; padding-inline: 40px;" >
-        <div class="rd-shell" style="padding-inline: 24px;">
+    <!-- The full-bleed fill stays OUT of the grid (grid.md rule 2); .rd-grid owns
+         the inset. Was `padding-inline: 40px` + a 24px shell = a flat 64px at every
+         width, so the cards sat at 64px on a 320px screen. -->
+    <div class="second-section" style="top: 0; border-radius: 0;" >
+        <div class="rd-grid">
             <div class="introduce">
                <div>
                 <p class=" sub-heading animate__animated animate__fadeIn" style="padding-bottom: var(--p-16);" data-aos="fade-up">

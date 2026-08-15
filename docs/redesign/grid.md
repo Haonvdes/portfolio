@@ -128,6 +128,50 @@ Each was an *additive* inset or a competing column, never a wrong value:
 
 ---
 
+## Two ways to land on the edge
+
+`.rd-grid` assumes **no ancestor contributes an inset**. Where a wrapper already
+owns the 40px gutter, use the *outer/inner chain* instead — the child supplies
+only the 24px inner padding, and it **must step to 0 at ≤768**, because the
+wrapper itself drops 40 → 16 there.
+
+`.rd-hero-section` (`redesign.css`) is such a wrapper. Everything inside it is
+chain, never `.rd-grid` — a `.rd-grid` in there insets twice (104px at 1440).
+
+The inner-padding list lives in `grid.css` and currently reads `.rd-nav`,
+`.rd-footer-brand`, `.rd-footer-meta`, `.rd-hero-section > .first-section`.
+**It appears twice** — the base rule and the `@media (max-width: 768px)` block.
+Edit both.
+
+---
+
+## The work.html regression (2026-08-14)
+
+Commit `fd3603e` promoted the v3 retheme over `work.html`. That variant predates
+the grid work: **zero `.rd-grid`**, with the inset hand-rolled as flat inline
+styles —
+
+```html
+<div class="first-section rd-shell" style="padding: 24px;">        <!-- flat -->
+<div class="second-section" style="padding-inline: 40px;">
+  <div class="rd-shell" style="padding-inline: 24px;">             <!-- flat -->
+```
+
+Both are **correct at ≥769 and wrong only at ≤768**, where they never step: the
+`<h1>` sat at 40px and the section heading at 64px against a 16px nav. A desktop
+check passes; only the sweep catches it.
+
+Fixed by giving `.second-section`'s inner div a plain `.rd-grid` (the background
+stays on `.second-section`, outside the grid — rule 2), and leaving the hero on
+`.rd-shell` with `padding-block: 24px`, its inline horizontal padding moved into
+the `grid.css` inner-padding list above.
+
+**A flat inline inset is the failure mode to grep for**, and a promoted variant
+silently reverts grid work — re-run the sweep after any `-v*` file is renamed
+over a live page.
+
+---
+
 ## Verifying
 
 **Use a width sweep, not a screenshot.** A 16px drift is invisible in a

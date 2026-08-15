@@ -149,9 +149,16 @@
 .rd-footer-outer {
   padding-inline: var(--grid-gutter);
 }
+/* `.first-section` is work.html's hero body. Like `.rd-nav` it sits inside a
+   wrapper that already owns the 40/16px gutter (`.rd-hero-section`), so it
+   supplies the inner 24px only — it must NOT be a `.rd-grid`, which is an
+   absolute inset and would double up. It carried a flat inline `padding: 24px`
+   before, which never stepped down, so the <h1> sat at 40px on a 390px screen
+   against a 16px nav. */
 .rd-nav,
 .rd-footer-brand,
-.rd-footer-meta {
+.rd-footer-meta,
+.rd-hero-section > .first-section {
   padding-inline: var(--grid-inner);
 }
 
@@ -162,7 +169,8 @@
   }
   .rd-nav,
   .rd-footer-brand,
-  .rd-footer-meta {
+  .rd-footer-meta,
+  .rd-hero-section > .first-section {
     padding-inline: 0;
   }
 }

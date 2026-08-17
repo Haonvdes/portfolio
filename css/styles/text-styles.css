@@ -2,12 +2,12 @@
 h1 {
 	font-family: Manrope;
 	font-size: 24px;
-	font-weight: 800;
+	font-weight: var(--fw-heading);
 	margin: var(--m-0);
 }
 h2 {
 	font-family: Manrope;
-	font-size: 22px;
+	font-size: var(--fs-2xl);
 	font-weight: 700;
 	margin: var(--m-0);
 }
@@ -22,7 +22,7 @@ h3 {
 	font-family: Manrope;
 	font-size: 16px;
 	text-transform: uppercase;
-	font-weight: 800;
+	font-weight: var(--fw-heading);
 	color: var(--text-neutral-sub-heading);
 }
 
@@ -35,7 +35,7 @@ h3 {
 .lg-regular {
 	font-family: Manrope;
 	font-size: 16px;
-	font-weight: 400;
+	font-weight: var(--fw-body);
 	line-height: 24px;
 	color: var(--text-neutral-sub-heading);
 }
@@ -43,14 +43,14 @@ h3 {
 .lg-bold {
 	font-family: Manrope;
 	font-size: 16px;
-	font-weight: 700 !important;
+	font-weight: var(--fw-emphasis) !important;
 	color: var(--text-neutral-body);
 }
 
 .md-bold {
 	font-family: Manrope;
 	font-size: 14px;
-	font-weight: 800;
+	font-weight: var(--fw-heading);
 	color: var(--text-neutral-sub-heading);
 
 }
@@ -64,7 +64,7 @@ h3 {
 .md-regular {
 	font-family: Manrope;
 	font-size: 14px;
-	font-weight: 400;
+	font-weight: var(--fw-body);
 	color: var(--text-neutral-sub-heading);
 
 }
@@ -86,7 +86,7 @@ h3 {
 .sm-regular {
 	font-family: Manrope;
 	font-size: 12px;
-	font-weight: 400;
+	font-weight: var(--fw-body);
 	color: var(--text-neutral-sub-heading);
 
 }
@@ -104,7 +104,7 @@ h3 {
 	.md-bold {
 		font-family: Manrope;
 		font-size: 14px;
-		font-weight: 800;
+		font-weight: var(--fw-heading);
 	}
 	.md-medium {
 		font-family: Manrope;

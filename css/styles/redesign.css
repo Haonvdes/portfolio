@@ -2469,7 +2469,7 @@ html:has(body.rd-about) {
 }
 
 @media (max-width: 1180px) {
-  .rd-hero-headline { font-size: 40px; }
+  .rd-hero-headline { font-size: var(--rd-fs-3xl); }
   .rd-impact-grid { flex-wrap: wrap; gap: 40px; }
   .rd-impact-card { flex: 1 0 40%; }
 }
@@ -2822,7 +2822,7 @@ html:has(body.rd-about) {
     border-bottom: 1px solid var(--rd-white);
   }
   .rd-mini-stat-row > div:last-child { border-bottom: 0; }
-  .rd-mini-stat-row strong { flex: 0 0 auto; width: auto; font-size: 19px; }
+  .rd-mini-stat-row strong { flex: 0 0 auto; width: auto; font-size: var(--rd-fs-xl); }
   .rd-mini-stat-row span { flex: 1 1 auto; width: auto; font-size: var(--rd-fs-sm); }
 
   .rd-cta-inner { padding: 0; }
@@ -2934,7 +2934,7 @@ html:has(body.rd-about) {
 .rd-case-meta .rd-case-meta-v {
   margin: 0;
   font-weight: var(--rd-fw-body);
-  font-size: 15px;
+  font-size: var(--rd-fs-sm);
   line-height: var(--rd-lh-tight);
   color: var(--rd-ink);
 }
@@ -2983,7 +2983,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
 }
 .rd-case-summary > div:last-child { border-bottom: 0; }
 .rd-case-summary .rd-case-meta-k { flex: 0 0 160px; padding-top: 2px; }
-.rd-case-summary p { flex: 1 1 auto; margin: 0; font-size: 17px; line-height: 1.5; color: var(--rd-ink); }
+.rd-case-summary p { flex: 1 1 auto; margin: 0; font-size: var(--rd-fs-md); line-height: 1.5; color: var(--rd-ink); }
 
 /* Three-up card grid — discovery lenses, decision blocks */
 .rd-case-grid {
@@ -3061,18 +3061,484 @@ ol.rd-case-list > li { list-style-type: decimal; }
   border-radius: 12px;
   background: rgba(1, 103, 156, 0.05);
   font-weight: var(--rd-fw-heading);
-  font-size: 15px;
+  font-size: var(--rd-fs-sm);
   line-height: 1.5;
   color: var(--rd-primary);
 }
 
 .rd-case-back { display: inline-flex; }
 
+/* ==========================================================================
+   CASE STUDY COMPONENTS — added 2026-08-15
+   Four components approved in Case-Study-Build-Plan.md, plus the figure
+   variants added after the word/image audit found healthcare.html carrying
+   1,481 words against a single image.
+
+   Everything here is additive and namespaced `.rd-`. Nothing in this block is
+   loaded by the three legacy case studies (lending / web-3 / marketing-
+   platform) unless their markup opts in, so it cannot regress them.
+   ========================================================================== */
+
+/* ------------------------------------------------- 1. Evidence chips ----
+   Framework Part 4 requires every number to carry one of four labels. The
+   labels used to sit in parentheses mid-sentence, where they read as an
+   apology and were easy to skim past. As chips they become the page's visual
+   signature: a reader can tell at a glance what is measured and what is
+   still intent, which is the honest signal and the rare one.
+
+   Weight is deliberate and ordered — solid ink for a measured fact down to a
+   dashed outline for a target. The visual hierarchy IS the credibility
+   hierarchy, so do not restyle these to look equally confident. */
+.rd-evidence {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  margin-left: 8px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-xs);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.rd-evidence::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: 0 0 auto;
+}
+/* Strongest: someone measured it. */
+.rd-evidence.is-measured {
+  background: var(--rd-ink);
+  border-color: var(--rd-ink);
+  color: var(--rd-ink-inverse);
+}
+/* A real number, but the client's, not yours. */
+.rd-evidence.is-client {
+  background: var(--rd-white);
+  border-color: var(--rd-primary);
+  color: var(--rd-primary);
+}
+/* Counted off an artifact you can produce on request. */
+.rd-evidence.is-counted {
+  background: var(--rd-surface);
+  border-color: var(--rd-border-muted);
+  color: var(--rd-ink);
+}
+/* Your arithmetic on someone else's numbers. */
+.rd-evidence.is-estimated {
+  background: var(--rd-white);
+  border-color: var(--rd-border-muted);
+  color: var(--rd-ink);
+}
+/* Weakest, and it must look weakest: intent, never verified. */
+.rd-evidence.is-target {
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--rd-border-muted);
+  color: var(--rd-ink);
+  opacity: 0.85;
+}
+
+/* ------------------------------------------------- 2. Decision block ----
+   §4 is the section that makes this a PM case study rather than a design
+   one, and it used to render identically to the seven around it. Four
+   labelled rows so the shape of the decision is legible before a word is
+   read: what was on the table, how it was judged, what won, what died. */
+.rd-decision {
+  width: 100%;
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  background: var(--rd-white);
+  overflow: hidden;
+}
+.rd-decision-row {
+  display: grid;
+  grid-template-columns: 148px 1fr;
+  gap: 24px;
+  padding: 20px 24px;
+  border-top: 1px solid var(--rd-border-soft);
+}
+.rd-decision-row:first-child { border-top: 0; }
+.rd-decision-k {
+  margin: 0;
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+  opacity: 0.6;
+}
+.rd-decision-v { margin: 0; font-size: var(--rd-fs-md); line-height: var(--rd-lh-prose); }
+.rd-decision-v > p { margin: 0 0 10px; }
+.rd-decision-v > p:last-child { margin-bottom: 0; }
+
+.rd-option-set { display: flex; flex-direction: column; gap: 12px; }
+.rd-option {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+.rd-option-id {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--rd-border-muted);
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-xs);
+  line-height: 1;
+}
+.rd-option p { margin: 0; }
+.rd-option.is-chosen .rd-option-id {
+  background: var(--rd-primary);
+  border-color: var(--rd-primary);
+  color: var(--rd-ink-inverse);
+}
+/* The framework says what you killed matters more than what you built, so it
+   has to be *visible* as killed, not merely described as killed. The strike
+   is on the text only; the reasoning stays fully legible underneath. */
+.rd-option.is-killed .rd-option-id {
+  border-style: dashed;
+  opacity: 0.5;
+}
+.rd-option.is-killed .rd-option-label { text-decoration: line-through; }
+.rd-option.is-killed p { opacity: 0.72; }
+.rd-option-label { font-weight: var(--rd-fw-emphasis); }
+
+/* -------------------------------------------------- 3. Sticky section TOC -
+   NOTE — this is a horizontal rail, not the left-hand column first sketched
+   in the plan. A left rail needs ~1,870px of viewport before it clears the
+   1,520px page (1,440 shell + 2×40 gutter), which is wider than the laptops
+   this is read on; it would have been dead code on every real screen. A
+   horizontal bar pinned under the hero does the same job — jump straight to
+   §4 Decision or §7 Learning, the two a PM reviewer looks for — at every
+   width above the phone breakpoint.
+
+   The nav is NOT sticky on this site, so top: 0 is free. */
+.rd-case-toc {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.94);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--rd-border-soft);
+}
+.rd-case-toc-inner {
+  display: flex;
+  gap: 2px;
+  padding-inline: var(--grid-gutter);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.rd-case-toc-inner::-webkit-scrollbar { display: none; }
+.rd-case-toc a {
+  flex: 0 0 auto;
+  padding: 14px 12px;
+  border-bottom: 2px solid transparent;
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-xs);
+  letter-spacing: 0.02em;
+  color: var(--rd-ink);
+  opacity: 0.55;
+  text-decoration: none;
+  transition: opacity 0.15s ease, border-color 0.15s ease;
+}
+.rd-case-toc a:hover { opacity: 1; }
+.rd-case-toc a.is-current {
+  opacity: 1;
+  color: var(--rd-primary);
+  border-bottom-color: var(--rd-primary);
+}
+.rd-case-toc a .n {
+  margin-right: 6px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.6;
+}
+
+/* ---------------------------------------------- 4. Next-case navigation ---
+   Correction to the plan: the pages already HAVE a top nav, injected by
+   js/script.js into #nav-placeholder. The earlier audit grepped for a literal
+   `<nav` tag and missed it. So what was actually missing is only the forward
+   path — without it a reader finishes a case study at a dead end, and the
+   second case study is where a *different* claim gets proved. */
+.rd-case-pager {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: stretch;
+  justify-content: space-between;
+  width: 100%;
+}
+.rd-case-next {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 320px;
+  padding: 20px 24px;
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  background: var(--rd-white);
+  text-decoration: none;
+  color: var(--rd-ink);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.rd-case-next:hover { border-color: var(--rd-primary); transform: translateY(-2px); }
+.rd-case-next .rd-case-meta-k { opacity: 0.6; }
+.rd-case-next strong { font-weight: var(--rd-fw-emphasis); font-size: var(--rd-fs-lg); }
+.rd-case-next span.claim { font-size: var(--rd-fs-sm); opacity: 0.75; }
+
+/* ------------------------------------------------ 5. Figure variants ------
+   The audit that triggered these: lending.html carries 37 images against 852
+   words; healthcare.html carried 1 against 1,481. The structure here was
+   right and the visual rhythm was not, and a case study nobody scrolls
+   through proves nothing. Target is one figure per ~150 words.
+
+   Every figure needs a <figcaption> that says what the image PROVES, not
+   what it depicts. "Role × workflow map" is a label; "the program-request
+   band is the only one spanning every column, which is why it became the
+   spine" is evidence. */
+.rd-case-figure { margin: 0; width: 100%; }
+.rd-case-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 12px;
+  background: var(--rd-white);
+}
+/* Capped at the same 778px measure as body copy. A caption is prose, and
+   letting it run the full 1,312px content width while the paragraph above it
+   stops at 778 makes the page look like two layouts fighting — which is
+   exactly how the first render read. */
+.rd-case-figure figcaption {
+  max-width: var(--rd-measure);
+  margin-top: 12px;
+  font-size: var(--rd-fs-sm);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+  opacity: 0.75;
+}
+/* Breaks the 1,440 shell for cover art and the full product map. */
+.rd-case-figure.is-full img { border-radius: 0; border-inline: 0; }
+/* Two figures that argue against each other — before/after, sparse/dense.
+   `center`, not `start`: the pair is almost never the same aspect ratio (the
+   sparse crop is naturally short, the dense one tall), and top-aligning them
+   leaves the short one hanging with a ragged gap beneath. Centring reads as
+   deliberate. */
+.rd-case-figure.is-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: center;
+}
+.rd-case-figure.is-pair figcaption { grid-column: 1 / -1; margin-top: 0; }
+
+/* A wide artifact that should stay wide. Scrolls rather than shrinking to
+   illegibility — a 2,200px-wide role header squeezed into 800px is a grey
+   smear, and the whole point of showing it is that the labels are readable. */
+.rd-case-figure.is-strip { width: 100%; }
+/* Three nested elements, and each one is doing a job:
+     .rd-figure-frame  — position anchor for the fade. Wraps ONLY the scroller,
+                         so the fade can be inset 0 and never reaches the
+                         caption. Trying to anchor to the <figure> instead
+                         needs a hardcoded height, which breaks the moment an
+                         image changes size.
+     .rd-figure-scroll — the actual overflow container.
+     img               — intrinsic width, no shrinking. */
+.rd-case-figure.is-strip .rd-figure-frame { position: relative; }
+.rd-case-figure.is-strip .rd-figure-scroll {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 12px;
+  background: var(--rd-white);
+}
+/* Without this the strip reads as cropped rather than scrollable — a reader
+   has no way to tell the image continues. The fade is the affordance. It sits
+   outside the scroller so it stays put while the content moves under it. */
+.rd-case-figure.is-strip .rd-figure-frame::after {
+  content: "";
+  position: absolute;
+  inset: 1px 1px 1px auto;
+  width: 72px;
+  pointer-events: none;
+  border-radius: 0 12px 12px 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), var(--rd-white));
+}
+.rd-case-figure.is-strip img {
+  width: auto;
+  max-width: none;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+}
+.rd-case-figure.is-strip img.is-tall { min-width: 1100px; }
+.rd-case-figure.is-strip img.is-wide { min-width: 1600px; }
+
+/* ------------------------------- 6. Patterns ported from web-3 / lending ---
+   Hao's call: make the case-study pages look like web-3.html and lending.html.
+   Those two are the visual reference, but their markup depends on
+   case-studies.css and the 2021 token set (--p-24, --grey-G50,
+   --border-neutral-default). Copying their classes into healthcare.html would
+   drag that whole stack back in and undo the reason this page is clean.
+
+   So the patterns are reimplemented here against the rd- tokens instead. Same
+   shapes, no legacy dependency. Source of each is named so the two can be
+   compared later. */
+
+/* ← web-3 `.case-cover`. A full-width rounded cover under the hero. The single
+   biggest fix for a case study opening on a wall of text. */
+.rd-case-cover { width: 100%; margin-top: 8px; }
+.rd-case-cover img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+/* ← web-3 `.case-snapshot`. Replaces the bordered 6-column meta grid: one
+   tinted rounded bar reads as a single object instead of six loose pairs. */
+/* Grid, not flex. With `flex-wrap` the columns size to their content, so one
+   long value ("Specced, prototyped and handed off") pushed Status onto a row
+   of its own and the bar lost its shape. Equal columns keep the rhythm
+   whatever the copy does. */
+.rd-case-snapshot {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 24px;
+  width: 100%;
+  padding: 24px;
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 16px;
+  background: var(--rd-surface);
+}
+.rd-case-snapshot > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ← web-3 `.outcome` / `.outcome-info` / `.outcome-highlight`.
+   THE pattern this page needed. healthcare.html had 778px of prose against a
+   1,312px content width, leaving a dead column down the whole right side —
+   which is what read as "unfinished". A 2:1 split puts the narrative left and
+   a filled card right, so the width is used instead of merely available. */
+.rd-case-split {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  align-items: start;
+  width: 100%;
+}
+.rd-case-split > .rd-case-body { max-width: none; }
+
+.rd-case-highlight {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+  border-radius: 16px;
+  background: var(--rd-primary);
+  color: var(--rd-ink-inverse);
+  position: sticky;
+  top: 64px;               /* clears the sticky section rail */
+}
+.rd-case-highlight .rd-case-meta-k { color: var(--rd-ink-inverse); opacity: 0.75; }
+.rd-case-highlight-stat { display: flex; flex-direction: column; gap: 4px; }
+.rd-case-highlight-stat + .rd-case-highlight-stat {
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+}
+.rd-case-highlight-stat strong {
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-3xl);
+  line-height: 1.1;
+  color: var(--rd-ink-inverse);
+}
+.rd-case-highlight-stat span {
+  font-size: var(--rd-fs-sm);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink-inverse);
+  opacity: 0.88;
+}
+/* Chips sit on a blue fill here, so the light variants vanish. */
+.rd-case-highlight .rd-evidence {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: var(--rd-ink-inverse);
+  background: transparent;
+}
+
+/* ← web-3 `.sub-heading` used as a label. Small caps above a block, so a
+   reader can scan structure without reading prose. */
+.rd-case-label {
+  margin: 0;
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+  opacity: 0.6;
+}
+
+/* ← web-3 `.roadmap` / `.biz-statement`. One bordered container divided into
+   columns, rather than N separate cards — reads as a single comparison. */
+.rd-case-cols {
+  display: grid;
+  width: 100%;
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 16px;
+  background: var(--rd-white);
+  overflow: hidden;
+}
+.rd-case-cols.is-two { grid-template-columns: 1fr 1fr; }
+.rd-case-cols.is-three { grid-template-columns: repeat(3, 1fr); }
+.rd-case-cols > div {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  border-right: 1px solid var(--rd-border-soft);
+}
+.rd-case-cols > div:last-child { border-right: 0; }
+
+@media (max-width: 1024px) {
+  .rd-case-split { grid-template-columns: 1fr; gap: 24px; }
+  .rd-case-highlight { position: static; }
+}
+
+@media (max-width: 768px) {
+  .rd-decision-row { grid-template-columns: 1fr; gap: 8px; padding: 16px; }
+  .rd-case-figure.is-pair { grid-template-columns: 1fr; }
+  .rd-case-toc { display: none; }
+  .rd-case-toc-inner { padding-inline: 16px; }
+  .rd-case-cols.is-two,
+  .rd-case-cols.is-three { grid-template-columns: 1fr; }
+  .rd-case-cols > div { border-right: 0; border-bottom: 1px solid var(--rd-border-soft); }
+  .rd-case-cols > div:last-child { border-bottom: 0; }
+  .rd-case-cover img { max-height: 260px; border-radius: 12px; }
+  .rd-case-snapshot { gap: 16px; padding: 16px; }
+}
+
 @media (max-width: 1024px) {
   .rd-case-meta { grid-template-columns: repeat(3, 1fr); }
   .rd-case-grid,
   .rd-case-grid.is-two { grid-template-columns: 1fr 1fr; }
-  .rd-case-title { font-size: 36px; }
+  .rd-case-title { font-size: var(--rd-fs-3xl); }
 }
 
 /* 768, not 767: the nav/footer/hero mobile block above is `max-width: 768px`,
@@ -3085,7 +3551,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
      single source of the 16px inset, exactly as `.rd-case-inner` is for the
      body sections. Without this the hero would be inset twice (40 + 16). */
   .rd-case-hero { padding-bottom: 40px; padding-inline: 0; }
-  .rd-case-title { font-size: 28px; }
+  .rd-case-title { font-size: var(--rd-fs-2xl); }
   .rd-case-lead { font-size: var(--rd-fs-md); }
   .rd-case-meta { grid-template-columns: 1fr 1fr; gap: 16px; }
   .rd-case-section { padding: 48px 0; }
@@ -3107,12 +3573,12 @@ ol.rd-case-list > li { list-style-type: decimal; }
      the whole bar inside 390px. */
   .rd-nav-tagline { white-space: normal; }
 
-  .rd-hero-headline { font-size: 28px; }
+  .rd-hero-headline { font-size: var(--rd-fs-2xl); }
   .rd-hero-inner { gap: 32px; }
   .rd-hero-row { gap: 32px; }
 
-  .rd-section-heading { font-size: 22px; }
-  .rd-cta-heading { font-size: 22px; }
+  .rd-section-heading { font-size: var(--rd-fs-xl); }
+  .rd-cta-heading { font-size: var(--rd-fs-xl); }
 
   /* Long unbroken tokens — "3–5h → 2h", "50 vs 54,000", URLs in case-study copy
      — are the usual cause of a stray horizontal scrollbar at this width. */
@@ -3228,7 +3694,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
   padding: 14px 16px;
   text-align: left;
   border-bottom: 1px solid var(--rd-border-soft);
-  font-size: 15px;
+  font-size: var(--rd-fs-sm);
   line-height: 1.45;
   color: var(--rd-ink);
   white-space: nowrap;

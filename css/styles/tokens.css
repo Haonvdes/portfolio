@@ -139,9 +139,21 @@
      not reintroduce them from the docs copy. If docs and the rendered page
      disagree, the rendered page wins.
 
-     Sizes off this ladder (15/17/19/22/28/36/40px) survive only on the legacy
-     case-study pages and in responsive step-downs. They stay literal so they
-     are easy to spot and retire. */
+     RETIRED 2026-08-16. The ladder is now absolute across the whole `.rd-*`
+     system: redesign.css, initiatives-desktop.css and case-retheme-v3.css
+     contain ZERO literal font-size values off this scale. The thirteen
+     survivors (15/17/19/22/28/36/40px) — base rules on .rd-case-meta-v,
+     .rd-case-summary p, .rd-case-table and .rd-todo, plus responsive
+     step-downs on .rd-hero-headline, .rd-case-title, .rd-section-heading,
+     .rd-cta-heading and .rd-mini-stat-row — were all mapped to the nearest
+     token. Verify with a scan for `font-size:` values that are neither a
+     var() nor a member of this ladder; the expected count is zero.
+
+     STILL OUTSTANDING, deliberately: the frozen 2021 stylesheets that render
+     the v1 case studies (case-2021, port-2021, style-2021) hold 9 off-ladder
+     values, and text-styles.css has a bare `h2 { 22px }` plus weights 400/800
+     that predate the three-weight scale. Those pages are the preserved
+     original design — do not convert them without asking. */
   --font-ui: "DM Sans", "Manrope", system-ui, -apple-system, sans-serif;
   --font-wordmark: "Raleway", system-ui, sans-serif;
 

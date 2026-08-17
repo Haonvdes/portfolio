@@ -2,7 +2,7 @@
   case-retheme-v3.css — colour and typography only
   ===========================================================================
   Loaded LAST by case-studies/*-v3.html, on top of the untouched 2021 stack
-  (style.css → style-2021.css → port-2021.css → case-2021.css).
+  (style.css → case-legacy.css; the three 2021 files were merged 2026-08-16).
 
   THE ONE RULE FOR THIS FILE: colour and type only — colour, background,
   border colour, shadow colour, fill, font-family, font-size, font-weight and
@@ -224,14 +224,40 @@ li > a:not([class]) {
 }
 
 /* Display + H1 — the case-study title. Tight, because at 48px the default
-   leading opens a visible gap between two-line headlines. */
+   leading opens a visible gap between two-line headlines.
+
+   NARROWED 2026-08-16. This rule used to include a bare `h1`, so every h1 on
+   the page took --fs-4xl. That is the page-title step, and web-3.html uses
+   four h1s — the hero plus "Overview", "Let's Dive-in to see…" and "Our
+   Effort 🎉". Three section headings were rendering at 48px.
+
+   The value was never off the ladder, which is why a size-only audit missed
+   it; the fault was the ROLE. --fs-4xl means page title, one per page.
+   lending.html and marketing-platform.html each have exactly one h1 and it
+   carries id="Intro", so they are unaffected by the narrowing. */
 #Intro,
 #Intro_port,
-.display,
-h1 {
+.display {
   font-size: var(--fs-4xl);
   font-weight: var(--fw-heading);
   line-height: var(--lh-tight);
+}
+
+/* Section-level headings on the legacy markup. Same ladder as
+   .rd-section-heading in redesign.css: 32 → 24 → 20. */
+h1,
+.h1 {
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-heading);
+  line-height: var(--lh-heading);
+}
+@media (max-width: 768px) {
+  h1,
+  .h1 { font-size: var(--fs-2xl); }
+}
+@media (max-width: 430px) {
+  h1,
+  .h1 { font-size: var(--fs-xl); }
 }
 
 /* 48px was declared flat, with no responsive step — the v1 pages get 24px at
@@ -240,18 +266,21 @@ h1 {
    and because the hero wrapper is `display: flex; justify-content: center` the
    overflowing line was centred: the headline started at -0.9px while the nav
    wordmark sat at 16px. A heading cannot hold the page's left edge if it is
-   wider than the page. Ladder mirrors `.rd-case-title` in redesign.css. */
+   wider than the page. Ladder mirrors `.rd-case-title` in redesign.css.
+
+   Bare `h1` removed from both blocks 2026-08-16 — section headings now run
+   their own ladder above. Leaving it here made the <=768 rule (24px) win over
+   that ladder's <=430 step (20px) purely on source order, so the smaller step
+   was dead code. */
 @media (max-width: 1180px) {
   #Intro,
   #Intro_port,
-  .display,
-  h1 { font-size: 36px; }
+  .display { font-size: var(--rd-fs-3xl); }
 }
 @media (max-width: 768px) {
   #Intro,
   #Intro_port,
-  .display,
-  h1 { font-size: 28px; }
+  .display { font-size: var(--rd-fs-2xl); }
 }
 
 /* H2–H4 and section headings */

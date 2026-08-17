@@ -741,7 +741,7 @@ select {
   font-family: 'DM Sans';
   font-size: 16px;
   font-style: normal;
-  font-weight: 800;
+  font-weight: var(--fw-heading);
   line-height: normal;
   text-transform: uppercase;
   margin-bottom: 8px;
@@ -1112,7 +1112,7 @@ input:focus {
 
 .menu-links > a:hover {
   color: var(--text-utilities-decorate-primary);
-  font-weight: 800;
+  font-weight: var(--fw-heading);
   transition: all 0.3s ease-in-out;
   text-decoration: underline;
 }

@@ -105,17 +105,23 @@
                         </div>
             
                         <!-- First row - Small card -->
-                        <div class="card large-card" data-case-study="erp" data-status="coming-soon">
+                        <!-- Replaced the ERP card 2026-08-17 (Hao's call). ERP had no page,
+                             no decision and no outcome; this one shipped in three phases and
+                             ends up inside the super app. data-case-study is the routing slug:
+                             js/script.js lowercases it and loads case-studies/{slug}.html, so
+                             it must stay "customer-engagement" to match the filename. No
+                             data-status attribute — that is what makes the card clickable. -->
+                        <div class="card large-card" data-case-study="customer-engagement">
                             <div class="card-header">
-                                <h2 class="sub-heading">ERP <span class="rd-soon-badge">In progress</span></h2>
-                                <p class="lg-regular">Custom enterprise resource planning systems designed to integrate, automate, and optimize critical business operations.</p>
-                                <button class="btn-ghosh" type="button" disabled aria-disabled="true">
-                                        Coming soon
+                                <h2 class="sub-heading">Customer Engagement</h2>
+                                <p class="lg-regular">Internal tooling for planning and running executive customer visits — rebuilt around the one screen managers lived in, then folded into the company super app.</p>
+                                <button class="btn-ghosh">
+                                    Learn more <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve"><g><path d="m22.707 11.293-7-7a1 1 0 0 0-1.414 1.414L19.586 11H2a1 1 0 0 0 0 2h17.586l-5.293 5.293a1 1 0 1 0 1.414 1.414l7-7a1 1 0 0 0 0-1.414z"></path></g></svg>
                                     </button>
                             </div>
                             <div class="card-image-container">
                                 <div class="image-wrapper">
-                                    <img src="./public/mockuuups-iphone-16-mockup-on-elegant-marble-surface.jpeg" alt="usecase_image" class="card-image">
+                                    <img src="./public/ce_cover.webp" alt="usecase_image" class="card-image">
                                 </div>
                             </div>
                         </div>

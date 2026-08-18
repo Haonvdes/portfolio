@@ -1,3 +1,24 @@
+/* DM Sans — the redesign's UI face. It has to be requested HERE, in the file
+   that declares `--rd-font`, because that pairing is what kept breaking.
+
+   The bug this fixes (found 2026-08-18): `--font-ui` is
+   `"DM Sans", "Manrope", system-ui, …`, and DM Sans was only ever fetched by
+   two `<link>` tags in index.html / about.html and one `@import` in
+   case-retheme-v3.css. Every page on redesign.css that was NOT one of those —
+   lending-new, healthcare, customer-engagement and the four -v2/-v4/-v5
+   drafts, eight pages in total — silently fell through to Manrope, which
+   text-styles.css does load. Nothing errored; the type just quietly rendered
+   in the wrong face, and it only showed up when a case study was compared
+   side by side with web-3.html.
+
+   `@import` rather than asking eight `<head>`s to remember a `<link>`: a
+   stylesheet that declares a font stack should be the thing that guarantees
+   the font, and the index.html / about.html `<link>` tags still win the race
+   on those two pages. Cost is one extra round trip on the pages that have no
+   `<link>`, which is the trade for it never drifting again. Must stay at the
+   very top — @import is only valid before any other rule. */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap');
+
 /*
   Redesign styles — 2026 portfolio redesign
   Source of truth: Figma "Wrapup" → node 40000028:3126 ("homepage"), sections
@@ -1840,7 +1861,7 @@ html:has(body.rd-about) {
 .rd-split-head-note {
   flex: 1 0 0;
   min-width: 0;
-  align-self: center;
+  align-self: flex-start;
   text-align: right;
 }
 .rd-split-head-note-sm { font-size: var(--rd-fs-sm); }
@@ -2116,6 +2137,13 @@ html:has(body.rd-about) {
   box-sizing: border-box;
   padding: 16px;
 }
+/* On a failed fetch, socialize.js replaces #club-section's contents with a
+   bare <p class="md-medium"> instead of a .club-summary panel — so it misses
+   the 16px inset above and sits flush against the card edge (the card's own
+   padding is zeroed for Strava, on the assumption a panel always supplies it). */
+.rd-activity-card > #club-section > .md-medium {
+  padding: 16px;
+}
 /* Inline `margin-bottom: 40px` from socialize.js; only !important reaches it. */
 .rd-activity-card .club-summary > img {
   margin-bottom: 24px !important;
@@ -2338,11 +2366,10 @@ html:has(body.rd-about) {
   .rd-learn-foot-copy { text-align: left; align-items: flex-start; }
 
   .rd-journey-inner,
-  .rd-activities-grid { padding: 0; }
+  .rd-activities-grid,
+  .rd-split-head { padding: 0; }
   .rd-split-head,
-  .rd-pillar-grid,
-
-  .rd-split-head { flex-direction: column; gap: 16px; }
+  .rd-pillar-grid { flex-direction: column; gap: 16px; }
   .rd-split-head-note { text-align: left; }
   .rd-split-head .rd-section-heading br { display: none; }
 
@@ -2867,7 +2894,24 @@ html:has(body.rd-about) {
    .rd-mini-stat-row, .rd-cta-*, nav + footer.
    Scoped under .rd-case so nothing here can touch the homepage.
    ------------------------------------------------------------------------ */
-.rd-case { background: var(--rd-white); font-family: var(--rd-font); }
+.rd-case {
+  background: var(--rd-white);
+  font-family: var(--rd-font);
+  /* Long-form measure, case study only. The shared `--rd-measure` (778px, from
+     tokens.css) still governs home / about / work — this override is scoped to
+     `.rd-case` so those three are untouched. 778 was tuned for section intros
+     that run two or three lines; a case study runs pages of prose inside a
+     1312px content column, where it left a dead right-hand third.
+
+     Currently `none` — prose runs the full content column (Hao, 2026-08-18:
+     "tăng lên max luôn đi thử xem sao"). That is deliberately past the
+     comfortable reading range: ~164ch at 16px on a 1440 screen, where the eye
+     loses the start of the next line on the return sweep. It is a look-at-it
+     setting, not a final one; the number to land on is somewhere between this
+     and 1040. One value to change, and every prose element on every case study
+     follows. */
+  --rd-measure-case: none;
+}
 
 /* The 40px page gutter. Without it the section is full-bleed, so the shell
    inside is never pushed in and `.rd-case-hero-inner`'s 24px was the ONLY
@@ -2875,20 +2919,47 @@ html:has(body.rd-about) {
    40+24 from grid.css, sat at 64px. The two only agreed above 1520px, where
    the 1440 shell caps and centres either way, which is why the gap was easy to
    miss on a wide monitor. Value comes from grid.css so there is one source. */
+/* FIRST VIEW = THE WHOLE HERO (Hao's call, 2026-08-18).
+   Everything inside `.rd-case-hero-inner` — eyebrow, title, lead, cover,
+   snapshot — has to be on screen before the reader scrolls, and the nav lives
+   inside this header too, so `min-height: 100dvh` on the hero is the whole
+   budget. dvh, not vh: on mobile Safari 100vh is the *expanded* viewport, so a
+   vh-sized hero is always taller than what you can actually see with the
+   toolbar showing.
+
+   The vertical chrome (top padding, bottom padding, the four gaps) is
+   `clamp(floor, Nvh, design-value)`, so the maxima are the original Figma
+   numbers and tall screens look exactly as before; the floors are what make a
+   768px laptop fit. The cover then absorbs whatever is left — see the note on
+   `.rd-case-cover` in the "case-study components" block below. */
 .rd-case-hero {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 100dvh;
   background: var(--rd-surface);
-  padding-bottom: 64px;
+  padding-bottom: clamp(24px, 3.6vh, 64px);
   padding-inline: var(--grid-gutter);
 }
 .rd-case-hero-inner {
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  padding: 64px 24px 0;
+  /* Takes the height the hero was given, minus the nav, so the cover has real
+     free space to grow into. `min-height: 0` because a column flex item's
+     default `min-height: auto` refuses to shrink below its content — without
+     it the inner stays at its natural ~1200px and the hero just grows past
+     100dvh instead of compressing. */
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  gap: clamp(16px, 2.2vh, 40px);
+  padding: clamp(28px, 4vh, 64px) 24px 0;
 }
+/* Only the cover flexes. Every other child is content-sized — the trap from
+   the initiatives card was leaving siblings on the flex-distribution path, so
+   the free space got shared out and the thing that was supposed to absorb it
+   collapsed instead. */
+.rd-case-hero-inner > *:not(.rd-case-cover) { flex: 0 0 auto; }
 .rd-case-eyebrow {
   font-weight: var(--rd-fw-emphasis);
   font-size: var(--rd-fs-sm);
@@ -2896,15 +2967,28 @@ html:has(body.rd-about) {
   text-transform: uppercase;
   color: var(--rd-primary);
 }
+/* The 900px cap is gone (2026-08-18). It was the whole reason every case-study
+   title dropped its last word onto a line of its own: at 48px these titles
+   need ~1000–1130px for one line and the column is 1360px, so 900 forced a
+   wrap that the available width never asked for. Measured on all three written
+   pages — lending 1124px, healthcare 1129px, customer-engagement 1031px — all
+   of them orphaning one word against a 900px box.
+
+   `text-wrap: balance` is the insurance for the titles that genuinely do not
+   fit: it splits them into even lines instead of a long line plus a stub. It
+   only applies to short blocks (browsers cap it at ~6 lines), which a page
+   title always is. Where it is unsupported the text simply wraps normally, so
+   there is nothing to fall back to. */
 .rd-case-title {
-  max-width: 900px;
+  max-width: var(--rd-measure-case);
   font-weight: var(--rd-fw-heading);
   font-size: var(--rd-fs-4xl);
   line-height: 1.15;
+  text-wrap: balance;
   color: var(--rd-ink);
 }
 .rd-case-lead {
-  max-width: var(--rd-measure);
+  max-width: var(--rd-measure-case);
   font-weight: var(--rd-fw-body);
   font-size: var(--rd-fs-lg);
   line-height: 1.5;
@@ -2951,20 +3035,26 @@ html:has(body.rd-about) {
 }
 .rd-case-h2 {
 }
-.rd-case-body { max-width: 778px; display: flex; flex-direction: column; gap: 16px; }
+/* 1040px, not the shared 778px (Hao's call, 2026-08-18). Home / about / work
+   still use `--rd-measure`; only `.rd-case` overrides it. A case study is the
+   one place on the site that runs pages of continuous prose, and 778px inside
+   a 1312px content column left a dead third down the right-hand side. Line
+   length goes to roughly 130ch at 16px, so `--rd-lh-prose` (1.6) is doing more
+   work here than anywhere else on the site — do not tighten it on these. */
+.rd-case-body { max-width: var(--rd-measure-case); display: flex; flex-direction: column; gap: 16px; }
 /* Typography for these lives in the shared "Body copy" role near the top. */
 /* style.css forces `list-style-type: disc` on li, which would number an <ol>
    with bullets — so both list types are set explicitly here. */
 /* Block, not flex: flex items blockify and browsers disagree about whether a
    list marker survives that. A plain block list keeps the bullets/numbers. */
-.rd-case-list { max-width: 778px; margin: 0; padding-left: 22px; }
+.rd-case-list { max-width: var(--rd-measure-case); margin: 0; padding-left: 22px; }
 .rd-case-list > li + li { margin-top: 12px; }
 ul.rd-case-list > li { list-style-type: disc; }
 ol.rd-case-list > li { list-style-type: decimal; }
 .rd-case-list li::marker { color: var(--rd-ink); }
 .rd-case-list li strong { font-weight: var(--rd-fw-emphasis); }
 
-/* 15-second summary — framework §2. Three rows, stands alone. */
+/* Overview — framework §2. Three rows, stands alone. */
 .rd-case-summary {
   display: flex;
   flex-direction: column;
@@ -3300,6 +3390,285 @@ ol.rd-case-list > li { list-style-type: decimal; }
 .rd-case-next strong { font-weight: var(--rd-fw-emphasis); font-size: var(--rd-fs-lg); }
 .rd-case-next span.claim { font-size: var(--rd-fs-sm); opacity: 0.75; }
 
+/* ------------------------------------------ 4b. Related case studies ------
+   Supersedes `.rd-case-pager` (Hao's call, 2026-08-18). Two text-only boxes
+   at the end of a page full of pictures read as a footnote; the homepage
+   already solved "here is another case study" as a card with a cover on it,
+   and a reader who has just finished one case study deserves the same object
+   they clicked to get here.
+
+   The model is the ≤768 initiatives card specifically — thumbnail first,
+   title, three clamped lines, one text CTA — not the desktop one. The desktop
+   card is a horizontal row with a fixed `calc(100vh - …)` height pinned from
+   `initiatives-desktop.css`, which is meaningless at the bottom of a case
+   study. So this is a separate component that copies the mobile card's
+   *appearance* rather than reusing `.rd-initiative-*` and then fighting the
+   desktop rules off it.
+
+   Selection rule is editorial, hardcoded per page: one case study from the
+   same domain, one from a different one; where no sibling shares the domain
+   — which is every page today, since all four sit in different sectors —
+   both slots are simply the two that read best next.
+
+   Two cards, not three: the section sits between the last beat and the
+   closing CTA, and a third card starts competing with the CTA for the same
+   decision. */
+/* Three tracks, two cards (Hao's call, 2026-08-18: "làm nhỏ thôi, mỗi card
+   4 cols"). The page grid is 12 columns with a 24px gap, so one third of the
+   1312px content column IS four columns — 421px — and the empty third on the
+   right is what makes these read as a footnote to the case study rather than
+   a second pitch competing with the closing CTA. Expressed as `repeat(3, …)`
+   rather than a 12-track grid with `span 4`, so the cards stay the same width
+   whether there are two of them or one. */
+.rd-related {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+/* The whole card is the link. A nested <a class="rd-btn"> inside a linked
+   card is invalid markup and gives a screen reader two targets for one
+   destination, so the CTA is a <span> that only looks like a button. */
+.rd-related-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  /* Named for the same reason as `.rd-initiative-card`: the media bleeds out
+     by exactly this much, so a breakpoint changes one value, not two. */
+  --rd-card-pad: 24px;
+  padding: var(--rd-card-pad);
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--rd-ink);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.rd-related-card:hover { border-color: var(--rd-primary); transform: translateY(-2px); }
+.rd-related-card:focus-visible {
+  outline: 2px solid var(--rd-primary);
+  outline-offset: 3px;
+}
+/* `width: calc(100% + …)` is not optional — a bare negative margin on a
+   `width: 100%` box slides it left without widening it, which is the same
+   trap that shipped a 298px deck in a 330px card and a 296px thumbnail. */
+.rd-related-media {
+  position: relative;
+  width: calc(100% + var(--rd-card-pad) * 2);
+  margin: calc(-1 * var(--rd-card-pad)) calc(-1 * var(--rd-card-pad)) 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--rd-surface);
+}
+/* Absolute, so the image cannot set the row height. The four covers run 0.95:1
+   to 3.17:1; the wrapper's aspect-ratio decides the shape and the image fills
+   it. `center top` because every cover leads with its title area. */
+.rd-related-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+.rd-related-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.rd-related-eyebrow {
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+  opacity: 0.6;
+}
+/* --rd-fs-xl, not -2xl. At 421px the 24px title wrapped to three lines on the
+   longer of the two and left the cards visibly uneven; 20px holds both to
+   two. */
+.rd-related-title {
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-xl);
+  line-height: var(--rd-lh-heading);
+  color: var(--rd-ink);
+}
+/* Three lines, like the mobile initiatives card — it keeps two cards of
+   unequal copy close to the same height so the row does not go ragged. */
+.rd-related-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+/* `margin-top: auto` pins the CTA to the bottom, so the two CTAs line up even
+   when one title wraps to two lines and the other does not. */
+.rd-related-cta {
+  margin-top: auto;
+  font-size: var(--rd-fs-md);
+  color: var(--rd-primary);
+}
+.rd-related-card:hover .rd-related-cta { text-decoration: underline; }
+
+/* ------------------------------------- 4c. Overlap hero (.is-hero-overlap) -
+   The web-3.html opening, rebuilt in the redesign system (Hao's call,
+   2026-08-18). A VARIANT, not a replacement: it is switched on per page with
+   `<body class="rd-case is-hero-overlap">`, because healthcare.html and
+   customer-engagement.html still keep their cover and snapshot inside the hero
+   and would break the moment these rules applied unconditionally. Migrate
+   those two, then this can be folded into the base.
+
+   What the original does, measured at 1440x900: a 622px tinted band with a
+   visible bottom border, and `.biz-information { position: relative; top:
+   -140px }` lifting the following section so the cover starts 140px ABOVE the
+   border and cuts across it. Overview's heading lands at y=979 — off screen.
+   So the first view is exactly four things: nav, title, lead, and the top of
+   a picture that is visibly running out of its own section.
+
+   Three deliberate differences from the original:
+   1. The band is `min-height`, not `height`. web-3 sets `height: 40vh` on the
+      header and `60vh` on the child inside it, so the child overflows its
+      parent and the real 622px is an accident of two fighting values. One
+      value here, and long titles grow the band instead of spilling out of it.
+   2. The lift is `clamp(80px, 12vh, 160px)`, not a flat -140px. At 768px tall
+      a fixed 140 eats a quarter of the band.
+   3. Only the cover is lifted, not the whole section. Lifting the section
+      drags the heading and the snapshot up with it, which costs the space the
+      overlap was supposed to buy. */
+.is-hero-overlap {
+  --rd-hero-overlap: clamp(80px, 12vh, 160px);
+}
+/* 60dvh, not 100 — the hero is now a band the picture escapes from, not a
+   full screen. The border is what makes the overlap legible: without a line to
+   cross, an image that merely sits over a colour change reads as a background,
+   not as an object breaking out. */
+.is-hero-overlap .rd-case-hero {
+  /* Releases the base model's `min-height: 100dvh`. Not optional: with the
+     60dvh moved down to the inner, nothing else overrides it and the band
+     went straight back to a full screen (measured 1080 instead of 728 at
+     1920). The band's height is now nav + the inner's 60dvh. */
+  min-height: auto;
+  /* The base model's bottom padding sat under the cover; here it would sit
+     under nothing and simply add itself on top of the inner's 60dvh, which is
+     what left the band 26-38px taller than web-3's at every size. The run
+     below the lead is defined by the 60dvh, not by padding, and it is meant to
+     be empty — that is where the cover rises into. Band is now exactly
+     nav + 60dvh. */
+  padding-bottom: 0;
+  border-bottom: 1px solid var(--rd-border);
+  /* web-3's header gradient, transcribed from the COMPUTED value rather than
+     the source. style.css declares the second stop as `rgb(200 235 255 / 21%)`
+     — a pale blue — but case-retheme-v3.css overrides it, and what actually
+     renders on web-3.html is --rd-surface at 60%. Copying the source would
+     have given a blue band nobody has seen since the retheme.
+
+     The stops sit at 67% and 100.88%, so the top two thirds are flat and the
+     tint only arrives in the last third — which is exactly the part the cover
+     rises through. Over the page's white this resolves to about #f8f8f5 at the
+     bottom edge, so the band reads far lighter than the flat --rd-surface it
+     replaces. That is web-3's look: the border, not the fill, is what marks
+     the boundary. */
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.61) 67.02%,
+    rgba(243, 243, 239, 0.6) 100.88%
+  );
+}
+/* THE 60dvh IS ON THE INNER, NOT THE HERO (Hao's call, 2026-08-18). The nav is
+   a child of `.rd-case-hero`, so a `min-height` there is 60dvh *including* the
+   nav; web-3 puts its 60vh on `.first-section`, which sits below the nav. Same
+   number, two different origins, and the band came out 82px shorter here at
+   every size — 540 against web-3's 622 at 1440x900. All 82px came out of the
+   gap under the lead, which is exactly the space the cover rises into.
+   Measuring from the inner makes the band nav + 60dvh with no hard-coded nav
+   height to drift.
+
+   `min-height`, not `height`, so a three-line title on a phone grows the band
+   rather than clipping. `flex: 0 0 auto` because the cover has left this box —
+   nothing in here wants free space any more.
+
+   CENTRED, not top-aligned. web-3 does this with `align-content: center` on
+   `.experience`, and it is the difference between a hero that looks composed
+   and one that looks like it ran out of content: measured against web-3's
+   163px / 163px, an earlier `justify-content: flex-start` here gave 36px above
+   the eyebrow and 312px below the lead. All the slack pooled at the bottom, so
+   the type crowded the nav and then left a hole before the cover.
+
+   The padding stays and becomes a floor rather than an offset — once the box
+   is centred, `padding-block` is the minimum the text keeps from the nav and
+   from the band's bottom edge on a screen too short to give it 163px. */
+.is-hero-overlap .rd-case-hero-inner {
+  flex: 0 0 auto;
+  min-height: 60dvh;
+  justify-content: center;
+  padding-bottom: clamp(28px, 4vh, 64px);
+}
+/* Undoes the flex-absorber cover from the 100dvh model. Height is vh-driven
+   so the Overview heading stays below the fold at every screen size: the
+   heading sits at (band bottom - overlap + cover height + gap), and 54vh is
+   what keeps that sum past 100vh from 768px up. */
+.is-hero-overlap .rd-case-cover {
+  flex: 0 0 auto;
+  height: clamp(300px, 54vh, 600px);
+  min-height: 0;
+  /* Pulls the picture up through the band's bottom border. `position:
+     relative` + `top` would leave a gap of its own height behind it; a
+     negative margin takes the space back as well as moving the box. */
+  margin-top: calc(-1 * var(--rd-hero-overlap));
+  /* Above the band's background and border, below the TOC rail (z-index 40). */
+  position: relative;
+  z-index: 1;
+}
+/* The section's own top padding would push the cover back down by 72px and
+   undo most of the lift. The gap to the heading comes from `.rd-case-inner`'s
+   flex gap instead. */
+.is-hero-overlap #overview { padding-top: 0; }
+
+/* THE RAIL CANNOT BE STICKY IN THIS MODEL. `position: sticky` pins an element
+   at its own place in the flow — it is on screen from the moment the reader
+   is at the top of the page, which is the one thing this variant is trying to
+   avoid. Fixed and translated out of view instead, revealed by `.is-visible`
+   from js/case-toc.js once #overview has been scrolled past. Fixed also means
+   it is out of flow, so appearing costs no layout shift. */
+.is-hero-overlap .rd-case-toc {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  transform: translateY(-100%);
+  transition: transform 0.25s ease;
+  will-change: transform;
+}
+.is-hero-overlap .rd-case-toc.is-visible { transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .is-hero-overlap .rd-case-toc { transition: none; }
+}
+/* An overlaid rail hides whatever an anchor jump lands on, so every target
+   reserves its own height. 56px is the rail (14px padding x2 + ~20px line)
+   plus a little air. */
+.is-hero-overlap .rd-case-section { scroll-margin-top: 56px; }
+
+/* The ≤768 block below takes the cover's image back out of `position:
+   absolute` — correct for the 100dvh hero, where the image's own height IS
+   the box, and wrong here, where the box has an explicit `height` and the
+   image has to fill it. Measured without this: a 456px cover wrapper holding
+   a 260px image, with 196px of tinted nothing under it. Put back inside the
+   variant so the base model is untouched. */
+@media (max-width: 768px) {
+  .is-hero-overlap .rd-case-cover { position: relative; }
+  .is-hero-overlap .rd-case-cover img {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    max-height: none;
+  }
+}
+
 /* ------------------------------------------------ 5. Figure variants ------
    The audit that triggered these: lending.html carries 37 images against 852
    words; healthcare.html carried 1 against 1,481. The structure here was
@@ -3319,12 +3688,13 @@ ol.rd-case-list > li { list-style-type: decimal; }
   border-radius: 12px;
   background: var(--rd-white);
 }
-/* Capped at the same 778px measure as body copy. A caption is prose, and
-   letting it run the full 1,312px content width while the paragraph above it
-   stops at 778 makes the page look like two layouts fighting — which is
-   exactly how the first render read. */
+/* Capped at the same measure as body copy — `--rd-measure-case`, so it tracks
+   the paragraphs automatically. A caption is prose, and letting it run the
+   full 1,312px content width while the paragraph above it stops short makes
+   the page look like two layouts fighting — exactly how the first render
+   read. */
 .rd-case-figure figcaption {
-  max-width: var(--rd-measure);
+  max-width: var(--rd-measure-case);
   margin-top: 12px;
   font-size: var(--rd-fs-sm);
   line-height: var(--rd-lh-prose);
@@ -3401,14 +3771,36 @@ ol.rd-case-list > li { list-style-type: decimal; }
 
 /* ← web-3 `.case-cover`. A full-width rounded cover under the hero. The single
    biggest fix for a case study opening on a wall of text. */
-.rd-case-cover { width: 100%; margin-top: 8px; }
+/* The cover is the hero's shock absorber: it takes all the free space left
+   after the type and the snapshot bar, so a long two-line title on a 768px
+   laptop costs picture height rather than pushing the snapshot off screen.
+
+   `position: absolute` on the image is load-bearing, not decoration. An
+   in-flow `<img>` sets its row's height, so `height: 100%` inside a flex item
+   whose own height comes from flex distribution resolves to `auto` and the
+   image goes back to demanding its natural 594px — the exact failure that
+   blanked the initiatives cover. Out of flow, the box's height is decided
+   purely by the flex line and the image just fills it.
+
+   `min-height` is the floor that keeps it from collapsing to zero when the
+   copy is long enough to eat the whole budget; below that the hero overflows
+   100dvh, which is the right way to fail. Radius moves to the wrapper because
+   the image no longer defines the box. */
+.rd-case-cover {
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 160px;
+  overflow: hidden;
+  border-radius: 16px;
+}
 .rd-case-cover img {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
-  height: auto;
-  max-height: 520px;
+  height: 100%;
   object-fit: cover;
-  border-radius: 16px;
 }
 
 /* ← web-3 `.case-snapshot`. Replaces the bordered 6-column meta grid: one
@@ -3519,6 +3911,10 @@ ol.rd-case-list > li { list-style-type: decimal; }
 @media (max-width: 1024px) {
   .rd-case-split { grid-template-columns: 1fr; gap: 24px; }
   .rd-case-highlight { position: static; }
+  /* The empty third is a luxury of a wide screen. Below 1024 the content
+     column is ~896px, so a third of it is 283px — narrower than the mobile
+     card gets on a phone. Two tracks, and the cards go back to ~436px. */
+  .rd-related { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 768px) {
@@ -3530,7 +3926,21 @@ ol.rd-case-list > li { list-style-type: decimal; }
   .rd-case-cols.is-three { grid-template-columns: 1fr; }
   .rd-case-cols > div { border-right: 0; border-bottom: 1px solid var(--rd-border-soft); }
   .rd-case-cols > div:last-child { border-bottom: 0; }
-  .rd-case-cover img { max-height: 260px; border-radius: 12px; }
+  /* The fit-to-one-viewport hero is a desktop behaviour only. On a 390×844
+     phone the same six blocks need ~1100px however hard they are squeezed, so
+     forcing them into 100dvh would mean a 0px cover and clipped type. The
+     cover goes back in flow with a fixed cap and the hero grows naturally. */
+  .rd-case-cover {
+    position: static;
+    flex: 0 0 auto;
+    min-height: 0;
+    border-radius: 12px;
+  }
+  .rd-case-cover img {
+    position: static;
+    height: auto;
+    max-height: 260px;
+  }
   .rd-case-snapshot { gap: 16px; padding: 16px; }
 }
 
@@ -3550,7 +3960,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
   /* Section gutter goes to 0 at mobile; `.rd-case-hero-inner` above is the
      single source of the 16px inset, exactly as `.rd-case-inner` is for the
      body sections. Without this the hero would be inset twice (40 + 16). */
-  .rd-case-hero { padding-bottom: 40px; padding-inline: 0; }
+  .rd-case-hero { min-height: 0; padding-bottom: 40px; padding-inline: 0; }
   .rd-case-title { font-size: var(--rd-fs-2xl); }
   .rd-case-lead { font-size: var(--rd-fs-md); }
   .rd-case-meta { grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -3561,6 +3971,11 @@ ol.rd-case-list > li { list-style-type: decimal; }
   .rd-case-grid.is-two { grid-template-columns: 1fr; }
   .rd-case-summary > div { flex-direction: column; gap: 8px; }
   .rd-case-summary .rd-case-meta-k { flex: 0 0 auto; }
+  /* 16:9 cards side by side on a phone leave ~170px each — the thumbnail stops
+     being readable well before the copy does. Stack, and match the mobile
+     initiatives card's 16px padding. */
+  .rd-related { grid-template-columns: 1fr; gap: 16px; }
+  .rd-related-card { --rd-card-pad: 16px; }
 }
 
 /* ------------------------------------------------------- Phones (<=430px) -

@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.png">
+    <title>HD Saison Lending | Case Study — Stephano Ng</title>
+
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+    <link rel="stylesheet" href="../css/styles/back-to-top.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7VM3QDKCYW');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PF5XGDGK');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta property="og:title" content="HD Saison Lending | Stephano Ng">
+    <meta property="og:description" content="Vietnam's oldest consumer finance company originated every loan at a counter. Reframing a four-goal client brief down to one problem.">
+    <meta property="og:image" content="../public/hd/cover.png">
+    <meta property="og:type" content="article">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <!-- PREVIEW-ONLY LOCAL STYLES. Both belong in redesign.css once approved;
+         held here so this preview modifies no shared stylesheet.
+         1. .rd-evidence.is-published — the framework has five evidence tags,
+            redesign.css styles four. "published" has no rule at all.
+         2. .rd-benchmark — healthcare.html never needed a table component.
+            This case study's argument IS a five-row comparison. -->
+    <style>
+      .rd-evidence.is-published {
+        background: var(--rd-white);
+        border-color: var(--rd-line, #d4d4d4);
+        color: var(--rd-ink-muted, #6b6b6b);
+      }
+      .rd-benchmark { width: 100%; border-collapse: collapse; margin: 24px 0 8px; font-size: var(--rd-fs-sm, 14px); }
+      .rd-benchmark th, .rd-benchmark td { padding: 12px 10px; text-align: left; border-bottom: 1px solid var(--rd-line, #e5e5e5); }
+      .rd-benchmark thead th { font-weight: 600; color: var(--rd-ink-muted, #6b6b6b); text-transform: uppercase; letter-spacing: .04em; font-size: 12px; }
+      .rd-benchmark tbody th { font-weight: 500; }
+      .rd-benchmark .is-subject td, .rd-benchmark .is-subject th { background: var(--rd-tint, #f5f3ef); font-weight: 700; }
+      .rd-benchmark caption { caption-side: bottom; text-align: left; padding-top: 12px; color: var(--rd-ink-muted, #6b6b6b); font-size: 13px; line-height: 1.6; }
+
+      /* ------------------------------------------------------------------
+         3. .rd-bench — the interactive layer over .rd-benchmark.
+
+         COLOUR. No new hues. The page has exactly two: --rd-ink (#0a2a30)
+         and --rd-primary (#01679c). So hue carries one meaning and value
+         carries the other:
+           --rd-primary        = originated online
+           ink at 10% alpha    = still at the counter
+           solid ink + tint    = HD Saison, the subject
+         A third colour for "the subject" would have made the reader learn
+         two legends. Darkness does that job for free.
+
+         The table column is offline %, the chart is digital %. Inverted on
+         purpose: a bar chart of offline share gives HD Saison the longest
+         bar, which reads as HD Saison leading. The empty bar is the point.
+         ------------------------------------------------------------------ */
+      .rd-bench { margin: 24px 0 8px; }
+      /* `display: block` is load-bearing, not tidying. A <table> sizes to its
+         min-content width no matter what `width` says, so the usual sr-only
+         recipe left this one 2016px wide and overflowing the 1312px figure —
+         invisible, but still pushing the page. Blocking the table layout is
+         what makes `width: 1px` apply. Safe here only because the script also
+         sets aria-hidden on it: the chart carries the data for AT. */
+      .rd-bench.is-enhanced .rd-benchmark {
+        display: block; position: absolute; width: 1px; height: 1px; padding: 0;
+        overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+      }
+      .rd-bench.is-enhanced .rd-bench-mount { display: block; }
+      .rd-bench-mount { display: none; }
+
+      .rd-bench-switch { display: flex; gap: 6px; margin: 0 0 20px; }
+      .rd-bench-switch button {
+        font: inherit; font-size: var(--rd-fs-sm, 14px); line-height: 1;
+        padding: 7px 14px; border-radius: 99px; cursor: pointer;
+        background: transparent; color: var(--rd-ink-muted, #6b6b6b);
+        border: 1px solid var(--rd-line, #e5e5e5);
+      }
+      /* White, not --rd-surface. This section already sits on --rd-surface, so
+         a surface-coloured fill is invisible against its own background — the
+         first render had an active tab, a subject row and a whole detail panel
+         that were all the same colour as the page. White is the only fill that
+         reads here. */
+      .rd-bench-switch button[aria-pressed="true"] {
+        border-color: var(--rd-ink); color: var(--rd-ink); background: var(--rd-white);
+      }
+      .rd-bench-switch button:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: 2px; }
+
+      .rd-bench-head { margin: 0 0 16px; }
+      .rd-bench-title { font-size: var(--rd-fs-md, 16px); font-weight: 600; margin: 0 0 2px; color: var(--rd-ink); }
+      .rd-bench-sub { font-size: 13px; color: var(--rd-ink-muted, #6b6b6b); margin: 0; }
+
+      .rd-bench-body { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 28px; align-items: start; }
+      .rd-bench-stage { min-height: 260px; }
+
+      /* Shared hover/focus state. At rest all five lenders are at full strength;
+         pointing at one dims the other four and swaps the panel. Nothing is
+         dimmed until the reader asks for a comparison. */
+      .rd-bench-item { transition: opacity .18s ease; outline: 0; }
+      .rd-bench-item.is-dim { opacity: .26; }
+      .rd-bench-item:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: 3px; border-radius: 3px; }
+
+      /* --- view 1: dots ---
+         The row is capped at the width 50 dots actually occupy (50x12 + 49x4).
+         Without it the row header stretches to the full column and the "34%"
+         floats ~500px right of where the dots end. */
+      .rd-bench-row { padding: 6px 0 10px; max-width: 796px; }
+      .rd-bench-row.is-subject { background: var(--rd-white); box-shadow: 0 0 0 8px var(--rd-white); border-radius: 2px; }
+      .rd-bench-rowhead { display: flex; justify-content: space-between; align-items: baseline; margin: 0 0 7px; }
+      .rd-bench-name { font-size: var(--rd-fs-sm, 14px); color: var(--rd-ink-muted, #6b6b6b); }
+      .rd-bench-figure { font-size: 13px; color: var(--rd-ink-muted, #6b6b6b); font-variant-numeric: tabular-nums; }
+      .rd-bench-row.is-subject .rd-bench-name,
+      .rd-bench-row.is-subject .rd-bench-figure { color: var(--rd-ink); font-weight: 700; }
+      .rd-bench-dots { display: flex; gap: 4px; }
+      /* 50 dots per row, always. They shrink to fit rather than dropping in
+         count — changing the count on mobile would change the rounding, so a
+         phone and a laptop would print different percentages. */
+      .rd-bench-dot {
+        flex: 1 1 0; min-width: 3px; max-width: 12px; aspect-ratio: 1;
+        border-radius: 2px;
+        background: rgba(10, 42, 48, .10);
+        transform: scale(.4); opacity: 0;
+        transition: transform .32s ease, opacity .32s ease;
+      }
+      .rd-bench-dot.is-online { background: var(--rd-primary); }
+      .rd-bench-row.is-subject .rd-bench-dot { background: rgba(10, 42, 48, .16); }
+      .rd-bench-dot.is-in { transform: none; opacity: 1; }
+
+      /* --- view 2: map ---
+         Every fill and stroke is set here rather than as an SVG presentation
+         attribute. `fill="var(--rd-ink)"` silently does nothing — var() is only
+         valid in CSS properties, not in presentation attributes, so the first
+         render came out with grey-black defaults everywhere and HD Saison was
+         indistinguishable from its competitors. */
+      .rd-bench-map { width: 100%; height: auto; display: block; max-width: 900px; }
+      .rd-bench-map text { font-family: var(--rd-font); }
+      .rd-bench-axis line { stroke: var(--rd-line, #e5e5e5); }
+      .rd-bench-grid line { stroke: var(--rd-line, #e5e5e5); stroke-dasharray: 2 4; }
+      .rd-bench-zero { stroke: var(--rd-ink); stroke-opacity: .22; stroke-dasharray: 3 3; }
+      .rd-bench-tick, .rd-bench-axis-label { fill: var(--rd-ink-muted, #6b6b6b); }
+      .rd-bench-mark circle { fill: rgba(10, 42, 48, .32); }
+      .rd-bench-mark text { fill: var(--rd-ink-muted, #6b6b6b); }
+      .rd-bench-mark.is-subject circle { fill: var(--rd-ink); }
+      .rd-bench-mark.is-subject text { fill: var(--rd-ink); font-weight: 700; }
+      /* Must out-specify `.rd-bench-mark.is-subject circle` (0,2,1) above, or
+         the halo inherits that solid ink fill and HD Saison renders as one
+         circle twice the size of everyone else instead of a dot inside a ring. */
+      .rd-bench-mark.is-subject circle.rd-bench-halo {
+        fill: none; stroke: var(--rd-ink); stroke-opacity: .35;
+      }
+
+      /* --- panel + takeaway --- */
+      .rd-bench-panel { background: var(--rd-white); border: 1px solid var(--rd-line, #e5e5e5); border-radius: 8px; padding: 14px 16px; }
+      .rd-bench-panel-name { font-size: var(--rd-fs-md, 16px); font-weight: 600; margin: 0 0 2px; color: var(--rd-ink); }
+      .rd-bench-panel-blurb { font-size: 12px; color: var(--rd-ink-muted, #6b6b6b); margin: 0 0 12px; min-height: 2.6em; line-height: 1.4; }
+      .rd-bench-metric { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 7px 0; border-top: 1px solid rgba(10, 42, 48, .10); font-size: 13px; }
+      .rd-bench-metric dt { color: var(--rd-ink-muted, #6b6b6b); margin: 0; }
+      .rd-bench-metric dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--rd-ink); }
+      .rd-bench-take { font-size: 13px; line-height: 1.65; color: var(--rd-ink); margin: 14px 0 0; padding: 13px 15px; background: var(--rd-white); border: 1px solid var(--rd-line, #e5e5e5); border-radius: 8px; }
+      .rd-bench-take strong { font-weight: 700; }
+      .rd-bench-source { font-size: 12px; color: var(--rd-ink-muted, #6b6b6b); margin: 20px 0 0; padding-top: 12px; border-top: 1px solid var(--rd-line, #e5e5e5); }
+
+      @media (max-width: 860px) {
+        .rd-bench-body { grid-template-columns: 1fr; gap: 20px; }
+        .rd-bench-panel-blurb { min-height: 0; }
+        /* The 260px floor exists to stop the map view resizing the page when
+           you switch to it. Stacked, it just opens a hole between the dots and
+           the panel. */
+        .rd-bench-stage { min-height: 0; }
+      }
+      @media (max-width: 560px) { .rd-bench-dots { gap: 2px; } }
+      @media (prefers-reduced-motion: reduce) {
+        .rd-bench-dot { transition: none; transform: none; opacity: 1; }
+        .rd-bench-item { transition: none; }
+      }
+    </style>
+</head>
+<!-- `is-hero-overlap` opts this page into the web-3-style opening: a 60dvh
+     band, and a cover that starts inside it and breaks out through its bottom
+     border. It is a variant class because healthcare.html and
+     customer-engagement.html still carry their cover inside the hero — they
+     need the markup move below before they can take it. -->
+<body class="rd-case is-hero-overlap">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!--
+  ============================================================================
+  HD Saison lending — case study. Second pass.
+
+  WHAT CHANGED FROM THE FIRST PASS, AND WHY
+  ----------------------------------------------------------------------------
+  First pass read as disconnected. Four causes, all fixed here:
+
+  1. THE FOUR CLIENT GOALS NOW APPEAR IN BEAT 2, NOT BEAT 3.
+     The claim is "I turned a four-feature wishlist into one problem." The
+     reader has to meet the wishlist before the reframe, or beat 3 arrives
+     arguing against something they have never seen. Previously the four goals
+     were first named in the Choice section — the setup came after the payoff.
+
+  2. HEADINGS ARE CONTENT, NOT FRAMEWORK MACHINERY.
+     Previously: Tension / Choice / Craft / Consequence, plus "Discovery" and
+     "User insight / Data insight / Business insight". That is the same mistake
+     healthcare.html makes in the other dialect — its TOC (Discovery, The
+     decision, Solution design, Delivery, Learning) is Double Diamond with a
+     summary bolted on the front. One page prints the process skeleton, the
+     other printed the argument skeleton. Neither prints the story.
+
+     RULE: the framework supplies beats, the project supplies headings. This
+     TOC is not reusable on another case study, and that is the point.
+
+  3. DISPLAY BLOCKS CUT FROM ~31 DISCRETE OBJECTS TO ~16.
+     Removed: the "shape of it" stat aside in beat 2 and the "what I'd have
+     measured" stat aside in beat 5 — both folded into prose. Prose is the
+     default; a block is the exception. Kept: front matter, the outcome block
+     (beat 1), the benchmark table (it IS the argument), the decision block
+     (it IS beat 3), two figures.
+
+  4. EVERY BEAT NOW ENDS ON THE SENTENCE THAT MAKES THE NEXT ONE NECESSARY.
+
+  THE THROUGH-LINE, visible in all five beats:
+     HD Saison's greatest strength — the dealer counter — was also its only
+     door.
+
+  Beat map (framework-internal, never shown to the reader):
+     Overview · Tension · Choice · Craft · Consequence
+  Delivery module omitted: no evidence. Team row omitted: no evidence.
+  Open questions live in HD-Saison-Case-Study-v2.md, not in the page.
+  ============================================================================
+-->
+
+<header class="rd-case-hero">
+    <div id="nav-placeholder"></div>
+
+    <!-- Entrance animation, matched to web-3.html. Two different mechanisms
+         there and the same two here: the type uses animate.css `fadeIn`, which
+         fires on load, and the cover uses AOS `fade-up`, which fires on
+         intersection. Both libraries are already on this page — aos.css and
+         animate.css come in through style.css, aos.js is in the head, and
+         js/script.js:336 runs AOS.init({ duration: 800, once: true }).
+
+         KNOWN RISK, accepted: AOS works by setting `opacity: 0` first and
+         animating up from it, so if cdnjs is slow or blocked the cover stays
+         invisible rather than un-animated. templates/footer.html carries a
+         warning about exactly this. It is survivable here only because the
+         type is on animate.css instead — animate.css degrades to plain visible
+         text, so a CDN failure costs the picture, never the words. -->
+    <div class="rd-case-hero-inner rd-shell">
+        <p class="rd-case-eyebrow animate__animated animate__fadeIn">Case study · Financial services</p>
+        <h1 class="rd-case-title animate__animated animate__fadeIn">Getting consumer lending off the counter</h1>
+        <p class="rd-case-lead animate__animated animate__fadeIn">
+            HD Saison is Vietnam's first licensed consumer finance company, and the counter was
+            its greatest strength — the highest motorbike-loan share in the market, sold face to
+            face at 16,000 dealer points. It was also the only way in. This is the app that built
+            a second door, and the story of how a four-goal brief became one problem.
+        </p>
+
+    </div>
+</header>
+
+<!-- TOC labels are drawn from this project's content, not from the framework.
+     "Discovery / Solution design / Delivery" would fit any case study ever
+     written, which is exactly why they tell the reader nothing. -->
+<nav class="rd-case-toc" aria-label="Sections">
+    <div class="rd-case-toc-inner rd-shell">
+        <a href="#overview"><span class="n">01</span>Overview</a>
+        <a href="#counter"><span class="n">02</span>The counter</a>
+        <a href="#killed"><span class="n">03</span>What I killed</a>
+        <a href="#built"><span class="n">04</span>What we built</a>
+        <a href="#after"><span class="n">05</span>Four years on</a>
+    </div>
+</nav>
+
+<main>
+    <!-- ================= BEAT 1 — Overview ================= -->
+    <section class="rd-case-section" id="overview">
+        <div class="rd-case-inner rd-shell">
+            <!-- FIRST child of the section, above the <h2>, on purpose. This is
+                 the cover that used to sit in the hero; it lives here now so a
+                 negative margin can lift it back up through the band's bottom
+                 border. Anywhere later in the section and there is nothing
+                 above it to overlap. -->
+            <div class="rd-case-cover" data-aos="fade-up">
+                <img src="../public/hd/cover_tet.png"
+                     alt="HD Saison Tết campaign banner — a customer holding the app, with the line 'Vay qua ứng dụng, Đón Tết tưng bừng'">
+            </div>
+
+            <h2 class="rd-case-h2">Overview</h2>
+
+            <!-- Front matter — reference data. No heading, no beat number.
+                 Moved out of the hero on 2026-08-18 (Hao's call). Two reasons
+                 it belongs here: the hero now has to fit one viewport, and six
+                 metadata pairs were the cheapest 90px to give back to the
+                 cover; and role/timeline/platform are things a reader looks up
+                 while reading the Overview, not things they need before the
+                 title has landed.
+
+                 Sits under the <h2>, not above it, so every section still
+                 opens with its own heading — the TOC and the heading outline
+                 both depend on that. -->
+            <div class="rd-case-snapshot">
+                <div>
+                    <span class="rd-case-meta-k">Role</span>
+                    <span class="rd-case-meta-v">Product designer</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Type</span>
+                    <span class="rd-case-meta-v">Client work</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Domain</span>
+                    <span class="rd-case-meta-v">Consumer lending</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Timeline</span>
+                    <span class="rd-case-meta-v">June 2021 – 2022</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Platform</span>
+                    <span class="rd-case-meta-v">iOS, Android, Web</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Tier</span>
+                    <span class="rd-case-meta-v">Shipped</span>
+                </div>
+            </div>
+
+            <div class="rd-case-summary">
+                <div>
+                    <span class="rd-case-meta-k">The problem</span>
+                    <p>HD Saison originated 100% of its loans in-branch — the only lender in its five-company peer set with no digital path at all, in a market growing 23.7% a year <span class="rd-evidence is-published">published</span></p>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">What I decided</span>
+                    <p>Reframe the client's four-feature brief around a single goal — get origination off the counter — and sequence electronic signing ahead of the remarketing work the client had ranked equally important.</p>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">What changed</span>
+                    <p>The app shipped in May 2022 and is still live; electronic signing is in HD Saison's production flow today. I did not own the post-launch measurement.</p>
+                </div>
+            </div>
+
+            <!-- The one display block in this beat. Same pair as the homepage card. -->
+            <aside class="rd-case-highlight">
+                <p class="rd-case-meta-k">Outcome</p>
+                <div class="rd-case-highlight-stat">
+                    <strong>5h → 2h</strong>
+                    <span>Approval time, end to end <span class="rd-evidence is-target">target</span></span>
+                </div>
+                <div class="rd-case-highlight-stat">
+                    <strong>8 → 1</strong>
+                    <span>Signatures to take out a loan <span class="rd-evidence is-client">client-reported</span></span>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <!-- ================= BEAT 2 — The counter ================= -->
+    <!-- Sets up the four goals, then dismantles them. Ends on the sentence
+         that makes beat 3 unavoidable. -->
+    <section class="rd-case-section is-tinted" id="counter">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Every loan started at a counter</h2>
+
+            <div class="rd-case-body">
+                <p>
+                    HD Saison is a joint venture between HDBank and Credit Saison, and it is very
+                    good at one thing. It held the highest motorbike-loan share in Vietnam — 41% in
+                    2022, up from 34% the year before <span class="rd-evidence is-published">published</span>
+                    — sold in person, at more than 16,000 dealer counters, to over 6 million
+                    customers <span class="rd-evidence is-published">published</span>.
+                </p>
+                <p>
+                    The brief I was handed listed four things to build: <strong>electronic
+                    signing</strong>, <strong>loan management</strong>, <strong>payment</strong>,
+                    and <strong>remarketing</strong>. Four goals, equal weight, no order given.
+                    My job as briefed was to design them.
+                </p>
+                <p>
+                    Discovery ran about three months, from kickoff in June 2021 to the first
+                    interactive prototype in September. Mapping the origination process end to end
+                    is where that brief started to come apart. Borrowing took <strong>3 to 5 hours</strong> across four stages and
+                    <strong>eight separate signatures</strong>
+                    <span class="rd-evidence is-client">client-reported</span> — and at every one
+                    of those stages the customer was physically present. Nobody complains about
+                    this. Borrowers treat it as simply how borrowing works. It surfaces instead as
+                    people giving up at the counter, and as a repeat-borrow rate quietly falling
+                    while nobody could say why.
+                </p>
+            </div>
+
+            <figure class="rd-case-figure">
+                <img src="../public/hd/HD_CJM.png" alt="Customer journey map of the four-stage origination process: enquiry at the dealer counter, document collection and verification, credit assessment and approval, then contract signing — with the customer physically present at all four stages" loading="lazy">
+                <figcaption>Four stages, and the customer stands at the counter for all of them. This is the map that made "add four features" the wrong shape of answer.</figcaption>
+            </figure>
+
+            <div class="rd-case-body">
+                <p>
+                    Then I benchmarked the five highest-traffic lenders in the segment, and the
+                    number that came back reframed the whole engagement.
+                </p>
+            </div>
+
+            <!-- BENCHMARK.
+                 The <table> below is the source of truth and the no-JS fallback. It renders
+                 exactly as it did before if the script never runs. When the script does run it
+                 reads the data-* attributes off each row, builds the chart into .rd-bench-mount,
+                 and sets .is-enhanced on the figure to visually hide the table (kept in the DOM
+                 for screen readers, print and copy-paste).
+
+                 Rows are ordered best-to-worst on digital origination, so HD Saison sits last
+                 in both the table and the chart. The table column stays "offline" because that
+                 is how the source reported it; the chart inverts it to "digital" because a bar
+                 where HD Saison is longest reads as HD Saison winning. -->
+            <figure class="rd-bench" data-bench>
+                <div class="rd-bench-mount"></div>
+
+                <table class="rd-benchmark">
+                <caption>
+                    Every competitor had already moved between 14% and 34% of origination off the
+                    counter. HD Saison had moved none of it. Which means the question was never
+                    whether digital origination was possible under Vietnamese regulation — four
+                    companies had already answered that, in this market, in this regime.
+                </caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Lender</th>
+                        <th scope="col">Offline origination</th>
+                        <th scope="col">Max loan</th>
+                        <th scope="col">Monthly web visits <span class="rd-evidence is-estimated">estimated</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-online="34" data-loan="80"  data-traffic="38"   data-blurb="Highest digital share in the group, on the smallest traffic base."><th scope="row">JACCS</th><td>66%</td><td>80M VND</td><td>38K</td></tr>
+                    <tr data-online="22" data-loan="70"  data-traffic="1070" data-blurb="Most traffic in the segment, lowest maximum loan."><th scope="row">FE Credit</th><td>78%</td><td>70M VND</td><td>1.07M</td></tr>
+                    <tr data-online="18" data-loan="200" data-traffic="431"  data-blurb="Highest maximum loan in the group."><th scope="row">Home Credit</th><td>82%</td><td>200M VND</td><td>431K</td></tr>
+                    <tr data-online="14" data-loan="100" data-traffic="62"   data-blurb="Smallest of the four, and still has a digital channel."><th scope="row">EasyCredit</th><td>86%</td><td>100M VND</td><td>62K</td></tr>
+                    <tr class="is-subject" data-online="0" data-loan="100" data-traffic="116" data-blurb="The subject of this case study."><th scope="row">HD Saison</th><td>100%</td><td>100M VND</td><td>116K</td></tr>
+                </tbody>
+                </table>
+            </figure>
+
+            <div class="rd-case-body">
+                <p>
+                    The consumer finance market grew 23.7% in 2021, on a five-year CAGR of 15.1%,
+                    with 16 licensed companies and over 80% of the finance-company market held by
+                    three of them <span class="rd-evidence is-published">published</span>. A company
+                    growing that fast, in a field that concentrated, with exactly one way for a
+                    customer to reach it, was not at an incremental disadvantage. It had a ceiling.
+                </p>
+                <p>
+                    And here is what the benchmark did to the brief. Go back to the four goals and
+                    ask what each one assumes. Loan management, payment and remarketing all assume
+                    somebody is already a customer — which, at HD Saison, means somebody who has
+                    already stood at a counter for five hours and signed eight times.
+                    <strong>Three of the four goals were downstream of a bottleneck nobody had
+                    named, and the fourth one was the bottleneck.</strong>
+                </p>
+                <p>
+                    That is not a brief with four items. It is a brief with one, and a sequencing
+                    problem.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= BEAT 3 — What I killed ================= -->
+    <section class="rd-case-section" id="killed">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Why remarketing had to go first</h2>
+
+            <div class="rd-case-body">
+                <p>
+                    Reordering a client's stated priorities is the part of this project I'd be
+                    asked about in an interview, so here is the reasoning in full, including what
+                    it cost.
+                </p>
+            </div>
+
+            <div class="rd-decision">
+                <div class="rd-decision-row">
+                    <p class="rd-decision-k">Options</p>
+                    <div class="rd-decision-v rd-option-set">
+                        <div class="rd-option is-killed">
+                            <span class="rd-option-id">A</span>
+                            <p><span class="rd-option-label">All four in parallel.</span> Build the brief as written. Buys client satisfaction, ships four half-features, and leaves the counter exactly where it was.</p>
+                        </div>
+                        <div class="rd-option is-killed">
+                            <span class="rd-option-id">B</span>
+                            <p><span class="rd-option-label">Servicing first.</span> Loan management and payment for existing borrowers, origination later. Lower risk, no legal dependency — and it serves only the customers who already got through the bottleneck.</p>
+                        </div>
+                        <div class="rd-option is-chosen">
+                            <span class="rd-option-id">C</span>
+                            <p><span class="rd-option-label">Origination first.</span> Electronic signing as the unlock, then self-serve servicing, remarketing deferred. Highest legal and integration risk. The only option that moves the 100%.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rd-decision-row">
+                    <p class="rd-decision-k">Criteria</p>
+                    <div class="rd-decision-v">
+                        <p>Does it move offline origination? Is OTP signing legally viable in this regime? Does the dealer network survive it — because the counter was the company's strongest asset and breaking it would have cost more than the project was worth? And what can an existing borrower finally do without visiting?</p>
+                    </div>
+                </div>
+
+                <div class="rd-decision-row">
+                    <p class="rd-decision-k">What I chose</p>
+                    <div class="rd-decision-v">
+                        <p><strong>C, origination first.</strong> Electronic signing came first because nothing downstream functions without it — you cannot remove a branch visit that exists to collect eight wet signatures. The benchmark carried the risk argument for me: four competitors had already proven this worked here, and HD Saison, with the strongest counter presence in the market, had more to lose than any of them from staying single-channel.</p>
+                    </div>
+                </div>
+
+                <div class="rd-decision-row">
+                    <p class="rd-decision-k">What I killed</p>
+                    <div class="rd-decision-v">
+                        <p><strong>Remarketing.</strong> The client had ranked it equal to the other three. My argument was the one the benchmark had just handed me: remarketing to a base you can only reach in a branch spends acquisition budget on a channel that doesn't exist yet. Build the channel, then market through it.</p>
+                        <p>Also cut — loan comparison and eligibility pre-check tooling. It added a decision step to a funnel whose defining problem was too many steps.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    Which left one screen holding up the entire sequence.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= BEAT 4 — What we built ================= -->
+    <section class="rd-case-section is-tinted" id="built">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Signing first, then everything downstream of it</h2>
+
+            <figure class="rd-case-figure">
+                <img src="../public/hd/HD_UI.png" alt="Key screens from the HD Saison app: electronic signing, home with loans awaiting signature at the top, loan management with balance and payment history, and the graduated payment reminder states" loading="lazy">
+                <figcaption>Four screens, in the order they had to be built rather than the order they were briefed.</figcaption>
+            </figure>
+
+            <div class="rd-case-body">
+                <p>
+                    <strong>Electronic signing</strong> collapses eight wet signatures into one
+                    OTP-authenticated confirmation. It is the only feature on this list whose
+                    absence would have invalidated all the others, which is why it went first
+                    despite carrying the most legal risk.
+                </p>
+                <p>
+                    <strong>Home</strong> gives the top slot, unconditionally, to loans awaiting
+                    signature. Offers sit below them. This ordering was contested and the
+                    commercial case for putting promotions first is obvious — it loses to a simpler
+                    fact: an unsigned loan is revenue already earned and not yet booked.
+                </p>
+                <p>
+                    <strong>Loan management</strong> puts balance, amount due, payment history and
+                    payment itself in one place rather than across separate journeys. This is the
+                    screen that turns a one-off borrower into a repeat one without a counter visit
+                    — the direct answer to the declining-returns finding from discovery.
+                </p>
+                <p>
+                    <strong>The reminder ladder</strong> runs four states: four days, two days and
+                    one day before due, then overdue. Graduated rather than a single alert, because
+                    the research showed borrowers weren't ignoring due dates — they were losing
+                    track of them, which is a different problem and needs a different cadence.
+                </p>
+                <p>
+                    Loan categories — cash, electronics, motorbike, travel — deliberately mirror
+                    the dealer taxonomy instead of introducing an app-native one, so that a
+                    customer who has borrowed at a counter recognises the product they already
+                    know. The app was building a second door, not replacing the building.
+                </p>
+                <p>
+                    An interactive prototype was walked through before build, in September 2021.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= BEAT 5 — Four years on ================= -->
+    <section class="rd-case-section" id="after">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">It shipped, and then I stopped looking</h2>
+
+            <div class="rd-case-body">
+                <p>
+                    The app went live on the App Store in May 2022 and has shipped continuously
+                    since — v1.1.30 as of May 2026, ranked #36 in Finance in Vietnam
+                    <span class="rd-evidence is-published">published</span>. Electronic signing is
+                    in HD Saison's production flow today: after approval, the customer signs the
+                    contract in the app. The self-serve surface argued for in discovery now extends
+                    to the public website, which carries online application, a repayment calculator
+                    and loan lookup. The second door exists.
+                </p>
+                <p>
+                    What I cannot tell you is how many people walked through it. The two-hour
+                    approval target was set during discovery; I moved on before the measurement
+                    cycle and never saw the post-launch number. If I had owned it, the first metric
+                    would not have been approval time at all — it would have been the share of
+                    applications originated without a branch visit, because that is the only number
+                    that tests the argument this whole project was built on. After that: median
+                    approval time against the target, completion rate at the signing step, and
+                    repeat-borrow rate for app users against counter-only customers.
+                </p>
+                <p>
+                    The company has grown from 6 million customers across 16,000 service points to
+                    over 15 million across 26,500
+                    <span class="rd-evidence is-published">published</span>. I claim none of that.
+                    Four years of growth has many authors, and the honest version is that a product
+                    I worked on is still running inside it. One number I do have to sit with: the
+                    app holds 3.0 ★ from roughly 2,500 ratings
+                    <span class="rd-evidence is-published">published</span>. That is not a good
+                    score, and it is the first thing an interviewer will find.
+                </p>
+
+                <h3 class="rd-case-label">What I'd do differently</h3>
+                <p>
+                    I worked the client's four goals as a flat list for the first stretch of the
+                    project and only reordered them once the benchmark landed. That benchmark took
+                    days, not weeks. I should have run it in week one, before accepting the goal
+                    structure I was handed — the entire reframe was sitting in a table I hadn't
+                    built yet.
+                </p>
+                <p>
+                    I also let the outcome metric be approval time, which is a process measure the
+                    client already believed in. The measure that actually tested my reframe was
+                    off-counter origination, and I never got it instrumented. Choosing the metric
+                    your stakeholder is comfortable with is the quiet way a good reframe fails to
+                    survive launch.
+                </p>
+                <p>
+                    And I treated handoff as the end of my involvement. Four years of App Store
+                    history exist for this product, and I can't tell you what happened in the first
+                    ninety days of it.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Related case studies =================
+         Replaces the two text-only `.rd-case-pager` boxes that used to close
+         this page. Same job, but as the card the reader already recognises
+         from Selected Product Initiatives on the homepage — cover on top,
+         title, three lines, one CTA.
+
+         SELECTION RULE, applied by hand on each case study: one from the same
+         domain, one from a different one. Consumer lending has no sibling —
+         the four written case studies sit in four different sectors — so both
+         slots fall through to "whichever two read best next", and each card
+         names its domain so the reader can see that for themselves.
+
+         Copy is lifted verbatim from the matching homepage card. If a title
+         or description changes there, change it here too; there is no shared
+         source, deliberately, because the selection is editorial. -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Related case studies</h2>
+
+            <div class="rd-related">
+                <a class="rd-related-card" href="./healthcare.html">
+                    <div class="rd-related-media">
+                        <img src="../public/hc_cover.webp"
+                             alt="Role-by-feature product map for the speaker-bureau platform" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Healthcare &amp; life sciences</p>
+                        <h3 class="rd-related-title">Seventeen roles, one release</h3>
+                        <p class="rd-related-desc">Pharma speaker programs ran on email, spreadsheets and a legacy portal. They became one multi-tenant platform where a rep, a compliance monitor and an accountant work the same program record.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+
+                <a class="rd-related-card" href="./web-3.html">
+                    <div class="rd-related-media">
+                        <img src="../public/ar_casecover.webp"
+                             alt="Aura Network case study cover" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Web3 infrastructure</p>
+                        <h3 class="rd-related-title">A chain that locked developers out</h3>
+                        <p class="rd-related-desc">A permissioned NFT chain with a closed developer pool became a permissionless, EVM-compatible Layer 1 open to any Ethereum-toolchain builder.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<button type="button" class="rd-to-top" aria-label="Back to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+       stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <line x1="12" y1="20" x2="12" y2="5"></line>
+    <polyline points="5 12 12 5 19 12"></polyline>
+  </svg>
+</button>
+
+<div class="rd-closing">
+<footer id="footer-placeholder"></footer>
+</div>
+
+<script src="../js/script.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/socialize.js"></script>
+<script src="../js/back-to-top.js"></script>
+
+<script src="../js/case-toc.js"></script>
+
+<!-- PREVIEW-ONLY LOCAL SCRIPT. Belongs in ../js/ once approved; held here so
+     this preview modifies no shared file, same as the <style> block in <head>.
+
+     Progressive enhancement over the benchmark table. The table is the data —
+     this reads it, never restates it. Change a number in the <tbody> and both
+     views follow. If this script fails or never loads, the table renders as it
+     always did, which is why nothing here is wrapped in try/catch: a thrown
+     error leaves the fallback on screen, which is the correct outcome. -->
+<script>
+(function () {
+  var fig = document.querySelector('[data-bench]');
+  if (!fig) return;
+  var mount = fig.querySelector('.rd-bench-mount');
+  var table = fig.querySelector('.rd-benchmark');
+  if (!mount || !table) return;
+
+  var DOTS = 50;                       // one dot = 2 loans in 100
+  var SUBJECT = 4;                     // HD Saison is the last row
+
+  var data = [].map.call(table.querySelectorAll('tbody tr'), function (tr) {
+    return {
+      name: tr.querySelector('th').textContent.trim(),
+      online: +tr.dataset.online,
+      loan: +tr.dataset.loan,
+      traffic: +tr.dataset.traffic,
+      blurb: tr.dataset.blurb || '',
+      subject: tr.classList.contains('is-subject')
+    };
+  });
+  var take = table.querySelector('caption').textContent.trim().replace(/\s+/g, ' ');
+
+  function traffic(t) { return t >= 1000 ? (t / 1000).toFixed(2) + 'M' : t + 'K'; }
+
+  mount.innerHTML =
+    '<div class="rd-bench-head">' +
+      '<p class="rd-bench-title"></p>' +
+      '<p class="rd-bench-sub"></p>' +
+    '</div>' +
+    '<div class="rd-bench-switch" role="group" aria-label="Chart view">' +
+      '<button type="button" aria-pressed="true" data-view="0">Share online</button>' +
+      '<button type="button" aria-pressed="false" data-view="1">Positioning</button>' +
+    '</div>' +
+    '<div class="rd-bench-body">' +
+      '<div class="rd-bench-stage"></div>' +
+      '<div>' +
+        '<div class="rd-bench-panel">' +
+          '<p class="rd-bench-panel-name"></p>' +
+          '<p class="rd-bench-panel-blurb"></p>' +
+          '<dl style="margin:0">' +
+            '<div class="rd-bench-metric"><dt>Originated online</dt><dd data-k="0"></dd></div>' +
+            '<div class="rd-bench-metric"><dt>Max loan</dt><dd data-k="1"></dd></div>' +
+            '<div class="rd-bench-metric"><dt>Visits / month</dt><dd data-k="2"></dd></div>' +
+          '</dl>' +
+        '</div>' +
+        /* Wording stays view-neutral — "not a single dot" reads as a mistake
+           once the reader switches to the scatter, where there are no dots. */
+        '<p class="rd-bench-take"><strong>HD Saison was the only lender at zero.</strong> ' + take + '</p>' +
+      '</div>' +
+    '</div>' +
+    '<p class="rd-bench-source">Offline share, maximum loan and web visits estimated from annual reports and public traffic data, 2021.</p>';
+
+  /* The heading belongs to the view, not to the block. "One dot = two loans"
+     is a lie the moment the reader switches to the scatter, and a scatter of
+     loan size against reach is not answering the same question the waffle
+     answers. Both swap with the toggle. */
+  var HEAD = [
+    ['Of every 100 loans, how many never reached a counter?',
+     'The five highest-traffic lenders in the segment. One dot = two loans. Hover a lender to compare.'],
+    ['The same gap, against loan size and reach',
+     'Digital share on the horizontal, maximum loan on the vertical, bubble size is monthly web visits. Hover a lender to compare.']
+  ];
+
+  var stage = mount.querySelector('.rd-bench-stage');
+  var pTitle = mount.querySelector('.rd-bench-title');
+  var pSub = mount.querySelector('.rd-bench-sub');
+  function head(v) { pTitle.textContent = HEAD[v][0]; pSub.textContent = HEAD[v][1]; }
+  var pName = mount.querySelector('.rd-bench-panel-name');
+  var pBlurb = mount.querySelector('.rd-bench-panel-blurb');
+  var pVals = mount.querySelectorAll('.rd-bench-metric dd');
+
+  /* Filling the panel and dimming the others are deliberately separate. The
+     resting state is all five at full strength with HD Saison's numbers in the
+     panel — nothing is dimmed until the reader actually points at something.
+     Dimming by default would mean the chart arrives already answering a
+     question nobody asked. */
+  function fill(i) {
+    var d = data[i];
+    pName.textContent = d.name;
+    pBlurb.textContent = d.blurb;
+    pVals[0].textContent = d.online + '%';
+    pVals[1].textContent = d.loan + 'M VND';
+    pVals[2].textContent = traffic(d.traffic);
+  }
+  function focusOn(i) {
+    fill(i);
+    [].forEach.call(stage.querySelectorAll('.rd-bench-item'), function (el, k) {
+      el.classList.toggle('is-dim', k !== i);
+    });
+  }
+  function reset() {
+    [].forEach.call(stage.querySelectorAll('.rd-bench-item'), function (el) {
+      el.classList.remove('is-dim');
+    });
+    fill(SUBJECT);
+  }
+
+  function wire() {
+    [].forEach.call(stage.querySelectorAll('.rd-bench-item'), function (el, i) {
+      el.setAttribute('tabindex', '0');
+      el.setAttribute('role', 'img');
+      el.setAttribute('aria-label',
+        data[i].name + ': ' + data[i].online + '% of loans originated online, ' +
+        'max loan ' + data[i].loan + ' million VND, ' + traffic(data[i].traffic) + ' visits a month.');
+      el.addEventListener('mouseenter', function () { focusOn(i); });
+      el.addEventListener('focus', function () { focusOn(i); });
+      el.addEventListener('blur', reset);
+    });
+    stage.addEventListener('mouseleave', reset);
+    reset();
+  }
+
+  /* ---- view 0: dots ---------------------------------------------------- */
+  function viewDots() {
+    stage.innerHTML = data.map(function (d) {
+      var on = Math.round(d.online / (100 / DOTS));
+      var dots = '';
+      for (var k = 0; k < DOTS; k++) {
+        dots += '<span class="rd-bench-dot' + (k < on ? ' is-online' : '') + '"></span>';
+      }
+      return '<div class="rd-bench-row rd-bench-item' + (d.subject ? ' is-subject' : '') + '">' +
+               '<div class="rd-bench-rowhead">' +
+                 '<span class="rd-bench-name">' + d.name + '</span>' +
+                 '<span class="rd-bench-figure">' + d.online + '%</span>' +
+               '</div>' +
+               '<div class="rd-bench-dots">' + dots + '</div>' +
+             '</div>';
+    }).join('');
+    wire();
+
+    /* Fill on scroll-in, not on load — the row that stays empty only reads as
+       empty if the reader watches the other four fill. */
+    var dots = stage.querySelectorAll('.rd-bench-dot');
+    var run = function () {
+      [].forEach.call(dots, function (el, i) {
+        setTimeout(function () { el.classList.add('is-in'); }, 60 + i * 3);
+      });
+    };
+    if (!window.IntersectionObserver) return run();
+    var io = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) { run(); io.disconnect(); }
+    }, { threshold: 0.25 });
+    io.observe(stage);
+  }
+
+  /* ---- view 1: map ----------------------------------------------------- */
+  function viewMap() {
+    var X = function (p) { return 100 + p * 13; };            // 0–40%  → 100–620
+    var Y = function (c) { return 292 - (c - 60) * 1.5; };    // 60–210M → 292–67
+    var R = function (t) { return Math.max(6, Math.sqrt(t) * 0.6); };
+
+    var marks = data.map(function (d) {
+      var x = X(d.online), y = Y(d.loan), r = d.subject ? 8 : R(d.traffic);
+      return '<g class="rd-bench-item rd-bench-mark' + (d.subject ? ' is-subject' : '') + '">' +
+               '<circle cx="' + x + '" cy="' + y + '" r="' + r.toFixed(1) + '"></circle>' +
+               (d.subject ? '<circle class="rd-bench-halo" cx="' + x + '" cy="' + y +
+                 '" r="' + (r + 9) + '"></circle>' : '') +
+               '<text x="' + x + '" y="' + (y - r - (d.subject ? 18 : 9)).toFixed(1) + '" ' +
+                 'text-anchor="middle" font-size="12">' + d.name + '</text>' +
+             '</g>';
+    }).join('');
+
+    stage.innerHTML =
+      '<svg class="rd-bench-map" viewBox="0 0 660 356" role="group" ' +
+           'aria-label="Digital origination against maximum loan size. Bubble size is monthly web traffic.">' +
+        '<g class="rd-bench-axis">' +
+          '<line x1="70" y1="300" x2="640" y2="300"></line>' +
+          '<line x1="70" y1="26" x2="70" y2="300"></line>' +
+        '</g>' +
+        '<g class="rd-bench-grid">' +
+          '<line x1="70" y1="232" x2="640" y2="232"></line>' +
+          '<line x1="70" y1="172" x2="640" y2="172"></line>' +
+          '<line x1="70" y1="112" x2="640" y2="112"></line>' +
+        '</g>' +
+        '<line class="rd-bench-zero" x1="100" y1="26" x2="100" y2="300"></line>' +
+        '<g class="rd-bench-tick" font-size="11" text-anchor="end">' +
+          '<text x="62" y="296">60M</text><text x="62" y="236">100M</text>' +
+          '<text x="62" y="176">140M</text><text x="62" y="116">180M</text>' +
+        '</g>' +
+        '<g class="rd-bench-tick" font-size="11" text-anchor="middle">' +
+          '<text x="100" y="318">0</text><text x="230" y="318">10%</text>' +
+          '<text x="360" y="318">20%</text><text x="490" y="318">30%</text>' +
+          '<text x="620" y="318">40%</text>' +
+        '</g>' +
+        '<text class="rd-bench-axis-label" x="355" y="344" font-size="12" ' +
+              'text-anchor="middle">Share of loans originated online</text>' +
+        '<text class="rd-bench-axis-label" x="14" y="163" font-size="12" ' +
+              'text-anchor="middle" transform="rotate(-90 14 163)">Maximum loan</text>' +
+        marks +
+      '</svg>';
+    wire();
+  }
+
+  var views = [viewDots, viewMap];
+  [].forEach.call(mount.querySelectorAll('.rd-bench-switch button'), function (b) {
+    b.addEventListener('click', function () {
+      [].forEach.call(mount.querySelectorAll('.rd-bench-switch button'), function (x) {
+        x.setAttribute('aria-pressed', 'false');
+      });
+      b.setAttribute('aria-pressed', 'true');
+      head(+b.dataset.view);
+      views[+b.dataset.view]();
+    });
+  });
+
+  fig.classList.add('is-enhanced');
+  table.setAttribute('aria-hidden', 'true');   // the chart now carries the data
+  head(0);
+  viewDots();
+}());
+</script>
+</body>
+</html>

@@ -32,4 +32,29 @@
   }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
 
   sections.forEach(function (s) { observer.observe(s); });
+
+  // --------------------------------------------------------------------
+  // Reveal the rail only after the reader has scrolled past Overview.
+  //
+  // Opt-in: pages on the `.is-hero-overlap` hero want the first view to be
+  // nothing but nav / title / lead / cover, and a rail pinned at the top from
+  // page load is one more thing in that view. Every other case study keeps
+  // its sticky rail, so this block does nothing there.
+  //
+  // Why a boundingClientRect check and not just `isIntersecting`: Overview
+  // stops intersecting at BOTH ends of the page — scrolled past it (rail
+  // should show) and not yet reached it, which is the state on first paint
+  // (rail must stay hidden). The two are only distinguishable by which side
+  // of the viewport the section is on, and `top < 0` is that test.
+  // --------------------------------------------------------------------
+  if (!document.body.classList.contains('is-hero-overlap')) return;
+
+  var overview = document.getElementById('overview');
+  if (!overview) return;          // no Overview, no trigger — leave the rail as CSS left it
+
+  new IntersectionObserver(function (entries) {
+    var e = entries[0];
+    var scrolledPast = !e.isIntersecting && e.boundingClientRect.top < 0;
+    rail.classList.toggle('is-visible', scrolledPast);
+  }, { threshold: 0 }).observe(overview);
 })();

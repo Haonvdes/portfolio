@@ -91,32 +91,76 @@
   skeleton puts research data and because a reader now sees market context
   as its own beat rather than as a digression inside the counter narrative.
 
-  >>> HAO — UNFILLED SLOTS. Search this file for "rd-todo". Each one is a
-  factual gap or an unbuilt template section, not a rendering bug:
+  ============================================================================
+  V2 — 2026-08-20, second reading of the same Figma node.
+
+  WHY A V2 AT ALL. The Figma frame moved after lending-new.html was built.
+  The paragraph above says Figma's "Looking at the main" slot "reads as Web3
+  product features, not lending" — that was true when it was written and is
+  no longer true. The slot now carries this project's own Home copy verbatim
+  and its own phone render. Three other slots the first pass left empty have
+  since been filled in the design too. So v2 is not a rebuild; it is the
+  first pass re-run against a design that has caught up with the content.
+
+  WHAT V2 CHANGES, AND ONLY THIS:
+    1. §homepage — was an rd-todo shell. Now real: the Home ordering
+       argument (moved down out of §built, where it was duplicated) plus
+       Figma's own four-item New Features list and the phone render that
+       sits beside it in the design (public/hd/phone_1.png).
+    2. §after — was an rd-todo shell plus loose retro prose. Now Figma's
+       "Product Wiki" shape: a lead paragraph, a label bar, and the three
+       retro lessons as a divided 3-column block. The prose is the SAME
+       prose, re-cut into three columns; nothing was rewritten.
+    3. §research "Industry challenges" — was three rd-todo lines. Now the
+       three real constraints, all of which were already argued in full
+       elsewhere on this page and are only being summarised here.
+    4. §built figure — Figma renders this as a full-bleed 1920px band.
+       Same image, `.rd-case-figure.is-full`.
+    5. Related case studies — Figma shows three cards; this had two. Third
+       card added (iSystem / marketing platform).
+    6. TOC gains the §homepage entry it was missing.
+
+  WHAT V2 DELIBERATELY DOES NOT CHANGE:
+    - §decision ("Why remarketing had to go first") stays, though Figma has
+      no slot for it. Figma is a layout template; this section is the
+      strongest reasoning on the page and losing it to match a wireframe
+      would be a bad trade. Hao's call, made explicitly.
+    - The Outcomes card still holds TWO stats, not Figma's three. See the
+      standing note below — this is the one place v2 knowingly diverges.
+    - No new colour. Figma's Product Wiki cards are yellow; this page's
+      chart language depends on there being exactly two hues, so the cards
+      use --rd-surface like every other card here. Same decision the
+      .rd-case-tag-strip comment in redesign.css already recorded.
+
+  CSS: no new stylesheet, and one new rule only (.rd-case-split.is-media,
+  for §homepage's 1 : 1.5 text/render split). Everything else reuses
+  .rd-case-cols.is-three, .rd-case-card, .rd-case-checklist,
+  .rd-case-figure.is-full and .rd-related, all of which already existed.
+
+  >>> HAO — REMAINING UNFILLED SLOTS. There are no <p class="rd-todo">
+  elements left on this page — every one of them was replaced with real
+  content above. What follows is the shorter list of things that are still
+  open, none of which render as a visible placeholder except the Team field:
     - Overview snapshot, "Team" field — no real headcount/composition on
       record for this project anywhere in the source content.
     - Overview cover image — still `cover_tet.png`, a Tết seasonal-campaign
       creative. `public/hd/cover.png` (real in-app UI, already this page's
       og:image) may be the closer fit for the off-the-counter/e-signature
       story this page argues. Not swapped unilaterally; your call.
-    - Outcomes card — Figma's pattern wants a third stat. Not added: the only
-      candidate value ("100% offline → online") is the page's PROBLEM
-      baseline, not an achieved outcome, and this page is explicit elsewhere
-      that no post-launch measurement was ever taken. Add a third stat only
-      if you have one that's actually true today.
+    - Outcomes card — Figma's pattern wants a third stat and now names it:
+      "100% / offline process to online". Still not added, for the same
+      reason as the first pass: that is the page's PROBLEM baseline, not an
+      achieved outcome, and §after says plainly that no post-launch
+      measurement was ever taken. Adding it would put a number on this page
+      that the page itself disproves four sections later. Add it only if you
+      have a figure that is true today.
     - "The expectation" checklist, row 1 — no icon asset exists for the
       overarching "migrate offline to online" ask (the other four rows reuse
       real per-feature icons carried over from lending.html). Left iconless
       rather than borrowing an unrelated asset.
-    - §research "Industry Challenges" — new section, no content yet.
-    - §homepage "Looking at the main" — new section, no content yet. Figma's
-      own sample content here reads as Web3 product features, not lending,
-      so nothing from it was reused.
-    - §after tag-strip / 3-column info block — Figma pairs this heading with
-      a short tag row and a "Product Wiki"-style 3-column block above the
-      retrospective prose. No real content exists for it yet; the retro
-      prose below is unchanged, real, and unaffected either way.
-  Delete each <p class="rd-todo"> once real content replaces it.
+    - §homepage, feature 04 "Authorized branches" — Figma names it; nothing
+      in this project's source content describes it. Listed by name only,
+      with no description invented for it.
   ============================================================================
 -->
 
@@ -159,7 +203,8 @@
         <a href="#research"><span class="n">03</span>Research</a>
         <a href="#decision"><span class="n">04</span>The decision</a>
         <a href="#built"><span class="n">05</span>What we built</a>
-        <a href="#after"><span class="n">06</span>Shipped</a>
+        <a href="#homepage"><span class="n">06</span>The home screen</a>
+        <a href="#after"><span class="n">07</span>Shipped</a>
     </div>
 </nav>
 
@@ -468,23 +513,27 @@
                 <div class="rd-bench-foot"></div>
             </figure>
 
-            <!-- INDUSTRY CHALLENGES — new, empty section. "Challenge 0N" is a
-                 generic structural label like "Role:" or "Timeline:", so it is
-                 kept as real markup; the body copy under each is unwritten. -->
+            <!-- INDUSTRY CHALLENGES — filled in v2. Figma's own copy in these
+                 three cards is lorem ipsum, so none of it was reused. Each
+                 card instead summarises a constraint this page already argues
+                 in full somewhere below: concentration (the market bar above),
+                 the legal question (§decision, criteria row), and the dealer
+                 network (§decision, "what I chose"). Summary, not new claims —
+                 if you edit one of the arguments, edit its card too. -->
             <div class="rd-case-card" data-aos="fade-up">
                 <h3>Industry challenges</h3>
                 <div class="rd-case-grid">
                     <div>
                         <h3 class="rd-case-label">Challenge 01</h3>
-                        <p class="rd-todo">Add the first industry-level constraint or challenge this project ran into.</p>
+                        <p>A concentrated field. Sixteen licensed companies, three of them holding 80% of the market. Being third-largest and single-channel is not a small disadvantage in a field that shape — it is a ceiling on how far the company can grow without changing how customers reach it.</p>
                     </div>
                     <div>
                         <h3 class="rd-case-label">Challenge 02</h3>
-                        <p class="rd-todo">Add the second industry-level constraint or challenge.</p>
+                        <p>An unsettled legal picture for signing. Whether an OTP-authenticated confirmation could stand in for a wet signature on a consumer loan contract was the single largest risk in the project — and the benchmark answered it, because four competitors were already originating online under the same regime.</p>
                     </div>
                     <div>
                         <h3 class="rd-case-label">Challenge 03</h3>
-                        <p class="rd-todo">Add the third industry-level constraint or challenge.</p>
+                        <p>A dealer network that could not be bypassed. The counter was the company's strongest asset — 16,000 dealer points and the highest motorbike-loan share in Vietnam. Any digital path had to add a second door without giving retail partners a reason to treat the app as competition.</p>
                     </div>
                 </div>
             </div>
@@ -579,7 +628,14 @@
         <div class="rd-case-inner rd-shell">
             <h2 class="rd-case-h2" data-aos="fade-up">Signing first, then everything downstream of it</h2>
 
-            <figure class="rd-case-figure" data-aos="fade-up">
+            <!-- `is-full` in v2. Figma renders this band at the full 1920
+                 frame width rather than inside the 1,440 shell — it is the
+                 only image on the page that gets that treatment, and it earns
+                 it: this is the whole product in one picture. `is-full` drops
+                 the radius and the side borders so the screens run edge to
+                 edge; the figcaption below still stops at --rd-measure-case,
+                 because a caption is prose no matter how wide the picture. -->
+            <figure class="rd-case-figure is-full" data-aos="fade-up">
                 <img src="../public/hd/HD_UI.png" alt="Key screens from the HD Saison app: electronic signing, home with loans awaiting signature at the top, loan management with balance and payment history, and the graduated payment reminder states" loading="lazy">
                 <figcaption>Four screens, in the order they had to be built rather than the order they were briefed.</figcaption>
             </figure>
@@ -591,11 +647,12 @@
                     absence would have invalidated all the others, which is why it went first
                     despite carrying the most legal risk.
                 </p>
+                <!-- The Home paragraph that used to sit here now opens
+                     §homepage below, which is the section Figma built for it.
+                     Left as a pointer rather than repeated in both places. -->
                 <p>
-                    <strong>Home</strong> gives the top slot, unconditionally, to loans awaiting
-                    signature. Offers sit below them. This ordering was contested and the
-                    commercial case for putting promotions first is obvious — it loses to a simpler
-                    fact: an unsigned loan is revenue already earned and not yet booked.
+                    <strong>Home</strong> is the screen the rest of this list hangs off, and it took
+                    the most argument to settle. It gets its own section below.
                 </p>
                 <p>
                     <strong>Loan management</strong> puts balance, amount due, payment history and
@@ -622,21 +679,61 @@
         </div>
     </section>
 
-    <!-- ================= Looking at the main (This) =================
-         New, empty section — no equivalent in the second pass, and no real
-         content for it yet. Figma's own sample content for this slot reads
-         as Web3 product features (a "Homepage" / "New Features" list), not
-         lending — none of it was reused. -->
+    <!-- ================= The home screen =================
+         FILLED IN V2. The first pass left this an empty shell on the grounds
+         that Figma's sample content here was borrowed Web3 feature copy. The
+         design has since been updated and that is no longer true: the slot
+         now carries this project's own Home paragraph verbatim, its own four
+         feature names, and its own phone render. All three are used below.
+
+         The heading is mine, not Figma's — the design still reads "Looking at
+         the main (This)", which is a layout placeholder rather than a title.
+
+         Layout is Figma's: copy left, render right, roughly 1 : 1.5. That is
+         .rd-case-split.is-media, the one new CSS rule this page introduces;
+         the existing .is-chart modifier next to it is 1 : 2.3, which pushes
+         the text column too narrow to hold a paragraph. -->
     <section class="rd-case-section is-tinted" id="homepage">
         <div class="rd-case-inner rd-shell">
-            <h2 class="rd-case-h2" data-aos="fade-up">Looking at the main [ADD — real heading]</h2>
-            <div class="rd-case-body" data-aos="fade-up">
-                <p class="rd-todo">
-                    Template slot — Figma's reference pairs this heading with a walkthrough of the
-                    app's primary/home surface (feature list + a phone-mockup image). No real
-                    content exists for this yet on lending-new; add it here, or delete this section
-                    if it doesn't apply to this case study.
-                </p>
+            <h2 class="rd-case-h2" data-aos="fade-up">The home screen, and what it puts first</h2>
+
+            <div class="rd-case-split is-media" data-aos="fade-up">
+                <div class="rd-case-body">
+                    <h3 class="rd-case-label">Homepage</h3>
+                    <p>
+                        Home gives the top slot, unconditionally, to loans awaiting signature.
+                        Offers sit below them. This ordering was contested and the commercial case
+                        for putting promotions first is obvious — it loses to a simpler fact: an
+                        unsigned loan is revenue already earned and not yet booked.
+                    </p>
+                    <p>
+                        Everything else on the screen follows from that. Loan categories mirror the
+                        dealer taxonomy the customer already knows — cash, electronics, travel —
+                        rather than introducing an app-native one, because the app was building a
+                        second door, not replacing the building.
+                    </p>
+
+                    <!-- Feature names are Figma's, verbatim, and only the names.
+                         No descriptions written under them: three of the four
+                         are visible in the render alongside, but nothing in this
+                         project's source content describes "Authorized branches",
+                         and inventing a line for it to fill the row out would be
+                         the one kind of error this page cannot afford. -->
+                    <h3 class="rd-case-label">New features</h3>
+                    <div class="rd-case-checklist">
+                        <div class="rd-case-checklist-row"><span>01. Dynamic card display</span></div>
+                        <div class="rd-case-checklist-row"><span>02. Personalised package</span></div>
+                        <div class="rd-case-checklist-row"><span>03. Promotions</span></div>
+                        <div class="rd-case-checklist-row"><span>04. Authorised branches</span></div>
+                    </div>
+                </div>
+
+                <figure class="rd-case-figure">
+                    <img src="../public/hd/phone_1.png"
+                         alt="The HD Saison app home screen: an activation card for a motorbike loan awaiting the customer's action at the top, a personalised loan offer below it, then a promotions row — with the new-loan product picker (cash, electronics, flights) shown alongside"
+                         loading="lazy">
+                    <figcaption>Loans awaiting action sit above offers. The order is the argument.</figcaption>
+                </figure>
             </div>
         </div>
     </section>
@@ -645,19 +742,6 @@
     <section class="rd-case-section" id="after">
         <div class="rd-case-inner rd-shell">
             <h2 class="rd-case-h2" data-aos="fade-up">It shipped, and then I stopped looking</h2>
-
-            <!-- New, empty shell — see the >>> HAO — UNFILLED SLOTS comment
-                 near the top of this file. The real retrospective prose below
-                 is unchanged and does not depend on this being filled in. -->
-            <div class="rd-case-body" data-aos="fade-up">
-                <p class="rd-todo">
-                    Template slot — Figma's reference pairs this heading with a short tag row and a
-                    "Product Wiki"-style 3-column info block before the retrospective below. Ready
-                    to use once there's real content: <code>.rd-case-tag-strip</code> /
-                    <code>.rd-case-tag</code> for the tag row, <code>.rd-case-cols.is-three</code>
-                    for the 3-column block.
-                </p>
-            </div>
 
             <div class="rd-case-body" data-aos="fade-up">
                 <p>
@@ -690,26 +774,60 @@
                     score, and it is the first thing an interviewer will find.
                 </p>
 
+            </div>
+
+            <!-- "PRODUCT WIKI", Figma's shape for this beat: one bordered
+                 surface holding a lead line, a label bar, and a divided
+                 three-column block. This is the SAME three retrospective
+                 paragraphs the second pass ran as loose prose — re-cut into
+                 columns, each given the short keyword heading Figma's own
+                 cards ask for ("Short lesson learned, 3 keys"). Not a word of
+                 the paragraphs was rewritten.
+
+                 NOT YELLOW. Figma paints these three cards yellow; this page
+                 has exactly two hues and its whole chart language depends on
+                 that, so they use --rd-surface like every other card here.
+                 Same call, same reason, as the .rd-case-tag-strip note in
+                 redesign.css. -->
+            <div class="rd-case-card" data-aos="fade-up">
+                <p>
+                    Three things I would do differently, and they are the same mistake at three
+                    different points in the project: I let the client's framing set the order, the
+                    metric, and the finish line.
+                </p>
+
                 <h3 class="rd-case-label">What I'd do differently</h3>
-                <p>
-                    I worked the client's four goals as a flat list for the first stretch of the
-                    project and only reordered them once the benchmark landed. That benchmark took
-                    days, not weeks. I should have run it in week one, before accepting the goal
-                    structure I was handed — the entire reframe was sitting in a table I hadn't
-                    built yet.
-                </p>
-                <p>
-                    I also let the outcome metric be approval time, which is a process measure the
-                    client already believed in. The measure that actually tested my reframe was
-                    off-counter origination, and I never got it instrumented. Choosing the metric
-                    your stakeholder is comfortable with is the quiet way a good reframe fails to
-                    survive launch.
-                </p>
-                <p>
-                    And I treated handoff as the end of my involvement. Four years of App Store
-                    history exist for this product, and I can't tell you what happened in the first
-                    ninety days of it.
-                </p>
+
+                <div class="rd-case-cols is-three">
+                    <div>
+                        <h3 class="rd-case-label">Benchmark first</h3>
+                        <p>
+                            I worked the client's four goals as a flat list for the first stretch of
+                            the project and only reordered them once the benchmark landed. That
+                            benchmark took days, not weeks. I should have run it in week one, before
+                            accepting the goal structure I was handed — the entire reframe was
+                            sitting in a table I hadn't built yet.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="rd-case-label">Pick the metric that tests you</h3>
+                        <p>
+                            I also let the outcome metric be approval time, which is a process
+                            measure the client already believed in. The measure that actually tested
+                            my reframe was off-counter origination, and I never got it instrumented.
+                            Choosing the metric your stakeholder is comfortable with is the quiet
+                            way a good reframe fails to survive launch.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="rd-case-label">Handoff isn't the end</h3>
+                        <p>
+                            And I treated handoff as the end of my involvement. Four years of App
+                            Store history exist for this product, and I can't tell you what happened
+                            in the first ninety days of it.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -730,8 +848,9 @@
          or description changes there, change it here too; there is no shared
          source, deliberately, because the selection is editorial.
 
-         .rd-related is already a 3-column grid — a third card can be added
-         later without restructuring anything. -->
+         V2: the third card is now filled, matching Figma's three-wide row.
+         .rd-related was already a 3-column grid, so nothing was restructured
+         to take it. -->
     <section class="rd-case-section is-tinted">
         <div class="rd-case-inner rd-shell">
             <h2 class="rd-case-h2" data-aos="fade-up">Related case studies</h2>
@@ -759,6 +878,26 @@
                         <p class="rd-related-eyebrow">Web3 infrastructure</p>
                         <h3 class="rd-related-title">A chain that locked developers out</h3>
                         <p class="rd-related-desc">A permissioned NFT chain with a closed developer pool became a permissionless, EVM-compatible Layer 1 open to any Ethereum-toolchain builder.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+
+                <!-- Third card, added in v2 — Figma's row is three wide and
+                     .rd-related was already a 3-column grid waiting for it.
+                     Copy lifted verbatim from the matching homepage card, same
+                     rule as the two above. Chosen because it is the closest
+                     sibling this page has on reasoning rather than on sector:
+                     iSystem is the other project where I reordered a client's
+                     stated priorities and killed their remarketing ask. -->
+                <a class="rd-related-card" href="./marketing-platform.html">
+                    <div class="rd-related-media">
+                        <img src="../public/marketing.png"
+                             alt="iSystem marketing platform case study cover" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Salon software · Startup</p>
+                        <h3 class="rd-related-title">Eight apps, one team</h3>
+                        <p class="rd-related-desc">A startup was building eight apps at once for three user types. It became one transaction spine — book, check in, pay — with everything else sequenced behind it.</p>
                     </div>
                     <span class="rd-related-cta">Read the case study &rarr;</span>
                 </a>

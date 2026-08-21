@@ -63,6 +63,47 @@
   --rd-border: #666666;       /* card + stat-box border */
   --rd-border-soft: #e5e7eb;  /* CTA top border */
   --rd-border-muted: #999999; /* inactive tab underline */
+  /* Promoted 2026-08-20 from lending-new.html's preview build, where these
+     three lived only as inline `var(--rd-x, #hex)` fallbacks (22 occurrences
+     across the benchmark/market chart rules below). Values are the fallbacks
+     already in production, not new decisions. */
+  --rd-line: #e5e5e5;         /* hairline borders — table rows, card dividers */
+  --rd-tint: #f5f3ef;         /* subject/selected-row background tint */
+  --rd-ink-muted: #6b6b6b;    /* secondary text — captions, sub-labels */
+  /* Added 2026-08-20 for case-study-framework.html's lesson cards — Figma
+     40000256:6457 etc. genuinely calls for a colour outside ink/primary/
+     surface, so it gets a real token instead of an inline hex (Hao's call:
+     check the token set first, and if the colour really is new, add it
+     properly rather than working around not having it). Not reused anywhere
+     else yet — a second use is what would justify generalising the name. */
+  --rd-accent-yellow: #ffc645;  /* case-study-framework.html lesson cards only */
+  --rd-shadow-card: 0px 4px 2px rgba(0, 0, 0, 0.1); /* same shape as --rd-shadow-nav, darker/less tinted — Figma's card drop-shadow */
+
+  /* Added 2026-08-21 for lending-new-v3.html's benchmark INSIGHT panel rank
+     card — Figma 40000256:5411's #fcfcfc fill has no exact match on the
+     existing scale (closest is --rd-white #ffffff, one bit off); the card is
+     a visibly tinted sub-surface sitting inside a white .rd-case-card, so it
+     gets its own token rather than reusing --rd-white. */
+  --rd-panel-tint: #fcfcfc;
+
+  /* Added 2026-08-20 — market-share bar, Figma 40000256:5391 literal hex,
+     case-study-framework.html only (`.rd-market.is-figma`, below). NOT applied
+     to the base `.rd-market-seg`/`.rd-market-sw` classes lending-new-v2.html
+     also uses: that page's bar is deliberately ink-opacity only, a documented
+     constraint ("the page has exactly two hues") this page doesn't share. A
+     4-way categorical legend is exactly the "genuinely needs a new colour"
+     case, same reasoning as --rd-accent-yellow above.
+     --rd-market-subject reuses Figma's bar segment colour (#cba377), not its
+     legend swatch colour — Figma's own legend swatch for "HD Saison" is
+     #8ab6a6, identical to the FE Credit swatch right above it, which the
+     first pass at this page's header comment already flagged as an internal
+     inconsistency in the source file. Repeating that mistake would make the
+     legend ambiguous between two different lenders; using the bar's own
+     colour for both the segment and its legend key does not. */
+  --rd-market-a: #8ab6a6;        /* FE Credit */
+  --rd-market-b: #d35353;        /* Home Credit */
+  --rd-market-subject: #cba377;  /* HD Saison */
+  --rd-market-rest: #d8d6d2;     /* the other 13 */
 
   /* ---------------------------------------------------------------------
      TYPE SYSTEM — ALIASES ONLY. Do not put literal values back here.
@@ -2732,11 +2773,23 @@ html:has(body.rd-about) {
   .rd-stat-bar-row { flex-direction: column; gap: 16px; }
   .rd-stat-bar-row > div { text-align: left; }
 
-  /* Four labelled pills cost two rows and ~120px of vertical space on a phone,
-     for a control the card title already explains. Below 768px the strip is
-     replaced by a swipeable deck plus dots; js/initiatives.js swaps the ARIA
-     model to match so there is never a tabpanel without a tablist. */
-  .rd-tabs { display: none; }
+  /* Originally: the initiatives strip's four labelled pills cost two rows and
+     ~120px on a phone, so below 768px they were hidden and a swipeable deck
+     plus dots took over.
+
+     Scoped to .rd-initiative-wrap (2026-08-21) after this bare `.rd-tabs`
+     silently broke a new caller. index.html no longer has any .rd-tabs at all
+     — the pills were superseded by .rd-deck-dots / .rd-deck-index — so the
+     rule had become dead code sitting on the *shared* pill component. The
+     moment lending-new-v3.html reused .rd-tabs for the benchmark chart's
+     map/rows switcher, this rule hid it on every phone and the second view
+     became unreachable, with no carousel on that page to replace it.
+
+     Kept rather than deleted, scoped so it can only ever affect the strip it
+     was written for. `initiatives-desktop.css` has a matching dead `.rd-tabs`
+     hide at >=769; that file is linked from index.html only, so it cannot
+     reach a case study, but scope it too before reusing .rd-tabs there. */
+  .rd-initiative-wrap .rd-tabs { display: none; }
 
   .rd-initiative-deck {
     /* Each card sizes to its own content. Stretched (the flex default) they all
@@ -3701,8 +3754,33 @@ ol.rd-case-list > li { list-style-type: decimal; }
   color: var(--rd-ink);
   opacity: 0.75;
 }
-/* Breaks the 1,440 shell for cover art and the full product map. */
-.rd-case-figure.is-full img { border-radius: 0; border-inline: 0; }
+/* Breaks the 1,440 shell for cover art and the full product map.
+   Until v2 this modifier only dropped the radius and the side borders, which
+   is the cosmetic half of the job — the figure still sat inside .rd-shell, so
+   nothing actually bled. The margin trick below is the other half: pull the
+   element out to the viewport edges by half the difference between its
+   container and the viewport, on both sides.
+   `100vw` is only safe here because style.css sets `overflow-x: hidden` on the
+   body — without that, the scrollbar width is counted in 100vw and every page
+   using this class would scroll sideways by ~15px. `max-width: none` is not
+   redundant: .rd-case-figure sets `width: 100%`, and a flex column parent will
+   otherwise hold the item at the container's width. */
+.rd-case-figure.is-full {
+  width: 100vw;
+  max-width: none;
+  margin-inline: calc(50% - 50vw);
+}
+.rd-case-figure.is-full img { border-radius: 0; border-inline: 0; background: none; }
+/* The picture bleeds; the caption does not. It keeps --rd-measure-case from
+   the base rule and is pushed back in to start exactly where the paragraphs
+   above it start — the shell's left edge plus the section's 24px gutter. The
+   `max()` is the narrow-viewport case: once the viewport is narrower than the
+   shell the first term goes negative, and 24px takes over. */
+.rd-case-figure.is-full figcaption {
+  margin-left: max(24px, calc((100vw - var(--rd-shell)) / 2 + 24px));
+  margin-right: 24px;
+  max-width: calc(var(--rd-shell) - 48px);
+}
 /* Two figures that argue against each other — before/after, sparse/dense.
    `center`, not `start`: the pair is almost never the same aspect ratio (the
    sparse crop is naturally short, the dense one tall), and top-aligning them
@@ -3809,20 +3887,45 @@ ol.rd-case-list > li { list-style-type: decimal; }
    long value ("Specced, prototyped and handed off") pushed Status onto a row
    of its own and the bar lost its shape. Equal columns keep the rhythm
    whatever the copy does. */
+/* Corrected 2026-08-20: was `--rd-surface` / `--rd-border-soft` (tinted fill,
+   light hairline border), which matches neither Figma (40000221:3783 is
+   `bg-white border border-[#666]`) nor this project's own token for that
+   exact pairing — `.rd-case-card` already uses `--rd-white` / `--rd-border`
+   for the identical white-card-with-a-#666-border look elsewhere on every
+   case study. This is a shared rule (healthcare.html, customer-engagement.html
+   and lending-new*.html all render it), so the fix applies everywhere the
+   snapshot bar appears, not just on case-study-framework.html. */
 .rd-case-snapshot {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 24px;
   width: 100%;
   padding: 24px;
-  border: 1px solid var(--rd-border-soft);
+  border: 1px solid var(--rd-border);
   border-radius: 16px;
-  background: var(--rd-surface);
+  background: var(--rd-white);
 }
 .rd-case-snapshot > div {
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+/* No scoped rule existed for the label/value pair inside .rd-case-snapshot —
+   .rd-case-meta-k/-v only had rules under .rd-case-meta, .rd-case-summary and
+   .rd-case-highlight, none of which is this component's parent, so these
+   spans were rendering with no explicit type at all. Figma (40000221:3815/
+   :3818 etc.) has the label at Medium/14px/muted and the value at
+   SemiBold/16px/full ink — mapped to tokens below (fw-heading is this
+   project's SemiBold, same substitution used throughout). */
+.rd-case-snapshot .rd-case-meta-k {
+  font-weight: var(--rd-fw-body);
+  font-size: var(--rd-fs-sm);
+  color: var(--rd-ink-muted);
+}
+.rd-case-snapshot .rd-case-meta-v {
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-md);
+  color: var(--rd-ink);
 }
 
 /* ← web-3 `.outcome` / `.outcome-info` / `.outcome-highlight`.
@@ -4139,4 +4242,1182 @@ ol.rd-case-list > li { list-style-type: decimal; }
   .rd-case-gallery.is-screens img { aspect-ratio: auto; }
   .rd-case-table th,
   .rd-case-table td { padding: 12px; font-size: var(--rd-fs-sm); }
+}
+
+/* ==========================================================================
+   CASE STUDY COMPONENTS — added 2026-08-20
+   Promoted from lending-new.html's inline preview <style> block once the
+   competitive-benchmark chart and market-share bar were approved, plus new
+   components for the Figma-driven generic template pass (checklist, card
+   stack, chart-column split, tag strip). See lending-new.html's own header
+   comment for what changed structurally; this block only carries styling.
+   ========================================================================== */
+
+/* The framework has five evidence tags; the four in "1. Evidence chips"
+   above don't cover "published" (a fact reported by someone else, not
+   measured, counted or estimated by the author, and not merely a target). */
+.rd-evidence.is-published {
+  background: var(--rd-white);
+  border-color: var(--rd-line);
+  color: var(--rd-ink-muted);
+}
+
+/* Benchmark table — the no-JS source of truth and accessible fallback for
+   the interactive chart .rd-bench progressively enhances it into. Kept in
+   the DOM even when enhanced (aria-hidden, visually clipped), so a table
+   component belongs here regardless of whether the chart renders. */
+.rd-benchmark { width: 100%; border-collapse: collapse; margin: 24px 0 8px; font-size: var(--rd-fs-sm); }
+.rd-benchmark th, .rd-benchmark td { padding: 12px 10px; text-align: left; border-bottom: 1px solid var(--rd-line); }
+.rd-benchmark thead th { font-weight: 600; color: var(--rd-ink-muted); text-transform: uppercase; letter-spacing: .04em; font-size: var(--rd-fs-xs); }
+.rd-benchmark tbody th { font-weight: 500; }
+.rd-benchmark .is-subject td, .rd-benchmark .is-subject th { background: var(--rd-tint); font-weight: 700; }
+.rd-benchmark caption { caption-side: bottom; text-align: left; padding-top: 12px; color: var(--rd-ink-muted); font-size: var(--rd-fs-sm); line-height: 1.6; }
+
+/* ------------------------------------------------------------------
+   .rd-bench — the interactive layer over .rd-benchmark.
+
+   COLOUR. No new hues. The page has exactly two: --rd-ink (#0a2a30) and
+   --rd-primary (#01679c). So hue carries one meaning and value carries the
+   other:
+     --rd-primary        = originated online
+     ink at 10% alpha    = still at the counter
+     solid ink + tint    = HD Saison, the subject
+   A third colour for "the subject" would have made the reader learn two
+   legends. Darkness does that job for free.
+
+   The table column is offline %, the chart is digital %. Inverted on
+   purpose: a bar chart of offline share gives HD Saison the longest bar,
+   which reads as HD Saison leading. The empty bar is the point.
+   ------------------------------------------------------------------ */
+.rd-bench { margin: 24px 0 8px; }
+.rd-bench.is-figma { margin: 0; } /* case-study-framework.html only */
+/* `display: block` is load-bearing, not tidying. A <table> sizes to its
+   min-content width no matter what `width` says, so the usual sr-only
+   recipe left this one 2016px wide and overflowing the 1312px figure —
+   invisible, but still pushing the page. Blocking the table layout is what
+   makes `width: 1px` apply. Safe here only because the script also sets
+   aria-hidden on it: the chart carries the data for AT. */
+.rd-bench.is-enhanced .rd-benchmark {
+  display: block; position: absolute; width: 1px; height: 1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+/* `flex: 1` + `min-height: 0` (2026-08-20, paired with the .is-chart
+   `align-items: stretch` fix above): once .rd-case-card is stretched to the
+   row's full height, something inside it has to claim the extra space or it
+   just sits empty below the chart. This is that: the mount grows to fill the
+   card, .rd-bench-stage below grows to fill the mount, and the map fills the
+   stage — the same chain Figma expresses as a plain `object-contain` image
+   filling its box. `min-height: 0` overrides flexbox's default
+   `min-height: auto`, which would otherwise refuse to let the map area
+   shrink below the SVG's natural size and silently cancel the fill. */
+.rd-bench.is-enhanced .rd-bench-mount { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.rd-bench-mount { display: none; }
+
+.rd-bench-head { margin: 0 0 20px; }
+.rd-bench-title { font-size: var(--rd-fs-md); font-weight: 600; margin: 0 0 2px; color: var(--rd-ink); }
+/* case-study-framework.html only. Left-aligned — same as the base rule, so
+   no text-align override is needed (was briefly right-aligned; reverted).
+   Renamed from `.is-right` to `.is-figma` now that alignment is no longer
+   what this modifier does; it only carries the type match below.
+
+   Matched to how .rd-bench-panel-name (the "HD SAISON" heading in the
+   Insight card) actually RENDERS, not to what its own dead CSS rule says.
+   That rule's font-size/font-weight/margin all lose a specificity fight to
+   `.rd-case-card h3` and the sitewide `.rd-case h3 { margin: 0 }` reset (h3
+   is a `.rd-case-card` descendant, one more class + tag = higher specificity
+   than .rd-bench-panel-name's plain class) — same shape of bug as the
+   .rd-market-key/.rd-market-source margins fixed earlier today. The real
+   rendered "HD SAISON" is --rd-fs-md/700/uppercase/no margin, which is what
+   this copies; .rd-bench-panel-name's own rule is left as-is rather than
+   fixed, since correcting it would visibly change a heading already seen
+   and accepted across several rounds of screenshots this session. */
+.rd-bench-head.is-figma .rd-bench-title {
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-emphasis);
+  text-transform: uppercase;
+  line-height: var(--rd-lh-tight);
+  margin: 0;
+}
+.rd-bench-sub { font-size: var(--rd-fs-sm); color: var(--rd-ink-muted); margin: 0; }
+
+.rd-bench-stage {
+  flex: 1;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Shared hover/focus state. At rest all five lenders are at full strength;
+   pointing at one dims the other four and swaps the panel. Nothing is
+   dimmed until the reader asks for a comparison. */
+.rd-bench-item { transition: opacity .18s ease, filter .18s ease; outline: 0; cursor: pointer; }
+/* lending-new-v3.html only — click-to-pin (review Part C, item 7). Hover-only
+   interaction leaves touch and keyboard users stuck on the default card;
+   clicking (or Enter/Space) now pins a lender so its card survives
+   mouseleave/blur, and the pinned mark gets a glow so the map itself shows
+   which one is locked, not just the panel beside it. */
+.rd-bench-mark.is-pinned image { filter: drop-shadow(0 0 4px var(--rd-primary)); }
+/* `filter` here, on the group, not just `opacity` (2026-08-20 fix, paired
+   with the .rd-bench-mark image comment below): grayscale on a parent
+   applies to its whole rendered subtree regardless of what filter a child
+   sets on itself, so this "grays out" the other four logos instead of just
+   fading them — including HD Saison, which already lost its own opacity to
+   this same is-dim toggle before this change; graying it out too when a
+   competitor is hovered is the same treatment, not a new exception. */
+.rd-bench-item.is-dim { opacity: .26; filter: grayscale(1); }
+.rd-bench-item:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: 3px; border-radius: 3px; }
+
+/* --- the map ---
+   Every fill and stroke is set here rather than as an SVG presentation
+   attribute. `fill="var(--rd-ink)"` silently does nothing — var() is only
+   valid in CSS properties, not in presentation attributes, so the first
+   render came out with grey-black defaults everywhere and HD Saison was
+   indistinguishable from its competitors. */
+/* `width/height: 100%`, not `height: auto` — auto derived height purely from
+   width, which is what left the chart short of the (now stretched) card and
+   the rest of the box empty. The SVG's viewBox default
+   (preserveAspectRatio="xMidYMid meet") does the rest: it scales the artwork
+   to fit inside this box on whichever axis is tighter and centres it, the
+   same "contain" behaviour Figma's node uses on a plain image. */
+.rd-bench-map { width: 100%; height: 100%; display: block; max-width: 900px; }
+.rd-bench-map text { font-family: var(--rd-font); }
+.rd-bench-axis line { stroke: var(--rd-line); }
+.rd-bench-grid line { stroke: var(--rd-line); stroke-dasharray: 2 4; }
+/* font-size lives here, not as a `font-size="10"` SVG presentation attribute
+   on the generated markup (2026-08-20 fix) — presentation attributes can't
+   reference var(), the same reason this file already keeps every fill/stroke
+   in CSS instead (see the comment on .rd-bench-map above). --rd-fs-xs (12px)
+   is the smallest step the type scale has; the map's own tick/quadrant
+   labels were previously 10–11px with no token backing either value. */
+.rd-bench-tick, .rd-bench-axis-label, .rd-bench-quad-label { fill: var(--rd-ink-muted); font-size: var(--rd-fs-xs); }
+.rd-bench-quad { fill: rgba(10, 42, 48, .05); }
+/* Full brand colour by default for all five (2026-08-20, third pass on this
+   rule — see the two superseded states in git history if needed). The
+   "gray out" now lives on `.rd-bench-item.is-dim` below, not on `:hover`/
+   `:focus` here: focusOn() in the script already adds `.is-dim` to every
+   OTHER item the instant one is hovered/focused, so the hovered item needs
+   no rule of its own — it simply never receives `.is-dim` and stays at this
+   full-colour default. That also makes the old `.is-subject` override
+   redundant (it set the same filter:none/opacity:1 this default now sets
+   unconditionally), so it's gone rather than left as a second rule doing
+   the first one's job. */
+.rd-bench-mark image {
+  filter: none; opacity: 1;
+  transition: filter .18s ease, opacity .18s ease;
+}
+.rd-bench-halo { fill: var(--rd-white); stroke: var(--rd-ink); stroke-opacity: .25; }
+.rd-bench-quad-label text { fill: var(--rd-ink-muted); letter-spacing: .07em; }
+.rd-bench-quad-label text.is-subject { fill: var(--rd-ink); font-weight: 600; }
+.rd-bench-mark circle { fill: rgba(10, 42, 48, .32); }
+.rd-bench-mark text { fill: var(--rd-ink-muted); }
+.rd-bench-mark.is-subject circle { fill: var(--rd-ink); }
+.rd-bench-mark.is-subject text { fill: var(--rd-ink); font-weight: 700; }
+/* Must out-specify `.rd-bench-mark.is-subject circle` (0,2,1) above, or the
+   halo inherits that solid ink fill and HD Saison renders as one circle
+   twice the size of everyone else instead of a dot inside a ring. */
+.rd-bench-mark.is-subject circle.rd-bench-halo {
+  fill: none; stroke: var(--rd-ink); stroke-opacity: .35;
+}
+
+/* --- lending-new-v3.html only — view switcher + the "Online share" rows ---
+   The map answers "reach versus readiness" on two axes at once, which is the
+   right frame for the section's argument but the wrong one for its single
+   sharpest fact: four competitors sit between 14% and 34% online and HD
+   Saison sits at 0. On the map that fact is a horizontal distance the eye
+   has to measure against a quadrant divider drawn somewhere else (17%); as
+   five stacked bars it is just an empty rail. So both views exist and the
+   reader picks — same data, same hover, same INSIGHT card, no duplication of
+   the panel markup.
+
+   No pill styles here: .rd-tabs/.rd-tab (see the TAB STRIP section above) is
+   already the sitewide switcher, filled-when-active, --rd-fs-md like every
+   other button. The only thing that needs changing is the justification —
+   .rd-tabs centres itself for the full-width initiatives strip, and a chart
+   card's controls belong on the same left edge as its title. */
+.rd-bench-views { justify-content: flex-start; margin: 14px 0 0; }
+/* "Reach and readiness" + "Online share" run close to the ~308px of card
+   interior at 390px, and a wrap costs ~52px above an already-short chart.
+   Tightening the horizontal padding buys back ~32px to keep them on one row
+   where it fits. Padding and gap only — the 16px label and the 44px touch
+   target are the sitewide button contract and do not move.
+
+   Whether they actually fit at 390 is font-dependent and NOT verified: the
+   sandbox falls back to DejaVu, which is wider than DM Sans, so measurements
+   taken there overstate the label width. Two rows is the graceful failure —
+   nothing overflows and both targets stay 44px — so this is an improvement
+   in the odds, not a guarantee. Check on a real device before tuning it
+   further. */
+@media (max-width: 430px) {
+  .rd-bench-views .rd-tab { padding: 0 12px; }
+  .rd-bench-views { gap: 8px; }
+}
+
+/* Same reasoning as .rd-bench-map above: var() is not valid in an SVG
+   presentation attribute, so every fill and stroke for the rows view is a
+   CSS rule keyed off a class the script writes. */
+/* Opaque, NOT an ink-opacity ramp like the rest of this component. The band
+   below is painted first and the rows sit on top of it, so a translucent bar
+   let the band show through: every bar came out two-tone, light up to 14%
+   and darker from 14% to its end, which reads as a second encoded variable
+   that does not exist. Solid fills keep each bar one colour and confine the
+   band to the whitespace between rows, where it belongs. */
+.rd-bench-rows-track { fill: #f1f3f3; }
+.rd-bench-rows-bar { fill: #93a2a5; }
+.rd-bench-rows-val { fill: var(--rd-ink-muted); font-size: var(--rd-fs-sm); font-weight: 600; }
+/* Solid ink is always HD Saison — the same colour language the map and the
+   market bar already use, so the rows teach the reader nothing new. */
+.rd-bench-item.is-subject .rd-bench-rows-bar { fill: var(--rd-ink); }
+.rd-bench-item.is-subject .rd-bench-rows-val { fill: var(--rd-ink); font-weight: 700; }
+/* The band is the finding: it covers the range the competitors actually
+   occupy (computed in drawRows, not hard-coded), so the stretch to its left
+   is visibly nobody's. Same 5% ink wash as .rd-bench-quad — one shaded
+   region means one thing across both views. */
+.rd-bench-band { fill: rgba(10, 42, 48, .05); }
+/* The fill alone stopped working once the row tracks went opaque above — it
+   survives only in the ~32px gaps between rows, which is not enough ink to
+   read as a region. These two dashed verticals mark where the band starts
+   and ends and sit ON TOP of the rows, so the zone stays legible whatever
+   crosses it. */
+.rd-bench-band-edge line { stroke: #b7c1c3; stroke-dasharray: 3 4; }
+.rd-bench-band-label { fill: var(--rd-ink-muted); font-size: var(--rd-fs-xs); letter-spacing: .07em; }
+.rd-bench-gap line { stroke: var(--rd-ink-muted); stroke-dasharray: 3 3; }
+.rd-bench-gap text { fill: var(--rd-ink); font-size: var(--rd-fs-xs); }
+
+/* --- INSIGHT card content + takeaway ---
+   The "panel" is no longer a component of its own: [data-bench-insight] is a
+   plain .rd-case-card (see redesign.css's CASE STUDY COMPONENTS section),
+   and these rules just style what the chart script writes into it. */
+.rd-bench-panel-name { font-size: var(--rd-fs-lg); font-weight: 600; margin: 0 0 8px; color: var(--rd-ink); }
+/* Hovering a mark on the map swaps the INSIGHT card's heading from the
+   lender's name to its logo (fill() in the script below) — same mark
+   used on the SVG map, just bigger. Fixed box + object-fit:contain, not
+   height:22px/width:auto — the five logos have different aspect ratios once
+   trimmed to their own visible pixels (see LOGO_PANEL in the script), so an
+   auto width made every swap resize and re-position the mark. A fixed box
+   with the mark centred inside it holds the same footprint regardless of
+   which lender is hovered. */
+.rd-bench-panel-logo {
+  display: block; width: 92px; height: 22px;
+  object-fit: contain; object-position: left center;
+}
+/* No min-height (removed 2026-08-20, Hao's call on the right-hand card) —
+   the card now sizes to whichever blurb is showing instead of reserving
+   room for the longest one in the set, so the strip and metrics below it
+   shift slightly as the reader moves between lenders. */
+.rd-bench-panel-blurb {
+  font-size: var(--rd-fs-md); color: var(--rd-ink); line-height: 1.6;
+  margin: 0 0 18px;
+}
+/* lending-new-v3.html only (`.is-v3` on the figure). The "INSIGHT" label
+   above the blurb (.rd-bench-insight-label) carries the emphasis — the
+   blurb itself and everything below it stay body weight, just sized up to
+   --rd-fs-md (16px) so the panel reads as one consistent body size instead
+   of the 16/14/12px mix it had before. Not applied to
+   case-study-framework.html, which shares these classes but wasn't asked to
+   change. */
+.rd-bench.is-v3 .rd-bench-metric { font-size: var(--rd-fs-md); }
+.rd-bench.is-v3 .rd-bench-source { font-size: var(--rd-fs-md); }
+/* lending-new-v3.html only — a rank card tying the hover panel back to the
+   market-share bar above it (review Part C, item 4): digital-origination
+   rank for every hovered lender, plus a market-share rank for HD Saison
+   specifically, since that is the only lender whose overall market position
+   (not just digital share within this five-lender benchmark) is
+   independently verified. Rebuilt 2026-08-21 to match Figma 40000256:5411 —
+   was a single pill of text, now the two-column stat card the design shows;
+   fill() in the script below hides the second block/divider for every
+   lender but HD Saison, where market-share rank is unverified. */
+.rd-bench-rankcard {
+  display: flex; align-items: stretch; gap: 16px;
+  width: 100%; padding: 16px; margin: 0 0 16px;
+  background: var(--rd-panel-tint); border: 1px solid var(--rd-line); border-radius: 8px;
+}
+.rd-bench-rank-block { display: flex; flex: 1 0 0; flex-direction: column; gap: 8px; min-width: 0; }
+.rd-bench-rank-block[hidden] { display: none; }
+.rd-bench-rank-num { font-size: var(--rd-fs-xl); font-weight: var(--rd-fw-emphasis); color: var(--rd-ink); line-height: 1; }
+.rd-bench-rank-label { font-size: var(--rd-fs-md); font-weight: var(--rd-fw-body); color: var(--rd-ink); }
+.rd-bench-rank-div { width: 1px; align-self: stretch; background: var(--rd-line); }
+.rd-bench-rank-div[hidden] { display: none; }
+
+/* "INSIGHT" label above the blurb — Figma 40000256:5411 shows it always;
+   the panel previously went straight from the rank chip to the blurb text
+   with no heading. --rd-fw-emphasis (700) is the closest token to Figma's
+   untokenized 800 weight — the same consolidation call docs/redesign/
+   design-tokens.md already documents for stat numbers/eyebrows sitewide.
+   Selector is `.rd-case-card .rd-bench-insight-label`, not the plain class,
+   because `.rd-case-card p` (line ~511) sets font-weight:var(--rd-fw-body)
+   at class+tag specificity — a bare class selector here loses that fight
+   silently and the weight never takes, same bug shape as the
+   .rd-bench-panel-name/.rd-bench-title case documented above. */
+.rd-case-card .rd-bench-insight-label {
+  font-size: var(--rd-fs-xl); font-weight: var(--rd-fw-emphasis);
+  color: var(--rd-ink); margin: 0 0 16px;
+}
+
+/* The old "Share online" waffle, now scoped to the selected lender.
+   Hidden until the script populates it — an empty grid of 0 dots under a
+   caption that says "one dot = two loans in a hundred" reads as a broken
+   render, so the no-JS fallback simply doesn't show it. */
+.rd-bench-strip { display: flex; gap: 1px; margin: 0 0 7px; }
+.rd-bench:not(.is-enhanced) .rd-bench-strip,
+.rd-bench:not(.is-enhanced) .rd-bench-strip-cap { display: none; }
+.rd-bench-strip span {
+  flex: 1 1 0; min-width: 2px; max-width: 8px; aspect-ratio: 1;
+  border-radius: 1px; background: rgba(10, 42, 48, .16);
+  transform: scale(.4); opacity: 0;
+  transition: transform .25s ease, opacity .25s ease;
+}
+.rd-bench-strip span.is-online { background: var(--rd-primary); }
+.rd-bench-strip.is-subject span { background: rgba(10, 42, 48, .22); }
+.rd-bench-strip span.is-in { transform: none; opacity: 1; }
+.rd-bench-strip-cap { font-size: var(--rd-fs-xs); color: var(--rd-ink-muted); margin: 0 0 14px; }
+/* case-study-framework.html only — "One dot = two loans in a hundred" made
+   readers do a loans-per-hundred-to-percent conversion in their head to
+   understand a caption whose whole job is to remove that step; reworded to
+   "Each dot = 2% of loans" (in the markup) and given bold+uppercase to read
+   as a key/legend line rather than a sentence. */
+.rd-bench.is-figma .rd-bench-strip-cap { font-weight: 700; text-transform: uppercase; }
+.rd-bench-metric { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 7px 0; border-top: 1px solid rgba(10, 42, 48, .10); font-size: var(--rd-fs-sm); }
+.rd-bench-metric dt { color: var(--rd-ink-muted); margin: 0; }
+.rd-bench-metric dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--rd-ink); }
+/* lending-new-v3.html only — one delta line under each metric, expressing it
+   relative to HD Saison rather than as a bare number (review Part C, item
+   1: "1.07M visits means little on its own; 9× HD Saison means everything").
+   `display: flex; flex-direction: column` on the dd turns its single value
+   into a two-line stack without touching .rd-bench-metric's own row layout;
+   empty on the HD Saison card itself, since it can't be relative to itself
+   — :empty collapses the reserved line rather than leaving a gap. */
+.rd-bench-metric dd { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.rd-bench-metric-delta { font-size: var(--rd-fs-xs); font-weight: 500; color: var(--rd-ink-muted); }
+.rd-bench-metric-delta:empty { display: none; }
+/* Full width, under the chart — it is a conclusion about all five lenders,
+   not a property of whichever one the pointer is on. */
+.rd-bench-take { font-size: var(--rd-fs-sm); line-height: 1.65; color: var(--rd-ink); margin: 22px 0 0; padding: 14px 16px; background: var(--rd-white); border: 1px solid var(--rd-line); border-radius: 8px; max-width: 800px; }
+.rd-bench-take strong { font-weight: 700; }
+.rd-bench-source { font-size: var(--rd-fs-xs); color: var(--rd-ink-muted); margin: 20px 0 0; padding-top: 12px; border-top: 1px solid var(--rd-line); }
+/* case-study-framework.html only — Hao's call, the chart's source note reads
+   at --rd-fs-sm (14px) instead of the base rule's --rd-fs-xs (12px). */
+.rd-bench.is-figma .rd-bench-source { font-size: var(--rd-fs-sm); }
+
+/* ------------------------------------------------------------------
+   .rd-market — market concentration, one static bar.
+
+   No JS on purpose. The section already has one animated component (250
+   dots revealing on scroll); a second thing that moves competes with it.
+   Same ink ramp as .rd-bench, so the reader does not learn a second colour
+   language: the darker the block, the more it matters, and solid ink is
+   always HD Saison.
+   ------------------------------------------------------------------ */
+.rd-market { margin: 8px 0 24px; max-width: 800px; }
+/* case-study-framework.html only — full width (Figma's node is `w-full`
+   inside its 1440px column, not an 800px cap) and Figma's literal 4-colour
+   palette instead of the ink-opacity ramp above. See the --rd-market-*
+   tokens near the top of this file for why this is a modifier and not a
+   change to the base rule. */
+.rd-market.is-figma {
+  max-width: none; margin: 0;
+  padding: 24px; background: var(--rd-white);
+  border: 1px solid var(--rd-border); border-radius: 16px;
+}
+.rd-market.is-figma .rd-market-seg.is-a, .rd-market.is-figma .rd-market-sw.is-a { background: var(--rd-market-a); }
+.rd-market.is-figma .rd-market-seg.is-b, .rd-market.is-figma .rd-market-sw.is-b { background: var(--rd-market-b); }
+.rd-market.is-figma .rd-market-seg.is-rest, .rd-market.is-figma .rd-market-sw.is-rest { background: var(--rd-market-rest); }
+.rd-market.is-figma .rd-market-seg.is-subject, .rd-market.is-figma .rd-market-sw.is-subject { background: var(--rd-market-subject); }
+.rd-market-head { margin: 0 0 14px; }
+.rd-market-title { font-size: var(--rd-fs-md); font-weight: 600; margin: 0 0 2px; color: var(--rd-ink); }
+.rd-market.is-figma .rd-market-title { text-transform: uppercase; } /* case-study-framework.html only */
+.rd-market-sub { font-size: var(--rd-fs-sm); color: var(--rd-ink-muted); margin: 0; }
+
+.rd-market-bar { display: flex; height: 30px; border-radius: 3px; overflow: hidden; }
+.rd-market-seg {
+  height: 100%; display: flex; align-items: center; justify-content: center;
+  font-size: var(--rd-fs-xs); font-weight: 600;
+}
+.rd-market-seg.is-a, .rd-market-sw.is-a { background: rgba(10, 42, 48, .18); }
+.rd-market-seg.is-b, .rd-market-sw.is-b { background: rgba(10, 42, 48, .30); }
+.rd-market-seg.is-rest, .rd-market-sw.is-rest { background: rgba(10, 42, 48, .08); }
+.rd-market-seg.is-subject, .rd-market-sw.is-subject { background: var(--rd-ink); }
+.rd-market-seg.is-subject { color: var(--rd-ink-inverse); }
+
+/* `.rd-market .rd-market-key`, not the bare class (2026-08-20 fix): the
+   sitewide `.rd-case ul, .rd-case p { margin: 0 }` reset (redesign.css ~478,
+   specificity 0,1,1) was silently beating this rule's own margin-top
+   (specificity 0,1,0 — one class loses to class+tag) — the gap between the
+   bar and everything below it was dead CSS from the day this component was
+   built, on this page and on lending-new-v2.html's identical chart. Scoping
+   under `.rd-market` adds a second class (0,2,0) and wins outright. Same fix
+   applied to .rd-market-source below. */
+.rd-market .rd-market-key {
+  display: flex; flex-wrap: wrap; gap: 7px 24px;
+  list-style: none; margin: 12px 0 0; padding: 0;
+  font-size: 16px; color: var(--rd-ink-muted);
+}
+.rd-market-key li { display: flex; align-items: center; gap: 8px; }
+.rd-market-key li.is-subject { color: var(--rd-ink); }
+.rd-market-key b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.rd-market-sw { width: 10px; height: 10px; border-radius: 2px; flex: 0 0 auto; }
+
+.rd-market .rd-market-note {
+  font-size: var(--rd-fs-sm); line-height: 1.65; color: var(--rd-ink); margin: 16px 0 0;
+  padding: 13px 15px; background: var(--rd-white);
+  border: 1px solid var(--rd-line); border-radius: 8px;
+}
+.rd-market .rd-market-source {
+  font-size: var(--rd-fs-xs); color: var(--rd-ink-muted);
+  margin: 14px 0 0; padding-top: 11px; border-top: 1px solid var(--rd-line);
+}
+/* At narrow widths the 11% block is ~38px — not enough for its own label,
+   and a truncated "11%" reads as a rendering fault. The key carries it. */
+@media (max-width: 560px) {
+  .rd-market-seg.is-subject { color: transparent; }
+  .rd-market-key { gap: 7px 16px; }
+}
+
+@media (max-width: 860px) {
+  .rd-bench-stage { min-height: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-bench-strip span { transition: none; transform: none; opacity: 1; }
+  .rd-bench-item { transition: none; }
+}
+
+/* ---------------------------------------------- 5. Expectation checklist --
+   "The expectation" — the client brief's original goal list, Figma's
+   icon+label row pattern. Icons are the real per-feature assets carried
+   over from lending.html (IC_esign / IC_loan / IC_payment / IC_remarket),
+   not Figma's mismatched sample icons (Figma/Slack/Discord/Teams/GitHub
+   logos) — those belonged to an unrelated sample screen in the source file. */
+.rd-case-checklist {
+  width: 100%;
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--rd-white);
+}
+.rd-case-checklist-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-top: 1px solid var(--rd-border-soft);
+}
+.rd-case-checklist-row:first-child { border-top: 0; }
+.rd-case-checklist-icon {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 4px;
+  background: var(--rd-white);
+}
+.rd-case-checklist-icon img { width: 100%; height: 100%; object-fit: contain; }
+.rd-case-checklist-row span { font-size: var(--rd-fs-md); color: var(--rd-ink); }
+
+/* Numbered goal rail — lending-new-v3 §expectation.
+   A visual copy of .rd-deck-index (about.html's career timeline index) and
+   deliberately NOT that class: deck-index carries `display: none` with a
+   `min-width: 769px` override, because it is the desktop half of a
+   desktop-index / mobile-carousel pair. Reusing it for static content would
+   hide this block on every phone. Same trap as the dead `.rd-tabs` hide that
+   made the benchmark view switcher unreachable on mobile — see section 2775.
+
+   Rows are spans, not buttons. Nothing here is clickable, so there is no
+   hover, cursor, focus ring or is-current state, and no .rd-deck-marker.
+   Text is --rd-ink rather than deck-index's #8a8880: that grey is its
+   *inactive* state, and with no active row to contrast against it just
+   reads as disabled. */
+.rd-goal-lead {
+  margin: 0 0 12px;
+  font-size: var(--rd-fs-md);
+  color: var(--rd-ink);
+}
+.rd-goal-index {
+  /* No max-width (deck-index caps at 426px to sit in the hero column);
+     this one fills whatever the §expectation column gives it. */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #d9d6cd;
+}
+.rd-goal-index li {
+  display: flex;
+  gap: 12px;
+  list-style: none;
+  padding: 14px 0 14px 16px;
+  border-bottom: 1px solid #d9d6cd;
+  font-size: var(--rd-fs-md);
+  font-weight: 500;
+  color: var(--rd-ink);
+}
+.rd-goal-index li .n {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+.rd-goal-note {
+  margin: 12px 0 0;
+  font-size: var(--rd-fs-sm);
+  color: var(--rd-ink-muted);
+}
+
+/* ------------------------------------------------ 6. Research card stack --
+   Beside the benchmark chart in UX Research Findings — one wrapper for the
+   flex column, no new card visual needed. lending-new-v2.html still stacks
+   two cards here (INSIGHT + Chart Information) sized to their own content;
+   case-study-framework.html dropped the second card (Hao's call), so its
+   one remaining card is the `:only-child` case below, stretched to match
+   the map's height instead of sitting content-sized with empty space under
+   it in the now mostly-empty stack. */
+.rd-case-card-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+}
+.rd-case-card-stack .rd-case-card { flex: 0 0 auto; }
+.rd-case-card-stack .rd-case-card:only-child { flex: 1 1 auto; }
+
+/* Narrow insight/info column, wide chart column — the inverse of
+   .rd-case-split's 2fr:1fr (narrative left, stat card right). Same
+   component, opposite emphasis, so it takes a modifier rather than a
+   second grid class.
+
+   `align-items: stretch` overrides the base .rd-case-split's `start`
+   (2026-08-20 fix). Without it .rd-case-card-stack's own `height: 100%`
+   above was a no-op — a grid item under `align-items: start` is never
+   stretched to the row's height in the first place, so both columns sat at
+   their own content height and the shorter one just left dead space beside
+   the taller one instead of matching it. Stretching here is also what lets
+   the map fill its card the way Figma's node renders it — a plain image at
+   `object-contain size-full` — see .rd-bench-map below. */
+.rd-case-split.is-chart { grid-template-columns: minmax(280px, 1fr) 2.3fr; align-items: stretch; }
+@media (max-width: 1024px) {
+  .rd-case-split.is-chart { grid-template-columns: 1fr; }
+}
+
+/* Copy left, product render right — Figma 40000256:5857 ("Looking at the
+   main"), where the two columns are 498 and 774, i.e. 1 : 1.55. The existing
+   .is-chart modifier next door is the closest fit at 1 : 2.3 and is still
+   wrong for this: a chart can survive a 280px sidebar because the sidebar
+   holds labels, but this column holds two paragraphs, and paragraphs at that
+   width break to four or five words a line.
+
+   Right-side panel follows the same shape as web-3.html's own card-section
+   component (.cs-right-side / .cs-image-container / .cs-feature-image,
+   case-studies.css) — padding held only on the top and left, none on the
+   right or bottom, with the image filling the panel's content box so it
+   bleeds to those two open edges. Ported as structure only, not a literal
+   copy: colours/border go through this page's --rd-* tokens instead of
+   .cs-right-side's hardcoded #fafbfc, and the image runs `object-fit:
+   contain` rather than web-3's `cover` — this render is a transparent phone
+   mockup, not a photo, so cropping it isn't an option. `align-items:
+   stretch` (was `center`) so the panel fills the row instead of sizing to
+   the image's own intrinsic height, the same way .cs-image-container fills
+   .cs-right-side. */
+.rd-case-split.is-media {
+  grid-template-columns: 1fr 1.5fr;
+  align-items: stretch;
+}
+/* Each panel owns its own inset rather than sharing the outer .rd-case-card's
+   padding (below, zeroed out for this card) — mirrors .cs-left-side / .cs-
+   right-side each carrying their own padding in web-3.html's card-section,
+   rather than one shared padded wrapper around both. */
+.rd-case-split.is-media > .rd-case-body { padding: 24px; }
+.rd-case-split.is-media > .rd-case-figure {
+  padding: 40px 0 0 40px;
+  margin-top: 40px;
+  background: var(--rd-surface);
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 16px 0;
+  overflow: hidden;
+}
+/* The panel above already carries the border and the ground, so the image
+   inside it drops both — otherwise it reads as a card inside a card.
+   object-position pushes it into the bottom-right corner (the panel's two
+   unpadded edges) rather than `contain`'s default centring, so any slack
+   from the aspect-ratio mismatch lands in the padded top/left instead. */
+.rd-case-split.is-media > .rd-case-figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 100% 100%;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.rd-case-split.is-media > .rd-case-figure figcaption { text-align: center; margin-top: 20px; }
+/* The two panels above now carry their own padding, so the outer card is
+   just a bleed-free wrapper here — its usual 24px would double up with
+   .rd-case-body's own padding on three sides and reopen the gap the figure
+   panel bleeds into on the fourth. */
+.rd-case-card:has(> .rd-case-split.is-media) { padding: 0; }
+@media (max-width: 1024px) {
+  .rd-case-split.is-media { grid-template-columns: 1fr; }
+  .rd-case-split.is-media > .rd-case-figure {
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+    margin-top: 0;
+  }
+  .rd-case-split.is-media > .rd-case-figure img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    object-position: center;
+    margin: 0 auto;
+  }
+}
+
+/* --------------------------------------------------- 7. Case tag strip ----
+   Placeholder row above the "It shipped" section's empty 3-column shell.
+   No new hue: reuses --rd-surface/--rd-border-soft rather than Figma's
+   arbitrary yellow, which would be the first new colour on a page whose
+   whole chart language depends on there being exactly two. */
+.rd-case-tag-strip { display: flex; flex-wrap: wrap; gap: 12px; }
+.rd-case-tag {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--rd-surface);
+  border: 1px solid var(--rd-border-soft);
+  color: var(--rd-ink);
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-sm);
+}
+
+/* ------------------------------------------------- 8. Challenge icon row --
+   "Industry challenges" — three icon+label+body columns inside .rd-case-grid,
+   case-study-framework.html only (Figma 40000256:5639). 60x60 fixed box so the
+   downloaded icon asset never blows up to its intrinsic size. */
+.rd-case-challenge-icon { display: block; width: 60px; height: 60px; }
+/* lending-new-v3.html only — the per-card title ("Wet ink by default", etc).
+   Back on `<h3>` as of 2026-08-20 (Hao's call), after a brief spell as a `<p>`
+   to keep "Industry Challenges" the card's only heading. `.rd-case-card h3`
+   therefore matches these again and this class is now belt-and-braces — same
+   declarations from either selector, no conflict, and the title keeps its look
+   if the tag ever moves off h3 again.
+   Why the class exists at all: these titles were never styled by
+   `.rd-case-label`. `.rd-case-card h3`'s descendant selector outranks it on
+   specificity regardless of source order, so it was doing all the visible work
+   (bigger, full-ink, uppercase) — which meant changing the TAG, not the class,
+   is what made the title vanish into the sitewide 12px muted micro-label. Don't
+   delete this rule on the grounds that `.rd-case-card h3` covers it today. */
+.rd-case-challenge-title {
+  margin: 0;
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-tight);
+  text-transform: uppercase;
+  color: var(--rd-ink);
+}
+
+/* Same "three columns share one bordered surface" shape as About's lessons
+   (.rd-learn-card / .rd-learn-lesson) — so it takes the same padding and gap
+   rather than the generic 24px .rd-case-grid card-row spacing: 80px between
+   columns, 16px between each column's icon/label/body. Scoped off the icon
+   class rather than editing .rd-case-grid itself, since every other page
+   reuses that class for actual bordered sub-cards at the 24px gap. */
+.rd-case-grid:has(.rd-case-challenge-icon) { gap: 80px; }
+.rd-case-grid:has(.rd-case-challenge-icon) > div {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+@media (max-width: 1024px) {
+  .rd-case-grid:has(.rd-case-challenge-icon) { gap: 40px; }
+}
+@media (max-width: 768px) {
+  .rd-case-grid:has(.rd-case-challenge-icon) { gap: 32px; }
+}
+
+/* ----------------------------------------------------- 9. "Product wiki" ---
+   Bordered surface divided into full-width stacked rows (lead line / label
+   bar / content), Figma's shape for the closing retrospective in
+   case-study-framework.html (40000256:6337). Distinct from .rd-case-cols,
+   which divides into side-by-side columns, not stacked rows. */
+.rd-case-wiki {
+  width: 100%;
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.rd-case-wiki > * { padding: 24px; }
+.rd-case-wiki-row + .rd-case-wiki-row { border-top: 1px solid var(--rd-border); }
+.rd-case-wiki-title {
+  margin: 0;
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-md);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+  border-top: 1px solid var(--rd-border);
+  border-bottom: 1px solid var(--rd-border);
+}
+
+/* Short lesson cards — Figma 40000256:6457 etc. This colour genuinely doesn't
+   exist anywhere in --rd-*, so it was promoted to a real token
+   (--rd-accent-yellow, --rd-shadow-card, both declared with the rest of the
+   palette near the top of this file) rather than either inlining Figma's hex
+   or avoiding the colour altogether — the fix for "no token for this" is to
+   add the token, not to route around needing one.
+
+   SIX PER ROW. A CSS grid, not flexbox: with a fixed 6-column track, item 7
+   lands in implicit row 2 automatically — "wrap after six" is the grid's
+   native auto-placement, not something to compute by hand. Cards fewer than
+   six still occupy their own 1/6-width column instead of stretching to fill
+   the row, which is correct here: the row is a fixed slot count, not a fluid
+   fill. */
+.rd-case-lesson-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.rd-case-lesson {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: start;
+  min-height: 172px;
+  padding: 24px;
+  border-radius: 4px;
+  background: var(--rd-accent-yellow);
+  box-shadow: var(--rd-shadow-card);
+  color: var(--rd-ink);
+  font-size: var(--rd-fs-md);
+  text-align: left;
+}
+@media (max-width: 1024px) {
+  .rd-case-lesson-row { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .rd-case-lesson-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ------------------------------------------ 10. Reversed chart split -----
+   .rd-case-split.is-chart is narrow-left/wide-right (Insight beside a wide
+   map). This page puts the map first instead — same two widths, columns
+   swapped — so the DOM can carry the map card first without it being
+   squeezed into the narrow track. */
+.rd-case-split.is-chart.is-reverse { grid-template-columns: 2.3fr minmax(280px, 1fr); }
+@media (max-width: 1024px) {
+  .rd-case-split.is-chart.is-reverse { grid-template-columns: 1fr; }
+}
+
+/* ------------------------------------------ 11. Larger sub-heading -------
+   "The problem" / "The expectation" — Figma 40000221:4030 / :5362: DM Sans
+   ExtraBold, 20px, uppercase, on var(--text/neutral/title, #374151). Two
+   things are deliberate departures from that literal spec, both matching a
+   convention this page already uses elsewhere (.rd-case-card h3, same
+   ExtraBold-in-Figma treatment on "Insight" / "Chart information" /
+   "Industry Challenges"): no 800 weight token exists sitewide, so ExtraBold
+   maps to --rd-fw-emphasis (700) same as everywhere else; and #374151 has no
+   token of its own, so it maps to --rd-ink (#0a2a30) rather than adding a
+   near-duplicate gray. A modifier, not a change to .rd-case-label itself,
+   since every other use of that class is deliberately the small 12px/muted
+   micro-label. */
+.rd-case-label.is-heading {
+  font-size: var(--rd-fs-xl);        /* 20px */
+  font-weight: var(--rd-fw-emphasis); /* 700 — stands in for Figma's 800 */
+  letter-spacing: normal;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+  opacity: 1;
+}
+/* Gap between the label and what follows it (a paragraph, or the expectation
+   checklist) — both .rd-case-label and the sitewide `p { margin: 0 }` reset
+   leave these touching otherwise. .rd-case-body's own 16px gap only reaches
+   its direct children (the two "problem"/"expectation" wrapper divs), not
+   what's stacked inside each one. */
+.rd-case-split > .rd-case-body > div {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ------------------------------------------ 12. Homepage feature picker --
+   "New Features" rows become the same click-to-select-and-swap-the-image
+   interaction as case-studies/web-3.html's showcase section (loadContent()
+   there: active state + a cross-fade on the displayed image), rebuilt small
+   and self-contained for this page's own generic row/image data instead of
+   pulling in web-3's Aura-specific data. */
+.rd-case-checklist-row.is-selectable { cursor: pointer; }
+.rd-case-checklist-row.is-selectable:hover { background: var(--rd-surface); }
+.rd-case-checklist-row.is-active { background: var(--rd-surface); }
+.rd-case-checklist-row.is-active span { color: var(--rd-primary); font-weight: var(--rd-fw-emphasis); }
+/* "New Features" now sits in its own wrapper div, same as "The problem" /
+   "The expectation" above (`.rd-case-split > .rd-case-body > div`, 12px
+   gap) — that gives the "Homepage" and "New Features" blocks the outer
+   .rd-case-body 16px gap between them, but Hao's still after a flush label
+   directly on this particular list, so this wrapper overrides its own gap
+   to 0 rather than inheriting the shared 12px. */
+.rd-case-split.is-media > .rd-case-body > div:has(#homepage-picker) { gap: 0; }
+.rd-case-split.is-media > .rd-case-figure img { transition: opacity 0.25s ease; }
+
+/* ------------------------------------------ 13. Embedded prototype panel -
+   case-study-framework.html only — second .rd-case-split.is-media card's
+   right panel holds a fixed-size Marvel iframe (343x811, a phone silhouette)
+   instead of an img. .is-media > .rd-case-figure img's stretch-to-fill rules
+   don't apply to iframes, so this centres the embed at its native aspect
+   ratio in the same padded/bordered panel instead, rather than distorting a
+   phone-shaped prototype to a landscape crop. */
+.rd-case-figure.is-embed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* `.rd-case-split.is-media > .rd-case-figure` (3 classes) outranks a bare
+   `.rd-case-figure.is-embed` (2 classes), so the override needs the same
+   compound selector to actually beat it. Overrides that rule's asymmetric
+   40px-top/left-only inset — padding that exists so an object-position:
+   100% 100% image can bleed into the panel's unpadded corner, which would
+   push this fixed-size iframe off-centre instead. */
+.rd-case-split.is-media > .rd-case-figure.is-embed {
+  padding: 40px;
+}
+.rd-case-figure.is-embed iframe {
+  display: block;
+  width: 100%;
+  max-width: 343px;
+  height: auto;
+  aspect-ratio: 343 / 811;
+  border: 0;
+  /* Crops the 2px edge Marvel's own embedded frame renders around itself —
+     carried over from the inline clip-path in the embed snippet Marvel
+     provides (and that lending.html's original iframe already used). */
+  -webkit-clip-path: inset(2px 2px);
+  clip-path: inset(2px 2px);
+}
+
+/* ------------------------------------------ 14. Product-area tabs --------
+   case-study-framework.html only — reimplements web-3.html's #team /
+   #processes&tools .hastag switcher (button row swaps which panel shows)
+   against --rd- tokens instead of that page's .hastag-items/.information +
+   case-retheme-v3.css, per "6. Patterns ported from web-3 / lending" above:
+   copying those legacy classes onto this page would drag its 2021 colour
+   set back in for one component. Wiring is in the script at the bottom of
+   the HTML file. */
+.rd-case-tabs {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  width: 100%;
+  border-bottom: 1px solid var(--rd-border-soft);
+}
+.rd-case-tab {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 12px 20px;
+  font-family: inherit;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-body);
+  color: var(--rd-ink);
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 0.2s ease, border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+.rd-case-tab:hover { opacity: 0.85; }
+/* ← web-3 `.hastag button.active`: accent underline, 600-weight accent text,
+   and a white gradient that "lifts" the active tab toward the white
+   .rd-case-card panel it reveals below — same fw-heading (600) web-3's
+   font-weight: 600 maps to, and --rd-white in place of its literal #fff. */
+.rd-case-tab.is-active {
+  opacity: 1;
+  color: var(--rd-primary);
+  font-weight: var(--rd-fw-heading);
+  border-bottom-color: var(--rd-primary);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 30%, var(--rd-white) 100%);
+}
+.rd-case-tabpanels { display: flex; width: 100%; }
+.rd-case-tabpanel[hidden] { display: none; }
+
+/* ------------------------------------------ 15. Scroll-over band ---------
+   lending-new-v3.html §homepage — the full-bleed screens band pins below the
+   section rail with the "Three screens carried the reframe" heading and lead
+   HELD STILL ON IT, and the tabs and panels ride up over the pair. Hao asked
+   for the pin 2026-08-20 ("the below section will scroll over it") and for the
+   copy to travel with the image on 2026-08-21.
+
+   WHERE THE MARKUP LIVES, AND WHY IT MOVED. The band used to close §built and
+   the copy stayed behind in §homepage; making them pin together meant putting
+   them in one box, and the box had to be §homepage — the <h2> is the section's
+   own heading and the TOC's "05 The screens" anchors to it, so the image came
+   to the heading rather than the other way round. An intermediate version left
+   the markup alone and just veiled §homepage's background instead; it washed
+   the screens out to noise and was reverted the same day.
+
+   FOUR THINGS MAKE THIS WORK, AND EACH ONE FAILS SILENTLY IF DROPPED.
+
+   1. THE WRAPPER GIVES THE STAGE SOMEWHERE TO STICK. A sticky element can only
+      travel inside its containing block, and the figure was originally the last
+      child of .rd-case-inner — containing block ends where the figure ends, so
+      travel is 0px and `position: sticky` on it does nothing at all.
+      `.rd-scrollover` is taller than `.rd-scrollover-stage` by
+      --rd-scrollover-overlap, and that difference is how long the pin holds.
+      The STAGE is the sticky element, not the figure: image and copy have to
+      hold still as one thing.
+
+   2. THE NEGATIVE MARGIN IS THE EFFECT ITSELF, and the wrapper alone is not
+      enough — this was measured wrong on the first attempt, so it is written
+      down. The wrapper's spare height sits BELOW the stage, so without more,
+      the tabs block simply starts after all of it: the band pins for 300px,
+      then unsticks, then the next block arrives on empty screen. Verified in
+      Chromium at five viewports — the band pinned correctly and nothing ever
+      overlapped it. Pulling `.is-viewport-fit` up by exactly the overlap lands
+      its top edge where the stage's STATIC box ends, so from the first pinned
+      frame onward the tabs are climbing over a stage that is holding still.
+      The wrapper height and the margin must therefore always be the same
+      number, which is why both read the one custom property.
+
+   3. `top: 64px`, NOT 0. `.rd-case-toc` is already sticky at top: 0 / z-index:
+      40. Pinning the band at 0 would park it behind — or, once it gets a
+      stacking context, in front of — the section rail. 64px is the same offset
+      .rd-case-highlight uses to clear that rail, for the same reason.
+
+   4. `.is-viewport-fit` NEEDS `position: relative` AND ITS OWN BACKGROUND. A
+      static element cannot take a z-index, and without one it paints BEFORE
+      the sticky stage and the band covers the tabs instead of the other way
+      round. `scroll-margin-top` on §homepage is the companion fix: the TOC's
+      "05 The screens" link would otherwise land the section under the rail.
+
+   TO TUNE THE REVEAL, change --rd-scrollover-overlap and nothing else. Higher
+   = the band holds still longer and the section covers more of it.
+
+   IT IS SET TO THE STAGE'S OWN HEIGHT ON PURPOSE (Hao, 2026-08-20: "I want the
+   parallax scroll over the full image, now it's just a small area"). At that
+   value the tabs block's top edge travels the whole way from the bottom of the
+   viewport to the rail, so it wipes the entire band rather than clipping its
+   lower third — an earlier 34vh only covered ~306px of an 836px image. The two are still both on screen for the whole traverse; that IS the
+   traverse. The cost is that the pin now holds for one full viewport height of
+   scrolling, which is the honest price of wiping a full-height image and the
+   reason this is gated to real screens. Going HIGHER than the band height adds
+   dead scroll after the wipe completes with nothing left to reveal.
+
+   GATED, because this is decoration: below 769px a pinned full-bleed band
+   fills a phone screen and the reveal reads as a stuck image, and anyone on
+   `prefers-reduced-motion` gets the plain stacked version. Outside the query
+   .rd-scrollover is an ordinary wrapper with no height and no sticky child, so
+   the band renders as a plain full-bleed figure in normal flow and the section
+   below follows underneath.
+
+   NOTHING PINS WITH THE BAND. A `.rd-scrollover-copy` block briefly held the
+   §homepage heading and lead at the rail while the band passed; Hao moved them
+   back into .rd-case-inner on 2026-08-21, so the heading now climbs over the
+   band as part of the same block as the tabs it introduces. The band is the
+   only sticky thing here. */
+.rd-scrollover-spacer { height: 0; }
+
+@media (min-width: 769px) and (prefers-reduced-motion: no-preference) {
+  /* How long the band stands still, which is also how far the tabs travel
+     while it does. One property, read in two places that must never disagree:
+     the spacer's height and .is-viewport-fit's negative margin. */
+  :root {
+    /* The band's rendered height, declared first because everything else here
+       is derived from it. It is full-bleed (width: 100vw) at its own aspect,
+       so height is width x 1158/1920 — the intrinsic size of
+       built-band-cropped.png. Swap that asset and this fraction has to change
+       with it, which is why the img below also carries the matching
+       `aspect-ratio`: if the two ever disagree, the layout jumps at load. */
+    --rd-band-h: calc(100vw * 1158 / 1920);
+
+    /* THE BAND'S OWN HEIGHT — a full-height wipe (Hao, 2026-08-21). The band
+       pins with its bottom on the bottom edge of the screen, and the block
+       below starts at the band's static bottom, so travelling exactly
+       --rd-band-h is what carries that block from the band's bottom edge to
+       its top edge: the image is covered completely, not two-thirds.
+       This is deliberately the SAME value the sticky offset above is derived
+       from, which is why both read --rd-band-h rather than a hand-tuned vh
+       number. A literal like `calc(60vh - 64px)` (what this was before) is a
+       fraction of the VIEWPORT, so the share of the BAND it wipes drifts with
+       window size — it measured 55% at 1440x900 but 48% at 1366x768. Tied to
+       the band instead, the wipe is 100% at every viewport by construction.
+       The cost is honest: the pin now holds for one band-height of scrolling
+       (~870px at 1440px wide). Going higher only adds dead scroll after the
+       image is already gone.
+
+       THE `min()` IS A BUG FIX, NOT A PREFERENCE — DO NOT SIMPLIFY IT AWAY.
+       This overlap is also the spacer's height, and the spacer is what pushes
+       the band's PARKED position down: after the pin releases, the band sits
+       `overlap` px below its static top. The block that covers it is only
+       100svh tall. So the moment the overlap exceeds 100svh, the parked band
+       hangs below that block's bottom edge and a strip of app screenshots
+       shows against §after ("It shipped, and then I stopped looking").
+       Measured leak, uncapped: 69px at 1440x800, 78px at 1920x1080, 268px at
+       2600x1300. It is invisible at 1440x900 — band 869 vs 900 — which is the
+       one size this was screenshotted at while being built, and is exactly why
+       it shipped unnoticed. The requirement is simply `overlap <= 100svh`.
+       Consequence, stated plainly: on any viewport shorter than the band, the
+       wipe covers one screen's worth rather than the whole image. That is not
+       a compromise so much as the ceiling — a band taller than the screen
+       cannot be seen whole at one moment anyway, so there is nothing further
+       to uncover. The band is still seen in full on its way past. */
+    --rd-scrollover-overlap: min(var(--rd-band-h), 100svh);
+  }
+  .rd-scrollover { position: relative; z-index: 0; }
+
+  /* 1. THE BAND SCROLLS AT NATURAL HEIGHT, THEN HOLDS. No height cap and no
+        object-fit here on purpose — an earlier version filled the viewport
+        and `cover`ed, which cropped the phone screens (Hao asked for the full
+        image, 2026-08-21). At its own aspect the band is ~870px on a 1440px
+        viewport, so it scrolls past in full and only then pins.
+        THE OFFSET IS COMPUTED, NOT ZERO, and `bottom: 0` is the trap here —
+        it was tried first and is wrong. Sticky clamps in BOTH directions: with
+        `bottom: 0` a band whose natural position is below the fold gets pulled
+        UP to the screen bottom immediately, so it arrives already stuck and
+        never scrolls past at all (measured: held for 150px at the start, then
+        loose for the rest — exactly backwards). `top: 100vh - band height`
+        pins it at the one position where its bottom sits on the bottom edge of
+        the screen, which it can only reach by scrolling there first. */
+  .rd-scrollover .rd-case-figure.is-full {
+    position: sticky;
+    top: calc(100vh - var(--rd-band-h));
+    z-index: 0;
+    margin-block: 0;
+  }
+  .rd-scrollover .rd-case-figure.is-full img { aspect-ratio: 1920 / 1158; }
+
+  /* 2. The band's holding time, as an empty box. A sticky element only
+        travels inside its containing block; without this the wrapper would
+        end at the image and the pin would have zero distance to run. */
+  .rd-scrollover-spacer { height: var(--rd-scrollover-overlap); }
+
+  /* 3. THE WHOLE BLOCK CLIMBS OVER THE HELD BAND — heading, lead, tabs and
+        panel together, since the copy moved back in here on 2026-08-21. Pulled
+        up by exactly the spacer's height, so this block's top edge starts at
+        the band's STATIC bottom — which means that from the first held frame
+        onward it is rising over an image that is standing still. Opaque, and
+        positioned so it can take a z-index: a static element cannot, and
+        without one it paints before the sticky band and the image covers the
+        section instead of the other way round.
+        z-index 2 is now just "above the band"; it used to also mean "above the
+        pinned copy", which no longer exists. Nothing else in this section is
+        positioned, so the value has room either way. */
+  .is-viewport-fit {
+    position: relative;
+    z-index: 2;
+    background: var(--rd-surface);
+    margin-top: calc(-1 * var(--rd-scrollover-overlap));
+    /* FULL-BLEED, or the band leaks down both edges. The stage is 100vw and
+       this block is inset by .rd-case-section's gutter, so an inset cover
+       leaves a strip of screenshots visible either side of the tab panel all
+       the way through the traverse. It bleeds out and pads back in, which
+       lands the content on exactly the gutter it had before. */
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    padding-inline: var(--grid-gutter);
+  }
+  #homepage { scroll-margin-top: 64px; }
+
+}
+
+/* ------------------------------------------ 16. Three screens fits one
+   screen — lending-new-v3.html §homepage. Hao asked (2026-08-21) for this
+   section to land inside exactly one viewport: §15 above already pulls it
+   up the full height of the scroll-over band, so by the time the pin
+   releases the whole "Three screens carried the reframe" section — intro,
+   tabs and the active panel — should already be on screen, not still
+   scrolling into view underneath.
+
+   Same shape as .rd-initiatives-section (see "Section 3" above): a definite
+   height: 100vh column, flex: 0 0 auto on everything except the ONE chain
+   that absorbs leftover space — here, the active tab panel. Desktop only
+   (min-width matches the is-media grid's own 1024px breakpoint below):
+   below that the panel stacks image-under-text, and cramming a stacked
+   layout into one screen reads worse than letting it scroll normally, and
+   the scroll-over band this section rides over is already gated off below
+   769px for the same reason.
+
+   THE CHAIN, top to bottom: section (height: 100vh) -> .rd-case-inner
+   (flex: 1 1 auto) -> .rd-case-tabpanels -> the visible .rd-case-tabpanel
+   (flex: 1 1 auto, display: flex column) -> its .rd-case-card -> the
+   .rd-case-split.is-media grid. Every link needs BOTH flex: 1 1 auto and
+   min-height: 0 — flex items refuse to shrink below their content's natural
+   height without the latter, which is what would blow the section past
+   100vh in the first place.
+
+   `grid-template-rows: minmax(0, 1fr)` is what makes the grid itself
+   respect that bounded height instead of sizing its row to content like it
+   normally would. Once the row is bounded, the homepage/loan panels' image
+   already does the rest for free — "Figures — product map, screens" above
+   has it at `object-fit: contain; height: 100%`, so it just scales down.
+   The esign panel's Marvel iframe has no such fit property (doesn't apply
+   to iframes), so it gets the equivalent by hand: height: 100% with width
+   auto off the same 343/811 aspect-ratio, capped at its native size so it
+   never upscales past the real prototype's resolution.
+
+   The text column (one paragraph + a 4-row checklist) is short enough to
+   fit the leftover height at real screen sizes without shrinking type —
+   `overflow-y: auto` is there only as the honest fallback for whatever
+   short-viewport laptop it doesn't quite fit, so worst case is an internal
+   scrollbar in that one column, never the section spilling past 100vh. */
+@media (min-width: 1025px) {
+  /* `.is-viewport-fit`, not `.rd-case-section.is-viewport-fit` as it was when
+     this block was written — the class moved off the <section> and onto a
+     wrapper around .rd-case-inner on 2026-08-21, because §homepage now also
+     holds the two-viewport-tall pinned stage (§15) and "fits one screen" can
+     only be true of the part that scrolls over it. The descendant rules below
+     are unaffected; they only ever needed an ancestor carrying the class. */
+  .is-viewport-fit {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    height: 100svh;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-block: clamp(24px, 4vh, 72px);
+  }
+  .is-viewport-fit .rd-case-inner {
+    flex: 1 1 auto;
+    min-height: 0;
+    justify-content: center;
+    gap: clamp(16px, 2.5vh, 32px);
+  }
+  .is-viewport-fit .rd-case-tabpanels { flex: 1 1 auto; min-height: 0; }
+  /* `:not([hidden])` isn't just scoping — .rd-case-tabpanel[hidden] {
+     display: none } (above, "14. Product-area tabs") ties this rule's
+     specificity exactly, and being later in the file it would otherwise win
+     and switch every hidden panel back to display: flex, showing all three
+     tabs stacked side by side at once. Caught by screenshot-testing this
+     section after the first pass. */
+  .is-viewport-fit .rd-case-tabpanel:not([hidden]) {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .is-viewport-fit .rd-case-tabpanel:not([hidden]) .rd-case-card { flex: 1 1 auto; min-height: 0; }
+  .is-viewport-fit .rd-case-card > .rd-case-split.is-media {
+    flex: 1 1 auto;
+    min-height: 0;
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .is-viewport-fit .rd-case-split.is-media > .rd-case-figure,
+  .is-viewport-fit .rd-case-split.is-media > .rd-case-body {
+    min-height: 0;
+  }
+  .is-viewport-fit .rd-case-split.is-media > .rd-case-figure {
+    padding: clamp(16px, 3vh, 40px) 0 0 clamp(16px, 3vh, 40px);
+    margin-top: clamp(12px, 2vh, 40px);
+  }
+  .is-viewport-fit .rd-case-split.is-media > .rd-case-body {
+    padding: clamp(16px, 2.5vh, 24px);
+    overflow-y: auto;
+  }
+  /* Marvel iframe has no object-fit equivalent, so this is the manual
+     version of what the img rule above gets for free: bound by the
+     available height, width follows from the same 343/811 aspect-ratio,
+     capped so a tall viewport never upscales it past its native size. */
+  .is-viewport-fit .rd-case-figure.is-embed iframe {
+    width: auto;
+    height: 100%;
+    max-width: 343px;
+    max-height: 811px;
+  }
 }

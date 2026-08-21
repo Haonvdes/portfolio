@@ -1,6 +1,6 @@
 document
   .getElementById('jobForm')
-  .addEventListener('submit', async function (event) {
+  ?.addEventListener('submit', async function (event) {
     event.preventDefault();
 
     // Run all validations
@@ -158,7 +158,7 @@ document
   });
 
 // Toggle chat container visibility
-document.getElementById('chatBubble').addEventListener('click', function () {
+document.getElementById('chatBubble')?.addEventListener('click', function () {
   const chatContainer = document.getElementById('chatContainer');
   chatContainer.classList.toggle('visible');
 });
@@ -194,6 +194,18 @@ document.addEventListener('DOMContentLoaded', function () {
   const removeFile = document.getElementById('removeFile');
   const uploadIcon = document.getElementById('uploadIcon');
   const uploadInstructions = document.getElementById('uploadInstructions');
+
+  if (
+    !dropZone ||
+    !fileInput ||
+    !fileInfo ||
+    !fileName ||
+    !removeFile ||
+    !uploadIcon ||
+    !uploadInstructions
+  ) {
+    return;
+  }
 
   // Function to get appropriate icon based on file extension
   function getFileIcon(fileExtension) {
@@ -493,11 +505,11 @@ function resetForm() {
 }
 
 // Add input event listeners for inline validation
-document.getElementById('userEmail').addEventListener('input', validateEmail);
+document.getElementById('userEmail')?.addEventListener('input', validateEmail);
 document
   .getElementById('jobDescription')
-  .addEventListener('input', validateForm);
-document.getElementById('jobFile').addEventListener('change', validateForm);
+  ?.addEventListener('input', validateForm);
+document.getElementById('jobFile')?.addEventListener('change', validateForm);
 
 // Email validation function
 function validateEmail() {

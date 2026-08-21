@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.png">
+    <title>Case Study Framework | Stephano Ng</title>
+
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+    <link rel="stylesheet" href="../css/styles/back-to-top.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7VM3QDKCYW');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PF5XGDGK');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta property="og:title" content="Case Study Framework | Stephano Ng">
+    <meta property="og:description" content="Reference build of the case-study template — Figma node 40000221:3462, reproduced structure-for-structure.">
+    <meta property="og:image" content="../public/case-study-framework/cover.png">
+    <meta property="og:type" content="article">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+</head>
+<body class="rd-case is-hero-overlap">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!--
+  ============================================================================
+  CASE STUDY FRAMEWORK — literal reference build of Figma "Wrapup" node
+  40000221:3462, 2026-08-20.
+
+  WHAT THIS FILE IS. A structure-and-content-faithful port: every section,
+  every field label and every line of copy below is what the Figma frame
+  contains, converted to this project's markup and CSS (.rd-case-* classes,
+  --rd-* tokens) instead of the React/Tailwind the design tool exports. It is
+  not a rewrite, not a curated narrative, and not evidence-checked — where
+  Figma's own sample content is a Lorem Ipsum paragraph or a placeholder like
+  "Short lesson learned (keyword, short 3 keys)", that text is reproduced
+  verbatim rather than replaced with something real. That is the point of
+  this file: it is the template, kept separate from the actual case studies
+  that fill it in.
+
+  NOT THE SAME FILE AS lending-new.html / lending-new-v2.html. Both of those
+  already used this exact Figma node as a layout reference for the real HD
+  Saison case study, and both deliberately departed from it — reordering
+  sections, dropping a stat, changing colours, replacing sample content with
+  sourced project content, adding a §decision section Figma has no slot for.
+  Those departures were the right call for a page whose job is to be true.
+  This page's job is the opposite: stay exactly what Figma drew, so the
+  skeleton is available on its own without untangling it from one project's
+  edits. Do not merge the two directions back together.
+
+  DELIBERATE DIVERGENCES FROM THE PIXEL SOURCE, AND WHY:
+    - No hero eyebrow ("Case study · ..."). Figma's hero has a title and a
+      lead paragraph and nothing above them.
+    - Colour tokens, not raw hex, wherever the project already has an
+      equivalent: --rd-surface is Figma's #f3f3ef exactly; --rd-primary
+      (#01679c) stands in for the outcomes card's #0067bd, one digit apart.
+      Every section below is `.is-tinted` because Figma's canvas is that one
+      flat #f3f3ef behind every card, with no light/dark alternation between
+      beats — matching that took marking sections tinted almost throughout,
+      not picking and choosing.
+    - Nav and footer reuse templates/nav.html and templates/footer.html via
+      the standard #nav-placeholder / #footer-placeholder + js/script.js
+      pipeline, rather than re-declaring Figma's nav/footer markup by hand.
+      Figma's own nav and footer already match those templates field for
+      field (STEPHANO.NG wordmark, #opentowork tagline, Home/Case Studies/
+      About, the closing "Looking for your next product partner?" band) —
+      this reuses the real component instead of a duplicate of it.
+    - New CSS in redesign.css (search "case-study-framework.html only"): the
+      yellow lesson cards, the stacked-row "Product wiki" wrapper, the
+      reversed chart split, the larger problem/expectation sub-heading, and
+      the homepage feature-picker states. None of these existed anywhere
+      else on the site; everything else below reuses classes lending-new.html
+      already proved out against this same Figma node.
+
+  ROUND 2 — 2026-08-20, Hao's follow-up notes against the first pass. These
+  intentionally trade a little pixel-literalism for real site behaviour;
+  each one is a specific, named ask rather than a re-interpretation:
+    - Section rail (.rd-case-toc) added, and the hero switched to
+      `is-hero-overlap` (60dvh band, cover breaking through the border,
+      fixed-reveal rail) — matching lending-new.html's treatment exactly,
+      Figma's own frame has neither.
+    - UX Research Findings' chart is no longer a static image. It is the
+      real interactive benchmark map ported from lending-new-v2.html
+      (same table, same SVG scatter, same script) rather than Figma's flat
+      picture, reordered map-first/insight-second via the new `.is-reverse`
+      split. The INSIGHT card's heading is now the hovered lender's name
+      itself (`.rd-bench-panel-name` moved onto the `<h3>`), not a static
+      "Insight" label sitting above a separate name line.
+    - The market-share bar gained the note + source lines lending-new-v2
+      carries below it; the bar's colours and sizing were already exact,
+      being the same shared `.rd-market-*` classes.
+    - "Signing first, then everything downstream of it" — heading and body
+      centred, matching the centred treatment already used on "Looking at
+      the main (This)".
+    - "Looking at the main (This)": the New Features rows are now a click-
+      to-select picker that cross-fades the render beside them — the same
+      interaction web-3.html's showcase section runs (`loadContent()`:
+      active-state swap + image fade), rebuilt small and self-contained here
+      since that script's data is hard-coded to Aura's own ecosystem tools.
+      Only one render exists for this project (`homepage-render.png`), so
+      every row points at it today via `data-image`; swap in real per-
+      feature screenshots there when they exist.
+    - Lesson-card row is a 6-column grid (`.rd-case-lesson-row`), not a
+      flexbox that happened to wrap at 3 — extra cards now wrap to a second
+      row automatically past six.
+    - Related case studies now carry the same real three cards
+      lending-new-v2.html closes on (healthcare, web-3, marketing-platform)
+      instead of Figma's three identical placeholder cards.
+    - "The problem" / "The expectation" sub-headings moved off the sitewide
+      12px muted `.rd-case-label` onto a new `.is-heading` modifier at 20px
+      extrabold, full-ink — matching Figma's actual weight for these two and
+      readable at a glance rather than blending into the small-caps micro-
+      labels every other card title on this page uses.
+  ============================================================================
+-->
+
+<header class="rd-case-hero">
+    <div id="nav-placeholder"></div>
+
+    <div class="rd-case-hero-inner rd-shell">
+        <h1 class="rd-case-title animate__animated animate__fadeIn">Getting consumer lending off the counter</h1>
+        <p class="rd-case-lead animate__animated animate__fadeIn">
+            HD Saison is Vietnam's first licensed consumer finance company, and the counter was
+            its greatest strength — the highest motorbike-loan share in the market, sold face to
+            face at 16,000 dealer points. It was also the only way in. This is the app that built
+            a second door, and the story of how a four-goal brief became one problem.
+        </p>
+    </div>
+</header>
+
+<nav class="rd-case-toc" aria-label="Sections">
+    <div class="rd-case-toc-inner rd-shell">
+        <a href="#overview"><span class="n">01</span>Overview</a>
+        <a href="#context"><span class="n">02</span>The counter</a>
+        <a href="#research"><span class="n">03</span>Research</a>
+        <a href="#built"><span class="n">04</span>What we built</a>
+        <a href="#homepage"><span class="n">05</span>The home screen</a>
+        <a href="#after"><span class="n">06</span>Shipped</a>
+    </div>
+</nav>
+
+<main>
+    <!-- ================= Overview ================= -->
+    <section class="rd-case-section is-tinted" id="overview">
+        <div class="rd-case-inner rd-shell">
+            <div class="rd-case-cover" data-aos="fade-up">
+                <img src="../public/case-study-framework/cover.png" alt="Case study cover banner">
+            </div>
+
+            <h2 class="rd-case-h2">Overview</h2>
+
+            <div class="rd-case-snapshot">
+                <div>
+                    <span class="rd-case-meta-k">Role</span>
+                    <span class="rd-case-meta-v">Lead Product Designers</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Domain</span>
+                    <span class="rd-case-meta-v">Web 3</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Timeline</span>
+                    <span class="rd-case-meta-v">Mar – Apr 2024</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Team</span>
+                    <span class="rd-case-meta-v">5 Product Designers</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Platform</span>
+                    <span class="rd-case-meta-v">Web Desktop</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Status</span>
+                    <span class="rd-case-meta-v">10 member</span>
+                </div>
+            </div>
+
+            <div class="rd-case-split">
+                <div class="rd-case-body">
+                    <div>
+                        <h3 class="rd-case-label is-heading">The problem</h3>
+                        <p>HD Saison originated 100% of its loans in-branch — the only lender in its five-company peer set with no digital path at all, in a market growing 23.7% a year</p>
+                    </div>
+
+                    <div>
+                        <h3 class="rd-case-label is-heading">The expectation</h3>
+                        <div class="rd-case-checklist">
+                            <div class="rd-case-checklist-row">
+                                <span class="rd-case-checklist-icon"><img src="../public/case-study-framework/ic-migrate.png" alt="" loading="lazy"></span>
+                                <span>Migrate all offline processes to online</span>
+                            </div>
+                            <div class="rd-case-checklist-row">
+                                <span class="rd-case-checklist-icon"><img src="../public/case-study-framework/ic-esign.png" alt="" loading="lazy"></span>
+                                <span>E-signature</span>
+                            </div>
+                            <div class="rd-case-checklist-row">
+                                <span class="rd-case-checklist-icon"><img src="../public/case-study-framework/ic-loan.png" alt="" loading="lazy"></span>
+                                <span>Loan Management</span>
+                            </div>
+                            <div class="rd-case-checklist-row">
+                                <span class="rd-case-checklist-icon"><img src="../public/case-study-framework/ic-payment.png" alt="" loading="lazy"></span>
+                                <span>Payment Integration</span>
+                            </div>
+                            <div class="rd-case-checklist-row">
+                                <span class="rd-case-checklist-icon"><img src="../public/case-study-framework/ic-remarket.png" alt="" loading="lazy"></span>
+                                <span>Remarketing System</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="rd-case-highlight">
+                    <p class="rd-case-meta-k">Outcomes / Success metric</p>
+                    <div class="rd-case-highlight-stat">
+                        <strong>5h → 2h</strong>
+                        <span>Approval time, end to end</span>
+                    </div>
+                    <div class="rd-case-highlight-stat">
+                        <strong>8 → 1</strong>
+                        <span>Signatures to take out a loan</span>
+                    </div>
+                    <div class="rd-case-highlight-stat">
+                        <strong>100%</strong>
+                        <span>Offline process to online</span>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Every loan started at a counter ================= -->
+    <section class="rd-case-section is-tinted" id="context">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Every loan started at a counter</h2>
+
+            <div class="rd-case-body">
+                <p>
+                    HD Saison is a joint venture between HDBank and Credit Saison, and it is very
+                    good at one thing. It held the highest motorbike-loan share in Vietnam — 41% in
+                    2022, up from 34% the year before published — sold in person, at more than
+                    16,000 dealer counters, to over 6 million customers published. The brief I was
+                    handed listed four things to build: electronic signing, loan management,
+                    payment, and remarketing. Four goals, equal weight, no order given. My job as
+                    briefed was to design them.
+                </p>
+                <p>
+                    Discovery ran about three months, from kickoff in June 2021 to the first
+                    interactive prototype in September. Mapping the origination process end to end
+                    is where that brief started to come apart. Borrowing took 3 to 5 hours across
+                    four stages and eight separate signatures client-reported — and at every one of
+                    those stages the customer was physically present. Nobody complains about this.
+                    Borrowers treat it as simply how borrowing works. It surfaces instead as people
+                    giving up at the counter, and as a repeat-borrow rate quietly falling while
+                    nobody could say why.
+                </p>
+            </div>
+
+            <figure class="rd-case-figure">
+                <img src="../public/case-study-framework/counter-journey.png" alt="Counter journey illustration" loading="lazy">
+            </figure>
+        </div>
+    </section>
+
+    <!-- ================= UX Research Findings ================= -->
+    <section class="rd-case-section is-tinted" id="research">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">UX Research Findings</h2>
+            <div class="rd-case-body">
+                <p>
+                    The consumer finance market grew 23.7% in 2021, on a five-year CAGR of 15.1%.
+                    HD Saison was the third-largest lender in the country — and the only one of the
+                    three you could not reach without walking into a building.
+                </p>
+            </div>
+
+            <figure class="rd-market is-figma">
+                <figcaption class="rd-market-head">
+                    <h2 class="rd-market-title">Share of Vietnam's consumer lending market, 2021</h2>
+                </figcaption>
+
+                <div class="rd-market-bar" aria-hidden="true">
+                    <span class="rd-market-seg is-a" style="width: 52%"></span>
+                    <span class="rd-market-seg is-b" style="width: 17%"></span>
+                    <span class="rd-market-seg is-subject" style="width: 11%"></span>
+                    <span class="rd-market-seg is-rest" style="width: 20%"></span>
+                </div>
+
+                <ul class="rd-market-key">
+                    <li><span class="rd-market-sw is-a"></span>FE Credit 52%</li>
+                    <li><span class="rd-market-sw is-b"></span>Home Credit 17%</li>
+                    <li class="is-subject"><span class="rd-market-sw is-subject"></span>HD Saison 11%</li>
+                    <li><span class="rd-market-sw is-rest"></span>The other 13 20%</li>
+                </ul>
+            </figure>
+
+            <!-- Interactive benchmark map, ported unchanged from lending-new-v2.html
+                 (table, SVG scatter and script at the bottom of this file), reordered
+                 map-first/insight-second via `.is-chart.is-reverse`. The INSIGHT card's
+                 heading IS the hovered lender's name (`.rd-bench-panel-name` lives on
+                 the <h3> itself) rather than a static "Insight" label sitting above a
+                 separate name line — see fill() in the script below. -->
+            <figure class="rd-bench is-figma" data-bench>
+                <div class="rd-case-split is-chart is-reverse">
+                    <div class="rd-case-card">
+                        <div class="rd-bench-mount"></div>
+
+                        <table class="rd-benchmark">
+                        <caption>
+                            Every competitor had already moved between 14% and 34% of origination off the
+                            counter. HD Saison had moved none of it. Which means the question was never
+                            whether digital origination was possible under Vietnamese regulation — four
+                            companies had already answered that, in this market, in this regime.
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Lender</th>
+                                <th scope="col">Offline origination</th>
+                                <th scope="col">Max loan</th>
+                                <th scope="col">Monthly web visits</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-online="34" data-loan="80"  data-traffic="38"   data-blurb="The smallest audience in the set, and the largest digital share. A third of its originations already happened without a counter."><th scope="row">JACCS</th><td>66%</td><td>80M VND</td><td>38K</td></tr>
+                            <tr data-online="22" data-loan="70"  data-traffic="1070" data-blurb="Nine times HD Saison's web traffic, on the lowest maximum loan in the set. A volume business — and a fifth of that volume was already online."><th scope="row">FE Credit</th><td>78%</td><td>70M VND</td><td>1.07M</td></tr>
+                            <tr data-online="18" data-loan="200" data-traffic="431"  data-blurb="Lends twice what anyone else in the set will, and reaches four times HD Saison's audience. Neither of those advantages depends on a branch."><th scope="row">Home Credit</th><td>82%</td><td>200M VND</td><td>431K</td></tr>
+                            <tr data-online="14" data-loan="100" data-traffic="62"   data-blurb="Half HD Saison's traffic and the smallest digital share of the four that had one — and still not zero."><th scope="row">EasyCredit</th><td>86%</td><td>100M VND</td><td>62K</td></tr>
+                            <tr class="is-subject" data-online="0" data-loan="100" data-traffic="116" data-blurb="The third-largest lender in the country. Every loan began at a counter, which made walking in the only way in."><th scope="row">HD Saison</th><td>100%</td><td>100M VND</td><td>116K</td></tr>
+                        </tbody>
+                        </table>
+                    </div>
+
+                    <div class="rd-case-card-stack">
+                        <div class="rd-case-card" data-bench-insight aria-live="polite">
+                            <h3 class="rd-bench-panel-name">HD Saison</h3>
+                            <p class="rd-bench-panel-blurb">The third-largest lender in the country. Every loan began at a counter, which made walking in the only way in.</p>
+                            <div class="rd-bench-strip" aria-hidden="true"></div>
+                            <p class="rd-bench-strip-cap">Each dot = 2% of loans</p>
+                            <dl style="margin:0">
+                                <div class="rd-bench-metric"><dt>Originated online</dt><dd data-k="0">0%</dd></div>
+                                <div class="rd-bench-metric"><dt>Max loan</dt><dd data-k="1">100M VND</dd></div>
+                                <div class="rd-bench-metric"><dt>Visits / month</dt><dd data-k="2">116K</dd></div>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rd-bench-foot"></div>
+            </figure>
+
+            <div class="rd-case-card">
+                <h3>Industry Challenges</h3>
+                <div class="rd-case-grid">
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-label">Challenge 01</h3>
+                        <p>Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library</p>
+                    </div>
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-label">Challenge 02</h3>
+                        <p>Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library</p>
+                    </div>
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-label">Challenge 03</h3>
+                        <p>Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Signing first, then everything downstream of it ================= -->
+    <section class="rd-case-section is-tinted" id="built">
+        <div class="rd-case-inner rd-shell" style="align-items:center;">
+            <div style="max-width: 684px; text-align: center;">
+                <h2 class="rd-case-h2">Signing first, then everything downstream of it</h2>
+                <div class="rd-case-body" style="margin-top:24px;">
+                    <p>
+                        Each step in my career has taken me closer to the bigger picture: understanding
+                        the problem, shaping the direction, and bringing people together to build the
+                        right thing.
+                    </p>
+                </div>
+            </div>
+
+            <figure class="rd-case-figure is-full">
+                <img src="../public/case-study-framework/built-band.png" alt="Product screens band" loading="lazy">
+            </figure>
+        </div>
+    </section>
+
+    <!-- ================= Looking at the main (This) ================= -->
+    <section class="rd-case-section is-tinted" id="homepage">
+        <div class="rd-case-inner rd-shell" style="align-items:center;">
+            <div style="max-width: 684px; text-align: center;">
+                <h2 class="rd-case-h2">Looking at the main (This)</h2>
+                <div class="rd-case-body" style="margin-top:24px;">
+                    <p>
+                        Each step in my career has taken me closer to the bigger picture: understanding
+                        the problem, shaping the direction, and bringing people together to build the
+                        right thing.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Product-area tabs — same tab pattern as web-3.html's #team /
+                 #processes&tools switcher (a button row that swaps which
+                 panel is visible), reimplemented here against .rd-case-*
+                 markup and --rd- tokens rather than pulling in that page's
+                 .hastag/.information classes and case-retheme-v3.css: see
+                 "6. Patterns ported from web-3 / lending" in redesign.css for
+                 why this page always reimplements instead of importing.
+                 Wired up in the script at the bottom of this file. -->
+            <div class="rd-case-tabs" role="tablist" aria-label="Product areas">
+                <button type="button" class="rd-case-tab is-active" role="tab" aria-selected="true" aria-controls="tabpanel-homepage" id="tab-homepage">Homepage</button>
+                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-loan" id="tab-loan">Loan Management</button>
+                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-esign" id="tab-esign">Esign</button>
+            </div>
+
+            <div class="rd-case-tabpanels" style="width:100%;">
+                <div class="rd-case-tabpanel" id="tabpanel-homepage" role="tabpanel" aria-labelledby="tab-homepage">
+                    <div class="rd-case-card" style="width:100%;">
+                        <div class="rd-case-split is-media">
+                            <div class="rd-case-body">
+                                <div>
+                                    <h3>Homepage</h3>
+                                    <p>
+                                        Gives the top slot, unconditionally, to loans awaiting signature. Offers
+                                        sit below them. This ordering was contested and the commercial case for
+                                        putting promotions first is obvious — it loses to a simpler fact: an
+                                        unsigned loan is revenue already earned and not yet booked.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3 class="rd-case-label">New Features</h3>
+                                    <!-- Click-to-select feature picker — same interaction as
+                                         case-studies/web-3.html's showcase section (loadContent():
+                                         active-state swap + a cross-fade on the displayed image),
+                                         wired up generically (data-picker → its image) in the
+                                         script at the bottom of this file. Every row points at
+                                         the same render today via data-image, since only one
+                                         exists for this project; give a row its own screenshot
+                                         later and the picker uses it automatically. -->
+                                    <div class="rd-case-checklist" data-picker="homepage-picker-image" role="tablist" aria-label="New features">
+                                        <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true" data-image="../public/case-study-framework/homepage-render.png"><span>01. Dynamic Card Display</span></div>
+                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/case-study-framework/homepage-render.png"><span>02. Personalize Package</span></div>
+                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/case-study-framework/homepage-render.png"><span>03. Promotions</span></div>
+                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/case-study-framework/homepage-render.png"><span>04. Authorized Branches</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <figure class="rd-case-figure">
+                                <img id="homepage-picker-image" src="../public/case-study-framework/homepage-render.png" alt="Homepage render" loading="lazy">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rd-case-tabpanel" id="tabpanel-loan" role="tabpanel" aria-labelledby="tab-loan" hidden>
+                    <div class="rd-case-card" style="width:100%;">
+                        <div class="rd-case-split is-media">
+                            <div class="rd-case-body">
+                                <div>
+                                    <h3 class="rd-case-label">Loan Management</h3>
+                                    <p>
+                                        One of the most important features of this application — the most
+                                        intuitive way to see loan details, payment amount and payment history,
+                                        with payment options available right there in the loan management area.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3 class="rd-case-label">Reminder states</h3>
+                                    <!-- Same click-to-select picker as the Homepage panel's
+                                         "New Features" list above — each state has its own
+                                         screenshot, so selecting a row swaps the render beside
+                                         it via the shared script at the bottom of this file. -->
+                                    <div class="rd-case-checklist" data-picker="loan-picker-image" role="tablist" aria-label="Reminder states">
+                                        <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true" data-image="../public/hd/remider1.png"><span>4 days before due</span></div>
+                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hd/remider2.png"><span>2 days before due</span></div>
+                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hd/remider3.png"><span>1 day before due</span></div>
+                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hd/remider4.png"><span>Overdue payment</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <figure class="rd-case-figure">
+                                <img id="loan-picker-image" src="../public/hd/remider1.png" alt="Reminder state screen" loading="lazy">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rd-case-tabpanel" id="tabpanel-esign" role="tabpanel" aria-labelledby="tab-esign" hidden>
+                    <div class="rd-case-card" style="width:100%;">
+                        <div class="rd-case-split is-media">
+                            <div class="rd-case-body">
+                                <div>
+                                    <h3 class="rd-case-label">Esign</h3>
+                                    <p>
+                                        Click through the signing flow exactly as a customer would — the
+                                        interactive Marvel prototype behind the screens above, wired end to
+                                        end from first loan offer to signed contract.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <figure class="rd-case-figure is-embed">
+                                <iframe src="https://marvelapp.com/prototype/2b45h12g?emb=1&amp;iosapp=false&amp;frameless=false" width="343" height="811" allowtransparency="true" frameborder="0" title="HD Saison signing flow prototype (Marvel)" loading="lazy"></iframe>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= It shipped, and then I stopped looking ================= -->
+    <section class="rd-case-section is-tinted" id="after">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">It shipped, and then I stopped looking</h2>
+
+            <div class="rd-case-wiki">
+                <div class="rd-case-wiki-row">
+                    <div class="rd-case-body">
+                        <p>
+                            Gives the top slot, unconditionally, to loans awaiting signature. Offers sit
+                            below them. This ordering was contested and the commercial case for putting
+                            promotions first is obvious — it loses to a simpler fact: an unsigned loan
+                            is revenue already earned and not yet booked.
+                        </p>
+                    </div>
+                </div>
+                <h3 class="rd-case-wiki-title">What I'd do differently</h3>
+                <div class="rd-case-wiki-row">
+                    <div class="rd-case-lesson-row">
+                        <div class="rd-case-lesson">Short lesson learned (keyword, short 3 keys)</div>
+                        <div class="rd-case-lesson">Short lesson learned (keyword, short 3 keys)</div>
+                        <div class="rd-case-lesson">Short lesson learned (keyword, short 3 keys)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Related case studies =================
+         The real three cards, lifted verbatim from lending-new-v2.html's
+         closing section, rather than Figma's three identical placeholder
+         cards — see the ROUND 2 file-header note. -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Related case studies</h2>
+
+            <div class="rd-related">
+                <a class="rd-related-card" href="./healthcare.html">
+                    <div class="rd-related-media">
+                        <img src="../public/hc_cover.webp"
+                             alt="Role-by-feature product map for the speaker-bureau platform" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Healthcare &amp; life sciences</p>
+                        <h3 class="rd-related-title">Seventeen roles, one release</h3>
+                        <p class="rd-related-desc">Pharma speaker programs ran on email, spreadsheets and a legacy portal. They became one multi-tenant platform where a rep, a compliance monitor and an accountant work the same program record.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+
+                <a class="rd-related-card" href="./web-3.html">
+                    <div class="rd-related-media">
+                        <img src="../public/ar_casecover.webp"
+                             alt="Aura Network case study cover" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Web3 infrastructure</p>
+                        <h3 class="rd-related-title">A chain that locked developers out</h3>
+                        <p class="rd-related-desc">A permissioned NFT chain with a closed developer pool became a permissionless, EVM-compatible Layer 1 open to any Ethereum-toolchain builder.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+
+                <a class="rd-related-card" href="./marketing-platform.html">
+                    <div class="rd-related-media">
+                        <img src="../public/marketing.png"
+                             alt="iSystem marketing platform case study cover" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Salon software · Startup</p>
+                        <h3 class="rd-related-title">Eight apps, one team</h3>
+                        <p class="rd-related-desc">A startup was building eight apps at once for three user types. It became one transaction spine — book, check in, pay — with everything else sequenced behind it.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<button type="button" class="rd-to-top" aria-label="Back to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+       stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <line x1="12" y1="20" x2="12" y2="5"></line>
+    <polyline points="5 12 12 5 19 12"></polyline>
+  </svg>
+</button>
+
+<div class="rd-closing">
+<footer id="footer-placeholder"></footer>
+</div>
+
+<script src="../js/script.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/socialize.js"></script>
+<script src="../js/back-to-top.js"></script>
+
+<script src="../js/case-toc.js"></script>
+
+<!-- Progressive enhancement over the benchmark table — ported unchanged from
+     lending-new-v2.html. The table is the data; this reads it, never restates
+     it. If this script fails or never loads, the table renders as it always
+     did, which is why nothing here is wrapped in try/catch: a thrown error
+     leaves the fallback on screen, which is the correct outcome.
+
+     ONLY DIFFERENCE FROM lending-new-v2.html: the INSIGHT card's name target
+     is now the card's own <h3> (`.rd-bench-panel-name`) instead of a <p>
+     sitting under a static "Insight" label — fill() below is otherwise
+     identical. -->
+<script>
+(function () {
+  var fig = document.querySelector('[data-bench]');
+  if (!fig) return;
+  var mount = fig.querySelector('.rd-bench-mount');
+  var table = fig.querySelector('.rd-benchmark');
+  var insight = fig.querySelector('[data-bench-insight]');
+  var foot = fig.querySelector('.rd-bench-foot');
+  if (!mount || !table || !insight || !foot) return;
+
+  var DOTS = 50;                       // one dot = 2 loans in 100
+  var SUBJECT = 4;                     // HD Saison is the last row
+  var LOGO_W = 92, LOGO_H = 16.5;
+  var LOGO = {
+    'JACCS': 'Logo_Jaccs.png',
+    'FE Credit': 'Logo_FE.png',
+    'Home Credit': 'Logo_Homecredit.png',
+    'EasyCredit': 'Logo_EasyCredit.png',
+    'HD Saison': 'Logo_HD.png'
+  };
+
+  var data = [].map.call(table.querySelectorAll('tbody tr'), function (tr) {
+    return {
+      name: tr.querySelector('th').textContent.trim(),
+      online: +tr.dataset.online,
+      loan: +tr.dataset.loan,
+      traffic: +tr.dataset.traffic,
+      blurb: tr.dataset.blurb || '',
+      subject: tr.classList.contains('is-subject')
+    };
+  });
+  function traffic(t) { return t >= 1000 ? (t / 1000).toFixed(2) + 'M' : t + 'K'; }
+
+  /* .rd-bench-take (the paragraph that used to sit under the split) is still
+     gone — removed at Hao's request 2026-08-20 and not asked back. The
+     heading above the map IS back, per a later request the same day: styled
+     to match .rd-bench-panel-name (`.is-figma`, see the CSS comment), left-
+     aligned (briefly right-aligned, then reverted), with new copy — "Being
+     found, and being able to act on it" was the original wording and Hao
+     asked for something better than that when the heading came back. */
+  mount.innerHTML =
+    '<div class="rd-bench-head is-figma">' +
+      '<p class="rd-bench-title">Reach versus readiness (interactive map)</p>' +
+    '</div>' +
+    '<div class="rd-bench-stage"></div>';
+
+  /* Carries the market bar's source note too now (Hao's call) — one combined
+     line instead of two near-identical "estimated from X, 2021" sentences
+     on the same section. .rd-market-source is gone from the figure above;
+     this is its only citation now. */
+  foot.innerHTML =
+    '<p class="rd-bench-source">Market share, offline share, maximum loan and web visits estimated from State Bank of Vietnam and FiinGroup figures, annual reports and public traffic data, 2021.</p>';
+
+  var stage = mount.querySelector('.rd-bench-stage');
+  var pName = insight.querySelector('.rd-bench-panel-name');
+  var pBlurb = insight.querySelector('.rd-bench-panel-blurb');
+  var pStrip = insight.querySelector('.rd-bench-strip');
+  var pVals = insight.querySelectorAll('.rd-bench-metric dd');
+
+  var gen = 0;
+
+  function fill(i) {
+    var d = data[i];
+    pName.innerHTML = '<img class="rd-bench-panel-logo" src="../public/hd/' + LOGO[d.name] + '" alt="' + d.name + '">';
+    pBlurb.textContent = d.blurb;
+    pVals[0].textContent = d.online + '%';
+    pVals[1].textContent = d.loan + 'M VND';
+    pVals[2].textContent = traffic(d.traffic);
+
+    var on = Math.round(d.online / (100 / DOTS));
+    var html = '';
+    for (var k = 0; k < DOTS; k++) {
+      html += '<span' + (k < on ? ' class="is-online"' : '') + '></span>';
+    }
+    pStrip.innerHTML = html;
+    pStrip.classList.toggle('is-subject', !!d.subject);
+
+    var mine = ++gen;
+    [].forEach.call(pStrip.children, function (el, k) {
+      setTimeout(function () { if (gen === mine) el.classList.add('is-in'); }, 20 + k * 5);
+    });
+  }
+
+  function focusOn(i) {
+    fill(i);
+    [].forEach.call(stage.querySelectorAll('.rd-bench-item'), function (el, k) {
+      el.classList.toggle('is-dim', k !== i);
+    });
+  }
+  function reset() {
+    [].forEach.call(stage.querySelectorAll('.rd-bench-item'), function (el) {
+      el.classList.remove('is-dim');
+    });
+    fill(SUBJECT);
+  }
+
+  function wire() {
+    [].forEach.call(stage.querySelectorAll('.rd-bench-item'), function (el, i) {
+      el.setAttribute('tabindex', '0');
+      el.setAttribute('role', 'img');
+      el.setAttribute('aria-label',
+        data[i].name + ': ' + data[i].online + '% of loans originated online, ' +
+        'max loan ' + data[i].loan + ' million VND, ' + traffic(data[i].traffic) + ' visits a month.');
+      el.addEventListener('mouseenter', function () { focusOn(i); });
+      el.addEventListener('focus', function () { focusOn(i); });
+      el.addEventListener('blur', reset);
+    });
+    stage.addEventListener('mouseleave', reset);
+    reset();
+  }
+
+  function draw() {
+    var X = function (p) { return 100 + p * 13; };                        // 0-40%  -> 100-620
+    var Y = function (t) { return 305 - (Math.log(t) / Math.LN10 - 1.5) * 160; };
+    var MX = X(17), MY = Y(150);                                          // quadrant dividers
+
+    /* No .rd-bench-halo pill behind the HD Saison mark (removed 2026-08-20,
+       Hao's call) — it now sits on the map exactly like the other four
+       logos, no white background/border setting it apart. */
+    var marks = data.map(function (d) {
+      var x = X(d.online), y = Y(d.traffic);
+      return '<g class="rd-bench-item rd-bench-mark' + (d.subject ? ' is-subject' : '') + '">' +
+               '<image href="../public/hd/' + LOGO[d.name] + '" ' +
+                 'x="' + (x - LOGO_W / 2) + '" y="' + (y - LOGO_H / 2).toFixed(1) + '" ' +
+                 'width="' + LOGO_W + '" height="' + LOGO_H + '" ' +
+                 'preserveAspectRatio="xMidYMid meet" aria-hidden="true"></image>' +
+             '</g>';
+    }).join('');
+
+    stage.innerHTML =
+      '<svg class="rd-bench-map" viewBox="0 0 660 396" role="group" ' +
+           'aria-label="Two-by-two map. Horizontal axis is share of loans originated online, ' +
+           'vertical axis is monthly web visits on a log scale. ' +
+           'HD Saison sits alone in the bottom-left quadrant at zero per cent online.">' +
+        '<rect class="rd-bench-quad" x="50" y="' + MY.toFixed(1) + '" ' +
+              'width="' + (MX - 50) + '" height="' + (320 - MY).toFixed(1) + '"></rect>' +
+        '<g class="rd-bench-grid">' +
+          '<line x1="50" y1="' + MY.toFixed(1) + '" x2="620" y2="' + MY.toFixed(1) + '"></line>' +
+          '<line x1="' + MX + '" y1="40" x2="' + MX + '" y2="320"></line>' +
+        '</g>' +
+        '<g class="rd-bench-axis">' +
+          '<line x1="50" y1="320" x2="620" y2="320"></line>' +
+          '<line x1="50" y1="40" x2="50" y2="320"></line>' +
+        '</g>' +
+        '<g class="rd-bench-quad-label">' +
+          '<text x="60" y="52">FOUND, THEN SENT TO A COUNTER</text>' +
+          '<text x="610" y="52" text-anchor="end">FOUND, AND CAN ACT</text>' +
+          '<text class="is-subject" x="60" y="316">HARD TO FIND, NOTHING TO DO</text>' +
+          '<text x="610" y="316" text-anchor="end">SELF-SERVE, BUT SMALL</text>' +
+        '</g>' +
+        '<g class="rd-bench-tick" text-anchor="end">' +
+          '<text x="42" y="69">1M</text><text x="42" y="133">400K</text>' +
+          '<text x="42" y="229">100K</text><text x="42" y="293">40K</text>' +
+        '</g>' +
+        '<g class="rd-bench-tick" text-anchor="middle">' +
+          '<text x="100" y="338">0</text><text x="230" y="338">10%</text>' +
+          '<text x="360" y="338">20%</text><text x="490" y="338">30%</text>' +
+          '<text x="620" y="338">40%</text>' +
+        '</g>' +
+        '<text class="rd-bench-axis-label" x="335" y="364" ' +
+              'text-anchor="middle">Share of loans originated online</text>' +
+        '<text class="rd-bench-axis-label" x="10" y="180" ' +
+              'text-anchor="middle" transform="rotate(-90 10 180)">Monthly web visits</text>' +
+        marks +
+      '</svg>';
+    wire();
+  }
+
+  fig.classList.add('is-enhanced');
+  table.setAttribute('aria-hidden', 'true');   // the chart now carries the data
+  draw();
+}());
+</script>
+
+<!-- Product-area tabs — click a tab button, its panel shows and the other
+     two hide. Same shape as web-3.html's openHastag() (active button +
+     swapped panel), rebuilt small here against .rd-case-tab/.rd-case-tabpanel
+     instead of that page's .hastag-items/.information, which depend on
+     case-retheme-v3.css's legacy colour set. -->
+<script>
+(function () {
+  var tabs = document.querySelectorAll('.rd-case-tab');
+  if (!tabs.length) return;
+
+  function select(tab) {
+    tabs.forEach(function (t) {
+      var active = t === tab;
+      t.classList.toggle('is-active', active);
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !active;
+    });
+  }
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () { select(tab); });
+  });
+}());
+</script>
+
+<!-- Feature pickers — click a row, the row goes active and the render
+     beside it cross-fades to that row's data-image. Same interaction shape
+     as web-3.html's loadContent() (active state + fade), rebuilt small here
+     since that script's data is Aura-specific. Generic over every
+     `.rd-case-checklist[data-picker]` on the page so the Homepage panel's
+     "New Features" list and the Loan Management panel's "Reminder states"
+     list share one implementation instead of two copies. -->
+<script>
+(function () {
+  document.querySelectorAll('.rd-case-checklist[data-picker]').forEach(function (picker) {
+    var image = document.getElementById(picker.dataset.picker);
+    if (!image) return;
+    var rows = picker.querySelectorAll('.rd-case-checklist-row');
+
+    function select(row) {
+      rows.forEach(function (r) {
+        r.classList.toggle('is-active', r === row);
+        r.setAttribute('aria-selected', r === row ? 'true' : 'false');
+      });
+      var src = row.dataset.image;
+      if (!src || src === image.getAttribute('src')) return;
+      image.style.opacity = 0;
+      setTimeout(function () {
+        image.src = src;
+        image.style.opacity = 1;
+      }, 150);
+    }
+
+    rows.forEach(function (row) {
+      row.addEventListener('click', function () { select(row); });
+      row.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(row); }
+      });
+    });
+  });
+}());
+</script>
+
+</body>
+</html>

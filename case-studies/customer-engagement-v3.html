@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+<head>
+    <meta charset="UTF-8">
+    <!-- No maximum-scale / user-scalable=no: blocking pinch-zoom fails WCAG 1.4.4. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.png">
+    <title>Customer Visit Management | Case Study — Stephano Ng</title>
+
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+    <link rel="stylesheet" href="../css/styles/back-to-top.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7VM3QDKCYW');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PF5XGDGK');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta property="og:title" content="Customer Visit Management | Stephano Ng">
+    <meta property="og:description" content="Thirty-six usability defects, five user roles, six weeks. Cutting four roles out of a redesign to keep the release — and shipping it into the company super app.">
+    <meta property="og:image" content="../public/ce_cover.webp">
+    <meta property="og:type" content="article">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+</head>
+<body class="rd-case is-hero-overlap">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!--
+  ============================================================================
+  CUSTOMER VISIT MANAGEMENT — case study, v3 layout.
+
+  WHAT THIS FILE IS. customer-engagement.html rebuilt on the structure and UI
+  of lending-new-v3.html, at Hao's request 2026-08-20. The copy is the same
+  copy — every sentence here was already written and checked on
+  customer-engagement.html, and none of it was rewritten in the port. What
+  changed is the shell it sits in. customer-engagement.html is untouched and
+  is still the file work.html routes to (data-case-study="customer-engagement"
+  → case-studies/{slug}.html); switching the live page over means renaming, not
+  editing that one.
+
+  WHAT THE V3 SHELL CHANGES, VS THE FILE THIS CAME FROM:
+    - `<body class="rd-case is-hero-overlap">`. The hero runs full-bleed and
+      the cover image overlaps its bottom edge. That is why the cover moved
+      OUT of .rd-case-hero-inner and INTO §01 — .is-hero-overlap .rd-case-cover
+      and .is-hero-overlap #overview{padding-top:0} in redesign.css are what
+      pull it up under the hero. Move the cover back into the header and the
+      overlap silently stops working.
+    - The eyebrow ("Case study · Internal enterprise tooling") is gone. v3's
+      hero is title + lead only; the domain is already the second row of the
+      snapshot table, so the eyebrow was saying it twice.
+    - Every section carries `is-tinted`. The old file alternated tinted and
+      untinted bands; v3 does not, and mixing the two reads as an accident.
+    - Seven TOC entries became six. §7 Learning and §8 What I'd change merged
+      into one §06 "Shipped" built on .rd-case-wiki — prose in the top row,
+      the three lessons in .rd-case-lesson-row underneath. That is v3's
+      closing shape and it is a better one: the lessons stop being a separate
+      section the reader has to still be reading by.
+    - The two-link .rd-case-pager at the foot became three .rd-related cards,
+      the same three v3 ends on.
+    - The five screenshots moved into .rd-case-tabs panels. The old file
+      stacked them as figures down the page; here Overview / Request form /
+      Mobile are three tabs, each panel a .rd-case-card with a
+      .rd-case-checklist picker on the left that swaps the render on the
+      right. Both scripts at the foot of this file are ported unchanged from
+      lending-new-v3.html and are generic — the picker binds to every
+      `.rd-case-checklist[data-picker]` on the page.
+
+  EVIDENCE MARKERS. The .rd-evidence pills are gone, converted to plain
+  "(counted)" / "(client data)" / "(estimated)" parentheticals. Same call Hao
+  made on lending-new-v3.html on 2026-08-20: the pill reads as too much visual
+  weight for a citation. The words are identical; only the styling is dropped.
+
+  THE OPEN QUESTIONS ARE STILL OPEN. The six .rd-todo callouts the previous
+  file rendered on the page are now HTML comments, marked >>> OPEN, sitting at
+  the exact point in the page each one applies to. Nothing was answered in the
+  port. Two of them still gate the page's strongest claim:
+    · how 6.2 minutes was derived (§03) — decides whether "measured" can
+      appear anywhere on this page at all
+    · a post-release number (§06) — the tool has been live over a year inside
+      the super app, and any real figure replaces the estimated block
+
+  CLIENT IS INTERNAL. This was an in-house tool for the employer's own customer
+  relations team. Employee account names, customer account names, unit codes and
+  cost codes have been redacted from every screenshot in ../public/ce_*.webp —
+  do not swap in an unredacted export. See the "sensitive data" section of
+  Customer-Engagement-Research-and-Intake.md before touching the images.
+
+  STATUS confirmed by Hao 2026-08-17: Phase 1 shipped. Phases 2 and 3 added the
+  deferred "delight" features and integrated the tool into the company super app
+  as a webview. Do not revert the status line to "handed off".
+
+  SOURCING. Every figure traces to a named file; derivations are in
+  Customer-Engagement-Research-and-Intake.md §12:
+    36 issues (1/13/14/8) ...... Customercare_UXDiscovery_Report.pdf
+    1,376 / 2,096 trips ........ 2532024_Customercare_TimeSavings.pdf
+    6.2 → 3.6 min, −42% ........ same file (the only self-consistent revision)
+    26 feedback items, 11 out .. Feedback.xlsx
+    release dates .............. [Customercare] Final_Weekly Report.xlsx
+  The "−34%" that appears in all four slide revisions is stale prose. Not used.
+  ============================================================================
+-->
+
+<header class="rd-case-hero">
+    <div id="nav-placeholder"></div>
+
+    <div class="rd-case-hero-inner rd-shell">
+        <h1 class="rd-case-title animate__animated animate__fadeIn">Cutting four roles to keep one release</h1>
+        <p class="rd-case-lead animate__animated animate__fadeIn">
+            When a client executive flies in, someone has to plan the visit — the meetings, the
+            agenda, the budget, the people in the room. That ran on an internal tool nobody liked
+            using. This is what happened when the proposal promised five user roles in three and a
+            half months, the feedback started arriving from three directions at once, and I had to
+            decide what to stop building.
+        </p>
+    </div>
+</header>
+
+<nav class="rd-case-toc" aria-label="Sections">
+    <div class="rd-case-toc-inner rd-shell">
+        <a href="#overview"><span class="n">01</span>Overview</a>
+        <a href="#context"><span class="n">02</span>The tool</a>
+        <a href="#discovery"><span class="n">03</span>Discovery</a>
+        <a href="#decision"><span class="n">04</span>The decision</a>
+        <a href="#screens"><span class="n">05</span>The screens</a>
+        <a href="#after"><span class="n">06</span>Shipped</a>
+    </div>
+</nav>
+
+<main>
+    <!-- ================= Overview ================= -->
+    <section class="rd-case-section is-tinted" id="overview">
+        <div class="rd-case-inner rd-shell">
+            <div class="rd-case-cover" data-aos="fade-up">
+                <img src="../public/ce_cover.webp" alt="Customer visit management case study cover — the redesigned trip overview">
+            </div>
+
+            <h2 class="rd-case-h2">Overview</h2>
+
+            <div class="rd-case-snapshot">
+                <div>
+                    <span class="rd-case-meta-k">Role</span>
+                    <span class="rd-case-meta-v">Project manager, design team</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Domain</span>
+                    <span class="rd-case-meta-v">Internal enterprise tooling</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Timeline</span>
+                    <span class="rd-case-meta-v">Mar – Apr 2024 (Phase 1)</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Team</span>
+                    <span class="rd-case-meta-v">5 — me, 2 UX, 2 UI</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Platform</span>
+                    <span class="rd-case-meta-v">Web desktop + mobile</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Status</span>
+                    <span class="rd-case-meta-v">Shipped</span>
+                </div>
+            </div>
+
+            <!-- >>> OPEN — the team line. The work breakdown names four designers
+                 plus you, but one name appears only in the revised plan: a
+                 replacement, or a fifth person, and only you know which. The
+                 role boundary also needs one sentence somewhere on this page —
+                 you were PM at quarter allocation and Consulted on every design
+                 task, which is not the same as leading the design work. The
+                 "paired with the client dev team" clause that used to hang off
+                 this cell moved to §05 Delivery prose, where it describes
+                 something rather than padding a table row. -->
+
+            <div class="rd-case-split">
+                <div class="rd-case-body">
+                    <div>
+                        <h3 class="rd-case-label is-heading">The problem</h3>
+                        <p>An audit of the visit-management tool found 36 usability defects (counted), and the only critical-severity one sat on the screen managers used most — the request form itself.</p>
+                    </div>
+
+                    <div>
+                        <h3 class="rd-case-label is-heading">What the proposal promised</h3>
+                        <!-- Five checklist rows = the five roles the signed proposal
+                             committed to, which is what makes §04's cut legible: the
+                             reader has seen the list before they watch four of them
+                             go. Inline stroke icons in the same style as v3's
+                             overview checklist — no shared icon asset exists for
+                             roles, and ../public/case-study-framework/ic-*.png are
+                             Figma's leftover sample logos, white on white. -->
+                        <div class="rd-case-checklist">
+                            <div class="rd-case-checklist-row">
+                                <span class="rd-case-checklist-icon" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </span>
+                                <span>Manager — coordinates the visit</span>
+                            </div>
+                            <div class="rd-case-checklist-row">
+                                <span class="rd-case-checklist-icon" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                                </span>
+                                <span>Requester — raises the visit request</span>
+                            </div>
+                            <div class="rd-case-checklist-row">
+                                <span class="rd-case-checklist-icon" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path></svg>
+                                </span>
+                                <span>Customer relations team</span>
+                            </div>
+                            <div class="rd-case-checklist-row">
+                                <span class="rd-case-checklist-icon" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M10 21v-5h4v5"></path></svg>
+                                </span>
+                                <span>Delivery unit — supplies the attendees</span>
+                            </div>
+                            <div class="rd-case-checklist-row">
+                                <span class="rd-case-checklist-icon" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.14.62.66 1.08 1.29 1.1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"></path></svg>
+                                </span>
+                                <span>Administrator</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="rd-case-highlight">
+                    <p class="rd-case-meta-k">What the audit found</p>
+                    <div class="rd-case-highlight-stat">
+                        <strong>36</strong>
+                        <span>usability defects across five modules, audited in five days (counted)</span>
+                    </div>
+                    <div class="rd-case-highlight-stat">
+                        <strong>1</strong>
+                        <span>critical-severity issue — and it was on the most-used screen (counted)</span>
+                    </div>
+                    <div class="rd-case-highlight-stat">
+                        <strong>1,376</strong>
+                        <span>visit requests went through the tool in 2023; 2,096 forecast for 2024 (client data)</span>
+                    </div>
+                </aside>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    Three weeks in, with feedback arriving from three stakeholder groups and no
+                    single approver, I cut four of those five roles and two of five modules out of
+                    Phase 1 and spent the room on mobile. Phase 1 shipped, and two further phases
+                    followed — the tool now runs inside the company super app as a webview. The
+                    main task was modelled at 6.2 → 3.6 minutes (estimated).
+                </p>
+                <!-- "estimated", not "measured", and the distinction is the point. The
+                     figure is a pre-launch model; four slide revisions disagree and
+                     this is the only internally consistent one. See §06. -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= What the tool was for ================= -->
+    <section class="rd-case-section is-tinted" id="context">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Nobody expected the tool to help</h2>
+
+            <div class="rd-case-body">
+                <p>
+                    A senior customer flies in for two days. Before they land, someone books the
+                    meetings, drafts an agenda, assigns who from which delivery unit attends,
+                    sets a budget and records what the visitor cares about. Get it wrong and the
+                    company looks careless in front of the account it most wants to keep.
+                </p>
+                <p>
+                    All of that lived in one internal tool, and the team that ran it had stopped
+                    expecting the tool to help. That is the state I was asked to change — and
+                    the reason the audit had to come before anyone drew a screen.
+                </p>
+            </div>
+
+            <figure class="rd-case-figure">
+                <img src="../public/ce_before_form.webp" alt="The legacy request form: a single flat page of some thirty fields with no grouping, two columns of dropdowns and date pickers, and a chatbot widget overlapping the input area. All values redacted." loading="lazy">
+                <figcaption>The critical finding, and the whole case for the project in one screen. Around thirty fields on one flat page with no grouping, so nothing tells you where one decision ends and the next begins — and a support chatbot parked on top of the fields. The audit note reads: long, ungrouped, easy to lose your place in, easy to fill in wrong, hard to check afterwards.</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <!-- ================= Discovery ================= -->
+    <section class="rd-case-section is-tinted" id="discovery">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">People had built habits around not trusting it</h2>
+
+            <div class="rd-case-body">
+                <p>
+                    Five days of audit, then interviews with three managers who run visits daily,
+                    plus the tool owner and the business owner. The complaint I expected was
+                    "it's ugly". What came back was sharper, and it is the finding the rest of
+                    this project hangs off.
+                </p>
+            </div>
+
+            <!-- Industry Challenges card, same shape as lending-new-v3.html's — a
+                 .rd-case-card wrapping .rd-case-grid, each cell an ic-challenge.svg
+                 above an h3.rd-case-challenge-title. The three cells here are the
+                 three discovery insights the previous file rendered as separate
+                 .rd-case-cards. Reason for the move: as loose cards they read as
+                 three unrelated notes; inside one titled card they read as one
+                 finding with three faces, which is what they are.
+
+                 The title class matters. These h3s were never getting their size
+                 from .rd-case-label — they get it from `.rd-case-card h3`, whose
+                 descendant specificity beats .rd-case-label regardless of source
+                 order. .rd-case-challenge-title (redesign.css) is that same look
+                 given its own name, so the title survives if the tag ever moves. -->
+            <div class="rd-case-card">
+                <h3>What discovery found</h3>
+                <div class="rd-case-grid">
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-challenge-title">The filters returned wrong results</h3>
+                        <p>They queried an old database. Three filters were the only ones anyone used, and the other eleven were noise people had learned to route around.</p>
+                    </div>
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-challenge-title">The volume was rising under it</h3>
+                        <p>1,376 requests in 2023, 2,096 forecast for 2024 (client data) — a growing load on a tool with a defective form at the centre of it.</p>
+                    </div>
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-challenge-title">Five roles, one record</h3>
+                        <p>Requester, customer relations, manager, delivery unit, administrator all touch a visit. The manager carries the coordination load and uses the screen that fails hardest.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- >>> OPEN — the business insight, and an interviewer will ask for it.
+                 Nothing in the source set says why the business funded this in
+                 March 2024 rather than any other month. What was the tool
+                 blocking — a growing account team, a visit volume the process
+                 couldn't absorb, a complaint from a delivery unit? One sentence
+                 closes it, and it belongs as a fourth cell in the card above or
+                 as the opening line of the paragraph below.
+
+                 >>> OPEN — and this one is blocking. How was 6.2 minutes derived:
+                 stopwatch on real users, system logs, or expert estimate? That
+                 single answer decides whether the word "measured" can appear
+                 anywhere on this page. Until it closes, §06 stays careful. -->
+
+            <div class="rd-case-body">
+                <h3 class="rd-case-label is-heading">The four questions, answered in writing</h3>
+                <ol class="rd-case-list">
+                    <li><strong>Who are the users, and what problem do they have?</strong> Five roles touch a visit record — the requester, the customer relations team, their manager, the delivery unit and an administrator. The manager carries the coordination load, and the form they use most is the one that fails hardest.</li>
+                    <li><strong>Why now?</strong> Rising request volume — 1,376 to a forecast 2,096 in a year — against a tool whose central form carried the audit's only critical defect.</li>
+                    <li><strong>What would tell us it worked?</strong> Time on the main task, against a 6.2-minute baseline. The target set at the outset was a 34% reduction; the modelled design came out at 42%.</li>
+                    <li><strong>Is it feasible?</strong> Yes — and we proved it by sequencing the design foundation in week one, so screens could be assembled rather than drawn from scratch.</li>
+                </ol>
+                <p>
+                    Which is a clear enough picture to design against. It is not a picture that
+                    fits in three and a half months.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= The decision =================
+         .rd-decision / .rd-option-set ported from customer-engagement.html
+         unchanged — the previous file already used v3's decision component,
+         so this section needed no structural work at all. Only the two
+         .rd-evidence pills inside it were converted to plain parentheticals. -->
+    <section class="rd-case-section is-tinted" id="decision">
+        <div class="rd-case-inner rd-shell">
+            <div style="max-width: 684px; text-align: center;">
+                <h2 class="rd-case-h2">The decision: four roles, cut</h2>
+                <div class="rd-case-body" style="margin-top:24px;">
+                    <p>
+                        By week three the signed proposal was a plan for a document, not a release.
+                        Feedback was arriving from three stakeholder groups at once with nobody
+                        empowered to settle a disagreement, and the scope was quietly growing while
+                        the release dates stayed where they were. I wrote it up as an amber status
+                        that week rather than a green one, and then had to say what I would do
+                        about it.
+                    </p>
+                </div>
+            </div>
+
+            <div class="rd-decision" style="width:100%;">
+                <div class="rd-decision-row">
+                    <p class="rd-decision-k">Options</p>
+                    <div class="rd-decision-v rd-option-set">
+                        <div class="rd-option is-killed">
+                            <span class="rd-option-id">A</span>
+                            <p><span class="rd-option-label">Hold the contract.</span> All five roles, all five modules, as promised. Honours the proposal, but each role gets a handful of days and none of them ends up usable.</p>
+                        </div>
+                        <div class="rd-option is-killed">
+                            <span class="rd-option-id">B</span>
+                            <p><span class="rd-option-label">Keep the roles, thin the modules.</span> Wide and shallow. Every role gets something and no role can complete a visit.</p>
+                        </div>
+                        <div class="rd-option is-chosen">
+                            <span class="rd-option-id">C</span>
+                            <p><span class="rd-option-label">One role, properly.</span> Narrow to the manager — the role that touches the tool most and owns the critical screen — and go deep enough to ship, desktop and mobile.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rd-decision-row">
+                    <p class="rd-decision-k">Criteria</p>
+                    <div class="rd-decision-v">
+                        <p>Which role touches the tool most often? Which module contains the one critical defect? And the constraint that decided it: what can development start building in April, rather than review in June?</p>
+                    </div>
+                </div>
+
+                <div class="rd-decision-row">
+                    <p class="rd-decision-k">What I chose</p>
+                    <div class="rd-decision-v">
+                        <p><strong>C.</strong> I rewrote the work breakdown down to a single role — manager, desktop and mobile — and pulled the timeline in from three and a half months to two and a half. Shorter, not longer: a narrower scope with a real handoff date was easier to defend to the client than a broad one that kept slipping.</p>
+                    </div>
+                </div>
+
+                <div class="rd-decision-row">
+                    <p class="rd-decision-k">What I killed</p>
+                    <div class="rd-decision-v">
+                        <p>Two modules — dashboard and account management — which stayed at "to do" when Phase 1 closed, and never came back. Four roles pushed to a later phase. And of the 26 change requests the client raised after the design review, I marked <strong>11 out of scope</strong> (counted), eight of them on the agenda feature alone: calendar view, auto-updating meeting invites, assignee availability checks, visitor photos, live progress. Each was a reasonable request. Together they were another project.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="max-width: 684px; text-align: center;">
+                <div class="rd-case-body">
+                    <p>
+                        The trade I made with that room was specific. Agenda — a feature the original
+                        plan did not include at all — was added mid-project because the interviews said
+                        it was where the format errors came from. Dashboard and account paid for it.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= The screens ================= -->
+    <section class="rd-case-section is-tinted" id="screens">
+        <div class="rd-case-inner rd-shell" style="align-items:center;">
+            <div style="max-width: 684px; text-align: center;">
+                <h2 class="rd-case-h2">Three surfaces carried the narrowed scope</h2>
+                <div class="rd-case-body" style="margin-top:24px;">
+                    <p>
+                        The overview answers "what needs me today" before anyone filters. The
+                        request form gives thirty loose fields somewhere to belong. And mobile,
+                        which did not exist at all, does the four things people do between
+                        meetings. One sequencing call made all three possible: the design
+                        foundation came first — colour and type fixed on day one, running
+                        alongside the audit, then buttons, form controls, validation and the
+                        search-and-filter pattern inside two weeks. Only then did anyone draw a
+                        screen.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Product-area tabs, wired by the generic script at the foot of this
+                 file. Panel order is the order the work mattered in, not the order
+                 it shipped in. -->
+            <div class="rd-case-tabs" role="tablist" aria-label="Product areas">
+                <button type="button" class="rd-case-tab is-active" role="tab" aria-selected="true" aria-controls="tabpanel-overview" id="tab-overview">Overview</button>
+                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-form" id="tab-form">Request form</button>
+                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-mobile" id="tab-mobile">Mobile</button>
+            </div>
+
+            <div class="rd-case-tabpanels" style="width:100%;">
+                <div class="rd-case-tabpanel" id="tabpanel-overview" role="tabpanel" aria-labelledby="tab-overview">
+                    <div class="rd-case-card" style="width:100%;">
+                        <div class="rd-case-split is-media">
+                            <div class="rd-case-body">
+                                <div>
+                                    <h3>Overview</h3>
+                                    <p>
+                                        Fourteen filter controls above a dense table, several of them returning
+                                        wrong results, and status carried by flooding whole rows red and green.
+                                        Five counts now answer the "what needs me" question before any filtering
+                                        happens, three filters replace fourteen, and status moves from row fill
+                                        to a label — which gives the colour back its meaning.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3 class="rd-case-label">What changed</h3>
+                                    <!-- Two of these rows have their own screenshot; the third
+                                         points back at the overview render because no separate
+                                         export exists for it. Give it one later and the picker
+                                         uses it automatically — the row's data-image is the
+                                         only thing that decides. -->
+                                    <div class="rd-case-checklist" data-picker="overview-picker-image" role="tablist" aria-label="What changed on the overview">
+                                        <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true" data-image="../public/ce_after_overview.webp"><span>01. Five status widgets, before any filter</span></div>
+                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/ce_after_filters.webp"><span>02. Fourteen filters down to three</span></div>
+                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/ce_before_list.webp"><span>03. The list as found</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <figure class="rd-case-figure">
+                                <img id="overview-picker-image" src="../public/ce_after_overview.webp" alt="The redesigned overview: five status widgets across the top, three inline filters, and a table with status as a coloured label rather than a filled row. All values redacted." loading="lazy">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rd-case-tabpanel" id="tabpanel-form" role="tabpanel" aria-labelledby="tab-form" hidden>
+                    <div class="rd-case-card" style="width:100%;">
+                        <div class="rd-case-split is-media">
+                            <div class="rd-case-body">
+                                <div>
+                                    <h3 class="rd-case-label">Request form</h3>
+                                    <p>
+                                        The screen that carried the audit's only critical finding. The flat
+                                        thirty-field page became a tabbed record — overview, agenda, customer
+                                        log, travel, history — with the request split into named groups, and
+                                        the two actions a manager actually performs, set status and assign an
+                                        owner, promoted into the header instead of buried at the foot. The fix
+                                        for "hard to check afterwards" was not fewer fields; it was giving the
+                                        fields somewhere to belong.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3 class="rd-case-label">Before and after</h3>
+                                    <div class="rd-case-checklist" data-picker="form-picker-image" role="tablist" aria-label="Request form, before and after">
+                                        <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true" data-image="../public/ce_after_detail.webp"><span>Grouped and tabbed</span></div>
+                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/ce_before_detail.webp"><span>The legacy detail page</span></div>
+                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/ce_before_form.webp"><span>Thirty fields, one flat page</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <figure class="rd-case-figure">
+                                <img id="form-picker-image" src="../public/ce_after_detail.webp" alt="The redesigned visit record: tabbed navigation, information split into General, Request and Budget groups, with a status control and an assign-owner action in the header. All values redacted." loading="lazy">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rd-case-tabpanel" id="tabpanel-mobile" role="tabpanel" aria-labelledby="tab-mobile" hidden>
+                    <div class="rd-case-card" style="width:100%;">
+                        <div class="rd-case-split is-media">
+                            <div class="rd-case-body">
+                                <div>
+                                    <h3 class="rd-case-label">Mobile, from nothing</h3>
+                                    <p>
+                                        There was no mobile experience at all, and the interviews were specific
+                                        about what it needed to do: assign an owner, read the agenda, send
+                                        meeting details, note what a visitor cares about. Not the desktop tool
+                                        shrunk — the four things people do between meetings. This is also what
+                                        made the super-app integration possible two phases later; a five-role
+                                        desktop redesign would have been the wrong artifact to embed in a
+                                        mobile shell.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3 class="rd-case-label">What I did not do</h3>
+                                    <p>
+                                        Two of the nine needs users raised were left unmet by design: saving a
+                                        draft when the session expires, and quick notes on a visitor's
+                                        preferences. Both needed back-end work outside the design scope. They
+                                        belong in the honest count, not the resolved one.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <figure class="rd-case-figure">
+                                <img src="../public/ce_after_mobile.webp" alt="The mobile experience: a visit record on a phone, with assign-owner, agenda and meeting-detail actions. All values redacted." loading="lazy">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- >>> OPEN — name the validation method, and be careful here. The final
+                 report states the time-on-task figures came from "user testing and
+                 design framework", but there is no testing artifact anywhere in the
+                 source set: no script, no session notes, no measurement table. If
+                 the validation was expert usability inspection plus client review,
+                 say that — it is a legitimate method for an enhancement project and
+                 far better than a claim that collapses when probed. If real testing
+                 happened, give me the participant count and the tasks. -->
+
+            <div style="max-width: 684px; text-align: center;">
+                <div class="rd-case-body">
+                    <p>
+                        Design went to development in pieces, not as a package: overview on 8 April,
+                        the request form on the 9th, agenda on the 11th. Three releases in four
+                        days, each one something the client's dev team could start on while the next
+                        was still being drawn. That cadence is what made the narrowed scope worth
+                        anything — the point of cutting four roles was to get one role into a build,
+                        not to finish earlier. In the final fortnight the design team worked directly
+                        alongside engineering filling in screens the spec had missed, which is the
+                        honest version of "design complete": complete enough to build, and then
+                        amended while it was being built.
+                    </p>
+                </div>
+            </div>
+
+            <!-- >>> OPEN — the engineering constraint that actually bit. A dependency
+                 that slipped, a limit that forced a rethink, something agreed with
+                 the dev team. The status reports record no blockers after week 4,
+                 which is either true or under-reported. This is where technical
+                 partnership becomes visible and most candidates have nothing to say.
+                 Two specifics would close it: which delight features landed in
+                 Phase 2/3, and what the super-app webview forced you to change
+                 (auth, navigation, deep links, session handling). -->
+        </div>
+    </section>
+
+    <!-- ================= Shipped ================= -->
+    <section class="rd-case-section is-tinted" id="after">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">It shipped, and I never got the number</h2>
+
+            <div class="rd-case-wiki">
+                <div class="rd-case-wiki-row">
+                    <div class="rd-case-body">
+                        <p>
+                            Phase 1 released. Phase 2 and 3 carried on with the features that had
+                            been cut for being nice rather than necessary, and the tool now sits
+                            inside the company super app as a webview — which is the real
+                            vindication of the narrowing call. What I cannot give you is a
+                            post-release number: every time figure on this page is a pre-launch
+                            model, and I want to be exact about that rather than let a percentage
+                            do work it hasn't earned.
+                        </p>
+                        <p>
+                            The modelling itself is worth reporting honestly too. Four revisions of
+                            the estimate exist and they do not agree — baselines of 5.75, 2.46 and
+                            6.2 minutes appear across them. I would present the last: 6.2 → 3.6
+                            minutes, a 42% reduction (estimated), because it is the only revision
+                            whose arithmetic is internally consistent and it is the most recent. The
+                            "34%" in the summary paragraph was never updated when the model changed,
+                            and I would not quote it.
+                        </p>
+                        <p>
+                            What I would defend without qualification is the defect and needs
+                            accounting: all 36 audit findings addressed in the design (counted), and
+                            six of nine user needs met, with the three that were not named rather
+                            than dropped from the count (counted).
+                        </p>
+                        <!-- >>> OPEN, and blocking — the only thing standing between this page
+                             and a measured outcome. The tool has been live well over a year and
+                             sits inside the super app, so a real number exists somewhere even if
+                             nobody handed it to you. Adoption inside the super app, requests per
+                             month, or time on task re-measured — any one of them, even
+                             directionally or as a ratio under NDA, and this becomes the
+                             strongest section on the page instead of the most careful one. -->
+                    </div>
+                </div>
+                <h3 class="rd-case-wiki-title">What I'd do differently</h3>
+                <div class="rd-case-wiki-row">
+                    <div class="rd-case-lesson-row">
+                        <div class="rd-case-lesson"><strong>I reported the risk instead of fixing it.</strong> Feedback from three groups with nobody able to settle a disagreement — I flagged it two weeks running and recorded it both times. Agreeing who decides is a week-one job and I treated it as a reporting line.</div>
+                        <div class="rd-case-lesson"><strong>I never established the baseline.</strong> The headline claim was a time saving and the 6.2 minutes came out of a model. A day timing managers doing the task in week one would have cost almost nothing and given me a number I could still stand behind.</div>
+                        <div class="rd-case-lesson"><strong>Cutting scope bought the release.</strong> This one held. Narrowing to one role, built mobile-first, is why there was something to embed in the super app two phases later — a wide, shallow desktop redesign would not have survived that move.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Related case studies =================
+         The same three cards lending-new-v3.html closes on, replacing this
+         page's previous two-link .rd-case-pager. -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Related case studies</h2>
+
+            <div class="rd-related">
+                <a class="rd-related-card" href="./healthcare.html">
+                    <div class="rd-related-media">
+                        <img src="../public/hc_cover.webp"
+                             alt="Role-by-feature product map for the speaker-bureau platform" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Healthcare &amp; life sciences</p>
+                        <h3 class="rd-related-title">Seventeen roles, one release</h3>
+                        <p class="rd-related-desc">Pharma speaker programs ran on email, spreadsheets and a legacy portal. They became one multi-tenant platform where a rep, a compliance monitor and an accountant work the same program record.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+
+                <a class="rd-related-card" href="./lending.html">
+                    <div class="rd-related-media">
+                        <img src="../public/UC_lending.png"
+                             alt="HD Saison consumer lending case study cover" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Consumer lending</p>
+                        <h3 class="rd-related-title">Getting consumer lending off the counter</h3>
+                        <p class="rd-related-desc">Vietnam's third-largest consumer lender originated every loan at a counter. A four-goal client brief became one problem, and the app that built a second door.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+
+                <a class="rd-related-card" href="./web-3.html">
+                    <div class="rd-related-media">
+                        <img src="../public/ar_casecover.webp"
+                             alt="Aura Network case study cover" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Web3 infrastructure</p>
+                        <h3 class="rd-related-title">A chain that locked developers out</h3>
+                        <p class="rd-related-desc">A permissioned NFT chain with a closed developer pool became a permissionless, EVM-compatible Layer 1 open to any Ethereum-toolchain builder.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<button type="button" class="rd-to-top" aria-label="Back to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+       stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <line x1="12" y1="20" x2="12" y2="5"></line>
+    <polyline points="5 12 12 5 19 12"></polyline>
+  </svg>
+</button>
+
+<div class="rd-closing">
+<footer id="footer-placeholder"></footer>
+</div>
+
+<script src="../js/script.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/socialize.js"></script>
+<script src="../js/back-to-top.js"></script>
+
+<script src="../js/case-toc.js"></script>
+
+<!-- Product-area tabs — click a tab button, its panel shows and the other
+     two hide. Ported unchanged from lending-new-v3.html; it binds to
+     .rd-case-tab / .rd-case-tabpanel generically and returns early when the
+     page has no tabs, so there is nothing project-specific in it. -->
+<script>
+(function () {
+  var tabs = document.querySelectorAll('.rd-case-tab');
+  if (!tabs.length) return;
+
+  function select(tab) {
+    tabs.forEach(function (t) {
+      var active = t === tab;
+      t.classList.toggle('is-active', active);
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !active;
+    });
+  }
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () { select(tab); });
+  });
+}());
+</script>
+
+<!-- Feature pickers — click a row, the row goes active and the render beside
+     it cross-fades to that row's data-image. Ported unchanged from
+     lending-new-v3.html. Generic over every `.rd-case-checklist[data-picker]`
+     on the page, so the Overview panel's list and the Request form panel's
+     list share one implementation instead of two copies. The Overview
+     checklist in §01 has no data-picker attribute and is correctly ignored. -->
+<script>
+(function () {
+  document.querySelectorAll('.rd-case-checklist[data-picker]').forEach(function (picker) {
+    var image = document.getElementById(picker.dataset.picker);
+    if (!image) return;
+    var rows = picker.querySelectorAll('.rd-case-checklist-row');
+
+    function select(row) {
+      rows.forEach(function (r) {
+        r.classList.toggle('is-active', r === row);
+        r.setAttribute('aria-selected', r === row ? 'true' : 'false');
+      });
+      var src = row.dataset.image;
+      if (!src || src === image.getAttribute('src')) return;
+      image.style.opacity = 0;
+      setTimeout(function () {
+        image.src = src;
+        image.style.opacity = 1;
+      }, 150);
+    }
+
+    rows.forEach(function (row) {
+      row.addEventListener('click', function () { select(row); });
+      row.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(row); }
+      });
+    });
+  });
+}());
+</script>
+
+</body>
+</html>

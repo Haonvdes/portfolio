@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.png">
+    <title>Speaker Bureau Platform | Case Study — Stephano Ng</title>
+
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+    <link rel="stylesheet" href="../css/styles/back-to-top.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7VM3QDKCYW');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PF5XGDGK');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta property="og:title" content="Speaker Bureau Platform | Stephano Ng">
+    <meta property="og:description" content="Seventeen roles, 496 user stories, one MVP. Cutting a pharma speaker-bureau backlog down to the one flow every role touches.">
+    <meta property="og:image" content="../public/hc_cover.webp">
+    <meta property="og:type" content="article">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+</head>
+<body class="rd-case is-hero-overlap">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!--
+  ============================================================================
+  SPEAKER BUREAU PLATFORM — case study, v3 layout.
+
+  >>> CLIENT IS NOT NAMED ANYWHERE ON THIS PAGE. The engagement is under NDA.
+  Refer to it as "the client" or "a speaker-bureau platform" only. Do NOT
+  reintroduce the product name, the programme name or the client's name in
+  copy, comments, alt text, <title>, OG tags, image filenames or the URL. The
+  source folder and the internal design-system skills both use the real names;
+  none of them may cross into this file. This rule outranks every other note
+  below.
+
+  WHAT THIS FILE IS. healthcare.html rebuilt on the structure of
+  lending-new-v3.html, at Hao's request 2026-08-20 — the fourth page moved onto
+  the v3 shell, after lending-new-v3, customer-engagement-v3 and
+  marketing-platform-v3. Like the customer-engagement port and unlike the
+  iSystem one, this was rearrangement rather than rewriting: healthcare.html
+  already carried .rd-case-* markup and already had the .rd-decision block, so
+  almost every sentence here was already written and checked on that page.
+  healthcare.html is untouched.
+
+  WHAT THE V3 SHELL CHANGED:
+    - `<body class="rd-case is-hero-overlap">`, and the cover moved OUT of
+      .rd-case-hero-inner into §01. `.is-hero-overlap .rd-case-cover` and
+      `.is-hero-overlap #overview{padding-top:0}` are what pull it up under the
+      hero; move the cover back into the header and the overlap stops working.
+    - The eyebrow ("Case study · Healthcare & life sciences") is gone — v3's
+      hero is title + lead only, and Domain is already the second snapshot row.
+      NOTE: the sector label still reads "Healthcare & life sciences" on the
+      .rd-related cards of the other three v3 pages. Hao considered relabelling
+      it "Communication" on 2026-08-20 and chose to keep Healthcare & life
+      sciences. If that ever flips, it has to flip in four places at once.
+    - Seven sections became six. §7 Learning and §8 What I'd change merged into
+      one §06 built on .rd-case-wiki — prose in the top row, three lessons in
+      .rd-case-lesson-row beneath.
+    - The two-link .rd-case-pager became three .rd-related cards.
+    - ALL FIVE MAP CROPS MOVED INTO §05's TABS. On the old page they were
+      scattered — the role strip in Discovery, the reconciliation chain in
+      Discovery, the thin/spine pair in The Decision, the full map in Solution
+      Design. Each is now one picker row inside a themed tab, and each image
+      appears exactly once on the page. That is why §04 has no figure in it:
+      the visual evidence for the spine argument is tab 2 of §05, not a
+      duplicate crop under the decision block. §04 on lending-new-v3.html and
+      customer-engagement-v3.html carries no figure either, so this is the
+      house pattern rather than an omission.
+    - The role strip keeps `.rd-case-figure.is-strip` with its
+      .rd-figure-frame / .rd-figure-scroll wrapper, INSIDE the picker's figure.
+      Squeezing ~2,200px of role labels into an 800px column turns them into a
+      grey smear and the labels are the entire point, so that crop scrolls
+      rather than shrinks. Do not "fix" it to fit.
+
+  THE §04 DECISION IS CONFIRMED. healthcare.html carried a loud .rd-todo under
+  its decision block: the options, criteria and kill list were RECONSTRUCTED
+  from the artifacts — the Must-have/Post-MVP tiering, the 13-swimlane map, and
+  the backlog's own shape (attendee 5 stories, rookie 1, against 45 for a
+  region manager) — and it said the narrative must be confirmed before it
+  shipped. Hao confirmed it on 2026-08-20: that was the call, in those terms.
+  §04 is therefore first person and the warning is gone. If it ever turns out
+  to be remembered rather than recorded, §04 is the section to revisit;
+  everything else on this page stands on counted artifacts.
+
+  EVIDENCE MARKERS. The .rd-evidence pills are gone, converted to plain
+  "(counted)" / "(client spec)" / "(target)" parentheticals — the same call Hao
+  made on lending-new-v3.html on 2026-08-20, applied across all four v3 pages
+  for consistency. Identical words, no pill styling.
+
+  SOURCING. Every figure marked (counted) is derived from the source set in
+  "case study 1/", with the derivation written up in
+  CASE-STUDY-1-SOURCE-INVENTORY.md:
+    17 roles, 3 personas ....... personas doc, client spec set
+    496 user stories ........... count across the 19 role backlog docs
+    13 workflow areas .......... swimlanes on the role-by-feature product map
+    19 open TBUs ............... count across the same docs
+    ~21,350 lines / 17 commits . prototype repo history, 8 May – 15 Jul 2026
+  Nothing else on this page is a number.
+
+  ASSIGNED CLAIM (Part 0 of the framework): "I prioritise across conflicting
+  user segments." No other project in the set has 17 roles competing for one
+  MVP. This page deliberately does NOT try to carry the metrics claim — see
+  §06, which says plainly that nothing was measured.
+
+  >>> OPEN items, marked in place below: team size and role boundary, the
+  field-side baseline, the immediate trigger for "why now", the target set at
+  the start, the validation method, the constraints that bit in delivery, and
+  an optional third lesson. Seven in total; the previous file rendered eleven
+  .rd-todo boxes covering the same ground.
+  ============================================================================
+-->
+
+<header class="rd-case-hero">
+    <div id="nav-placeholder"></div>
+
+    <div class="rd-case-hero-inner rd-shell">
+        <h1 class="rd-case-title animate__animated animate__fadeIn">One speaker-bureau platform for 17 roles</h1>
+        <p class="rd-case-lead animate__animated animate__fadeIn">
+            Pharmaceutical speaker programs — the paid educational events where a doctor presents
+            to peers — ran on email, spreadsheets and a legacy portal. This is the multi-tenant
+            platform where a rep, a compliance monitor and an accountant work the same program
+            record, and the story of how a 496-story backlog became one shippable release.
+        </p>
+    </div>
+</header>
+
+<nav class="rd-case-toc" aria-label="Sections">
+    <div class="rd-case-toc-inner rd-shell">
+        <a href="#overview"><span class="n">01</span>Overview</a>
+        <a href="#context"><span class="n">02</span>The problem</a>
+        <a href="#discovery"><span class="n">03</span>Discovery</a>
+        <a href="#decision"><span class="n">04</span>The decision</a>
+        <a href="#map"><span class="n">05</span>The map</a>
+        <a href="#after"><span class="n">06</span>Handed off</a>
+    </div>
+</nav>
+
+<main>
+    <!-- ================= Overview ================= -->
+    <section class="rd-case-section is-tinted" id="overview">
+        <div class="rd-case-inner rd-shell">
+            <div class="rd-case-cover" data-aos="fade-up">
+                <img src="../public/hc_cover.webp" alt="Speaker-bureau platform case study cover">
+            </div>
+
+            <h2 class="rd-case-h2">Overview</h2>
+
+            <!-- FIVE rows. Team is omitted rather than left reading
+                 "[ADD — size and composition]", which is what the previous page
+                 rendered to anyone who opened it. See the OPEN note below. -->
+            <div class="rd-case-snapshot">
+                <div>
+                    <span class="rd-case-meta-k">Role</span>
+                    <span class="rd-case-meta-v">Product manager</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Domain</span>
+                    <span class="rd-case-meta-v">Pharma compliance SaaS</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Timeline</span>
+                    <span class="rd-case-meta-v">Spec Jul 2026 · build May–Jul 2026</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Platform</span>
+                    <span class="rd-case-meta-v">Web, multi-tenant</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Status</span>
+                    <span class="rd-case-meta-v">Specced and handed off</span>
+                </div>
+            </div>
+
+            <!-- >>> OPEN — the Team row, and the role boundary underneath it.
+                 Team size and composition is a framework requirement and the cell
+                 is missing entirely rather than guessed. The harder half: did you
+                 also own design and the prototype build? The framework wants
+                 "I decided" verbs, which means the boundary has to be stated
+                 rather than implied — and this page claims a coded prototype in
+                 §05, which reads as design ownership whether or not it was. One
+                 sentence in the §01 prose closes both. -->
+
+            <div class="rd-case-split">
+                <div class="rd-case-body">
+                    <div>
+                        <h3 class="rd-case-label is-heading">The problem</h3>
+                        <p>Seventeen roles touch a single speaker program, each with its own approval gate. Mapped end to end that came to 496 user stories across 13 workflow areas (counted), all competing for one MVP.</p>
+                    </div>
+
+                    <div>
+                        <h3 class="rd-case-label is-heading">The thirteen workflow areas</h3>
+                        <!-- The 13 swimlanes off the product map, listed once. Same
+                             job as the four brief goals on lending-new-v3, the five
+                             roles on customer-engagement-v3 and the eight apps on
+                             marketing-platform-v3: the reader has to see the pile
+                             before they can watch §04 sequence it. Inline stroke
+                             icons, matching the other v3 pages — there is no icon
+                             set for swimlanes and inventing one would be worse than
+                             a repeated check mark. -->
+                        <div class="rd-case-checklist">
+                            <div class="rd-case-checklist-row">
+                                <span class="rd-case-checklist-icon" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </span>
+                                <span>Program request — the spine, and what shipped first</span>
+                            </div>
+                            <div class="rd-case-checklist-row">
+                                <span class="rd-case-checklist-icon" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </span>
+                                <span>Budgeting — top-down allocation and bottom-up charges</span>
+                            </div>
+                            <div class="rd-case-checklist-row">
+                                <span class="rd-case-checklist-icon" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                </span>
+                                <span>Onboarding · Nomination · Contracting</span>
+                            </div>
+                            <div class="rd-case-checklist-row">
+                                <span class="rd-case-checklist-icon" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                </span>
+                                <span>Inquiry · Registration · Reporting</span>
+                            </div>
+                            <div class="rd-case-checklist-row">
+                                <span class="rd-case-checklist-icon" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                </span>
+                                <span>Speaker &amp; library · Expense · Billing and payment</span>
+                            </div>
+                            <div class="rd-case-checklist-row">
+                                <span class="rd-case-checklist-icon" aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                                </span>
+                                <span>Reconciliation · Shared features</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="rd-case-highlight">
+                    <p class="rd-case-meta-k">The shape of it</p>
+                    <div class="rd-case-highlight-stat">
+                        <strong>17</strong>
+                        <span>roles can touch one program, across field, scientific, operational and governance teams (counted)</span>
+                    </div>
+                    <div class="rd-case-highlight-stat">
+                        <strong>496</strong>
+                        <span>user stories across 13 workflow areas, all competing for one MVP (counted)</span>
+                    </div>
+                    <div class="rd-case-highlight-stat">
+                        <strong>10</strong>
+                        <span>manual checks per reconciliation run, daily, ending in a federal filing (counted)</span>
+                    </div>
+                </aside>
+            </div>
+
+            <div class="rd-case-body">
+                <p>
+                    I cut to the program-request spine — the one flow every role touches — and
+                    shipped the four roles that own it end to end. Everything that only reads the
+                    record was deferred. Reconciliation that ran daily across three systems, the
+                    bureau platform, the corporate card and the accounting ledger, collapses onto
+                    one program record that all 17 roles read and write (target).
+                </p>
+                <!-- Deliberately no percentage and no hours. The "3 systems, daily,
+                     77–102 column report" baseline is documented in the client's
+                     accounting spec; the after is design intent. Tagged target for
+                     exactly that reason. Replace with a measured figure if one ever
+                     comes back from the client — and if it does, §06 changes too. -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= The problem ================= -->
+    <section class="rd-case-section is-tinted" id="context">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Nobody could say where a program was</h2>
+
+            <div class="rd-case-body">
+                <p>
+                    A speaker program looks like one event and works like a supply chain. A rep
+                    nominates a doctor, a manager approves, compliance checks the engagement, a
+                    coordinator books travel, accounting settles the fee against a budget set months
+                    earlier. Every handoff used a different tool and a different idea of what "done"
+                    meant.
+                </p>
+                <p>
+                    Nobody owned the whole thing, so nobody could say where a program was without
+                    asking four people. That is the problem underneath every number on this page —
+                    and it is why the work started with a map rather than a screen.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Discovery ================= -->
+    <section class="rd-case-section is-tinted" id="discovery">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">The same program means something different to each of them</h2>
+
+            <div class="rd-case-body">
+                <p>
+                    I mapped all 17 roles and wrote three personas — a sales rep, an event
+                    coordinator, a speaker (counted) — and gave each role an as-is and a to-be flow.
+                    Three findings came out of it, and only one of them came from the field.
+                </p>
+            </div>
+
+            <!-- The three discovery insights in the Industry Challenges card shape
+                 from lending-new-v3.html: one .rd-case-card wrapping .rd-case-grid,
+                 each cell an ic-challenge.svg above an h3.rd-case-challenge-title.
+                 These headings take their size from `.rd-case-card h3`, whose
+                 descendant specificity beats .rd-case-label regardless of source
+                 order; .rd-case-challenge-title is that same look given its own
+                 name, so the title survives if the tag ever moves. -->
+            <div class="rd-case-card">
+                <h3>What discovery found</h3>
+                <div class="rd-case-grid">
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-challenge-title">One record, three meanings</h3>
+                        <p>To a rep a program is a request waiting on approval. To compliance it is an audit record. To accounting it is a set of charges against a budget line. Same object, three jobs.</p>
+                    </div>
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-challenge-title">The cost sat in accounting</h3>
+                        <p>Reconciliation ran daily, by hand, matching card expense reports against cost items on a report of 77 to 102 columns depending on the tenant (client spec). Something that wide, run that often, is where the money goes.</p>
+                    </div>
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-challenge-title">It ends in a federal filing</h3>
+                        <p>Payments to doctors are reported to the federal government, so an approval chain nobody can trace is a legal risk, not a hassle. That is why every role doc carries an access matrix and an audit-trail requirement.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- >>> OPEN — the field-side baseline, and it is the most valuable
+                 missing item on this page. Programs per year, average approval
+                 cycle, exceptions raised per quarter. Any ONE of them turns the
+                 strongest claim here from a target into a measurement, and turns
+                 §06 from the most honest section into the strongest one. -->
+
+            <div class="rd-case-body">
+                <h3 class="rd-case-label is-heading">The four questions, answered in writing</h3>
+                <ol class="rd-case-list">
+                    <li><strong>Who are the users, and what problem do they have?</strong> Seventeen roles across field, scientific, operational and governance teams. None can finish a program without the others, and none shared a system of record.</li>
+                    <li><strong>Why now?</strong> The reconciliation chain ends in a federal filing and runs by hand every day. That kind of risk builds up daily; it doesn't wait for a convenient release.</li>
+                    <li><strong>What would tell us it worked?</strong> Program-request cycle time, from submission to confirmed. That is what the spine-first call was betting on — if it didn't move, the argument was wrong.</li>
+                    <li><strong>Is it feasible?</strong> Yes, and we showed it instead of arguing it: a working prototype of the riskiest screens, deployed for review.</li>
+                </ol>
+            </div>
+
+            <!-- >>> OPEN — two answers above are thinner than they read.
+                 "WHY NOW" needs the immediate trigger on top of the standing
+                 regulatory reason: contract renewal, a failed audit, a legacy
+                 portal being sunset, a new tenant to onboard? An interviewer will
+                 ask what made it urgent THAT quarter, and "compliance risk" is
+                 true of every quarter.
+                 "WHAT WOULD TELL US IT WORKED" is written above as cycle time,
+                 which is what §06 says you WOULD have tracked — not necessarily
+                 the target you actually set at the start, before you knew the
+                 answer. If a real target was set, put the number in. If none was,
+                 say so here rather than implying one, because §06 depends on it. -->
+        </div>
+    </section>
+
+    <!-- ================= The decision =================
+         CONFIRMED BY HAO 2026-08-20 as a real call made in these terms — see the
+         file-header note. healthcare.html carried a warning under this block
+         saying it was reconstructed from the artifacts and must be confirmed
+         before shipping; it has been, and the warning is gone. No figure inside
+         this section: the visual evidence for the spine argument is tab 2 of
+         §05, where all five map crops now live, each appearing once. -->
+    <section class="rd-case-section is-tinted" id="decision">
+        <div class="rd-case-inner rd-shell">
+            <div style="max-width: 684px; text-align: center;">
+                <h2 class="rd-case-h2">The decision: what not to build first</h2>
+                <div class="rd-case-body" style="margin-top:24px;">
+                    <p>
+                        A 496-story backlog across 17 roles isn't a ranking problem. No ordering of
+                        496 items gives you a release that hangs together. Slice it by role and you
+                        ship a rep experience that dead-ends at an approval nobody can give. Slice
+                        it by feature and you ship a budget module with no program to attach it to.
+                    </p>
+                </div>
+            </div>
+
+            <div class="rd-decision" style="width:100%;">
+                <div class="rd-decision-row">
+                    <p class="rd-decision-k">Options</p>
+                    <div class="rd-decision-v rd-option-set">
+                        <div class="rd-option is-killed">
+                            <span class="rd-option-id">A</span>
+                            <p><span class="rd-option-label">Role-complete.</span> Finish the rep experience, then the next role. Quick to demo, but every flow stops at a role that doesn't exist yet.</p>
+                        </div>
+                        <div class="rd-option is-killed">
+                            <span class="rd-option-id">B</span>
+                            <p><span class="rd-option-label">Feature-complete.</span> Build each of the 13 workflow areas across all roles. Clean, but nothing works until most of it is done.</p>
+                        </div>
+                        <div class="rd-option is-chosen">
+                            <span class="rd-option-id">C</span>
+                            <p><span class="rd-option-label">Spine-first.</span> Take the one flow every role touches — request through approval — and ship it end to end for the roles that own it.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rd-decision-row">
+                    <p class="rd-decision-k">Criteria</p>
+                    <div class="rd-decision-v">
+                        <p>Can a real program run in production on day one? Does each release leave a working system or a half-built approval chain? Which order tackles the hardest logic earliest? And can a new tenant start without waiting for all 17 roles?</p>
+                    </div>
+                </div>
+
+                <div class="rd-decision-row">
+                    <p class="rd-decision-k">What I chose</p>
+                    <div class="rd-decision-v">
+                        <p><strong>C, spine-first.</strong> We tiered the backlog Must-have against Post-MVP along the request spine, and shipped the four roles that own a program from start to approval. Budget came with it rather than after: top-down allocation and bottom-up charges carry the weight of the whole record, and putting them off would have meant rebuilding around them later.</p>
+                    </div>
+                </div>
+
+                <div class="rd-decision-row">
+                    <p class="rd-decision-k">What I killed</p>
+                    <div class="rd-decision-v">
+                        <p>Every role that only reads the record: attendee self-service, auditor tooling, the rookie track. The thinnest slices, and the ones a working program can live without. The cost was real — attendees stayed on paper sign-in sheets for a release, and the auditor kept exporting instead of querying.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="max-width: 684px; text-align: center;">
+                <div class="rd-case-body">
+                    <p>The map is what made that arguable rather than asserted.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= The map ================= -->
+    <section class="rd-case-section is-tinted" id="map">
+        <div class="rd-case-inner rd-shell" style="align-items:center;">
+            <div style="max-width: 684px; text-align: center;">
+                <h2 class="rd-case-h2">Seventeen roles against thirteen swimlanes</h2>
+                <div class="rd-case-body" style="margin-top:24px;">
+                    <p>
+                        All of it came off one artifact: a map of every role against every workflow
+                        area, each cell carrying its ticket reference, at roughly 11,800 × 16,400
+                        pixels. Having the whole product on one surface meant scoping arguments got
+                        settled by pointing at it rather than by seniority.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Three themed tabs, wired by the generic script at the foot of this
+                 file. Every map crop that used to be scattered across four
+                 sections of healthcare.html is now exactly one picker row here. -->
+            <div class="rd-case-tabs" role="tablist" aria-label="Views of the product map">
+                <button type="button" class="rd-case-tab is-active" role="tab" aria-selected="true" aria-controls="tabpanel-whole" id="tab-whole">The whole product</button>
+                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-density" id="tab-density">Where the density was</button>
+                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-recon" id="tab-recon">Reconciliation</button>
+            </div>
+
+            <div class="rd-case-tabpanels" style="width:100%;">
+                <div class="rd-case-tabpanel" id="tabpanel-whole" role="tabpanel" aria-labelledby="tab-whole">
+                    <div class="rd-case-card" style="width:100%;">
+                        <div class="rd-case-split is-media">
+                            <div class="rd-case-body">
+                                <div>
+                                    <h3>The whole product on one surface</h3>
+                                    <p>
+                                        Zoomed out far enough to read shape instead of detail, two bands are
+                                        dense — program request and reporting. Everything else is thin. The
+                                        role header row underneath it is the problem in one line: fifteen
+                                        columns for seventeen roles, because three columns pair roles that
+                                        share a permission set, and not one of them can finish a program
+                                        alone.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3 class="rd-case-label">Two views</h3>
+                                    <div class="rd-case-checklist" data-picker="whole-picker-image" role="tablist" aria-label="Views of the whole map">
+                                        <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true" data-image="../public/hc_productmap.webp"><span>The full map — 13 swimlanes</span></div>
+                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hc_map_roles.webp"><span>The role header row — all 17</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- .is-strip + .rd-figure-frame / .rd-figure-scroll: the role
+                                 header row is ~2,200px of labels and the labels ARE the
+                                 content, so this figure scrolls horizontally instead of
+                                 scaling down into a grey smear. The full map tolerates
+                                 scaling, so one scrolling frame serves both picker rows. -->
+                            <figure class="rd-case-figure is-strip">
+                                <div class="rd-figure-frame">
+                                    <div class="rd-figure-scroll">
+                                        <img id="whole-picker-image" src="../public/hc_productmap.webp" alt="The full product map: role columns against 13 workflow swimlanes — onboarding, nomination, contracting, program request, budgeting, inquiry, registration, reporting, speaker and library, expense, billing and payment, reconciliation, shared features" class="is-wide" loading="lazy">
+                                    </div>
+                                </div>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rd-case-tabpanel" id="tabpanel-density" role="tabpanel" aria-labelledby="tab-density" hidden>
+                    <div class="rd-case-card" style="width:100%;">
+                        <div class="rd-case-split is-media">
+                            <div class="rd-case-body">
+                                <div>
+                                    <h3 class="rd-case-label">The argument for option C</h3>
+                                    <p>
+                                        Onboarding, nomination and contracting are three whole workflow areas
+                                        and most of their columns are empty. Build those first and you ship a
+                                        system nobody can run a program in. Program request is the opposite:
+                                        an unbroken initiate → approve → approve → confirm chain, with the
+                                        same feature stack under almost every column.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3 class="rd-case-label">Compare the two bands</h3>
+                                    <div class="rd-case-checklist" data-picker="density-picker-image" role="tablist" aria-label="Sparse and dense swimlanes">
+                                        <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true" data-image="../public/hc_map_spine.webp"><span>Program request — dense, unbroken</span></div>
+                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hc_map_thin.webp"><span>Onboarding, nomination, contracting — sparse</span></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <p>
+                                        That gap is what made the spine-first call obvious before anyone had
+                                        to be talked into it.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <figure class="rd-case-figure">
+                                <img id="density-picker-image" src="../public/hc_map_spine.webp" alt="The program request swimlane — dense, with an unbroken approval chain running left to right and a repeated sub-feature stack under nearly every role column" loading="lazy">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rd-case-tabpanel" id="tabpanel-recon" role="tabpanel" aria-labelledby="tab-recon" hidden>
+                    <div class="rd-case-card" style="width:100%;">
+                        <div class="rd-case-split is-media">
+                            <div class="rd-case-body">
+                                <div>
+                                    <h3 class="rd-case-label">Ten checks, then a federal filing</h3>
+                                    <p>
+                                        Run the report, run it again by month, select a program, check
+                                        attendee duplication against the speaker cap, check identifiers and
+                                        signatures, check receipts, check cost items, mark QA verified per
+                                        payment item, mark final verification, pull to the payment
+                                        aggregator, file the Sunshine Report. Ten manual steps between an
+                                        event and a government submission, and the chain runs every day.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p>
+                                        Each one is a place a program can quietly fail an audit. That is what
+                                        turns "the tooling is old" into a business case, and it is the single
+                                        most persuasive artifact in the whole source set.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <figure class="rd-case-figure">
+                                <img src="../public/hc_map_recon.webp" alt="The reconciliation swimlane: run report in accounting software, run global report by month, select a program, check attendee duplication against the speaker cap, check attendee identifier and signature, check required receipts are uploaded, check cost items are correct and attached, mark QA verified per payment item, mark final verification, pull data to the payment aggregator, file the Sunshine Report" loading="lazy">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="max-width: 684px; text-align: center;">
+                <div class="rd-case-body">
+                    <p>
+                        Three things carried the build. Budget runs in two directions at once —
+                        top-down from a signed contract through area allocations, and bottom-up from
+                        per-event charges — so I specced the state changes in detail, what happens to
+                        committed budget versus money actually spent when a program is approved,
+                        cancelled or closed, because that is where reconciliation disputes start. The
+                        backlog itself ran to 496 stories in <em>As a… I want… so that…</em> form with
+                        acceptance criteria (counted), tiered Must-have against Post-MVP and each
+                        traced to an epic, with 19 items still open — a working backlog, not a
+                        finished document. And rather than draw the riskiest screens we built them:
+                        a React prototype of about 21,350 lines over ten weeks (counted), covering
+                        program detail, budget and transfer funds, role dashboards and a form
+                        builder, each screen exported on its own so a stakeholder could open one
+                        page instead of clicking through a demo.
+                    </p>
+                    <p>
+                        Building it turned up two things the spec had missed. Tracing a program title
+                        back to its request form showed coordinators quietly changing event format
+                        and setting type between request and approval — a data problem no amount of
+                        writing would have caught. And an audit of design tokens found 17 of 18
+                        status tokens had drifted out of sync with the Figma library.
+                    </p>
+                    <p>
+                        One scope change is worth recording. Transfer funds started as a panel inside
+                        the budget screen and ended up a full page: moving money between allocations
+                        needs a two-step confirm and a clear before and after, and a panel couldn't
+                        show that without hiding the number the user most needed to check. Worth
+                        saying plainly, because it shaped everything else — the design deliverable
+                        was a coded prototype in the product's own stack, not a Figma file. Design
+                        tokens and a git branch were the source of truth, engineering pulled from
+                        there and owned auth, and that is why the token drift got caught at all. It
+                        showed up as a diff rather than as a surprise in QA.
+                    </p>
+                </div>
+            </div>
+
+            <!-- >>> OPEN — the validation method. Was the prototype tested with real
+                 reps and coordinators (moderated testing), or reviewed by the client
+                 team (expert inspection)? One sentence, and it separates this from
+                 shipping on instinct. "Neither, and here is why" is an acceptable
+                 answer for a spec-and-handoff engagement.
+
+                 >>> OPEN — the constraints that actually bit in delivery. A
+                 dependency that slipped, a technical limit that forced a rethink, a
+                 scope cut agreed with engineering. The transfer-funds change above
+                 is a design change, not a constraint. This is where technical
+                 partnership becomes visible and most candidates have nothing to say
+                 here, which is exactly why two or three sentences are worth having. -->
+        </div>
+    </section>
+
+    <!-- ================= Handed off ================= -->
+    <section class="rd-case-section is-tinted" id="after">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Specced, handed off, not measured by me</h2>
+
+            <div class="rd-case-wiki">
+                <div class="rd-case-wiki-row">
+                    <div class="rd-case-body">
+                        <p>
+                            I moved on before a measurement cycle closed, so there is no outcome
+                            number here I can stand behind. I would rather say that than imply a win.
+                            What exists is a spec, a working prototype and a sequencing argument that
+                            the client accepted — which is a real piece of work, and is also not the
+                            same thing as a result.
+                        </p>
+                        <p>
+                            Three measures are what I would have tracked. Program-request cycle time,
+                            from submission to confirmed, is the one I would have set a target on,
+                            because that is what the spine-first call was really betting on: if
+                            approval cycle time didn't move, the whole argument for shipping the
+                            request spine before anything else was wrong. Then coordinator hours to
+                            run one program end to end, and the exception rate — compliance issues
+                            raised after the fact instead of caught in the flow.
+                        </p>
+                        <!-- >>> OPEN — and this is the highest-value item on the page. If you
+                             can source ANY of those three from the client, even directionally,
+                             even under NDA as a ratio, this section becomes the strongest in
+                             the case study rather than the most honest one. The framework
+                             explicitly allows the form "cut approval time roughly 60%
+                             (client-reported)". -->
+                    </div>
+                </div>
+                <h3 class="rd-case-wiki-title">What I'd do differently</h3>
+                <div class="rd-case-wiki-row">
+                    <div class="rd-case-lesson-row">
+                        <div class="rd-case-lesson"><strong>496 stories, zero baselines.</strong> The spec is thorough — as-is and to-be flows for all 17 roles — but thorough isn't proven, and I still can't tell you what the old process cost. A week timing real program requests at the start would have turned the spine-first argument from a diagram into a measurement.</div>
+                        <div class="rd-case-lesson"><strong>I let the design system drift.</strong> Catching 17 of 18 status tokens out of sync was fine. Needing to catch it was the miss — calling code the source of truth on day one would have cost nothing.</div>
+                        <div class="rd-case-lesson"><strong>I answered "why now" with a standing reason.</strong> Compliance risk is true every quarter. I never pinned down what made it urgent that quarter, which is the first thing anyone senior asks about a project this size.</div>
+                        <!-- >>> OPEN — the third lesson above is the weakest of the three and is
+                             the one to replace. What the framework wants here is something
+                             specific and unflattering about a call you got WRONG on this
+                             project — not a gap in the research. Self-awareness is a
+                             screened-for trait and this is the cheapest place on the page to
+                             show it. -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Related case studies ================= -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Related case studies</h2>
+
+            <div class="rd-related">
+                <a class="rd-related-card" href="./lending.html">
+                    <div class="rd-related-media">
+                        <img src="../public/UC_lending.png"
+                             alt="HD Saison consumer lending case study cover" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Consumer lending</p>
+                        <h3 class="rd-related-title">Getting consumer lending off the counter</h3>
+                        <p class="rd-related-desc">Vietnam's third-largest consumer lender originated every loan at a counter. A four-goal client brief became one problem, and the app that built a second door.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+
+                <a class="rd-related-card" href="./web-3.html">
+                    <div class="rd-related-media">
+                        <img src="../public/ar_casecover.webp"
+                             alt="Aura Network case study cover" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Web3 infrastructure</p>
+                        <h3 class="rd-related-title">A chain that locked developers out</h3>
+                        <p class="rd-related-desc">A permissioned NFT chain with a closed developer pool became a permissionless, EVM-compatible Layer 1 open to any Ethereum-toolchain builder.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+
+                <a class="rd-related-card" href="./marketing-platform.html">
+                    <div class="rd-related-media">
+                        <img src="../public/marketing.png"
+                             alt="iSystem marketing platform case study cover" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Salon software · Startup</p>
+                        <h3 class="rd-related-title">Eight apps, one team</h3>
+                        <p class="rd-related-desc">A startup was building eight apps at once for three user types. It became one transaction spine — book, check in, pay — with everything else sequenced behind it.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<button type="button" class="rd-to-top" aria-label="Back to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+       stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <line x1="12" y1="20" x2="12" y2="5"></line>
+    <polyline points="5 12 12 5 19 12"></polyline>
+  </svg>
+</button>
+
+<div class="rd-closing">
+<footer id="footer-placeholder"></footer>
+</div>
+
+<script src="../js/script.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/socialize.js"></script>
+<script src="../js/back-to-top.js"></script>
+
+<script src="../js/case-toc.js"></script>
+
+<!-- Map-view tabs — ported unchanged from lending-new-v3.html. Binds to
+     .rd-case-tab / .rd-case-tabpanel generically and returns early on pages
+     with no tabs, so there is nothing project-specific in it. -->
+<script>
+(function () {
+  var tabs = document.querySelectorAll('.rd-case-tab');
+  if (!tabs.length) return;
+
+  function select(tab) {
+    tabs.forEach(function (t) {
+      var active = t === tab;
+      t.classList.toggle('is-active', active);
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !active;
+    });
+  }
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () { select(tab); });
+  });
+}());
+</script>
+
+<!-- Map-crop pickers — click a row, the row goes active and the figure beside
+     it cross-fades to that row's data-image. Ported unchanged from
+     lending-new-v3.html. Generic over every `.rd-case-checklist[data-picker]`,
+     so both picker panels share one implementation. The 13-swimlane checklist
+     in §01 has no data-picker attribute and is correctly ignored — it is a
+     list, not a control. The Reconciliation tab has no picker because it has
+     one crop. -->
+<script>
+(function () {
+  document.querySelectorAll('.rd-case-checklist[data-picker]').forEach(function (picker) {
+    var image = document.getElementById(picker.dataset.picker);
+    if (!image) return;
+    var rows = picker.querySelectorAll('.rd-case-checklist-row');
+
+    function select(row) {
+      rows.forEach(function (r) {
+        r.classList.toggle('is-active', r === row);
+        r.setAttribute('aria-selected', r === row ? 'true' : 'false');
+      });
+      var src = row.dataset.image;
+      if (!src || src === image.getAttribute('src')) return;
+      image.style.opacity = 0;
+      setTimeout(function () {
+        image.src = src;
+        image.style.opacity = 1;
+      }, 150);
+    }
+
+    rows.forEach(function (row) {
+      row.addEventListener('click', function () { select(row); });
+      row.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(row); }
+      });
+    });
+  });
+}());
+</script>
+
+</body>
+</html>

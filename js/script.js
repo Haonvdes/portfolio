@@ -333,6 +333,26 @@ async function updateProcess() {
 
   //onscroll animation //
   document.addEventListener("DOMContentLoaded", () => {
+    // AOS hides every [data-aos] element with `opacity: 0` from aos.css and
+    // only reveals it once aos.js has initialised and the element crosses the
+    // viewport. The two files come from the same CDN, so the usual outage
+    // takes both down and nothing is hidden in the first place — measured on
+    // case-studies/lending-new.html: 0 invisible blocks with cdnjs fully
+    // blocked.
+    //
+    // The dangerous case is the asymmetric one: aos.css arrives, aos.js does
+    // not. Then the opacity rule is live with nothing left to turn it off, and
+    // the same page measured 20 permanently invisible blocks — its entire body
+    // apart from the nav, hero type and footer. Stripping the attribute is what
+    // makes the CSS selector stop matching, so the content is simply un-
+    // animated instead of gone.
+    if (typeof AOS === "undefined" || !AOS || typeof AOS.init !== "function") {
+      document.querySelectorAll("[data-aos]").forEach((el) => {
+        el.removeAttribute("data-aos");
+      });
+      return;
+    }
+
     AOS.init({
       duration: 800, // Animation duration in ms
       once: true,     // Animate only once
@@ -340,22 +360,5 @@ async function updateProcess() {
   });
 
 //end onscroll animation //
-
-  
-
-//   const jwt = require('jsonwebtoken');
-  const path = require('path');
-  const app = express();
-  
-  app.use(express.json());
-  app.use(express.static('public'));
-  // Add this new route to serve the case study content
-  app.get('/case-study/:id', (req, res) => {
-    // Serve the case study HTML page
-    res.sendFile(path.join(__dirname, 'public', 'case-study.html'));
-  });
-
-
-
 
 

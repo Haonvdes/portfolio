@@ -89,8 +89,10 @@ user gave). Follow the `figma-design-to-code` skill's mechanics for this.
 
 ### 3. Compare before building — mandatory gate
 
-For every raw value Figma returns (px size, hex color, weight, spacing,
-shadow), classify it against the step-1 inventory:
+Collect every raw value Figma returns for the whole pull (px sizes, hex
+colors, weights, spacing, shadows) into a single table before deciding
+anything — don't gate value-by-value. Classify each row against the step-1
+inventory:
 
 - **Exact match to an existing token** → reuse that token. Do not add
   anything new, do not write the raw value anywhere.
@@ -101,10 +103,23 @@ shadow), classify it against the step-1 inventory:
   zero. Surface the discrepancy to the user (Figma value vs. nearest token)
   instead of silently rounding or silently adding a new rung.
 - **Genuinely new value with no existing token** (a one-off shadow, a brand
-  new color actually used by the design) → only then define a new `--rd-*`
-  custom property, following the existing convention in `redesign.css`:
-  value plus a short comment giving the Figma node and the "why" (see how
-  `--rd-primary-hover` and `--rd-market-*` are documented there).
+  new color actually used by the design) → first grep `tokens.css` and
+  `redesign.css` for the raw value itself, not just the nearest token —
+  the same value sometimes already exists under a different name (an
+  `rgba()` variant of a hex, a differently-formatted duplicate shadow). If
+  you find it, reuse that name; don't create a second one.
+
+  If it's genuinely absent, decide the layer before writing anything:
+  - **Primitive that could recur across the ramp** (a spacing/font-size/color
+    that reads as a base value rather than one tied to a single component) →
+    propose extending the closed base ladder in `tokens.css`. This bends the
+    "closed ladder" rule, so flag it explicitly and get the user's
+    confirmation before adding it — never add a base rung silently.
+  - **Component-specific or one-off** (a shadow, a semantic role like a hover
+    state) → define a new `--rd-*` custom property in `redesign.css`,
+    following the existing convention: value plus a short comment giving the
+    Figma node and the "why" (see how `--rd-primary-hover` and
+    `--rd-market-*` are documented there).
 
 Never write a literal hex/px/weight value directly into a CSS rule or inline
 style when a token already exists for it — this is the same rule as the
@@ -112,15 +127,21 @@ style when a token already exists for it — this is the same rule as the
 assets; existing tokens govern color/type/spacing whenever a token already
 covers the value.
 
-Present the comparison (existing token vs. Figma value vs. verdict) before
-writing implementation code, especially for the near-duplicate and
-genuinely-new cases — don't build past this gate silently.
+Present the whole comparison table (existing token vs. Figma value vs.
+verdict) before writing any implementation code, especially for the
+near-duplicate and genuinely-new rows — don't build past this gate silently.
 
 ### 4. Implement
 
 - Edit only within the scope guardrail above.
 - Match the existing comment style in `redesign.css` (node id + short
   rationale) for any new token or rule.
+- After adding any new token, grep for its value once more to confirm you
+  didn't just create a duplicate, and confirm the token is actually
+  referenced by the rule you added it for — no orphaned tokens.
+- Update the Known Figma node map table above and the corresponding source
+  comment (node id + rationale) for any new node touched, as part of this
+  step rather than an afterthought.
 - After implementing, re-scan the touched files for stray literals that
   duplicate a token (`font-size:`, `color:`, `#[0-9a-f]{3,6}` not wrapped in
   `var(...)`) and fix any you introduced.

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Initiatives card — lean copy + uncropped covers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap">
+<link rel="stylesheet" href="../../css/styles/style.css">
+<link rel="stylesheet" href="../../css/styles/redesign.css">
+<link rel="stylesheet" href="../../css/styles/initiatives-desktop.css">
+<style>
+/* ==== PREVIEW CHROME — delete when porting to index.html ==== */
+.pv-bar{position:sticky;top:0;z-index:200;background:#fff;border-bottom:1px solid #e4e1d9;
+  padding:10px 40px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-family:"DM Sans",sans-serif}
+.pv-bar strong{font-size:14px;font-weight:600}
+.pv-bar button{font:inherit;font-size:13px;font-weight:600;cursor:pointer;padding:6px 14px;
+  border-radius:999px;border:1px solid #666;background:none;color:#0a2a30}
+.pv-bar button[aria-pressed="true"]{background:#01679c;color:#fff;border-color:#01679c}
+.pv-bar span{font-size:12px;color:#666}
+
+/* ================= PROPOSED — port this block into redesign.css ================= */
+
+/* 1. COPY. Problem paragraph + closing narrative come off the card; three
+      labelled one-line facts replace them. Fixed height, so nothing is
+      truncated and the 64px fade never fires. */
+.rd-facts{display:none;flex-direction:column;gap:10px;width:100%;flex:0 0 auto;margin:0}
+.rd-fact{display:flex;gap:12px;align-items:baseline;
+  font-size:var(--rd-fs-md);line-height:var(--rd-lh-prose)}
+.rd-fact dt{flex:0 0 88px;color:var(--rd-ink-muted);font-weight:var(--rd-fw-body)}
+.rd-fact dd{margin:0;flex:1 1 auto;min-width:0;color:var(--rd-ink)}
+body.pv-proposed .rd-initiative-detail{display:none}
+body.pv-proposed .rd-facts{display:flex}
+
+/* 2. COVER. The media box is sized to the SOURCE ratio (per-card, inline
+      --rd-cover-ratio) instead of being stretched into a ~0.4:1 column, so
+      object-fit has nothing left to crop. `contain` on the img is the
+      backstop for when max-height clamps the box below its declared ratio.
+      The body column gives up its fixed 544px so the cover has room. */
+body.pv-proposed .rd-initiative-body{flex:3 1 0;width:auto;min-width:0}
+body.pv-proposed .rd-initiative-media{
+  flex:2 1 0;
+  align-self:center;
+  height:auto;
+  max-height:100%;
+  aspect-ratio:var(--rd-cover-ratio, 562/594);
+  margin:0 calc(-1 * var(--rd-card-pad)) 0 0;
+  background:var(--rd-surface);
+  border-radius:0;
+}
+body.pv-proposed .rd-initiative-media img{object-fit:contain}
+
+@media (max-width:768px){
+  /* Mobile card stays a teaser and defers ENTIRELY to redesign.css's own
+     <=768 media rules (16/9 banner, object-fit:cover, object-position top).
+     The desktop overrides above are (0,2,1) and beat the (0,1,0) mobile rules,
+     so each one has to be handed back explicitly — dropping aspect-ratio to
+     `auto` collapsed the cover to 0px tall, the same flex-chain trap that
+     blanked this image before. */
+  body.pv-proposed .rd-facts{display:none}
+  body.pv-proposed .rd-initiative-media{
+    flex:0 0 auto;
+    align-self:auto;
+    width:calc(100% + 32px);
+    height:auto;
+    aspect-ratio:16 / 9;
+    margin:-16px -16px 0;
+    background:none;
+  }
+  body.pv-proposed .rd-initiative-media img{object-fit:cover}
+}
+}
+</style>
+</head>
+<body class="rd-home pv-proposed">
+
+<div class="pv-bar">
+  <strong>Initiatives card</strong>
+  <button type="button" id="btn-cur" aria-pressed="false">Current</button>
+  <button type="button" id="btn-pro" aria-pressed="true">Proposed</button>
+  <span id="pv-note"></span>
+</div>
+
+<section class="rd-initiatives-section">
+  <div class="rd-initiatives-inner rd-shell">
+    <div class="rd-section-head rd-initiatives-rail">
+      <h2 class="rd-section-heading">Selected Product Initiatives</h2>
+      <p class="rd-section-intro">Good product decisions happen at the intersection of customer needs, business priorities, and execution. I focus on finding the right problems, making the right trade-offs, and turning decisions into outcomes.</p>
+      <ul class="rd-deck-index" id="deck-index">
+        <li><button type="button" data-index="0"><span class="n">01</span><span>Lending</span></button></li>
+        <li><button type="button" data-index="1"><span class="n">02</span><span>Web3</span></button></li>
+        <li><button type="button" data-index="2"><span class="n">03</span><span>Communication</span></button></li>
+        <li><button type="button" data-index="3"><span class="n">04</span><span>Marketing</span></button></li>
+      </ul>
+    </div>
+    <div class="rd-initiative-wrap">
+      <div class="rd-initiative-deck" id="initiative-deck">
+<div class="rd-initiative-panel is-active" id="panel-hd">
+                <article class="rd-initiative-card">
+                    <div class="rd-initiative-row">
+                        <div class="rd-initiative-body">
+                            <div class="rd-initiative-head">
+                                <h3 class="rd-initiative-title">Eight signatures, one branch visit</h3>
+                                <p class="rd-initiative-desc">Vietnam's oldest consumer finance company originated every loan in-branch. It became a mobile app for applying, signing and servicing a loan without visiting one.</p>
+                            </div>
+
+                            <div class="rd-detail-block rd-detail-outcome">
+                                <p class="rd-detail-label">Outcome</p>
+                                <div class="rd-mini-stat-row">
+                                    <div><strong>5h → 2h</strong><span>Approval time (target)</span></div>
+                                    <div><strong>8 → 1</strong><span>Signatures (client-reported)</span></div>
+                                </div>
+                            </div>
+
+                            <div class="rd-initiative-detail" id="detail-hd">
+                                <div class="rd-detail-block">
+                                    <p class="rd-detail-label">Problem</p>
+                                    <p>HD Saison originated 100% of loans in-branch — the only lender in its five-company peer set with no digital path at all, while rivals ran 66–86% offline and the market grew 23.7% a year. Borrowing meant a 3–5 hour visit and eight separate signatures.</p>
+                                </div>
+
+                                <div class="rd-detail-para">
+                                    <p>I reframed a four-goal client brief around one problem — get origination off the counter — and sequenced OTP e-signature first, because nothing downstream works while a branch visit exists to collect eight wet signatures. What I killed was remarketing, ranked equally by the client: you cannot retarget a base you can only reach in a branch. The app shipped in May 2022 and is still live four years on, with e-signature in HD Saison's production flow today.</p>
+                                </div>
+                            </div>
+
+                            
+                            <dl class="rd-facts">
+        <div class="rd-fact"><dt>Reframed</dt><dd>Four client goals into one problem</dd></div>
+        <div class="rd-fact"><dt>Killed</dt><dd>Remarketing — you cannot retarget a branch-only base</dd></div>
+        <div class="rd-fact"><dt>Shipped</dt><dd>May 2022, still live four years on</dd></div>
+                            </dl>
+
+                            <div class="rd-initiative-actions">
+                                <a href="../../case-studies/lending.html" class="rd-btn rd-btn-text">Learn More</a>
+                            </div>
+                        </div>
+
+                        <div class="rd-initiative-media" style="--rd-cover-ratio: 562/594">
+                            <img src="../../public/UC_lending.png" alt="HD Saison lending case study cover">
+                        </div>
+                    </div>
+                </article>
+                </div>
+<div class="rd-initiative-panel" id="panel-aura">
+                <article class="rd-initiative-card">
+                    <div class="rd-initiative-row">
+                        <div class="rd-initiative-body">
+                            <div class="rd-initiative-head">
+                                <h3 class="rd-initiative-title">A chain that locked developers out</h3>
+                                <p class="rd-initiative-desc">A permissioned NFT chain with a closed developer pool became a permissionless, EVM-compatible Layer 1 open to any Ethereum-toolchain builder.</p>
+                            </div>
+
+                            <div class="rd-detail-block rd-detail-outcome">
+                                <p class="rd-detail-label">Outcome</p>
+                                <div class="rd-mini-stat-row">
+                                    <div><strong>14.5M+</strong><span>Smart contracts (published)</span></div>
+                                    <div><strong>141K+</strong><span>Active addresses (published)</span></div>
+                                </div>
+                            </div>
+
+                            <div class="rd-initiative-detail" id="detail-aura">
+                                <div class="rd-detail-block">
+                                    <p class="rd-detail-label">Problem</p>
+                                    <p>Aura ran as a permissioned CosmWasm chain built for NFTs. Onboarding a team meant teaching them an unfamiliar stack, behind an approval gate — so the addressable developer pool was a fraction of the EVM world's.</p>
+                                </div>
+
+                                <!-- Two metrics, per the framework's card rule. The stat pill
+                                     flexes, so two cells fill the same 124px bar as three. -->
+                                <div class="rd-detail-para">
+                                    <p>I chose a dual-environment upgrade over a full migration: EVM alongside CosmWasm, widening the developer funnel without breaking the dApps already live. The price was a known address seam I shipped visibly rather than hold the release for. What I killed to pay for it was the NFT-first consumer roadmap.</p>
+                                </div>
+                            </div>
+
+                            
+                            <dl class="rd-facts">
+        <div class="rd-fact"><dt>Chose</dt><dd>EVM alongside CosmWasm, not a full migration</dd></div>
+        <div class="rd-fact"><dt>Killed</dt><dd>The NFT-first consumer roadmap</dd></div>
+        <div class="rd-fact"><dt>Traded</dt><dd>A visible address seam rather than hold the release</dd></div>
+                            </dl>
+
+                            <div class="rd-initiative-actions">
+                                <a href="../../case-studies/web-3.html" class="rd-btn rd-btn-text">Learn More</a>
+                            </div>
+                        </div>
+
+                        <div class="rd-initiative-media" style="--rd-cover-ratio: 2880/908">
+                            <img src="../../public/ar_casecover.webp" alt="Aura Network case study cover">
+                        </div>
+                    </div>
+                </article>
+                </div>
+<div class="rd-initiative-panel" id="panel-comms">
+                <article class="rd-initiative-card">
+                    <div class="rd-initiative-row">
+                        <div class="rd-initiative-body">
+                            <div class="rd-initiative-head">
+                                <h3 class="rd-initiative-title">Seventeen roles, one release</h3>
+                                <p class="rd-initiative-desc">Pharma speaker programs ran on email, spreadsheets and a legacy portal. They became one multi-tenant platform where a rep, a compliance monitor and an accountant work the same program record.</p>
+                            </div>
+
+                            <div class="rd-detail-block rd-detail-outcome">
+                                <p class="rd-detail-label">Outcome</p>
+                                <div class="rd-mini-stat-row">
+                                    <div><strong>3 → 1</strong><span>Systems reconciled (target)</span></div>
+                                    <div><strong>17</strong><span>Roles on one system (client-reported)</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Detail stack — Figma 40000124:734. Order is Problem framing →
+                                 Outcome stats → closing paragraph. -->
+                            <div class="rd-initiative-detail" id="detail-comms">
+                                <div class="rd-detail-block">
+                                    <p class="rd-detail-label">Problem</p>
+                                    <p>Seventeen roles touch a single speaker program — rep, manager, speaker, coordinator, compliance, accounting, auditor — each with its own approval gate and its own definition of "done". Mapped end to end, that came to 496 user stories across 13 workflow areas, all of it competing for one MVP.</p>
+                                </div>
+
+                                <div class="rd-detail-para">
+                                    <p>I cut the backlog to the program-request spine — the one flow all 17 roles touch — and shipped the four roles that own it end to end. What I deferred was every role that only reads the record: attendee self-service, auditor tooling, the rookie onboarding track. The trade was reach for coherence: fewer roles served, but no half-built approval chain in production.</p>
+                                </div>
+                            </div>
+
+                            <!-- Sibling of .rd-initiative-detail, not a child: the detail block
+                                 flexes to fill so this pins to the bottom (Figma 40000132:3671,
+                                 y=622 of a 662px column). -->
+                            
+                            <dl class="rd-facts">
+        <div class="rd-fact"><dt>Cut</dt><dd>496 stories down to the program-request spine</dd></div>
+        <div class="rd-fact"><dt>Shipped</dt><dd>The four roles that own that flow end to end</dd></div>
+        <div class="rd-fact"><dt>Deferred</dt><dd>Every role that only reads the record</dd></div>
+                            </dl>
+
+                            <div class="rd-initiative-actions">
+                                <!-- Held back 2026-08-13. ./case-studies/healthcare.html exists
+                                     and renders, but is not ready to be linked yet — same call as
+                                     the five work.html cards. A <button disabled> rather than a
+                                     styled <a>, because a disabled anchor is not a thing: an <a
+                                     href> stays keyboard-focusable and navigable no matter what
+                                     CSS says. To ship it, restore the line below:
+                                     <a href="../../case-studies/healthcare.html" class="rd-btn rd-btn-text">Learn More</a> -->
+                                <button type="button" class="rd-btn rd-btn-text" disabled aria-disabled="true">Coming soon</button>
+                            </div>
+                        </div>
+
+                        <div class="rd-initiative-media" style="--rd-cover-ratio: 1600/323">
+                            <img src="../../public/hc_cover.webp" alt="Role-by-feature product map for the speaker-bureau platform">
+                        </div>
+                    </div>
+                </article>
+                </div>
+<div class="rd-initiative-panel" id="panel-isystem">
+                <article class="rd-initiative-card">
+                    <div class="rd-initiative-row">
+                        <div class="rd-initiative-body">
+                            <div class="rd-initiative-head">
+                                <h3 class="rd-initiative-title">Eight apps, one team</h3>
+                                <p class="rd-initiative-desc">A startup was building eight apps at once for three user types. It became one transaction spine — book, check in, pay — with everything else sequenced behind it.</p>
+                            </div>
+
+                            <div class="rd-detail-block rd-detail-outcome">
+                                <p class="rd-detail-label">Outcome</p>
+                                <div class="rd-mini-stat-row">
+                                    <div><strong>8 → 1</strong><span>Parallel apps unified (target)</span></div>
+                                    <div><strong>50</strong><span>Active salons (client-reported)</span></div>
+                                </div>
+                            </div>
+
+                            <div class="rd-initiative-detail" id="detail-isystem">
+                                <div class="rd-detail-block">
+                                    <p class="rd-detail-label">Problem</p>
+                                    <p>iSystem wanted 20% of a 54,000-salon US market and had 50 salons on the platform — a 220x gap. Against that, one team was scoped to build eight apps in parallel, and the plan gave four of them to the 400 staff and owners while 7,730 customers waited on the other four.</p>
+                                </div>
+
+                                <div class="rd-detail-para">
+                                    <p>I sequenced the build around the only order the eight apps actually support: check-in is meaningless without a booking, the POS has nothing to total without a check-in, and every owner report is a query over transactions that do not exist until those three ship. What I killed was the remarketing suite — the client's own stated priority — because a retention tool has nothing to retain against on day one. The spine was specced and prototyped; iSystem folded before it reached general availability, so no launch number here is mine to claim.</p>
+                                </div>
+                            </div>
+
+                            
+                            <dl class="rd-facts">
+        <div class="rd-fact"><dt>Sequenced</dt><dd>Book, then check in, then pay</dd></div>
+        <div class="rd-fact"><dt>Killed</dt><dd>The remarketing suite — the client&#8217;s own priority</dd></div>
+        <div class="rd-fact"><dt>Ended</dt><dd>Specced and prototyped; iSystem folded before GA</dd></div>
+                            </dl>
+
+                            <div class="rd-initiative-actions">
+                                <a href="../../case-studies/marketing-platform.html" class="rd-btn rd-btn-text">Learn More</a>
+                            </div>
+                        </div>
+
+                        <div class="rd-initiative-media" style="--rd-cover-ratio: 1181/956">
+                            <img src="../../public/marketing.png" alt="iSystem salon platform case study cover">
+                        </div>
+                    </div>
+                </article>
+                </div>
+      </div>
+      <div class="rd-deck-dots" id="deck-dots" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<script src="../../js/initiatives.js"></script>
+<script>
+(function(){
+  var b=document.body,cur=document.getElementById('btn-cur'),pro=document.getElementById('btn-pro'),
+      note=document.getElementById('pv-note');
+  function words(){
+    var p=document.querySelector('.rd-initiative-panel')||document.body,n=0;
+    p.querySelectorAll('.rd-initiative-desc,.rd-initiative-detail p,.rd-fact dt,.rd-fact dd').forEach(function(el){
+      if(el.offsetParent!==null&&el.textContent.trim())n+=el.textContent.trim().split(/\s+/).length;
+    });
+    return n;
+  }
+  function set(mode){
+    b.classList.toggle('pv-proposed',mode==='pro');
+    pro.setAttribute('aria-pressed',String(mode==='pro'));
+    cur.setAttribute('aria-pressed',String(mode!=='pro'));
+    setTimeout(function(){note.textContent='card 01 visible body copy: '+words()+' words';},80);
+  }
+  cur.onclick=function(){set('cur')};
+  pro.onclick=function(){set('pro')};
+  set('pro');
+})();
+</script>
+</body>
+</html>

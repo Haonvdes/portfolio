@@ -32,7 +32,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 </head>
-<body class="rd-case is-hero-overlap">
+<body class="rd-case is-hero-glow is-hero-split" style="--rd-hero-glow: #f2a9a0;">
 
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
@@ -238,14 +238,17 @@
     - "Signing first, then everything downstream of it" — heading and body
       centred, matching the centred treatment already used on "Looking at
       the main (This)".
-    - "Looking at the main (This)": the New Features rows are now a click-
-      to-select picker that cross-fades the render beside them — the same
-      interaction web-3.html's showcase section runs (`loadContent()`:
-      active-state swap + image fade), rebuilt small and self-contained here
-      since that script's data is hard-coded to Aura's own ecosystem tools.
-      Only one render exists for this project (`homepage-render.png`), so
-      every row points at it today via `data-image`; swap in real per-
-      feature screenshots there when they exist.
+    - "Three screens carried the reframe": the New Features / Reminder
+      states rows are a click-to-select picker that cross-fades the render
+      beside them — the same interaction web-3.html's showcase section runs
+      (`loadContent()`: active-state swap + image fade), rebuilt small and
+      self-contained here since that script's data is hard-coded to Aura's
+      own ecosystem tools. The three Homepage/Loan Management/Esign tabs
+      this originally shipped with were removed 2026-08-23 (Hao's call) in
+      favour of one "New Experiences" panel with a flat 5-row "Delighted
+      Features" picker (Figma 40000318:4630) — all five are real screens
+      now (`../public/hd/phone_1.png` / `phone_2.png`), not the placeholder
+      `homepage-render.png` this note used to describe.
     - Lesson-card row is a 6-column grid (`.rd-case-lesson-row`), not a
       flexbox that happened to wrap at 3 — extra cards now wrap to a second
       row automatically past six.
@@ -257,6 +260,31 @@
       extrabold, full-ink — matching Figma's actual weight for these two and
       readable at a glance rather than blending into the small-caps micro-
       labels every other card title on this page uses.
+
+  FIGMA RESYNC, 2026-08-21 — node 40000221:4026 changed since the pass above:
+  "The expectation" (a lead line + four-item numbered rail) was replaced with
+  "Business pain point" and "Business goal", a pair of 4-up numbered grids
+  either side of "The problem statement" (renamed from "The problem"), each
+  separated by a hairline rule. New CSS: `.rd-case-grid.is-four`/`.is-numbered`,
+  `.rd-case-num-chip` (`.is-pain` orange / `.is-goal` --rd-primary blue, one
+  digit off Figma's own #0067bd same as the outcomes card already is),
+  `.rd-case-num-desc`, `.rd-case-split-rule` — redesign.css §11a, next to the
+  §11 sub-heading rule these three headings already used.
+    - Business pain point copy is the four facts §context already establishes
+      (3–5hr/four-stage approval, the week-long correction loop, counter drop-off, falling
+      repeat-borrow rate), not new claims — consistent with this page's
+      standing discipline against inventing numbers that read as real.
+    - Business goal copy is the same four brief items the old rail carried
+      (E-signature / Loan Management / Payment Integration / Remarketing
+      System); the rail's "no priority attached" note isn't repeated here —
+      §context already says "Four goals, equal weight, no order given," and
+      Figma's new layout has no line for it.
+    - The Outcomes card gained a third slot in Figma (40000298:752) that
+      repeats the second one verbatim (another "8 → 1 / Signatures to take
+      out a loan") — read as an unfinished duplicate component instance, not
+      a third real metric, so the card stays at two stats.
+    - `.rd-goal-lead` / `.rd-goal-index` / `.rd-goal-note` (the old rail's
+      CSS) are removed from redesign.css: this was their only caller.
   ============================================================================
 -->
 
@@ -264,13 +292,19 @@
     <div id="nav-placeholder"></div>
 
     <div class="rd-case-hero-inner rd-shell">
-        <h1 class="rd-case-title animate__animated animate__fadeIn">Getting consumer lending off the counter</h1>
-        <p class="rd-case-lead animate__animated animate__fadeIn">
-            HD Saison is Vietnam's first licensed consumer finance company, and the counter was
-            its greatest strength — the highest motorbike-loan share in the market, sold face to
-            face at 16,000 dealer points. It was also the only way in. This is the app that built
-            a second door, and the story of how a four-goal brief became one problem.
-        </p>
+        <div class="rd-case-hero-text">
+            <h1 class="rd-case-title reveal">Getting consumer lending off the counter</h1>
+            <p class="rd-case-lead animate__animated animate__fadeIn">
+                HD Saison is Vietnam's first licensed consumer finance company, and the counter was
+                its greatest strength — the highest motorbike-loan share in the market, sold face to
+                face at 16,000 dealer points. It was also the only way in. This is the app that built
+                a second door, and the story of how a four-goal brief became one problem.
+            </p>
+        </div>
+
+        <figure class="rd-case-cover">
+            <img src="../public/hd/cover.png" alt="HD Saison app screens: a loan dashboard on the home tab and a loan management screen with repayment schedule and progress">
+        </figure>
     </div>
 </header>
 
@@ -289,13 +323,9 @@
     <!-- ================= Overview ================= -->
     <section class="rd-case-section is-tinted" id="overview">
         <div class="rd-case-inner rd-shell">
-            <div class="rd-case-cover" data-aos="fade-up">
-                <img src="../public/case-study-framework/cover.png" alt="HD Saison in-app promotional campaign banner for a motorbike loan (Đón Trứng Gom Quà campaign)">
-            </div>
+            <h2 class="rd-case-h2" data-aos="fade-up">Overview</h2>
 
-            <h2 class="rd-case-h2">Overview</h2>
-
-            <div class="rd-case-snapshot">
+            <div class="rd-case-snapshot" data-aos="fade-up">
                 <div>
                     <span class="rd-case-meta-k">Role</span>
                     <span class="rd-case-meta-v">Product designer</span>
@@ -322,50 +352,84 @@
                 </div>
             </div>
 
-            <div class="rd-case-split">
+            <!-- 2026-08-21: "The expectation" (four-item numbered rail) replaced by
+                 Figma's updated node — "Business pain point" / "Business goal", two
+                 4-up numbered grids either side of a hairline rule (Figma 40000221:4026,
+                 40000256:5333, 40000298:881). CSS: `.rd-case-grid.is-numbered` /
+                 `.rd-case-num-chip` / `.rd-case-num-desc` / `.rd-case-split-rule`,
+                 redesign.css §11a.
+
+                 2026-08-23: "Business pain point" moved out of this split card into
+                 §context below, between its narrative text and figure — the four facts
+                 it states (3–5hr/4-stage approval, the week-long correction loop,
+                 counter drop-off, falling repeat-borrow rate) are the same ones §context's own copy
+                 establishes, so it reads as that section's evidence rather than a
+                 restatement here. The heading beside "Business goal" was renamed from
+                 "The problem statement" to "Business problem statement" and its copy
+                 extended with why the app had no existing product to fix and what
+                 errors the paper process pushed onto counter staff.
+
+                 Goals are the same four brief items the old rail carried (E-signature/
+                 Loan Management/Payment Integration/Remarketing System); the "no
+                 priority attached" framing they used to carry inline is already said in
+                 §context's "Four goals, equal weight, no order given" and isn't
+                 repeated here, since Figma's new layout has no room for a lead-in/note
+                 line.
+
+                 The Outcomes card's third slot in Figma (40000298:752) repeats the
+                 second one verbatim — same "8 → 1 / Signatures to take out a loan"
+                 twice — which read as an unfinished duplicate instance, not a third
+                 real metric, so it sat empty until 2026-08-23.
+
+                 2026-08-23: third slot filled with "7d → 7min / Time to close a
+                 contract error (target)", from the Oct 2019 internal e-signing deck's
+                 HIỆN TẠI/TƯƠNG LAI before-after (5–7 days → 5–7 minutes; upper bound
+                 of each range taken, for symmetry with the other two compact stats).
+                 It is a *designed target*, not a measured result — labelled the same
+                 way as the 2h approval figure above it, and for the same reason. Do
+                 not restate it as an outcome anywhere on this page.
+
+                 Same date: pain point 2 changed from "Eight signatures" to the
+                 correction loop. "Eight" is client-reported and every document in
+                 `case study 1/HD` contradicts it, so it now appears ONLY in the
+                 outcomes stat above, where that label is attached. Goal 1's
+                 description was rescoped at the same time — eSign had to carry the
+                 'Thỏa thuận điều chỉnh thông tin' (post-approval correction), not
+                 just the original contract, which is where the days→minutes gain
+                 actually comes from. -->
+            <div class="rd-case-split" data-aos="fade-up">
                 <div class="rd-case-body">
                     <div>
-                        <h3 class="rd-case-label is-heading">The problem</h3>
-                        <p>HD Saison originated 100% of its loans in-branch — the only lender in its five-company peer set with no digital path at all, in a market growing 23.7% a year (published)</p>
+                        <h3 class="rd-case-label is-heading">Business problem statement</h3>
+                        <p>HD Saison originated 100% of its loans in-branch — the only lender in its five-company peer set with no digital path at all, in a market growing 23.7% a year (published). There was no existing product to fix; the app was built from zero, and it had to close the errors the paper process left to counter staff — hand-keyed customer data, documents caught wrong only at underwriting, a whole contract set re-signed because one field was wrong — each one sending a file back a stage, and the customer back to the counter.</p>
                     </div>
 
-                    <div>
-                        <h3 class="rd-case-label is-heading">The expectation</h3>
-                        <!-- Not case-study-framework.html's ic-migrate/ic-esign/ic-loan/
-                             ic-payment/ic-remarket.png — those turned out to be Figma's
-                             own sample-content icon set (Figma, Slack, Discord, Teams and
-                             GitHub logos, left over from an unrelated "tools" slot in the
-                             source file) rather than anything about lending, and they're
-                             also solid white PNGs that render invisible on this box's
-                             white background regardless. Five inline stroke icons instead,
-                             matching the row-1 checkmark's existing style rather than
-                             adding another mismatched asset. -->
-                        <!-- Was .rd-case-checklist (five checkmark rows) until 2026-08-21.
-                             Two problems it had: the five rows contradicted "Four goals,
-                             equal weight, no order given" in §context, because the first
-                             row is the brief restated as an *outcome*, not a fifth
-                             deliverable; and the five icons were a mismatched set anyway
-                             (see the note above). The outcome line is now lifted out as a
-                             plain lead-in and the four real deliverables sit in the
-                             numbered rail below, so the count on screen matches the prose.
+                    <hr class="rd-case-split-rule">
 
-                             .rd-goal-index, NOT .rd-deck-index. It is a visual copy of the
-                             about-page timeline index Hao pointed at, but deck-index is
-                             `display:none` below 769px (it is the desktop half of a
-                             mobile-carousel pair) — reusing it here would blank this block
-                             on every phone. Rows are spans, not buttons: nothing here is
-                             clickable, so no hover, cursor, focus ring or aria-controls. -->
-                        <p class="rd-goal-lead">Migrate all offline processes to online</p>
-                        <ul class="rd-goal-index">
-                            <li><span class="n">01</span><span>E-signature</span></li>
-                            <li><span class="n">02</span><span>Loan Management</span></li>
-                            <li><span class="n">03</span><span>Payment Integration</span></li>
-                            <li><span class="n">04</span><span>Remarketing System</span></li>
-                        </ul>
-                        <!-- The numerals index the list, they do not rank it. Without this
-                             line the rail implies a priority the brief never gave, which is
-                             the exact tension the reframe later in the page turns on. -->
-                        <p class="rd-goal-note">Listed as given &mdash; no priority attached.</p>
+                    <div>
+                        <h3 class="rd-case-label is-heading">Business goal</h3>
+                        <div class="rd-case-grid is-four is-numbered">
+                            <div>
+                                <span class="rd-case-num-chip is-goal">1</span>
+                                <h4 class="rd-case-challenge-title">E-signature</h4>
+                                <p class="rd-case-num-desc">One binding electronic signature, covering the original contract and any later correction to it.</p>
+                            </div>
+                            <div>
+                                <span class="rd-case-num-chip is-goal">2</span>
+                                <h4 class="rd-case-challenge-title">Loan Management</h4>
+                                <p class="rd-case-num-desc">One place to see loan balance, payments and due dates.</p>
+                            </div>
+                            <div>
+                                <span class="rd-case-num-chip is-goal">3</span>
+                                <h4 class="rd-case-challenge-title">Payment Integration</h4>
+                                <p class="rd-case-num-desc">Repay a loan without going back to a dealer or branch.</p>
+                            </div>
+                            <div>
+                                <span class="rd-case-num-chip is-goal">4</span>
+                                <h4 class="rd-case-challenge-title">Remarketing System</h4>
+                                <p class="rd-case-num-desc">Re-engage past borrowers for their next loan.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -379,6 +443,10 @@
                         <strong>8 → 1</strong>
                         <span>Signatures to take out a loan (client-reported)</span>
                     </div>
+                    <div class="rd-case-highlight-stat">
+                        <strong>7d → 7min</strong>
+                        <span>Time to close a contract error (target)</span>
+                    </div>
                 </aside>
             </div>
         </div>
@@ -387,33 +455,60 @@
     <!-- ================= Every loan started at a counter ================= -->
     <section class="rd-case-section is-tinted" id="context">
         <div class="rd-case-inner rd-shell">
-            <h2 class="rd-case-h2">Every loan started at a counter</h2>
+            <h2 class="rd-case-h2" data-aos="fade-up">Every loan started at a counter</h2>
 
-            <div class="rd-case-body">
+            <div class="rd-case-body" data-aos="fade-up">
                 <p>
                     HD Saison is a joint venture between HDBank and Credit Saison, and it is very
-                    good at one thing. It held the highest motorbike-loan share in Vietnam — 41% in
-                    2022, up from 34% the year before (published) —
-                    sold in person, at more than 16,000 dealer counters, to over 6 million customers
-                    (published). The brief I was
-                    handed listed four things to build: electronic signing, loan management,
-                    payment, and remarketing. Four goals, equal weight, no order given. My job as
-                    briefed was to design them.
+                    good at one thing. It holds the highest motorbike-loan share in Vietnam — 41% in
+                    2022, up from 34% the year before (published) — sold in person, at more than
+                    16,000 dealer counters, to over 6 million customers (published). The brief
+                    listed four things to build: electronic signing, loan management, payment, and
+                    remarketing. Four goals, equal weight, no order given.
                 </p>
                 <p>
-                    Discovery ran about three months, from kickoff in June 2021 to the first
-                    interactive prototype in September. Mapping the origination process end to end
-                    is where that brief started to come apart. Borrowing took 3 to 5 hours across
-                    four stages and eight separate signatures (client-reported) — and at every one of
-                    those stages the customer was physically present. Nobody complains about this.
-                    Borrowers treat it as simply how borrowing works. It surfaces instead as people
-                    giving up at the counter, and as a repeat-borrow rate quietly falling while
-                    nobody could say why.
+                    Discovery ran three months, from kickoff in June 2021 to the first prototype in
+                    September. We mapped origination end to end, and that is where the brief came
+                    apart. Four things kept surfacing, and none of them were on the list.
                 </p>
             </div>
 
-            <figure class="rd-case-figure">
+            <div data-aos="fade-up">
+                <div class="rd-case-grid is-four is-numbered">
+                    <div>
+                        <span class="rd-case-num-chip is-pain">1</span>
+                        <h4 class="rd-case-challenge-title">Four-stage approval</h4>
+                        <p class="rd-case-num-desc">Borrowing took 3 to 5 hours across four stages, every one of them in person (client-reported).</p>
+                    </div>
+                    <div>
+                        <span class="rd-case-num-chip is-pain">2</span>
+                        <h4 class="rd-case-challenge-title">A week to fix a typo</h4>
+                        <p class="rd-case-num-desc">One wrong field — ID number, address, date of birth, name — sent the customer back to the store to re-sign the whole set. Five to seven days to close (internal process deck).</p>
+                    </div>
+                    <div>
+                        <span class="rd-case-num-chip is-pain">3</span>
+                        <h4 class="rd-case-challenge-title">Drop-off at the counter</h4>
+                        <p class="rd-case-num-desc">Borrowers gave up mid-application, and nothing recorded where.</p>
+                    </div>
+                    <div>
+                        <span class="rd-case-num-chip is-pain">4</span>
+                        <h4 class="rd-case-challenge-title">Falling repeat-borrow rate</h4>
+                        <p class="rd-case-num-desc">The repeat-borrow rate was quietly falling, and nobody could say why.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rd-case-body" data-aos="fade-up">
+                <p>
+                    None of it arrived as a complaint. Borrowers treat this as how borrowing works,
+                    so it never showed up as feedback — only as people walking away mid-application.
+                    We had to draw the whole thing on paper before anyone could see it.
+                </p>
+            </div>
+
+            <figure class="rd-case-figure" data-aos="fade-up">
                 <img src="../public/case-study-framework/counter-journey.png" alt="Two photos from a discovery workshop: the team mapping the loan origination journey on paper prototypes at a whiteboard table" loading="lazy">
+                <figcaption>Mapping origination end to end, June 2021.</figcaption>
             </figure>
         </div>
     </section>
@@ -421,8 +516,8 @@
     <!-- ================= UX Research Findings ================= -->
     <section class="rd-case-section is-tinted" id="research">
         <div class="rd-case-inner rd-shell">
-            <h2 class="rd-case-h2">Four competitors had already left the counter</h2>
-            <div class="rd-case-body">
+            <h2 class="rd-case-h2" data-aos="fade-up">Four competitors had already left the counter</h2>
+            <div class="rd-case-body" data-aos="fade-up">
                 <p>
                     The consumer finance market grew 23.7% in 2021, on a five-year CAGR of 15.1%.
                     HD Saison was the third-largest lender in the country — and the only one of the
@@ -430,7 +525,7 @@
                 </p>
             </div>
 
-            <figure class="rd-market is-figma">
+            <figure class="rd-market is-figma" data-aos="fade-up">
                 <figcaption class="rd-market-head">
                     <h2 class="rd-market-title">Share of Vietnam's consumer lending market, 2021</h2>
                 </figcaption>
@@ -456,7 +551,7 @@
                  heading IS the hovered lender's name (`.rd-bench-panel-name` lives on
                  the <h3> itself) rather than a static "Insight" label sitting above a
                  separate name line — see fill() in the script below. -->
-            <figure class="rd-bench is-figma is-v3" data-bench>
+            <figure class="rd-bench is-figma is-v3" data-bench data-aos="fade-up">
                 <div class="rd-case-split is-chart is-reverse">
                     <div class="rd-case-card">
                         <div class="rd-bench-mount"></div>
@@ -474,14 +569,42 @@
                                 <th scope="col">Offline origination</th>
                                 <th scope="col">Max loan</th>
                                 <th scope="col">Monthly web visits</th>
+                                <th scope="col">Published rate</th>
+                                <th scope="col">Decision time</th>
+                                <th scope="col">Brand health</th>
                             </tr>
                         </thead>
+                        <!-- The last three columns were added 2026-08-23. Sourcing notes,
+                             because two of them are thinner than the first four and the
+                             card must not imply otherwise:
+
+                             data-rate — the published consumer-lending rate framework every
+                             finance company must disclose under SBV Circular 18/2019.
+                             HD Saison's is primary (hdsaison.com.vn, direct-disbursement
+                             product, 15–63%/yr). The other four are secondary, from loan
+                             aggregators, normalised to %/yr from monthly figures where the
+                             source quoted months. All are CURRENT filings, not 2021 ones —
+                             said plainly in the caption rather than quietly.
+
+                             data-approval — only HD Saison publishes one (30–45 minutes'
+                             appraisal, disbursement immediately after approval). No
+                             comparable figure exists for the other four, so they carry an
+                             empty attribute and render "Not disclosed". That is the honest
+                             shape of this row and it is not padded to look fuller.
+
+                             data-csat — NOT customer satisfaction. Mibrand's Brand Beat
+                             Score from the Vietnam Consumer Finance Brand Health Rankings
+                             2025: 300 respondents, Hanoi and HCMC, surveyed December 2025.
+                             Wrong year for this section and a different construct from
+                             satisfaction, which is why the column, the metric label and the
+                             caption all say "brand health" instead. JACCS and EasyCredit
+                             were not in that ranking. -->
                         <tbody>
-                            <tr data-online="34" data-loan="80"  data-traffic="38"   data-blurb="The smallest audience in the set, and the largest digital share. A third of its originations already happened without a counter — proof scale was never the precondition."><th scope="row">JACCS</th><td>66%</td><td>80M VND</td><td>38K</td></tr>
-                            <tr data-online="22" data-loan="70"  data-traffic="1070" data-blurb="Nine times HD Saison's web traffic, on the lowest maximum loan in the set. A volume business — and a fifth of that volume was already online, without cannibalising the rest."><th scope="row">FE Credit</th><td>78%</td><td>70M VND</td><td>1.07M</td></tr>
-                            <tr data-online="18" data-loan="200" data-traffic="431"  data-blurb="Lends twice what anyone else in the set will, and reaches four times HD Saison's audience. Neither of those advantages depends on a branch."><th scope="row">Home Credit</th><td>82%</td><td>200M VND</td><td>431K</td></tr>
-                            <tr data-online="14" data-loan="100" data-traffic="62"   data-blurb="Half HD Saison's traffic and the smallest digital share of the four that had one — and still not zero. Even the weakest digital effort in the set beat having none."><th scope="row">EasyCredit</th><td>86%</td><td>100M VND</td><td>62K</td></tr>
-                            <tr class="is-subject" data-online="0" data-loan="100" data-traffic="116" data-blurb="The third-largest lender in the country. Every loan began at a counter, which made walking in the only way in."><th scope="row">HD Saison</th><td>100%</td><td>100M VND</td><td>116K</td></tr>
+                            <tr data-online="34" data-loan="80"  data-traffic="38"   data-rate="11.3–49.9%/yr" data-approval="" data-csat="" data-blurb="The smallest audience in the set, and the largest digital share. A third of its originations already happened without a counter — proof scale was never the precondition."><th scope="row">JACCS</th><td>66%</td><td>80M VND</td><td>38K</td><td>11.3–49.9%/yr</td><td>Not disclosed</td><td>Not ranked</td></tr>
+                            <tr data-online="22" data-loan="70"  data-traffic="1070" data-rate="35–48%/yr" data-approval="" data-csat="23.8" data-blurb="Nine times HD Saison's web traffic, on the lowest maximum loan in the set. A volume business — and a fifth of that volume was already online, without cannibalising the rest."><th scope="row">FE Credit</th><td>78%</td><td>70M VND</td><td>1.07M</td><td>35–48%/yr</td><td>Not disclosed</td><td>23.8</td></tr>
+                            <tr data-online="18" data-loan="200" data-traffic="431"  data-rate="From 20%/yr" data-approval="" data-csat="30.2" data-blurb="Lends twice what anyone else in the set will, and reaches four times HD Saison's audience. Neither of those advantages depends on a branch."><th scope="row">Home Credit</th><td>82%</td><td>200M VND</td><td>431K</td><td>From 20%/yr</td><td>Not disclosed</td><td>30.2</td></tr>
+                            <tr data-online="14" data-loan="100" data-traffic="62"   data-rate="22.6–42.4%/yr" data-approval="" data-csat="" data-blurb="Half HD Saison's traffic and the smallest digital share of the four that had one — and still not zero. Even the weakest digital effort in the set beat having none."><th scope="row">EasyCredit</th><td>86%</td><td>100M VND</td><td>62K</td><td>22.6–42.4%/yr</td><td>Not disclosed</td><td>Not ranked</td></tr>
+                            <tr class="is-subject" data-online="0" data-loan="100" data-traffic="116" data-rate="15–63%/yr" data-approval="30–45 min" data-csat="24.4" data-blurb="The third-largest lender in the country. Every loan began at a counter, which made walking in the only way in."><th scope="row">HD Saison</th><td>100%</td><td>100M VND</td><td>116K</td><td>15–63%/yr</td><td>30–45 min</td><td>24.4</td></tr>
                         </tbody>
                         </table>
                     </div>
@@ -504,9 +627,18 @@
                             <p class="rd-bench-panel-blurb">The third-largest lender in the country. Every loan began at a counter, which made walking in the only way in.</p>
                             <div class="rd-bench-strip" aria-hidden="true"></div>
                             <dl style="margin:0">
+                                <!-- Five rows, not six. "Visits / month" moved out 2026-08-23
+                                     (Hao's call, layout C of review-bench-personas.html): the
+                                     map's vertical axis already plots it, so the card was
+                                     repeating the chart it sits beside. The three rows that
+                                     replaced it are things a borrower compares, not things an
+                                     analyst compares. `traffic` stays in the data model — the
+                                     map still needs it for Y. -->
                                 <div class="rd-bench-metric"><dt>Originated online</dt><dd data-k="0"><span class="rd-bench-metric-main">0%</span><span class="rd-bench-metric-delta"></span></dd></div>
                                 <div class="rd-bench-metric"><dt>Max loan</dt><dd data-k="1"><span class="rd-bench-metric-main">100M VND</span><span class="rd-bench-metric-delta"></span></dd></div>
-                                <div class="rd-bench-metric"><dt>Visits / month</dt><dd data-k="2"><span class="rd-bench-metric-main">116K</span><span class="rd-bench-metric-delta"></span></dd></div>
+                                <div class="rd-bench-metric"><dt>Published rate</dt><dd data-k="2"><span class="rd-bench-metric-main">15–63%/yr</span><span class="rd-bench-metric-delta"></span></dd></div>
+                                <div class="rd-bench-metric"><dt>Decision time</dt><dd data-k="3"><span class="rd-bench-metric-main">30–45 min</span><span class="rd-bench-metric-delta"></span></dd></div>
+                                <div class="rd-bench-metric"><dt>Brand health</dt><dd data-k="4"><span class="rd-bench-metric-main">24.4</span><span class="rd-bench-metric-delta"></span></dd></div>
                             </dl>
                         </div>
                     </div>
@@ -515,28 +647,6 @@
                 <div class="rd-bench-foot"></div>
             </figure>
 
-            <div class="rd-case-card">
-                <h3>Industry Challenges</h3>
-                <div class="rd-case-grid">
-                    <div>
-                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
-                        <h3 class="rd-case-challenge-title">Wet ink by default</h3>
-                        <p>The law allowed electronic signing. The operation had no precedent for accepting it.</p>
-                    </div>
-                    <div>
-                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
-                        <h3 class="rd-case-challenge-title">Trust sat at the counter</h3>
-                        <p>Borrowers verified the deal by reading a person's face, not a screen.</p>
-                    </div>
-                    <div>
-                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
-                        <h3 class="rd-case-challenge-title">16,000 dealers to protect</h3>
-                        <p>Any digital path had to add a door without taking sales off the ones already selling.</p>
-                    </div>
-                </div>
-            </div>
-
-      
         </div>
     </section>
 
@@ -550,8 +660,8 @@
     <section class="rd-case-section is-tinted" id="built">
         <div class="rd-case-inner rd-shell" style="align-items:center;">
             <div style="max-width: 684px; text-align: center;">
-                <h2 class="rd-case-h2">Signing first, then everything downstream of it</h2>
-                <div class="rd-case-body" style="margin-top:24px;">
+                <h2 class="rd-case-h2" data-aos="fade-up">Signing first, then everything downstream of it</h2>
+                <div class="rd-case-body" style="margin-top:24px;" data-aos="fade-up">
                     <p>
                         Reordering a client's stated priorities is the part of this project I'd be
                         asked about in an interview, so here is the reasoning in full, including what
@@ -560,7 +670,7 @@
                 </div>
             </div>
 
-            <div class="rd-decision" style="width:100%;">
+            <div class="rd-decision" style="width:100%;" data-aos="fade-up">
                 <div class="rd-decision-row">
                     <p class="rd-decision-k">Options</p>
                     <div class="rd-decision-v rd-option-set">
@@ -589,7 +699,7 @@
                 <div class="rd-decision-row">
                     <p class="rd-decision-k">What I chose</p>
                     <div class="rd-decision-v">
-                        <p><strong>C, origination first.</strong> Electronic signing came first because nothing downstream functions without it — you cannot remove a branch visit that exists to collect eight wet signatures. The benchmark carried the risk argument for me: four competitors had already proven this worked here, and HD Saison, with the strongest counter presence in the market, had more to lose than any of them from staying single-channel.</p>
+                        <p><strong>C, origination first.</strong> Electronic signing came first because nothing downstream functions without it — you cannot remove a branch visit that exists to collect wet signatures — and that visit happened twice, once to sign and again to fix. The benchmark carried the risk argument for me: four competitors had already proven this worked here, and HD Saison, with the strongest counter presence in the market, had more to lose than any of them from staying single-channel.</p>
                     </div>
                 </div>
 
@@ -655,122 +765,79 @@
                 <div class="rd-case-body" style="margin-top:24px;">
                     <p>
                         The home screen ranks unsigned loans above every offer. Loan management makes
-                        the next payment obvious before it's late. And signing collapsed eight
-                        signatures into one. Everything else in the brief was sequenced behind these
-                        three.
+                        the next payment obvious before it's late. And signing collapsed a whole
+                        contract set into one confirmation — the original, and any correction after
+                        it. Everything else in the brief was sequenced behind these three.
                     </p>
                 </div>
             </div>
 
-            <!-- Product-area tabs — same tab pattern as web-3.html's #team /
-                 #processes&tools switcher (a button row that swaps which
-                 panel is visible), reimplemented here against .rd-case-*
-                 markup and --rd- tokens rather than pulling in that page's
-                 .hastag/.information classes and case-retheme-v3.css: see
-                 "6. Patterns ported from web-3 / lending" in redesign.css for
-                 why this page always reimplements instead of importing.
-                 Wired up in the script at the bottom of this file. -->
-            <div class="rd-case-tabs" role="tablist" aria-label="Product areas">
-                <button type="button" class="rd-case-tab is-active" role="tab" aria-selected="true" aria-controls="tabpanel-homepage" id="tab-homepage">Homepage</button>
-                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-loan" id="tab-loan">Loan Management</button>
-                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-esign" id="tab-esign">Esign</button>
-            </div>
+            <!-- Feature picker, no tabs — Figma 40000318:4630 ("Journey") folds
+                 what used to be three separate tabs (Homepage / Loan
+                 Management / Esign) into one "New Experiences" panel with a
+                 flat 5-row picker (Figma 40000318:4642), since all five are
+                 screens in the same shipped app rather than three unrelated
+                 product areas. Tabs removed at Hao's request 2026-08-23.
+                 Reuses the same click-to-select interaction the old per-tab
+                 "New Features" / "Reminder states" pickers ran (active row +
+                 cross-fade), just against one row set instead of three, in
+                 the script at the bottom of this file. -->
+            <div class="rd-case-card" style="width:100%;">
+                <div class="rd-case-split is-media">
+                    <div class="rd-case-body rd-case-features-body">
+                        <div>
+                            <h3 class="rd-case-panel-title">New Experiences</h3>
+                            <p>
+                                The three screens above carry the shape of the reframe; the other two
+                                carry its follow-through. Payment lives inside loan management rather
+                                than a destination of its own, and personalization narrows the package
+                                and promotion shown to what that customer is actually eligible for,
+                                instead of the same blast to everyone. All five are the shipped screens,
+                                not mockups — click through them below.
+                            </p>
+                        </div>
 
-            <div class="rd-case-tabpanels" style="width:100%;">
-                <div class="rd-case-tabpanel" id="tabpanel-homepage" role="tabpanel" aria-labelledby="tab-homepage">
-                    <div class="rd-case-card" style="width:100%;">
-                        <div class="rd-case-split is-media">
-                            <div class="rd-case-body">
-                                <div>
-                                    <h3 class="rd-case-label">Homepage</h3>
-                                    <p>
-                                        Gives the top slot, unconditionally, to loans awaiting signature. Offers
-                                        sit below them. This ordering was contested and the commercial case for
-                                        putting promotions first is obvious — it loses to a simpler fact: an
-                                        unsigned loan is revenue already earned and not yet booked.
-                                    </p>
+                        <div>
+                            <h3 class="rd-case-features-label">Experience List</h3>
+                            <!-- Row 1 has no data-image — that's how the picker script (bottom
+                                 of file) knows to show the Marvel iframe instead of swapping the
+                                 <img>'s src. Row 4 (Payment) points at phone_2.png as a stand-in
+                                 (Hao's call, 2026-08-23: "temporary phone_2 - i replace later")
+                                 until it gets its own screenshot. Row 5 (Personalize Package &amp;
+                                 Promotion) uses loan.gif as its stand-in instead (Hao's call,
+                                 2026-08-23) — an animated GIF works here because this is a plain
+                                 <img>, so swapping its src to a .gif needs no script changes. -->
+                            <div class="rd-case-checklist" data-picker="homepage-picker-image" role="tablist" aria-label="Experience list">
+                                <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true">
+                                    <span>01. E-signature</span>
+                                    <span class="rd-case-chip">Interactive Prototype &rarr;</span>
                                 </div>
-
-                                <div>
-                                    <h3 class="rd-case-label">New Features</h3>
-                                    <!-- Click-to-select feature picker — same interaction as
-                                         case-studies/web-3.html's showcase section (loadContent():
-                                         active-state swap + a cross-fade on the displayed image),
-                                         wired up generically (data-picker → its image) in the
-                                         script at the bottom of this file. Every row points at
-                                         the same render today via data-image, since only one
-                                         exists for this project; give a row its own screenshot
-                                         later and the picker uses it automatically. -->
-                                    <div class="rd-case-checklist" data-picker="homepage-picker-image" role="tablist" aria-label="New features">
-                                        <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true" data-image="../public/case-study-framework/homepage-render.png"><span>01. Dynamic Card Display</span></div>
-                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/case-study-framework/homepage-render.png"><span>02. Personalize Package</span></div>
-                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/case-study-framework/homepage-render.png"><span>03. Promotions</span></div>
-                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/case-study-framework/homepage-render.png"><span>04. Authorized Branches</span></div>
-                                    </div>
-                                </div>
+                                <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hd/phone_1.png"><span>02. Dynamic Information Displayed</span></div>
+                                <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hd/phone_2.png"><span>03. Loan Management</span></div>
+                                <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hd/phone_2.png"><span>04. Payment</span></div>
+                                <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hd/loan.gif"><span>05. Personalize Package &amp; Promotion</span></div>
                             </div>
-
-                            <figure class="rd-case-figure">
-                                <img id="homepage-picker-image" src="../public/case-study-framework/homepage-render.png" alt="Homepage render" loading="lazy">
-                            </figure>
                         </div>
                     </div>
-                </div>
 
-                <div class="rd-case-tabpanel" id="tabpanel-loan" role="tabpanel" aria-labelledby="tab-loan" hidden>
-                    <div class="rd-case-card" style="width:100%;">
-                        <div class="rd-case-split is-media">
-                            <div class="rd-case-body">
-                                <div>
-                                    <h3 class="rd-case-label">Loan Management</h3>
-                                    <p>
-                                        One of the most important features of this application — the most
-                                        intuitive way to see loan details, payment amount and payment history,
-                                        with payment options available right there in the loan management area.
-                                    </p>
-                                </div>
-
-                                <div>
-                                    <h3 class="rd-case-label">Reminder states</h3>
-                                    <!-- Same click-to-select picker as the Homepage panel's
-                                         "New Features" list above — each state has its own
-                                         screenshot, so selecting a row swaps the render beside
-                                         it via the shared script at the bottom of this file. -->
-                                    <div class="rd-case-checklist" data-picker="loan-picker-image" role="tablist" aria-label="Reminder states">
-                                        <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true" data-image="../public/hd/remider1.png"><span>4 days before due</span></div>
-                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hd/remider2.png"><span>2 days before due</span></div>
-                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hd/remider3.png"><span>1 day before due</span></div>
-                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hd/remider4.png"><span>Overdue payment</span></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <figure class="rd-case-figure">
-                                <img id="loan-picker-image" src="../public/hd/remider1.png" alt="Reminder state screen" loading="lazy">
-                            </figure>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="rd-case-tabpanel" id="tabpanel-esign" role="tabpanel" aria-labelledby="tab-esign" hidden>
-                    <div class="rd-case-card" style="width:100%;">
-                        <div class="rd-case-split is-media">
-                            <div class="rd-case-body">
-                                <div>
-                                    <h3 class="rd-case-label">Esign</h3>
-                                    <p>
-                                        Click through the signing flow exactly as a customer would — the
-                                        interactive Marvel prototype behind the screens above, wired end to
-                                        end from first loan offer to signed contract.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <figure class="rd-case-figure is-embed">
-                                <iframe src="https://marvelapp.com/prototype/2b45h12g?emb=1&amp;iosapp=false&amp;frameless=false" width="343" height="811" allowtransparency="true" frameborder="0" title="HD Saison signing flow prototype (Marvel)" loading="lazy"></iframe>
-                            </figure>
-                        </div>
-                    </div>
+                    <!-- Carries both the Marvel iframe and the swappable <img> at once,
+                         toggled by the picker script — `is-embed` (see "13. Embedded
+                         prototype panel" in redesign.css) starts applied since row 1
+                         (E-signature) is the default active row. -->
+                    <figure class="rd-case-figure is-embed">
+                        <iframe id="homepage-picker-embed" src="https://marvelapp.com/prototype/2b45h12g?emb=1&amp;iosapp=false&amp;frameless=false" width="343" height="811" allowtransparency="true" frameborder="0" title="HD Saison signing flow prototype (Marvel)" loading="lazy"></iframe>
+                        <img id="homepage-picker-image" src="../public/hd/phone_1.png" alt="HD Saison app screen" loading="lazy" hidden>
+                        <!-- Restarts the Marvel prototype from its first screen — only shown
+                             while the embed is (CSS-gated by .is-embed, "Embedded prototype
+                             panel" in redesign.css). Wired up in the script at the bottom of
+                             this file. -->
+                        <button type="button" id="homepage-picker-embed-reset" class="rd-case-figure-reset" title="Restart the interactive prototype" aria-label="Restart the interactive prototype">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                                <polyline points="1 4 1 10 7 10"></polyline>
+                                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                            </svg>
+                        </button>
+                    </figure>
                 </div>
             </div>
         </div>
@@ -780,11 +847,11 @@
     <!-- ================= It shipped, and then I stopped looking ================= -->
     <section class="rd-case-section is-tinted" id="after">
         <div class="rd-case-inner rd-shell">
-            <h2 class="rd-case-h2">It shipped, and then I stopped looking</h2>
+            <h2 class="rd-case-h2" data-aos="fade-up">It shipped, and then I stopped looking</h2>
 
             <div class="rd-case-wiki">
                 <div class="rd-case-wiki-row">
-                    <div class="rd-case-body">
+                    <div class="rd-case-body" data-aos="fade-up">
                         <p>
                             The app went live on the App Store in May 2022 and has shipped continuously
                             since — v1.1.30 as of May 2026, ranked #36 in Finance in Vietnam
@@ -796,14 +863,18 @@
                         </p>
                         <p>
                             What I cannot tell you is how many people walked through it. The two-hour
-                            approval target was set during discovery; I moved on before the measurement
-                            cycle and never saw the post-launch number. If I had owned it, the first
+                            approval target was set during discovery, and so was the one I cared about
+                            more — a contract error closing in minutes instead of the five to seven days
+                            it took on paper. Both were targets. I moved on before the measurement cycle
+                            and never saw either post-launch number. If I had owned it, the first
                             metric would not have been approval time at all — it would have been the
                             share of applications originated without a branch visit, because that is
                             the only number that tests the argument this whole project was built on.
-                            After that: median approval time against the target, completion rate at the
-                            signing step, and repeat-borrow rate for app users against counter-only
-                            customers.
+                            Correction cycle time would have come second, and it was the easier of the
+                            two to instrument: the old clock was already being measured, because a
+                            salesperson's bonus depended on it. After that: median approval time against
+                            the target, completion rate at the signing step, and repeat-borrow rate for
+                            app users against counter-only customers.
                         </p>
                         <p>
                             The company has grown from 6 million customers across 16,000 service points
@@ -817,9 +888,9 @@
                         </p>
                     </div>
                 </div>
-                <h3 class="rd-case-wiki-title">What I'd do differently</h3>
+                <h3 class="rd-case-wiki-title" data-aos="fade-up">What I'd do differently</h3>
                 <div class="rd-case-wiki-row">
-                    <div class="rd-case-lesson-row">
+                    <div class="rd-case-lesson-row" data-aos="fade-up">
                         <!-- Rewritten 2026-08-21. The three cards used to be the same
                              shape — bold slogan, one tidy sentence, punchline landing —
                              three times over, which is what made them read as generated
@@ -849,9 +920,9 @@
          cards — see the ROUND 2 file-header note. -->
     <section class="rd-case-section is-tinted">
         <div class="rd-case-inner rd-shell">
-            <h2 class="rd-case-h2">Related case studies</h2>
+            <h2 class="rd-case-h2" data-aos="fade-up">Related case studies</h2>
 
-            <div class="rd-related">
+            <div class="rd-related" data-aos="fade-up">
                 <a class="rd-related-card" href="./healthcare.html">
                     <div class="rd-related-media">
                         <img src="../public/hc_cover.webp"
@@ -909,6 +980,8 @@
 </div>
 
 <script src="../js/script.js"></script>
+<script src="../js/hero-entrance.js"></script>
+<script src="../js/reveal.js"></script>
 <script src="../js/ai-chat.js"></script>
 <script src="../js/socialize.js"></script>
 <script src="../js/back-to-top.js"></script>
@@ -970,6 +1043,14 @@
       online: +tr.dataset.online,
       loan: +tr.dataset.loan,
       traffic: +tr.dataset.traffic,
+      /* Strings, not numbers: two are ranges and one is a duration, so none
+         of them divide. An empty attribute means the figure does not exist
+         for that lender and renders as "Not disclosed" — never as 0, and
+         never omitted, because a missing row would let the reader assume
+         the set is complete. */
+      rate: tr.dataset.rate || '',
+      approval: tr.dataset.approval || '',
+      csat: tr.dataset.csat || '',
       blurb: tr.dataset.blurb || '',
       subject: tr.classList.contains('is-subject')
     };
@@ -1022,8 +1103,16 @@
      line instead of two near-identical "estimated from X, 2021" sentences
      on the same section. .rd-market-source is gone from the figure above;
      this is its only citation now. */
+  /* Two sentences now, not one. The first four figures are the 2021 snapshot
+     this section argues from. The last three were added later and are not of
+     the same vintage or the same quality, and the difference is stated rather
+     than folded into one comfortable "estimated from" line — a reader who
+     checks the rate figures will find current filings, and should have been
+     told that here first. */
   foot.innerHTML =
-    '<p class="rd-bench-source">Market share, offline share, maximum loan and web visits estimated from State Bank of Vietnam and FiinGroup figures, annual reports and public traffic data, 2021.</p>';
+    '<p class="rd-bench-source">Market share, offline share, maximum loan and web visits estimated from State Bank of Vietnam and FiinGroup figures, annual reports and public traffic data, 2021. ' +
+    'Published rates are the consumer-lending frameworks disclosed under SBV Circular 18/2019, read at their current filing rather than the 2021 one and normalised to a yearly rate; HD Saison’s is from the company, the other four from loan aggregators. ' +
+    'Decision time is published by HD Saison only. Brand health is Mibrand’s Brand Beat Score, Vietnam Consumer Finance Brand Health Rankings 2025 — 300 respondents in Hanoi and Ho Chi Minh City, December 2025 — which covers three of these five lenders and measures brand strength, not customer satisfaction.</p>';
 
   var stage = mount.querySelector('.rd-bench-stage');
   var pName = insight.querySelector('.rd-bench-panel-name');
@@ -1071,21 +1160,30 @@
     pBlurb.textContent = d.blurb;
     pMains[0].textContent = d.online + '%';
     pMains[1].textContent = d.loan + 'M VND';
-    pMains[2].textContent = traffic(d.traffic);
+    pMains[2].textContent = d.rate || 'Not disclosed';
+    pMains[3].textContent = d.approval || 'Not disclosed';
+    pMains[4].textContent = d.csat || 'Not ranked';
 
     // Item 1: one delta line per metric, relative to HD Saison. Blank on HD
     // Saison's own card — it can't be relative to itself — and the online
     // delta is expressed in points, not a multiple, since HD Saison's 0%
     // baseline makes "x times zero" meaningless.
+    //
+    // Only the first two rows carry a delta, and that is deliberate. A range
+    // does not divide by a range, a duration where four of five values are
+    // missing has nothing to compare against, and a delta on a brand-health
+    // score would dress up a 300-person survey as a measurement. Rows 3-5
+    // are cleared on every fill so no stale delta survives a hover.
     if (d.subject) {
       pDeltas[0].textContent = '';
       pDeltas[1].textContent = '';
-      pDeltas[2].textContent = '';
     } else {
       pDeltas[0].textContent = '+' + d.online + 'pp vs HD Saison';
       pDeltas[1].textContent = relTo(d.loan, subj.loan);
-      pDeltas[2].textContent = relTo(d.traffic, subj.traffic);
     }
+    pDeltas[2].textContent = '';
+    pDeltas[3].textContent = '';
+    pDeltas[4].textContent = '';
 
     // Item 4: rank card. Digital-origination rank is real for all five; the
     // market-share rank only exists for the three lenders MARKET_SHARE_RANK
@@ -1347,43 +1445,29 @@
 }());
 </script>
 
-<!-- Product-area tabs — click a tab button, its panel shows and the other
-     two hide. Same shape as web-3.html's openHastag() (active button +
-     swapped panel), rebuilt small here against .rd-case-tab/.rd-case-tabpanel
-     instead of that page's .hastag-items/.information, which depend on
-     case-retheme-v3.css's legacy colour set. -->
-<script>
-(function () {
-  var tabs = document.querySelectorAll('.rd-case-tab');
-  if (!tabs.length) return;
-
-  function select(tab) {
-    tabs.forEach(function (t) {
-      var active = t === tab;
-      t.classList.toggle('is-active', active);
-      t.setAttribute('aria-selected', active ? 'true' : 'false');
-      document.getElementById(t.getAttribute('aria-controls')).hidden = !active;
-    });
-  }
-
-  tabs.forEach(function (tab) {
-    tab.addEventListener('click', function () { select(tab); });
-  });
-}());
-</script>
-
-<!-- Feature pickers — click a row, the row goes active and the render
-     beside it cross-fades to that row's data-image. Same interaction shape
-     as web-3.html's loadContent() (active state + fade), rebuilt small here
+<!-- Feature picker — click a row, the row goes active and the render beside
+     it cross-fades to that row's data-image. Same interaction shape as
+     web-3.html's loadContent() (active state + fade), rebuilt small here
      since that script's data is Aura-specific. Generic over every
-     `.rd-case-checklist[data-picker]` on the page so the Homepage panel's
-     "New Features" list and the Loan Management panel's "Reminder states"
-     list share one implementation instead of two copies. -->
+     `.rd-case-checklist[data-picker]` on the page — only the "Delighted
+     Features" list uses it now that the product-area tabs are gone
+     (2026-08-23), but this stays generic rather than hard-coded to one
+     picker in case a future section adds another.
+
+     A row with NO data-image (the "01. E-signature" row) means "show the
+     embed instead" — the figure carries both the Marvel iframe and the
+     <img> at once (see the markup above), and this toggles which one is
+     visible plus the figure's `is-embed` class, which switches its CSS
+     between the iframe's centred 40px inset and the image's asymmetric
+     bleed-to-corner inset ("13. Embedded prototype panel" / "6. Figures" in
+     redesign.css). -->
 <script>
 (function () {
   document.querySelectorAll('.rd-case-checklist[data-picker]').forEach(function (picker) {
     var image = document.getElementById(picker.dataset.picker);
     if (!image) return;
+    var figure = image.closest('.rd-case-figure');
+    var embed = figure ? figure.querySelector('iframe') : null;
     var rows = picker.querySelectorAll('.rd-case-checklist-row');
 
     function select(row) {
@@ -1391,8 +1475,20 @@
         r.classList.toggle('is-active', r === row);
         r.setAttribute('aria-selected', r === row ? 'true' : 'false');
       });
+
       var src = row.dataset.image;
-      if (!src || src === image.getAttribute('src')) return;
+
+      if (!src) {
+        if (embed) embed.hidden = false;
+        image.hidden = true;
+        if (figure) figure.classList.add('is-embed');
+        return;
+      }
+
+      if (embed) embed.hidden = true;
+      if (figure) figure.classList.remove('is-embed');
+      image.hidden = false;
+      if (src === image.getAttribute('src')) return;
       image.style.opacity = 0;
       setTimeout(function () {
         image.src = src;
@@ -1405,6 +1501,28 @@
       row.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(row); }
       });
+    });
+  });
+}());
+</script>
+
+<!-- Restarts the Marvel prototype (Hao, 2026-08-23) — clicking through it
+     leaves the embed mid-flow, and there was previously no way back to the
+     start. Reassigning an iframe's src to the SAME cross-origin URL is a
+     no-op in most browsers (nothing about the request looks different from
+     the iframe's point of view), so this forces a real reload by routing
+     through about:blank first. -->
+<script>
+(function () {
+  var btn = document.getElementById('homepage-picker-embed-reset');
+  var iframe = document.getElementById('homepage-picker-embed');
+  if (!btn || !iframe) return;
+  var src = iframe.getAttribute('src');
+
+  btn.addEventListener('click', function () {
+    iframe.src = 'about:blank';
+    requestAnimationFrame(function () {
+      iframe.src = src;
     });
   });
 }());

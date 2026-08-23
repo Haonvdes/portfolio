@@ -36,10 +36,12 @@
   // --------------------------------------------------------------------
   // Reveal the rail only after the reader has scrolled past Overview.
   //
-  // Opt-in: pages on the `.is-hero-overlap` hero want the first view to be
-  // nothing but nav / title / lead / cover, and a rail pinned at the top from
-  // page load is one more thing in that view. Every other case study keeps
-  // its sticky rail, so this block does nothing there.
+  // Opt-in: pages on the `.is-hero-overlap` hero, or the `.is-hero-split`
+  // sub-variant of `.is-hero-glow` (redesign.css §4d) — both fill the first
+  // view with nothing but nav / title / lead / cover (overlap's 60dvh band
+  // plus the cover breaking through it; split's full 100dvh) — want a rail
+  // pinned at the top from page load kept out of that view. Every other
+  // case study keeps its sticky rail, so this block does nothing there.
   //
   // Why a boundingClientRect check and not just `isIntersecting`: Overview
   // stops intersecting at BOTH ends of the page — scrolled past it (rail
@@ -47,7 +49,8 @@
   // (rail must stay hidden). The two are only distinguishable by which side
   // of the viewport the section is on, and `top < 0` is that test.
   // --------------------------------------------------------------------
-  if (!document.body.classList.contains('is-hero-overlap')) return;
+  var body = document.body;
+  if (!body.classList.contains('is-hero-overlap') && !body.classList.contains('is-hero-split')) return;
 
   var overview = document.getElementById('overview');
   if (!overview) return;          // no Overview, no trigger — leave the rail as CSS left it

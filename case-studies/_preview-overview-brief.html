@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="robots" content="noindex">
+    <title>Preview — Overview brief (A/B)</title>
+
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+
+    <!--
+      ==========================================================================
+      REVIEW-ONLY FILE. Created 23 Aug 2026. Nothing in lending-new-v3.html or
+      redesign.css has been touched.
+
+      Version A below is the current #overview block from lending-new-v3.html,
+      copied verbatim (lines 321–449).
+
+      Version B is the proposed replacement:
+        1. Three-line brief replaces problem-statement + pain grid. Adds the
+           missing "what I decided" line; the pain points move into §context,
+           where the narrative can actually evidence them.
+        2. "Business goal" (which was a feature list, not goals) becomes
+           "What shipped" — and correctly shows Remarketing as cut, which the
+           §decision section already says but the overview currently contradicts.
+        3. The blue Outcomes card is gone. Both its numbers were unmeasured
+           and it was the highest-contrast element on the page. The verifiable
+           facts (shipped May 2022, e-signing in production) now carry the
+           outcome line; the 2h figure stays but is labelled as what it is.
+        4. Volume: ~250 words / 10 blocks → ~110 words / 4 blocks.
+
+      All CSS below is preview-scoped (.pv-*) except `.rd-decision.is-brief`,
+      which is one modifier on the component §decision already uses further
+      down the same page. If B is approved, that modifier is the only real
+      addition to redesign.css.
+      ==========================================================================
+    -->
+    <style>
+      /* ---- preview furniture only ---- */
+      body.pv { background: var(--rd-bg, #f2f1ec); }
+      .pv-bar {
+        position: sticky; top: 0; z-index: 50;
+        display: flex; gap: 16px; align-items: baseline;
+        padding: 12px 24px;
+        background: #0b2f47; color: #fff;
+        font-size: 13px; letter-spacing: 0.04em;
+      }
+      .pv-bar strong { text-transform: uppercase; letter-spacing: 0.08em; }
+      .pv-tag {
+        display: block; max-width: 1312px; margin: 0 auto;
+        padding: 40px 24px 0;
+        font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+        font-weight: 600; opacity: 0.55;
+      }
+      .pv-note {
+        max-width: 1312px; margin: 0 auto; padding: 16px 24px 0;
+        font-size: 14px; line-height: 1.6; opacity: 0.7; max-inline-size: 70ch;
+      }
+      .pv-rule { border: 0; border-top: 2px dashed rgba(0,0,0,.18); margin: 64px 0 0; }
+
+      /* ---- the one real candidate rule ---- */
+      .rd-decision.is-brief .rd-decision-row { padding: 24px; }
+      .rd-decision.is-brief .rd-decision-k { padding-top: 4px; }
+      .rd-decision.is-brief .rd-decision-v {
+        font-size: var(--rd-fs-lg, 20px);
+        line-height: 1.5;
+      }
+      @media (max-width: 768px) {
+        .rd-decision.is-brief .rd-decision-row { grid-template-columns: 1fr; gap: 8px; }
+      }
+
+      /* ---- scope strip (B) ---- */
+      .pv-scope { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+      .pv-scope-item {
+        padding: 6px 14px; border: 1px solid var(--rd-border, #666);
+        border-radius: 999px; font-size: 14px; background: #fff;
+      }
+      .pv-scope-item.is-cut {
+        border-style: dashed; opacity: 0.55; text-decoration: line-through;
+        text-decoration-thickness: 1px;
+      }
+    </style>
+</head>
+<body class="rd-case pv">
+
+<div class="pv-bar">
+    <strong>Review preview</strong>
+    <span>Overview block — A (current, verbatim) vs B (proposed). Nothing else modified.</span>
+</div>
+
+<main>
+
+<!-- ══════════════════════════ A — CURRENT ══════════════════════════ -->
+<span class="pv-tag">Version A — currently live on lending-new-v3.html</span>
+<p class="pv-note">
+    ~250 words, 10 blocks. Everything on the fold belongs to the client: their problem,
+    their pain, their brief, their target. Nothing here is your call.
+</p>
+
+<section class="rd-case-section is-tinted">
+    <div class="rd-case-inner rd-shell">
+        <h2 class="rd-case-h2">Overview</h2>
+
+        <div class="rd-case-snapshot">
+            <div><span class="rd-case-meta-k">Role</span><span class="rd-case-meta-v">Product designer</span></div>
+            <div><span class="rd-case-meta-k">Domain</span><span class="rd-case-meta-v">Consumer lending</span></div>
+            <div><span class="rd-case-meta-k">Timeline</span><span class="rd-case-meta-v">June 2021 – 2022</span></div>
+            <div><span class="rd-case-meta-k">Team</span><span class="rd-case-meta-v">12</span></div>
+            <div><span class="rd-case-meta-k">Platform</span><span class="rd-case-meta-v">iOS, Android, Web</span></div>
+            <div><span class="rd-case-meta-k">Status</span><span class="rd-case-meta-v">Shipped</span></div>
+        </div>
+
+        <div class="rd-case-split">
+            <div class="rd-case-body">
+                <div>
+                    <h3 class="rd-case-label is-heading">The problem statement</h3>
+                    <p>HD Saison originated 100% of its loans in-branch — the only lender in its five-company peer set with no digital path at all, in a market growing 23.7% a year (published)</p>
+                </div>
+
+                <hr class="rd-case-split-rule">
+
+                <div>
+                    <h3 class="rd-case-label is-heading">Business pain point</h3>
+                    <div class="rd-case-grid is-four is-numbered">
+                        <div>
+                            <span class="rd-case-num-chip is-pain">1</span>
+                            <h4 class="rd-case-challenge-title">Four-stage approval</h4>
+                            <p class="rd-case-num-desc">Borrowing took 3 to 5 hours across four stages, every one of them in person (client-reported).</p>
+                        </div>
+                        <div>
+                            <span class="rd-case-num-chip is-pain">2</span>
+                            <h4 class="rd-case-challenge-title">Eight signatures</h4>
+                            <p class="rd-case-num-desc">Closing a single loan took eight separate wet-ink signatures (client-reported).</p>
+                        </div>
+                        <div>
+                            <span class="rd-case-num-chip is-pain">3</span>
+                            <h4 class="rd-case-challenge-title">Drop-off at the counter</h4>
+                            <p class="rd-case-num-desc">Borrowers gave up mid-application, and nothing was instrumented to show where.</p>
+                        </div>
+                        <div>
+                            <span class="rd-case-num-chip is-pain">4</span>
+                            <h4 class="rd-case-challenge-title">Falling repeat-borrow rate</h4>
+                            <p class="rd-case-num-desc">The repeat-borrow rate was quietly falling, and nobody could say why.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="rd-case-split-rule">
+
+                <div>
+                    <h3 class="rd-case-label is-heading">Business goal</h3>
+                    <div class="rd-case-grid is-four is-numbered">
+                        <div>
+                            <span class="rd-case-num-chip is-goal">1</span>
+                            <h4 class="rd-case-challenge-title">E-signature</h4>
+                            <p class="rd-case-num-desc">Replace eight wet-ink signatures with one binding electronic one.</p>
+                        </div>
+                        <div>
+                            <span class="rd-case-num-chip is-goal">2</span>
+                            <h4 class="rd-case-challenge-title">Loan Management</h4>
+                            <p class="rd-case-num-desc">One place to see loan balance, payments and due dates.</p>
+                        </div>
+                        <div>
+                            <span class="rd-case-num-chip is-goal">3</span>
+                            <h4 class="rd-case-challenge-title">Payment Integration</h4>
+                            <p class="rd-case-num-desc">Repay a loan without going back to a dealer or branch.</p>
+                        </div>
+                        <div>
+                            <span class="rd-case-num-chip is-goal">4</span>
+                            <h4 class="rd-case-challenge-title">Remarketing System</h4>
+                            <p class="rd-case-num-desc">Re-engage past borrowers for their next loan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="rd-case-highlight">
+                <p class="rd-case-meta-k">Outcomes / Success metric</p>
+                <div class="rd-case-highlight-stat">
+                    <strong>5h → 2h</strong>
+                    <span>Approval time, end to end (target)</span>
+                </div>
+                <div class="rd-case-highlight-stat">
+                    <strong>8 → 1</strong>
+                    <span>Signatures to take out a loan (client-reported)</span>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<hr class="pv-rule">
+
+<!-- ══════════════════════════ B — PROPOSED ══════════════════════════ -->
+<span class="pv-tag">Version B — proposed</span>
+<p class="pv-note">
+    ~110 words, 4 blocks. Same metadata bar. Three lines: their problem, your call, what
+    happened. The four brief items drop below as scope, with Remarketing shown as cut —
+    which is what §decision already says. No blue card: the two numbers it held were a
+    target and a client claim, and it was sitting in the loudest position on the page.
+</p>
+
+<section class="rd-case-section is-tinted">
+    <div class="rd-case-inner rd-shell">
+        <h2 class="rd-case-h2">Overview</h2>
+
+        <div class="rd-case-snapshot">
+            <div><span class="rd-case-meta-k">Role</span><span class="rd-case-meta-v">Product designer</span></div>
+            <div><span class="rd-case-meta-k">Domain</span><span class="rd-case-meta-v">Consumer lending</span></div>
+            <div><span class="rd-case-meta-k">Timeline</span><span class="rd-case-meta-v">June 2021 – 2022</span></div>
+            <div><span class="rd-case-meta-k">Team</span><span class="rd-case-meta-v">12</span></div>
+            <div><span class="rd-case-meta-k">Platform</span><span class="rd-case-meta-v">iOS, Android, Web</span></div>
+            <div><span class="rd-case-meta-k">Status</span><span class="rd-case-meta-v">Shipped</span></div>
+        </div>
+
+        <div class="rd-decision is-brief" style="width:100%;">
+            <div class="rd-decision-row">
+                <p class="rd-decision-k">The problem</p>
+                <div class="rd-decision-v">
+                    <p>HD Saison originated 100% of its loans in-branch — four in-person stages, eight wet-ink signatures, three to five hours per loan — and it was the only lender in its five-company peer set with no digital path at all.</p>
+                </div>
+            </div>
+
+            <div class="rd-decision-row">
+                <p class="rd-decision-k">What I decided</p>
+                <div class="rd-decision-v">
+                    <p>I reordered the client's four equal-weight goals to put electronic signing first, because nothing downstream removes a branch visit that exists to collect eight signatures — and killed remarketing outright.</p>
+                </div>
+            </div>
+
+            <div class="rd-decision-row">
+                <p class="rd-decision-k">What changed</p>
+                <div class="rd-decision-v">
+                    <p>The app shipped in May 2022 and electronic signing is in HD Saison's production flow today; approval time was targeted at two hours, down from five, and I left before anyone measured it.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="rd-case-body" style="max-width:none; width:100%;">
+            <div>
+                <h3 class="rd-case-label is-heading">What we built</h3>
+                <div class="pv-scope">
+                    <span class="pv-scope-item">Electronic signing</span>
+                    <span class="pv-scope-item">Loan management</span>
+                    <span class="pv-scope-item">Payment integration</span>
+                    <span class="pv-scope-item is-cut">Remarketing</span>
+                    <span style="font-size:14px; opacity:.6;">— cut, and why is further down</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="pv-rule">
+
+<!-- ══════════════════════════ B2 — VARIANT ══════════════════════════ -->
+<span class="pv-tag">Version B2 — same three lines, evidence kept as a card</span>
+<p class="pv-note">
+    If you want to keep a stat card, this is the version I'd keep it in: demoted to the
+    right of the brief, leading with the fact that survives scrutiny, with the target
+    below it rather than above.
+</p>
+
+<section class="rd-case-section is-tinted">
+    <div class="rd-case-inner rd-shell">
+        <h2 class="rd-case-h2">Overview</h2>
+
+        <div class="rd-case-snapshot">
+            <div><span class="rd-case-meta-k">Role</span><span class="rd-case-meta-v">Product designer</span></div>
+            <div><span class="rd-case-meta-k">Domain</span><span class="rd-case-meta-v">Consumer lending</span></div>
+            <div><span class="rd-case-meta-k">Timeline</span><span class="rd-case-meta-v">June 2021 – 2022</span></div>
+            <div><span class="rd-case-meta-k">Team</span><span class="rd-case-meta-v">12</span></div>
+            <div><span class="rd-case-meta-k">Platform</span><span class="rd-case-meta-v">iOS, Android, Web</span></div>
+            <div><span class="rd-case-meta-k">Status</span><span class="rd-case-meta-v">Shipped</span></div>
+        </div>
+
+        <div class="rd-case-split">
+            <div class="rd-case-body" style="max-width:none;">
+                <div class="rd-decision is-brief" style="width:100%;">
+                    <div class="rd-decision-row">
+                        <p class="rd-decision-k">The problem</p>
+                        <div class="rd-decision-v">
+                            <p>HD Saison originated 100% of its loans in-branch — four in-person stages, eight wet-ink signatures, three to five hours per loan.</p>
+                        </div>
+                    </div>
+                    <div class="rd-decision-row">
+                        <p class="rd-decision-k">What I decided</p>
+                        <div class="rd-decision-v">
+                            <p>I put electronic signing first, ahead of the three other goals the client had weighted equally — and killed remarketing outright.</p>
+                        </div>
+                    </div>
+                    <div class="rd-decision-row">
+                        <p class="rd-decision-k">What changed</p>
+                        <div class="rd-decision-v">
+                            <p>It shipped in May 2022 and is still in production; I left before the approval-time target was measured.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top:24px;">
+                    <h3 class="rd-case-label is-heading">What we built</h3>
+                    <div class="pv-scope" style="margin-top:12px;">
+                        <span class="pv-scope-item">Electronic signing</span>
+                        <span class="pv-scope-item">Loan management</span>
+                        <span class="pv-scope-item">Payment integration</span>
+                        <span class="pv-scope-item is-cut">Remarketing</span>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="rd-case-highlight">
+                <p class="rd-case-meta-k">Evidence</p>
+                <div class="rd-case-highlight-stat">
+                    <strong>May 2022</strong>
+                    <span>Shipped; v1.1.30 as of May 2026, #36 in Finance in Vietnam (published)</span>
+                </div>
+                <div class="rd-case-highlight-stat">
+                    <strong>8 → 1</strong>
+                    <span>Signatures to take out a loan (client-reported)</span>
+                </div>
+                <div class="rd-case-highlight-stat">
+                    <strong>5h → 2h</strong>
+                    <span>Approval time — the target set in discovery, never measured by me</span>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<div style="height:120px;"></div>
+
+</main>
+</body>
+</html>

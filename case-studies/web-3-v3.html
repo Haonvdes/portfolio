@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+<head>
+    <meta charset="UTF-8">
+    <!-- No maximum-scale / user-scalable=no: blocking pinch-zoom fails WCAG 1.4.4. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.png">
+    <title>Holding six products together through a platform change | Case Study — Stephano Ng</title>
+
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+    <link rel="stylesheet" href="../css/styles/back-to-top.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7VM3QDKCYW');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PF5XGDGK');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta property="og:title" content="Holding six products together through a platform change | Stephano Ng">
+    <meta property="og:description" content="Lead product designer for a Layer 1 blockchain: running the design function across six surfaces, and defining products with four engineering groups while the platform changed underneath them.">
+    <meta property="og:image" content="../public/ar_casecover.webp">
+    <meta property="og:type" content="article">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+</head>
+<body class="rd-case is-hero-glow" style="--rd-hero-glow: #f2c98e;">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!--
+  ============================================================================
+  WEB-3 — case study, v3 shell, scaffolded 2026-08-23, filled 2026-08-23.
+
+  Scaffolded via scripts/new-case-study.js from templates/case-study-v3.template.html
+  (which mirrors the shell customer-engagement-v3.html / healthcare-v3.html /
+  marketing-platform-v3.html all share; both files were later removed from the
+  repo by Hao). This file is a DRAFT, same convention as those three: it sits
+  alongside the live web-3.html and does not replace it until someone renames
+  it over that slug — see js/script.js's data-case-study routing.
+
+  CONTENT SOURCE. NOT web-3.html's copy. The live page tells the old,
+  corrected story — hands-on execution claims and platform decisions Hao did
+  not actually make. web-3-v5.html is the corrected narrative (Hao fixed the
+  overclaiming on 2026-08-09: his role was lead product DESIGN — running the
+  design function — not hands-on execution or platform decision-making), so
+  every section here is drawn from v5, restructured onto this shell rather
+  than rewritten. Two of v5's nine sections were merged into one §discovery
+  here (§4 "Discovery" + §6 "Defining products across teams" — both are
+  discovery-shaped once the platform trade-off is pulled into its own
+  §decision). The decision block's "What I chose" row is relabelled "What I
+  argued for" — v5 exists specifically to stop this page claiming Hao made
+  the platform call himself; the founders did.
+
+  Screens: sh_01/03/05.png (SeekHype marketplace) are the only product
+  screens in public/ tied to this case — team output under Hao's direction,
+  captioned as such. NOT the same three files v5 picked (sh_02/05/06):
+  those three, opened directly, turned out not to match v5's own captions
+  ("browse view" on an auction-settlement screen, "confirmation" on a
+  promotional campaign card) — sh_01/03/05 were chosen and captioned by what
+  is actually on screen instead.
+
+  Related-case picks were pulled from case-studies/_registry.json (also since
+  removed) at scaffold time: customer-engagement, healthcare, lending.
+  ============================================================================
+-->
+
+<header class="rd-case-hero">
+    <div id="nav-placeholder"></div>
+
+    <div class="rd-case-hero-inner rd-shell">
+        <h1 class="rd-case-title animate__animated animate__fadeIn">Holding six products together through a platform change</h1>
+        <p class="rd-case-lead animate__animated animate__fadeIn">
+            Aura Network ran six product surfaces with a ten-person team. Partway through, the chain itself changed underneath all of them — from a permissioned NFT app-chain to a general-purpose, EVM-compatible Layer 1. I led the design function through that, and my job was not to draw the screens. It was to make sure six products still felt like one company, and that four groups of engineers agreed what they were building.
+        </p>
+
+        <figure class="rd-case-cover">
+            <img src="../public/ar_casecover.webp" alt="Aura Network — a Layer 1 blockchain for enterprise, entertainment and government">
+        </figure>
+    </div>
+</header>
+
+<nav class="rd-case-toc" aria-label="Sections">
+    <div class="rd-case-toc-inner rd-shell">
+        <a href="#overview"><span class="n">01</span>Overview</a>
+        <a href="#context"><span class="n">02</span>What I owned</a>
+        <a href="#discovery"><span class="n">03</span>Discovery</a>
+        <a href="#decision"><span class="n">04</span>The decision</a>
+        <a href="#screens"><span class="n">05</span>The screens</a>
+        <a href="#after"><span class="n">06</span>Shipped</a>
+    </div>
+</nav>
+
+<main>
+    <!-- ================= Overview ================= -->
+    <section class="rd-case-section is-tinted" id="overview">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Overview</h2>
+
+            <div class="rd-case-snapshot">
+                <div>
+                    <span class="rd-case-meta-k">Role</span>
+                    <span class="rd-case-meta-v">Lead product design — running the design function and product definition</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Domain</span>
+                    <span class="rd-case-meta-v">Web3 infrastructure — Layer 1 blockchain</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Timeline</span>
+                    <span class="rd-case-meta-v">Jul 2022 – Jun 2024 (23 months)</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Team</span>
+                    <span class="rd-case-meta-v">10 — design lead, designers, protocol and application engineers</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Platform</span>
+                    <span class="rd-case-meta-v">Six surfaces — explorer, multisig, indexer, marketplace, swap, bot</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Status</span>
+                    <span class="rd-case-meta-v">Shipped</span>
+                </div>
+            </div>
+
+            <!-- No highlight aside here on purpose: the network-scale numbers
+                 (transactions, contracts, active addresses) are real but are
+                 explicitly NOT Hao's result — v5's own framing insists on that
+                 caveat every time they appear — so they run in §after next to
+                 that caveat instead of as an achievement tile at the top of
+                 the page. -->
+            <div class="rd-case-body">
+                <div>
+                    <h3 class="rd-case-label is-heading">The problem</h3>
+                    <p>Six product surfaces, ten people, and no shared definition of what any of them were. Each surface was being specified by whichever engineer picked it up, and the design team was being consumed answering questions that should have been settled once.</p>
+                </div>
+
+                <div>
+                    <h3 class="rd-case-label is-heading">What I did</h3>
+                    <p>Built the design function as an operating model rather than a service desk: one shared system, a written definition process with named accountabilities, and an explicit capacity allocation across the six surfaces.</p>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>When the platform changed underneath every surface in 2024, the re-plumbing was affordable. Aura shipped EVM compatibility in May 2024, and the ecosystem now reports 20+ dApps and 14.5M+ deployed contracts <span class="rd-tag">public · cumulative, measured after my exit</span>.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= What I owned, and what I didn't =================
+         The distinctive block on this page: an explicit decision-rights
+         breakdown, volunteered rather than implied. Ported from
+         web-3-v5.html §2 near-verbatim — that file's own comment calls this
+         "the closest thing on the page to real evidence" for an operational
+         design-lead role, and the one thing every later claim on this page
+         depends on being credible. -->
+    <section class="rd-case-section is-tinted" id="context">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">What I owned, and what I didn't</h2>
+
+            <div class="rd-case-body">
+                <p>Design leadership at a ten-person company is mostly a question of authority, so it is worth being exact about mine before anything else. Nothing below this line is a claim I can't answer questions about.</p>
+            </div>
+
+            <div class="rd-case-grid">
+                <div class="rd-case-card">
+                    <h3>I owned</h3>
+                    <p>The design function: standards, the shared system, review, hiring and onboarding into the team, and — the one with real teeth — where design capacity went each cycle across six surfaces.</p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>I drove, jointly</h3>
+                    <p>Product definition. What each surface was for, what it would and wouldn't do, and what "done" meant — worked out with engineering leads and the founders rather than handed down to them.</p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>I framed, others decided</h3>
+                    <p>The platform calls. The EVM transition and the address-model trade-off were founder decisions. My contribution was making the options and their real costs legible enough that the decision could be made properly. See §04.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Discovery =================
+         Two of web-3-v5.html's sections merged here rather than split across
+         two TOC slots — §4 "Discovery" (who the users were) and §6 "Defining
+         products across teams" (how cross-team ambiguity actually got
+         resolved) are both discovery-shaped material once the platform-
+         migration trade-off (§7) is pulled out into its own §decision below. -->
+    <section class="rd-case-section is-tinted" id="discovery">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Six inconsistent surfaces read as six small companies</h2>
+
+            <div class="rd-case-body">
+                <p>Engineers were making product decisions by default, because nobody had made them on purpose. The same questions — what happens in an empty state, how is an address displayed, what does a pending transaction look like — were being re-answered on every surface, differently each time.</p>
+            </div>
+
+            <figure class="rd-case-figure">
+                <img src="../public/ar_casecover.webp" alt="Aura Network — a Layer 1 blockchain for enterprise, entertainment and government" loading="lazy">
+                <figcaption>Aura at the start of my tenure: a permissioned chain built for NFTs, six surfaces, and no shared definition of what any of them were.</figcaption>
+            </figure>
+
+            <div class="rd-case-card">
+                <h3>Who the users actually were</h3>
+                <div class="rd-case-grid">
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-challenge-title">Internal users — the teams</h3>
+                        <p>The same design questions were being re-answered on every surface, differently each time, because nobody had settled them once.</p>
+                    </div>
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-challenge-title">External users — the developers</h3>
+                        <p>Aura's actual customers were builders, not consumers. The objection was never "we don't want to build on Aura" — it was "we'd have to rewrite."</p>
+                    </div>
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-challenge-title">Business insight</h3>
+                        <p>Six inconsistent surfaces read as six small companies rather than one platform — a credibility problem when the pipeline is enterprise and government.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>The harder half of the job was not inside the design team. Six surfaces were being built by different groups of engineers, and the expensive failures were never technical — they were two teams confidently building to two different understandings of the same feature.</p>
+            </div>
+
+            <div class="rd-case-card">
+                <h3>How cross-team ambiguity got resolved</h3>
+                <div class="rd-case-grid is-two">
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-challenge-title">Definition before estimation</h3>
+                        <p>Nothing entered a sprint until what it was for, who it was for and what it would not do were written down and agreed. Most arguments I mediated turned out to be definition problems wearing an engineering costume.</p>
+                    </div>
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-challenge-title">Named accountabilities</h3>
+                        <p>A written accountability map per surface — who decides, who is consulted, who is merely informed. At ten people this sounds like overhead until a decision has to be made without the founders in the room.</p>
+                    </div>
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-challenge-title">Communication as a designed artifact</h3>
+                        <p>Which decisions get written down, where they live, and how a team that missed the conversation catches up. Distributed contributors make this the difference between a decision and a rumour.</p>
+                    </div>
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-challenge-title">Translation, constantly</h3>
+                        <p>Carrying one intent between three vocabularies — protocol engineers, application engineers, and founders selling to enterprises. Same decision, three descriptions, no drift between them.</p>
+                    </div>
+                </div>
+            </div>
+
+            <figure class="rd-case-figure">
+                <img src="../public/ar_communication.png" alt="Communication plan and accountability map for the Aura Network product team" loading="lazy">
+                <figcaption>The communication plan and accountability map. Unglamorous, and the reason the platform trade-off in §04 could be argued out in weeks rather than months.</figcaption>
+            </figure>
+
+            <div class="rd-case-body">
+                <h3 class="rd-case-label is-heading">The four questions, answered in writing</h3>
+                <ol class="rd-case-list">
+                    <li><strong>Who are the users, and what problem do they have?</strong> Internal engineering teams, who were making product decisions by default because nobody had made them on purpose, and external developers, whose objection was never "we don't want to build on Aura" — it was "we'd have to rewrite."</li>
+                    <li><strong>Why now?</strong> A platform migration was already visible on the horizon — from a permissioned, NFT-focused chain to a permissionless, EVM-compatible Layer 1 — and every surface that had solved a shared problem privately would have to be revisited once the shared answer changed.</li>
+                    <li><strong>What would tell us it worked?</strong> Expert usability inspection against the live surfaces, plus dogfooding by our own integrators — proportionate for enhancements to shipped products. Moderated testing was held back for genuinely new flows.</li>
+                    <li><strong>Is it feasible?</strong> Yes, in the sense that mattered: the platform trade-off had three real options with their costs stated plainly, and the one argued for — running both address environments with conversion deferred — is what the founders chose and shipped in May 2024.</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= The decision =================
+         Ported near-verbatim from web-3-v5.html §7. The "What I chose" row is
+         relabelled honestly below: this was the founders' call, not mine — v5
+         exists specifically to correct v4's claim that Hao made platform
+         decisions himself, so this row says "what I argued for" instead. -->
+    <section class="rd-case-section is-tinted" id="decision">
+        <div class="rd-case-inner rd-shell">
+            <div style="max-width: 684px; text-align: center;">
+                <h2 class="rd-case-h2">Framing the platform trade-off</h2>
+                <div class="rd-case-body" style="margin-top:24px;">
+                    <p>In 2024 Aura moved from a permissioned CosmWasm chain built for NFTs to a permissionless, general-purpose, EVM-compatible L1. That call was the founders'. What I owned was making it a decision rather than a drift.</p>
+                </div>
+            </div>
+
+            <div class="rd-decision" style="width:100%;">
+                <div class="rd-decision-row">
+                    <p class="rd-decision-k">Options</p>
+                    <div class="rd-decision-v rd-option-set">
+                        <div class="rd-option is-killed">
+                            <span class="rd-option-id">A</span>
+                            <p><span class="rd-option-label">Stay permissioned.</span> Remain an NFT-focused chain and bet on a contracting segment.</p>
+                        </div>
+                        <div class="rd-option is-killed">
+                            <span class="rd-option-id">B</span>
+                            <p><span class="rd-option-label">Migrate fully.</span> Break every live dApp and deployed address in the process.</p>
+                        </div>
+                        <div class="rd-option is-chosen">
+                            <span class="rd-option-id">C</span>
+                            <p><span class="rd-option-label">Run both, in parallel.</span> Separate address zones for the old and new chains, with conversion between them and full unification deferred.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rd-decision-row">
+                    <p class="rd-decision-k">Criteria</p>
+                    <div class="rd-decision-v">
+                        <p>Ethereum and Cosmos derive addresses, and count decimals, differently — one account cannot be both, and unifying them was outside the release window. Which option kept every live dApp and deployed address intact? Which fit inside that window? And which cost could be named and designed for, rather than discovered later?</p>
+                    </div>
+                </div>
+
+                <div class="rd-decision-row">
+                    <p class="rd-decision-k">What I argued for</p>
+                    <div class="rd-decision-v">
+                        <p><strong>C, the parallel-zones option</strong> — and I said plainly what it cost: every user would end up with two addresses and no way to use just one. I would rather ship a defect we had named than one we discovered later. The founders made the call; my job was making the trade-off, and its cost, visible to everyone in the room beforehand.</p>
+                    </div>
+                </div>
+
+                <div class="rd-decision-row">
+                    <p class="rd-decision-k">What it cost</p>
+                    <div class="rd-decision-v">
+                        <p>The founders chose the third option, and it shipped in May 2024, documented in the release notes and put to an on-chain governance vote. It also cost my own team directly: the NFT-first consumer surfaces we had been investing design capacity in came off the plan. Redirecting that capacity, and telling the designers who had built it why, was mine to do.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= The screens =================
+         sh_01–sh_07 (SeekHype marketplace) are the only product screens in
+         public/ — team output under Hao's direction, captioned as such per
+         web-3-v5.html §5. The system that produced them (one shared system,
+         capacity allocated not requested, two operating modes) is the intro
+         copy; the three tabs are the same three moments v5's screen gallery
+         picked out. -->
+    <section class="rd-case-section is-tinted" id="screens">
+        <div class="rd-case-inner rd-shell" style="align-items:center;">
+            <div style="max-width: 684px; text-align: center;">
+                <h2 class="rd-case-h2">One system, built once</h2>
+                <div class="rd-case-body" style="margin-top:24px;">
+                    <p>
+                        Six surfaces and a handful of designers means the arithmetic never works. A
+                        shared type scale, colour and spacing set, and the components every blockchain
+                        surface repeats — address display, transaction rows, status badges, empty and
+                        pending states, wallet-connect — solve most of a Web3 product once. Below is
+                        that system at work on SeekHype, the Aura marketplace, under my direction.
+                    </p>
+                </div>
+            </div>
+
+            <div class="rd-case-tabs" role="tablist" aria-label="SeekHype marketplace screens">
+                <button type="button" class="rd-case-tab is-active" role="tab" aria-selected="true" aria-controls="tabpanel-1" id="tab-1">Collection browse</button>
+                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-2" id="tab-2">Ownership state</button>
+                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-3" id="tab-3">Wallet connect</button>
+            </div>
+
+            <div class="rd-case-tabpanels" style="width:100%;">
+                <div class="rd-case-tabpanel" id="tabpanel-1" role="tabpanel" aria-labelledby="tab-1">
+                    <div class="rd-case-card" style="width:100%;">
+                        <div class="rd-case-split is-media">
+                            <div class="rd-case-body">
+                                <div>
+                                    <h3>Collection browse</h3>
+                                    <p>Floor price, volume and owner count above a live mint/sale activity feed, using the shared transaction-row component.</p>
+                                </div>
+                            </div>
+                            <figure class="rd-case-figure">
+                                <img src="../public/sh_03.png" alt="SeekHype collection page for Azuki: floor price, total volume, owner and item counts, and a live mint/sale activity feed" loading="lazy">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rd-case-tabpanel" id="tabpanel-2" role="tabpanel" aria-labelledby="tab-2" hidden>
+                    <div class="rd-case-card" style="width:100%;">
+                        <div class="rd-case-split is-media">
+                            <div class="rd-case-body">
+                                <div>
+                                    <h3>Ownership state</h3>
+                                    <p>Creator, current owner and full bid history on a single item, using the shared address and badge components rather than its own.</p>
+                                </div>
+                            </div>
+                            <figure class="rd-case-figure">
+                                <img src="../public/sh_01.png" alt="SeekHype item detail for Azuki #8021: creator, owner, highest bid, and bid history with auction settlement" loading="lazy">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rd-case-tabpanel" id="tabpanel-3" role="tabpanel" aria-labelledby="tab-3" hidden>
+                    <div class="rd-case-card" style="width:100%;">
+                        <div class="rd-case-split is-media">
+                            <div class="rd-case-body">
+                                <div>
+                                    <h3>Wallet connect</h3>
+                                    <p>One of the five shared components named at the start of this section — solved once here, and reused on every surface that needs a wallet.</p>
+                                </div>
+                            </div>
+                            <figure class="rd-case-figure">
+                                <img src="../public/sh_05.png" alt="SeekHype wallet-connect screen listing Coin98, Keplr, Leap and Leap Cosmos MetaMask, plus email and Google sign-in" loading="lazy">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Shipped ================= -->
+    <section class="rd-case-section is-tinted" id="after">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Shipped, not measured by me</h2>
+
+            <div class="rd-case-body">
+                <p>Aura EVM went live 23 May 2024; I left on 5 June 2024, before any adoption cycle. What I would have tracked for the design function: rework hours per release, and the share of surface-level questions answered by the system instead of by a designer.</p>
+            </div>
+
+            <!-- Network totals, explicitly not Hao's result — the caveat is in
+                 every card, not just above the grid, matching v5's own rule
+                 that it has to appear at least once inside it. -->
+            <div class="rd-case-grid">
+                <div class="rd-case-card">
+                    <h3>1.5B+ transactions</h3>
+                    <p>Network total <span class="rd-tag">public</span>. Not my result.</p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>14.5M+ contracts deployed</h3>
+                    <p>Network total <span class="rd-tag">public</span>, across the ecosystem.</p>
+                </div>
+                <div class="rd-case-card">
+                    <h3>141,000+ active addresses</h3>
+                    <p>Unique, across 20+ dApps <span class="rd-tag">public</span>.</p>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p>The strategic bet resolved after I left, and in favour of the direction. Aura took strategic investment from FPT Corporation in <strong>February 2025</strong>, repositioned as "the RWA chain for enterprise, entertainment and government" that same month, and signed a blockchain agreement with the Government of Sierra Leone days later — all eight or more months after my exit, and none of them mine.</p>
+            </div>
+
+            <div class="rd-case-wiki">
+                <h3 class="rd-case-wiki-title">What I'd do differently</h3>
+                <div class="rd-case-wiki-row">
+                    <div class="rd-case-lesson-row">
+                        <div class="rd-case-lesson"><strong>Baseline before you build.</strong> I built the design system and the definition process and never measured either. I can describe what they prevented but can't prove it, because I never baselined rework or cycle time first — the wrong thing to be missing when the whole argument for design operations is a cost argument.</div>
+                        <div class="rd-case-lesson"><strong>Escalate positioning problems earlier.</strong> Our own surfaces were being used for ordinary contract activity while we kept describing ourselves as an NFT chain, and that was visible in what my team was asked to design well before it reached a founder conversation. I should have framed that a year earlier.</div>
+                        <div class="rd-case-lesson"><strong>Naming the boundary held.</strong> Being explicit about decision rights from the start — I owned the system, not the roadmap — is what let every claim on this page survive being questioned.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Related case studies =================
+         Auto-filled by scripts/new-case-study.js from case-studies/_registry.json. -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Related case studies</h2>
+
+            <div class="rd-related">
+                <a class="rd-related-card" href="./customer-engagement.html">
+                    <div class="rd-related-media">
+                        <img src="../public/ce_cover.webp"
+                             alt="Customer visit management case study cover — the redesigned trip overview" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Internal enterprise tooling</p>
+                        <h3 class="rd-related-title">Cutting four roles to keep one release</h3>
+                        <p class="rd-related-desc">A visit-management tool carried thirty-six usability defects and a five-role proposal in a three-and-a-half-month build. Cutting four roles out of Phase 1 is what got one of them shipped.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+
+                <a class="rd-related-card" href="./healthcare.html">
+                    <div class="rd-related-media">
+                        <img src="../public/hc_cover.webp"
+                             alt="Role-by-feature product map for the speaker-bureau platform" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Healthcare &amp; life sciences</p>
+                        <h3 class="rd-related-title">Seventeen roles, one release</h3>
+                        <p class="rd-related-desc">Pharma speaker programs ran on email, spreadsheets and a legacy portal. They became one multi-tenant platform where a rep, a compliance monitor and an accountant work the same program record.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+
+                <a class="rd-related-card" href="./lending.html">
+                    <div class="rd-related-media">
+                        <img src="../public/UC_lending.png"
+                             alt="HD Saison consumer lending case study cover" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Consumer lending</p>
+                        <h3 class="rd-related-title">Getting consumer lending off the counter</h3>
+                        <p class="rd-related-desc">Vietnam's third-largest consumer lender originated every loan at a counter. A four-goal client brief became one problem, and the app that built a second door.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<button type="button" class="rd-to-top" aria-label="Back to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+       stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <line x1="12" y1="20" x2="12" y2="5"></line>
+    <polyline points="5 12 12 5 19 12"></polyline>
+  </svg>
+</button>
+
+<div class="rd-closing">
+<footer id="footer-placeholder"></footer>
+</div>
+
+<script src="../js/script.js"></script>
+<script src="../js/hero-entrance.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/socialize.js"></script>
+<script src="../js/back-to-top.js"></script>
+
+<script src="../js/case-toc.js"></script>
+
+<!-- Product-area tabs — click a tab button, its panel shows and the other
+     two hide. Generic over .rd-case-tab / .rd-case-tabpanel; returns early
+     when the page has no tabs. -->
+<script>
+(function () {
+  var tabs = document.querySelectorAll('.rd-case-tab');
+  if (!tabs.length) return;
+
+  function select(tab) {
+    tabs.forEach(function (t) {
+      var active = t === tab;
+      t.classList.toggle('is-active', active);
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !active;
+    });
+  }
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () { select(tab); });
+  });
+}());
+</script>
+
+<!-- Feature pickers — click a row, the row goes active and the render beside
+     it cross-fades to that row's data-image. Generic over every
+     .rd-case-checklist[data-picker] on the page. -->
+<script>
+(function () {
+  document.querySelectorAll('.rd-case-checklist[data-picker]').forEach(function (picker) {
+    var image = document.getElementById(picker.dataset.picker);
+    if (!image) return;
+    var rows = picker.querySelectorAll('.rd-case-checklist-row');
+
+    function select(row) {
+      rows.forEach(function (r) {
+        r.classList.toggle('is-active', r === row);
+        r.setAttribute('aria-selected', r === row ? 'true' : 'false');
+      });
+      var src = row.dataset.image;
+      if (!src || src === image.getAttribute('src')) return;
+      image.style.opacity = 0;
+      setTimeout(function () {
+        image.src = src;
+        image.style.opacity = 1;
+      }, 150);
+    }
+
+    rows.forEach(function (row) {
+      row.addEventListener('click', function () { select(row); });
+      row.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(row); }
+      });
+    });
+  });
+}());
+</script>
+
+</body>
+</html>

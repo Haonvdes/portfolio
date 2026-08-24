@@ -3367,6 +3367,185 @@ ol.rd-case-list > li { list-style-type: decimal; }
 .rd-option.is-killed p { opacity: 0.72; }
 .rd-option-label { font-weight: var(--rd-fw-emphasis); }
 
+/* -------------------------------------- 2b. Sequencing pyramid (§built) ----
+   lending-new-v3.html only. Replaced the `.rd-decision` option set above on
+   2026-08-24 — that block is still live on lending-new.html and
+   lending-new-v2.html, so nothing above this comment may be deleted.
+
+   Two things here are load-bearing and easy to break:
+
+   1. THE TRIANGLE IS ONE ELEMENT, NOT THREE. `.rd-seq-pyr` carries the whole
+      silhouette in a single clip-path and the three tiers inside it are plain
+      rectangles the clip cuts through. The first attempt clipped each tier
+      separately, which needs the slope to be re-derived per band; the apex
+      band's numbers were wrong and the sides visibly kinked where the bands
+      met. With one clip there is only one pair of edges, so it cannot kink.
+      `aspect-ratio: 2 / 1.7320508` is the equilateral ratio (height =
+      base x sqrt(3)/2) — measured 60.00 degrees at the apex. Changing the
+      width changes the size, never the shape.
+
+   2. THE CARDS TAKE THEIR HEIGHT FROM THE TRIANGLE. `.rd-seq-rows` sits in the
+      same grid row as the pyramid and stretches to it; its cards are `flex: 1`
+      so they divide that height evenly and the stack ends level with the
+      triangle's base. `.rd-seq-cap` is deliberately in row 2 so the caption is
+      NOT counted in that height.
+      CONSEQUENCE FOR COPY: each card's `.rd-seq-why` must fit in about two
+      lines. A third line pushes the cards past the triangle and the alignment
+      is gone. Shorten the copy rather than adding height here.
+
+   The tier ramp is --rd-primary at three lightnesses, darkest at the base, so
+   the foundation reads as the solid one. Only tier 1 takes inverse text; the
+   two lighter tiers stay on ink and both clear AA at these values. */
+#built {
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+.rd-seq {
+  display: grid;
+  grid-template-columns: minmax(320px, 520px) 1fr;
+  column-gap: 40px;
+  align-items: stretch;
+  width: 100%;
+}
+.rd-seq-pyr-cell { grid-column: 1; grid-row: 1; }
+.rd-seq-pyr {
+  width: 100%;
+  aspect-ratio: 2 / 1.7320508;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  display: flex;
+  flex-direction: column;
+}
+.rd-seq-slice {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter 0.25s ease;
+}
+/* The divider is a border in the section's own background colour, not a gap —
+   a gap would let the page show through and read as three separate shapes. */
+.rd-seq-slice + .rd-seq-slice { border-top: 3px solid var(--rd-surface); }
+.rd-seq-slice[data-tier="3"] {
+  background: #dbe9f1;
+  color: var(--rd-ink);
+  align-items: flex-end;
+  padding-bottom: 14px;
+}
+.rd-seq-slice[data-tier="2"] { background: #7fb2cc; color: var(--rd-ink); }
+.rd-seq-slice[data-tier="1"] { background: var(--rd-primary); color: var(--rd-ink-inverse); }
+.rd-seq-name {
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-emphasis);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.rd-seq-cap {
+  grid-column: 1;
+  grid-row: 2;
+  margin: 20px 0 0;
+  font-size: var(--rd-fs-sm);
+  line-height: var(--rd-lh-tight);
+  color: var(--rd-ink-muted);
+  text-align: center;
+}
+.rd-seq-rows {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+.rd-seq-row {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 24px 28px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-line);
+  border-radius: 14px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.rd-seq-text { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.rd-seq-title {
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-heading);
+  line-height: var(--rd-lh-heading);
+}
+.rd-seq-why {
+  margin: 0;
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink-muted);
+}
+.rd-seq-phase {
+  margin-left: auto;
+  flex: none;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-left: 24px;
+  border-left: 1px solid var(--rd-line);
+  min-width: 96px;
+  transition: border-color 0.25s ease;
+}
+.rd-seq-phase span {
+  font-size: var(--rd-fs-xs);
+  font-weight: var(--rd-fw-emphasis);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rd-ink-muted);
+}
+.rd-seq-phase b {
+  font-size: var(--rd-fs-3xl);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: 1;
+  color: #c9cfd2;
+  transition: color 0.25s ease;
+}
+
+/* `.is-on` is set by the inline pairing script at the foot of
+   lending-new-v3.html — hovering either half lights both. The triangle is one
+   element, so the two halves are not siblings and CSS alone cannot reach
+   across. Everything the section says is readable without any of this. */
+.rd-seq-row:hover,
+.rd-seq-row.is-on {
+  border-color: var(--rd-primary);
+  box-shadow: var(--rd-shadow-card);
+}
+.rd-seq-row:hover .rd-seq-phase,
+.rd-seq-row.is-on .rd-seq-phase { border-color: var(--rd-primary); }
+.rd-seq-row:hover .rd-seq-phase b,
+.rd-seq-row.is-on .rd-seq-phase b { color: var(--rd-primary); }
+.rd-seq-slice.is-on { filter: saturate(1.3) brightness(0.96); }
+
+/* SIDE BY SIDE IS A WIDE-SCREEN LAYOUT — 1400px, deliberately above the site's
+   1180 restack. The two columns are locked together: the triangle needs about
+   520px to be tall enough for three 2-line cards, and those cards then need
+   about 690px of their own before the copy wraps to a third line. Below
+   ~1400px of viewport one of the two has to give, and a third line is what
+   breaks the alignment this section is built on. So the whole thing stacks
+   instead: triangle on top at its own size, cards below at natural height.
+   Measured, do not lower this number without re-measuring — at 1280px the
+   card column is 592px and every card gains a line. */
+@media (max-width: 1399px) {
+  .rd-seq { grid-template-columns: 1fr; row-gap: 0; }
+  .rd-seq-pyr-cell { grid-column: 1; grid-row: 1; }
+  .rd-seq-cap { grid-column: 1; grid-row: 2; margin-bottom: 32px; }
+  /* `height: auto` + `flex: none` matter: with no pyramid in the row to set a
+     height, cards left on `flex: 1` have nothing to divide and collapse. */
+  .rd-seq-rows { grid-column: 1; grid-row: 3; height: auto; }
+  .rd-seq-row { flex: none; }
+  .rd-seq-pyr { max-width: 420px; margin-inline: auto; }
+}
+
+
 /* -------------------------------------------------- 3. Sticky section TOC -
    NOTE — this is a horizontal rail, not the left-hand column first sketched
    in the plan. A left rail needs ~1,870px of viewport before it clears the
@@ -3782,6 +3961,12 @@ ol.rd-case-list > li { list-style-type: decimal; }
                           reaching for a z-index on every child */
   min-height: auto;
   overflow: hidden;
+  /* The base model's padding-bottom (clamp(24px,3.6vh,64px), above) exists to
+     keep the whole hero inside one 100dvh first view — this variant abandons
+     that on purpose (the cover runs past the fold to invite scrolling), so
+     the padding was just trailing space under the cover with no job left to
+     do. Hao, 2026-08-23: cut it. */
+  padding-bottom: 0;
 }
 .is-hero-glow .rd-case-hero::before {
   content: "";
@@ -3920,7 +4105,6 @@ ol.rd-case-list > li { list-style-type: decimal; }
   width: 100%;
   height: 100%;
   max-width: none;
-  object-fit: cover;
   /* No tinted drop shadow on this variant (Hao's call, 2026-08-23) — the
      split cover fills a hard-edged column rather than floating free like the
      default layout's tilted card, so the shadow just read as a smudge along
@@ -3940,15 +4124,17 @@ ol.rd-case-list > li { list-style-type: decimal; }
   }
 }
 
-/* `.is-hero-split` fills the first view with the hero alone (100dvh, same
-   goal as `.is-hero-overlap` above), so it gets the same rail treatment:
+/* `.is-hero-glow` gets the same rail treatment as `.is-hero-overlap` above:
    fixed and translated out of view until js/case-toc.js adds `.is-visible`
-   once Overview has been scrolled past. Scoped to the shared `.is-hero-split`
-   class rather than `.is-hero-glow.is-hero-split` so any future hero variant
-   that opts into the split arrangement gets this for free — case-toc.js's
-   reveal logic already checks for `.is-hero-split` generically, not just the
-   glow pairing. */
-.is-hero-split .rd-case-toc {
+   once Overview has been scrolled past. Scoped to the shared `.is-hero-glow`
+   class, not just its `.is-hero-split` sub-variant (Hao, 2026-08-23: the
+   stacked layout's rail was appearing at first paint too) — every glow hero
+   deliberately runs its cover past the fold to invite the scroll, and a rail
+   sitting over that on load fights the same "nothing but the hero" first
+   view `.is-hero-overlap` was written to protect. case-toc.js's reveal logic
+   checks for `.is-hero-glow` generically, so both the stacked and split
+   layouts pick this up for free. */
+.is-hero-glow .rd-case-toc {
   position: fixed;
   top: 0;
   left: 0;
@@ -3958,11 +4144,11 @@ ol.rd-case-list > li { list-style-type: decimal; }
   transition: transform 0.25s ease;
   will-change: transform;
 }
-.is-hero-split .rd-case-toc.is-visible { transform: none; }
+.is-hero-glow .rd-case-toc.is-visible { transform: none; }
 @media (prefers-reduced-motion: reduce) {
-  .is-hero-split .rd-case-toc { transition: none; }
+  .is-hero-glow .rd-case-toc { transition: none; }
 }
-.is-hero-split .rd-case-section { scroll-margin-top: 56px; }
+.is-hero-glow .rd-case-section { scroll-margin-top: 56px; }
 
 /* ------------------------------------------------ 5. Figure variants ------
    The audit that triggered these: lending.html carries 37 images against 852
@@ -4072,6 +4258,12 @@ ol.rd-case-list > li { list-style-type: decimal; }
   width: auto;
   max-width: none;
   height: auto;
+  /* `width: auto` shrink-wraps the image, so anything narrower than the
+     scroll frame (no is-tall/is-wide class) would otherwise hug the left
+     edge instead of sitting centered like every other figure's image. No
+     effect once the image is wider than the frame — the overflow just eats
+     the auto margin on both sides equally. */
+  margin-inline: auto;
   border: 0;
   border-radius: 0;
 }
@@ -4260,10 +4452,30 @@ ol.rd-case-list > li { list-style-type: decimal; }
      column is ~896px, so a third of it is 283px — narrower than the mobile
      card gets on a phone. Two tracks, and the cards go back to ~436px. */
   .rd-related { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
 }
 
 @media (max-width: 768px) {
   .rd-decision-row { grid-template-columns: 1fr; gap: 8px; padding: 16px; }
+  /* The phase marker stops being a right-hand column and becomes a small
+     eyebrow above the title — there is no room beside 14 words of copy. */
+  .rd-seq-row { flex-wrap: wrap; gap: 18px; padding: 24px; }
+  .rd-seq-phase {
+    margin: 0;
+    padding: 0;
+    border-left: 0;
+    min-width: 0;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 10px;
+    order: -1;
+    align-self: auto;
+  }
+  .rd-seq-phase b { font-size: var(--rd-fs-xl); }
+  .rd-seq-name { font-size: var(--rd-fs-sm); }
+  /* At 390px the 420px cap lets the triangle run the full content width and it
+     starts to dominate the section. 300px keeps it as an illustration. */
+  .rd-seq-pyr { max-width: 300px; }
   .rd-case-figure.is-pair { grid-template-columns: 1fr; }
   .rd-case-toc { display: none; }
   .rd-case-toc-inner { padding-inline: 16px; }
@@ -4745,6 +4957,12 @@ ol.rd-case-list > li { list-style-type: decimal; }
   display: block; width: 92px; height: 22px;
   object-fit: contain; object-position: left center;
 }
+/* lending-new-v3.html only — the rank card + INSIGHT rebuild above freed up
+   height in this panel, so the logo can run bigger than the 22px box
+   case-study-framework.html still uses. Width scales with it to keep the
+   box's aspect ratio, since object-fit:contain centers within whatever box
+   it's given. */
+.rd-bench.is-v3 .rd-bench-panel-logo { width: 132px; height: 32px; }
 /* No min-height (removed 2026-08-20, Hao's call on the right-hand card) —
    the card now sizes to whichever blurb is showing instead of reserving
    room for the longest one in the set, so the strip and metrics below it
@@ -4821,6 +5039,63 @@ ol.rd-case-list > li { list-style-type: decimal; }
    "Each dot = 2% of loans" (in the markup) and given bold+uppercase to read
    as a key/legend line rather than a sentence. */
 .rd-bench.is-figma .rd-bench-strip-cap { font-weight: 700; text-transform: uppercase; }
+/* ------------------------------------------------------------------
+   .rd-aud — the audience rows chart on lending-new-v3.html #research.
+
+   Deliberately NOT a new chart language. It reuses .rd-bench-rows-track,
+   .rd-bench-rows-bar, .rd-bench-axis, .rd-bench-tick and .rd-bench-axis-label
+   from the lender chart directly above it on the page, so a reader who has
+   just learned to read that chart reads this one for free. The only things
+   added here are a text label in the left gutter (the lender chart puts a
+   logo there) and the .is-lead accent for the row its caption argues about,
+   which borrows the lender chart's "subject is drawn in ink, everything else
+   in primary" convention rather than introducing a colour.
+
+   Static SVG, not script-drawn: three fixed values from one published survey.
+   The lender chart is script-drawn because it has two views and a linked
+   INSIGHT card; this has neither, and a build step it does not need would be
+   one more thing to keep in sync.
+   ------------------------------------------------------------------ */
+.rd-aud { margin: 32px 0 0; padding: 0; }
+.rd-aud-svg { display: block; width: 100%; height: auto; }
+.rd-aud-rowlabel { font-family: var(--rd-font); font-size: 15px; font-weight: 500; fill: var(--rd-ink); }
+.rd-aud-val { font-family: var(--rd-font); font-size: 15px; font-weight: 600; fill: var(--rd-ink); }
+.rd-aud-row.is-lead .rd-aud-rowlabel { font-weight: 700; }
+.rd-aud-row.is-lead .rd-bench-rows-bar { fill: var(--rd-ink); }
+.rd-aud-source { margin: 12px 0 0; color: var(--rd-ink-muted); font-size: var(--rd-fs-xs); line-height: 1.6; }
+
+/* The "Who borrows" view. The only tab in this card that is not a chart, and
+   deliberately so: its four facts sit on four different measures (an age band,
+   an occupation mix, a product list, a growth rate) with no shared axis, so
+   drawing them as bars would invent a comparability that does not exist.
+   A panel that looks unlike the other three tabs is the honest signal that it
+   is answering a different kind of question.
+
+   Centred in the stage rather than top-aligned, so the card keeps the same
+   optical weight as the charts it switches with. */
+.rd-aud-facts {
+  display: flex; flex-direction: column; justify-content: center;
+  height: 100%; min-height: 260px; margin: 0; padding: 4px 0;
+}
+.rd-aud-facts-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px 32px; margin: 0;
+}
+@media (max-width: 700px) { .rd-aud-facts-grid { grid-template-columns: 1fr; gap: 18px; } }
+.rd-aud-fact dt {
+  margin: 0 0 6px; color: var(--rd-ink-muted);
+  font-size: var(--rd-fs-xs); font-weight: 600;
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.rd-aud-fact dd {
+  margin: 0; color: var(--rd-ink);
+  font-size: var(--rd-fs-lg); font-weight: 600; line-height: 1.3;
+}
+.rd-aud-fact dd .rd-aud-fact-note {
+  display: block; margin-top: 6px;
+  font-size: var(--rd-fs-sm); font-weight: 400; line-height: 1.55;
+  color: var(--rd-ink-muted);
+}
+
 .rd-bench-metric { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 7px 0; border-top: 1px solid rgba(10, 42, 48, .10); font-size: var(--rd-fs-sm); }
 .rd-bench-metric dt { color: var(--rd-ink-muted); margin: 0; }
 .rd-bench-metric dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--rd-ink); }

@@ -36,12 +36,14 @@
   // --------------------------------------------------------------------
   // Reveal the rail only after the reader has scrolled past Overview.
   //
-  // Opt-in: pages on the `.is-hero-overlap` hero, or the `.is-hero-split`
-  // sub-variant of `.is-hero-glow` (redesign.css §4d) — both fill the first
-  // view with nothing but nav / title / lead / cover (overlap's 60dvh band
-  // plus the cover breaking through it; split's full 100dvh) — want a rail
-  // pinned at the top from page load kept out of that view. Every other
-  // case study keeps its sticky rail, so this block does nothing there.
+  // Opt-in: pages on the `.is-hero-overlap` hero, or any `.is-hero-glow`
+  // hero (redesign.css §4d, both its stacked and `.is-hero-split`
+  // sub-variant) — all three fill the first view with the hero's own
+  // content (cover breaking through overlap's 60dvh band, split's full
+  // 100dvh, or the stacked layout's cover deliberately running past the
+  // fold) — want a rail pinned at the top from page load kept out of that
+  // view. Every other case study keeps its sticky rail, so this block does
+  // nothing there.
   //
   // Why a boundingClientRect check and not just `isIntersecting`: Overview
   // stops intersecting at BOTH ends of the page — scrolled past it (rail
@@ -50,7 +52,7 @@
   // of the viewport the section is on, and `top < 0` is that test.
   // --------------------------------------------------------------------
   var body = document.body;
-  if (!body.classList.contains('is-hero-overlap') && !body.classList.contains('is-hero-split')) return;
+  if (!body.classList.contains('is-hero-overlap') && !body.classList.contains('is-hero-glow')) return;
 
   var overview = document.getElementById('overview');
   if (!overview) return;          // no Overview, no trigger — leave the rail as CSS left it

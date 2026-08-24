@@ -32,7 +32,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 </head>
-<body class="rd-case is-hero-overlap">
+<body class="rd-case is-hero-glow" style="--rd-hero-glow: #8fd0b8;">
 
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
@@ -61,10 +61,15 @@
   healthcare.html is untouched.
 
   WHAT THE V3 SHELL CHANGED:
-    - `<body class="rd-case is-hero-overlap">`, and the cover moved OUT of
-      .rd-case-hero-inner into §01. `.is-hero-overlap .rd-case-cover` and
-      `.is-hero-overlap #overview{padding-top:0}` are what pull it up under the
-      hero; move the cover back into the header and the overlap stops working.
+    - `<body class="rd-case is-hero-glow" style="--rd-hero-glow: #8fd0b8;">`.
+      Swapped from the overlap hero (Hao, 2026-08-23, applied across the v3
+      set alongside customer-engagement-v3): the glow variant keeps title,
+      lead and `.rd-case-cover` as three direct children of
+      `.rd-case-hero-inner` — the cover lives INSIDE the header again, not in
+      §01 — so a pastel radial glow sits behind the hero and the cover image
+      gets sketch.com's 3D tilt-in entrance (js/hero-entrance.js, see the
+      `.is-hero-glow` block in redesign.css). Do NOT re-add `.is-hero-overlap`:
+      the two variants fight over where `.rd-case-cover` lives.
     - The eyebrow ("Case study · Healthcare & life sciences") is gone — v3's
       hero is title + lead only, and Domain is already the second snapshot row.
       NOTE: the sector label still reads "Healthcare & life sciences" on the
@@ -139,6 +144,10 @@
             platform where a rep, a compliance monitor and an accountant work the same program
             record, and the story of how a 496-story backlog became one shippable release.
         </p>
+
+        <figure class="rd-case-cover">
+            <img src="../public/hc_cover.webp" alt="Speaker-bureau platform case study cover">
+        </figure>
     </div>
 </header>
 
@@ -157,10 +166,6 @@
     <!-- ================= Overview ================= -->
     <section class="rd-case-section is-tinted" id="overview">
         <div class="rd-case-inner rd-shell">
-            <div class="rd-case-cover" data-aos="fade-up">
-                <img src="../public/hc_cover.webp" alt="Speaker-bureau platform case study cover">
-            </div>
-
             <h2 class="rd-case-h2">Overview</h2>
 
             <!-- FIVE rows. Team is omitted rather than left reading
@@ -756,6 +761,7 @@
 </div>
 
 <script src="../js/script.js"></script>
+<script src="../js/hero-entrance.js"></script>
 <script src="../js/ai-chat.js"></script>
 <script src="../js/socialize.js"></script>
 <script src="../js/back-to-top.js"></script>

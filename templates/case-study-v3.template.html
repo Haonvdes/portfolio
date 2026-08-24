@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+<head>
+    <meta charset="UTF-8">
+    <!-- No maximum-scale / user-scalable=no: blocking pinch-zoom fails WCAG 1.4.4. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.png">
+    <title>{{TITLE}} | Case Study — Stephano Ng</title>
+
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+    <link rel="stylesheet" href="../css/styles/back-to-top.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7VM3QDKCYW');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PF5XGDGK');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta property="og:title" content="{{TITLE}} | Stephano Ng">
+    <meta property="og:description" content="{{OG_DESC}}">
+    <meta property="og:image" content="{{COVER_SRC}}">
+    <meta property="og:type" content="article">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+</head>
+<body class="rd-case {{HERO_BODY_CLASS}}"{{HERO_STYLE_ATTR}}>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!--
+  ============================================================================
+  {{SLUG}} — case study, v3 shell, scaffolded {{DATE}} via
+  scripts/new-case-study.js from templates/case-study-v3.template.html.
+
+  This file is a DRAFT: it sits alongside the live case-studies/{{SLUG}}.html
+  (if one exists) and does not replace it until you rename it over that slug
+  — see js/script.js's data-case-study routing.
+
+  Hero/fade-in wiring below (body classes, --rd-hero-glow, animate__fadeIn on
+  the title/lead, the .rd-case-cover reveal, the script include block, the
+  tab/picker scripts at the bottom) is already fully wired by the generator —
+  do not hand-edit it unless you're changing the hero variant. What needs
+  filling in is every <!-- TODO --> in <main>: the Overview snapshot, the
+  four narrative sections, and 2-3 real entries in "Related case studies"
+  (copy the .rd-related-card markup from any existing case-studies/*.html).
+  ============================================================================
+-->
+
+<header class="rd-case-hero">
+    <div id="nav-placeholder"></div>
+
+    <div class="rd-case-hero-inner rd-shell">
+        <h1 class="rd-case-title animate__animated animate__fadeIn">{{TITLE}}</h1>
+        <p class="rd-case-lead animate__animated animate__fadeIn">
+            {{LEAD}}
+        </p>
+
+        <figure class="rd-case-cover">
+            <img src="{{COVER_SRC}}" alt="{{COVER_ALT}}">
+        </figure>
+    </div>
+</header>
+
+<nav class="rd-case-toc" aria-label="Sections">
+    <div class="rd-case-toc-inner rd-shell">
+        <a href="#overview"><span class="n">01</span>Overview</a>
+        <a href="#context"><span class="n">02</span>{{SECTION2_LABEL}}</a>
+        <a href="#discovery"><span class="n">03</span>Discovery</a>
+        <a href="#decision"><span class="n">04</span>The decision</a>
+        <a href="#{{SECTION5_ID}}"><span class="n">05</span>{{SECTION5_LABEL}}</a>
+        <a href="#after"><span class="n">06</span>{{SECTION6_LABEL}}</a>
+    </div>
+</nav>
+
+<main>
+    <!-- ================= Overview ================= -->
+    <section class="rd-case-section is-tinted" id="overview">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Overview</h2>
+
+            <div class="rd-case-snapshot">
+                <div>
+                    <span class="rd-case-meta-k">Role</span>
+                    <span class="rd-case-meta-v"><!-- TODO --></span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Domain</span>
+                    <span class="rd-case-meta-v"><!-- TODO --></span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Timeline</span>
+                    <span class="rd-case-meta-v"><!-- TODO --></span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Team</span>
+                    <span class="rd-case-meta-v"><!-- TODO --></span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Platform</span>
+                    <span class="rd-case-meta-v"><!-- TODO --></span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Status</span>
+                    <span class="rd-case-meta-v"><!-- TODO --></span>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p><!-- TODO: overview narrative --></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= {{SECTION2_LABEL}} ================= -->
+    <section class="rd-case-section is-tinted" id="context">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2"><!-- TODO --></h2>
+            <div class="rd-case-body">
+                <p><!-- TODO --></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Discovery ================= -->
+    <section class="rd-case-section is-tinted" id="discovery">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Discovery</h2>
+            <div class="rd-case-body">
+                <p><!-- TODO --></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= The decision ================= -->
+    <section class="rd-case-section is-tinted" id="decision">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">The decision</h2>
+            <div class="rd-case-body">
+                <p><!-- TODO --></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= {{SECTION5_LABEL}} ================= -->
+    <section class="rd-case-section is-tinted" id="{{SECTION5_ID}}">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2"><!-- TODO --></h2>
+            <div class="rd-case-body">
+                <p><!-- TODO --></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= {{SECTION6_LABEL}} ================= -->
+    <section class="rd-case-section is-tinted" id="after">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2"><!-- TODO --></h2>
+            <div class="rd-case-body">
+                <p><!-- TODO --></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Related case studies =================
+         TODO: replace with 2-3 real .rd-related-card entries — copy the
+         markup from any existing case-studies/*-v3.html. -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Related case studies</h2>
+
+            <div class="rd-related">
+                <!-- TODO: rd-related-card entries -->
+            </div>
+        </div>
+    </section>
+</main>
+
+<button type="button" class="rd-to-top" aria-label="Back to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+       stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <line x1="12" y1="20" x2="12" y2="5"></line>
+    <polyline points="5 12 12 5 19 12"></polyline>
+  </svg>
+</button>
+
+<div class="rd-closing">
+<footer id="footer-placeholder"></footer>
+</div>
+
+<script src="../js/script.js"></script>
+<script src="../js/hero-entrance.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/socialize.js"></script>
+<script src="../js/back-to-top.js"></script>
+
+<script src="../js/case-toc.js"></script>
+
+<!-- Product-area tabs — click a tab button, its panel shows and the other
+     two hide. Generic over .rd-case-tab / .rd-case-tabpanel; returns early
+     when the page has no tabs. -->
+<script>
+(function () {
+  var tabs = document.querySelectorAll('.rd-case-tab');
+  if (!tabs.length) return;
+
+  function select(tab) {
+    tabs.forEach(function (t) {
+      var active = t === tab;
+      t.classList.toggle('is-active', active);
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !active;
+    });
+  }
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () { select(tab); });
+  });
+}());
+</script>
+
+<!-- Feature pickers — click a row, the row goes active and the render beside
+     it cross-fades to that row's data-image. Generic over every
+     .rd-case-checklist[data-picker] on the page. -->
+<script>
+(function () {
+  document.querySelectorAll('.rd-case-checklist[data-picker]').forEach(function (picker) {
+    var image = document.getElementById(picker.dataset.picker);
+    if (!image) return;
+    var rows = picker.querySelectorAll('.rd-case-checklist-row');
+
+    function select(row) {
+      rows.forEach(function (r) {
+        r.classList.toggle('is-active', r === row);
+        r.setAttribute('aria-selected', r === row ? 'true' : 'false');
+      });
+      var src = row.dataset.image;
+      if (!src || src === image.getAttribute('src')) return;
+      image.style.opacity = 0;
+      setTimeout(function () {
+        image.src = src;
+        image.style.opacity = 1;
+      }, 150);
+    }
+
+    rows.forEach(function (row) {
+      row.addEventListener('click', function () { select(row); });
+      row.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(row); }
+      });
+    });
+  });
+}());
+</script>
+
+</body>
+</html>

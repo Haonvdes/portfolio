@@ -576,7 +576,7 @@
                  separate name line — see fill() in the script below. -->
             <figure class="rd-bench is-figma is-v3" data-bench data-aos="fade-up">
                 <div class="rd-case-split is-chart is-reverse">
-                    <div class="rd-case-card">
+                    <div class="rd-case-card rd-bench-panel-scroll">
                         <div class="rd-bench-mount"></div>
 
                         <table class="rd-benchmark">
@@ -633,7 +633,7 @@
                     </div>
 
                     <div class="rd-case-card-stack">
-                        <div class="rd-case-card" data-bench-insight aria-live="polite">
+                        <div class="rd-case-card rd-bench-panel-scroll" data-bench-insight aria-live="polite">
                             <h3 class="rd-bench-panel-name">HD Saison</h3>
                             <div class="rd-bench-rankcard" data-bench-rank>
                                 <div class="rd-bench-rank-block">
@@ -646,7 +646,7 @@
                                     <span class="rd-bench-rank-label">Total Market Share</span>
                                 </div>
                             </div>
-                            <p class="rd-bench-insight-label">INSIGHT</p>
+                            <p class="rd-case-label is-heading">INSIGHT</p>
                             <p class="rd-bench-panel-blurb">The third-largest lender in the country. Every loan began at a counter, which made walking in the only way in.</p>
                             <div class="rd-bench-strip" aria-hidden="true"></div>
                             <dl style="margin:0">
@@ -1642,66 +1642,14 @@
 }());
 </script>
 
-<!-- Feature picker — click a row, the row goes active and the render beside
-     it cross-fades to that row's data-image. Same interaction shape as
-     web-3.html's loadContent() (active state + fade), rebuilt small here
-     since that script's data is Aura-specific. Generic over every
-     `.rd-case-checklist[data-picker]` on the page — only the "Delighted
-     Features" list uses it now that the product-area tabs are gone
-     (2026-08-23), but this stays generic rather than hard-coded to one
-     picker in case a future section adds another.
-
-     A row with NO data-image (the "01. E-signature" row) means "show the
-     embed instead" — the figure carries both the Marvel iframe and the
-     <img> at once (see the markup above), and this toggles which one is
-     visible plus the figure's `is-embed` class, which switches its CSS
-     between the iframe's centred 40px inset and the image's asymmetric
-     bleed-to-corner inset ("13. Embedded prototype panel" / "6. Figures" in
-     redesign.css). -->
-<script>
-(function () {
-  document.querySelectorAll('.rd-case-checklist[data-picker]').forEach(function (picker) {
-    var image = document.getElementById(picker.dataset.picker);
-    if (!image) return;
-    var figure = image.closest('.rd-case-figure');
-    var embed = figure ? figure.querySelector('iframe') : null;
-    var rows = picker.querySelectorAll('.rd-case-checklist-row');
-
-    function select(row) {
-      rows.forEach(function (r) {
-        r.classList.toggle('is-active', r === row);
-        r.setAttribute('aria-selected', r === row ? 'true' : 'false');
-      });
-
-      var src = row.dataset.image;
-
-      if (!src) {
-        if (embed) embed.hidden = false;
-        image.hidden = true;
-        if (figure) figure.classList.add('is-embed');
-        return;
-      }
-
-      if (embed) embed.hidden = true;
-      if (figure) figure.classList.remove('is-embed');
-      image.hidden = false;
-      if (src === image.getAttribute('src')) return;
-      image.style.opacity = 0;
-      setTimeout(function () {
-        image.src = src;
-        image.style.opacity = 1;
-      }, 150);
-    }
-
-    rows.forEach(function (row) {
-      row.addEventListener('click', function () { select(row); });
-      row.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(row); }
-      });
-    });
-  });
-}());
-</script>
+<!-- Shared component, js/case-picker.js and js/case-tabs.js: see the header
+     comment on each file. Both used to be duplicated inline per case study
+     (this file's picker was embed-aware; customer-engagement-v3.html's and
+     the template's were a plainer copy that had drifted from it) — one file
+     each now, included the same way across every case study and the
+     template, so a future fix reaches all of them at once. -->
+<script src="../js/case-tabs.js"></script>
+<script src="../js/case-picker.js"></script>
 
 <!-- Restarts the Marvel prototype (Hao, 2026-08-23) — clicking through it
      leaves the embed mid-flow, and there was previously no way back to the

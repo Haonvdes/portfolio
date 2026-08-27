@@ -54,6 +54,9 @@ the user to re-find nodes that are already documented:
 | About | Professional Activities | `40000079:7055` |
 | About | closing CTA + footer | `40000113:8484` |
 | Case Study Framework | root | `40000221:3462` |
+| Case Study — Customer Engagement v3 | root | `40000252:4705` |
+| Case Study — Customer Engagement v3 | §05 Findings, right panel (per pill) | `40000390:6101` |
+| Case Study — Customer Engagement v3 | §07 Screens, "Three numbers carried the case" stat row | `40000391:6102` |
 
 If the user gives a link/node not on this list, use it — then add it to this
 table and to the relevant source comment (the file header in `redesign.css`
@@ -77,9 +80,15 @@ Before calling any Figma tool:
   any component-scoped custom properties near the rule you're about to touch.
 - Grep the relevant section of the target page for existing markup/classes
   covering the area in question, so you know what already exists structurally.
-- Write yourself a short inventory of what token(s) plausibly already cover
-  the thing you're about to pull from Figma. This is what step 3 checks
-  against.
+- Grep `templates/nav.html`, `templates/footer.html`, and the *other two*
+  source-of-truth pages for a component that already implements the same
+  pattern you're about to build (a card, CTA block, stat row, pill list,
+  etc.) — components get reused across the homepage/about/case-study-framework
+  trio and shouldn't be re-implemented in parallel just because Figma shows
+  them per-page.
+- Write yourself a short inventory of what token(s) and what shared
+  component(s) plausibly already cover the thing you're about to pull from
+  Figma. This is what step 3 checks against.
 
 ### 2. Pull from Figma
 
@@ -126,6 +135,16 @@ style when a token already exists for it — this is the same rule as the
 `figma_tokens_over_literal_values` memory. Figma governs layout/structure/
 assets; existing tokens govern color/type/spacing whenever a token already
 covers the value.
+
+The same rule applies one level up, at the component level: if the step-1
+grep found a shared component (in `templates/` or on one of the other two
+source-of-truth pages) that already implements the pattern Figma is showing,
+reuse that component's markup/classes instead of hand-rolling a parallel copy
+— extend it if this instance genuinely differs, but don't duplicate structure
+that already exists just because Figma renders it as a standalone frame.
+Treat "no shared component found" the same as "no token found": confirm with
+a repo-wide grep before concluding it's genuinely new, not just absent from
+the one page you were looking at.
 
 Present the whole comparison table (existing token vs. Figma value vs.
 verdict) before writing any implementation code, especially for the

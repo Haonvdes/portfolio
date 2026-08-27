@@ -155,11 +155,54 @@
     </section>
 
     <!-- ================= {{SECTION5_LABEL}} ================= -->
+    <!-- "Three screens carried the reframe" pattern, originated in
+         lending-new-v3.html and since hand-ported as-is (only copy and
+         image paths change) into customer-engagement-v3.html,
+         healthcare-v3.html and marketing-platform-v3.html — this is that
+         pattern made a first-class part of the scaffold instead of
+         something each new case study copies from whichever sibling file
+         happens to have it. Fill in: the h2/lead, the panel title +
+         description, the picker label, and each checklist row's label +
+         data-image (add or remove rows freely — the picker script at the
+         foot of this file is generic over row count and over how many
+         `.rd-case-checklist[data-picker]` sections exist on the page). The
+         img id and the picker's data-picker attribute are pre-wired to
+         {{SECTION5_ID}} so they stay unique automatically; if this page
+         ends up with a second picker section, give that one its own
+         distinct prefix instead of reusing {{SECTION5_ID}}.
+         For a prototype embed (e.g. a Marvel/Figma interactive link on one
+         row instead of a static screenshot), see the `is-embed` / iframe
+         variant in lending-new-v3.html's #homepage section — not
+         reproduced here since most case studies only need static images. -->
     <section class="rd-case-section is-tinted" id="{{SECTION5_ID}}">
         <div class="rd-case-inner rd-shell">
             <h2 class="rd-case-h2"><!-- TODO --></h2>
             <div class="rd-case-body">
-                <p><!-- TODO --></p>
+                <p><!-- TODO: one short paragraph on what the screens below show and why --></p>
+            </div>
+
+            <div class="rd-case-card" style="width:100%;">
+                <div class="rd-case-split is-media">
+                    <div class="rd-case-body">
+                        <div>
+                            <h3>TODO — panel title</h3>
+                            <p><!-- TODO: panel description --></p>
+                        </div>
+
+                        <div>
+                            <h3 class="rd-case-label">TODO — picker label</h3>
+                            <div class="rd-case-checklist" data-picker="{{SECTION5_ID}}-picker-image" role="tablist" aria-label="TODO — picker aria-label">
+                                <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true" data-image="TODO — image path"><span>TODO — row 1 label</span></div>
+                                <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="TODO — image path"><span>TODO — row 2 label</span></div>
+                                <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="TODO — image path"><span>TODO — row 3 label</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <figure class="rd-case-figure">
+                        <img id="{{SECTION5_ID}}-picker-image" src="TODO — same path as row 1's data-image" alt="TODO — describe this screen" loading="lazy">
+                    </figure>
+                </div>
             </div>
         </div>
     </section>
@@ -209,62 +252,18 @@
 
 <script src="../js/case-toc.js"></script>
 
-<!-- Product-area tabs — click a tab button, its panel shows and the other
-     two hide. Generic over .rd-case-tab / .rd-case-tabpanel; returns early
-     when the page has no tabs. -->
-<script>
-(function () {
-  var tabs = document.querySelectorAll('.rd-case-tab');
-  if (!tabs.length) return;
-
-  function select(tab) {
-    tabs.forEach(function (t) {
-      var active = t === tab;
-      t.classList.toggle('is-active', active);
-      t.setAttribute('aria-selected', active ? 'true' : 'false');
-      document.getElementById(t.getAttribute('aria-controls')).hidden = !active;
-    });
-  }
-
-  tabs.forEach(function (tab) {
-    tab.addEventListener('click', function () { select(tab); });
-  });
-}());
-</script>
-
-<!-- Feature pickers — click a row, the row goes active and the render beside
-     it cross-fades to that row's data-image. Generic over every
-     .rd-case-checklist[data-picker] on the page. -->
-<script>
-(function () {
-  document.querySelectorAll('.rd-case-checklist[data-picker]').forEach(function (picker) {
-    var image = document.getElementById(picker.dataset.picker);
-    if (!image) return;
-    var rows = picker.querySelectorAll('.rd-case-checklist-row');
-
-    function select(row) {
-      rows.forEach(function (r) {
-        r.classList.toggle('is-active', r === row);
-        r.setAttribute('aria-selected', r === row ? 'true' : 'false');
-      });
-      var src = row.dataset.image;
-      if (!src || src === image.getAttribute('src')) return;
-      image.style.opacity = 0;
-      setTimeout(function () {
-        image.src = src;
-        image.style.opacity = 1;
-      }, 150);
-    }
-
-    rows.forEach(function (row) {
-      row.addEventListener('click', function () { select(row); });
-      row.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(row); }
-      });
-    });
-  });
-}());
-</script>
+<!-- Shared components: js/case-tabs.js wires .rd-case-tabs/.rd-case-tab and
+     .rd-tabs/.rd-tab groups (scoped per group — do not go back to a bare
+     `document.querySelectorAll('.rd-case-tab')`; that unscoped version was
+     this template's own script until 2026-08-25 and cross-wires two tab
+     groups on the same page the moment a case study grows a second one, a
+     bug customer-engagement-v3.html hit first). js/case-picker.js wires
+     every `.rd-case-checklist[data-picker]` on the page, including the
+     §{{SECTION5_ID}} picker above. Both are real shared files, included
+     the same way on every v3 case study, specifically so a fix landed on
+     one page reaches all of them — see each file's own header comment. -->
+<script src="../js/case-tabs.js"></script>
+<script src="../js/case-picker.js"></script>
 
 </body>
 </html>

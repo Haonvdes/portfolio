@@ -27,10 +27,14 @@
 
     <meta property="og:title" content="Speaker Bureau Platform | Stephano Ng">
     <meta property="og:description" content="Seventeen roles, 496 user stories, one MVP. Cutting a pharma speaker-bureau backlog down to the one flow every role touches.">
-    <meta property="og:image" content="../public/hc_cover.webp">
+    <meta property="og:image" content="../public/hc_hero.png">
     <meta property="og:type" content="article">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <!-- Drives §07 AI Accelerate's pinned scroll animation (js/ai-accelerate.js).
+         Absent/blocked CDN just means that section renders statically. -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
 <body class="rd-case is-hero-glow" style="--rd-hero-glow: #8fd0b8;">
 
@@ -146,7 +150,7 @@
         </p>
 
         <figure class="rd-case-cover">
-            <img src="../public/hc_cover.webp" alt="Speaker-bureau platform case study cover">
+            <img src="../public/hc_hero.png" alt="Speaker-bureau platform case study cover">
         </figure>
     </div>
 </header>
@@ -159,6 +163,7 @@
         <a href="#decision"><span class="n">04</span>The decision</a>
         <a href="#map"><span class="n">05</span>The map</a>
         <a href="#after"><span class="n">06</span>Handed off</a>
+        <a href="#ai-accelerate"><span class="n">07</span>AI Accelerate</a>
     </div>
 </nav>
 
@@ -698,6 +703,153 @@
         </div>
     </section>
 
+    <!-- ================= AI Accelerate (scroll-driven) =================
+         Added 2026-08-26 per "Scroll-Driven AI Accelerate Section —
+         Implementation Prompt.md" at the repo root, against Figma
+         40000417:8561. Content-wise it's a generic product-lifecycle
+         diagram rather than part of this case study's own narrative, but
+         it's §07 in the TOC above at Hao's explicit request (2026-08-27) —
+         id="ai-accelerate" is what js/case-toc.js's scroll-spy matches
+         against the "#ai-accelerate" href, same as every other numbered
+         section. See css/styles/redesign.css §13 and js/ai-accelerate.js
+         for the pin/scrub implementation and its static/reduced-motion/
+         mobile fallbacks. -->
+    <section class="rd-case-section is-tinted rd-ai-accelerate" id="ai-accelerate">
+        <div class="rd-ai-pin">
+            <div class="rd-case-inner rd-shell rd-ai-inner">
+                <div class="rd-ai-header">
+                    <h2 class="rd-case-h2">AI Accelerate</h2>
+                    <div class="rd-case-body">
+                        <p>Revert Engineering, Integrate customer data enables insight generation across product horizontal</p>
+                    </div>
+                </div>
+
+                <div class="rd-ai-stage">
+                    <div class="rd-ai-loop-line is-top" aria-hidden="true"></div>
+                    <div class="rd-ai-loop-line is-bottom" aria-hidden="true"></div>
+                    <div class="rd-ai-circle is-discovery" data-role="discovery">
+                        <span class="rd-ai-tick is-n" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-e" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-s" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-w" aria-hidden="true"></span>
+                        <span class="rd-ai-circle-label is-short">Discovery</span>
+                        <span class="rd-ai-circle-label is-long">Discover, Validate, and experiment</span>
+                    </div>
+                    <div class="rd-ai-circle is-validate" data-role="validate">
+                        <span class="rd-ai-tick is-n" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-e" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-s" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-w" aria-hidden="true"></span>
+                        <span>Validate</span>
+                    </div>
+                    <div class="rd-ai-circle is-build" data-role="build">
+                        <span class="rd-ai-tick is-n" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-e" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-s" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-w" aria-hidden="true"></span>
+                        <span>Build</span>
+                    </div>
+                    <div class="rd-ai-circle is-launch" data-role="launch">
+                        <span class="rd-ai-tick is-n" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-e" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-s" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-w" aria-hidden="true"></span>
+                        <span class="rd-ai-circle-label is-short">Launch</span>
+                        <span class="rd-ai-circle-label is-long">Build, launch and scale</span>
+                    </div>
+                </div>
+
+                <div class="rd-ai-reveal">
+                    <h3 class="rd-ai-reveal-heading">AI enablement across product screens, sprints and phases</h3>
+
+                    <p class="rd-ai-reveal-question">Is this flow critical to the customer's business?</p>
+
+                    <!-- Real toggle buttons (aria-pressed), not a tablist — this is a
+                         binary either/or control, not a set of parallel views. Visual
+                         reuses .rd-tabs/.rd-tab, the sitewide pill component (see
+                         "Tab strip" in this file), with an [aria-pressed] state rule
+                         added alongside its existing [aria-selected] one. Wiring is in
+                         js/ai-accelerate.js. -->
+                    <div class="rd-tabs rd-ai-toggle" role="group" aria-label="Is this flow critical to the customer's business?">
+                        <button type="button" class="rd-tab" aria-pressed="true" data-ai-state="critical"><span>Yes, it's critical</span></button>
+                        <button type="button" class="rd-tab" aria-pressed="false" data-ai-state="normal"><span>No, this is normal</span></button>
+                    </div>
+
+                    <!-- aria-live: the swapped step lists below are announced on toggle.
+                         Row markup reuses .rd-case-checklist / .rd-case-checklist-row /
+                         .rd-case-chip as-is (see lending-new-v3.html's "Experience List"
+                         picker) — a step with no .rd-case-chip is human-owned; absence is
+                         the signal, so a "Human" tag is never rendered. -->
+                    <div class="rd-case-card rd-ai-panel" data-ai-panel aria-live="polite">
+                        <div class="rd-ai-panel-cols">
+                            <div class="rd-ai-panel-col">
+                                <div class="rd-ai-panel-head is-discovery">
+                                    <p class="rd-ai-panel-title">Discovery,<br>validate,<br>and experiment</p>
+                                    <div class="rd-ai-swap-wrap">
+                                        <p class="rd-ai-panel-subtitle" data-ai-state="critical">AI surfaces it, the domain owner validates it.</p>
+                                        <p class="rd-ai-panel-subtitle" data-ai-state="normal" hidden>Single lane. The old system is the spec.</p>
+                                    </div>
+                                </div>
+                                <div class="rd-ai-swap-wrap">
+                                    <div class="rd-case-checklist rd-ai-steps" data-ai-state="critical">
+                                        <div class="rd-case-checklist-row"><span>01. Reverse-engineer with the people who own the domain</span><span class="rd-case-chip">AI + Human</span></div>
+                                        <div class="rd-case-checklist-row"><span>02. Set strategy and vision</span></div>
+                                        <div class="rd-case-checklist-row"><span>03. Empathize — talk to real users</span></div>
+                                        <div class="rd-case-checklist-row"><span>04. Ideate</span><span class="rd-case-chip">AI + Human</span></div>
+                                        <div class="rd-case-checklist-row"><span>05. Experiment — test the assumption before building</span><span class="rd-case-chip">AI + Human</span></div>
+                                    </div>
+                                    <div class="rd-case-checklist rd-ai-steps" data-ai-state="normal" hidden>
+                                        <div class="rd-case-checklist-row"><span>01. Read the existing codebase</span><span class="rd-case-chip">AI</span></div>
+                                        <div class="rd-case-checklist-row"><span>02. Infer the business logic in production</span><span class="rd-case-chip">AI</span></div>
+                                        <div class="rd-case-checklist-row"><span>03. Draft the new flow and screens from that logic</span><span class="rd-case-chip">AI</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rd-ai-panel-col">
+                                <div class="rd-ai-panel-head is-launch">
+                                    <p class="rd-ai-panel-title">Build,<br>launch<br>and scale</p>
+                                    <div class="rd-ai-swap-wrap">
+                                        <p class="rd-ai-panel-subtitle" data-ai-state="critical">AI assists, human signs off.</p>
+                                        <p class="rd-ai-panel-subtitle" data-ai-state="normal" hidden>AI builds it, the demo is the gate.</p>
+                                    </div>
+                                </div>
+                                <div class="rd-ai-swap-wrap">
+                                    <div class="rd-case-checklist rd-ai-steps" data-ai-state="critical">
+                                        <div class="rd-case-checklist-row"><span>01. Code</span><span class="rd-case-chip">AI + Human</span></div>
+                                        <div class="rd-case-checklist-row"><span>02. Build</span><span class="rd-case-chip">AI</span></div>
+                                        <div class="rd-case-checklist-row"><span>03. Test — human writes the cases for the risky branches</span><span class="rd-case-chip">AI + Human</span></div>
+                                        <div class="rd-case-checklist-row"><span>04. Deploy behind a flag, staged rollout</span></div>
+                                        <div class="rd-case-checklist-row"><span>05. Release with a way back</span></div>
+                                    </div>
+                                    <div class="rd-case-checklist rd-ai-steps" data-ai-state="normal" hidden>
+                                        <div class="rd-case-checklist-row"><span>01. Build it and demo to the customer</span><span class="rd-case-chip">AI + Human</span></div>
+                                        <div class="rd-case-checklist-row"><span>02. Customer approves</span></div>
+                                        <div class="rd-case-checklist-row"><span>03. Apply into the new system</span><span class="rd-case-chip">AI</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Not numbered on purpose — outside the step sequence, it's the
+                             loop that runs every round regardless of which state shows
+                             above. Identical in both toggle states, so it isn't duplicated
+                             per data-ai-state. -->
+                        <div class="rd-ai-band">
+                            <p class="rd-ai-band-eyebrow">Every round</p>
+                            <div class="rd-case-checklist-row"><span>Customer adoption and product usage analytics</span><span class="rd-case-chip">AI + Human</span></div>
+                            <p class="rd-ai-band-sub"><em>AI or human, this is how we find out whether it worked — and what changes next round.</em></p>
+                        </div>
+                    </div>
+
+                    <p class="rd-ai-reveal-closing">
+                        <strong>Not critical: AI owns the path, the customer owns the gate.</strong><br>
+                        <strong>Critical: a human owns every decision, AI owns the labour.</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ================= Related case studies ================= -->
     <section class="rd-case-section is-tinted">
         <div class="rd-case-inner rd-shell">
@@ -765,6 +917,7 @@
 <script src="../js/ai-chat.js"></script>
 <script src="../js/socialize.js"></script>
 <script src="../js/back-to-top.js"></script>
+<script src="../js/ai-accelerate.js"></script>
 
 <script src="../js/case-toc.js"></script>
 

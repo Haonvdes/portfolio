@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="robots" content="noindex">
+    <title>Preview — Work page cards (A/B/C)</title>
+
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+    <link rel="stylesheet" href="../css/styles/case-retheme-v3.css">
+
+    <!--
+      ==========================================================================
+      REVIEW-ONLY FILE. Created 29 Aug 2026. Nothing in work.html, redesign.css
+      or case-retheme-v3.css has been touched — this file only loads them.
+
+      Version A is the "Selected Project" section exactly as it ships on
+      work.html today (copied verbatim, image paths adjusted for this file's
+      location one folder down).
+
+      Version B is the proposed replacement, three changes:
+
+        1. New card anatomy (image / eyebrow / title / one-liner / cta), built
+           on the SAME structure as `.rd-related-card` in redesign.css (used
+           today at the bottom of every finished case study page) — sized up
+           for a primary grid instead of a footnote row. If approved, this
+           costs very little new CSS: it is the existing component's proportions,
+           not a new visual language.
+
+        2. Cards are grouped by status — five shipped cases first, the two
+           "in progress" sectors after a divider — instead of interleaved in
+           registration order (today Core Banking sits between Customer
+           Engagement and Lending, Automotive between Lending and Healthcare).
+           Nothing about which cards exist changes, only the order and the
+           fact that the line between "you can read this" and "not yet" is
+           now explicit instead of same-looking cards a click apart from a
+           dead end.
+
+        3. Card copy for Web3, Lending and Marketing-Platform is rewritten to
+           match the real hook already live on each finished case study page
+           (web-3-v5.html / lending-new-v3.html / marketing-platform-v3.html),
+           replacing the 2021 sector-brochure copy currently on work.html.
+           Customer Engagement and Healthcare already carry real copy and are
+           carried over as-is.
+
+      CAVEAT — read before shipping this: work.html's cards for `web-3`,
+      `lending` and `marketing-platform` currently route to the OLD 2021 case
+      study files, not the rebuilt -v5 / -new-v3 / -v3 pages this copy is
+      quoting. Adopting this card copy without also repointing those three
+      `data-case-study` slugs means the card promises a sharper story than the
+      page it lands on delivers. That routing fix was explicitly deferred in
+      an earlier pass — raise it again if this direction is approved.
+
+      Live cards below are real <a href> to the sibling case-studies/ files
+      (so they're actually clickable in this preview) rather than the
+      data-case-study attribute + JS click-listener work.html uses today.
+      That's a secondary idea, not a requirement of the visual change — say
+      the word and the demo drops back to plain divs with data-case-study.
+
+      Version C (added same day, second request: "thử theo trang product
+      card bên homepage") borrows the anatomy of `.rd-initiative-card` —
+      the Selected Product Initiatives deck on index.html — instead of
+      `.rd-related-card`. That component pairs the pitch with an evidence-
+      tagged outcome stat row and a short Problem → decision narrative, which
+      is a materially different amount of content per card than A or B.
+
+      What's kept: title/desc, the outcome stat pill row (target / published /
+      client-reported / estimated — same tag vocabulary the framework already
+      enforces on index.html), the Problem block, the one-paragraph narrative,
+      media on the right, one CTA.
+
+      What's dropped: the scroll-snap deck itself (one-card-per-viewport,
+      rail index, autoplaying dots). That interaction fits 4 curated
+      initiatives; forcing 7 sector cards through it on a listing page the
+      reader is meant to scan, not step through, would fight the page's job.
+      So Version C lays the same card out as a plain vertical stack — full
+      width, auto height, no line-clamp or fade-cut (nothing here is inside a
+      fixed-height viewport slot, so there is no need to truncate).
+
+      Every outcome number below is COPIED VERBATIM from index.html's four
+      existing panels (panel-hd, panel-aura, panel-comms, panel-isystem) —
+      nothing new was sourced for Lending, Web3, Healthcare or
+      Marketing-Platform. The one new figure is Customer Engagement's
+      "6.2 → 3.6 min / −42%", pulled from
+      portfolio_customer_engagement_data.md, which requires the `estimated`
+      tag (not `measured` — there is no user-testing artifact behind it) and
+      pairs it with the 36-defects figure from the same source. Core Banking
+      and Automotive get no outcome bar and no Problem block, on purpose:
+      there is no shipped case behind either yet, so there is nothing to cite.
+
+      CAVEAT, same as Version B: Lending/Web3/Marketing-Platform quote the
+      rebuilt case study pages' framing while work.html's routing for those
+      three still points at the 2021 originals.
+
+      SEPARATE, NOT FIXED HERE: index.html's own Communication panel
+      (panel-comms, i.e. this same Healthcare content) still ships a
+      disabled "Coming soon" button — held back before healthcare.html was
+      approved for work.html. That's a real inconsistency once this ships,
+      but it lives in index.html, a file this task didn't name — flagging it,
+      not touching it.
+      ==========================================================================
+    -->
+    <style>
+      /* ---- preview furniture only ---- */
+      body.pv { background: var(--rd-bg, #f2f1ec); }
+      .pv-bar {
+        position: sticky; top: 0; z-index: 50;
+        display: flex; gap: 16px; align-items: baseline;
+        padding: 12px 24px;
+        background: #0b2f47; color: #fff;
+        font-size: 13px; letter-spacing: 0.04em;
+      }
+      .pv-bar strong { text-transform: uppercase; letter-spacing: 0.08em; }
+      .pv-tag {
+        display: block; max-width: 1312px; margin: 0 auto;
+        padding: 40px 24px 0;
+        font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+        font-weight: 600; opacity: 0.55;
+      }
+      .pv-note {
+        max-width: 1312px; margin: 0 auto; padding: 16px 24px 0;
+        font-size: 14px; line-height: 1.6; opacity: 0.7; max-inline-size: 70ch;
+      }
+      .pv-note.is-caveat {
+        opacity: 1; color: #7a3b00; background: #fff2df;
+        border: 1px solid #e8c48c; border-radius: 8px;
+        padding: 12px 16px; margin: 16px auto 0; max-inline-size: 720px;
+      }
+      .pv-rule { border: 0; border-top: 2px dashed rgba(0,0,0,.18); margin: 64px 0 0; }
+
+      /* ---- B: the proposed card grid ---- */
+      .pv-work-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 32px;
+        margin-top: 8px;
+      }
+      .pv-work-group-label {
+        grid-column: 1 / -1;
+        font-size: var(--rd-fs-xs);
+        font-weight: var(--rd-fw-emphasis);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        opacity: 0.55;
+        margin: 40px 0 4px;
+        padding-top: 24px;
+        border-top: 1px solid var(--rd-border);
+      }
+      .pv-work-group-label:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+
+      .pv-work-card {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        --pv-pad: 24px;
+        padding: var(--pv-pad);
+        background: var(--rd-white);
+        border: 1px solid var(--rd-border);
+        border-radius: 16px;
+        overflow: hidden;
+        text-decoration: none;
+        color: var(--rd-ink);
+        transition: border-color 0.15s ease, transform 0.15s ease;
+      }
+      .pv-work-card:hover { border-color: var(--rd-primary); transform: translateY(-4px); }
+      .pv-work-card:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: 3px; }
+
+      .pv-work-media {
+        position: relative;
+        width: calc(100% + var(--pv-pad) * 2);
+        margin: calc(-1 * var(--pv-pad)) calc(-1 * var(--pv-pad)) 0;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        background: var(--rd-surface);
+      }
+      .pv-work-media img {
+        position: absolute; inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover; object-position: center top;
+        transition: transform 0.2s ease;
+      }
+      .pv-work-card:hover .pv-work-media img { transform: scale(1.03); }
+
+      .pv-work-body { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+      .pv-work-eyebrow {
+        font-weight: var(--rd-fw-emphasis);
+        font-size: var(--rd-fs-xs);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        opacity: 0.6;
+      }
+      .pv-work-title {
+        font-family: "DM Sans", sans-serif;
+        font-weight: var(--rd-fw-heading);
+        font-size: var(--rd-fs-xl);
+        line-height: var(--rd-lh-heading);
+        text-transform: none;
+      }
+      .pv-work-desc {
+        font-size: var(--rd-fs-md);
+        line-height: var(--rd-lh-prose);
+        opacity: 0.85;
+      }
+      .pv-work-cta { margin-top: auto; font-size: var(--rd-fs-md); color: var(--rd-primary); padding-top: 8px; }
+      .pv-work-card:hover .pv-work-cta { text-decoration: underline; }
+
+      .pv-soon-badge {
+        display: inline-block; vertical-align: middle; margin-left: 8px;
+        padding: 2px 8px; border: 1px solid var(--rd-border); border-radius: 999px;
+        font-size: var(--rd-fs-xs); font-weight: 400; opacity: 0.6;
+      }
+      .pv-work-card.is-soon { cursor: default; }
+      .pv-work-card.is-soon:hover { transform: none; border-color: var(--rd-border); }
+      .pv-work-card.is-soon .pv-work-media img { filter: grayscale(1); opacity: 0.55; }
+      .pv-work-card.is-soon:hover .pv-work-media img { transform: none; }
+      .pv-work-card.is-soon .pv-work-desc { opacity: 0.5; }
+      .pv-work-cta.is-muted { color: var(--rd-ink); opacity: 0.45; }
+
+      @media (max-width: 1180px) {
+        .pv-work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      @media (max-width: 768px) {
+        .pv-work-grid { grid-template-columns: 1fr; gap: 20px; }
+      }
+
+      /* ---- B2: collapsible "In progress / Archived" panel ---- */
+      /* <details> gives collapsed-by-default and the click target for free,
+         no JS. grid-column: 1/-1 makes it span the full width of
+         .pv-work-grid regardless of the column count at the breakpoint. */
+      .pv-work-archive { grid-column: 1 / -1; margin-top: 16px; }
+      .pv-work-archive-summary {
+        display: flex; align-items: center; justify-content: space-between;
+        cursor: pointer; list-style: none;
+        padding-bottom: 16px; margin-bottom: 24px;
+        border-bottom: 1px solid var(--rd-border);
+        font-size: var(--rd-fs-xs); font-weight: var(--rd-fw-emphasis);
+        letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7;
+      }
+      .pv-work-archive-summary::-webkit-details-marker { display: none; }
+      .pv-work-archive-summary::marker { content: ""; }
+      .pv-work-archive-summary:hover { opacity: 1; }
+      .pv-work-archive-icon {
+        display: inline-flex; width: 20px; height: 20px;
+        align-items: center; justify-content: center;
+        transition: transform 0.15s ease;
+      }
+      .pv-work-archive[open] > .pv-work-archive-summary .pv-work-archive-icon { transform: rotate(180deg); }
+      .pv-work-archive-grid {
+        display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px;
+      }
+      @media (max-width: 1180px) {
+        .pv-work-archive-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      @media (max-width: 768px) {
+        .pv-work-archive-grid { grid-template-columns: 1fr; gap: 20px; }
+      }
+
+      /* ---- C: the initiative-card-style stacked list ---- */
+      .pv-init-list { display: flex; flex-direction: column; gap: 24px; margin-top: 8px; }
+      .pv-init-group-label {
+        font-size: var(--rd-fs-xs);
+        font-weight: var(--rd-fw-emphasis);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        opacity: 0.55;
+        margin: 16px 0 -4px;
+      }
+      .pv-init-group-label:first-child { margin-top: 0; }
+
+      .pv-init-card {
+        display: flex;
+        text-decoration: none;
+        color: var(--rd-ink);
+        --pv-pad: clamp(22px, 3vw, 40px);
+        padding: var(--pv-pad);
+        gap: 40px;
+        background: var(--rd-white);
+        border: 1px solid var(--rd-border);
+        border-radius: 16px;
+        overflow: hidden;
+        transition: border-color 0.15s ease;
+      }
+      .pv-init-card:hover { border-color: var(--rd-primary); }
+      .pv-init-card:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: 3px; }
+
+      .pv-init-body { display: flex; flex-direction: column; gap: 20px; width: 55%; flex-shrink: 0; }
+      .pv-init-head { display: flex; flex-direction: column; gap: 8px; padding-bottom: 20px; border-bottom: 1px solid var(--rd-border); }
+      .pv-init-title {
+        font-family: "DM Sans", sans-serif;
+        font-weight: var(--rd-fw-heading);
+        font-size: var(--rd-fs-2xl);
+        line-height: normal;
+        text-transform: none;
+      }
+      .pv-init-desc { font-size: var(--rd-fs-md); line-height: var(--rd-lh-prose); }
+
+      .pv-init-stat-row {
+        display: flex; align-items: stretch; width: 100%;
+        background: var(--rd-surface); border-radius: 12px; overflow: hidden;
+      }
+      .pv-init-stat-row > div {
+        flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; gap: 6px;
+        align-items: center; justify-content: center; text-align: center;
+        padding: 16px; border-right: 1px solid var(--rd-white);
+      }
+      .pv-init-stat-row > div:last-child { border-right: 0; }
+      .pv-init-stat-row strong { font-size: var(--rd-fs-xl); font-weight: var(--rd-fw-emphasis); }
+      .pv-init-stat-row span { font-size: var(--rd-fs-sm, 14px); opacity: 0.75; }
+      .pv-init-label {
+        font-size: var(--rd-fs-sm, 14px); font-weight: var(--rd-fw-emphasis);
+        text-transform: uppercase; letter-spacing: 0.04em; opacity: 0.6; margin-bottom: 6px;
+      }
+      .pv-init-detail p { font-size: var(--rd-fs-md); line-height: var(--rd-lh-prose); }
+      .pv-init-detail > div + div { margin-top: 16px; }
+
+      .pv-init-cta { margin-top: auto; padding-top: 4px; font-size: var(--rd-fs-md); color: var(--rd-primary); }
+      .pv-init-card:hover .pv-init-cta { text-decoration: underline; }
+      .pv-init-cta.is-muted { color: var(--rd-ink); opacity: 0.45; }
+
+      .pv-init-media { position: relative; flex: 1 0 0; min-width: 0; border-radius: 12px; overflow: hidden; background: var(--rd-surface); }
+      .pv-init-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+      .pv-init-card.is-soon { cursor: default; }
+      .pv-init-card.is-soon .pv-init-head { border-bottom: 0; padding-bottom: 0; }
+      .pv-init-card.is-soon .pv-init-media img { filter: grayscale(1); opacity: 0.55; }
+      .pv-init-card.is-soon .pv-init-desc { opacity: 0.6; }
+
+      @media (max-width: 900px) {
+        .pv-init-card { flex-direction: column; gap: 24px; }
+        .pv-init-body { width: 100%; }
+        .pv-init-media { min-height: 220px; }
+      }
+    </style>
+</head>
+<body class="pv">
+
+<div class="pv-bar">
+    <strong>Review preview</strong>
+    <span>work.html "Selected Project" section — A (current, verbatim) vs B (proposed). Nothing else modified.</span>
+</div>
+
+<main>
+
+<!-- ══════════════════════════ A — CURRENT ══════════════════════════ -->
+<span class="pv-tag">Version A — currently live on work.html</span>
+<p class="pv-note">
+    Exact markup from work.html today: seven cards, identical treatment regardless of whether
+    the case study is finished, mid-2021 sector-brochure copy on four of the seven, Core
+    Banking and Automotive interleaved between shipped work rather than set apart.
+</p>
+
+<section class="container-fluid">
+    <div class="second-section" style="top: 0; border-radius: 0;">
+        <div class="rd-grid">
+            <div class="introduce">
+                <div>
+                    <p class="sub-heading" style="padding-bottom: var(--p-16);">Selected Project</p>
+                    <div class="usecase">
+                        <div class="grid-container">
+                            <div class="card large-card" data-case-study="web-3">
+                                <div class="card-header">
+                                    <h2 class="sub-heading">Web3</h2>
+                                    <p class="lg-regular">Secure and scalable decentralized applications leveraging blockchain technology to enhance data security and transparency.</p>
+                                    <button class="btn-ghosh">Learn more →</button>
+                                </div>
+                                <div class="card-image-container">
+                                    <div class="image-wrapper"><img src="../public/web3.jpg" alt="usecase_image" class="card-image"></div>
+                                </div>
+                            </div>
+
+                            <div class="card large-card" data-case-study="customer-engagement">
+                                <div class="card-header">
+                                    <h2 class="sub-heading">Customer Engagement</h2>
+                                    <p class="lg-regular">Internal tooling for planning and running executive customer visits — rebuilt around the one screen managers lived in, then folded into the company super app.</p>
+                                    <button class="btn-ghosh">Learn more →</button>
+                                </div>
+                                <div class="card-image-container">
+                                    <div class="image-wrapper"><img src="../public/ce_cover.webp" alt="usecase_image" class="card-image"></div>
+                                </div>
+                            </div>
+
+                            <div class="card large-card" data-case-study="core-banking" data-status="coming-soon">
+                                <div class="card-header">
+                                    <h2 class="sub-heading">Core Banking <span class="rd-soon-badge">In progress</span></h2>
+                                    <p class="lg-regular">Advanced digital banking and payment solutions that modernize financial services, ensuring seamless transactions and security.</p>
+                                    <button class="btn-ghosh" type="button" disabled aria-disabled="true">Coming soon</button>
+                                </div>
+                                <div class="card-image-container">
+                                    <div class="image-wrapper"><img src="../public/coreBanking.png" alt="usecase_image" class="card-image"></div>
+                                </div>
+                            </div>
+
+                            <div class="card large-card" data-case-study="lending">
+                                <div class="card-header">
+                                    <h2 class="sub-heading">Lending</h2>
+                                    <p class="lg-regular">Intelligent lending platforms that streamline loan origination, risk assessment, and credit decision-making for financial institutions.</p>
+                                    <button class="btn-ghosh">Learn more →</button>
+                                </div>
+                                <div class="card-image-container">
+                                    <div class="image-wrapper"><img src="../public/UC_lending.png" alt="usecase_image" class="card-image"></div>
+                                </div>
+                            </div>
+
+                            <div class="card large-card" data-case-study="automotive" data-status="coming-soon">
+                                <div class="card-header">
+                                    <h2 class="sub-heading">Automotive <span class="rd-soon-badge">In progress</span></h2>
+                                    <p class="lg-regular">Smart mobility and automotive intelligence solutions designed to optimize dealer management, logistics, and customer experience.</p>
+                                    <button class="btn-ghosh" type="button" disabled aria-disabled="true">Coming soon</button>
+                                </div>
+                                <div class="card-image-container">
+                                    <div class="image-wrapper"><img src="../public/automotive.png" alt="usecase_image" class="card-image"></div>
+                                </div>
+                            </div>
+
+                            <div class="card large-card" data-case-study="healthcare">
+                                <div class="card-header">
+                                    <h2 class="sub-heading">Healthcare</h2>
+                                    <p class="lg-regular">Seventeen roles, 496 user stories, one MVP. Prioritising a pharma speaker-bureau platform across conflicting user segments.</p>
+                                    <button class="btn-ghosh">Learn more →</button>
+                                </div>
+                                <div class="card-image-container">
+                                    <div class="image-wrapper"><img src="../public/hc_cover.webp" alt="usecase_image" class="card-image"></div>
+                                </div>
+                            </div>
+
+                            <div class="card large-card" data-case-study="marketing-platform">
+                                <div class="card-header">
+                                    <h2 class="sub-heading">Marketing-Platform</h2>
+                                    <p class="lg-regular">Platforms that enhance customer engagement, campaign performance, and data-driven decision-making for salon business owner</p>
+                                    <button class="btn-ghosh">Learn more →</button>
+                                </div>
+                                <div class="card-image-container">
+                                    <div class="image-wrapper"><img src="../public/marketing.png" alt="usecase_image" class="card-image"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="pv-rule">
+
+<!-- ══════════════════════════ B — PROPOSED ══════════════════════════ -->
+<span class="pv-tag">Version B — proposed</span>
+<p class="pv-note">
+    Same seven cases. Card anatomy borrowed from `.rd-related-card` (already shipping at the
+    bottom of every finished case study), sized up for a primary grid. Shipped work first,
+    "in progress" set apart below a rule instead of interleaved.
+</p>
+<p class="pv-note is-caveat">
+    Caveat: the Web3, Lending and Marketing-Platform copy below quotes the rebuilt pages
+    (web-3-v5 / lending-new-v3 / marketing-platform-v3). work.html's routing for those three
+    still points at the older 2021 files — see the file header comment before shipping this.
+</p>
+
+<section class="container-fluid">
+    <div class="second-section" style="top: 0; border-radius: 0;">
+        <div class="rd-grid">
+            <div class="introduce">
+                <div>
+                    <p class="sub-heading" style="padding-bottom: var(--p-16);">Selected Project</p>
+
+                    <div class="pv-work-grid">
+                        <p class="pv-work-group-label">Shipped</p>
+
+                        <a class="pv-work-card" href="../case-studies/web-3.html">
+                            <div class="pv-work-media"><img src="../public/web3.jpg" alt="" loading="lazy"></div>
+                            <div class="pv-work-body">
+                                <p class="pv-work-eyebrow">Web3 infrastructure</p>
+                                <h3 class="pv-work-title">Holding six products together through a platform change</h3>
+                                <p class="pv-work-desc">Lead product designer for a Layer 1 blockchain: running the design function across six surfaces, and defining products with four engineering groups while the platform changed underneath them.</p>
+                            </div>
+                            <span class="pv-work-cta">Read the case study →</span>
+                        </a>
+
+                        <a class="pv-work-card" href="../case-studies/customer-engagement.html">
+                            <div class="pv-work-media"><img src="../public/ce_cover.webp" alt="" loading="lazy"></div>
+                            <div class="pv-work-body">
+                                <p class="pv-work-eyebrow">Internal tooling</p>
+                                <h3 class="pv-work-title">Cutting four roles to keep one release</h3>
+                                <p class="pv-work-desc">Thirty-six usability defects, five user roles, six weeks. Cutting four roles out of a redesign to keep the release — and shipping it into the company super app.</p>
+                            </div>
+                            <span class="pv-work-cta">Read the case study →</span>
+                        </a>
+
+                        <a class="pv-work-card" href="../case-studies/lending.html">
+                            <div class="pv-work-media"><img src="../public/UC_lending.png" alt="" loading="lazy"></div>
+                            <div class="pv-work-body">
+                                <p class="pv-work-eyebrow">Consumer lending</p>
+                                <h3 class="pv-work-title">Getting consumer lending off the counter</h3>
+                                <p class="pv-work-desc">Vietnam's third-largest consumer lender originated every loan at a counter. Reframing a four-goal client brief down to one problem, then shipping it.</p>
+                            </div>
+                            <span class="pv-work-cta">Read the case study →</span>
+                        </a>
+
+                        <a class="pv-work-card" href="../case-studies/healthcare.html">
+                            <div class="pv-work-media"><img src="../public/hc_cover.webp" alt="" loading="lazy"></div>
+                            <div class="pv-work-body">
+                                <p class="pv-work-eyebrow">Healthcare — pharma</p>
+                                <h3 class="pv-work-title">One speaker-bureau platform for 17 roles</h3>
+                                <p class="pv-work-desc">Seventeen roles, 496 user stories, one MVP. Prioritising a pharma speaker-bureau platform across conflicting user segments.</p>
+                            </div>
+                            <span class="pv-work-cta">Read the case study →</span>
+                        </a>
+
+                        <a class="pv-work-card" href="../case-studies/marketing-platform.html">
+                            <div class="pv-work-media"><img src="../public/marketing.png" alt="" loading="lazy"></div>
+                            <div class="pv-work-body">
+                                <p class="pv-work-eyebrow">Marketing platform</p>
+                                <h3 class="pv-work-title">Eight apps, one team</h3>
+                                <p class="pv-work-desc">A startup with fifty salons, a twenty-percent ambition and eight apps in flight. Cutting it to one transaction spine — book, check in, pay — and sequencing the rest behind it.</p>
+                            </div>
+                            <span class="pv-work-cta">Read the case study →</span>
+                        </a>
+
+                        <p class="pv-work-group-label">In progress</p>
+
+                        <div class="pv-work-card is-soon" aria-disabled="true">
+                            <div class="pv-work-media"><img src="../public/coreBanking.png" alt="" loading="lazy"></div>
+                            <div class="pv-work-body">
+                                <p class="pv-work-eyebrow">Digital banking</p>
+                                <h3 class="pv-work-title">Core Banking <span class="pv-soon-badge">In progress</span></h3>
+                                <p class="pv-work-desc">Advanced digital banking and payment solutions that modernise financial services, keeping transactions seamless and secure.</p>
+                            </div>
+                            <span class="pv-work-cta is-muted">Coming soon</span>
+                        </div>
+
+                        <div class="pv-work-card is-soon" aria-disabled="true">
+                            <div class="pv-work-media"><img src="../public/automotive.png" alt="" loading="lazy"></div>
+                            <div class="pv-work-body">
+                                <p class="pv-work-eyebrow">Mobility</p>
+                                <h3 class="pv-work-title">Automotive <span class="pv-soon-badge">In progress</span></h3>
+                                <p class="pv-work-desc">Smart mobility and automotive intelligence for dealer management, logistics, and customer experience.</p>
+                            </div>
+                            <span class="pv-work-cta is-muted">Coming soon</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="pv-rule">
+
+<!-- ══════════════════════════ B2 — REFINED PER FEEDBACK ══════════════════════════ -->
+<span class="pv-tag">Version B2 — refined (Hao's call: go with B)</span>
+<p class="pv-note">
+    Three changes from B, requested 29 Aug: (1) the "Shipped" label is gone — with the
+    archive collapsed by default, everything visible by default IS shipped work, so the label
+    had nothing left to distinguish. (2) "In progress" is renamed "In progress / Archived" —
+    same two cards (Core Banking, Automotive), label only, no new cards added. (3) that group is
+    now a collapsed-by-default panel: a bottom rule under the header, a chevron at the right
+    edge, click to expand. Built as a native &lt;details&gt;/&lt;summary&gt; — collapsed state,
+    click target and keyboard/screen-reader semantics all come free, no JS.
+</p>
+<p class="pv-note is-caveat">
+    Same routing caveat as B: Web3/Lending/Marketing-Platform copy quotes the rebuilt pages
+    while work.html's routing for those three still points at the 2021 originals.
+</p>
+
+<section class="container-fluid">
+    <div class="second-section" style="top: 0; border-radius: 0;">
+        <div class="rd-grid">
+            <div class="introduce">
+                <div>
+                    <p class="sub-heading" style="padding-bottom: var(--p-16);">Selected Project</p>
+
+                    <div class="pv-work-grid">
+                        <a class="pv-work-card" href="../case-studies/web-3.html">
+                            <div class="pv-work-media"><img src="../public/web3.jpg" alt="" loading="lazy"></div>
+                            <div class="pv-work-body">
+                                <p class="pv-work-eyebrow">Web3 infrastructure</p>
+                                <h3 class="pv-work-title">Holding six products together through a platform change</h3>
+                                <p class="pv-work-desc">Lead product designer for a Layer 1 blockchain: running the design function across six surfaces, and defining products with four engineering groups while the platform changed underneath them.</p>
+                            </div>
+                            <span class="pv-work-cta">Read the case study →</span>
+                        </a>
+
+                        <a class="pv-work-card" href="../case-studies/customer-engagement.html">
+                            <div class="pv-work-media"><img src="../public/ce_cover.webp" alt="" loading="lazy"></div>
+                            <div class="pv-work-body">
+                                <p class="pv-work-eyebrow">Internal tooling</p>
+                                <h3 class="pv-work-title">Cutting four roles to keep one release</h3>
+                                <p class="pv-work-desc">Thirty-six usability defects, five user roles, six weeks. Cutting four roles out of a redesign to keep the release — and shipping it into the company super app.</p>
+                            </div>
+                            <span class="pv-work-cta">Read the case study →</span>
+                        </a>
+
+                        <a class="pv-work-card" href="../case-studies/lending.html">
+                            <div class="pv-work-media"><img src="../public/UC_lending.png" alt="" loading="lazy"></div>
+                            <div class="pv-work-body">
+                                <p class="pv-work-eyebrow">Consumer lending</p>
+                                <h3 class="pv-work-title">Getting consumer lending off the counter</h3>
+                                <p class="pv-work-desc">Vietnam's third-largest consumer lender originated every loan at a counter. Reframing a four-goal client brief down to one problem, then shipping it.</p>
+                            </div>
+                            <span class="pv-work-cta">Read the case study →</span>
+                        </a>
+
+                        <a class="pv-work-card" href="../case-studies/healthcare.html">
+                            <div class="pv-work-media"><img src="../public/hc_cover.webp" alt="" loading="lazy"></div>
+                            <div class="pv-work-body">
+                                <p class="pv-work-eyebrow">Healthcare — pharma</p>
+                                <h3 class="pv-work-title">One speaker-bureau platform for 17 roles</h3>
+                                <p class="pv-work-desc">Seventeen roles, 496 user stories, one MVP. Prioritising a pharma speaker-bureau platform across conflicting user segments.</p>
+                            </div>
+                            <span class="pv-work-cta">Read the case study →</span>
+                        </a>
+
+                        <a class="pv-work-card" href="../case-studies/marketing-platform.html">
+                            <div class="pv-work-media"><img src="../public/marketing.png" alt="" loading="lazy"></div>
+                            <div class="pv-work-body">
+                                <p class="pv-work-eyebrow">Marketing platform</p>
+                                <h3 class="pv-work-title">Eight apps, one team</h3>
+                                <p class="pv-work-desc">A startup with fifty salons, a twenty-percent ambition and eight apps in flight. Cutting it to one transaction spine — book, check in, pay — and sequencing the rest behind it.</p>
+                            </div>
+                            <span class="pv-work-cta">Read the case study →</span>
+                        </a>
+
+                        <details class="pv-work-archive">
+                            <summary class="pv-work-archive-summary">
+                                <span>In progress / Archived</span>
+                                <span class="pv-work-archive-icon" aria-hidden="true">
+                                    <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </span>
+                            </summary>
+                            <div class="pv-work-archive-grid">
+                                <div class="pv-work-card is-soon" aria-disabled="true">
+                                    <div class="pv-work-media"><img src="../public/coreBanking.png" alt="" loading="lazy"></div>
+                                    <div class="pv-work-body">
+                                        <p class="pv-work-eyebrow">Digital banking</p>
+                                        <h3 class="pv-work-title">Core Banking <span class="pv-soon-badge">In progress</span></h3>
+                                        <p class="pv-work-desc">Advanced digital banking and payment solutions that modernise financial services, keeping transactions seamless and secure.</p>
+                                    </div>
+                                    <span class="pv-work-cta is-muted">Coming soon</span>
+                                </div>
+
+                                <div class="pv-work-card is-soon" aria-disabled="true">
+                                    <div class="pv-work-media"><img src="../public/automotive.png" alt="" loading="lazy"></div>
+                                    <div class="pv-work-body">
+                                        <p class="pv-work-eyebrow">Mobility</p>
+                                        <h3 class="pv-work-title">Automotive <span class="pv-soon-badge">In progress</span></h3>
+                                        <p class="pv-work-desc">Smart mobility and automotive intelligence for dealer management, logistics, and customer experience.</p>
+                                    </div>
+                                    <span class="pv-work-cta is-muted">Coming soon</span>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="pv-rule">
+
+<!-- ══════════════════════════ C — PRODUCT-CARD CONCEPT ══════════════════════════ -->
+<span class="pv-tag">Version C — homepage initiative-card concept</span>
+<p class="pv-note">
+    Same card DNA as index.html's "Selected Product Initiatives" deck: title, one-liner, an
+    evidence-tagged outcome stat pill, a Problem statement, a short decision narrative, one CTA.
+    Laid out as a plain scrollable stack here rather than the homepage's scroll-snap deck — that
+    interaction suits 4 curated cards stepped through one at a time, not 7 sector cards meant to
+    be scanned.
+</p>
+<p class="pv-note is-caveat">
+    Every outcome number is copied verbatim from index.html's existing panels (Lending, Web3,
+    Healthcare, Marketing-Platform) — nothing new sourced there. Customer Engagement's stat
+    (6.2 → 3.6 min, −42%, 36 defects) is new to this page, pulled from
+    portfolio_customer_engagement_data.md and tagged `estimated`, matching that memo's explicit
+    instruction not to call it `measured`. Core Banking and Automotive carry no stat and no
+    Problem block — there's no shipped case behind either to cite. Same routing caveat as
+    Version B applies to Lending/Web3/Marketing-Platform.
+</p>
+
+<section class="container-fluid">
+    <div class="second-section" style="top: 0; border-radius: 0;">
+        <div class="rd-grid">
+            <div class="introduce">
+                <div>
+                    <p class="sub-heading" style="padding-bottom: var(--p-16);">Selected Project</p>
+
+                    <div class="pv-init-list">
+                        <p class="pv-init-group-label">Shipped</p>
+
+                        <a class="pv-init-card" href="../case-studies/lending.html">
+                            <div class="pv-init-body">
+                                <div class="pv-init-head">
+                                    <h3 class="pv-init-title">Eight signatures, one branch visit</h3>
+                                    <p class="pv-init-desc">Vietnam's oldest consumer finance company originated every loan in-branch. It became a mobile app for applying, signing and servicing a loan without visiting one.</p>
+                                </div>
+                                <div>
+                                    <p class="pv-init-label">Outcome</p>
+                                    <div class="pv-init-stat-row">
+                                        <div><strong>5h → 2h</strong><span>Approval time (target)</span></div>
+                                        <div><strong>8 → 1</strong><span>Signatures (client-reported)</span></div>
+                                    </div>
+                                </div>
+                                <div class="pv-init-detail">
+                                    <div>
+                                        <p class="pv-init-label">Problem</p>
+                                        <p>HD Saison originated 100% of loans in-branch — the only lender in its five-company peer set with no digital path at all, while rivals ran 66–86% offline and the market grew 23.7% a year. Borrowing meant a 3–5 hour visit and eight separate signatures.</p>
+                                    </div>
+                                    <div>
+                                        <p>I reframed a four-goal client brief around one problem — get origination off the counter — and sequenced OTP e-signature first, because nothing downstream works while a branch visit exists to collect eight wet signatures. What I killed was remarketing, ranked equally by the client. The app shipped in May 2022 and is still live four years on.</p>
+                                    </div>
+                                </div>
+                                <span class="pv-init-cta">Read the case study →</span>
+                            </div>
+                            <div class="pv-init-media"><img src="../public/UC_lending.png" alt="HD Saison lending case study cover"></div>
+                        </a>
+
+                        <a class="pv-init-card" href="../case-studies/web-3.html">
+                            <div class="pv-init-body">
+                                <div class="pv-init-head">
+                                    <h3 class="pv-init-title">A chain that locked developers out</h3>
+                                    <p class="pv-init-desc">A permissioned NFT chain with a closed developer pool became a permissionless, EVM-compatible Layer 1 open to any Ethereum-toolchain builder.</p>
+                                </div>
+                                <div>
+                                    <p class="pv-init-label">Outcome</p>
+                                    <div class="pv-init-stat-row">
+                                        <div><strong>14.5M+</strong><span>Smart contracts (published)</span></div>
+                                        <div><strong>141K+</strong><span>Active addresses (published)</span></div>
+                                    </div>
+                                </div>
+                                <div class="pv-init-detail">
+                                    <div>
+                                        <p class="pv-init-label">Problem</p>
+                                        <p>Aura ran as a permissioned CosmWasm chain built for NFTs. Onboarding a team meant teaching them an unfamiliar stack, behind an approval gate — so the addressable developer pool was a fraction of the EVM world's.</p>
+                                    </div>
+                                    <div>
+                                        <p>I chose a dual-environment upgrade over a full migration: EVM alongside CosmWasm, widening the developer funnel without breaking the dApps already live. The price was a known address seam I shipped visibly rather than hold the release for. What I killed to pay for it was the NFT-first consumer roadmap.</p>
+                                    </div>
+                                </div>
+                                <span class="pv-init-cta">Read the case study →</span>
+                            </div>
+                            <div class="pv-init-media"><img src="../public/ar_casecover.webp" alt="Aura Network case study cover"></div>
+                        </a>
+
+                        <a class="pv-init-card" href="../case-studies/healthcare.html">
+                            <div class="pv-init-body">
+                                <div class="pv-init-head">
+                                    <h3 class="pv-init-title">Seventeen roles, one release</h3>
+                                    <p class="pv-init-desc">Pharma speaker programs ran on email, spreadsheets and a legacy portal. They became one multi-tenant platform where a rep, a compliance monitor and an accountant work the same program record.</p>
+                                </div>
+                                <div>
+                                    <p class="pv-init-label">Outcome</p>
+                                    <div class="pv-init-stat-row">
+                                        <div><strong>3 → 1</strong><span>Systems reconciled (target)</span></div>
+                                        <div><strong>17</strong><span>Roles on one system (client-reported)</span></div>
+                                    </div>
+                                </div>
+                                <div class="pv-init-detail">
+                                    <div>
+                                        <p class="pv-init-label">Problem</p>
+                                        <p>Seventeen roles touch a single speaker program — rep, manager, speaker, coordinator, compliance, accounting, auditor — each with its own approval gate and its own definition of "done". Mapped end to end, that came to 496 user stories across 13 workflow areas, all of it competing for one MVP.</p>
+                                    </div>
+                                    <div>
+                                        <p>I cut the backlog to the program-request spine — the one flow all 17 roles touch — and shipped the four roles that own it end to end. What I deferred was every role that only reads the record: attendee self-service, auditor tooling, the rookie onboarding track.</p>
+                                    </div>
+                                </div>
+                                <span class="pv-init-cta">Read the case study →</span>
+                            </div>
+                            <div class="pv-init-media"><img src="../public/hc_cover.webp" alt="Role-by-feature product map for the speaker-bureau platform"></div>
+                        </a>
+
+                        <a class="pv-init-card" href="../case-studies/customer-engagement.html">
+                            <div class="pv-init-body">
+                                <div class="pv-init-head">
+                                    <h3 class="pv-init-title">Cutting four roles to keep one release</h3>
+                                    <p class="pv-init-desc">Customer Care planning ran on an old internal tool that couldn't connect to the rest of the ecosystem — redundant fields on screen and no way to capture what a customer said while a rep was travelling or mid-visit.</p>
+                                </div>
+                                <div>
+                                    <p class="pv-init-label">Outcome</p>
+                                    <div class="pv-init-stat-row">
+                                        <div><strong>6.2 → 3.6 min</strong><span>Time per request, −42% (estimated)</span></div>
+                                        <div><strong>36</strong><span>Usability defects fixed (estimated)</span></div>
+                                    </div>
+                                </div>
+                                <div class="pv-init-detail">
+                                    <div>
+                                        <p class="pv-init-label">Problem</p>
+                                        <p>The planning tool was old, hard to use, and couldn't integrate with the rest of the stack. Thirty-six usability defects were logged across the team, and nothing supported staff capturing notes on the move.</p>
+                                    </div>
+                                    <div>
+                                        <p>I cut four of the five user roles the redesign was trying to serve and rebuilt around the one screen managers actually planned trips from. It shipped in six weeks and is now folded into the company super app.</p>
+                                    </div>
+                                </div>
+                                <span class="pv-init-cta">Read the case study →</span>
+                            </div>
+                            <div class="pv-init-media"><img src="../public/ce_cover.webp" alt="Customer Engagement case study cover"></div>
+                        </a>
+
+                        <a class="pv-init-card" href="../case-studies/marketing-platform.html">
+                            <div class="pv-init-body">
+                                <div class="pv-init-head">
+                                    <h3 class="pv-init-title">Eight apps, one team</h3>
+                                    <p class="pv-init-desc">A startup was building eight apps at once for three user types. It became one transaction spine — book, check in, pay — with everything else sequenced behind it.</p>
+                                </div>
+                                <div>
+                                    <p class="pv-init-label">Outcome</p>
+                                    <div class="pv-init-stat-row">
+                                        <div><strong>8 → 1</strong><span>Parallel apps unified (target)</span></div>
+                                        <div><strong>50</strong><span>Active salons (client-reported)</span></div>
+                                    </div>
+                                </div>
+                                <div class="pv-init-detail">
+                                    <div>
+                                        <p class="pv-init-label">Problem</p>
+                                        <p>iSystem wanted 20% of a 54,000-salon US market and had 50 salons on the platform — a 220x gap. One team was scoped to build eight apps in parallel, with four going to staff and owners while customers waited on the other four.</p>
+                                    </div>
+                                    <div>
+                                        <p>I sequenced the build around the only order the eight apps actually support: check-in is meaningless without a booking, the POS has nothing to total without a check-in. What I killed was the remarketing suite — the client's own stated priority. iSystem folded before general availability, so no launch number here is mine to claim.</p>
+                                    </div>
+                                </div>
+                                <span class="pv-init-cta">Read the case study →</span>
+                            </div>
+                            <div class="pv-init-media"><img src="../public/marketing.png" alt="iSystem salon platform case study cover"></div>
+                        </a>
+
+                        <p class="pv-init-group-label">In progress</p>
+
+                        <div class="pv-init-card is-soon" aria-disabled="true">
+                            <div class="pv-init-body">
+                                <div class="pv-init-head">
+                                    <h3 class="pv-init-title">Core Banking <span class="pv-soon-badge">In progress</span></h3>
+                                    <p class="pv-init-desc">Advanced digital banking and payment solutions that modernise financial services, keeping transactions seamless and secure.</p>
+                                </div>
+                                <span class="pv-init-cta is-muted">Coming soon</span>
+                            </div>
+                            <div class="pv-init-media"><img src="../public/coreBanking.png" alt=""></div>
+                        </div>
+
+                        <div class="pv-init-card is-soon" aria-disabled="true">
+                            <div class="pv-init-body">
+                                <div class="pv-init-head">
+                                    <h3 class="pv-init-title">Automotive <span class="pv-soon-badge">In progress</span></h3>
+                                    <p class="pv-init-desc">Smart mobility and automotive intelligence for dealer management, logistics, and customer experience.</p>
+                                </div>
+                                <span class="pv-init-cta is-muted">Coming soon</span>
+                            </div>
+                            <div class="pv-init-media"><img src="../public/automotive.png" alt=""></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div style="height:120px;"></div>
+
+</main>
+</body>
+</html>

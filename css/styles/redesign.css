@@ -210,6 +210,39 @@
 /* Global — templates/nav.html renders on every page. */
 
 .rd-nav-outer { padding-inline: 40px; }
+
+/* Scroll-aware reveal. `position: sticky` cannot do this here: `html` in
+   style.css sets `overflow-x: hidden`, and per spec a non-`visible`
+   `overflow-x` with no explicit `overflow-y` resolves the latter to `auto`
+   — which makes `<html>` an explicit scroll container and silently breaks
+   `position: sticky` on descendants (confirmed live: computed style read
+   `position: sticky`, but the box still tracked `scrollY` 1:1 instead of
+   sticking). So js/script.js flips `.rd-nav-outer` from its default static
+   flow position straight to `position: fixed` once the reader has scrolled
+   past the bar's own height, inserting a same-height spacer in its place so
+   nothing reflows. Below that threshold nothing here fires — the top of the
+   page is untouched. */
+.rd-nav-outer.rd-nav-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+.rd-nav-outer.rd-nav-fixed.rd-nav-hidden { transform: translateY(-100%); }
+.rd-nav-outer.rd-nav-peek .rd-nav {
+  background-color: var(--rd-white);
+  box-shadow: var(--rd-shadow-nav);
+}
+/* The mobile full-screen menu (`.rd-nav-links`, ≤768, `position: fixed;
+   inset: 0`) needs the viewport as its containing block. A `transform` on
+   this ancestor would hijack that — same failure mode the ≤768 block below
+   already avoids by zeroing `.rd-nav`'s backdrop-filter. Scroll is locked
+   while the menu is open (`body.nav-open` below), so nothing depends on the
+   reveal transform at that moment anyway. */
+body.nav-open .rd-nav-outer { transform: none; }
 /* The nav is injected INSIDE .rd-hero-section / .rd-about-hero, which already
    carry the 40px gutter — so the bar was inset twice and the wordmark sat at
    x=104 while the hero headline sat at x=64. The ≤768 block solves the same
@@ -251,10 +284,13 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   /* Figma applies a drop-shadow here; removed at Hao's request — it read as a
-     border along the bottom edge of the bar. */
+     border along the bottom edge of the bar. Reintroduced, scoped to
+     `.rd-nav-outer.rd-nav-peek` above, for the floating scroll-up state. */
   box-shadow: none;
   border-bottom: none;
   font-family: var(--rd-font);
+  background-color: transparent;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .rd-nav-brand {
@@ -4303,6 +4339,10 @@ ol.rd-case-list > li { list-style-type: decimal; }
   margin-inline: calc(50% - 50vw);
 }
 .rd-case-figure.is-full img { border-radius: 0; border-inline: 0; background: none; }
+/* healthcare-v3 §06 only: id-scoped so this never touches .is-full on
+   lending-new-v3 / case-study-framework / lending-new-v2, which all reuse the
+   bare class above. Extra air between the wall and the card that follows it. */
+#release .rd-case-figure.is-full { margin-bottom: 56px; }
 /* The picture bleeds; the caption does not. It keeps --rd-measure-case from
    the base rule and is pushed back in to start exactly where the paragraphs
    above it start — the shell's left edge plus the section's 24px gutter. The
@@ -5958,6 +5998,16 @@ ol.rd-case-list > li { list-style-type: decimal; }
   color: var(--rd-ink);
   opacity: 1;
 }
+/* §05 findings panel's own sub-labels (BY SEVERITY / MAIN PROBLEMS / WHAT
+   THEY ASKED FOR / TRIP METRICS) sit one step below the panel's own
+   .rd-bench-panel-name title, so they read as a subsection kicker rather
+   than a heading of equal weight to "Audit Findings" etc. — 16px, still
+   bold/uppercase via the inherited .is-heading rule above, just off
+   --rd-fs-md instead of -xl. Scoped to this panel only; .is-heading stays
+   20px everywhere else it's used (Hao, 2026-08-29). */
+[data-findings-insight] .rd-case-label.is-heading {
+  font-size: var(--rd-fs-md); /* 16px */
+}
 /* Gap between the label and what follows it (a paragraph, or the expectation
    checklist) — both .rd-case-label and the sitewide `p { margin: 0 }` reset
    leave these touching otherwise. .rd-case-body's own 16px gap only reaches
@@ -6789,41 +6839,18 @@ ol.rd-case-list > li { list-style-type: decimal; }
   text-align: center;
   color: var(--rd-ink);
 }
-/* Figma (40000460:3334) draws this as a single bordered segmented control —
-   two flush halves sharing one outline, the active half white and the
-   inactive one tinted — not the sitewide .rd-tab pill-with-gap/ink-invert
-   look (which .rd-ai-toggle used at first; corrected per Hao's "container
-   below the question doesn't reflect Figma" 2026-08-27). Buttons keep the
-   .rd-tab class for the interaction pattern (focus-visible outline, cursor,
-   transition) but every visual is overridden here, scoped, from existing
-   tokens only: --rd-border for the shared outline, --rd-white/--rd-surface
-   for the two fills, --rd-ink for text in both states (Figma never inverts
-   to white-on-dark here), --rd-fs-xl/--rd-fw-emphasis matching its 20px
-   bold label. */
-.rd-ai-toggle {
-  justify-content: center;
-  gap: 0;
-  padding: 4px;
-  border: 1px solid var(--rd-border);
-  border-radius: 8px;
-  background: var(--rd-white);
+/* Reverted 2026-08-29 (Hao) — back to the sitewide .rd-tab pill-with-gap/
+   ink-invert look (the segmented-control reskin from 2026-08-27, matching
+   Figma 40000460:3334, read as inconsistent next to every other .rd-tab
+   usage on the page, e.g. customer-engagement-v3's Findings pills). Buttons
+   are unstyled .rd-tab here — only the [aria-pressed] active state needs
+   adding, since the base rule only covers [aria-selected]. */
+.rd-ai-toggle { justify-content: center; }
+.rd-ai-toggle .rd-tab[aria-pressed="true"] {
+  background: var(--rd-ink);
+  color: var(--rd-ink-inverse);
 }
-.rd-ai-toggle .rd-tab {
-  flex: 1 1 0;
-  padding: 16px;
-  background: var(--rd-white);
-  border: 0;
-  border-radius: 4px;
-  font-size: var(--rd-fs-xl);
-  font-weight: var(--rd-fw-emphasis);
-  text-transform: none;
-  letter-spacing: normal;
-  color: var(--rd-ink);
-}
-.rd-ai-toggle .rd-tab:hover { background: var(--rd-surface); }
-.rd-ai-toggle .rd-tab[aria-pressed="true"],
-.rd-ai-toggle .rd-tab[aria-pressed="true"]:hover { background: var(--rd-white); color: var(--rd-ink); }
-.rd-ai-toggle .rd-tab[aria-pressed="false"] { background: var(--rd-surface); }
+.rd-ai-toggle .rd-tab[aria-pressed="true"]:hover { background: var(--rd-ink); }
 
 /* The row/column split used to live directly on .rd-ai-panel (=
    .rd-case-card), which only ever held the two columns. It now also holds
@@ -6921,27 +6948,15 @@ ol.rd-case-list > li { list-style-type: decimal; }
   flex-direction: column;
   gap: 8px;
 }
-/* .rd-ai-band .rd-ai-band-eyebrow / .rd-ai-band-sub, not the bare classes —
-   same "Body copy" specificity fight as .rd-ai-panel-title above: these are
-   <p> tags inside .rd-case-card too, so .rd-case-card p (0,1,1) would
-   otherwise force both back to 16px/500/ink instead of their own sizes. */
-.rd-ai-band .rd-ai-band-eyebrow {
-  margin: 0;
-  font-size: var(--rd-fs-xs);
-  font-weight: var(--rd-fw-emphasis);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--rd-ink-muted);
-}
 /* Flush inside the band — the band's own padding is the only inset it
-   needs, not the checklist row's usual padding + border-top too. */
-.rd-ai-band .rd-case-checklist-row { padding: 0; border-top: 0; }
-.rd-ai-band .rd-ai-band-sub {
-  margin: 0;
-  font-size: var(--rd-fs-sm);
-  line-height: var(--rd-lh-tight);
-  color: var(--rd-ink-muted);
-}
+   needs, not the checklist row's usual padding + border-top too. Centered
+   (eyebrow/sub removed 2026-08-29) since this is now the band's only child.
+   .rd-case-chip's sitewide margin-left:auto exists to pin it to the far
+   right of a full-width row — here that fights justify-content:center by
+   shoving the chip off to the edge on its own, so it's zeroed to let the
+   text+chip pair move as one centered group. */
+.rd-ai-band .rd-case-checklist-row { padding: 0; border-top: 0; justify-content: center; }
+.rd-ai-band .rd-case-chip { margin-left: 0; }
 
 .rd-ai-reveal-closing {
   margin: 0;
@@ -7009,7 +7024,6 @@ ol.rd-case-list > li { list-style-type: decimal; }
   .rd-ai-panel-col:first-child { border-right: 0; border-bottom: 1px solid var(--rd-border-soft); }
   .rd-ai-panel-col:last-child .rd-ai-panel-head { border-radius: 0; }
   .rd-ai-reveal-heading { font-size: var(--rd-fs-lg); }
-  .rd-ai-toggle .rd-tab { padding: 12px; font-size: var(--rd-fs-md); }
 }
 
 /* JS-driven states — gated behind .js-ai-ready (added by ai-accelerate.js
@@ -7045,3 +7059,568 @@ ol.rd-case-list > li { list-style-type: decimal; }
   .rd-ai-circle-label.is-short { opacity: 0; }
   .rd-ai-circle-label.is-long { opacity: 1; }
 }
+
+/* ------------------------------ 13b. AI Accelerate — V2 stacked layers ----
+   healthcare-v3.html's #ai-accelerate-v2 ONLY. Everything in §13 above is
+   shared by both copies of that section and must not be edited to make this
+   one work — the whole point of the duplicate is that the original renders
+   byte-identically to how it did before (see the banner comment above the v2
+   section in that file).
+
+   These rules therefore only ever ADD: every selector below is either a new
+   .rd-ai-* class that appears nowhere else, or is scoped under `.is-v2`.
+   Nothing here overrides a §13 rule.
+
+   The three layers are siblings of .rd-ai-pin rather than children of it,
+   because .rd-ai-pin becomes `position: fixed` under GSAP and would carry
+   them along for the whole scrub. They are ordinary flow content that starts
+   once the pin releases, which is why .rd-ai-stack needs its own top inset
+   instead of inheriting the pin's centring. */
+.rd-ai-stack {
+  /* vh-based like .rd-ai-pin's own padding, for the same reason: the pinned
+     box above is sized to the viewport, so a flat px gap reads as generous on
+     a tall window and cramped on a short one. */
+  margin-top: clamp(24px, 7vh, 72px);
+  gap: clamp(40px, 7vh, 72px);
+}
+.rd-ai-layer { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+/* One step down from .rd-case-h2 and one up from .rd-case-card h3: these are
+   sub-headings inside a section that already has its own <h2>, so they must
+   not compete with "AI Accelerate" at the top of it. */
+.rd-ai-layer-title {
+  margin: 0;
+  max-width: var(--rd-measure-case);
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-xl);
+  line-height: var(--rd-lh-heading);
+  color: var(--rd-ink);
+}
+/* .rd-case-label is uppercase/0.6-opacity by default; `is-heading` is the
+   established modifier for using it as a section eyebrow rather than a field
+   label, and it is already defined above — nothing added for it here. */
+
+/* --- the branch graphic ------------------------------------------------
+   Drawn, not screenshotted: a real graph would carry the client's repo name
+   and this page names nobody (see the NDA banner at the top of the HTML).
+
+   COLOURS COME FROM CSS RULES, NOT PRESENTATION ATTRIBUTES. `stroke="var(--x)"`
+   on an SVG element silently does nothing — the same trap documented on
+   .rd-bench's chart. Every stroke/fill below is set here instead. */
+.rd-ai-branch {
+  width: 100%;
+  padding: 24px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  /* The graphic has a fixed aspect ratio and its labels stop being legible
+     much under ~560px. Rather than let it shrink into a smear it scrolls,
+     the same call as .rd-case-figure.is-strip. */
+  overflow-x: auto;
+}
+/* CAPPED AT ITS OWN VIEWBOX WIDTH, and this is not optional. The labels are
+   SVG <text> in user units, so an uncapped `width: 100%` scales the whole
+   drawing — at a 1312px column the 720-unit viewBox renders at 1.75x and the
+   12px labels come out at 21px, larger than the section's own body copy
+   (measured before this cap went in). Centred rather than left-aligned: a
+   720px drawing hard against the left of a 1312px card reads as a layout
+   mistake rather than a diagram. */
+.rd-ai-branch-svg {
+  display: block;
+  width: 100%;
+  min-width: 560px;
+  max-width: 720px;
+  height: auto;
+  margin-inline: auto;
+}
+.rd-ai-branch-rail { fill: none; stroke-width: 2; }
+.rd-ai-branch-rail.is-main { stroke: var(--rd-ink-muted); }
+.rd-ai-branch-rail.is-design { stroke: var(--rd-primary); }
+.rd-ai-branch-node.is-main { fill: var(--rd-ink-muted); }
+.rd-ai-branch-node.is-design { fill: var(--rd-primary); }
+/* The merge node is the one event the graphic exists to show, so it is the
+   only filled-white ring — larger radius plus a heavy stroke reads as a stop,
+   where the flat dots read as passing through. */
+.rd-ai-branch-node.is-merge { fill: var(--rd-white); stroke: var(--rd-primary); stroke-width: 3; }
+.rd-ai-branch-label {
+  font-family: var(--rd-font);
+  /* --fs-xs is a flat 12px (not a rem), so the token is safe inside SVG user
+     units here and no literal is needed — the drawing is capped at its own
+     viewBox width, so this never scales. */
+  font-size: var(--rd-fs-xs);
+  font-weight: var(--rd-fw-body);
+  text-anchor: middle;
+}
+.rd-ai-branch-label.is-main { text-anchor: start; fill: var(--rd-ink-muted); }
+.rd-ai-branch-label.is-design { fill: var(--rd-primary); }
+.rd-ai-branch-label.is-merge { fill: var(--rd-ink); font-weight: var(--rd-fw-emphasis); }
+
+/* --- before / after ----------------------------------------------------
+   Two cards that argue against each other, so they are the same width and
+   the same internal rhythm; only the eyebrow and the border weight differ.
+   `align-items: stretch` (the grid default) matters here — the two columns
+   hold different numbers of rows and a top-aligned pair would leave the
+   shorter card floating. */
+.rd-ai-ba {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  width: 100%;
+}
+.rd-ai-ba-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 16px;
+}
+/* The "after" column is the argument; the "before" column is the setup. A
+   full-weight border on one and the soft border on the other says which is
+   which without a colour or a badge. */
+.rd-ai-ba-col.is-after { border-color: var(--rd-border); }
+.rd-ai-ba-k {
+  margin: 0;
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+  opacity: 0.6;
+}
+.rd-ai-ba-col.is-after .rd-ai-ba-k { color: var(--rd-primary); opacity: 1; }
+.rd-ai-ba-lede {
+  margin: 0;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+
+/* --- the counted receipt ----------------------------------------------
+   One bordered container divided into three, not three separate cards —
+   same call as .rd-case-cols: the three figures are one claim, and three
+   detached boxes read as three unrelated brags. */
+.rd-ai-evi {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.rd-ai-evi-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+  border-left: 1px solid var(--rd-border-soft);
+}
+.rd-ai-evi-stat:first-child { border-left: 0; }
+.rd-ai-evi-stat strong {
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-2xl);
+  line-height: var(--rd-lh-tight);
+  color: var(--rd-ink);
+}
+.rd-ai-evi-stat span {
+  font-size: var(--rd-fs-sm);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink-muted);
+}
+
+/* --- the limit ---------------------------------------------------------
+   The one place in this section where the answer is "don't". It gets the
+   pain colour as a 3px left edge rather than a tinted fill: the card sits
+   at the end of a long section and a filled panel there reads as a summary
+   box, which is the opposite of what it says. */
+.rd-ai-gate {
+  border-left: 3px solid var(--rd-pain-chip);
+  max-width: var(--rd-measure-case);
+}
+
+/* Under ~900px the two before/after columns stop being a comparison and
+   start being two narrow cards nobody can read across, so they stack. The
+   receipt survives one step longer because its three figures are short. */
+@media (max-width: 900px) {
+  .rd-ai-ba { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .rd-ai-evi { grid-template-columns: 1fr; }
+  .rd-ai-evi-stat { border-left: 0; border-top: 1px solid var(--rd-border-soft); }
+  .rd-ai-evi-stat:first-child { border-top: 0; }
+  /* §13 skips the pin entirely at this width and renders the diagram
+     statically, so the stack below it is simply the next thing on the page —
+     the vh-based inset above would be doing nothing useful. */
+  .rd-ai-stack { margin-top: 40px; gap: 48px; }
+}
+
+/* --------------------------------- 13c. User Landscape --------------------
+   healthcare-v3.html §02 only (Figma 40000438:9332). Five role groups across
+   one bordered container, each carrying the same three bands — User,
+   Responsibility, Permission — so the bands can be read ACROSS the columns as
+   well as down them. Reading across is the whole point: it is what makes
+   "the same program means something different to each of them" (§03's
+   heading, one section later) visible before it is asserted.
+
+   SUBGRID, AND IT MATTERS. The three bands only line up across five columns
+   if every column shares one set of row tracks. Without subgrid each column
+   sizes its own rows to its own content — Attendant has two role names where
+   Approval has four — and the Responsibility label would sit at five
+   different heights, which reads as five unrelated cards rather than one
+   table. `grid-row: 1 / -1` is what makes the column a subgrid participant;
+   removing it silently reverts to the ragged layout with no error.
+
+   Row gaps come from the PARENT's row-gap, not from a `gap` on the column:
+   on a subgridded axis the child's own gap is ignored. */
+.rd-case-landscape {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto auto auto auto; /* head · user · responsibility · permission */
+  row-gap: 16px;
+  width: 100%;
+  padding: 24px 0;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+}
+.rd-case-landscape-col {
+  display: grid;
+  grid-row: 1 / -1;
+  grid-template-rows: subgrid;
+  padding-inline: 24px;
+  border-left: 1px solid var(--rd-border-soft);
+}
+.rd-case-landscape-col:first-child { border-left: 0; }
+.rd-case-landscape-head { display: flex; align-items: center; gap: 12px; }
+.rd-case-landscape-group {
+  margin: 0;
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-tight);
+  color: var(--rd-ink);
+}
+.rd-case-landscape-cell { display: flex; flex-direction: column; gap: 8px; }
+/* .rd-case-list is `max-width: var(--rd-measure-case)` — which is `none` on
+   this site, so it is inert here; the column's own track does the limiting.
+   Left padding is the list's, not the cell's, so the labels above stay flush
+   with the column edge while the role names hang their bullets inside it. */
+.rd-case-landscape-cell .rd-case-list { padding-left: 18px; }
+.rd-case-landscape-text {
+  margin: 0;
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink-muted);
+}
+
+/* Five columns of running text stop being readable well before the phone
+   breakpoint — at 1024 each column is under 190px and the Responsibility
+   sentences wrap to six or seven lines. Below that the whole thing becomes a
+   plain stack: subgrid is dropped (there is no longer a shared row axis to
+   align to) and the dividers turn horizontal. */
+@media (max-width: 1024px) {
+  .rd-case-landscape {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+  }
+  .rd-case-landscape-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    border-left: 0;
+    border-top: 1px solid var(--rd-border-soft);
+  }
+  .rd-case-landscape-col:first-child { border-top: 0; }
+}
+
+/* --------------------------------- 13d. Problems carousel -----------------
+   healthcare-v3.html, the unnumbered beat between the Healthcare in US band
+   and §02 (Figma 40000453:672). Three pain points on one carousel.
+
+   FIGMA → TOKEN SUBSTITUTIONS, all following precedents already set in this
+   file (see the "#374151 → --rd-ink" and "#4b5563 → --rd-ink-muted" notes
+   further down):
+     32px SemiBold quote .... --rd-fs-3xl + --rd-fw-heading  (exact match)
+     16px Medium attribution  --rd-fs-md  + --rd-fw-body     (exact match)
+     #131313 quote ink ...... --rd-ink        (near-duplicate, not a new token)
+     #4b5563 attribution .... --rd-ink-muted  (near-duplicate, same precedent)
+   The node's 1392px container needs nothing at all: --rd-shell is 1440 and
+   .rd-case-inner insets 24px a side, which is 1392 exactly.
+
+   THE SLIDES SHARE ONE GRID CELL. All three sit at `grid-area: 1 / 1`, so the
+   viewport is as tall as the LONGEST pain point and switching slides cannot
+   move the dots, the arrows, or §02 below. The alternative — stacking them and
+   measuring heights in JS — is what the AI panel has to do, and it is the
+   reason that panel needs a font-load re-measure. Not needed here. */
+/* healthcare-v3.html only — a new class, not the shared .rd-case-section
+   bucket, so every other section using that class is unaffected. */
+.rd-case-quotes-section { min-height: 100vh; display: flex; align-items: center; }
+.rd-quotes { display: flex; flex-direction: column; gap: 80px; width: 100%; }
+.rd-quotes-viewport { display: grid; }
+.rd-quote {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0;
+  transition: opacity 240ms ease;
+}
+/* `[hidden]` alone cannot win here: the base rule sets `display: flex`, and an
+   author `display` beats the UA `[hidden]` rule at any specificity — the same
+   trap the initiatives disclosure hit. The explicit rule below is what makes
+   `hidden` actually hide, and it is also what keeps an inactive slide out of
+   the accessibility tree instead of merely transparent. */
+.rd-quote[hidden] { display: none; }
+/* Avatar left, quote glyph right, on one row — the node's own arrangement. */
+.rd-quote-top { display: flex; align-items: flex-start; justify-content: space-between; width: 100%; }
+/* 84px, matching the node. A neutral mark, not a face: there is no interview
+   behind this page and the attribution names a role group rather than a
+   person, so a portrait would imply a source that does not exist. */
+.rd-quote-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex: 0 0 auto;
+  width: 84px;
+  height: 84px;
+  border-radius: 999px;
+  background: var(--rd-tint);
+  border: 1px solid var(--rd-border-soft);
+  color: var(--rd-ink-muted);
+}
+.rd-quote-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.rd-quote-mark { flex: 0 0 auto; width: 73px; height: 60px; fill: var(--rd-ink); opacity: 0.12; }
+.rd-quote-text {
+  margin: 0;
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-heading);
+  font-style: italic;
+  font-size: var(--rd-fs-3xl);
+  line-height: var(--rd-lh-heading);
+  color: var(--rd-ink);
+}
+.rd-quote-by {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-tight);
+  color: var(--rd-ink-muted);
+}
+/* 48 × 2px, the node's exact rule. `flex: 0 0 48px` because a bare width on a
+   flex child is a suggestion — the attribution text wraps at narrow widths and
+   would otherwise squeeze the rule to nothing. */
+.rd-quote-rule { flex: 0 0 48px; height: 2px; background: var(--rd-ink-muted); }
+
+.rd-quotes-nav { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+.rd-quotes-dots { display: flex; align-items: center; gap: 12px; }
+/* The node draws the inactive dots as rings and the active one filled. Both
+   states are 10px so nothing shifts when the selection moves; only the fill
+   changes. The 32px pseudo-element is the touch target — WCAG 2.5.8 wants 24px
+   minimum and a 10px dot is nowhere near it, but growing the dot itself would
+   break the node's proportions. */
+.rd-quotes-dot {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--rd-ink-muted);
+  background: transparent;
+  cursor: pointer;
+}
+.rd-quotes-dot::after { content: ""; position: absolute; inset: -11px; }
+.rd-quotes-dot.is-active { background: var(--rd-ink-muted); }
+.rd-quotes-arrows { display: flex; align-items: center; gap: 16px; }
+.rd-quotes-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--rd-ink-muted);
+  cursor: pointer;
+}
+.rd-quotes-arrow:hover { color: var(--rd-ink); }
+.rd-quotes-arrow:focus-visible, .rd-quotes-dot:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: 3px; }
+
+/* --- the Healthcare in US band (Figma 40000409:7302) ---
+   Centred heading over a centred italic lead, sitting between the Overview
+   container and the carousel. `--rd-measure-case` is `none` on this site, so
+   the lead needs its own ch-based cap or it runs the full 1312px column and
+   stops reading as a framing line. */
+.rd-case-band-inner { align-items: center; text-align: center; gap: 16px; }
+.rd-case-band-title {
+  margin: 0;
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-2xl);
+  line-height: var(--rd-lh-heading);
+  color: var(--rd-ink);
+}
+.rd-case-band-lead {
+  margin: 0;
+  max-width: 84ch;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-body);
+  font-style: italic;
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+/* Visually hidden but readable by a screen reader — the dots carry no visible
+   label, and an unlabelled tab is unusable without one. */
+.rd-sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 768px) {
+  .rd-quotes { gap: 48px; }
+  .rd-quote-avatar { width: 56px; height: 56px; }
+  .rd-quote-avatar svg { width: 28px; height: 28px; }
+  .rd-quote-mark { width: 48px; height: 40px; }
+  .rd-quote-text { font-size: var(--rd-fs-xl); }
+  .rd-quote-by { gap: 16px; align-items: flex-start; }
+  .rd-quote-rule { margin-top: 10px; }
+}
+
+/* healthcare-v3.html §05 only. The map evidence block is a SECOND
+   .rd-case-inner inside a section that already has one (the release card),
+   and .rd-case-section sets no gap between its direct children because every
+   other section on the site has exactly one inner. A class rather than a bare
+   `#release` selector: redesign.css already carries an unscoped `#built` rule
+   that this section tripped over once. */
+.rd-case-evidence { margin-top: 40px; }
+
+/* --------------------------------- 13f. Screen-wall marquee ---------------
+   healthcare-v3.html §06 only (.rd-case-figure.is-full > .rd-case-wall-spacer
+   > .rd-case-wall-pin). Two states:
+
+   DEFAULT (no JS / reduced-motion / <769px, i.e. js/case-wall-marquee.js's
+   own bail conditions): .rd-case-wall-spacer has no set height (auto), so
+   .rd-case-wall-pin just sits in normal flow at its natural size — no
+   sticky, no scroll-hold. Both rows show their 7 real screenshots once
+   each — no horizontal scroll, fully readable.
+
+   ENHANCED (.js-wall-ready, added by the JS to .rd-case-wall-spacer once
+   GSAP/ScrollTrigger confirm they're running): the spacer becomes 400vh
+   (100vh visible + 300vh hold — the "~3 screens" from spec) and the pin
+   inside it goes `position: sticky; top: 0`, which is what actually holds
+   it on screen for that 300vh — native CSS, not GSAP. Each row's images
+   also go edge-to-edge in one line here — js/case-wall-marquee.js has by
+   this point cloned each row's 7 images to 21 (3x), which is what makes the
+   scrub-driven xPercent loop seamless.
+
+   FOUR-ROUND HISTORY, all Hao, 2026-08-29, worth keeping straight:
+   round 1 shipped title+desc OUTSIDE the pin, in normal flow above it — so
+   they scrolled off before the pin ever engaged, and the two rows held the
+   ENTIRE screen alone for 3 scroll-screens. Round 2 fixed a real "content
+   visible underneath the wall" bug by giving the pin `min-height: 100vh` —
+   correct fix, but it made round 1's problem worse: now a full blank screen
+   of nothing but 2 image rows, no context, for the whole hold. Round 3 put
+   title + desc + both rows together on one screen — the actual spec — by
+   making .rd-case-wall-header a CHILD of the pin instead of a sibling
+   .rd-case-inner above the figure, so it travels with the pin rather than
+   scrolling away before the hold starts. Round 4: round 2's "content
+   underneath" bug came BACK on real Safari only (GSAP's own pin: true was
+   silently sizing its spacer wrong there — never reproduced in Chromium or
+   in an isolated repro of the same structure, so the exact internal cause
+   was never pinned down). Replaced GSAP's pin entirely with native
+   `position: sticky` + a JS-toggled `height: 400vh` on this new
+   .rd-case-wall-spacer wrapper — no per-browser spacer math left to get
+   wrong. GSAP/ScrollTrigger still runs, but only to scrub the two rows'
+   xPercent against scroll progress; it doesn't pin anything any more. */
+.rd-case-wall-spacer.js-wall-ready { height: 400vh; }
+.rd-case-wall-pin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Space between the header block and the image rows below it — vh-based
+     like .rd-ai-inner's own gap above, so it compresses on short viewports
+     instead of forcing a fixed 40px that a 768px-tall laptop can't afford. */
+  gap: clamp(20px, 4vh, 48px);
+  background: var(--rd-surface);
+  overflow: hidden;
+  height: 100vh;
+  box-sizing: border-box;
+  /* Top and bottom split on purpose, was one `padding-block`. `.rd-case-toc`
+     is sticky at top: 0 (measured 47px tall) and paints over this section
+     once scrolled — at the 768px-tall laptop this file already tests against
+     (see the image-width comment below), the old symmetric clamp left only
+     ~8px of clearance above the header, and below 768px it went negative and
+     the TOC covered the heading outright. 56px is a flat floor (47 + a
+     buffer), not itself vh-scaled, so it can't shrink back into the TOC's way
+     the way the old shared clamp did; it only grows past 56 on screens tall
+     enough (~900px+) that the room is free anyway. Bottom keeps the original
+     formula unchanged — the two rows' own breathing room isn't this
+     section's problem to fix. */
+  padding-top: clamp(56px, calc(4vh + 20px), 76px);
+  padding-bottom: clamp(16px, 4vh, 56px);
+}
+/* Sticky only once enhanced — see the state notes above. In the default
+   state this stays a normal flow box (no top/position), which is what keeps
+   the no-JS/reduced-motion/mobile render a plain static section rather than
+   a 100vh box with nothing to stick inside. */
+.rd-case-wall-spacer.js-wall-ready .rd-case-wall-pin {
+  position: sticky;
+  top: 0;
+}
+/* Overrides .rd-case-inner's own 32px gap: this is the one heading+body pair
+   on the page that has to share its screen with two rows of images below it,
+   so it runs tighter than every other section intro. */
+.rd-case-wall-header { gap: clamp(12px, 2vh, 24px); }
+.rd-case-wall-images {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.rd-case-wall-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+/* Up to 400 / no crop, per Hao (2026-08-29): object-fit was `cover` at
+   200px, which cut off real screen content. `contain` shows every pixel of
+   the actual crop; the tint fill is what shows in the aspect-ratio mismatch
+   letterboxing (924x662 screens vs this box's 4:3 vs the one 681x655 crop),
+   same fill the old .rd-ph placeholders used rather than plain white.
+   clamp(), not a flat 400px: now that the header shares this same 100vh
+   screen (see the history note above .rd-case-wall-pin), a flat 400px cell
+   height plus 2 rows plus a heading and 2 paragraphs doesn't fit inside a
+   768px-tall laptop window — verified empirically, not guessed — so the
+   cell shrinks with vw at that end while still reaching the full 400px Hao
+   asked for on anything wider than roughly a 1600px viewport. */
+.rd-case-wall-row img {
+  flex: 0 0 auto;
+  width: clamp(180px, 21vw, 400px);
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  object-position: center;
+  background: var(--rd-tint);
+  display: block;
+}
+.rd-case-wall-spacer.js-wall-ready .rd-case-wall-row {
+  flex-wrap: nowrap;
+  will-change: transform;
+}
+

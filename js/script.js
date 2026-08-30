@@ -48,6 +48,97 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
                 console.error("Menu toggle elements not found.");
             }
+
+            // Reveal the nav when the reader scrolls up past the hero, hide
+            // it again on the way back down.
+            //
+            // `.rd-nav-outer` starts as its normal static, in-flow self —
+            // untouched — and only gets `position: fixed` (redesign.css)
+            // once scrollY passes the bar's own height. A spacer of that same
+            // height is inserted in its place at that exact moment so the
+            // page never reflows. (`position: sticky` can't do this: `html`'s
+            // `overflow-x: hidden` in style.css silently resolves
+            // `overflow-y` to `auto`, which breaks sticky's containing-block
+            // lookup — confirmed live, the box tracked scrollY 1:1 instead of
+            // sticking.)
+            const navOuter = document.querySelector(".rd-nav-outer");
+            if (navOuter) {
+                const navSpacer = document.createElement("div");
+                navSpacer.setAttribute("aria-hidden", "true");
+                navSpacer.style.display = "none";
+                navOuter.insertAdjacentElement("afterend", navSpacer);
+
+                const THRESHOLD = 20;
+                let navHeight = navOuter.offsetHeight;
+                let isFixed = false;
+                let stableY = window.scrollY;
+
+                // Crossing into/out of fixed mode is a plain position check
+                // against a height measured once up front (not re-read on
+                // every tick — `offsetHeight` forces layout, and doing that
+                // on every scroll event would thrash it). Runs synchronously,
+                // not on a rAF, and not throttled: `scrollend` (below) can
+                // fire only a few ms after the final `scroll` event of a
+                // gesture — measured live, ~5ms — which is faster than a
+                // deferred rAF callback, so a throttled version of this ran
+                // AFTER scrollend and left `isFixed` stale for that whole
+                // reveal decision.
+                window.addEventListener("scroll", () => {
+                    const y = window.scrollY;
+                    if (!isFixed && y > navHeight) {
+                        navSpacer.style.height = navHeight + "px";
+                        navSpacer.style.display = "block";
+                        navOuter.classList.add("rd-nav-fixed", "rd-nav-hidden");
+                        isFixed = true;
+                    } else if (isFixed && y <= navHeight) {
+                        navOuter.classList.remove("rd-nav-fixed", "rd-nav-hidden", "rd-nav-peek");
+                        navSpacer.style.display = "none";
+                        isFixed = false;
+                        stableY = y;
+                    }
+                }, { passive: true });
+
+                // Direction (peek vs. hidden), by contrast, is only decided
+                // once scrolling has actually settled — never mid-scroll.
+                // Chrome's own wheel-scroll easing overshoots the target and
+                // corrects back (a single big wheel notch wobbled a genuine
+                // ~350px "upward" over its ~150ms settle), and on the pages
+                // with mandatory CSS scroll-snap (home, about) the snap's own
+                // `scroll-behavior: smooth` tail runs far longer — up to
+                // ~800ms measured. Sampling at any fixed cadence mid-motion
+                // eventually lands inside one of those tails and reads it as
+                // a genuine reversal. `scrollend` sidesteps the whole problem
+                // by only ever comparing two already-settled positions.
+                const classifyDirection = () => {
+                    if (!isFixed) return;
+                    const y = window.scrollY;
+                    const delta = y - stableY;
+                    if (delta > THRESHOLD) {
+                        navOuter.classList.remove("rd-nav-peek");
+                        navOuter.classList.add("rd-nav-hidden");
+                    } else if (delta < -THRESHOLD) {
+                        navOuter.classList.add("rd-nav-peek");
+                        navOuter.classList.remove("rd-nav-hidden");
+                    }
+                    stableY = y;
+                };
+
+                if ("onscrollend" in window) {
+                    window.addEventListener("scrollend", classifyDirection);
+                } else {
+                    // Safari < 17.4 fallback: settle-detection via debounce.
+                    let settleTimer;
+                    window.addEventListener("scroll", () => {
+                        clearTimeout(settleTimer);
+                        settleTimer = setTimeout(classifyDirection, 200);
+                    }, { passive: true });
+                }
+
+                window.addEventListener("resize", () => {
+                    navHeight = navOuter.offsetHeight;
+                    if (isFixed) navSpacer.style.height = navHeight + "px";
+                });
+            }
         }, 100); // Small delay to ensure elements are available
     });
 

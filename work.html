@@ -22,6 +22,115 @@
     <link rel="stylesheet" href="./css/styles/redesign.css">
     <!-- Must load LAST. -->
     <link rel="stylesheet" href="./css/styles/case-retheme-v3.css">
+    <!-- Selected Project card grid — scoped to this page, not added to
+         redesign.css. Anatomy borrowed from .rd-related-card (the "more
+         like this" row on every finished case study), sized up for a
+         primary grid. Review history: case-studies/_preview-work-cards.html
+         (Version B2, approved by Hao 2026-08-29). -->
+    <style>
+      .rd-work-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 32px;
+        margin-top: 8px;
+      }
+      .rd-work-tile {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        --rd-work-pad: 24px;
+        padding: var(--rd-work-pad);
+        background: var(--rd-white);
+        border: 1px solid var(--rd-border);
+        border-radius: 16px;
+        overflow: hidden;
+        cursor: pointer;
+        color: var(--rd-ink);
+        transition: border-color 0.15s ease, transform 0.15s ease;
+      }
+      .rd-work-tile:hover { border-color: var(--rd-primary); transform: translateY(-4px); }
+      .rd-work-media {
+        position: relative;
+        width: calc(100% + var(--rd-work-pad) * 2);
+        margin: calc(-1 * var(--rd-work-pad)) calc(-1 * var(--rd-work-pad)) 0;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        background: var(--rd-surface);
+      }
+      .rd-work-media img {
+        position: absolute; inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover; object-position: center top;
+        transition: transform 0.2s ease;
+      }
+      .rd-work-tile:hover .rd-work-media img { transform: scale(1.03); }
+      .rd-work-tile-body { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+      .rd-work-eyebrow {
+        font-weight: var(--rd-fw-emphasis);
+        font-size: var(--rd-fs-xs);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        opacity: 0.6;
+      }
+      /* text-transform: none overrides text-styles.css's bare `h3 { text-
+         transform: uppercase }`, which otherwise wins here (see
+         _preview-work-cards.html header comment for the same trap). */
+      .rd-work-tile-title {
+        font-family: "DM Sans", sans-serif;
+        font-weight: var(--rd-fw-heading);
+        font-size: var(--rd-fs-xl);
+        line-height: var(--rd-lh-heading);
+        text-transform: none;
+        color: var(--rd-ink);
+      }
+      .rd-work-desc {
+        font-size: var(--rd-fs-md);
+        line-height: var(--rd-lh-prose);
+        opacity: 0.85;
+      }
+      .rd-work-cta { margin-top: auto; font-size: var(--rd-fs-md); color: var(--rd-primary); padding-top: 8px; }
+      .rd-work-tile:hover .rd-work-cta { text-decoration: underline; }
+
+      .rd-work-tile.is-soon { cursor: default; }
+      .rd-work-tile.is-soon:hover { transform: none; border-color: var(--rd-border); }
+      .rd-work-tile.is-soon .rd-work-media img { filter: grayscale(1); opacity: 0.55; }
+      .rd-work-tile.is-soon:hover .rd-work-media img { transform: none; }
+      .rd-work-tile.is-soon .rd-work-desc { opacity: 0.5; }
+      .rd-work-cta.is-muted { color: var(--rd-ink); opacity: 0.45; }
+
+      /* <details>/<summary> gives collapsed-by-default, the click target
+         and keyboard/screen-reader semantics for free — no JS. */
+      .rd-work-archive { grid-column: 1 / -1; margin-top: 16px; }
+      .rd-work-archive-summary {
+        display: flex; align-items: center; justify-content: space-between;
+        cursor: pointer; list-style: none;
+        padding-bottom: 16px; margin-bottom: 24px;
+        border-bottom: 1px solid var(--rd-border);
+        font-size: var(--rd-fs-xs); font-weight: var(--rd-fw-emphasis);
+        letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7;
+      }
+      .rd-work-archive-summary::-webkit-details-marker { display: none; }
+      .rd-work-archive-summary::marker { content: ""; }
+      .rd-work-archive-summary:hover { opacity: 1; }
+      .rd-work-archive-icon {
+        display: inline-flex; width: 20px; height: 20px;
+        align-items: center; justify-content: center;
+        transition: transform 0.15s ease;
+      }
+      .rd-work-archive[open] > .rd-work-archive-summary .rd-work-archive-icon { transform: rotate(180deg); }
+      .rd-work-archive-grid {
+        display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px;
+      }
+
+      @media (max-width: 1180px) {
+        .rd-work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .rd-work-archive-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      @media (max-width: 768px) {
+        .rd-work-grid { grid-template-columns: 1fr; gap: 20px; }
+        .rd-work-archive-grid { grid-template-columns: 1fr; gap: 20px; }
+      }
+    </style>
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
         <script>
         window.dataLayer = window.dataLayer || [];
@@ -71,7 +180,6 @@
 </div>
     </div>
 </header>
-<body>
     <section class="container-fluid">
     <!-- The full-bleed fill stays OUT of the grid (grid.md rule 2); .rd-grid owns
          the inset. Was `padding-inline: 40px` + a 24px shell = a flat 64px at every
@@ -84,161 +192,105 @@
                     Selected Project
                 </p>
                 <div class="usecase" data-aos="fade-up">
-                    <div class="grid-container">
-                        <!-- First row - Large card -->
-                        <div class="card large-card" data-case-study="web-3">
-                            <div class="card-header">
-                                <h2 class="sub-heading">Web3</h2>
-                                <p class="lg-regular">Secure and scalable decentralized applications leveraging blockchain technology to enhance data security and transparency.</p>
-                                <button class="btn-ghosh" >
-                                    Learn more <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve"><g><path d="m22.707 11.293-7-7a1 1 0 0 0-1.414 1.414L19.586 11H2a1 1 0 0 0 0 2h17.586l-5.293 5.293a1 1 0 1 0 1.414 1.414l7-7a1 1 0 0 0 0-1.414z"></path></g></svg>
-                                        
-                                    </button>
-                                 
+                    <div class="rd-work-grid">
+                        <!-- Whole card is the click target — js/script.js's
+                             initializeCaseStudyLinks() binds click on any
+                             [data-case-study] element and routes to
+                             case-studies/${slug}.html. Unchanged from before;
+                             only the markup/visual layer changed here. -->
+                        <div class="rd-work-tile" data-case-study="web-3">
+                            <div class="rd-work-media"><img src="./public/web3.jpg" alt="" loading="lazy"></div>
+                            <div class="rd-work-tile-body">
+                                <p class="rd-work-eyebrow">Web3 infrastructure</p>
+                                <h3 class="rd-work-tile-title">Holding six products together through a platform change</h3>
+                                <p class="rd-work-desc">Lead product designer for a Layer 1 blockchain: running the design function across six surfaces, and defining products with four engineering groups while the platform changed underneath them.</p>
                             </div>
-
-                            <div class="card-image-container">
-                                <div class="image-wrapper">
-                                    <img src="./public/web3.jpg" alt="usecase_image" class="card-image">
-                                </div>
-                            </div>  
-                        </div>
-            
-                        <!-- First row - Small card -->
-                        <!-- Replaced the ERP card 2026-08-17 (Hao's call). ERP had no page,
-                             no decision and no outcome; this one shipped in three phases and
-                             ends up inside the super app. data-case-study is the routing slug:
-                             js/script.js lowercases it and loads case-studies/{slug}.html, so
-                             it must stay "customer-engagement" to match the filename. No
-                             data-status attribute — that is what makes the card clickable. -->
-                        <div class="card large-card" data-case-study="customer-engagement">
-                            <div class="card-header">
-                                <h2 class="sub-heading">Customer Engagement</h2>
-                                <p class="lg-regular">Internal tooling for planning and running executive customer visits — rebuilt around the one screen managers lived in, then folded into the company super app.</p>
-                                <button class="btn-ghosh">
-                                    Learn more <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve"><g><path d="m22.707 11.293-7-7a1 1 0 0 0-1.414 1.414L19.586 11H2a1 1 0 0 0 0 2h17.586l-5.293 5.293a1 1 0 1 0 1.414 1.414l7-7a1 1 0 0 0 0-1.414z"></path></g></svg>
-                                    </button>
-                            </div>
-                            <div class="card-image-container">
-                                <div class="image-wrapper">
-                                    <img src="./public/ce_cover.webp" alt="usecase_image" class="card-image">
-                                </div>
-                            </div>
+                            <span class="rd-work-cta">Read the case study →</span>
                         </div>
 
-                        <!-- Repeat this structure for the remaining 4 cards -->
-                        <div class="card large-card" data-case-study="core-banking" data-status="coming-soon">
-                            <div class="card-header">
-                                <h2 class="sub-heading">Core Banking <span class="rd-soon-badge">In progress</span></h2>
-                                <p class="lg-regular">Advanced digital banking and payment solutions that modernize financial services, ensuring seamless transactions and security.</p>
-                                <button class="btn-ghosh" type="button" disabled aria-disabled="true">
-                                        Coming soon
-                                    </button>
+                        <div class="rd-work-tile" data-case-study="customer-engagement">
+                            <div class="rd-work-media"><img src="./public/ce_cover.webp" alt="" loading="lazy"></div>
+                            <div class="rd-work-tile-body">
+                                <p class="rd-work-eyebrow">Internal tooling</p>
+                                <h3 class="rd-work-tile-title">Cutting four roles to keep one release</h3>
+                                <p class="rd-work-desc">Thirty-six usability defects, five user roles, six weeks. Cutting four roles out of a redesign to keep the release — and shipping it into the company super app.</p>
                             </div>
-                            <div class="card-image-container">
-                                <div class="image-wrapper">
-                                    <img src="./public/coreBanking.png" alt="usecase_image" class="card-image">
+                            <span class="rd-work-cta">Read the case study →</span>
+                        </div>
+
+                        <div class="rd-work-tile" data-case-study="lending">
+                            <div class="rd-work-media"><img src="./public/UC_lending.png" alt="" loading="lazy"></div>
+                            <div class="rd-work-tile-body">
+                                <p class="rd-work-eyebrow">Consumer lending</p>
+                                <h3 class="rd-work-tile-title">Getting consumer lending off the counter</h3>
+                                <p class="rd-work-desc">Vietnam's third-largest consumer lender originated every loan at a counter. Reframing a four-goal client brief down to one problem, then shipping it.</p>
+                            </div>
+                            <span class="rd-work-cta">Read the case study →</span>
+                        </div>
+
+                        <div class="rd-work-tile" data-case-study="healthcare">
+                            <div class="rd-work-media"><img src="./public/hc_cover.webp" alt="" loading="lazy"></div>
+                            <div class="rd-work-tile-body">
+                                <p class="rd-work-eyebrow">Healthcare — pharma</p>
+                                <h3 class="rd-work-tile-title">One speaker-bureau platform for 17 roles</h3>
+                                <p class="rd-work-desc">Seventeen roles, 496 user stories, one MVP. Prioritising a pharma speaker-bureau platform across conflicting user segments.</p>
+                            </div>
+                            <span class="rd-work-cta">Read the case study →</span>
+                        </div>
+
+                        <div class="rd-work-tile" data-case-study="marketing-platform">
+                            <div class="rd-work-media"><img src="./public/marketing.png" alt="" loading="lazy"></div>
+                            <div class="rd-work-tile-body">
+                                <p class="rd-work-eyebrow">Marketing platform</p>
+                                <h3 class="rd-work-tile-title">Eight apps, one team</h3>
+                                <p class="rd-work-desc">A startup with fifty salons, a twenty-percent ambition and eight apps in flight. Cutting it to one transaction spine — book, check in, pay — and sequencing the rest behind it.</p>
+                            </div>
+                            <span class="rd-work-cta">Read the case study →</span>
+                        </div>
+
+                        <!-- Collapsed by default (no `open` attribute). data-status
+                             stays "coming-soon" on both so js/script.js keeps
+                             skipping the click listener — same guard as before,
+                             just no longer visible until the reader opens this. -->
+                        <details class="rd-work-archive">
+                            <summary class="rd-work-archive-summary">
+                                <span>In progress / Archived</span>
+                                <span class="rd-work-archive-icon" aria-hidden="true">
+                                    <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </span>
+                            </summary>
+                            <div class="rd-work-archive-grid">
+                                <div class="rd-work-tile is-soon" data-case-study="core-banking" data-status="coming-soon" aria-disabled="true">
+                                    <div class="rd-work-media"><img src="./public/coreBanking.png" alt="" loading="lazy"></div>
+                                    <div class="rd-work-tile-body">
+                                        <p class="rd-work-eyebrow">Digital banking</p>
+                                        <h3 class="rd-work-tile-title">Core Banking <span class="rd-soon-badge">In progress</span></h3>
+                                        <p class="rd-work-desc">Advanced digital banking and payment solutions that modernise financial services, keeping transactions seamless and secure.</p>
+                                    </div>
+                                    <span class="rd-work-cta is-muted">Coming soon</span>
+                                </div>
+
+                                <div class="rd-work-tile is-soon" data-case-study="automotive" data-status="coming-soon" aria-disabled="true">
+                                    <div class="rd-work-media"><img src="./public/automotive.png" alt="" loading="lazy"></div>
+                                    <div class="rd-work-tile-body">
+                                        <p class="rd-work-eyebrow">Mobility</p>
+                                        <h3 class="rd-work-tile-title">Automotive <span class="rd-soon-badge">In progress</span></h3>
+                                        <p class="rd-work-desc">Smart mobility and automotive intelligence for dealer management, logistics, and customer experience.</p>
+                                    </div>
+                                    <span class="rd-work-cta is-muted">Coming soon</span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card large-card" data-case-study="lending">
-                            <div class="card-header">
-                                <h2 class="sub-heading">Lending</h2>
-                                <p class="lg-regular">Intelligent lending platforms that streamline loan origination, risk assessment, and credit decision-making for financial institutions.</p>
-                                <button class="btn-ghosh" id="case-study">
-                                    Learn more <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve"><g><path d="m22.707 11.293-7-7a1 1 0 0 0-1.414 1.414L19.586 11H2a1 1 0 0 0 0 2h17.586l-5.293 5.293a1 1 0 1 0 1.414 1.414l7-7a1 1 0 0 0 0-1.414z"></path></g></svg>
-                                        
-                                    </button>
-                            </div>
-                            <div class="card-image-container">
-                                <div class="image-wrapper">
-                                    <img src="./public/UC_lending.png" alt="usecase_image" class="card-image">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card large-card" data-case-study="automotive" data-status="coming-soon">
-                            <div class="card-header">
-                                <h2 class="sub-heading">Automotive <span class="rd-soon-badge">In progress</span></h2>
-                                <p class="lg-regular">Smart mobility and automotive intelligence solutions designed to optimize dealer management, logistics, and customer experience.</p>
-                                <button class="btn-ghosh" type="button" disabled aria-disabled="true">
-                                        Coming soon
-                                    </button>
-                            </div>
-                            <div class="card-image-container">
-                                <div class="image-wrapper">
-                                    <img src="./public/automotive.png" alt="usecase_image" class="card-image">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card large-card" data-case-study="esg" data-status="coming-soon">
-                            <div class="card-header">
-                                <h2 class="sub-heading">ESG <span class="rd-soon-badge">In progress</span></h2>
-                                <p class="lg-regular"> Comprehensive sustainability tracking and reporting systems that measure environmental, social, and governance impact effectively.</p>
-                                <button class="btn-ghosh" type="button" disabled aria-disabled="true">
-                                        Coming soon
-                                    </button>
-                            </div>
-                            <div class="card-image-container">
-                                <div class="image-wrapper">
-                                    <img src="./public/esg.png" alt="usecase_image" class="card-image">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card large-card" data-case-study="marketing-platform">
-                            <div class="card-header">
-                                <h2 class="sub-heading">Marketing-Platform</h2>
-                                <p class="lg-regular">Platforms that enhance customer engagement, campaign performance, and data-driven decision-making for salon business owner</p>
-                                <button class="btn-ghosh" id="case-study">
-                                    Learn more <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" x="0" y="0" viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve"><g><path d="m22.707 11.293-7-7a1 1 0 0 0-1.414 1.414L19.586 11H2a1 1 0 0 0 0 2h17.586l-5.293 5.293a1 1 0 1 0 1.414 1.414l7-7a1 1 0 0 0 0-1.414z"></path></g></svg>
-                                        
-                                    </button>
-                            </div>
-                            <div class="card-image-container">
-                                <div class="image-wrapper">
-                                    <img src="./public/marketing.png" alt="usecase_image" class="card-image">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card large-card" data-case-study="Fintech" data-status="coming-soon">
-                            <div class="card-header">
-                                <h2 class="sub-heading">Fintech <span class="rd-soon-badge">In progress</span></h2>
-                                <p class="lg-regular">Cutting-edge financial technology solutions that revolutionize digital transactions, payment processing, and financial accessibility.</p>
-                                <button class="btn-ghosh" type="button" disabled aria-disabled="true">
-                                        Coming soon
-                                    </button>
-                            </div>
-                            <div class="card-image-container">
-                                <div class="image-wrapper">
-                                    <img src="./public/fin-tech.png" alt="usecase_image" class="card-image">
-                                </div>
-                            </div>
-                        </div>
-                       
+                        </details>
                     </div>
                     <!-- <button class="btn-primary">View all case</button> -->
-                </div>    
+                </div>
                </div>
               
                <div>
                </div>
             </div>
-         
-          
         </div>
         </div>
-      
-           
-              <div>
-                
-                </div>
-        
-                </div>
-                </div>
-        </div>
-        
-        </div>
-
-     </div>
 
     </section>
                                    <!-- Password Modal -->
@@ -261,7 +313,9 @@
 
 
 
-    <footer class="container-fluid" id="footer-placeholder"></footer>
+    <div class="rd-closing">
+    <footer id="footer-placeholder"></footer>
+    </div>
 
     <script src="./js/script.js"></script>
     <script src="./js/ai-chat.js"></script>

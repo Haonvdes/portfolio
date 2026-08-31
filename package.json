@@ -19,7 +19,8 @@
   },
   "scripts": {
     "start": "node app.js",
-    "push": "bash scripts/push.sh"
+    "push": "bash scripts/push.sh",
+    "sync-thumbnails": "node scripts/sync-thumbnails.js"
   },
   "devDependencies": {
     "prettier": "^3.5.3"

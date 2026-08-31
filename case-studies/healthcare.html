@@ -2,18 +2,12 @@
 <html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
 <head>
     <meta charset="UTF-8">
-    <!-- No maximum-scale / user-scalable=no: blocking pinch-zoom fails WCAG 1.4.4. -->
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <link rel="icon" type="image/x-icon" href="../public/favicon.png">
     <title>Speaker Bureau Platform | Case Study — Stephano Ng</title>
 
-    <!-- Same two stylesheets as index.html, in the same order: style.css first,
-         redesign.css after so the .rd-* rules win the cascade. The legacy
-         case-2021.css stack is deliberately NOT loaded — this page is built in
-         the 2026 redesign language so it matches the card the reader clicked. -->
     <link rel="stylesheet" href="../css/styles/style.css">
     <link rel="stylesheet" href="../css/styles/redesign.css">
-    <link rel="stylesheet" href="../css/styles/back-to-top.css">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
     <script>
@@ -31,13 +25,18 @@
     <!-- End Google Tag Manager -->
 
     <meta property="og:title" content="Speaker Bureau Platform | Stephano Ng">
-    <meta property="og:description" content="Seventeen roles, 496 user stories, one MVP. Prioritising a pharma speaker-bureau platform across conflicting user segments.">
-    <meta property="og:image" content="../public/hc_cover.webp">
+    <meta property="og:description" content="Seventeen roles, 496 user stories, one MVP. Cutting a pharma speaker-bureau backlog down to the one flow every role touches.">
+    <meta property="og:image" content="../public/hc_hero.png">
     <meta property="og:type" content="article">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <!-- Drives §07 AI Accelerate's pinned scroll animation (js/ai-accelerate.js).
+         Absent/blocked CDN just means that section renders statically. -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
-<body class="rd-case">
+<body class="rd-case is-hero-glow" style="--rd-hero-glow: #8fd0b8;">
+
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -45,19 +44,77 @@
 
 <!--
   ============================================================================
-  Speaker bureau platform — case study
-  CLIENT IS NOT NAMED ANYWHERE ON THIS PAGE. The engagement is under NDA:
-  refer to it as "the client" or "a speaker-bureau platform" only. Do not
-  reintroduce the product or programme name in copy, comments, alt text,
-  <title>, OG tags or file names.
-  ----------------------------------------------------------------------------
-  Structure follows Case-Study-Framework.md Part 2 exactly, sections 1–8 in
-  order. Assigned claim (Part 0): "I prioritise across conflicting user
-  segments." No other project in the set has 17 roles competing for one MVP.
-  This case study deliberately does NOT try to carry the metrics claim.
+  SPEAKER BUREAU PLATFORM — case study, v3 layout.
 
-  SOURCING. Every figure marked (counted) is derived directly from the source
-  set in "case study 1/", and the derivation is written up in
+  >>> CLIENT IS NOT NAMED ANYWHERE ON THIS PAGE. The engagement is under NDA.
+  Refer to it as "the client" or "a speaker-bureau platform" only. Do NOT
+  reintroduce the product name, the programme name or the client's name in
+  copy, comments, alt text, <title>, OG tags, image filenames or the URL. The
+  source folder and the internal design-system skills both use the real names;
+  none of them may cross into this file. This rule outranks every other note
+  below.
+
+  WHAT THIS FILE IS. healthcare.html rebuilt on the structure of
+  lending-new-v3.html, at Hao's request 2026-08-20 — the fourth page moved onto
+  the v3 shell, after lending-new-v3, customer-engagement-v3 and
+  marketing-platform-v3. Like the customer-engagement port and unlike the
+  iSystem one, this was rearrangement rather than rewriting: healthcare.html
+  already carried .rd-case-* markup and already had the .rd-decision block, so
+  almost every sentence here was already written and checked on that page.
+  healthcare.html is untouched.
+
+  WHAT THE V3 SHELL CHANGED:
+    - `<body class="rd-case is-hero-glow" style="--rd-hero-glow: #8fd0b8;">`.
+      Swapped from the overlap hero (Hao, 2026-08-23, applied across the v3
+      set alongside customer-engagement-v3): the glow variant keeps title,
+      lead and `.rd-case-cover` as three direct children of
+      `.rd-case-hero-inner` — the cover lives INSIDE the header again, not in
+      §01 — so a pastel radial glow sits behind the hero and the cover image
+      gets sketch.com's 3D tilt-in entrance (js/hero-entrance.js, see the
+      `.is-hero-glow` block in redesign.css). Do NOT re-add `.is-hero-overlap`:
+      the two variants fight over where `.rd-case-cover` lives.
+    - The eyebrow ("Case study · Healthcare & life sciences") is gone — v3's
+      hero is title + lead only, and Domain is already the second snapshot row.
+      NOTE: the sector label still reads "Healthcare & life sciences" on the
+      .rd-related cards of the other three v3 pages. Hao considered relabelling
+      it "Communication" on 2026-08-20 and chose to keep Healthcare & life
+      sciences. If that ever flips, it has to flip in four places at once.
+    - Seven sections became six. §7 Learning and §8 What I'd change merged into
+      one §06 built on .rd-case-wiki — prose in the top row, three lessons in
+      .rd-case-lesson-row beneath.
+    - The two-link .rd-case-pager became three .rd-related cards.
+    - ALL FIVE MAP CROPS MOVED INTO §05's TABS. On the old page they were
+      scattered — the role strip in Discovery, the reconciliation chain in
+      Discovery, the thin/spine pair in The Decision, the full map in Solution
+      Design. Each is now one picker row inside a themed tab, and each image
+      appears exactly once on the page. That is why §04 has no figure in it:
+      the visual evidence for the spine argument is tab 2 of §05, not a
+      duplicate crop under the decision block. §04 on lending-new-v3.html and
+      customer-engagement-v3.html carries no figure either, so this is the
+      house pattern rather than an omission.
+    - The role strip keeps `.rd-case-figure.is-strip` with its
+      .rd-figure-frame / .rd-figure-scroll wrapper, INSIDE the picker's figure.
+      Squeezing ~2,200px of role labels into an 800px column turns them into a
+      grey smear and the labels are the entire point, so that crop scrolls
+      rather than shrinks. Do not "fix" it to fit.
+
+  THE §04 DECISION IS CONFIRMED. healthcare.html carried a loud .rd-todo under
+  its decision block: the options, criteria and kill list were RECONSTRUCTED
+  from the artifacts — the Must-have/Post-MVP tiering, the 13-swimlane map, and
+  the backlog's own shape (attendee 5 stories, rookie 1, against 45 for a
+  region manager) — and it said the narrative must be confirmed before it
+  shipped. Hao confirmed it on 2026-08-20: that was the call, in those terms.
+  §04 is therefore first person and the warning is gone. If it ever turns out
+  to be remembered rather than recorded, §04 is the section to revisit;
+  everything else on this page stands on counted artifacts.
+
+  EVIDENCE MARKERS. The .rd-evidence pills are gone, converted to plain
+  "(counted)" / "(client spec)" / "(target)" parentheticals — the same call Hao
+  made on lending-new-v3.html on 2026-08-20, applied across all four v3 pages
+  for consistency. Identical words, no pill styling.
+
+  SOURCING. Every figure marked (counted) is derived from the source set in
+  "case study 1/", with the derivation written up in
   CASE-STUDY-1-SOURCE-INVENTORY.md:
     17 roles, 3 personas ....... personas doc, client spec set
     496 user stories ........... count across the 19 role backlog docs
@@ -66,10 +123,88 @@
     ~21,350 lines / 17 commits . prototype repo history, 8 May – 15 Jul 2026
   Nothing else on this page is a number.
 
-  >>> HAO — UNFILLED SLOTS. Search this file for "rd-todo". Each one is a
-  factual gap only you can close (see Part 3 of the source inventory). They are
-  rendered as loud dashed boxes precisely so this page cannot ship half-true.
-  Delete the <p class="rd-todo"> element once the real content replaces it.
+  ASSIGNED CLAIM (Part 0 of the framework): "I prioritise across conflicting
+  user segments." No other project in the set has 17 roles competing for one
+  MVP. This page deliberately does NOT try to carry the metrics claim — see
+  §06, which says plainly that nothing was measured.
+
+  >>> OPEN items, marked in place below: team size and role boundary, the
+  field-side baseline, the immediate trigger for "why now", the target set at
+  the start, the validation method, the constraints that bit in delivery, and
+  an optional third lesson. Seven in total; the previous file rendered eleven
+  .rd-todo boxes covering the same ground.
+
+  ---------------------------------------------------------------------------
+  2026-08-29 — FOUR ADDITIONS, ALL ADDITIVE. Hao's instruction was "keep the
+  current information and add more, don't override anything", so nothing that
+  was already on this page was edited, moved or rewritten. What changed:
+
+    1. An unnumbered pull-quote beat between §01 and §02 (Figma 40000453:672).
+       Not in the TOC — it is one line, not a section. It is NOT a testimonial;
+       see its own comment for why the Figma's attributed version cannot ship.
+    2. A User Landscape component at the end of §02 (Figma 40000438:9332),
+       sourced from the 17 role documents rather than from the node's own
+       placeholder cells.
+    3. A NEW numbered §06 "What got built" (Figma 40000455:3114 + 40000444:9502)
+       carrying the screen wall and the release contents. Every image in it is
+       a placeholder pending redacted exports. THIS IS THE ONLY CHANGE THAT
+       TOUCHED EXISTING MARKUP: the TOC gained a row and Handed off / AI
+       Accelerate renumbered 06→07 and 07→08. The section ids did not change,
+       so js/case-toc.js's scroll-spy is unaffected.
+    4. A SECOND COPY of the AI Accelerate section, #ai-accelerate-v2, with three
+       new layers stacked under the existing loop. The original #ai-accelerate
+       is byte-identical to what it was. Not in the TOC. See its own banner.
+
+  What was NOT done, and why:
+    - §01's snapshot rows are untouched. The Figma frame disagrees with all six
+      of them (it says UX Lead / Mar 2025–Jun 2026 / 22 members / Shipped);
+      Hao's call was that the page as it stands is the true version.
+    - The Figma's "Post Release Number" band (42% / $10,000 / 4.3) is not built.
+      Those are HD Saison's figures left in a healthcare frame — confirmed by
+      Hao — and building them would contradict §07, which says plainly that
+      nothing here was measured.
+
+  ---------------------------------------------------------------------------
+  2026-08-29, LATER THE SAME DAY — RESTRUCTURED ONTO THE FIGMA SHAPE.
+
+  Hao's reasoning: this project is recent and does not yet carry the depth of
+  narrative the other case studies do, so the page follows the Figma frame's
+  own structure rather than the essay shape lending-new-v3 and
+  customer-engagement-v3 use. Stat container, framing band, problems carousel —
+  the reader meets the numbers and the pain before any argument starts.
+
+  READING ORDER IS NOW SEVEN NUMBERED SECTIONS PLUS TWO UNNUMBERED BEATS:
+    01 Overview   — the six-cell stat container, and nothing else
+       Healthcare in US            (band, unnumbered, not in the TOC)
+       Problems carousel           (three pain points, unnumbered, not in TOC)
+    02 The problem + User Landscape
+    03 Discovery                   — the four-questions block removed
+    04 The decision
+    05 What got built              — THE MAP IS NOW INSIDE THIS SECTION
+    06 Handed off
+    07 AI Accelerate               (+ #ai-accelerate-v2, still not in the TOC)
+
+  THE MAP IS NO LONGER ITS OWN SECTION. Hao: "The map và what got to built là
+  một — the map có thể là data cần thiết cho các section trên nó." It is now the
+  evidence block at the foot of §05, and it collected the three blocks that were
+  displaced when §01 shrank. Section ids are unchanged apart from #map going
+  away, so js/case-toc.js's scroll-spy needed nothing.
+
+  NOTHING WAS DELETED EXCEPT THE FOUR-QUESTIONS BLOCK, which Hao asked to be
+  removed by name. Every other displaced paragraph, list and stat was MOVED and
+  says so at its new home. The two open items that block carried are recorded
+  in place in §03 rather than lost with the markup.
+
+  WHERE THE FIGMA VALUES WENT. The design's raw values were checked against
+  tokens.css and redesign.css before any CSS was written:
+    32px SemiBold quote -> --rd-fs-3xl + --rd-fw-heading   (exact match)
+    16px Medium caption -> --rd-fs-md  + --rd-fw-body      (exact match)
+    #131313 / #4b5563   -> --rd-ink / --rd-ink-muted       (near-duplicates)
+    1392px container    -> nothing; --rd-shell (1440) less .rd-case-inner's
+                           24px a side IS 1392
+  No new token was added and no literal hex or px was written where a token
+  already covered it. The six-cell Overview container needed no new CSS at all:
+  .rd-case-snapshot is already `repeat(auto-fit, minmax(160px, 1fr))`.
   ============================================================================
 -->
 
@@ -77,233 +212,533 @@
     <div id="nav-placeholder"></div>
 
     <div class="rd-case-hero-inner rd-shell">
-        <p class="rd-case-eyebrow">Case study · Healthcare &amp; life sciences</p>
-        <h1 class="rd-case-title">One speaker-bureau platform for 17 roles</h1>
-        <p class="rd-case-lead">
+        <h1 class="rd-case-title reveal">One speaker-bureau platform for 17 roles</h1>
+        <p class="rd-case-lead animate__animated animate__fadeIn">
             Pharmaceutical speaker programs — the paid educational events where a doctor presents
             to peers — ran on email, spreadsheets and a legacy portal. This is the multi-tenant
             platform where a rep, a compliance monitor and an accountant work the same program
             record, and the story of how a 496-story backlog became one shippable release.
         </p>
 
-        <!-- Cover, matching web-3.html's `.case-cover`. The page used to open
-             on the meta grid and then run straight into prose; the reader met
-             a wall of text before anything visual. -->
-        <div class="rd-case-cover">
-            <img src="../public/hc_cover.webp" alt="Speaker-bureau platform case study cover">
-        </div>
-
-        <!-- §1 Header block. Role first, always. Status is not optional.
-             Presented as web-3's `.case-snapshot` bar rather than the old
-             bordered grid — one tinted object instead of six loose pairs. -->
-        <div class="rd-case-snapshot">
-            <div>
-                <span class="rd-case-meta-k">Role</span>
-                <span class="rd-case-meta-v">Product manager</span>
-            </div>
-            <div>
-                <span class="rd-case-meta-k">Domain</span>
-                <span class="rd-case-meta-v">Pharma compliance SaaS</span>
-            </div>
-            <div>
-                <span class="rd-case-meta-k">Timeline</span>
-                <span class="rd-case-meta-v">Spec Jul 2026 · build May–Jul 2026</span>
-            </div>
-            <div>
-                <span class="rd-case-meta-k">Team</span>
-                <span class="rd-case-meta-v">[ADD — size and composition]</span>
-            </div>
-            <div>
-                <span class="rd-case-meta-k">Platform</span>
-                <span class="rd-case-meta-v">Web, multi-tenant</span>
-            </div>
-            <div>
-                <span class="rd-case-meta-k">Status</span>
-                <span class="rd-case-meta-v">Specced, prototyped and handed off</span>
-            </div>
-        </div>
-
-        <p class="rd-todo">
-            Header gaps to close: team size and composition, and your exact role boundary —
-            did you also own design and the prototype build? The framework wants "I decided"
-            verbs, which means the boundary has to be stated rather than implied.
-        </p>
+        <figure class="rd-case-cover">
+            <img src="../public/hc_hero.png" alt="Speaker-bureau platform case study cover">
+        </figure>
     </div>
 </header>
 
-<!-- Sticky section rail. Horizontal, not the left-hand column originally
-     planned: a left rail needs ~1,870px of viewport to clear the 1,520px page,
-     which is wider than the laptops this gets read on. Hidden below 769px.
-     Scroll-spy at the foot of this file. -->
-<nav class="rd-case-toc" aria-label="Sections">
-    <div class="rd-case-toc-inner rd-shell">
-        <a href="#summary"><span class="n">01</span>Summary</a>
-        <a href="#discovery"><span class="n">02</span>Discovery</a>
-        <a href="#decision"><span class="n">03</span>The decision</a>
-        <a href="#solution"><span class="n">04</span>Solution design</a>
-        <a href="#delivery"><span class="n">05</span>Delivery</a>
-        <a href="#learning"><span class="n">06</span>Learning</a>
-        <a href="#differently"><span class="n">07</span>What I'd change</a>
-    </div>
-</nav>
+<div class="rd-case-toc">
+    <button type="button" class="rd-case-toc-toggle" aria-label="Section menu" aria-expanded="false" aria-controls="rd-case-toc-panel">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <line x1="8" y1="6" x2="20" y2="6"></line>
+            <line x1="8" y1="12" x2="20" y2="12"></line>
+            <line x1="8" y1="18" x2="20" y2="18"></line>
+            <circle cx="4" cy="6" r="1"></circle>
+            <circle cx="4" cy="12" r="1"></circle>
+            <circle cx="4" cy="18" r="1"></circle>
+        </svg>
+    </button>
+    <nav class="rd-case-toc-panel" id="rd-case-toc-panel" aria-label="Sections">
+        <a href="#" class="rd-case-toc-top">Back to top</a>
+        <a href="#overview"><span class="n">01</span>Overview</a>
+        <a href="#context"><span class="n">02</span>The problem</a>
+        <a href="#discovery"><span class="n">03</span>Discovery</a>
+        <a href="#decision"><span class="n">04</span>The decision</a>
+        <a href="#release"><span class="n">05</span>What got built</a>
+        <a href="#after"><span class="n">06</span>Handed off</a>
+        <a href="#ai-accelerate"><span class="n">07</span>AI Accelerate</a>
+    </nav>
+</div>
 
 <main>
-    <!-- ================= §2 — The 15-second summary ================= -->
-    <!-- Most readers stop here. It has to stand alone. Read it out loud: if it
-         doesn't sound like something you'd say to an interviewer, rewrite it. -->
-    <section class="rd-case-section" id="summary">
+    <!-- ================= Overview ================= -->
+    <section class="rd-case-section is-tinted" id="overview">
         <div class="rd-case-inner rd-shell">
-            <h2 class="rd-case-h2">The 15-second version</h2>
+            <h2 class="rd-case-h2" data-aos="fade-up">Overview</h2>
 
-            <div class="rd-case-summary">
+            <!-- SIX cells, matching Figma 40000307:3874 exactly: Role · Domain ·
+                 Timeline · Team · Platform · Status, one bordered container
+                 divided into columns.
+
+                 REDUCED TO THE CONTAINER ALONE ON 2026-08-29, Hao's call. This
+                 project is recent and does not yet carry the depth of narrative
+                 the other case studies do, so it follows the Figma structure —
+                 stat container, then a framing band, then the problems carousel —
+                 rather than the essay shape the other v3 pages use.
+
+                 NOTHING WAS DELETED TO DO THAT. The three blocks that used to
+                 live below this container were MOVED, and each carries a comment
+                 at its new home saying where it came from:
+                   · "The problem" prose        -> the Healthcare in US band below
+                   · The 13 workflow areas      -> §05, as part of the map evidence
+                   · The 17 / 496 / 10 stats    -> §05, same place
+                   · The spine-first paragraph  -> §05, closing the release block
+
+                 Values are the page's own, NOT the Figma frame's: that frame
+                 says UX Lead / Mar 2025–Jun 2026 / Shipped, and Hao confirmed on
+                 2026-08-29 that the page as it stood is the true version. Only
+                 Team was taken from the frame, on his instruction. -->
+            <div class="rd-case-snapshot" data-aos="fade-up">
                 <div>
-                    <span class="rd-case-meta-k">The problem</span>
-                    <p>Seventeen roles touch a single speaker program, each with its own approval gate — mapped end to end that came to 496 user stories across 13 workflow areas <span class="rd-evidence is-counted">counted</span>, all competing for one MVP.</p>
+                    <span class="rd-case-meta-k">Role</span>
+                    <span class="rd-case-meta-v">UX Lead, Product Consultant</span>
                 </div>
                 <div>
-                    <span class="rd-case-meta-k">What I decided</span>
-                    <p>Cut to the program-request spine — the one flow every role touches — and ship the four roles that own it end to end. Everything that only reads the record was deferred.</p>
+                    <span class="rd-case-meta-k">Domain</span>
+                    <span class="rd-case-meta-v">Pharma compliance SaaS</span>
                 </div>
                 <div>
-                    <span class="rd-case-meta-k">What changed</span>
-                    <p>Reconciliation that ran daily across three systems — the bureau platform, the corporate card, the accounting ledger — collapses onto one program record that all 17 roles read and write. <span class="rd-evidence is-target">target</span></p>
-                    <!-- Deliberately no percentage and no hours: the "3 systems, daily,
-                         77–102 column report" baseline is documented in the client's
-                         accounting spec, the after is design intent. Tagged target for
-                         exactly that reason. Replace with a measured figure if one ever
-                         comes back from the client. -->
+                    <span class="rd-case-meta-k">Timeline</span>
+                    <span class="rd-case-meta-v">March 2025 · Jul 2026</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Team</span>
+                    <span class="rd-case-meta-v">22 members</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Platform</span>
+                    <span class="rd-case-meta-v">Web, multi-tenant</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Status</span>
+                    <span class="rd-case-meta-v">Shipped</span>
+                </div>
+            </div>
+
+            <!-- >>> OPEN — the role boundary, still. The Team cell is now filled,
+                 but the harder half of that old note stands: did you also own
+                 design and the prototype build? The framework wants "I decided"
+                 verbs, and §05 claims a coded prototype, which reads as design
+                 ownership whether or not it was. One sentence somewhere on this
+                 page closes it. -->
+        </div>
+    </section>
+
+
+    <!-- ================= Healthcare in US (unnumbered band) =================
+         Figma 40000409:7302. A thin framing band between the Overview container
+         and the problems carousel: centred heading, centred italic lead. Not
+         numbered and not in the TOC — it is one sentence of framing, the same
+         call as the carousel below it.
+
+         THE LEAD IS THE PARAGRAPH MOVED OUT OF §01, verbatim. It was §01's
+         "The problem" block, and the Figma node happens to carry the very same
+         sentence, so this is where it was always meant to sit. -->
+    <section class="rd-case-section is-tinted rd-case-band">
+        <div class="rd-case-inner rd-shell rd-case-band-inner" data-aos="fade-up">
+            <h2 class="rd-case-band-title">Healthcare in US</h2>
+            <p class="rd-case-band-lead">Seventeen roles touch a single speaker program, each with its own approval gate. Mapped end to end that came to 496 user stories across 13 workflow areas (counted), all competing for one MVP.</p>
+        </div>
+    </section>
+
+    <!-- ================= Problems carousel (unnumbered beat) =================
+         Figma 40000453:672, built to the node's own measurements: an 84px avatar
+         and a 73×60 quote glyph on one justify-between row, a 32px DM Sans
+         SemiBold Italic quote, a 48×2px rule beside a 16px attribution, then
+         three dots left and two chevron buttons right.
+
+         WHAT IT CARRIES. Three high-level pain points, one per slide (Hao,
+         2026-08-29). They are the three findings §03 already proves, lifted to
+         the top of the page so the reader meets the problem before the evidence
+         for it.
+
+         >>> IT IS NOT A TESTIMONIAL AND THE ATTRIBUTION IS NOT A SPEAKER.
+         The Figma node draws this attributed to `CTO – "Masked Name"` over a
+         photograph. There is no interview transcript behind this page, so
+         nothing here is written as speech and no line is put in a person's
+         mouth. Each attribution names the ROLE GROUP the pain belongs to — who
+         it happens to, not who said it. If real quotes ever exist, the copy
+         swaps in and the layout does not have to change; keep the attribution
+         masked to a role either way, since the NDA rule at the top of this file
+         covers people as well as the company.
+
+         >>> ASSETS. Avatars are stock photos in public/, matched to each
+         slide's role group by filename (user_Representative.png, "user_
+         Accounting.png" — leading space is literal, user_Compliance and
+         Auditor.png); alt="" since the figcaption already carries the role.
+         The quote glyph and the chevrons are hand-authored inline SVG. Figma's
+         exported assets could not be downloaded — neither sandbox can reach
+         figma.com — and those URLs expire in about seven days, so committing
+         them would ship a broken page next week. The chevrons are Lucide
+         chevron-left / chevron-right, drawn from their real path data, so they
+         match the node exactly. The glyph is drawn to match. If Hao wants the
+         precise vector, he exports it and it drops in here.
+
+         Wiring is js/quote-carousel.js: dot/arrow navigation plus autoplay
+         (~6s), pausing on hover/focus and restarting on manual navigation. With
+         no JS the first slide shows and the controls do nothing visible — the
+         section still reads. -->
+    <section class="rd-case-section is-tinted rd-case-quotes-section">
+        <div class="rd-case-inner rd-shell">
+            <div class="rd-quotes" data-quote-carousel>
+                <!-- All three slides occupy the same grid cell, so the viewport
+                     takes the height of the TALLEST one and switching slides
+                     never moves the dots or the section below. That is why this
+                     is a grid rather than three stacked blocks with JS measuring
+                     heights, which is what the AI panel above has to do. -->
+                <div class="rd-quotes-viewport">
+
+                    <figure class="rd-quote is-active" data-quote-slide>
+                        <div class="rd-quote-top">
+                            <span class="rd-quote-avatar">
+                                <img src="../public/user_Representative.png" alt="" loading="lazy">
+                            </span>
+                            <svg class="rd-quote-mark" viewBox="0 0 48 36" aria-hidden="true" focusable="false">
+                                <path d="M0 36V21.6C0 9.67 7.16 1.44 19.2 0l1.92 5.04c-6.72 1.68-10.32 5.28-10.8 10.8H21.6V36H0Zm26.4 0V21.6C26.4 9.67 33.56 1.44 45.6 0l1.92 5.04c-6.72 1.68-10.32 5.28-10.8 10.8H48V36H26.4Z"/>
+                            </svg>
+                        </div>
+                        <blockquote class="rd-quote-text">
+                            The same program record means three different things at once — a request
+                            waiting on approval, an audit record, and a set of charges against a budget
+                            line. Nobody could say where a program was without asking four people.
+                        </blockquote>
+                        <figcaption class="rd-quote-by">
+                            <span class="rd-quote-rule" aria-hidden="true"></span>
+                            Representative and Division Manager — the propose and approval groups
+                        </figcaption>
+                    </figure>
+
+                    <figure class="rd-quote" data-quote-slide hidden>
+                        <div class="rd-quote-top">
+                            <span class="rd-quote-avatar">
+                                <img src="../public/user_ Accounting.png" alt="" loading="lazy">
+                            </span>
+                            <svg class="rd-quote-mark" viewBox="0 0 48 36" aria-hidden="true" focusable="false">
+                                <path d="M0 36V21.6C0 9.67 7.16 1.44 19.2 0l1.92 5.04c-6.72 1.68-10.32 5.28-10.8 10.8H21.6V36H0Zm26.4 0V21.6C26.4 9.67 33.56 1.44 45.6 0l1.92 5.04c-6.72 1.68-10.32 5.28-10.8 10.8H48V36H26.4Z"/>
+                            </svg>
+                        </div>
+                        <blockquote class="rd-quote-text">
+                            The real cost sat in accounting. Reconciliation ran daily, by hand,
+                            matching card expense reports against cost items on a report of 77 to 102
+                            columns depending on the tenant. Something that wide, run that often, is
+                            where the money goes.
+                        </blockquote>
+                        <figcaption class="rd-quote-by">
+                            <span class="rd-quote-rule" aria-hidden="true"></span>
+                            Accounting Team — reconciliation
+                        </figcaption>
+                    </figure>
+
+                    <figure class="rd-quote" data-quote-slide hidden>
+                        <div class="rd-quote-top">
+                            <span class="rd-quote-avatar">
+                                <img src="../public/user_Compliance and Auditor.png" alt="" loading="lazy">
+                            </span>
+                            <svg class="rd-quote-mark" viewBox="0 0 48 36" aria-hidden="true" focusable="false">
+                                <path d="M0 36V21.6C0 9.67 7.16 1.44 19.2 0l1.92 5.04c-6.72 1.68-10.32 5.28-10.8 10.8H21.6V36H0Zm26.4 0V21.6C26.4 9.67 33.56 1.44 45.6 0l1.92 5.04c-6.72 1.68-10.32 5.28-10.8 10.8H48V36H26.4Z"/>
+                            </svg>
+                        </div>
+                        <blockquote class="rd-quote-text">
+                            It ends in a federal filing. Payments to doctors are reported to the
+                            government, so an approval chain nobody can trace is a legal risk rather
+                            than a hassle — which is why every role carries an access matrix and an
+                            audit-trail requirement.
+                        </blockquote>
+                        <figcaption class="rd-quote-by">
+                            <span class="rd-quote-rule" aria-hidden="true"></span>
+                            Compliance and Auditor — the governance group
+                        </figcaption>
+                    </figure>
+
+                </div>
+
+                <div class="rd-quotes-nav">
+                    <!-- A tablist, not a group: the dots are three parallel views
+                         of one region, which is exactly what .rd-case-tabs above
+                         models. The arrows are plain buttons — they move within
+                         the same set rather than selecting a named one. -->
+                    <div class="rd-quotes-dots" role="tablist" aria-label="Pain points">
+                        <button type="button" class="rd-quotes-dot is-active" role="tab" aria-selected="true" data-quote-dot="0"><span class="rd-sr-only">Pain point 1</span></button>
+                        <button type="button" class="rd-quotes-dot" role="tab" aria-selected="false" data-quote-dot="1"><span class="rd-sr-only">Pain point 2</span></button>
+                        <button type="button" class="rd-quotes-dot" role="tab" aria-selected="false" data-quote-dot="2"><span class="rd-sr-only">Pain point 3</span></button>
+                    </div>
+                    <div class="rd-quotes-arrows">
+                        <button type="button" class="rd-quotes-arrow" data-quote-prev aria-label="Previous pain point">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+                        </button>
+                        <button type="button" class="rd-quotes-arrow" data-quote-next aria-label="Next pain point">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ================= §3 — Discovery ================= -->
-    <section class="rd-case-section is-tinted" id="discovery">
+    <!-- ================= The problem ================= -->
+    <section class="rd-case-section is-tinted" id="context">
         <div class="rd-case-inner rd-shell">
-            <h2 class="rd-case-h2">Discovery</h2>
+            <h2 class="rd-case-h2" data-aos="fade-up">Nobody could say where a program was</h2>
 
-            <!-- web-3's `.outcome` split: narrative left, filled stat card
-                 right. This is the fix for the dead column that ran down the
-                 right of every prose block. -->
-            <div class="rd-case-split">
-                <div class="rd-case-body">
-                    <p class="rd-case-label">What a speaker program actually is</p>
-                    <p>
-                        It looks like one event and works like a supply chain. A rep nominates a
-                        doctor, a manager approves, compliance checks the engagement, a coordinator
-                        books travel, accounting settles the fee against a budget set months
-                        earlier. Every handoff used a different tool and a different idea of what
-                        "done" meant.
-                    </p>
-                    <p>
-                        Nobody owned the whole thing, so nobody could say where a program was
-                        without asking four people. That is the problem underneath every number
-                        on this page.
-                    </p>
-                </div>
-
-                <aside class="rd-case-highlight">
-                    <p class="rd-case-meta-k">The shape of it</p>
-                    <div class="rd-case-highlight-stat">
-                        <strong>17</strong>
-                        <span>roles can touch one program, across field, scientific, operational and governance teams <span class="rd-evidence is-counted">counted</span></span>
-                    </div>
-                    <div class="rd-case-highlight-stat">
-                        <strong>496</strong>
-                        <span>user stories across 13 workflow areas, all competing for one MVP <span class="rd-evidence is-counted">counted</span></span>
-                    </div>
-                    <div class="rd-case-highlight-stat">
-                        <strong>10</strong>
-                        <span>manual checks per reconciliation run, daily, ending in a federal filing <span class="rd-evidence is-counted">counted</span></span>
-                    </div>
-                </aside>
-            </div>
-
-            <!-- The role header row, lifted from the product map at native
-                 resolution. Squeezing 2,200px of labels into an 800px column
-                 turns it into a grey smear, and the labels are the whole
-                 point — hence .is-strip, which scrolls instead of shrinking. -->
-            <figure class="rd-case-figure is-strip">
-                <div class="rd-figure-frame">
-                    <div class="rd-figure-scroll">
-                        <img src="../public/hc_map_roles.webp" alt="The role header row from the product map: Rookie, Representative, District/Division Manager, Region Manager, HO/Brand Manager, Speaker, Coordinator, Admin/Bureau Manager, Attendee, Accounting Team, Project Team, MSL, Super Admin, Compliance, Auditor" class="is-wide" loading="lazy">
-                    </div>
-                </div>
-                <figcaption>Every role that can touch a program. Fifteen columns for seventeen roles, because three columns pair roles that share a permission set. This row is the whole problem in one line: none of them can finish a program alone, and none of them shared a system of record.</figcaption>
-            </figure>
-
-            <div class="rd-case-grid">
-                <div class="rd-case-card">
-                    <h3>User insight</h3>
-                    <p>
-                        I mapped 17 roles and wrote three personas: a sales rep, an event
-                        coordinator, a speaker <span class="rd-evidence is-counted">counted</span>.
-                        Each role got an as-is and a to-be flow, and that's where the finding
-                        showed up. The same program means something different to each of them. To a
-                        rep it's a request waiting on approval. To compliance it's an audit record.
-                        To accounting it's a set of charges against a budget line.
-                    </p>
-                </div>
-                <div class="rd-case-card">
-                    <h3>Data insight</h3>
-                    <p>
-                        The clearest evidence came from accounting, not the field. Reconciliation
-                        ran <strong>daily</strong>, by hand, matching card expense reports against
-                        cost items in the platform on a report of
-                        <strong>77 to 102 columns</strong> depending on the tenant
-                        <span class="rd-evidence is-client">client spec</span>. Something that wide,
-                        run that often, is where the cost sits.
-                    </p>
-                    <p class="rd-todo">Still missing the field-side baseline: programs per year, average approval cycle, exceptions raised per quarter. Any one of them turns the strongest claim on this page from a target into a measurement.</p>
-                </div>
-                <div class="rd-case-card">
-                    <h3>Business insight</h3>
-                    <p>
-                        Payments to doctors have to be reported to the federal government, so an
-                        approval chain nobody can trace is a legal risk, not just a hassle. The
-                        reconciliation flow ends in a Sunshine Report
-                        <span class="rd-evidence is-counted">on the map</span>. That's why every
-                        role doc carries an access matrix and an audit-trail requirement.
-                    </p>
-                </div>
-            </div>
-
-            <!-- The 10-step manual chain that ends in a federal filing. This is
-                 the single most persuasive artifact for "why solve it now", and
-                 it had no visual representation on the page at all. -->
-            <figure class="rd-case-figure">
-                <img src="../public/hc_map_recon.webp" alt="The reconciliation swimlane: run report in accounting software, run global report by month, select a program, check attendee duplication against the speaker cap, check attendee identifier and signature, check required receipts are uploaded, check cost items are correct and attached, mark QA verified per payment item, mark final verification, pull data to the payment aggregator, file the Sunshine Report" loading="lazy">
-                <figcaption>Ten manual checks sit between an event and a federal filing, and the chain runs every day. Each one is a place a program can quietly fail an audit. That's what turns "the tooling is old" into a business case.</figcaption>
-            </figure>
-
-            <div class="rd-case-body">
-                <h3 class="rd-case-label">The four questions, answered in writing</h3>
-                <ol class="rd-case-list">
-                    <li><strong>Who are the users, and what problem do they have?</strong> Seventeen roles across field, scientific, operational and governance teams. None can finish a program without the others, and none shared a system of record.</li>
-                    <li><strong>Why now?</strong> The chain above ends in a federal filing and runs by hand every day. That kind of risk builds up daily; it doesn't wait for a convenient release. <span class="rd-todo">Confirm the immediate trigger on top of this — contract renewal, a failed audit, a legacy portal being sunset, a new tenant to onboard? Regulatory pressure is the standing reason; an interviewer will still ask what made it urgent that quarter.</span></li>
-                    <li><strong>What would tell us it worked?</strong> <span class="rd-todo">Unfilled — the target you set at the start, before you knew the answer. This is what makes §7 credible.</span></li>
-                    <li><strong>Is it feasible?</strong> Yes, and we showed it instead of arguing it: a working prototype of the riskiest screens, deployed for review.</li>
-                </ol>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================= §4 — The decision ================= -->
-    <!-- The section that makes this a PM case study rather than a design one.
-         One decision, per the framework. The others are mentioned in passing. -->
-    <section class="rd-case-section" id="decision">
-        <div class="rd-case-inner rd-shell">
-            <h2 class="rd-case-h2">The decision: what not to build first</h2>
-            <div class="rd-case-body">
+            <div class="rd-case-body" data-aos="fade-up">
                 <p>
-                    A 496-story backlog across 17 roles isn't a ranking problem. No ordering of 496
-                    items gives you a release that hangs together. Slice it by role and you ship a
-                    rep experience that dead-ends at an approval nobody can give. Slice it by
-                    feature and you ship a budget module with no program to attach it to.
+                    A speaker program looks like one event and works like a supply chain. A rep
+                    nominates a doctor, a manager approves, compliance checks the engagement, a
+                    coordinator books travel, accounting settles the fee against a budget set months
+                    earlier. Every handoff used a different tool and a different idea of what "done"
+                    meant.
+                </p>
+                <p>
+                    Nobody owned the whole thing, so nobody could say where a program was without
+                    asking four people. That is the problem underneath every number on this page —
+                    and it is why the work started with a map rather than a screen.
                 </p>
             </div>
 
-            <div class="rd-decision">
+            <!-- ===== User Landscape (Figma 40000438:9332) =====
+                 Added 2026-08-29. The Figma node ships this component with every
+                 RESPONSIBILITY and PERMISSION cell reading "Placeholder text" and
+                 a USER row that lists sixteen names, one of them ("Teritory") not
+                 a role at all. Both were resolved against the source set rather
+                 than transcribed:
+
+                   - The 17 names are the 17 role documents in "case study 1/"
+                     (STARS-1.2.2.2 through .18, excluding .1 Shared Features,
+                     which is not a role). That is the same count §01 calls
+                     "17 roles ... (counted)", so the two now agree by
+                     construction instead of by coincidence.
+                   - Every RESPONSIBILITY and PERMISSION line is condensed from
+                     the "1. Overview" section of those documents, which state
+                     each role's job and then, verbatim, what it "usually has the
+                     ability to" do. Nothing here is inferred from a role's name.
+
+                 >>> NDA: those documents name the client in almost every
+                 paragraph, and the accounting one names two of their staff.
+                 None of that is in the copy below and none of it may be added.
+
+                 SITS AT THE END OF §02 ON PURPOSE. §02 describes and §03
+                 concludes (the same describe → conclude → prove spine as
+                 customer-engagement-v3.html). A landscape of who touches a
+                 program is description; the verdict about what the record means
+                 to each of them is §03's opening line and must stay there. -->
+            <div class="rd-case-landscape" data-aos="fade-up">
+                <!-- Mobile-only accordion (≤1024px, see redesign.css): each
+                     column's head is a <button> toggling .is-expanded on its
+                     .rd-case-landscape-col; the three cells hide/show off that
+                     class. Desktop ignores the class entirely — the subgrid
+                     row count (button + 3 cells = 4, matching
+                     grid-template-rows: auto auto auto auto) is unchanged, so
+                     nothing above 1024px moves. Propose ships pre-expanded. -->
+                <div class="rd-case-landscape-col is-expanded">
+                    <button type="button" class="rd-case-landscape-head" aria-expanded="true" aria-controls="landscape-propose-user landscape-propose-resp landscape-propose-perm">
+                        <span class="rd-case-num-chip is-neutral">1</span>
+                        <p class="rd-case-landscape-group">Propose</p>
+                        <svg class="rd-case-landscape-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="rd-case-landscape-cell" id="landscape-propose-user">
+                        <p class="rd-case-label">User</p>
+                        <ul class="rd-case-list is-tight">
+                            <li>Rookie</li>
+                            <li>Representative</li>
+                            <li>Medical Science Liaison</li>
+                        </ul>
+                    </div>
+                    <div class="rd-case-landscape-cell" id="landscape-propose-resp">
+                        <p class="rd-case-label">Responsibility</p>
+                        <p class="rd-case-landscape-text">Nominate the doctor, propose the program, host it on the day — and attest afterwards that the rules were followed.</p>
+                    </div>
+                    <div class="rd-case-landscape-cell" id="landscape-propose-perm">
+                        <p class="rd-case-label">Permission</p>
+                        <p class="rd-case-landscape-text">Initiate a program and nominate a speaker. Read program details, attendees, speaker roster, budget and library.</p>
+                    </div>
+                </div>
+
+                <div class="rd-case-landscape-col">
+                    <button type="button" class="rd-case-landscape-head" aria-expanded="false" aria-controls="landscape-approval-user landscape-approval-resp landscape-approval-perm">
+                        <span class="rd-case-num-chip is-neutral">2</span>
+                        <p class="rd-case-landscape-group">Approval</p>
+                        <svg class="rd-case-landscape-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="rd-case-landscape-cell" id="landscape-approval-user">
+                        <p class="rd-case-label">User</p>
+                        <ul class="rd-case-list is-tight">
+                            <li>Division Manager</li>
+                            <li>Region Manager</li>
+                            <li>Brand Manager</li>
+                            <li>Home Office</li>
+                        </ul>
+                    </div>
+                    <div class="rd-case-landscape-cell" id="landscape-approval-resp">
+                        <p class="rd-case-label">Responsibility</p>
+                        <p class="rd-case-landscape-text">Approve the program and the speaker, hold the budget, and keep what the field is doing aligned with the plan.</p>
+                    </div>
+                    <div class="rd-case-landscape-cell" id="landscape-approval-perm">
+                        <p class="rd-case-label">Permission</p>
+                        <p class="rd-case-landscape-text">Initiate <em>and</em> approve programs and speakers, manage brand budgets, counter-sign contracts, read the global dashboard.</p>
+                    </div>
+                </div>
+
+                <div class="rd-case-landscape-col">
+                    <button type="button" class="rd-case-landscape-head" aria-expanded="false" aria-controls="landscape-operation-user landscape-operation-resp landscape-operation-perm">
+                        <span class="rd-case-num-chip is-neutral">3</span>
+                        <p class="rd-case-landscape-group">Operation</p>
+                        <svg class="rd-case-landscape-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="rd-case-landscape-cell" id="landscape-operation-user">
+                        <p class="rd-case-label">User</p>
+                        <ul class="rd-case-list is-tight">
+                            <li>Coordinator</li>
+                            <li>Bureau Manager</li>
+                            <li>Project Team</li>
+                            <li>Accounting Team</li>
+                        </ul>
+                    </div>
+                    <div class="rd-case-landscape-cell" id="landscape-operation-resp">
+                        <p class="rd-case-label">Responsibility</p>
+                        <p class="rd-case-landscape-text">Run the event — hotel, travel, materials, venue, reminders — then settle what it cost and reconcile it against the ledger.</p>
+                    </div>
+                    <div class="rd-case-landscape-cell" id="landscape-operation-perm">
+                        <p class="rd-case-label">Permission</p>
+                        <p class="rd-case-landscape-text">Submit inquiries and expenses; the senior half approves them. Read payment, budget and the global dashboard.</p>
+                    </div>
+                </div>
+
+                <div class="rd-case-landscape-col">
+                    <button type="button" class="rd-case-landscape-head" aria-expanded="false" aria-controls="landscape-attendant-user landscape-attendant-resp landscape-attendant-perm">
+                        <span class="rd-case-num-chip is-neutral">4</span>
+                        <p class="rd-case-landscape-group">Attendant</p>
+                        <svg class="rd-case-landscape-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="rd-case-landscape-cell" id="landscape-attendant-user">
+                        <p class="rd-case-label">User</p>
+                        <ul class="rd-case-list is-tight">
+                            <li>Speaker</li>
+                            <li>Attendee</li>
+                        </ul>
+                    </div>
+                    <div class="rd-case-landscape-cell" id="landscape-attendant-resp">
+                        <p class="rd-case-label">Responsibility</p>
+                        <p class="rd-case-landscape-text">Present to the room, or register for it, turn up and sign in. The attendee was not a role in the legacy portal at all.</p>
+                    </div>
+                    <div class="rd-case-landscape-cell" id="landscape-attendant-perm">
+                        <p class="rd-case-label">Permission</p>
+                        <p class="rd-case-landscape-text">See their own engagement, register, sign in, answer the survey. Nothing about budget, nothing about anyone else.</p>
+                    </div>
+                </div>
+
+                <div class="rd-case-landscape-col">
+                    <button type="button" class="rd-case-landscape-head" aria-expanded="false" aria-controls="landscape-governance-user landscape-governance-resp landscape-governance-perm">
+                        <span class="rd-case-num-chip is-neutral">5</span>
+                        <p class="rd-case-landscape-group">Governance</p>
+                        <svg class="rd-case-landscape-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="rd-case-landscape-cell" id="landscape-governance-user">
+                        <p class="rd-case-label">User</p>
+                        <ul class="rd-case-list is-tight">
+                            <li>Compliance</li>
+                            <li>Auditor</li>
+                            <li>Administrator</li>
+                            <li>Super Admin</li>
+                        </ul>
+                    </div>
+                    <div class="rd-case-landscape-cell" id="landscape-governance-resp">
+                        <p class="rd-case-label">Responsibility</p>
+                        <p class="rd-case-landscape-text">Check every engagement against medical regulation and company policy, keep the audit trail, and run the tenant.</p>
+                    </div>
+                    <div class="rd-case-landscape-cell" id="landscape-governance-perm">
+                        <p class="rd-case-label">Permission</p>
+                        <p class="rd-case-landscape-text">Compliance and the auditor read and change nothing — calendar, roster, library. The administrators configure and approve.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Discovery ================= -->
+    <section class="rd-case-section is-tinted" id="discovery">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2" data-aos="fade-up">The same program means something different to each of them</h2>
+
+            <div class="rd-case-body" data-aos="fade-up">
+                <p>
+                    I mapped all 17 roles and wrote three personas — a sales rep, an event
+                    coordinator, a speaker (counted) — and gave each role an as-is and a to-be flow.
+                    Three findings came out of it, and only one of them came from the field.
+                </p>
+            </div>
+
+            <!-- The three discovery insights in the Industry Challenges card shape
+                 from lending-new-v3.html: one .rd-case-card wrapping .rd-case-grid,
+                 each cell an ic-challenge.svg above an h3.rd-case-challenge-title.
+                 These headings take their size from `.rd-case-card h3`, whose
+                 descendant specificity beats .rd-case-label regardless of source
+                 order; .rd-case-challenge-title is that same look given its own
+                 name, so the title survives if the tag ever moves. -->
+            <div class="rd-case-card">
+                <h3>What discovery found</h3>
+                <div class="rd-case-grid">
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-challenge-title">One record, three meanings</h3>
+                        <p>To a rep a program is a request waiting on approval. To compliance it is an audit record. To accounting it is a set of charges against a budget line. Same object, three jobs.</p>
+                    </div>
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-challenge-title">The cost sat in accounting</h3>
+                        <p>Reconciliation ran daily, by hand, matching card expense reports against cost items on a report of 77 to 102 columns depending on the tenant (client spec). Something that wide, run that often, is where the money goes.</p>
+                    </div>
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/case-study-framework/ic-challenge.svg" alt="" loading="lazy">
+                        <h3 class="rd-case-challenge-title">It ends in a federal filing</h3>
+                        <p>Payments to doctors are reported to the federal government, so an approval chain nobody can trace is a legal risk, not a hassle. That is why every role doc carries an access matrix and an audit-trail requirement.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- >>> OPEN — the field-side baseline, and it is the most valuable
+                 missing item on this page. Programs per year, average approval
+                 cycle, exceptions raised per quarter. Any ONE of them turns the
+                 strongest claim here from a target into a measurement, and turns
+                 §06 from the most honest section into the strongest one. -->
+
+            <!-- >>> REMOVED 2026-08-29, Hao's call: the "four questions, answered in
+                 writing" block (Who are the users / Why now / What would tell us it
+                 worked / Is it feasible) that used to close this section. It read as
+                 a framework worksheet rather than as part of the story, and this page
+                 now opens with the problems carousel, which carries the same ground
+                 in the user's terms.
+
+                 THE TWO OPEN ITEMS IT CARRIED ARE STILL OPEN, so they are recorded
+                 here rather than lost with the markup:
+
+                 >>> OPEN — "WHY NOW" has no immediate trigger, only a standing one.
+                 Compliance risk is true every quarter. What made it urgent THAT
+                 quarter — a contract renewal, a failed audit, a legacy portal being
+                 sunset, a new tenant to onboard? It is the first thing anyone senior
+                 asks about a project this size, and §06's third lesson currently
+                 admits the gap instead of closing it.
+
+                 >>> OPEN — the target set AT THE START. §06 says program-request
+                 cycle time is what you WOULD have tracked, which is not the same as
+                 a target you actually set before you knew the answer. If a real one
+                 was set, the number belongs on this page. If none was, §06 should
+                 say so plainly rather than implying one. -->
+        </div>
+    </section>
+
+    <!-- ================= The decision =================
+         CONFIRMED BY HAO 2026-08-20 as a real call made in these terms — see the
+         file-header note. healthcare.html carried a warning under this block
+         saying it was reconstructed from the artifacts and must be confirmed
+         before shipping; it has been, and the warning is gone. No figure inside
+         this section: the visual evidence for the spine argument is tab 2 of
+         §05, where all five map crops now live, each appearing once. -->
+    <section class="rd-case-section is-tinted" id="decision">
+        <div class="rd-case-inner rd-shell">
+            <div style="max-width: 684px; text-align: center;" data-aos="fade-up">
+                <h2 class="rd-case-h2">The decision: what not to build first</h2>
+                <div class="rd-case-body" style="margin-top:24px;">
+                    <p>
+                        A 496-story backlog across 17 roles isn't a ranking problem. No ordering of
+                        496 items gives you a release that hangs together. Slice it by role and you
+                        ship a rep experience that dead-ends at an approval nobody can give. Slice
+                        it by feature and you ship a budget module with no program to attach it to.
+                    </p>
+                </div>
+            </div>
+
+            <div class="rd-decision" style="width:100%;">
                 <div class="rd-decision-row">
                     <p class="rd-decision-k">Options</p>
                     <div class="rd-decision-v rd-option-set">
@@ -332,7 +767,7 @@
                 <div class="rd-decision-row">
                     <p class="rd-decision-k">What I chose</p>
                     <div class="rd-decision-v">
-                        <p><strong>C, spine-first.</strong> We tiered the backlog Must-have against Post-MVP along the request spine, and shipped the four roles that own a program from start to approval. Budget came with it rather than after. Top-down allocation and bottom-up charges carry the weight of the whole record, and putting them off would have meant rebuilding around them later.</p>
+                        <p><strong>C, spine-first.</strong> We tiered the backlog Must-have against Post-MVP along the request spine, and shipped the four roles that own a program from start to approval. Budget came with it rather than after: top-down allocation and bottom-up charges carry the weight of the whole record, and putting them off would have meant rebuilding around them later.</p>
                     </div>
                 </div>
 
@@ -344,220 +779,1185 @@
                 </div>
             </div>
 
-            <!-- The two figures that make the choice arguable rather than
-                 asserted: a sparse band next to the dense one. -->
-            <figure class="rd-case-figure is-pair">
-                <img src="../public/hc_map_thin.webp" alt="Onboarding, nomination and contracting swimlanes — sparse, with large empty gaps between role columns" loading="lazy">
-                <img src="../public/hc_map_spine.webp" alt="The program request swimlane — dense, with an unbroken approval chain running left to right and a repeated sub-feature stack under nearly every role column" loading="lazy">
-                <figcaption><strong>Left:</strong> onboarding, nomination and contracting. Three whole workflow areas, and most columns are empty. Build these first and you ship a system nobody can run a program in. <strong>Right:</strong> program request, with an unbroken initiate → approve → approve → confirm chain and the same feature stack under almost every column. That gap is the argument for option C, and the map made it obvious before anyone had to be talked into it.</figcaption>
-            </figure>
-
-            <div class="rd-case-body">
-                <p class="rd-todo">Confirm this narrative before it ships. The options, criteria and kill list above are reconstructed from the artifacts — the Must-have/Post-MVP tiering, the 13-swimlane map, and the backlog's own shape (attendee 5 stories, rookie 1, against 45 for a region manager). If the real call was made differently, this is the section to correct first: it is the one an interviewer will probe hardest.</p>
+            <div style="max-width: 684px; text-align: center;" data-aos="fade-up">
+                <div class="rd-case-body">
+                    <p>The map is what made that arguable rather than asserted.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- ================= §5 — Solution design ================= -->
-    <section class="rd-case-section is-tinted" id="solution">
+    <!-- ================= What got built =================
+         Figma 40000455:3114 (the screen wall) + 40000444:9502 (the
+         "New Experiences" panel), added 2026-08-29.
+
+         >>> WIRED 2026-08-29 (public/s5_02.png – s5_08.png). Hao supplied 7
+         real screens, not the single hc_built_wall.png export this section
+         first expected. s5_01 (the app's login screen) is excluded — it isn't
+         a view of the program record. The single panel next to "What the
+         release actually contains" uses s5_02 (program detail overview).
+
+         >>> UPDATED 2026-08-29, SAME DAY: the wall (.rd-case-wall-pin /
+         .rd-case-wall-row, redesign.css §13f) is no longer a static grid —
+         it's a pinned scroll marquee (js/case-wall-marquee.js). See the
+         second banner comment, directly above .rd-case-wall-pin below, for
+         how that's wired and what NOT to hand-edit in the markup.
+
+         >>> NDA — CHECK BEFORE ADDING MORE. The Figma node's screens were live
+         captures: a tenant name in the sidebar, a physician's full name with
+         hospital, licence and NPI numbers, named attendees, a therapeutic area
+         in a budget title. None of that can ship. The 7 wired here read as
+         synthetic/placeholder data (generic "AZ Health Care" branding, no
+         hospital/licence detail tying to a real person) rather than a live
+         capture, but confirm before adding more from the same source — a CSS
+         blur is not redaction, the file still carries the pixels.
+
+         WHY IT IS HERE AND NOT LATER. The page went decision (§04) → evidence
+         (§05) → outcome, with nothing between the argument and the admission
+         that the outcome was never measured. This is the missing beat: what the
+         argument actually produced. It also makes §07's opening line land as
+         restraint rather than as an empty ending.
+
+         RENUMBERING: adding this section moved Handed off 06 → 07 and AI
+         Accelerate 07 → 08 in the TOC. #ai-accelerate-v2 is still absent from
+         the TOC on purpose (see its own banner).
+
+         >>> THE ID IS "release", NOT "built", AND THAT IS NOT A STYLE CHOICE.
+         redesign.css carries a bare `#built { min-height: 100vh; display: flex;
+         align-items: center }` rule for lending-new-v3.html's sequencing
+         section — an id selector with no page scope, so ANY page using
+         id="built" silently inherits it. This section had that id for about
+         ten minutes and laid its three children out as a flex ROW: the screen
+         wall came out 127px wide and the page scrolled sideways at 390px.
+         Nothing errors and nothing warns; it just looks broken. Check
+         redesign.css for a bare `#id` rule before reusing a section id here. -->
+    <section class="rd-case-section is-tinted" id="release">
+        <!-- Full-bleed, on the same .rd-case-figure.is-full pattern as
+             lending-new-v3.html's built band: the point of a wall of screens is
+             density, and density is exactly what disappears at column width.
+
+             Real crops, not one Figma export: Hao supplied 7 redacted screens
+             (public/s5_02.png – s5_08.png; s5_01 is the app's login screen and
+             was left out — it isn't a view of the program record). Two rows,
+             ordered oppositely so they don't read as the same strip twice.
+
+             PINNED MARQUEE (js/case-wall-marquee.js, GSAP + ScrollTrigger,
+             same pattern as js/ai-accelerate-v2.js): once this figure's top
+             hits the viewport top, it pins for ~3 screens of scroll while the
+             two rows scrub horizontally in opposite directions, then releases
+             into normal flow.
+
+             >>> TITLE + INTRO LIVE INSIDE THE PIN NOW (Hao, 2026-08-29, third
+             round on this section). Round 1 put them in their own .rd-case-
+             inner ABOVE the figure — normal flow, so they scrolled off BEFORE
+             the pin ever activated, and only the two rows were visible during
+             the whole 3-screen hold. Hao's actual spec: title + desc + both
+             rows all visible together on ONE screen, held in place, THEN
+             release so the rest of the section scrolls up. So .rd-case-wall-
+             header (h2 + intro paragraphs) is a child of .rd-case-wall-pin,
+             stacked above .rd-case-wall-images, and the two travel together.
+             See .rd-case-wall-header / .rd-case-wall-pin in redesign.css §13f
+             for how it's sized (clamp()s, same technique as .rd-ai-pin) to
+             actually fit a heading + 2 paragraphs + 2 image rows in one 100vh
+             box without clipping — verified at 1366x768 through 1920x1080,
+             not just eyeballed.
+
+             >>> NOT GSAP's pin:true ANY MORE (Hao, round 4, real Safari only
+             — never reproduced in Chromium, and a minimal isolated repro of
+             the same structure didn't reproduce it either, so the exact
+             internal cause was never pinned down). GSAP's own pin-spacer,
+             which is supposed to reserve the ~3-screen hold distance in the
+             document's flow, was silently sizing itself wrong in WebKit
+             specifically for THIS element — the wall stayed visually fixed
+             on screen, but the checklist card and everything after it kept
+             scrolling normally underneath it the whole time, as if no space
+             had been reserved at all. .rd-case-wall-spacer (new wrapper,
+             .is-full > .rd-case-wall-spacer > .rd-case-wall-pin) now does that
+             reserving itself, in plain CSS (`height: 400vh` — 100vh visible +
+             300vh hold — only once js-wall-ready is added), with
+             .rd-case-wall-pin as `position: sticky; top: 0` inside it —
+             native browser behavior, no per-browser spacer math to get wrong.
+             GSAP/ScrollTrigger still runs, but ONLY to scrub the two rows'
+             xPercent against scroll progress through the spacer
+             (js/case-wall-marquee.js) — it no longer pins anything.
+
+             THE MARKUP HERE IS DELIBERATELY UNDUPLICATED — 7 imgs per row, not
+             21. The JS clones each row's own children ×2 at init (for a
+             seamless 3×-wide loop track) ONLY once it has confirmed GSAP +
+             ScrollTrigger are present and motion isn't reduced; skipped
+             entirely on mobile (<769px). Default/no-JS/reduced-motion render:
+             header stacks above both rows, no sticky, spacer height back to
+             auto, each row a single horizontally-scrollable line (always 2
+             rows, not a wrapped grid) — see .rd-case-wall-row /
+             .rd-case-wall-spacer in redesign.css §13f. Do
+             not hand-add more <img> copies here; that would triple-clone
+             under JS (21 → 63) and break the loop math. -->
+        <figure class="rd-case-figure is-full">
+            <div class="rd-case-wall-spacer">
+            <div class="rd-case-wall-pin">
+                <div class="rd-case-inner rd-shell rd-case-wall-header">
+                    <h2 class="rd-case-h2">One record, and the four roles that own it</h2>
+
+                    <div class="rd-case-body">
+                        <p>
+                            The release is the program-request spine and the roles that carry a
+                            program from a rep's nomination to an approved, funded, contracted
+                            event. Everything on these screens is the same object seen from a
+                            different seat — the request a rep raises, the queue a manager
+                            approves from, the budget line accounting charges against, the roster
+                            a coordinator books travel for.
+                        </p>
+                        <p>
+                            That is the whole argument made visible. A role that only reads the
+                            record got no screen in this release, and the four that own it got the
+                            whole flow.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="rd-case-wall-images" aria-hidden="true">
+                    <div class="rd-case-wall-row" data-wall-row="a">
+                        <img src="../public/s5_02.png" alt="" loading="lazy">
+                        <img src="../public/s5_03.png" alt="" loading="lazy">
+                        <img src="../public/s5_04.png" alt="" loading="lazy">
+                        <img src="../public/s5_05.png" alt="" loading="lazy">
+                        <img src="../public/s5_06.png" alt="" loading="lazy">
+                        <img src="../public/s5_07.png" alt="" loading="lazy">
+                        <img src="../public/s5_08.png" alt="" loading="lazy">
+                    </div>
+                    <div class="rd-case-wall-row" data-wall-row="b">
+                        <img src="../public/s5_08.png" alt="" loading="lazy">
+                        <img src="../public/s5_07.png" alt="" loading="lazy">
+                        <img src="../public/s5_06.png" alt="" loading="lazy">
+                        <img src="../public/s5_05.png" alt="" loading="lazy">
+                        <img src="../public/s5_04.png" alt="" loading="lazy">
+                        <img src="../public/s5_03.png" alt="" loading="lazy">
+                        <img src="../public/s5_02.png" alt="" loading="lazy">
+                    </div>
+                </div>
+            </div>
+            </div>
+            <figcaption>Twelve surfaces off one program record — dashboard, program detail, budget, speaker profile, event calendar and evaluations.</figcaption>
+        </figure>
+
         <div class="rd-case-inner rd-shell">
-            <h2 class="rd-case-h2">Solution design</h2>
-            <div class="rd-case-body">
-                <p>
-                    All of the above came off one artifact: a map of 17 roles against 13 workflow
-                    areas, every cell carrying its ticket reference. Having the whole product on one
-                    surface meant scoping arguments got settled by pointing at it.
-                </p>
-            </div>
+            <!-- .rd-case-split.is-media is the house component for presenting the
+                 NEW UI (the same call recorded on customer-engagement-v3.html:
+                 never reuse it for the old tool, or before and after blur). It is
+                 already used three times in §05 above, inside the tab panels. -->
+            <div class="rd-case-card">
+                <div class="rd-case-split is-media">
+                    <div class="rd-case-body">
+                        <div>
+                            <h3>What the release actually contains</h3>
+                            <p>
+                                Five things, in the order they have to exist. Budget is not last:
+                                allocation and charges carry the weight of the whole record, and
+                                deferring them would have meant rebuilding around them later.
+                            </p>
+                        </div>
 
-            <figure class="rd-case-figure">
-                <img src="../public/hc_productmap.webp" alt="The full product map: role columns against 13 workflow swimlanes — onboarding, nomination, contracting, program request, budgeting, inquiry, registration, reporting, speaker and library, expense, billing and payment, reconciliation, shared features" loading="lazy">
-                <figcaption>The full map at roughly 11,800 × 16,400px, zoomed out far enough to read shape instead of detail. Two bands are dense — program request and reporting. Everything else is thin.</figcaption>
-            </figure>
+                        <div>
+                            <h3 class="rd-case-label is-heading">In the MVP</h3>
+                            <div class="rd-case-checklist">
+                                <div class="rd-case-checklist-row"><span>01. Program request — raise it, route it, approve it</span></div>
+                                <div class="rd-case-checklist-row"><span>02. Budget — top-down allocation and bottom-up charges</span></div>
+                                <div class="rd-case-checklist-row"><span>03. Speaker nomination and contracting</span></div>
+                                <div class="rd-case-checklist-row"><span>04. Event day — check-in, sign-in sheet, attestation</span></div>
+                                <div class="rd-case-checklist-row"><span>05. One program record all seventeen roles read</span></div>
+                            </div>
+                        </div>
 
-            <!-- web-3's `.roadmap`: one bordered container split into columns,
-                 not three floating cards. Reads as a single comparison. -->
-            <div class="rd-case-cols is-three">
-                <div>
-                    <h3 class="rd-case-label">The hard part</h3>
-                    <p>
-                        Budget runs in two directions at once: top-down from a signed contract
-                        through area allocations, and bottom-up from per-event charges. I specced
-                        the state changes in detail — what happens to committed budget versus money
-                        actually spent when a program is approved, cancelled or closed — because
-                        that's where reconciliation disputes start.
-                    </p>
-                </div>
-                <div>
-                    <h3 class="rd-case-label">Specced, then proven</h3>
-                    <p>
-                        496 user stories written as <em>As a… I want… so that…</em> with acceptance
-                        criteria <span class="rd-evidence is-counted">counted</span>, tiered
-                        Must-have against Post-MVP, each traced to an epic. Nineteen items still sit
-                        open. It's a working backlog, not a finished document.
-                    </p>
-                </div>
-                <div>
-                    <h3 class="rd-case-label">A prototype, not a deck</h3>
-                    <p>
-                        We built the riskiest screens instead of drawing them: a React prototype of
-                        about 21,350 lines over ten weeks
-                        <span class="rd-evidence is-counted">counted</span>, covering program
-                        detail, budget and transfer funds, role dashboards and a form builder. Each
-                        screen exported on its own, so a stakeholder could open one page instead of
-                        clicking through a demo.
-                    </p>
-                </div>
-            </div>
+                        <!-- >>> OPEN — the Figma node tags one row "Experiment" with an
+                             outbound link. Nothing in the source set says which of these
+                             five was run as an experiment or where it points, so no tag
+                             is rendered. Add one only against something real. -->
+                    </div>
 
-            <div class="rd-case-body">
-                <p>
-                    Building it turned up two things the spec had missed. Tracing a program title
-                    back to its request form showed coordinators quietly changing event format and
-                    setting type between request and approval — a data problem no amount of writing
-                    would have caught. And an audit of design tokens found 17 of 18 status tokens
-                    had drifted out of sync with the Figma library.
-                </p>
-                <p class="rd-todo">Name the validation method. Was the prototype tested with real reps and coordinators (moderated testing), or reviewed by the client team (expert inspection)? One sentence, and it separates this from shipping on instinct.</p>
+                    <!-- Program detail overview (public/s5_02.png) — the program
+                         request screen, since that is the flow this whole section is
+                         about. The panel crops to its bottom-right corner (see
+                         .rd-case-split.is-media > .rd-case-figure in redesign.css). -->
+                    <figure class="rd-case-figure">
+                        <img src="../public/s5_02.png" alt="Program detail overview, showing topics, virtual card info and cost tracking" loading="lazy">
+                    </figure>
+                </div>
             </div>
         </div>
-    </section>
 
-    <!-- ================= §6 — Delivery ================= -->
-    <section class="rd-case-section" id="delivery">
-        <div class="rd-case-inner rd-shell">
-            <h2 class="rd-case-h2">Delivery</h2>
-            <div class="rd-case-body">
-                <p>
-                    One scope change is worth recording. Transfer funds started as a panel inside
-                    the budget screen and ended up a full page. Moving money between allocations
-                    needs a two-step confirm and a clear before and after, and a panel couldn't
-                    show that without hiding the number the user most needed to check.
-                </p>
-                <p>
-                    Worth saying plainly, because it shaped everything else: the design deliverable
-                    was a coded prototype in the product's own stack, not a Figma file. Design
-                    tokens and a git branch were the source of truth, and engineering pulled from
-                    there and owned auth. That's why the token drift above got caught at all — it
-                    showed up as a diff rather than as a surprise in QA.
-                </p>
-                <p class="rd-todo">Add the constraints that actually bit — a dependency that slipped, a technical limit that forced a rethink, a scope cut agreed with engineering. Two or three sentences. This is where technical partnership becomes visible, and most candidates have nothing to say here.</p>
+        <!-- ========== THE MAP, folded in as this section's evidence ==========
+             Was its own §05 until 2026-08-29. Hao's call: "The map và what got
+             to built là một — the map có thể là data cần thiết cho các section
+             trên nó." So it is no longer a section that argues; it is the data
+             the sections above it stand on, and it sits at the end of the one
+             that shows what shipped.
+
+             THREE THINGS TRAVELLED WITH IT, all MOVED out of §01 rather than
+             rewritten, when §01 was reduced to its stat container:
+               · the 13 workflow areas checklist
+               · the 17 / 496 / 10 highlight stats
+               · the spine-first closing paragraph, which now closes this block
+             None of their copy changed. Together with the map crops they are
+             every counted number on this page in one place, which is the point.
+
+             The ids on the tab buttons and panels are unchanged (tab-whole /
+             tab-density / tab-recon and their tabpanel-* partners), so the
+             generic tab script at the foot of this file still wires them with
+             no change. Only the wrapper around them moved.
+
+             `.rd-case-evidence` exists only to put air between this block and
+             the release card above it: .rd-case-section has no gap between its
+             own direct children (each section normally has exactly one
+             .rd-case-inner), so without it the bordered wiki-title sits flush
+             against the card's bottom edge. -->
+        <div class="rd-case-inner rd-shell rd-case-evidence">
+            <h3 class="rd-case-wiki-title" data-aos="fade-up">The artifact all of it came off</h3>
+
+<div class="rd-case-body" style="margin-top:24px;" data-aos="fade-up">
+                    <p>
+                        All of it came off one artifact: a map of every role against every workflow
+                        area, each cell carrying its ticket reference, at roughly 11,800 × 16,400
+                        pixels. Having the whole product on one surface meant scoping arguments got
+                        settled by pointing at it rather than by seniority.
+                    </p>
+                
             </div>
-        </div>
-    </section>
 
-    <!-- ================= §7 — Learning and follow-up ================= -->
-    <!-- Framework: be scrupulously honest. Three states, pick the true one.
-         Currently "shipped, not measured by me" — stated plainly rather than
-         implied, because interviewers stop probing numbers you label yourself. -->
-    <section class="rd-case-section is-tinted" id="learning">
-        <div class="rd-case-inner rd-shell">
-            <h2 class="rd-case-h2">Learning and follow-up</h2>
-            <div class="rd-case-split">
+            <div class="rd-case-split" data-aos="fade-up">
+                <div class="rd-case-body">
+                <div>
+                    <h3 class="rd-case-label is-heading">The thirteen workflow areas</h3>
+                    <!-- The 13 swimlanes off the product map, listed once. Same
+                         job as the four brief goals on lending-new-v3, the five
+                         roles on customer-engagement-v3 and the eight apps on
+                         marketing-platform-v3: the reader has to see the pile
+                         before they can watch §04 sequence it. Inline stroke
+                         icons, matching the other v3 pages — there is no icon
+                         set for swimlanes and inventing one would be worse than
+                         a repeated check mark. -->
+                    <div class="rd-case-checklist">
+                        <div class="rd-case-checklist-row">
+                            <span class="rd-case-checklist-icon" aria-hidden="true">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </span>
+                            <span>Program request — the spine, and what shipped first</span>
+                        </div>
+                        <div class="rd-case-checklist-row">
+                            <span class="rd-case-checklist-icon" aria-hidden="true">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </span>
+                            <span>Budgeting — top-down allocation and bottom-up charges</span>
+                        </div>
+                        <div class="rd-case-checklist-row">
+                            <span class="rd-case-checklist-icon" aria-hidden="true">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </span>
+                            <span>Onboarding · Nomination · Contracting</span>
+                        </div>
+                        <div class="rd-case-checklist-row">
+                            <span class="rd-case-checklist-icon" aria-hidden="true">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </span>
+                            <span>Inquiry · Registration · Reporting</span>
+                        </div>
+                        <div class="rd-case-checklist-row">
+                            <span class="rd-case-checklist-icon" aria-hidden="true">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </span>
+                            <span>Speaker &amp; library · Expense · Billing and payment</span>
+                        </div>
+                        <div class="rd-case-checklist-row">
+                            <span class="rd-case-checklist-icon" aria-hidden="true">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            </span>
+                            <span>Reconciliation · Shared features</span>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+            <aside class="rd-case-highlight">
+                <p class="rd-case-meta-k">The shape of it</p>
+                <div class="rd-case-highlight-stat">
+                    <strong>17</strong>
+                    <span>roles can touch one program, across field, scientific, operational and governance teams (counted)</span>
+                </div>
+                <div class="rd-case-highlight-stat">
+                    <strong>496</strong>
+                    <span>user stories across 13 workflow areas, all competing for one MVP (counted)</span>
+                </div>
+                <div class="rd-case-highlight-stat">
+                    <strong>10</strong>
+                    <span>manual checks per reconciliation run, daily, ending in a federal filing (counted)</span>
+                </div>
+            </aside>
+
+            </div>
+
+            <div class="rd-case-body" data-aos="fade-up">
+                <p>
+                    I cut to the program-request spine — the one flow every role touches — and
+                    shipped the four roles that own it end to end. Everything that only reads the
+                    record was deferred. Reconciliation that ran daily across three systems, the
+                    bureau platform, the corporate card and the accounting ledger, collapses onto
+                    one program record that all 17 roles read and write (target).
+                </p>
+                <!-- Deliberately no percentage and no hours. The "3 systems, daily,
+                     77–102 column report" baseline is documented in the client's
+                     accounting spec; the after is design intent. Tagged target for
+                     exactly that reason. Replace with a measured figure if one ever
+                     comes back from the client — and if it does, §06 changes too. -->
+            </div>
+
+            <!-- Three themed tabs, wired by the generic script at the foot of this
+                 file. Every map crop that used to be scattered across four
+                 sections of healthcare.html is now exactly one picker row here. -->
+            <div class="rd-case-tabs" role="tablist" aria-label="Views of the product map">
+                <button type="button" class="rd-case-tab is-active" role="tab" aria-selected="true" aria-controls="tabpanel-whole" id="tab-whole">The whole product</button>
+                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-density" id="tab-density">Where the density was</button>
+                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-recon" id="tab-recon">Reconciliation</button>
+            </div>
+
+            <div class="rd-case-tabpanels" style="width:100%;">
+                <div class="rd-case-tabpanel" id="tabpanel-whole" role="tabpanel" aria-labelledby="tab-whole">
+                    <div class="rd-case-card" style="width:100%;">
+                        <div class="rd-case-split is-media">
+                            <div class="rd-case-body">
+                                <div>
+                                    <h3>The whole product on one surface</h3>
+                                    <p>
+                                        Zoomed out far enough to read shape instead of detail, two bands are
+                                        dense — program request and reporting. Everything else is thin. The
+                                        role header row underneath it is the problem in one line: fifteen
+                                        columns for seventeen roles, because three columns pair roles that
+                                        share a permission set, and not one of them can finish a program
+                                        alone.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3 class="rd-case-label">Two views</h3>
+                                    <div class="rd-case-checklist" data-picker="whole-picker-image" role="tablist" aria-label="Views of the whole map">
+                                        <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true" data-image="../public/s5_06.png"><span>The full map — 13 swimlanes</span></div>
+                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hc_map_roles.webp"><span>The role header row — all 17</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- .is-strip + .rd-figure-frame / .rd-figure-scroll: the role
+                                 header row is ~2,200px of labels and the labels ARE the
+                                 content, so this figure scrolls horizontally instead of
+                                 scaling down into a grey smear. The full map tolerates
+                                 scaling, so one scrolling frame serves both picker rows. -->
+                            <figure class="rd-case-figure is-strip">
+                                <div class="rd-figure-frame">
+                                    <div class="rd-figure-scroll">
+                                        <img id="whole-picker-image" src="../public/s5_06.png" alt="The full product map: role columns against 13 workflow swimlanes — onboarding, nomination, contracting, program request, budgeting, inquiry, registration, reporting, speaker and library, expense, billing and payment, reconciliation, shared features" class="is-wide" loading="lazy">
+                                    </div>
+                                </div>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rd-case-tabpanel" id="tabpanel-density" role="tabpanel" aria-labelledby="tab-density" hidden>
+                    <div class="rd-case-card" style="width:100%;">
+                        <div class="rd-case-split is-media">
+                            <div class="rd-case-body">
+                                <div>
+                                    <h3 class="rd-case-label">The argument for option C</h3>
+                                    <p>
+                                        Onboarding, nomination and contracting are three whole workflow areas
+                                        and most of their columns are empty. Build those first and you ship a
+                                        system nobody can run a program in. Program request is the opposite:
+                                        an unbroken initiate → approve → approve → confirm chain, with the
+                                        same feature stack under almost every column.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h3 class="rd-case-label">Compare the two bands</h3>
+                                    <div class="rd-case-checklist" data-picker="density-picker-image" role="tablist" aria-label="Sparse and dense swimlanes">
+                                        <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true" data-image="../public/hc_map_spine.webp"><span>Program request — dense, unbroken</span></div>
+                                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hc_map_thin.webp"><span>Onboarding, nomination, contracting — sparse</span></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <p>
+                                        That gap is what made the spine-first call obvious before anyone had
+                                        to be talked into it.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <figure class="rd-case-figure">
+                                <img id="density-picker-image" src="../public/hc_map_spine.webp" alt="The program request swimlane — dense, with an unbroken approval chain running left to right and a repeated sub-feature stack under nearly every role column" loading="lazy">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rd-case-tabpanel" id="tabpanel-recon" role="tabpanel" aria-labelledby="tab-recon" hidden>
+                    <div class="rd-case-card" style="width:100%;">
+                        <div class="rd-case-split is-media">
+                            <div class="rd-case-body">
+                                <div>
+                                    <h3 class="rd-case-label">Ten checks, then a federal filing</h3>
+                                    <p>
+                                        Run the report, run it again by month, select a program, check
+                                        attendee duplication against the speaker cap, check identifiers and
+                                        signatures, check receipts, check cost items, mark QA verified per
+                                        payment item, mark final verification, pull to the payment
+                                        aggregator, file the Sunshine Report. Ten manual steps between an
+                                        event and a government submission, and the chain runs every day.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p>
+                                        Each one is a place a program can quietly fail an audit. That is what
+                                        turns "the tooling is old" into a business case, and it is the single
+                                        most persuasive artifact in the whole source set.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <figure class="rd-case-figure">
+                                <img src="../public/hc_map_recon.webp" alt="The reconciliation swimlane: run report in accounting software, run global report by month, select a program, check attendee duplication against the speaker cap, check attendee identifier and signature, check required receipts are uploaded, check cost items are correct and attached, mark QA verified per payment item, mark final verification, pull data to the payment aggregator, file the Sunshine Report" loading="lazy">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="max-width: 684px; text-align: center;" data-aos="fade-up">
                 <div class="rd-case-body">
                     <p>
-                        <strong>Specced and handed off. Not measured by me.</strong> I moved on
-                        before a measurement cycle closed, so there's no outcome number here I can
-                        stand behind. I'd rather say that than imply a win.
+                        Three things carried the build. Budget runs in two directions at once —
+                        top-down from a signed contract through area allocations, and bottom-up from
+                        per-event charges — so I specced the state changes in detail, what happens to
+                        committed budget versus money actually spent when a program is approved,
+                        cancelled or closed, because that is where reconciliation disputes start. The
+                        backlog itself ran to 496 stories in <em>As a… I want… so that…</em> form with
+                        acceptance criteria (counted), tiered Must-have against Post-MVP and each
+                        traced to an epic, with 19 items still open — a working backlog, not a
+                        finished document. And rather than draw the riskiest screens we built them:
+                        a React prototype of about 21,350 lines over ten weeks (counted), covering
+                        program detail, budget and transfer funds, role dashboards and a form
+                        builder, each screen exported on its own so a stakeholder could open one
+                        page instead of clicking through a demo.
                     </p>
                     <p>
-                        The three measures on the right are what I'd have tracked. The first is the
-                        one I'd have set a target on, because that's what the spine-first call was
-                        really betting on — if approval cycle time didn't move, the whole argument
-                        for shipping the request spine before anything else was wrong.
+                        Building it turned up two things the spec had missed. Tracing a program title
+                        back to its request form showed coordinators quietly changing event format
+                        and setting type between request and approval — a data problem no amount of
+                        writing would have caught. And an audit of design tokens found 17 of 18
+                        status tokens had drifted out of sync with the Figma library.
+                    </p>
+                    <p>
+                        One scope change is worth recording. Transfer funds started as a panel inside
+                        the budget screen and ended up a full page: moving money between allocations
+                        needs a two-step confirm and a clear before and after, and a panel couldn't
+                        show that without hiding the number the user most needed to check. Worth
+                        saying plainly, because it shaped everything else — the design deliverable
+                        was a coded prototype in the product's own stack, not a Figma file. Design
+                        tokens and a git branch were the source of truth, engineering pulled from
+                        there and owned auth, and that is why the token drift got caught at all. It
+                        showed up as a diff rather than as a surprise in QA.
+                    </p>
+                </div>
+            </div>
+
+            <!-- >>> OPEN — the validation method. Was the prototype tested with real
+                 reps and coordinators (moderated testing), or reviewed by the client
+                 team (expert inspection)? One sentence, and it separates this from
+                 shipping on instinct. "Neither, and here is why" is an acceptable
+                 answer for a spec-and-handoff engagement.
+
+                 >>> OPEN — the constraints that actually bit in delivery. A
+                 dependency that slipped, a technical limit that forced a rethink, a
+                 scope cut agreed with engineering. The transfer-funds change above
+                 is a design change, not a constraint. This is where technical
+                 partnership becomes visible and most candidates have nothing to say
+                 here, which is exactly why two or three sentences are worth having. -->
+
+        </div>
+    </section>
+
+    <!-- ================= Handed off ================= -->
+    <section class="rd-case-section is-tinted" id="after">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2" data-aos="fade-up">Specced, handed off, not measured by me</h2>
+
+            <div class="rd-case-wiki">
+                <div class="rd-case-wiki-row">
+                    <div class="rd-case-body" data-aos="fade-up">
+                        <p>
+                            I moved on before a measurement cycle closed, so there is no outcome
+                            number here I can stand behind. I would rather say that than imply a win.
+                            What exists is a spec, a working prototype and a sequencing argument that
+                            the client accepted — which is a real piece of work, and is also not the
+                            same thing as a result.
+                        </p>
+                        <p>
+                            Three measures are what I would have tracked. Program-request cycle time,
+                            from submission to confirmed, is the one I would have set a target on,
+                            because that is what the spine-first call was really betting on: if
+                            approval cycle time didn't move, the whole argument for shipping the
+                            request spine before anything else was wrong. Then coordinator hours to
+                            run one program end to end, and the exception rate — compliance issues
+                            raised after the fact instead of caught in the flow.
+                        </p>
+                        <!-- >>> OPEN — and this is the highest-value item on the page. If you
+                             can source ANY of those three from the client, even directionally,
+                             even under NDA as a ratio, this section becomes the strongest in
+                             the case study rather than the most honest one. The framework
+                             explicitly allows the form "cut approval time roughly 60%
+                             (client-reported)". -->
+                    </div>
+                </div>
+                <h3 class="rd-case-wiki-title" data-aos="fade-up">What I'd do differently</h3>
+                <div class="rd-case-wiki-row">
+                    <div class="rd-case-lesson-row" data-aos="fade-up">
+                        <div class="rd-case-lesson"><strong>496 stories, zero baselines.</strong> The spec is thorough — as-is and to-be flows for all 17 roles — but thorough isn't proven, and I still can't tell you what the old process cost. A week timing real program requests at the start would have turned the spine-first argument from a diagram into a measurement.</div>
+                        <div class="rd-case-lesson"><strong>I let the design system drift.</strong> Catching 17 of 18 status tokens out of sync was fine. Needing to catch it was the miss — calling code the source of truth on day one would have cost nothing.</div>
+                        <div class="rd-case-lesson"><strong>I answered "why now" with a standing reason.</strong> Compliance risk is true every quarter. I never pinned down what made it urgent that quarter, which is the first thing anyone senior asks about a project this size.</div>
+                        <!-- >>> OPEN — the third lesson above is the weakest of the three and is
+                             the one to replace. What the framework wants here is something
+                             specific and unflattering about a call you got WRONG on this
+                             project — not a gap in the research. Self-awareness is a
+                             screened-for trait and this is the cheapest place on the page to
+                             show it. -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= AI Accelerate (scroll-driven) =================
+         Added 2026-08-26 per "Scroll-Driven AI Accelerate Section —
+         Implementation Prompt.md" at the repo root, against Figma
+         40000417:8561. Content-wise it's a generic product-lifecycle
+         diagram rather than part of this case study's own narrative, but
+         it's §07 in the TOC above at Hao's explicit request (2026-08-27) —
+         id="ai-accelerate" is what js/case-toc.js's scroll-spy matches
+         against the "#ai-accelerate" href, same as every other numbered
+         section. See css/styles/redesign.css §13 and js/ai-accelerate.js
+         for the pin/scrub implementation and its static/reduced-motion/
+         mobile fallbacks. -->
+    <section class="rd-case-section is-tinted rd-ai-accelerate" id="ai-accelerate">
+        <div class="rd-ai-pin">
+            <div class="rd-case-inner rd-shell rd-ai-inner">
+                <div class="rd-ai-header">
+                    <h2 class="rd-case-h2">The shape didn't change.<br>AI just carries more of it now.</h2>
+                </div>
+
+                <div class="rd-ai-stage">
+                    <div class="rd-ai-loop-line is-top" aria-hidden="true"></div>
+                    <div class="rd-ai-loop-line is-bottom" aria-hidden="true"></div>
+                    <div class="rd-ai-circle is-discovery" data-role="discovery">
+                        <span class="rd-ai-tick is-n" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-e" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-s" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-w" aria-hidden="true"></span>
+                        <span class="rd-ai-circle-label is-short">Discovery</span>
+                        <span class="rd-ai-circle-label is-long">Discover, Validate, and experiment</span>
+                    </div>
+                    <div class="rd-ai-circle is-validate" data-role="validate">
+                        <span class="rd-ai-tick is-n" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-e" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-s" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-w" aria-hidden="true"></span>
+                        <span>Validate</span>
+                    </div>
+                    <div class="rd-ai-circle is-build" data-role="build">
+                        <span class="rd-ai-tick is-n" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-e" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-s" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-w" aria-hidden="true"></span>
+                        <span>Build</span>
+                    </div>
+                    <div class="rd-ai-circle is-launch" data-role="launch">
+                        <span class="rd-ai-tick is-n" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-e" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-s" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-w" aria-hidden="true"></span>
+                        <span class="rd-ai-circle-label is-short">Launch</span>
+                        <span class="rd-ai-circle-label is-long">Build, launch and scale</span>
+                    </div>
+                </div>
+
+                <div class="rd-ai-reveal">
+                    <h3 class="rd-ai-reveal-heading">AI enablement across product screens, sprints and phases</h3>
+
+                    <p class="rd-ai-reveal-question">Is this flow critical to the customer's business?</p>
+
+                    <!-- Real toggle buttons (aria-pressed), not a tablist — this is a
+                         binary either/or control, not a set of parallel views. Visual
+                         reuses .rd-tabs/.rd-tab, the sitewide pill component (see
+                         "Tab strip" in this file), with an [aria-pressed] state rule
+                         added alongside its existing [aria-selected] one. Wiring is in
+                         js/ai-accelerate.js. -->
+                    <div class="rd-tabs rd-ai-toggle" role="group" aria-label="Is this flow critical to the customer's business?">
+                        <button type="button" class="rd-tab" aria-pressed="true" data-ai-state="critical"><span>Yes, it's critical</span></button>
+                        <button type="button" class="rd-tab" aria-pressed="false" data-ai-state="normal"><span>No, this is normal</span></button>
+                    </div>
+
+                    <!-- aria-live: the swapped step lists below are announced on toggle.
+                         Row markup reuses .rd-case-checklist / .rd-case-checklist-row /
+                         .rd-case-chip as-is (see lending-new-v3.html's "Experience List"
+                         picker) — a step with no .rd-case-chip is human-owned; absence is
+                         the signal, so a "Human" tag is never rendered. -->
+                    <div class="rd-case-card rd-ai-panel" data-ai-panel aria-live="polite">
+                        <div class="rd-ai-panel-cols">
+                            <div class="rd-ai-panel-col">
+                                <div class="rd-ai-panel-head is-discovery">
+                                    <p class="rd-ai-panel-title">Discovery,<br>validate,<br>and experiment</p>
+                                    <div class="rd-ai-swap-wrap">
+                                        <p class="rd-ai-panel-subtitle" data-ai-state="critical">AI surfaces it, the domain owner validates it.</p>
+                                        <p class="rd-ai-panel-subtitle" data-ai-state="normal" hidden>Single lane. The old system is the spec.</p>
+                                    </div>
+                                </div>
+                                <div class="rd-ai-swap-wrap">
+                                    <div class="rd-case-checklist rd-ai-steps" data-ai-state="critical">
+                                        <div class="rd-case-checklist-row"><span>01. Reverse-engineer with the people who own the domain</span><span class="rd-case-chip">AI + Human</span></div>
+                                        <div class="rd-case-checklist-row"><span>02. Set strategy and vision</span></div>
+                                        <div class="rd-case-checklist-row"><span>03. Empathize — talk to real users</span></div>
+                                        <div class="rd-case-checklist-row"><span>04. Ideate</span><span class="rd-case-chip">AI + Human</span></div>
+                                        <div class="rd-case-checklist-row"><span>05. Experiment — test the assumption before building</span><span class="rd-case-chip">AI + Human</span></div>
+                                    </div>
+                                    <div class="rd-case-checklist rd-ai-steps" data-ai-state="normal" hidden>
+                                        <div class="rd-case-checklist-row"><span>01. Read the existing codebase</span><span class="rd-case-chip">AI</span></div>
+                                        <div class="rd-case-checklist-row"><span>02. Infer the business logic in production</span><span class="rd-case-chip">AI</span></div>
+                                        <div class="rd-case-checklist-row"><span>03. Draft the new flow and screens from that logic</span><span class="rd-case-chip">AI</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rd-ai-panel-col">
+                                <div class="rd-ai-panel-head is-launch">
+                                    <p class="rd-ai-panel-title">Build,<br>launch<br>and scale</p>
+                                    <div class="rd-ai-swap-wrap">
+                                        <p class="rd-ai-panel-subtitle" data-ai-state="critical">AI assists, human signs off.</p>
+                                        <p class="rd-ai-panel-subtitle" data-ai-state="normal" hidden>AI builds it, the demo is the gate.</p>
+                                    </div>
+                                </div>
+                                <div class="rd-ai-swap-wrap">
+                                    <div class="rd-case-checklist rd-ai-steps" data-ai-state="critical">
+                                        <div class="rd-case-checklist-row"><span>01. Code</span><span class="rd-case-chip">AI + Human</span></div>
+                                        <div class="rd-case-checklist-row"><span>02. Build</span><span class="rd-case-chip">AI</span></div>
+                                        <div class="rd-case-checklist-row"><span>03. Test — human writes the cases for the risky branches</span><span class="rd-case-chip">AI + Human</span></div>
+                                        <div class="rd-case-checklist-row"><span>04. Deploy behind a flag, staged rollout</span></div>
+                                        <div class="rd-case-checklist-row"><span>05. Release with a way back</span></div>
+                                    </div>
+                                    <div class="rd-case-checklist rd-ai-steps" data-ai-state="normal" hidden>
+                                        <div class="rd-case-checklist-row"><span>01. Build it and demo to the customer</span><span class="rd-case-chip">AI + Human</span></div>
+                                        <div class="rd-case-checklist-row"><span>02. Customer approves</span></div>
+                                        <div class="rd-case-checklist-row"><span>03. Apply into the new system</span><span class="rd-case-chip">AI</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Not numbered on purpose — outside the step sequence, it's the
+                             loop that runs every round regardless of which state shows
+                             above. Identical in both toggle states, so it isn't duplicated
+                             per data-ai-state. -->
+                        <div class="rd-ai-band">
+                            <div class="rd-case-checklist-row"><span>Customer adoption and product usage analytics</span><span class="rd-case-chip">AI + Human</span></div>
+                        </div>
+                    </div>
+
+                    <p class="rd-ai-reveal-closing">
+                        <strong>Not critical: AI owns the path, the customer owns the gate.</strong><br>
+                        <strong>Critical: a human owns every decision, AI owns the labour.</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= AI Accelerate — V2 (duplicate) =================
+         >>> THIS IS A SECOND COPY OF THE SECTION ABOVE, NOT A REPLACEMENT.
+         Added 2026-08-29 at Hao's instruction: "keep the current information
+         and add more — duplicate the section, don't override anything." The
+         original #ai-accelerate is byte-identical to what it was and is still
+         the one wired to js/ai-accelerate.js. Everything down to the closing
+         </div> of .rd-ai-pin here is a verbatim copy of it; the three layers
+         after that div are the new material.
+
+         WHY IT NEEDS ITS OWN SCRIPT. js/ai-accelerate.js opens with
+         `document.querySelector('.rd-ai-accelerate')` and, further down,
+         `document.querySelector('.rd-ai-toggle')` / `'[data-ai-panel]'` —
+         all first-match, all unscoped. With two sections on the page every
+         one of those resolves to the ORIGINAL, so this copy would render
+         with no pin and a dead toggle. js/ai-accelerate-v2.js is that same
+         file with its three root lookups scoped to #ai-accelerate-v2 and
+         nothing else changed. Both scripts are loaded at the foot of this
+         file; neither can see the other's section.
+
+         NOT IN THE TOC ON PURPOSE. Adding it would renumber every entry and
+         put two "AI Accelerate" rows in the rail. When one of the two wins:
+         delete the loser, rename the survivor's id back to "ai-accelerate",
+         drop the matching script tag, and the TOC never has to change.
+
+         PLACEMENT IS STILL OPEN. The proposal was to move this section ahead
+         of §06 Handed off so the page doesn't close on a diagram — deferred,
+         because moving it means touching the TOC and §06, and the standing
+         instruction is to touch neither yet.
+         ============================================================== -->
+<section class="rd-case-section is-tinted rd-ai-accelerate is-v2" id="ai-accelerate-v2">
+        <div class="rd-ai-pin">
+            <div class="rd-case-inner rd-shell rd-ai-inner">
+                <div class="rd-ai-header">
+                    <h2 class="rd-case-h2">AI Accelerate</h2>
+                    <div class="rd-case-body">
+                        <p>Revert Engineering, Integrate customer data enables insight generation across product horizontal</p>
+                    </div>
+                </div>
+
+                <div class="rd-ai-stage">
+                    <div class="rd-ai-loop-line is-top" aria-hidden="true"></div>
+                    <div class="rd-ai-loop-line is-bottom" aria-hidden="true"></div>
+                    <div class="rd-ai-circle is-discovery" data-role="discovery">
+                        <span class="rd-ai-tick is-n" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-e" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-s" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-w" aria-hidden="true"></span>
+                        <span class="rd-ai-circle-label is-short">Discovery</span>
+                        <span class="rd-ai-circle-label is-long">Discover, Validate, and experiment</span>
+                    </div>
+                    <div class="rd-ai-circle is-validate" data-role="validate">
+                        <span class="rd-ai-tick is-n" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-e" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-s" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-w" aria-hidden="true"></span>
+                        <span>Validate</span>
+                    </div>
+                    <div class="rd-ai-circle is-build" data-role="build">
+                        <span class="rd-ai-tick is-n" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-e" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-s" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-w" aria-hidden="true"></span>
+                        <span>Build</span>
+                    </div>
+                    <div class="rd-ai-circle is-launch" data-role="launch">
+                        <span class="rd-ai-tick is-n" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-e" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-s" aria-hidden="true"></span>
+                        <span class="rd-ai-tick is-w" aria-hidden="true"></span>
+                        <span class="rd-ai-circle-label is-short">Launch</span>
+                        <span class="rd-ai-circle-label is-long">Build, launch and scale</span>
+                    </div>
+                </div>
+
+                <div class="rd-ai-reveal">
+                    <h3 class="rd-ai-reveal-heading">AI enablement across product screens, sprints and phases</h3>
+
+                    <p class="rd-ai-reveal-question">Is this flow critical to the customer's business?</p>
+
+                    <!-- Real toggle buttons (aria-pressed), not a tablist — this is a
+                         binary either/or control, not a set of parallel views. Visual
+                         reuses .rd-tabs/.rd-tab, the sitewide pill component (see
+                         "Tab strip" in this file), with an [aria-pressed] state rule
+                         added alongside its existing [aria-selected] one. Wiring is in
+                         js/ai-accelerate.js. -->
+                    <div class="rd-tabs rd-ai-toggle" role="group" aria-label="Is this flow critical to the customer's business?">
+                        <button type="button" class="rd-tab" aria-pressed="true" data-ai-state="critical"><span>Yes, it's critical</span></button>
+                        <button type="button" class="rd-tab" aria-pressed="false" data-ai-state="normal"><span>No, this is normal</span></button>
+                    </div>
+
+                    <!-- aria-live: the swapped step lists below are announced on toggle.
+                         Row markup reuses .rd-case-checklist / .rd-case-checklist-row /
+                         .rd-case-chip as-is (see lending-new-v3.html's "Experience List"
+                         picker) — a step with no .rd-case-chip is human-owned; absence is
+                         the signal, so a "Human" tag is never rendered. -->
+                    <div class="rd-case-card rd-ai-panel" data-ai-panel aria-live="polite">
+                        <div class="rd-ai-panel-cols">
+                            <div class="rd-ai-panel-col">
+                                <div class="rd-ai-panel-head is-discovery">
+                                    <p class="rd-ai-panel-title">Discovery,<br>validate,<br>and experiment</p>
+                                    <div class="rd-ai-swap-wrap">
+                                        <p class="rd-ai-panel-subtitle" data-ai-state="critical">AI surfaces it, the domain owner validates it.</p>
+                                        <p class="rd-ai-panel-subtitle" data-ai-state="normal" hidden>Single lane. The old system is the spec.</p>
+                                    </div>
+                                </div>
+                                <div class="rd-ai-swap-wrap">
+                                    <div class="rd-case-checklist rd-ai-steps" data-ai-state="critical">
+                                        <div class="rd-case-checklist-row"><span>01. Reverse-engineer with the people who own the domain</span><span class="rd-case-chip">AI + Human</span></div>
+                                        <div class="rd-case-checklist-row"><span>02. Set strategy and vision</span></div>
+                                        <div class="rd-case-checklist-row"><span>03. Empathize — talk to real users</span></div>
+                                        <div class="rd-case-checklist-row"><span>04. Ideate</span><span class="rd-case-chip">AI + Human</span></div>
+                                        <div class="rd-case-checklist-row"><span>05. Experiment — test the assumption before building</span><span class="rd-case-chip">AI + Human</span></div>
+                                    </div>
+                                    <div class="rd-case-checklist rd-ai-steps" data-ai-state="normal" hidden>
+                                        <div class="rd-case-checklist-row"><span>01. Read the existing codebase</span><span class="rd-case-chip">AI</span></div>
+                                        <div class="rd-case-checklist-row"><span>02. Infer the business logic in production</span><span class="rd-case-chip">AI</span></div>
+                                        <div class="rd-case-checklist-row"><span>03. Draft the new flow and screens from that logic</span><span class="rd-case-chip">AI</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rd-ai-panel-col">
+                                <div class="rd-ai-panel-head is-launch">
+                                    <p class="rd-ai-panel-title">Build,<br>launch<br>and scale</p>
+                                    <div class="rd-ai-swap-wrap">
+                                        <p class="rd-ai-panel-subtitle" data-ai-state="critical">AI assists, human signs off.</p>
+                                        <p class="rd-ai-panel-subtitle" data-ai-state="normal" hidden>AI builds it, the demo is the gate.</p>
+                                    </div>
+                                </div>
+                                <div class="rd-ai-swap-wrap">
+                                    <div class="rd-case-checklist rd-ai-steps" data-ai-state="critical">
+                                        <div class="rd-case-checklist-row"><span>01. Code</span><span class="rd-case-chip">AI + Human</span></div>
+                                        <div class="rd-case-checklist-row"><span>02. Build</span><span class="rd-case-chip">AI</span></div>
+                                        <div class="rd-case-checklist-row"><span>03. Test — human writes the cases for the risky branches</span><span class="rd-case-chip">AI + Human</span></div>
+                                        <div class="rd-case-checklist-row"><span>04. Deploy behind a flag, staged rollout</span></div>
+                                        <div class="rd-case-checklist-row"><span>05. Release with a way back</span></div>
+                                    </div>
+                                    <div class="rd-case-checklist rd-ai-steps" data-ai-state="normal" hidden>
+                                        <div class="rd-case-checklist-row"><span>01. Build it and demo to the customer</span><span class="rd-case-chip">AI + Human</span></div>
+                                        <div class="rd-case-checklist-row"><span>02. Customer approves</span></div>
+                                        <div class="rd-case-checklist-row"><span>03. Apply into the new system</span><span class="rd-case-chip">AI</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Not numbered on purpose — outside the step sequence, it's the
+                             loop that runs every round regardless of which state shows
+                             above. Identical in both toggle states, so it isn't duplicated
+                             per data-ai-state. -->
+                        <div class="rd-ai-band">
+                            <div class="rd-case-checklist-row"><span>Customer adoption and product usage analytics</span><span class="rd-case-chip">AI + Human</span></div>
+                        </div>
+                    </div>
+
+                    <p class="rd-ai-reveal-closing">
+                        <strong>Not critical: AI owns the path, the customer owns the gate.</strong><br>
+                        <strong>Critical: a human owns every decision, AI owns the labour.</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- ---------------------------------------------------------------
+             THE THREE STACKED LAYERS. Siblings of .rd-ai-pin, never children
+             of it: .rd-ai-pin goes `position: fixed` while GSAP drives it, so
+             anything inside it is pinned too and would sit on top of the
+             circles for the whole scrub. Out here they are ordinary flow
+             content that arrives after the pinned sequence releases.
+
+             Order is an argument, not a list: the loop above asks WHERE A
+             HUMAN HAS TO STAY; §built answers HOW THE WORK MOVED (the branch),
+             §cost answers WHAT IT REPLACED (the handoff), and §gate closes by
+             naming the one flow on this project where none of it applies.
+             ------------------------------------------------------------ -->
+        <div class="rd-case-inner rd-shell rd-ai-stack">
+
+            <!-- ===== Layer 2 — the design branch =====
+                 Framed as the correction to §06's second lesson ("I let the
+                 design system drift... calling code the source of truth on day
+                 one would have cost nothing"), NOT as something this project
+                 did from the start — it didn't, and §06 says so five sections
+                 up. Claiming otherwise here would contradict the page's own
+                 closing admission, which is the one thing on it a reader is
+                 most likely to remember. -->
+            <div class="rd-ai-layer">
+                <p class="rd-case-label is-heading">Built</p>
+                <h3 class="rd-ai-layer-title">Design moved onto the branch</h3>
+
+                <div class="rd-case-body">
+                    <p>
+                        Seventeen of eighteen status tokens drifted out of sync on this project
+                        before anyone noticed. The fix was not more diligence. It was moving the
+                        design onto the same branch as the code it describes, so a component
+                        change and the screen that consumes it arrive in one review and merge
+                        once.
                     </p>
                 </div>
 
-                <aside class="rd-case-highlight">
-                    <p class="rd-case-meta-k">What I'd have measured</p>
-                    <div class="rd-case-highlight-stat">
-                        <strong>Cycle time</strong>
-                        <span>Program request from submission to confirmed <span class="rd-evidence is-target">target</span></span>
-                    </div>
-                    <div class="rd-case-highlight-stat">
-                        <strong>Hours / event</strong>
-                        <span>Coordinator time to run one program end to end</span>
-                    </div>
-                    <div class="rd-case-highlight-stat">
-                        <strong>Exception rate</strong>
-                        <span>Compliance issues raised after the fact instead of caught in the flow</span>
-                    </div>
-                </aside>
+                <!-- Hand-drawn rather than a screenshot of a real graph: a real
+                     one would carry the client's repo name, and this page names
+                     nobody. currentColor + CSS classes, not fill="" attributes —
+                     SVG presentation attributes ignore var(), so the lane colours
+                     have to come from CSS rules (see .rd-ai-branch in redesign.css). -->
+                <div class="rd-ai-branch">
+                    <svg class="rd-ai-branch-svg" viewBox="0 0 720 132" role="img"
+                         aria-label="A design branch splitting off the main line, carrying three commits, and merging back in a single review">
+                        <path class="rd-ai-branch-rail is-main" d="M24 100 H696" />
+                        <path class="rd-ai-branch-rail is-design" d="M148 100 C188 100 188 40 228 40 H500 C540 40 540 100 580 100" />
+                        <circle class="rd-ai-branch-node is-main" cx="72" cy="100" r="7" />
+                        <circle class="rd-ai-branch-node is-main" cx="148" cy="100" r="7" />
+                        <circle class="rd-ai-branch-node is-design" cx="268" cy="40" r="7" />
+                        <circle class="rd-ai-branch-node is-design" cx="368" cy="40" r="7" />
+                        <circle class="rd-ai-branch-node is-design" cx="468" cy="40" r="7" />
+                        <circle class="rd-ai-branch-node is-merge" cx="580" cy="100" r="9" />
+                        <circle class="rd-ai-branch-node is-main" cx="656" cy="100" r="7" />
+                        <text class="rd-ai-branch-label is-design" x="268" y="20">tokens</text>
+                        <text class="rd-ai-branch-label is-design" x="368" y="20">component</text>
+                        <text class="rd-ai-branch-label is-design" x="468" y="20">the screen using it</text>
+                        <text class="rd-ai-branch-label is-merge" x="580" y="126">one review</text>
+                        <text class="rd-ai-branch-label is-main" x="24" y="126">main</text>
+                    </svg>
+                </div>
+
+                <div class="rd-case-checklist rd-ai-branch-notes">
+                    <div class="rd-case-checklist-row"><span>Tokens and components are defined once, in code, and the design reads from them</span></div>
+                    <div class="rd-case-checklist-row"><span>A design change arrives as a diff — reviewable, arguable, revertable</span></div>
+                    <div class="rd-case-checklist-row"><span>Nothing is ever &ldquo;ready for dev&rdquo;, because the branch already runs</span></div>
+                </div>
+
+                <!-- >>> OPEN — the specifics that would make this concrete rather
+                     than stated: what the branch convention actually was, who
+                     reviewed a design diff, and whether tokens were generated
+                     from code or hand-kept. One sentence each and this layer
+                     stops being a principle and starts being a practice. -->
             </div>
-            <div class="rd-case-body">
-                <p class="rd-todo">If you can source any of these from the client — even directionally, even under NDA as a ratio — this section becomes the strongest in the case study rather than the most honest one. The framework allows "cut approval time roughly 60% (client-reported)".</p>
+
+            <!-- ===== Layer 3 — what the handoff cost, and what replaced it ===== -->
+            <div class="rd-ai-layer">
+                <p class="rd-case-label is-heading">The handoff</p>
+                <h3 class="rd-ai-layer-title">Four artifacts became one</h3>
+
+                <div class="rd-ai-ba">
+                    <div class="rd-ai-ba-col is-before">
+                        <p class="rd-ai-ba-k">Before</p>
+                        <p class="rd-ai-ba-lede">Four artifacts, four owners, each written from the last one and drifting from it the moment it was.</p>
+                        <div class="rd-case-checklist">
+                            <div class="rd-case-checklist-row"><span>A specification document</span></div>
+                            <div class="rd-case-checklist-row"><span>A design file redrawing what the document said</span></div>
+                            <div class="rd-case-checklist-row"><span>Tickets restating the design in a third vocabulary</span></div>
+                            <div class="rd-case-checklist-row"><span>Test cases written against whichever of the three was newest</span></div>
+                        </div>
+                    </div>
+                    <div class="rd-ai-ba-col is-after">
+                        <p class="rd-ai-ba-k">After</p>
+                        <p class="rd-ai-ba-lede">One branch carrying the spec, the screens and something that runs. Reviewed once, on the diff.</p>
+                        <div class="rd-case-checklist">
+                            <div class="rd-case-checklist-row"><span>The spec, beside the code it specifies</span><span class="rd-case-chip">AI + Human</span></div>
+                            <div class="rd-case-checklist-row"><span>The screens, as components rather than pictures of components</span><span class="rd-case-chip">AI + Human</span></div>
+                            <div class="rd-case-checklist-row"><span>A prototype a client can click through</span><span class="rd-case-chip">AI</span></div>
+                            <div class="rd-case-checklist-row"><span>The review, once, where the change actually is</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- The only counted numbers in this section. Everything above is
+                     description; this is the receipt. Derivation is in
+                     "case study 1/CASE-STUDY-1-SOURCE-INVENTORY.md" — prototype
+                     repo history, 8 May to 15 Jul 2026. -->
+                <div class="rd-ai-evi">
+                    <div class="rd-ai-evi-stat">
+                        <strong>10 weeks</strong>
+                        <span>8 May to 15 July 2026, spec and build running together rather than in sequence (counted)</span>
+                    </div>
+                    <div class="rd-ai-evi-stat">
+                        <strong>17</strong>
+                        <span>commits, each one a reviewable slice of the working prototype (counted)</span>
+                    </div>
+                    <div class="rd-ai-evi-stat">
+                        <strong>~21,350</strong>
+                        <span>lines of a running multi-tenant prototype, against a 496-story backlog (counted)</span>
+                    </div>
+                </div>
+
+                <div class="rd-case-body">
+                    <p>
+                        That is what the loop above buys. Not fewer people and not less thinking —
+                        a client could open the thing and disagree with it while the specification
+                        was still being written, which is the only kind of disagreement that is
+                        cheap to act on.
+                    </p>
+                </div>
             </div>
+
+            <!-- ===== Layer 4 — the limit ===== -->
+            <div class="rd-ai-layer">
+                <p class="rd-case-label is-heading">The gate</p>
+                <h3 class="rd-ai-layer-title">Where a human still owns it</h3>
+
+                <div class="rd-case-card rd-ai-gate">
+                    <div class="rd-case-body">
+                        <p>
+                            Reconciliation on this platform runs ten manual checks, daily, and ends
+                            in a filing to the federal government (counted). Speed is not the thing
+                            to optimise there.
+                        </p>
+                        <p>
+                            That is what the toggle is for. On a flow where being wrong is a legal
+                            problem rather than a bug, a person owns every decision and the machine
+                            owns the labour &mdash; and the honest version of this section is that
+                            most of the thirteen workflow areas are not that flow, and one of them
+                            very much is.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
     </section>
 
-    <!-- ================= §8 — What I'd do differently ================= -->
-    <section class="rd-case-section" id="differently">
-        <div class="rd-case-inner rd-shell">
-            <h2 class="rd-case-h2">What I'd do differently</h2>
-            <div class="rd-case-body">
-                <p>
-                    I wrote 496 stories before I had a single baseline number. The spec is thorough
-                    — as-is and to-be flows for all 17 roles — but thorough isn't the same as
-                    proven, and I still can't tell you what the old process cost. A week spent
-                    timing real program requests at the start would have given the project a number
-                    to be judged against, and would have turned the spine-first argument from a
-                    diagram into a measurement.
-                </p>
-                <p>
-                    I also let the design system drift far enough to need an audit. Catching 17 of
-                    18 tokens out of sync was fine. Needing to catch it was the miss. Calling code
-                    the source of truth on day one would have cost nothing.
-                </p>
-                <p class="rd-todo">Optional third: something specific and unflattering about a call you got wrong on this project. Self-awareness is a screened-for trait and this is the cheapest place to show it.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Forward path. Without it the reader finishes at a dead end, and the
-         second case study is where a different claim gets proved. -->
+    <!-- ================= Related case studies ================= -->
     <section class="rd-case-section is-tinted">
         <div class="rd-case-inner rd-shell">
-            <div class="rd-case-pager">
-                <a href="./lending.html" class="rd-case-next">
-                    <span class="rd-case-meta-k">Next case study</span>
-                    <strong>Getting consumer lending off the counter →</strong>
-                    <span class="claim">Framing a four-goal brief down to one problem.</span>
+            <h2 class="rd-case-h2" data-aos="fade-up">Related case studies</h2>
+
+            <div class="rd-related" data-aos="fade-up">
+                <a class="rd-related-card" href="./lending.html">
+                    <div class="rd-related-media">
+                        <img src="../public/UC_lending.png"
+                             alt="HD Saison consumer lending case study cover" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Consumer lending</p>
+                        <h3 class="rd-related-title">Getting consumer lending off the counter</h3>
+                        <p class="rd-related-desc">Vietnam's third-largest consumer lender originated every loan at a counter. Reframing a four-goal client brief down to one problem, then shipping it.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
                 </a>
-                <a href="./web-3.html" class="rd-case-next">
-                    <span class="rd-case-meta-k">Or</span>
-                    <strong>From NFT chain to open L1 →</strong>
-                    <span class="claim">Owning a roadmap, and deciding what not to build.</span>
+
+                <a class="rd-related-card" href="./web-3.html">
+                    <div class="rd-related-media">
+                        <img src="../public/ar_casecover.webp"
+                             alt="Aura Network case study cover" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Web3 infrastructure</p>
+                        <h3 class="rd-related-title">A chain that locked developers out</h3>
+                        <p class="rd-related-desc">A permissioned NFT chain with a closed developer pool became a permissionless, EVM-compatible Layer 1 open to any Ethereum-toolchain builder.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+
+                <a class="rd-related-card" href="./marketing-platform.html">
+                    <div class="rd-related-media">
+                        <img src="../public/marketing.png"
+                             alt="iSystem marketing platform case study cover" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <p class="rd-related-eyebrow">Salon software · Startup</p>
+                        <h3 class="rd-related-title">Eight apps, one team</h3>
+                        <p class="rd-related-desc">A startup was building eight apps at once for three user types. It became one transaction spine — book, check in, pay — with everything else sequenced behind it.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
                 </a>
             </div>
-            <a href="/index.html" class="rd-btn rd-btn-text rd-case-back">← Back to all initiatives</a>
         </div>
     </section>
 </main>
 
-<!-- Markup matches lending.html / web-3.html exactly so js/back-to-top.js and
-     css/styles/back-to-top.css behave identically on all four case studies. -->
-<button type="button" class="rd-to-top" aria-label="Back to top">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-       stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-       stroke-linejoin="round" aria-hidden="true" focusable="false">
-    <line x1="12" y1="20" x2="12" y2="5"></line>
-    <polyline points="5 12 12 5 19 12"></polyline>
-  </svg>
-</button>
-
-<!-- Closing CTA + footer — identical to index.html and about.html so all three
-     pages stay in lockstep. -->
 <div class="rd-closing">
 <footer id="footer-placeholder"></footer>
 </div>
 
-<!-- js/script.js detects the /case-studies/ path and rewrites the nav + footer
-     fetch to ../templates/, so these load correctly from this subfolder. -->
 <script src="../js/script.js"></script>
+<script src="../js/hero-entrance.js"></script>
 <script src="../js/ai-chat.js"></script>
 <script src="../js/socialize.js"></script>
-<script src="../js/back-to-top.js"></script>
+<!-- Problems carousel, the unnumbered beat above §02. -->
+<script src="../js/quote-carousel.js"></script>
+<!-- §06 "What got built" screen wall: pinned marquee, same GSAP + ScrollTrigger
+     pattern as ai-accelerate-v2.js below. See the banner comment above
+     .rd-case-wall-pin for what it does and does not touch.
+
+     LOADS BEFORE ai-accelerate.js/-v2.js ON PURPOSE, even though it was
+     added after them (Hao, 2026-08-29, real-Safari-only bug): ScrollTrigger
+     creates triggers in SCRIPT execution order, not DOM order, and §06's
+     wall sits ABOVE §08 AI Accelerate in the DOM. With this script loading
+     last (after both ai-accelerate files), the wall's ScrollTrigger was
+     being created AFTER two others whose trigger elements sit LOWER in the
+     DOM than its own — a create-order/DOM-order mismatch. Chromium tolerated
+     it; WebKit did not — its pin-spacer for the wall silently failed to hold
+     the scroll distance open, so the checklist card and everything after it
+     scrolled through normally UNDERNEATH the still-fixed, still-pinned wall
+     for most of its ~3-screen hold. Loading this first makes ScrollTrigger
+     creation order match DOM order again. -->
+<script src="../js/case-wall-marquee.js"></script>
+<script src="../js/ai-accelerate.js"></script>
+<!-- Scoped copy for the duplicated #ai-accelerate-v2 section; see the banner
+     comment above that section and this file's own header. Delete both when
+     one of the two AI sections wins. -->
+<script src="../js/ai-accelerate-v2.js"></script>
 
 <script src="../js/case-toc.js"></script>
+
+<!-- Map-view tabs — ported unchanged from lending-new-v3.html. Binds to
+     .rd-case-tab / .rd-case-tabpanel generically and returns early on pages
+     with no tabs, so there is nothing project-specific in it. -->
+<script>
+(function () {
+  var tabs = document.querySelectorAll('.rd-case-tab');
+  if (!tabs.length) return;
+
+  function select(tab) {
+    tabs.forEach(function (t) {
+      var active = t === tab;
+      t.classList.toggle('is-active', active);
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !active;
+    });
+  }
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () { select(tab); });
+  });
+}());
+</script>
+
+<!-- Map-crop pickers — click a row, the row goes active and the figure beside
+     it cross-fades to that row's data-image. Ported unchanged from
+     lending-new-v3.html. Generic over every `.rd-case-checklist[data-picker]`,
+     so both picker panels share one implementation. The 13-swimlane checklist
+     in §01 has no data-picker attribute and is correctly ignored — it is a
+     list, not a control. The Reconciliation tab has no picker because it has
+     one crop. -->
+<script>
+(function () {
+  document.querySelectorAll('.rd-case-checklist[data-picker]').forEach(function (picker) {
+    var image = document.getElementById(picker.dataset.picker);
+    if (!image) return;
+    var rows = picker.querySelectorAll('.rd-case-checklist-row');
+
+    function select(row) {
+      rows.forEach(function (r) {
+        r.classList.toggle('is-active', r === row);
+        r.setAttribute('aria-selected', r === row ? 'true' : 'false');
+      });
+      var src = row.dataset.image;
+      if (!src || src === image.getAttribute('src')) return;
+      image.style.opacity = 0;
+      setTimeout(function () {
+        image.src = src;
+        image.style.opacity = 1;
+      }, 150);
+    }
+
+    rows.forEach(function (row) {
+      row.addEventListener('click', function () { select(row); });
+      row.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(row); }
+      });
+    });
+  });
+}());
+</script>
+
+<!-- Role-landscape accordion — mobile-only in effect (redesign.css gates the
+     collapse behind the ≤1024px media query), but the toggle itself runs at
+     every width since the button exists in the DOM regardless. -->
+<script>
+(function () {
+  var cols = document.querySelectorAll('.rd-case-landscape-col');
+  if (!cols.length) return;
+
+  cols.forEach(function (col) {
+    var head = col.querySelector('.rd-case-landscape-head');
+    head.addEventListener('click', function () {
+      var expanded = col.classList.toggle('is-expanded');
+      head.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    });
+  });
+}());
+</script>
+
 </body>
 </html>

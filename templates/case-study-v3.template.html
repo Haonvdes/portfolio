@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+<head>
+    <meta charset="UTF-8">
+    <!-- No maximum-scale / user-scalable=no: blocking pinch-zoom fails WCAG 1.4.4. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.png">
+    <title>{{TITLE}} | Case Study — Stephano Ng</title>
+
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7VM3QDKCYW');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PF5XGDGK');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta property="og:title" content="{{TITLE}} | Stephano Ng">
+    <meta property="og:description" content="{{OG_DESC}}">
+    <meta property="og:image" content="{{COVER_SRC}}">
+    <meta property="og:type" content="article">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+</head>
+<body class="rd-case {{HERO_BODY_CLASS}}"{{HERO_STYLE_ATTR}}>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!--
+  ============================================================================
+  {{SLUG}} — case study, v3 shell, scaffolded {{DATE}} via
+  scripts/new-case-study.js from templates/case-study-v3.template.html.
+
+  This file is a DRAFT: it sits alongside the live case-studies/{{SLUG}}.html
+  (if one exists) and does not replace it until you rename it over that slug
+  — see js/script.js's data-case-study routing.
+
+  Hero/fade-in wiring below (body classes, --rd-hero-glow, animate__fadeIn on
+  the title/lead, the .rd-case-cover reveal, the script include block, the
+  tab/picker scripts at the bottom) is already fully wired by the generator —
+  do not hand-edit it unless you're changing the hero variant. What needs
+  filling in is every <!-- TODO --> in <main>: the Overview snapshot, the
+  four narrative sections, and 2-3 real entries in "Related case studies"
+  (copy the .rd-related-card markup from any existing case-studies/*.html).
+  ============================================================================
+-->
+
+<header class="rd-case-hero">
+    <div id="nav-placeholder"></div>
+
+    <div class="rd-case-hero-inner rd-shell">
+        <h1 class="rd-case-title animate__animated animate__fadeIn">{{TITLE}}</h1>
+        <p class="rd-case-lead animate__animated animate__fadeIn">
+            {{LEAD}}
+        </p>
+
+        <figure class="rd-case-cover">
+            <img src="{{COVER_SRC}}" alt="{{COVER_ALT}}">
+        </figure>
+    </div>
+</header>
+
+<div class="rd-case-toc">
+    <button type="button" class="rd-case-toc-toggle" aria-label="Section menu" aria-expanded="false" aria-controls="rd-case-toc-panel">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <line x1="8" y1="6" x2="20" y2="6"></line>
+            <line x1="8" y1="12" x2="20" y2="12"></line>
+            <line x1="8" y1="18" x2="20" y2="18"></line>
+            <circle cx="4" cy="6" r="1"></circle>
+            <circle cx="4" cy="12" r="1"></circle>
+            <circle cx="4" cy="18" r="1"></circle>
+        </svg>
+    </button>
+    <nav class="rd-case-toc-panel" id="rd-case-toc-panel" aria-label="Sections">
+        <a href="#" class="rd-case-toc-top">Back to top</a>
+        <a href="#overview"><span class="n">01</span>Overview</a>
+        <a href="#context"><span class="n">02</span>{{SECTION2_LABEL}}</a>
+        <a href="#discovery"><span class="n">03</span>Discovery</a>
+        <a href="#decision"><span class="n">04</span>The decision</a>
+        <a href="#{{SECTION5_ID}}"><span class="n">05</span>{{SECTION5_LABEL}}</a>
+        <a href="#after"><span class="n">06</span>{{SECTION6_LABEL}}</a>
+    </nav>
+</div>
+
+<main>
+    <!-- ================= Overview ================= -->
+    <section class="rd-case-section is-tinted" id="overview">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Overview</h2>
+
+            <div class="rd-case-snapshot">
+                <div>
+                    <span class="rd-case-meta-k">Role</span>
+                    <span class="rd-case-meta-v"><!-- TODO --></span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Domain</span>
+                    <span class="rd-case-meta-v"><!-- TODO --></span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Timeline</span>
+                    <span class="rd-case-meta-v"><!-- TODO --></span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Team</span>
+                    <span class="rd-case-meta-v"><!-- TODO --></span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Platform</span>
+                    <span class="rd-case-meta-v"><!-- TODO --></span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Status</span>
+                    <span class="rd-case-meta-v"><!-- TODO --></span>
+                </div>
+            </div>
+
+            <div class="rd-case-body">
+                <p><!-- TODO: overview narrative --></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= {{SECTION2_LABEL}} ================= -->
+    <section class="rd-case-section is-tinted" id="context">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2"><!-- TODO --></h2>
+            <div class="rd-case-body">
+                <p><!-- TODO --></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Discovery ================= -->
+    <section class="rd-case-section is-tinted" id="discovery">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Discovery</h2>
+            <div class="rd-case-body">
+                <p><!-- TODO --></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= The decision ================= -->
+    <section class="rd-case-section is-tinted" id="decision">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">The decision</h2>
+            <div class="rd-case-body">
+                <p><!-- TODO --></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= {{SECTION5_LABEL}} ================= -->
+    <!-- "Three screens carried the reframe" pattern, originated in
+         lending-new-v3.html and since hand-ported as-is (only copy and
+         image paths change) into customer-engagement-v3.html,
+         healthcare-v3.html and marketing-platform-v3.html — this is that
+         pattern made a first-class part of the scaffold instead of
+         something each new case study copies from whichever sibling file
+         happens to have it. Fill in: the h2/lead, the panel title +
+         description, the picker label, and each checklist row's label +
+         data-image (add or remove rows freely — the picker script at the
+         foot of this file is generic over row count and over how many
+         `.rd-case-checklist[data-picker]` sections exist on the page). The
+         img id and the picker's data-picker attribute are pre-wired to
+         {{SECTION5_ID}} so they stay unique automatically; if this page
+         ends up with a second picker section, give that one its own
+         distinct prefix instead of reusing {{SECTION5_ID}}.
+         For a prototype embed (e.g. a Marvel/Figma interactive link on one
+         row instead of a static screenshot), see the `is-embed` / iframe
+         variant in lending-new-v3.html's #homepage section — not
+         reproduced here since most case studies only need static images. -->
+    <section class="rd-case-section is-tinted" id="{{SECTION5_ID}}">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2"><!-- TODO --></h2>
+            <div class="rd-case-body">
+                <p><!-- TODO: one short paragraph on what the screens below show and why --></p>
+            </div>
+
+            <div class="rd-case-card" style="width:100%;">
+                <div class="rd-case-split is-media">
+                    <div class="rd-case-body">
+                        <div>
+                            <h3>TODO — panel title</h3>
+                            <p><!-- TODO: panel description --></p>
+                        </div>
+
+                        <div>
+                            <h3 class="rd-case-label">TODO — picker label</h3>
+                            <div class="rd-case-checklist" data-picker="{{SECTION5_ID}}-picker-image" role="tablist" aria-label="TODO — picker aria-label">
+                                <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true" data-image="TODO — image path"><span>TODO — row 1 label</span></div>
+                                <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="TODO — image path"><span>TODO — row 2 label</span></div>
+                                <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="TODO — image path"><span>TODO — row 3 label</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <figure class="rd-case-figure">
+                        <img id="{{SECTION5_ID}}-picker-image" src="TODO — same path as row 1's data-image" alt="TODO — describe this screen" loading="lazy">
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= {{SECTION6_LABEL}} ================= -->
+    <section class="rd-case-section is-tinted" id="after">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2"><!-- TODO --></h2>
+            <div class="rd-case-body">
+                <p><!-- TODO --></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Related case studies =================
+         TODO: replace with 2-3 real .rd-related-card entries — copy the
+         markup from any existing case-studies/*-v3.html. -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2">Related case studies</h2>
+
+            <div class="rd-related">
+                <!-- TODO: rd-related-card entries -->
+            </div>
+        </div>
+    </section>
+</main>
+
+<div class="rd-closing">
+<footer id="footer-placeholder"></footer>
+</div>
+
+<script src="../js/script.js"></script>
+<script src="../js/hero-entrance.js"></script>
+<script src="../js/ai-chat.js"></script>
+<script src="../js/socialize.js"></script>
+
+<script src="../js/case-toc.js"></script>
+
+<!-- Shared components: js/case-tabs.js wires .rd-case-tabs/.rd-case-tab and
+     .rd-tabs/.rd-tab groups (scoped per group — do not go back to a bare
+     `document.querySelectorAll('.rd-case-tab')`; that unscoped version was
+     this template's own script until 2026-08-25 and cross-wires two tab
+     groups on the same page the moment a case study grows a second one, a
+     bug customer-engagement-v3.html hit first). js/case-picker.js wires
+     every `.rd-case-checklist[data-picker]` on the page, including the
+     §{{SECTION5_ID}} picker above. Both are real shared files, included
+     the same way on every v3 case study, specifically so a fix landed on
+     one page reaches all of them — see each file's own header comment. -->
+<script src="../js/case-tabs.js"></script>
+<script src="../js/case-picker.js"></script>
+
+</body>
+</html>

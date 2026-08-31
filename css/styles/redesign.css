@@ -232,6 +232,21 @@
   transition: transform 0.3s ease;
 }
 .rd-nav-outer.rd-nav-fixed.rd-nav-hidden { transform: translateY(-100%); }
+/* 769px and up: the pinned pill floats 24px clear of the viewport top instead
+   of sitting flush against it (Hao's call) — the gutter added at
+   .rd-nav-outer below already lines its left/right edges up with the content
+   grid; this is the same idea on the fourth side. ≤768 keeps the full-bleed
+   top:0 bar, untouched. */
+@media (min-width: 769px) {
+  .rd-nav-outer.rd-nav-fixed { top: 24px; }
+  /* translateY(-100%) above is relative to the bar's own height, not its
+     `top` — with top now 24px instead of 0, that alone left a 24px sliver
+     of the bar's bottom edge inside the viewport once "hidden". Push it up
+     by that same 24px on top of the -100%. Same specificity as the rule
+     above (three classes each), so it has to come after in source order to
+     win — that's why this block sits below it, not above. */
+  .rd-nav-outer.rd-nav-fixed.rd-nav-hidden { transform: translateY(calc(-100% - 24px)); }
+}
 .rd-nav-outer.rd-nav-peek .rd-nav {
   background-color: var(--rd-white);
   box-shadow: var(--rd-shadow-nav);
@@ -266,6 +281,20 @@ body.nav-open .rd-case-hero { isolation: auto; z-index: auto; }
      case-study nav is injected inside it, so it was inset twice and the
      wordmark sat at 104px while the case title sat at 64px. */
   .rd-case-hero .rd-nav-outer { padding-inline: 0; }
+  /* The rule above only cancels the double-inset for the bar's normal flow
+     position at the top of the page. Once js/script.js adds .rd-nav-fixed,
+     .rd-nav-outer switches to `position: fixed; left: 0; right: 0` (further
+     up this file) and stops being visually inside the hero section's padded
+     box at all — so the same descendant selector zeroing its padding now
+     ran the pinned bar edge to edge instead, with .rd-nav's 16px
+     border-radius cutting rounded notches into a bar that had no side
+     gutter left to carve them from. Content — logo, links, button — has to
+     stay inside the page grid even while pinned (Hao's call), so the pinned
+     bar gets its 40px gutter back here, same as the hero content behind it.
+     Equal specificity to the rule above (two classes each), so this has to
+     come after it in source order to win. Scoped ≥769: mobile's pinned nav
+     is deliberately full-bleed (see the ≤768 block), untouched by this. */
+  .rd-nav-outer.rd-nav-fixed { padding-inline: 40px; }
 }
 
 /* On the 2021 pages the placeholder itself carries Bootstrap's `.container`
@@ -3066,7 +3095,13 @@ html:has(body.rd-about) {
   .rd-initiative-body > .rd-detail-outcome,
   .rd-initiative-detail { display: none; }
 
-  .rd-initiative-card { --rd-card-pad: 16px; padding: var(--rd-card-pad); min-width: 0; }
+  /* Mobile only: js/initiatives.js binds a click-through on the whole card
+     here (desktop keeps "Learn More" as the only click target, Hao's call
+     2026-08-31 — the desktop card carries a full Problem paragraph a reader
+     may want to select/copy, which a card-wide click would fight; the mobile
+     card only ever shows title/desc/CTA, see rd-detail-outcome/
+     rd-initiative-detail above). */
+  .rd-initiative-card { --rd-card-pad: 16px; padding: var(--rd-card-pad); min-width: 0; cursor: pointer; }
   .rd-initiative-row { gap: 20px; }
   /* Content-sized again: with the detail block gone there is nothing left to
      absorb slack, so the desktop "fill the height you are given" chain would
@@ -4043,14 +4078,6 @@ ol.rd-case-list > li { list-style-type: decimal; }
   flex-direction: column;
   gap: 8px;
 }
-.rd-related-eyebrow {
-  font-weight: var(--rd-fw-emphasis);
-  font-size: var(--rd-fs-xs);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--rd-ink);
-  opacity: 0.6;
-}
 /* --rd-fs-xl, not -2xl. At 421px the 24px title wrapped to three lines on the
    longer of the two and left the cards visibly uneven; 20px holds both to
    two. */
@@ -4869,6 +4896,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
 
 @media (max-width: 768px) {
   .rd-decision-row { grid-template-columns: 1fr; gap: 8px; padding: 16px; }
+  .rd-seq-cap { margin-bottom: 48px; }
   /* The phase marker stops being a right-hand column and becomes a small
      eyebrow above the title — there is no room beside 14 words of copy. */
   .rd-seq-row { flex-wrap: wrap; gap: 18px; padding: 24px; }
@@ -4969,6 +4997,31 @@ ol.rd-case-list > li { list-style-type: decimal; }
     scroll-snap-align: start;
     scroll-snap-stop: always;
   }
+  /* Four numbered goal cards ("What the enhancement promised" / "Business
+     goal") read faster swiped one at a time than stacked as a 4-tall column
+     on a phone. Same swipe-snap deck as .rd-related just above (Hao's call,
+     2026-08-31); .is-four.is-numbered outranks the plain .is-four stack rule
+     above on specificity, so no exclusion needed there. */
+  .rd-case-grid.is-four.is-numbered {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    width: calc(100% + 32px);
+    margin-inline: -16px;
+    padding-inline: 16px;
+    scroll-padding-inline: 16px;
+    padding-block: 4px;
+  }
+  .rd-case-grid.is-four.is-numbered::-webkit-scrollbar { display: none; }
+  .rd-case-grid.is-four.is-numbered > div {
+    flex: 0 0 calc(100% - 28px);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
 }
 
 /* ------------------------------------------------------- Phones (<=430px) -
@@ -4981,7 +5034,6 @@ ol.rd-case-list > li { list-style-type: decimal; }
      the whole bar inside 390px. */
   .rd-nav-tagline { white-space: normal; }
 
-  .rd-hero-headline { font-size: var(--rd-fs-2xl); }
   .rd-hero-inner { gap: 32px; }
   .rd-hero-row { gap: 32px; }
 
@@ -5329,6 +5381,13 @@ ol.rd-case-list > li { list-style-type: decimal; }
 /* Its mobile dropdown stand-in (see the TAB STRIP section) takes the same
    top margin so it lands where the pill row would have. */
 .rd-bench-views.rd-tabs-collapsible + .rd-tabs-dropdown { margin: 14px 0 0; }
+/* `#rd-bench-stage`, not the bare `.rd-bench-stage` class (2026-08-31, Hao):
+   that id is unique to lending.html's benchmark card — customer-engagement.html's
+   Findings/Charter dropdowns sit in front of differently-id'd stages, so this
+   stays scoped to the one card that asked for it. Closed, the dropdown and the
+   stage below it had no gap at all; 16px matches the space the pill row leaves
+   above it. */
+.rd-tabs-dropdown + #rd-bench-stage { margin-top: 16px; }
 /* Reverted 2026-08-29 (Hao, on a real device) — the padding tightened here to
    0 12px read as a broken/flattened pill, not a trade worth making. Checked
    headlessly in both Chromium and WebKit at every width 320–430px with the
@@ -5685,9 +5744,17 @@ ol.rd-case-list > li { list-style-type: decimal; }
    is answering a different kind of question.
 
    Centred in the stage rather than top-aligned, so the card keeps the same
-   optical weight as the charts it switches with. */
+   optical weight as the charts it switches with.
+
+   `safe center`, not bare `center` (2026-08-31 fix): on narrow widths the
+   four stacked facts run taller than the stage box, and a bare `center`
+   split that overflow evenly above and below — the top half painted over
+   the tab switcher sitting right above the stage. `safe` keeps the
+   centering when the content fits and falls back to start-alignment only
+   when it doesn't, so the overflow (if any) goes down into the card's own
+   scroll area instead of up into the switcher. */
 .rd-aud-facts {
-  display: flex; flex-direction: column; justify-content: center;
+  display: flex; flex-direction: column; justify-content: safe center;
   height: 100%; min-height: 260px; margin: 0; padding: 4px 0;
 }
 .rd-aud-facts-grid {
@@ -6143,6 +6210,44 @@ ol.rd-case-list > li { list-style-type: decimal; }
   border-bottom: 1px solid var(--rd-border);
 }
 
+/* Retrospective intro — the .rd-case-body directly above "What I'd do
+   differently" (marked `.rd-case-wiki-intro` in each case study's markup).
+   js/case-wiki-intro.js wraps its existing <p> children in
+   .rd-case-wiki-intro-text at runtime and clamps to six lines, appending a
+   See more/See less toggle only when the text actually overflows that
+   clamp — short intros (case-study-framework.html's one-paragraph example)
+   never get a toggle. The wrapper drops out of `.rd-case-wiki-intro`'s own
+   `display: flex; flex-direction: column; gap: 16px` (see .rd-case-body)
+   once it becomes a -webkit-box, so the 16px inter-paragraph gap is
+   restored by hand below rather than inherited. */
+.rd-case-wiki-intro-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
+}
+.rd-case-wiki-intro-text p + p { margin-top: 16px; }
+.rd-case-wiki-intro.is-expanded .rd-case-wiki-intro-text {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+.rd-case-wiki-intro-toggle {
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: var(--rd-ink);
+  cursor: pointer;
+}
+.rd-case-wiki-intro-toggle:hover { opacity: 0.7; }
+
 /* Short lesson cards — Figma 40000256:6457 etc. This colour genuinely doesn't
    exist anywhere in --rd-*, so it was promoted to a real token
    (--rd-accent-yellow, --rd-shadow-card, both declared with the rest of the
@@ -6171,11 +6276,39 @@ ol.rd-case-list > li { list-style-type: decimal; }
   font-size: var(--rd-fs-md);
   text-align: left;
 }
+
 @media (max-width: 1024px) {
   .rd-case-lesson-row { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 600px) {
-  .rd-case-lesson-row { grid-template-columns: repeat(2, 1fr); }
+  /* Swipe instead of wrap (Hao's call, 2026-08-31): a fourth card used to
+     drop to a lonely second row under the 2-column grid above. Same
+     bleed/peek mechanics as .rd-related / .rd-journey-list / .rd-initiative-
+     deck elsewhere in this file, except the padding this cancels is
+     .rd-case-wiki-row's own 24px (`.rd-case-wiki > *` above), not
+     .rd-case-inner's 16px — the lesson row's immediate parent is the wiki
+     row, so bleeding further would also eat into .rd-case-inner's gutter and
+     misalign the deck from the rest of the page. */
+  .rd-case-lesson-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    width: calc(100% + 48px);
+    margin-inline: -24px;
+    padding-inline: 24px;
+    scroll-padding-inline: 24px;
+    padding-block: 4px;
+  }
+  .rd-case-lesson-row::-webkit-scrollbar { display: none; }
+  .rd-case-lesson {
+    flex: 0 0 calc(100% - 28px);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
 }
 
 /* ------------------------------------------ 10. Reversed chart split -----
@@ -6895,6 +7028,15 @@ ol.rd-case-list > li { list-style-type: decimal; }
   }
 }
 
+/* Below 1025px the query above never fires, so `.is-viewport-fit` carries none
+   of its padding-block — the heading lands flush against the full-bleed band
+   above it with nothing but its own line-height for air. Restated here at a
+   fixed value since the clamp above is tuned to 100vh centring, which doesn't
+   apply outside that query. */
+@media (max-width: 1024px) {
+  .is-viewport-fit { padding-top: 40px; }
+}
+
 /* ------------------------------------------ 17. Word-reveal headings —
    lending-new-v3.html hero + #overview only, trialing before any wider
    rollout (Hao, 2026-08-23). Per-word blur/drift-up reveal, staggered left
@@ -7095,15 +7237,30 @@ ol.rd-case-list > li { list-style-type: decimal; }
    border colour via the `color:` set per .is-* variant below. */
 .rd-ai-tick {
   position: absolute;
-  width: 11px;
+  --rd-ai-tick-w: 11px;
+  width: var(--rd-ai-tick-w);
   height: 14px;
   background: currentColor;
   clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
 }
-.rd-ai-tick.is-n { top: 0; left: 50%; transform: translate(-50%, -50%) rotate(180deg); }
-.rd-ai-tick.is-e { top: 50%; left: 100%; transform: translate(-50%, -50%) rotate(-90deg); }
-.rd-ai-tick.is-s { top: 100%; left: 50%; transform: translate(-50%, -50%); }
-.rd-ai-tick.is-w { top: 50%; left: 0; transform: translate(-50%, -50%) rotate(90deg); }
+/* The clip-path triangle's apex sits at local (100%, 50%) — the box's own
+   RIGHT edge, not its center — so centering the box on the N/E/S/W point
+   (the translate(-50%,-50%) below) leaves the apex, the part the eye
+   actually tracks, sitting half a tick-width off that point once rotated:
+   dead-on for is-s (unrotated, apex still points right, so its own offset
+   reads as "the tip trails the join") but visibly skewed for the other
+   three. The extra ±var(--rd-ai-tick-w)/2 term re-centers the APEX instead
+   of the box: it's added in page space (outside the rotate in the transform
+   list, so a fixed screen-space nudge regardless of which way this
+   particular tick is rotated), derived once analytically (rotating the
+   apex's (w/2, 0) offset from box-center by each tick's own angle) and
+   confirmed against a screenshot, not by eye. Scales with
+   --rd-ai-tick-w, so every breakpoint below that redefines the tick's width
+   only needs to redefine that one variable to stay correct. */
+.rd-ai-tick.is-n { top: 0; left: 50%; transform: translate(calc(-50% + var(--rd-ai-tick-w) / 2), -50%) rotate(180deg); }
+.rd-ai-tick.is-e { top: 50%; left: 100%; transform: translate(-50%, calc(-50% + var(--rd-ai-tick-w) / 2)) rotate(-90deg); }
+.rd-ai-tick.is-s { top: 100%; left: 50%; transform: translate(calc(-50% - var(--rd-ai-tick-w) / 2), -50%); }
+.rd-ai-tick.is-w { top: 50%; left: 0; transform: translate(-50%, calc(-50% - var(--rd-ai-tick-w) / 2)) rotate(90deg); }
 
 /* span:not(.rd-ai-tick), not a bare `span` — the ticks are <span> elements
    too (so they can inherit the circle's border colour via currentColor),
@@ -7273,7 +7430,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
   .rd-ai-stage { --stage-pad: 24px; padding: var(--stage-pad) 0; }
   .rd-ai-circle { flex-basis: 148px; width: 148px; height: 148px; padding: 12px; }
   .rd-ai-circle-label { inset: 12px; }
-  .rd-ai-tick { width: 9px; height: 11px; }
+  .rd-ai-tick { --rd-ai-tick-w: 9px; width: var(--rd-ai-tick-w); height: 11px; }
   .rd-ai-loop-line { left: 74px; right: 74px; }
 }
 
@@ -7297,25 +7454,36 @@ ol.rd-case-list > li { list-style-type: decimal; }
   .rd-ai-circle span,
   .rd-ai-circle-label { font-size: var(--rd-fs-sm); }
   .rd-ai-circle-label { inset: 8px; }
-  .rd-ai-tick { width: 8px; height: 10px; }
+  .rd-ai-tick { --rd-ai-tick-w: 8px; width: var(--rd-ai-tick-w); height: 10px; }
   .rd-ai-loop-line { left: 60px; right: 60px; }
   .rd-ai-reveal { gap: 8px; }
   .rd-ai-reveal-heading { font-size: var(--rd-fs-lg); }
   .rd-ai-panel { --rd-ai-inset: 12px; }
 }
 
-/* Mobile keeps every stage of the story readable at once rather than
-   adapting the pin/scrub interaction to a narrow viewport: js/ai-accelerate.js
-   never wires ScrollTrigger below 769px, so this is the state mobile always
-   renders (identical to the no-JS and prefers-reduced-motion fallback). */
+/* Mobile default: every stage of the story reads at once, no pin. This is
+   still the no-JS / prefers-reduced-motion fallback for #ai-accelerate, and
+   the only mobile behavior #ai-accelerate-v2 has (its JS never runs below
+   769px — see js/ai-accelerate-v2.js). #ai-accelerate itself is overridden
+   right below: js/ai-accelerate.js now wires its pin/scrub timeline at every
+   width (Hao asked 2026-08-31 for mobile to animate like desktop). */
 @media (max-width: 768px) {
   .rd-ai-pin { min-height: 0; padding: 48px 0; }
-  .rd-ai-stage { padding: 16px 0; }
+  /* --stage-pad, not a bare `padding: 16px 0` — the loop-line positions
+     itself with `top/bottom: var(--stage-pad)`, so leaving the custom
+     property at its base clamp() while padding goes flat desyncs the two
+     (line no longer tangent to the circle edge). Invisible while the line
+     was `display: none` below; surfaced once #ai-accelerate un-hides it. */
+  .rd-ai-stage { --stage-pad: 16px; padding: var(--stage-pad) 0; }
   .rd-ai-circle { flex-basis: 72px; width: 72px; height: 72px; padding: 6px; border-width: 1.5px; }
   .rd-ai-circle span,
   .rd-ai-circle-label { font-size: 9px; letter-spacing: 0; }
   .rd-ai-circle-label { inset: 6px; }
-  .rd-ai-tick { display: none; } /* too cluttered at 72px — the loop-line goes too, below */
+  /* #ai-accelerate-v2 default: too cluttered at 72px in a static render, so
+     hidden outright. #ai-accelerate overrides both back on below — now that
+     it animates on mobile too, it shows the same ticks/loop-line desktop
+     does, just re-scaled to the 72px circle. */
+  .rd-ai-tick { display: none; }
   .rd-ai-loop-line { display: none; }
   /* Stacked columns: the hairline moves from the right edge of column one
      to its bottom edge. Both head strips already span their own column's
@@ -7326,6 +7494,21 @@ ol.rd-case-list > li { list-style-type: decimal; }
   .rd-ai-panel-col:first-child { border-right: 0; border-bottom: 1px solid var(--rd-border-soft); }
   .rd-ai-panel-col:last-child .rd-ai-panel-head { border-radius: 0; }
   .rd-ai-reveal-heading { font-size: var(--rd-fs-lg); }
+
+  /* #ai-accelerate only (id beats the class rule above regardless of source
+     order): its pin now runs on mobile too, so it needs the same full-height
+     pin box desktop uses, not the static fallback's collapsed one. Values
+     match the base .rd-ai-pin rule above §13. #ai-accelerate-v2 keeps the
+     collapsed box from the rule above — it never pins on mobile. */
+  #ai-accelerate .rd-ai-pin { min-height: 100vh; padding: clamp(16px, 5vh, 72px) 0; }
+
+  /* Ticks/loop-line back on for #ai-accelerate: sized and inset
+     proportionally to the 72px mobile circle the same way the 1024px
+     breakpoint above scales them to its 148px circle (tick 9x11 : circle
+     148px ≈ loop-line inset 74px : circle 148px, i.e. inset = circle
+     radius) — half the 1024 tick size, inset = 36px circle radius. */
+  #ai-accelerate .rd-ai-tick { display: block; --rd-ai-tick-w: 5px; width: var(--rd-ai-tick-w); height: 6px; }
+  #ai-accelerate .rd-ai-loop-line { display: block; left: 36px; right: 36px; }
 }
 
 /* JS-driven states — gated behind .js-ai-ready (added by ai-accelerate.js
@@ -7704,12 +7887,14 @@ ol.rd-case-list > li { list-style-type: decimal; }
   margin: 0;
   opacity: 0;
   transform: translateY(8px);
-  transition: opacity 320ms ease, transform 320ms ease;
+  transition: opacity 220ms ease, transform 220ms ease;
   pointer-events: none;
 }
-/* quote-carousel.js unhides the incoming slide a frame before adding
-   `.is-active`, so this is the state that actually crossfades in/out — the
-   `hidden` swap alone (see below) was instant and read as a jump cut. */
+/* quote-carousel.js fades the outgoing slide out (this resting state), waits
+   for that transition to finish, then unhides and fades the incoming one in
+   — sequential, not a simultaneous crossfade. Two quotes of different
+   lengths both partway-visible together double-exposed as overlapping
+   italic text, which read as a stutter rather than a clean change. */
 .rd-quote.is-active { opacity: 1; transform: translateY(0); pointer-events: auto; }
 /* `[hidden]` alone cannot win here: the base rule sets `display: flex`, and an
    author `display` beats the UA `[hidden]` rule at any specificity — the same
@@ -7832,6 +8017,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
 }
 
 @media (max-width: 768px) {
+  .rd-case-quotes-section { min-height: 0; }
   .rd-quotes { gap: 48px; }
   .rd-quote-avatar { width: 56px; height: 56px; }
   .rd-quote-avatar svg { width: 28px; height: 28px; }

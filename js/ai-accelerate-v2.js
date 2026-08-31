@@ -13,7 +13,7 @@
 //       js/ai-accelerate.js > js/ai-accelerate-v2.js
 //
 // WHY THIS FILE EXISTS AT ALL: healthcare-v3.html currently carries two copies
-// of the section while Hao compares them (see the banner comment above the v2
+// of the section for comparison (see the banner comment above the v2
 // section in that file). The original script's selectors are all first-match,
 // so with two sections present it binds entirely to the first one and the
 // second renders with no pin and a dead toggle. When one copy wins, delete the

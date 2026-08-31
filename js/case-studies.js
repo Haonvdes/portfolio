@@ -253,21 +253,10 @@ const contentMap = {
     }
 };
 
-/* --------------------------------------------------------------------------
-   Showcase image loading.
-
-   The old version set `img.src = data.img` and raised opacity to 1 in the SAME
-   tick, so the panel faded in while the bytes were still arriving — the user
-   watched an empty box for as long as the download took. Combined with 0.7–1.8MB
-   full-resolution PNGs, that read as "broken", not "loading".
-
-   Fixes, in order of impact:
-     1. Images are now 1400px WebP (~540KB for all five, down from 4.7MB).
-     2. Decode before reveal — fade-in waits for the pixels, so the box is never
-        empty. If a swap is instant (cached) there is no perceptible wait.
-     3. Prefetch — the other panels are warmed on idle and on button hover, so
-        every click after the first resolves from cache.
-   -------------------------------------------------------------------------- */
+/* Showcase image loading: the fade-in waits for the image to decode, so the
+   box is never shown empty while bytes are still arriving. Other panels are
+   prefetched on idle and on button hover, so later clicks resolve from
+   cache. */
 
 const imageCache = new Map();
 
@@ -358,13 +347,8 @@ function updateList(id, items) {
     });
 }
 
-/*
-  The pills are styled by .showcase .button-group in case-studies.css, matching
-  the homepage tab strip. Selection is carried by aria-pressed (these are
-  toggle buttons, not links), with .is-active as a parallel styling hook.
-  The old version swapped .btn-primary/.btn-secondary, which brought the legacy
-  6px-bottom-border button with it.
-*/
+// Selection is carried by aria-pressed (these are toggle buttons, not
+// links), with .is-active as a parallel styling hook.
 function updateActiveButton(selectedKey) {
     const buttons = document.querySelectorAll(".button-group button");
     buttons.forEach(button => {

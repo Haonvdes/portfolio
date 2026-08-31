@@ -173,19 +173,48 @@ function syncRelatedCards() {
         continue;
       }
 
-      const copy = findTitleAndDescription(fs.readFileSync(caseStudyPath, "utf8"));
-      if (!copy) {
-        console.log(`  skip   ${file} -> ${slug} (related card) — no <h1 class="rd-case-title"> on the target yet`);
-        continue;
-      }
-
+      const caseHtml = fs.readFileSync(caseStudyPath, "utf8");
       const marker = `class="rd-related-card" href="./${slug}.html"`;
       const before = html;
-      html = replaceTaggedText(html, marker, "h3", "rd-related-title", copy.title, `${file} -> ${slug} (related title)`, console.log);
-      if (copy.description) {
-        html = replaceTaggedText(html, marker, "p", "rd-related-desc", copy.description, `${file} -> ${slug} (related desc)`, console.log);
+
+      // Image — same source cover as the work.html/index.html tiles, but no
+      // toRootRelative(): case-studies/*.html is already at the same
+      // directory depth as the source page, so the "../public/..." src it
+      // was written with is reused as-is.
+      const cover = findCoverImage(caseHtml);
+      if (!cover || !cover.src) {
+        console.log(`  skip   ${file} -> ${slug} (related image) — no recognised cover image markup on the target`);
       } else {
-        console.log(`  skip   ${file} -> ${slug} (related desc) — target has no og:description`);
+        const mediaRe = new RegExp(
+          `(${escapeRegExp(marker)}[\\s\\S]*?<div class="rd-related-media">\\s*<img src=")[^"]*("\\s+alt=")[^"]*("[^>]*>)`
+        );
+        const match = html.match(mediaRe);
+        if (!match) {
+          console.log(`  skip   ${file} -> ${slug} (related image) — couldn't find its rd-related-media`);
+        } else {
+          const currentImgTag = match[0].match(/<img\s[^>]*>/i)[0];
+          const oldSrc = extractAttr(currentImgTag, "src");
+          const oldAlt = extractAttr(currentImgTag, "alt");
+          const newAlt = (cover.alt || "").replace(/"/g, "&quot;");
+          if (oldSrc === cover.src && oldAlt === newAlt) {
+            console.log(`  ok     ${file} -> ${slug} (related image) — already in sync (${cover.src})`);
+          } else {
+            html = html.replace(mediaRe, `$1${cover.src}$2${newAlt}$3`);
+            console.log(`  update ${file} -> ${slug} (related image) — ${oldSrc} -> ${cover.src}`);
+          }
+        }
+      }
+
+      const copy = findTitleAndDescription(caseHtml);
+      if (!copy) {
+        console.log(`  skip   ${file} -> ${slug} (related title/desc) — no <h1 class="rd-case-title"> on the target yet`);
+      } else {
+        html = replaceTaggedText(html, marker, "h3", "rd-related-title", copy.title, `${file} -> ${slug} (related title)`, console.log);
+        if (copy.description) {
+          html = replaceTaggedText(html, marker, "p", "rd-related-desc", copy.description, `${file} -> ${slug} (related desc)`, console.log);
+        } else {
+          console.log(`  skip   ${file} -> ${slug} (related desc) — target has no og:description`);
+        }
       }
       if (html !== before) fileChanges++;
     }

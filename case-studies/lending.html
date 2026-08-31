@@ -38,255 +38,6 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<!--
-  ============================================================================
-  HD SAISON LENDING — case study. Fourth pass: framework skeleton, real page.
-
-  WHAT THIS FILE IS. A duplicate of case-study-framework.html (the literal,
-  content-agnostic port of Figma "Wrapup" node 40000221:3462), then worked
-  through against `Case-Study-Framework-Lending-Review.md` — the punch list
-  written 20 Aug 2026 against that exact template — so this copy carries the
-  real HD Saison content the review demanded and the template deliberately
-  does not. case-study-framework.html itself is untouched; its own header
-  comment says not to merge project content back into it, and this file is
-  that merge happening somewhere else instead.
-
-  FIXES APPLIED FROM THE REVIEW, BY SECTION (§ letters match the review's
-  Part A/B/... lettering, not this file's headings):
-    - Overview snapshot (A1) — Role/Domain/Timeline/Team/Platform/Status
-      corrected to this project (Team: 12, Hao's number).
-    - Outcomes card (A3) — "5h → 2h" and "8 → 1" carry a plain "(target)" /
-      "(client-reported)" parenthetical instead of reading as measured
-      results; the "100% offline → online" line (the brief restated as an
-      outcome) is cut.
-    - Shipped status (A2) — §06 now states it: live on the App Store since
-      May 2022, v1.1.30, #36 in Finance VN, eSign in production, plus the
-      3.0★/~2,500-rating figure Part B flagged as available and unused.
-    - Citation markers (A5) — every "published" / "client-reported" /
-      "estimated" tag reads as a plain "(word)" parenthetical inline —
-      tried as a `.rd-evidence` pill component first (dot + label, reused
-      from lending-new-v2.html), reverted to plain text at Hao's request
-      2026-08-20: the pill read as too much visual weight for a citation.
-    - Placeholder copy (A6) — Industry Challenges, the §04/§05 lead
-      paragraphs, and the three lesson cards all replaced; see Part D/E/F
-      below for what each became.
-    - §06 opening duplicate (A7) — replaced with the real shipped/growth/
-      rating paragraphs from lending-new-v2.html's §after.
-    - Card-title hierarchy (A8) — REVERTED 2026-08-20, Hao's call. The three
-      Industry Challenge titles are `<h3 class="rd-case-challenge-title">`
-      again. They were briefly `<p>` so that "Industry Challenges" would be
-      the only heading in the card, which is the tidier outline but leaves
-      three card titles with no semantic weight at all; a heading is what they
-      are. The class stays on them even though `.rd-case-card h3` now matches
-      too — same look from either selector, and the title survives if the tag
-      ever moves again.
-      The trap that produced all this, still worth knowing: these titles were
-      never getting their size from `.rd-case-label`. They were getting it from
-      `.rd-case-card h3`'s descendant-selector match, whose specificity beats
-      `.rd-case-label`'s regardless of source order — so swapping the class
-      alone looked fine, and swapping the TAG made the title vanish into the
-      sitewide 12px muted micro-label. `.rd-case-challenge-title` (redesign.css)
-      exists because of that, and is that same `.rd-case-card h3` look given
-      its own name.
-    - The payoff (Part B) — §04 ("Signing first...") now argues the decision
-      instead of describing screens. SUPERSEDED 2026-08-24: the `.rd-decision`
-      option set this bullet describes (all four in parallel / servicing first /
-      origination first, plus criteria and kill) was replaced by the `.rd-seq`
-      dependency pyramid — see the section's own comment for why and for what
-      survived the swap. `.rd-decision`/`.rd-option` CSS stays in redesign.css
-      because lending-new.html and lending-new-v2.html still use it.
-    - Research → build hinge (Part B) — §research's closing line now names
-      the reframe explicitly ("That is not a brief with four items...") so
-      §04 has something to open against.
-    - §research heading (Part B) — retitled from the filing-category "UX
-      Research Findings" to "Four competitors had already left the counter."
-    - Hover panel (Part C) — items 1, 4, 5 and 7 implemented: a relative-
-      to-HD-Saison delta line under every metric (rd-bench-metric-delta,
-      computed from the table in fill(), not hard-coded), a digital-
-      origination rank card (rd-bench-rankcard, rebuilt 2026-08-21 to match
-      Figma 40000256:5411's two-column stat card), punched-up "so what"
-      endings on the FE Credit/EasyCredit/JACCS blurbs, and click-to-pin
-      (togglePin()) so touch and keyboard users can hold a comparison past
-      mouseleave/blur.
-      Three items SKIPPED, each for a specific reason:
-        · Item 2 (ghost HD Saison's dot strip behind the hovered one) — HD
-          Saison's online share is 0%, so its dot strip has zero lit dots.
-          Ghosting an empty strip behind another produces no visible mark;
-          the "gap" the review wants to show is already the entire point of
-          every OTHER strip the reader sees, so there is nothing this
-          specific dataset can add by drawing it twice.
-        · Item 3 (a channel line — "18% online, through an app") — no
-          per-competitor channel data exists in the source research, and
-          this file's whole discipline is not inventing numbers that read
-          as real.
-        · Item 6 (hovering a table row highlights its logo) — the
-          `<table>` this chart enhances is intentionally screen-reader-only
-          once the SVG map renders (see the `.rd-bench.is-enhanced
-          .rd-benchmark` comment in redesign.css), so there is no visible
-          row to highlight.
-    - Industry Challenges (Part D) — the three cards from the review, verbatim.
-      The dealer-cannibalisation card is the one the review flagged
-      "confirm before shipping"; it is included because 16,000 dealer points
-      and the digital thesis are both independently verified and the tension
-      between them is a logical reading of those two facts, not a new claim
-      — but Hao should still read it before this goes live.
-    - §04/§05 leads (Part E) — §05 ("Looking at the main (This)") retitled
-      "Three screens carried the reframe" with the review's drafted lead;
-      §04 lost the shared filler paragraph to the decision beat above.
-    - Lesson cards (Part F) — the three real lessons. A fourth, "3.0 stars",
-      shipped here briefly and was cut 2026-08-20: the §after prose already
-      carries that rating about 150px above the row, so the card was a second
-      telling rather than a lesson.
-
-  SECOND-ROUND REVIEW FIXES, 2026-08-20 (Hao approved three of six):
-    - TOC labels caught up with the sections they point at. "What we built"
-      and "The home screen" were written for the template's original §04/§05;
-      §04 now argues the decision and §05 covers three screens, so they read
-      "The decision" and "The screens".
-    - relTo() spells out the equality case instead of printing "1× HD Saison"
-      — see the comment on the function.
-    - The benchmark marks are role="button" with aria-pressed, not role="img".
-      They are focusable, clickable and pin a comparison; the old role
-      described their appearance rather than their behaviour.
-
-  SCROLL-OVER BAND, 2026-08-20. §built's full-bleed screens band pins below the
-  section rail and §homepage rides up over it. The figure gained a
-  `.rd-scrollover` wrapper — that wrapper is not decoration, it is the whole
-  mechanism, since a sticky last child has nowhere to travel. All the reasoning
-  lives in "15. Scroll-over band" in redesign.css; read it before changing the
-  wrapper's height or the figure's `top`. The band also lost `loading="lazy"`:
-  it is the pinned backdrop for a full section now, and a lazy decode that lands
-  mid-pin pops visibly.
-
-  COPY ABOVE THE BAND, 2026-08-21. §homepage opens with the heading and lead as
-  a block, the screens band at natural height below them, and the tabs climbing
-  over the band while the copy stays pinned to the rail. The sequence, and the
-  two dead ends that got there, are documented in "15. Scroll-over band" in
-  redesign.css — in particular DON'T re-try `bottom: 0` on the band, which
-  arrives already stuck instead of scrolling past first.
-  Three structural consequences, all deliberate:
-    - The band moved out of §built and into §homepage. It had to share a box
-      with the <h2> to pin with it, and the <h2> could not be the thing that
-      moved — it is the section's own heading and the TOC anchors to it.
-    - The tabs stayed with their tabpanels. Pinning them too would have split a
-      tablist from the panels it controls across a section boundary; they climb
-      over the stage together instead.
-    - `is-viewport-fit` moved off the <section> onto a wrapper around
-      .rd-case-inner, because the section now also contains the two-viewport
-      pinned stage and only the part that scrolls can "fit one screen".
-  Two earlier attempts are recorded so they don't come back. The first left all
-  the markup alone and veiled §homepage's background; it washed the screens out
-  to noise. The second laid the copy ON the band inside one sticky stage, with
-  the image cropped to the viewport; Hao wanted the copy above the image and the
-  image whole. Both were reverted the same day.
-
-  RAISED AND DECLINED IN THE SAME ROUND (do not "fix" these unasked):
-    - The lesson row is `repeat(6, 1fr)` and holds three cards, so each is a
-      1/6-width column with the right half of the row empty, and the ~30-word
-      copy is tall in that width. Hao left it; the grid is a fixed slot count
-      by design (see the .rd-case-lesson-row comment in redesign.css).
-    - The "(published)" citation markers stay as they are.
-    - The rank chip still names market-share rank only on HD Saison's card.
-
-  NOT DONE, AND WHY: §homepage's four-item feature picker (A8, "Minor") still
-  points every row at the same render — that needs new screenshots, not
-  copy, and the review only noted it rather than asking for a fix.
-
-  DELIBERATE DIVERGENCES FROM THE PIXEL SOURCE, AND WHY (inherited from
-  case-study-framework.html; unchanged here):
-    - No hero eyebrow ("Case study · ..."). Figma's hero has a title and a
-      lead paragraph and nothing above them.
-    - Colour tokens, not raw hex, wherever the project already has an
-      equivalent: --rd-surface is Figma's #f3f3ef exactly; --rd-primary
-      (#01679c) stands in for the outcomes card's #0067bd, one digit apart.
-      Every section below is `.is-tinted` because Figma's canvas is that one
-      flat #f3f3ef behind every card, with no light/dark alternation between
-      beats — matching that took marking sections tinted almost throughout,
-      not picking and choosing.
-    - Nav and footer reuse templates/nav.html and templates/footer.html via
-      the standard #nav-placeholder / #footer-placeholder + js/script.js
-      pipeline, rather than re-declaring Figma's nav/footer markup by hand.
-      Figma's own nav and footer already match those templates field for
-      field (STEPHANO.NG wordmark, #opentowork tagline, Home/Case Studies/
-      About, the closing "Looking for your next product partner?" band) —
-      this reuses the real component instead of a duplicate of it.
-    - New CSS in redesign.css (search "case-study-framework.html only"): the
-      yellow lesson cards, the stacked-row "Product wiki" wrapper, the
-      reversed chart split, the larger problem/expectation sub-heading, and
-      the homepage feature-picker states. None of these existed anywhere
-      else on the site; everything else below reuses classes lending-new.html
-      already proved out against this same Figma node.
-
-  ROUND 2 — 2026-08-20, Hao's follow-up notes against the first pass. These
-  intentionally trade a little pixel-literalism for real site behaviour;
-  each one is a specific, named ask rather than a re-interpretation:
-    - Section rail (.rd-case-toc) added, and the hero switched to
-      `is-hero-overlap` (60dvh band, cover breaking through the border,
-      fixed-reveal rail) — matching lending-new.html's treatment exactly,
-      Figma's own frame has neither.
-    - UX Research Findings' chart is no longer a static image. It is the
-      real interactive benchmark map ported from lending-new-v2.html
-      (same table, same SVG scatter, same script) rather than Figma's flat
-      picture, reordered map-first/insight-second via the new `.is-reverse`
-      split. The INSIGHT card's heading is now the hovered lender's name
-      itself (`.rd-bench-panel-name` moved onto the `<h3>`), not a static
-      "Insight" label sitting above a separate name line.
-    - The market-share bar gained the note + source lines lending-new-v2
-      carries below it; the bar's colours and sizing were already exact,
-      being the same shared `.rd-market-*` classes.
-    - "Signing first, then everything downstream of it" — heading and body
-      centred, matching the centred treatment already used on "Looking at
-      the main (This)".
-    - "Three screens carried the reframe": the New Features / Reminder
-      states rows are a click-to-select picker that cross-fades the render
-      beside them — the same interaction web-3.html's showcase section runs
-      (`loadContent()`: active-state swap + image fade), rebuilt small and
-      self-contained here since that script's data is hard-coded to Aura's
-      own ecosystem tools. The three Homepage/Loan Management/Esign tabs
-      this originally shipped with were removed 2026-08-23 (Hao's call) in
-      favour of one "New Experiences" panel with a flat 5-row "Delighted
-      Features" picker (Figma 40000318:4630) — all five are real screens
-      now (`../public/hd/phone_1.png` / `phone_2.png`), not the placeholder
-      `homepage-render.png` this note used to describe.
-    - Lesson-card row is a 6-column grid (`.rd-case-lesson-row`), not a
-      flexbox that happened to wrap at 3 — extra cards now wrap to a second
-      row automatically past six.
-    - Related case studies now carry the same real three cards
-      lending-new-v2.html closes on (healthcare, web-3, marketing-platform)
-      instead of Figma's three identical placeholder cards.
-    - "The problem" / "The expectation" sub-headings moved off the sitewide
-      12px muted `.rd-case-label` onto a new `.is-heading` modifier at 20px
-      extrabold, full-ink — matching Figma's actual weight for these two and
-      readable at a glance rather than blending into the small-caps micro-
-      labels every other card title on this page uses.
-
-  FIGMA RESYNC, 2026-08-21 — node 40000221:4026 changed since the pass above:
-  "The expectation" (a lead line + four-item numbered rail) was replaced with
-  "Business pain point" and "Business goal", a pair of 4-up numbered grids
-  either side of "The problem statement" (renamed from "The problem"), each
-  separated by a hairline rule. New CSS: `.rd-case-grid.is-four`/`.is-numbered`,
-  `.rd-case-num-chip` (`.is-pain` orange / `.is-goal` --rd-primary blue, one
-  digit off Figma's own #0067bd same as the outcomes card already is),
-  `.rd-case-num-desc`, `.rd-case-split-rule` — redesign.css §11a, next to the
-  §11 sub-heading rule these three headings already used.
-    - Business pain point copy is the four facts §context already establishes
-      (3–5hr/four-stage approval, the week-long correction loop, counter drop-off, falling
-      repeat-borrow rate), not new claims — consistent with this page's
-      standing discipline against inventing numbers that read as real.
-    - Business goal copy is the same four brief items the old rail carried
-      (E-signature / Loan Management / Payment Integration / Remarketing
-      System); the rail's "no priority attached" note isn't repeated here —
-      §context already says "Four goals, equal weight, no order given," and
-      Figma's new layout has no line for it.
-    - The Outcomes card gained a third slot in Figma (40000298:752) that
-      repeats the second one verbatim (another "8 → 1 / Signatures to take
-      out a loan") — read as an unfinished duplicate component instance, not
-      a third real metric, so the card stays at two stats.
-    - `.rd-goal-lead` / `.rd-goal-index` / `.rd-goal-note` (the old rail's
-      CSS) are removed from redesign.css: this was their only caller.
-  ============================================================================
--->
-
 <header class="rd-case-hero">
     <div id="nav-placeholder"></div>
 
@@ -364,73 +115,10 @@
                 </div>
             </div>
 
-            <!-- 2026-08-21: "The expectation" (four-item numbered rail) replaced by
-                 Figma's updated node — "Business pain point" / "Business goal", two
-                 4-up numbered grids either side of a hairline rule (Figma 40000221:4026,
-                 40000256:5333, 40000298:881). CSS: `.rd-case-grid.is-numbered` /
-                 `.rd-case-num-chip` / `.rd-case-num-desc` / `.rd-case-split-rule`,
-                 redesign.css §11a.
-
-                 2026-08-23: "Business pain point" moved out of this split card into
-                 §context below, between its narrative text and figure — the four facts
-                 it states (3–5hr/4-stage approval, the week-long correction loop,
-                 counter drop-off, falling repeat-borrow rate) are the same ones §context's own copy
-                 establishes, so it reads as that section's evidence rather than a
-                 restatement here. The heading beside "Business goal" was renamed from
-                 "The problem statement" to "Business problem statement" and its copy
-                 extended with why the app had no existing product to fix and what
-                 errors the paper process pushed onto counter staff.
-
-                 Goals are the same four brief items the old rail carried (E-signature/
-                 Loan Management/Payment Integration/Remarketing System); the "no
-                 priority attached" framing they used to carry inline is already said in
-                 §context's "Four goals, equal weight, no order given" and isn't
-                 repeated here, since Figma's new layout has no room for a lead-in/note
-                 line.
-
-                 The Outcomes card's third slot in Figma (40000298:752) repeats the
-                 second one verbatim — same "8 → 1 / Signatures to take out a loan"
-                 twice — which read as an unfinished duplicate instance, not a third
-                 real metric, so it sat empty until 2026-08-23.
-
-                 2026-08-23: third slot filled with "7d → 7min / Time to close a
-                 contract error (target)", from the Oct 2019 internal e-signing deck's
-                 HIỆN TẠI/TƯƠNG LAI before-after (5–7 days → 5–7 minutes; upper bound
-                 of each range taken, for symmetry with the other two compact stats).
-                 It is a *designed target*, not a measured result — labelled the same
-                 way as the 2h approval figure above it, and for the same reason. Do
-                 not restate it as an outcome anywhere on this page.
-
-                 2026-08-24 — TIMELINE CORRECTION. Hao confirmed the project is a
-                 **June 2019** discovery, not June 2021; it shipped May 2022 after a
-                 long build. Corroborated by `case study 1/HD`: the vendor Q&A log
-                 opens 18 Sep 2019, exactly where a September prototype hands off to
-                 build. Changed on this page: overview Timeline, §context discovery
-                 sentence, the origination-map figcaption, and every company/market
-                 figure that was 2021–22 vintage (customers 6M→5M, service points
-                 16,000→14,000, market growth, motorbike share removed, market-share
-                 bar re-cut to 2018).
-
-                 Hao's involvement ran June 2019 – June 2021 (confirmed 2026-08-24);
-                 the app shipped May 2022, eleven months after he left. The Marvel
-                 prototype's Sep 2021 asset date was queried and CLEARED — it is Hao's
-                 own Marvel account, so the date is a re-export, not a later team's
-                 rebuild. Don't re-raise it. -->
-
-            <!-- Motorbike-loan share (was "41% in 2022, up from 34%") removed rather
-                 than re-dated: it is a 2022 figure and no 2018–19 equivalent could be
-                 sourced. Replaced with the third-largest-lender framing, which the
-                 2018 share bar in §research supports directly. Do not reinstate a
-                 motorbike percentage without a 2018 or 2019 source. -->
-
-            <!-- 2026-08-23: pain point 2 changed from "Eight signatures" to the
-                 correction loop. "Eight" is client-reported and every document in
-                 `case study 1/HD` contradicts it, so it now appears ONLY in the
-                 outcomes stat above, where that label is attached. Goal 1's
-                 description was rescoped at the same time — eSign had to carry the
-                 'Thỏa thuận điều chỉnh thông tin' (post-approval correction), not
-                 just the original contract, which is where the days→minutes gain
-                 actually comes from. -->
+            <!-- Do not reinstate a motorbike-loan share percentage without a 2018 or
+                 2019 source; do not restate the "7d → 7min" contract-error stat as a
+                 measured outcome anywhere on this page — it is a designed target, on
+                 the same basis as the 2h approval figure above it. -->
             <div class="rd-case-split" data-aos="fade-up">
                 <div class="rd-case-body">
                     <div>
@@ -580,12 +268,12 @@
                 </ul>
             </figure>
 
-            <!-- Interactive benchmark map, ported unchanged from lending-new-v2.html
-                 (table, SVG scatter and script at the bottom of this file), reordered
-                 map-first/insight-second via `.is-chart.is-reverse`. The INSIGHT card's
-                 heading IS the hovered lender's name (`.rd-bench-panel-name` lives on
-                 the <h3> itself) rather than a static "Insight" label sitting above a
-                 separate name line — see fill() in the script below. -->
+            <!-- Interactive benchmark map (table, SVG scatter and script at the bottom
+                 of this file), reordered map-first/insight-second via
+                 `.is-chart.is-reverse`. The INSIGHT card's heading IS the hovered
+                 lender's name (`.rd-bench-panel-name` lives on the <h3> itself) rather
+                 than a static "Insight" label sitting above a separate name line —
+                 see fill() in the script below. -->
             <figure class="rd-bench is-figma is-v3" data-bench data-aos="fade-up">
                 <div class="rd-case-split is-chart is-reverse">
                     <div class="rd-case-card rd-bench-panel-scroll">
@@ -609,31 +297,9 @@
                                 <th scope="col">Brand health</th>
                             </tr>
                         </thead>
-                        <!-- The last three columns were added 2026-08-23. Sourcing notes,
-                             because two of them are thinner than the first four and the
-                             card must not imply otherwise:
-
-                             data-rate — the published consumer-lending rate framework every
-                             finance company must disclose under SBV Circular 18/2019.
-                             HD Saison's is primary (hdsaison.com.vn, direct-disbursement
-                             product, 15–63%/yr). The other four are secondary, from loan
-                             aggregators, normalised to %/yr from monthly figures where the
-                             source quoted months. All are CURRENT filings, not 2021 ones —
-                             said plainly in the caption rather than quietly.
-
-                             data-approval — only HD Saison publishes one (30–45 minutes'
-                             appraisal, disbursement immediately after approval). No
-                             comparable figure exists for the other four, so they carry an
-                             empty attribute and render "Not disclosed". That is the honest
-                             shape of this row and it is not padded to look fuller.
-
-                             data-csat — NOT customer satisfaction. Mibrand's Brand Beat
-                             Score from the Vietnam Consumer Finance Brand Health Rankings
-                             2025: 300 respondents, Hanoi and HCMC, surveyed December 2025.
-                             Wrong year for this section and a different construct from
-                             satisfaction, which is why the column, the metric label and the
-                             caption all say "brand health" instead. JACCS and EasyCredit
-                             were not in that ranking. -->
+                        <!-- data-approval and data-csat are empty for four of five rows on
+                             purpose — no comparable figure exists, so they render "Not
+                             disclosed" rather than being padded to look fuller. -->
                         <tbody>
                             <tr data-online="34" data-loan="80"  data-traffic="38"   data-rate="11.3–49.9%/yr" data-approval="" data-csat="" data-blurb="The smallest audience in the set, and the largest digital share. A third of its originations already happened without a counter — proof scale was never the precondition."><th scope="row">JACCS</th><td>66%</td><td>80M VND</td><td>38K</td><td>11.3–49.9%/yr</td><td>Not disclosed</td><td>Not ranked</td></tr>
                             <tr data-online="22" data-loan="70"  data-traffic="1070" data-rate="35–48%/yr" data-approval="" data-csat="23.8" data-blurb="Nine times HD Saison's web traffic, on the lowest maximum loan in the set. A volume business — and a fifth of that volume was already online, without cannibalising the rest."><th scope="row">FE Credit</th><td>78%</td><td>70M VND</td><td>1.07M</td><td>35–48%/yr</td><td>Not disclosed</td><td>23.8</td></tr>
@@ -662,13 +328,8 @@
                             <p class="rd-bench-panel-blurb">The third-largest lender in the country. Every loan began at a counter, which made walking in the only way in.</p>
                             <div class="rd-bench-strip" aria-hidden="true"></div>
                             <dl style="margin:0">
-                                <!-- Five rows, not six. "Visits / month" moved out 2026-08-23
-                                     (Hao's call, layout C of review-bench-personas.html): the
-                                     map's vertical axis already plots it, so the card was
-                                     repeating the chart it sits beside. The three rows that
-                                     replaced it are things a borrower compares, not things an
-                                     analyst compares. `traffic` stays in the data model — the
-                                     map still needs it for Y. -->
+                                <!-- Five rows, not six — `traffic` stays in the data model for
+                                     the map's Y axis but isn't repeated as its own row here. -->
                                 <div class="rd-bench-metric"><dt>Originated online</dt><dd data-k="0"><span class="rd-bench-metric-main">0%</span><span class="rd-bench-metric-delta"></span></dd></div>
                                 <div class="rd-bench-metric"><dt>Max loan</dt><dd data-k="1"><span class="rd-bench-metric-main">100M VND</span><span class="rd-bench-metric-delta"></span></dd></div>
                                 <div class="rd-bench-metric"><dt>Published rate</dt><dd data-k="2"><span class="rd-bench-metric-main">15–63%/yr</span><span class="rd-bench-metric-delta"></span></dd></div>
@@ -682,34 +343,10 @@
                 <div class="rd-bench-foot"></div>
             </figure>
 
-
         </div>
     </section>
 
-    <!-- ================= Signing first, then everything downstream of it =================
-         REPLACED 2026-08-24 (Hao's call). What was here was v2's #decision block —
-         Options A/B/C, Criteria, What I chose, What I killed. Hao's words: "hiện tại
-         nhìn vào mình không tự tin về nó và không hiểu." It was a template rather than
-         his own method, and a review had already flagged the section as unargued
-         filler. It now shows the way he actually made the call: the four goals sorted
-         into a dependency pyramid, each tier carrying what it needs before it can work.
-
-         Nothing from the old block was thrown away that mattered. Option B ("servicing
-         first") is now the second sentence of the Operation card. "What I killed"
-         is the Remarketing card, which still opens on the fact that the client had
-         ranked it level with the other three.
-
-         THE PYRAMID IS DRAWN FOR THIS PAGE, NOW — it is not a 2019 artifact and must
-         never be captioned as one. No date, no "presented to the client". The
-         reasoning behind it is real (Hao did prioritise, did present it, and the
-         client agreed in stages rather than in one meeting); the drawing is the page
-         explaining that reasoning. See docs/redesign/seq-demo.html for the standalone
-         version this was ported from.
-
-         The heading block is no longer centred in a 684px box — it now uses the plain
-         .rd-case-inner / .rd-case-h2 / .rd-case-body stack that §context and §research
-         use, so all three read as one page. That also means the lead follows
-         --rd-measure-case rather than a hardcoded width. -->
+    
     <section class="rd-case-section is-tinted" id="built">
         <div class="rd-case-inner rd-shell">
             <h2 class="rd-case-h2" data-aos="fade-up">Signing first, <br>then everything downstream of it</h2>
@@ -769,26 +406,16 @@
                 </div>
             </div>
 
-            <!-- Cropped from public/case-study-framework/built-band.png (also the
-                 source of public/hd/HD_UI.png) — the original carries an "All
-                 Design, more than 100 Screens Created" portfolio-deck caption
-                 baked into the bottom of the PNG itself, which reads as stray
-                 marketing copy inside a case study. Cropped once, offline, at
-                 the point the source image's own fade-to-white already ends,
-                 rather than fighting it with CSS clipping on every load. -->
-            <!-- The screens band that used to close this section now opens
-                 §homepage instead — it is the pinned stage the "Three screens"
-                 heading sits on, so it has to live in the same section as that
-                 heading. See "15. Scroll-over band" in redesign.css. -->
+            <!-- This band is the pinned stage the "Three screens" heading sits on
+                 (§homepage below), so it must live in that same section. See
+                 "15. Scroll-over band" in redesign.css. -->
         </div>
     </section>
 
     <!-- ================= Three screens carried the reframe ================= -->
     <section class="rd-case-section is-tinted" id="homepage">
 
-        <!-- THE BAND IS THE STAGE, AND NOTHING PINS WITH IT (Hao, 2026-08-21 —
-             the heading and lead were briefly pinned here and were moved back
-             down into .rd-case-inner where they started). Two behaviours left:
+        <!-- THE BAND IS THE STAGE, AND NOTHING PINS WITH IT. Two behaviours left:
                1. The band scrolls at page speed, at its natural height, until
                   its bottom reaches the bottom of the screen; then it holds.
                   Natural height, not cropped to the viewport, so the whole
@@ -811,9 +438,9 @@
         <!-- `is-viewport-fit` (desktop only, see "16. Three screens fits one
              screen" in redesign.css) makes the tabs and the active panel land
              inside exactly one viewport. It sits on this wrapper rather than on
-             the <section>, as it did until 2026-08-21 — the section now also
-             contains the two-viewport-tall pinned stage above, so "fits one
-             screen" can only be true of the part that scrolls over it. -->
+             the <section>, because the section also contains the two-viewport-
+             tall pinned stage above, so "fits one screen" can only be true of
+             the part that scrolls over it. -->
         <div class="is-viewport-fit">
         <div class="rd-case-inner rd-shell" style="align-items:center;">
             <div style="max-width: 684px; text-align: center;">
@@ -828,16 +455,11 @@
                 </div>
             </div>
 
-            <!-- Feature picker, no tabs — Figma 40000318:4630 ("Journey") folds
-                 what used to be three separate tabs (Homepage / Loan
-                 Management / Esign) into one "New Experiences" panel with a
-                 flat 5-row picker (Figma 40000318:4642), since all five are
-                 screens in the same shipped app rather than three unrelated
-                 product areas. Tabs removed at Hao's request 2026-08-23.
-                 Reuses the same click-to-select interaction the old per-tab
-                 "New Features" / "Reminder states" pickers ran (active row +
-                 cross-fade), just against one row set instead of three, in
-                 the script at the bottom of this file. -->
+            <!-- Feature picker, no tabs — a flat 5-row picker rather than three
+                 tabbed panels, since all five are screens in the same shipped app
+                 rather than three unrelated product areas. Click-to-select
+                 interaction (active row + cross-fade) in the script at the bottom
+                 of this file. -->
             <div class="rd-case-card" style="width:100%;">
                 <div class="rd-case-split is-media">
                     <div class="rd-case-body rd-case-features-body">
@@ -857,12 +479,8 @@
                             <h3 class="rd-case-features-label">Experience List</h3>
                             <!-- Row 1 has no data-image — that's how the picker script (bottom
                                  of file) knows to show the Marvel iframe instead of swapping the
-                                 <img>'s src. Row 4 (Payment) points at phone_2.png as a stand-in
-                                 (Hao's call, 2026-08-23: "temporary phone_2 - i replace later")
-                                 until it gets its own screenshot. Row 5 (Personalize Package &amp;
-                                 Promotion) uses loan.gif as its stand-in instead (Hao's call,
-                                 2026-08-23) — an animated GIF works here because this is a plain
-                                 <img>, so swapping its src to a .gif needs no script changes. -->
+                                 <img>'s src. Row 5's .gif works as a stand-in because this is a
+                                 plain <img>, so swapping its src needs no script changes. -->
                             <div class="rd-case-checklist" data-picker="homepage-picker-image" role="tablist" aria-label="Experience list">
                                 <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true">
                                     <span>01. E-signature</span>
@@ -907,7 +525,7 @@
 
             <div class="rd-case-wiki">
                 <div class="rd-case-wiki-row">
-                    <div class="rd-case-body" data-aos="fade-up">
+                    <div class="rd-case-body rd-case-wiki-intro" data-aos="fade-up">
                         <p>
                             The app went live in May 2022 and hasn't stopped shipping since — v1.1.30
                             as of May 2026, #36 in Finance in Vietnam (published). E-signing is live
@@ -941,22 +559,8 @@
                 <h3 class="rd-case-wiki-title" data-aos="fade-up">What I'd do differently</h3>
                 <div class="rd-case-wiki-row">
                     <div class="rd-case-lesson-row" data-aos="fade-up">
-                        <!-- Rewritten 2026-08-21. The three cards used to be the same
-                             shape — bold slogan, one tidy sentence, punchline landing —
-                             three times over, which is what made them read as generated
-                             rather than remembered. Matched rhythm is the tell. Cards now
-                             run to different lengths on purpose; "tested my thesis",
-                             "should have been week one" and "Handoff isn't an ending"
-                             (abstract noun + isn't + abstract noun) are gone.
-                             Card 1 keeps the regret on *sequencing*, not on accepting the
-                             work: a designer does not get to benchmark before signing a
-                             brief, and the reframe is the thing this page is proud of. -->
                         <div class="rd-case-lesson"><strong>I ran the benchmark too late.</strong> Four goals, equal weight, no order given — that's what I started designing against. The competitor benchmark is what showed me the brief had one item in it, not four, and by then I'd already spent time on the wrong shape of the problem.</div>
                         <div class="rd-case-lesson"><strong>I measured what the client asked for.</strong> Approval time was their number, so it became mine. The number that would have actually tested the idea — how many loans got started without anyone walking into a branch — never got instrumented.</div>
-                        <!-- A fourth card, "3.0 stars", was here until 2026-08-20. Removed at
-                             Hao's request: the same figure is already in the §after prose about
-                             150px above this row, so the card was the second telling of it, not
-                             a lesson. The rating stays on the page; it just says it once. -->
                         <div class="rd-case-lesson"><strong>I stopped paying attention after handoff.</strong> There's four years of App Store history on this product. I couldn't tell you what the first ninety days looked like.</div>
                     </div>
                 </div>
@@ -964,10 +568,7 @@
         </div>
     </section>
 
-    <!-- ================= Related case studies =================
-         The real three cards, lifted verbatim from lending-new-v2.html's
-         closing section, rather than Figma's three identical placeholder
-         cards — see the ROUND 2 file-header note. -->
+    <!-- ================= Related case studies ================= -->
     <section class="rd-case-section is-tinted">
         <div class="rd-case-inner rd-shell">
             <h2 class="rd-case-h2" data-aos="fade-up">Related case studies</h2>
@@ -975,11 +576,10 @@
             <div class="rd-related" data-aos="fade-up">
                 <a class="rd-related-card" href="./healthcare.html">
                     <div class="rd-related-media">
-                        <img src="../public/hc_cover.webp"
-                             alt="Role-by-feature product map for the speaker-bureau platform" loading="lazy">
+                        <img src="../public/hc_hero.png"
+                             alt="Speaker-bureau platform case study cover" loading="lazy">
                     </div>
                     <div class="rd-related-body">
-                        <p class="rd-related-eyebrow">Healthcare &amp; life sciences</p>
                         <h3 class="rd-related-title">One speaker-bureau platform for 17 roles</h3>
                         <p class="rd-related-desc">Seventeen roles, 496 user stories, one MVP. Cutting a pharma speaker-bureau backlog down to the one flow every role touches.</p>
                     </div>
@@ -988,11 +588,10 @@
 
                 <a class="rd-related-card" href="./web-3.html">
                     <div class="rd-related-media">
-                        <img src="../public/ar_casecover.webp"
+                        <img src="../public/ar_casecover.jpeg"
                              alt="Aura Network case study cover" loading="lazy">
                     </div>
                     <div class="rd-related-body">
-                        <p class="rd-related-eyebrow">Web3 infrastructure</p>
                         <h3 class="rd-related-title">A chain that locked developers out</h3>
                         <p class="rd-related-desc">A permissioned NFT chain with a closed developer pool became a permissionless, EVM-compatible Layer 1 open to any Ethereum-toolchain builder.</p>
                     </div>
@@ -1001,11 +600,10 @@
 
                 <a class="rd-related-card" href="./marketing-platform.html">
                     <div class="rd-related-media">
-                        <img src="../public/marketing.png"
-                             alt="iSystem marketing platform case study cover" loading="lazy">
+                        <img src="../public/is/cover_isystem.png"
+                             alt="iSystem salon platform dashboard: today's overview stats, an hourly booking chart, and a waiting-list table" loading="lazy">
                     </div>
                     <div class="rd-related-body">
-                        <p class="rd-related-eyebrow">Salon software · Startup</p>
                         <h3 class="rd-related-title">Eight apps, one team</h3>
                         <p class="rd-related-desc">A startup was building eight apps at once for three user types. It became one transaction spine — book, check in, pay — with everything else sequenced behind it.</p>
                     </div>
@@ -1027,17 +625,13 @@
 <script src="../js/socialize.js"></script>
 
 <script src="../js/case-toc.js"></script>
+<script src="../js/case-wiki-intro.js"></script>
 
-<!-- Progressive enhancement over the benchmark table — ported unchanged from
-     lending-new-v2.html. The table is the data; this reads it, never restates
-     it. If this script fails or never loads, the table renders as it always
-     did, which is why nothing here is wrapped in try/catch: a thrown error
-     leaves the fallback on screen, which is the correct outcome.
-
-     ONLY DIFFERENCE FROM lending-new-v2.html: the INSIGHT card's name target
-     is now the card's own <h3> (`.rd-bench-panel-name`) instead of a <p>
-     sitting under a static "Insight" label — fill() below is otherwise
-     identical. -->
+<!-- Progressive enhancement over the benchmark table. The table is the
+     data; this reads it, never restates it. If this script fails or never
+     loads, the table renders as it always did, which is why nothing here
+     is wrapped in try/catch: a thrown error leaves the fallback on screen,
+     which is the correct outcome. -->
 <script>
 (function () {
   var fig = document.querySelector('[data-bench]');
@@ -1097,20 +691,7 @@
   });
   function traffic(t) { return t >= 1000 ? (t / 1000).toFixed(2) + 'M' : t + 'K'; }
 
-  /* .rd-bench-take (the paragraph that used to sit under the split) is still
-     gone — removed at Hao's request 2026-08-20 and not asked back. The
-     heading above the map IS back, per a later request the same day: styled
-     to match .rd-bench-panel-name (`.is-figma`, see the CSS comment), left-
-     aligned (briefly right-aligned, then reverted), with new copy — "Being
-     found, and being able to act on it" was the original wording and Hao
-     asked for something better than that when the heading came back.
-
-     Reworded again 2026-08-21, when the card gained a second view. It read
-     "Reach versus readiness (interactive map)", which described one of the
-     two charts: the parenthetical was false on the rows tab, and the rest
-     duplicated that tab's own label word for word. The heading now names the
-     card's SUBJECT and the pills name the two ways of looking at it, so the
-     heading stays true whichever tab is open and nothing is said twice. */
+  
   /* Two views of the same five lenders, switched by the pills below the
      heading. See the .rd-bench-views comment in redesign.css for why both
      exist. The pills are .rd-tab, the sitewide switcher, so no new control
@@ -1123,13 +704,7 @@
      index binding ambiguous. */
   mount.innerHTML =
     '<div class="rd-bench-head is-figma">' +
-      /* Reworded 2026-08-23, when a third view arrived. "How the five lenders
-         compare" was true of the map and the rows and false of the drivers
-         tab, which counts borrowers rather than lenders — a heading that
-         contradicts the open tab is worse than a vaguer one that never does.
-         This names the SUBJECT (the market around HD Saison) and lets the
-         three pills name the three ways of looking at it, which is the same
-         division of labour the heading and pills already had. */
+      
       '<p class="rd-bench-title" id="rd-bench-title">The market HD Saison was competing in</p>' +
     '</div>' +
     '<div class="rd-tabs rd-bench-views rd-tabs-collapsible" role="tablist" aria-labelledby="rd-bench-title">' +
@@ -1142,27 +717,14 @@
               'aria-controls="rd-bench-stage" aria-selected="true" data-view="map">Reach and readiness</button>' +
       '<button type="button" class="rd-tab" role="tab" id="rd-bench-tab-online" ' +
               'aria-controls="rd-bench-stage" aria-selected="false" data-view="online">Online share</button>' +
-      /* Third view, 2026-08-23. Unlike the first two it plots BORROWERS, not
-         lenders, so it deliberately does not get a lender-shaped label. It
-         also has no `.rd-bench-item`s: nothing on it is hoverable, because
-         there is no per-lender detail for a hover to reveal. See show()
-         below for how the INSIGHT card is repurposed rather than hidden. */
+      
       '<button type="button" class="rd-tab" role="tab" id="rd-bench-tab-drivers" ' +
               'aria-controls="rd-bench-stage" aria-selected="false" data-view="drivers">What borrowers weigh</button>' +
-      /* Fourth view, 2026-08-23. Not a chart — see the .rd-aud-facts comment
-         in redesign.css for why four facts on four different measures are
-         not drawn as bars. Four pills wrap to two lines below ~430px; that
-         is accepted rather than fought, since abbreviating the labels to fit
-         one line would cost more clarity than the wrap costs space. */
+      
       '<button type="button" class="rd-tab" role="tab" id="rd-bench-tab-who" ' +
               'aria-controls="rd-bench-stage" aria-selected="false" data-view="who">Who borrows</button>' +
     '</div>' +
-    /* Mobile-only stand-in for the pill row above (<=768px, see
-       .rd-tabs-dropdown in redesign.css) — same four views, one custom
-       listbox instead of a row that wraps to two lines on a phone. Custom,
-       not a native <select> — its open-state listbox can't be restyled to
-       match .rd-case-toc-panel the way Hao wanted. Kept in sync with the
-       pills in both directions by show() below. */
+    
     '<div class="rd-tabs-dropdown">' +
       '<button type="button" class="rd-tabs-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="rd-bench-dropdown-panel" aria-label="The market HD Saison was competing in">' +
         '<span data-tabs-dropdown-value>Reach and readiness</span>' +
@@ -1178,22 +740,14 @@
     '<div class="rd-bench-stage" id="rd-bench-stage" role="tabpanel" ' +
          'aria-labelledby="rd-bench-tab-map"></div>';
 
-  /* Carries the market bar's source note too now (Hao's call) — one combined
-     line instead of two near-identical "estimated from X, 2021" sentences
-     on the same section. .rd-market-source is gone from the figure above;
-     this is its only citation now. */
+  
   /* Two sentences now, not one. The first four figures are the 2021 snapshot
      this section argues from. The last three were added later and are not of
      the same vintage or the same quality, and the difference is stated rather
      than folded into one comfortable "estimated from" line — a reader who
      checks the rate figures will find current filings, and should have been
      told that here first. */
-  /* Shortened to one line 2026-08-23 at Hao's request. The long version
-     qualified each figure separately and read as a disclaimer; this keeps the
-     three things a reader actually needs — who published it, and that the
-     figures are of two different vintages — and drops the rest. The dates are
-     the part that must survive any further trim: the section argues from a
-     2021 snapshot and two of its numbers are not from 2021. */
+  
   foot.innerHTML =
     '<p class="rd-bench-source">Sources: State Bank of Vietnam, FiinGroup, company filings and public traffic data (2021); published rate frameworks under SBV Circular 18/2019 (current filings); Mibrand Vietnam Consumer Finance Brand Health Rankings (2025).</p>';
 
@@ -1335,13 +889,7 @@
     });
     reset();
   }
-  /* Bound once, outside wire(). wire() now runs again on every tab switch,
-     and addEventListener does not dedupe identical-looking closures — leaving
-     this inside meant one extra reset() bound to mouseleave per switch, so
-     after a few clicks a single pointer-exit fired reset five times and any
-     pinned lender got cleared by the last one. The stage element itself is
-     never replaced (only its innerHTML), so one binding here covers both
-     views for the life of the page. */
+  
   stage.addEventListener('mouseleave', reset);
 
   function drawMap() {
@@ -1349,9 +897,7 @@
     var Y = function (t) { return 305 - (Math.log(t) / Math.LN10 - 1.5) * 160; };
     var MX = X(17), MY = Y(150);                                          // quadrant dividers
 
-    /* No .rd-bench-halo pill behind the HD Saison mark (removed 2026-08-20,
-       Hao's call) — it now sits on the map exactly like the other four
-       logos, no white background/border setting it apart. */
+    
     var marks = data.map(function (d) {
       var x = X(d.online), y = Y(d.traffic);
       return '<g class="rd-bench-item rd-bench-mark' + (d.subject ? ' is-subject' : '') + '">' +
@@ -1401,32 +947,7 @@
     wire();
   }
 
-  /* ---- The "What borrowers weigh" view -----------------------------------
-     Three bars, from one published survey. This is the view that replaced a
-     planned persona/segment chart (occupation, age, gender and product pills
-     — still built and parked in review-bench-personas.html). That version did
-     not ship because no public source gives online-application willingness
-     split by segment for Vietnam in 2021; drawing it would have meant putting
-     invented percentages on the page under a research heading.
-
-     What is here instead is a smaller claim that is actually sourced, and it
-     argues the section's point at least as well: every one of the three
-     things borrowers name is something a counter visit made WORSE, and
-     procedure outranks price.
-
-     SOURCE AND ITS LIMIT: Mibrand Vietnam, Consumer Finance Brand Health
-     Rankings 2025 — 300+ respondents, Hanoi and HCMC, December 2025. Four
-     years after this project. Cited as evidence of what borrowers weigh, not
-     as a measurement taken at the time; the foot note under this figure says
-     so in those words rather than leaving the reader to check the date.
-
-     Geometry: same 660x396 viewBox as the other two views so the card never
-     changes height between tabs, same RH 52 / BAR 20 / rx 4 as drawRows().
-     X0 is 250 rather than 150 because the gutter holds a phrase instead of a
-     logo; 0-100% maps to 250-610, i.e. 3.6 units per point. TOP is pushed
-     down by one row-height so three rows sit optically centred where five
-     rows sit on the other tabs. No wire() call: there are no hoverable
-     items on this view by design. */
+  
   var DRIVERS = [
     { label: 'Simple procedures',        v: 63, lead: true },
     { label: 'Transparent rates and fees', v: 60 },
@@ -1515,18 +1036,6 @@
         '</dl>' +
       '</div>';
   }
-
-  /* The INSIGHT card does NOT change on the two audience tabs (Hao's call,
-     2026-08-23). An earlier build put it into a second mode there — rank
-     chips, dot strip and metrics withheld, the card carrying a reading of the
-     chart instead — and that was wrong twice over: the card is the page's one
-     fixed statement of where HD Saison stood, and a reader who switches tabs
-     to look at borrowers has no reason to lose it. Rebuilding it per tab also
-     meant two more blocks of copy to keep true.
-
-     So both audience views simply leave it on the subject's default card,
-     which is what reset() already produces when nothing is pinned. Nothing
-     to hide, nothing to restore, no per-view copy. */
 
   /* The "Online share" view — one row per lender, logo in the gutter, bar
      running to its share, empty rail where there is nothing to draw.
@@ -1621,9 +1130,7 @@
     wire();
   }
 
-  /* Tab switching. Unpins on the way out: a pin is a statement about a mark
-     the reader can currently see, and the mark it referred to is about to be
-     replaced by a different shape in a different place. */
+  
   var tabs = mount.querySelectorAll('.rd-bench-views .rd-tab');
   var tabSelect = mount.querySelector('.rd-tabs-dropdown');
   function show(view) {
@@ -1668,17 +1175,14 @@
 </script>
 
 <!-- Shared component, js/case-picker.js and js/case-tabs.js: see the header
-     comment on each file. Both used to be duplicated inline per case study
-     (this file's picker was embed-aware; customer-engagement-v3.html's and
-     the template's were a plainer copy that had drifted from it) — one file
-     each now, included the same way across every case study and the
-     template, so a future fix reaches all of them at once. -->
+     comment on each file. Included the same way across every case study, so
+     a future fix reaches all of them at once. -->
 <script src="../js/case-tabs.js"></script>
 <script src="../js/case-picker.js"></script>
 
-<!-- Restarts the Marvel prototype (Hao, 2026-08-23) — clicking through it
-     leaves the embed mid-flow, and there was previously no way back to the
-     start. Reassigning an iframe's src to the SAME cross-origin URL is a
+<!-- Restarts the Marvel prototype — clicking through it leaves the embed
+     mid-flow, and there was previously no way back to the start. Reassigning
+     an iframe's src to the SAME cross-origin URL is a
      no-op in most browsers (nothing about the request looks different from
      the iframe's point of view), so this forces a real reload by routing
      through about:blank first. -->

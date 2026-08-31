@@ -62,18 +62,16 @@
       if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
 
       if (changed) {
-        // Unhide the incoming slide first so both sit stacked in the same
-        // grid cell (`.rd-quote` is `grid-area: 1 / 1`), then flip the
-        // `is-active` opacity/transform on the next frame so the browser has
-        // a "before" state to transition from — flipping it in the same
-        // frame the `hidden` attribute is removed would just snap straight
-        // to the end state.
-        incoming.hidden = false;
-        void incoming.offsetWidth;
+        // Fade the outgoing slide out FIRST, then bring the incoming one in
+        // — not a simultaneous crossfade. Two quotes of different lengths
+        // both partway-visible at once double-expose as overlapping italic
+        // text, which is what actually read as jerky, not the fade speed.
         current.classList.remove('is-active');
-        incoming.classList.add('is-active');
         hideTimer = window.setTimeout(function () {
           current.hidden = true;
+          incoming.hidden = false;
+          void incoming.offsetWidth;
+          incoming.classList.add('is-active');
           hideTimer = null;
         }, fadeMs);
       }

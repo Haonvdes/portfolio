@@ -176,10 +176,7 @@ async function getLatestStravaActivities(clubId) {
     summaryElement.innerHTML = `
       <!-- Club label. NOT from the API — the /strava/club/:id/latest payload only
            returns totals, the week range, the feed URLs and latestActivities, so
-           this is ours to write. Renamed from "Unstoppable Team" 2026-08-13:
-           the leaderboard below already proves the team turns up every week, so
-           the label should say something about that rather than be a superlative.
-           Alternatives Hao can swap in: "Every Week, Together" / "Consistency Over Speed". -->
+           this is ours to write. -->
       <p class="sub-heading">
         <a class="club-link" href="${clubFeedUrl}" target="_blank" rel="noopener">Show Up Together${externalIcon}</a>
       </p>

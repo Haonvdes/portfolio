@@ -14,7 +14,7 @@
   var carousels = document.querySelectorAll('[data-quote-carousel]');
   if (!carousels.length) return;
 
-  var AUTOPLAY_MS = 6000;
+  var AUTOPLAY_MS = 4000;
 
   Array.prototype.forEach.call(carousels, function (root) {
     var slides = root.querySelectorAll('[data-quote-slide]');
@@ -22,6 +22,13 @@
     var prev = root.querySelector('[data-quote-prev]');
     var next = root.querySelector('[data-quote-next]');
     if (slides.length < 2) return;
+
+    // Read the crossfade duration off the CSS itself (redesign.css's
+    // `.rd-quote` transition) rather than hardcoding it a second time here —
+    // prefers-reduced-motion zeroes that duration, and this follows it down
+    // to 0 automatically instead of still waiting out a fixed delay.
+    var fadeMs = parseFloat(getComputedStyle(slides[0]).transitionDuration) * 1000 || 0;
+    var hideTimer = null;
 
     var index = 0;
     var timer = null;
@@ -46,17 +53,31 @@
       // Wrap in both directions: the chevrons are the only way to reach the
       // last slide from the first, and dead-ending on slide 1 makes the left
       // chevron look broken rather than deliberate.
-      index = (i + slides.length) % slides.length;
-      Array.prototype.forEach.call(slides, function (slide, n) {
-        var on = n === index;
-        // `hidden` rather than a class: the CSS has an explicit
-        // `.rd-quote[hidden] { display: none }` rule (an author `display`
-        // beats the UA [hidden] rule, so that rule is load-bearing), and it
-        // also takes the inactive slides out of the accessibility tree, which
-        // a class toggling opacity would not.
-        slide.hidden = !on;
-        slide.classList.toggle('is-active', on);
-      });
+      var nextIndex = (i + slides.length) % slides.length;
+      var current = slides[index];
+      var incoming = slides[nextIndex];
+      var changed = nextIndex !== index;
+      index = nextIndex;
+
+      if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+
+      if (changed) {
+        // Unhide the incoming slide first so both sit stacked in the same
+        // grid cell (`.rd-quote` is `grid-area: 1 / 1`), then flip the
+        // `is-active` opacity/transform on the next frame so the browser has
+        // a "before" state to transition from — flipping it in the same
+        // frame the `hidden` attribute is removed would just snap straight
+        // to the end state.
+        incoming.hidden = false;
+        void incoming.offsetWidth;
+        current.classList.remove('is-active');
+        incoming.classList.add('is-active');
+        hideTimer = window.setTimeout(function () {
+          current.hidden = true;
+          hideTimer = null;
+        }, fadeMs);
+      }
+
       Array.prototype.forEach.call(dots, function (dot, n) {
         var on = n === index;
         dot.classList.toggle('is-active', on);

@@ -91,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         navOuter.classList.add("rd-nav-fixed", "rd-nav-hidden");
                         isFixed = true;
                     } else if (isFixed && y <= navHeight) {
+                        clearHideTimer();
                         navOuter.classList.remove("rd-nav-fixed", "rd-nav-hidden", "rd-nav-peek");
                         navSpacer.style.display = "none";
                         isFixed = false;
@@ -109,19 +110,50 @@ document.addEventListener("DOMContentLoaded", function () {
                 // eventually lands inside one of those tails and reads it as
                 // a genuine reversal. `scrollend` sidesteps the whole problem
                 // by only ever comparing two already-settled positions.
+                // Auto-hide the peeked nav after 5s of no pointer interest,
+                // so it doesn't linger over content the reader scrolled up
+                // to see. Hovering cancels the timer; leaving restarts it
+                // (only while still peeked — a nav already hidden or pinned
+                // at the top has nothing to auto-hide).
+                const AUTO_HIDE_DELAY = 5000;
+                let hideTimer = null;
+                const clearHideTimer = () => {
+                    if (hideTimer) {
+                        clearTimeout(hideTimer);
+                        hideTimer = null;
+                    }
+                };
+                const scheduleHideTimer = () => {
+                    clearHideTimer();
+                    hideTimer = setTimeout(() => {
+                        navOuter.classList.remove("rd-nav-peek");
+                        navOuter.classList.add("rd-nav-hidden");
+                        hideTimer = null;
+                    }, AUTO_HIDE_DELAY);
+                };
+
                 const classifyDirection = () => {
                     if (!isFixed) return;
                     const y = window.scrollY;
                     const delta = y - stableY;
                     if (delta > THRESHOLD) {
+                        clearHideTimer();
                         navOuter.classList.remove("rd-nav-peek");
                         navOuter.classList.add("rd-nav-hidden");
                     } else if (delta < -THRESHOLD) {
                         navOuter.classList.add("rd-nav-peek");
                         navOuter.classList.remove("rd-nav-hidden");
+                        scheduleHideTimer();
                     }
                     stableY = y;
                 };
+
+                navOuter.addEventListener("mouseenter", clearHideTimer);
+                navOuter.addEventListener("mouseleave", () => {
+                    if (navOuter.classList.contains("rd-nav-peek")) {
+                        scheduleHideTimer();
+                    }
+                });
 
                 if ("onscrollend" in window) {
                     window.addEventListener("scrollend", classifyDirection);

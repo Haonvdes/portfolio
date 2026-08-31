@@ -9,7 +9,6 @@
 
     <link rel="stylesheet" href="../css/styles/style.css">
     <link rel="stylesheet" href="../css/styles/redesign.css">
-    <link rel="stylesheet" href="../css/styles/back-to-top.css">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
     <script>
@@ -74,16 +73,29 @@
     </div>
 </header>
 
-<nav class="rd-case-toc" aria-label="Sections">
-    <div class="rd-case-toc-inner rd-shell">
+<div class="rd-case-toc">
+    <button type="button" class="rd-case-toc-toggle" aria-label="Section menu" aria-expanded="false" aria-controls="rd-case-toc-panel">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <line x1="8" y1="6" x2="20" y2="6"></line>
+            <line x1="8" y1="12" x2="20" y2="12"></line>
+            <line x1="8" y1="18" x2="20" y2="18"></line>
+            <circle cx="4" cy="6" r="1"></circle>
+            <circle cx="4" cy="12" r="1"></circle>
+            <circle cx="4" cy="18" r="1"></circle>
+        </svg>
+    </button>
+    <nav class="rd-case-toc-panel" id="rd-case-toc-panel" aria-label="Sections">
+        <a href="#" class="rd-case-toc-top">Back to top</a>
         <a href="#overview"><span class="n">01</span>Overview</a>
         <a href="#context"><span class="n">02</span>{{SECTION2_LABEL}}</a>
         <a href="#discovery"><span class="n">03</span>Discovery</a>
         <a href="#decision"><span class="n">04</span>The decision</a>
         <a href="#{{SECTION5_ID}}"><span class="n">05</span>{{SECTION5_LABEL}}</a>
         <a href="#after"><span class="n">06</span>{{SECTION6_LABEL}}</a>
-    </div>
-</nav>
+    </nav>
+</div>
 
 <main>
     <!-- ================= Overview ================= -->
@@ -231,15 +243,6 @@
     </section>
 </main>
 
-<button type="button" class="rd-to-top" aria-label="Back to top">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-       stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-       stroke-linejoin="round" aria-hidden="true" focusable="false">
-    <line x1="12" y1="20" x2="12" y2="5"></line>
-    <polyline points="5 12 12 5 19 12"></polyline>
-  </svg>
-</button>
-
 <div class="rd-closing">
 <footer id="footer-placeholder"></footer>
 </div>
@@ -248,7 +251,6 @@
 <script src="../js/hero-entrance.js"></script>
 <script src="../js/ai-chat.js"></script>
 <script src="../js/socialize.js"></script>
-<script src="../js/back-to-top.js"></script>
 
 <script src="../js/case-toc.js"></script>
 

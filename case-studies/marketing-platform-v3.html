@@ -6,16 +6,15 @@
     <link rel="icon" type="image/x-icon" href="../public/favicon.png">
     <title>iSystem | Case Study — Stephano Ng</title>
 
-    <!-- THREE stylesheets, not seven. The 2021 page this replaces also loaded
+    <!-- TWO stylesheets, not seven. The 2021 page this replaces also loaded
          case-legacy.css, case-retheme-v3.css, Bootstrap 5, a Google Fonts
          "inter" link and the Font Awesome *Pro* CDN. None of them are here.
          Every class on this page is .rd-*, which lives in redesign.css, and
          the Pro webfont never resolved without a licence anyway — it was
-         rendering as stray bars, which is why the back-to-top arrow below is
+         rendering as stray bars, which is why the section-menu icon below is
          an inline SVG. -->
     <link rel="stylesheet" href="../css/styles/style.css">
     <link rel="stylesheet" href="../css/styles/redesign.css">
-    <link rel="stylesheet" href="../css/styles/back-to-top.css">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
     <script>
@@ -142,16 +141,29 @@
     </div>
 </header>
 
-<nav class="rd-case-toc" aria-label="Sections">
-    <div class="rd-case-toc-inner rd-shell">
+<div class="rd-case-toc">
+    <button type="button" class="rd-case-toc-toggle" aria-label="Section menu" aria-expanded="false" aria-controls="rd-case-toc-panel">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <line x1="8" y1="6" x2="20" y2="6"></line>
+            <line x1="8" y1="12" x2="20" y2="12"></line>
+            <line x1="8" y1="18" x2="20" y2="18"></line>
+            <circle cx="4" cy="6" r="1"></circle>
+            <circle cx="4" cy="12" r="1"></circle>
+            <circle cx="4" cy="18" r="1"></circle>
+        </svg>
+    </button>
+    <nav class="rd-case-toc-panel" id="rd-case-toc-panel" aria-label="Sections">
+        <a href="#" class="rd-case-toc-top">Back to top</a>
         <a href="#overview"><span class="n">01</span>Overview</a>
         <a href="#context"><span class="n">02</span>The market</a>
         <a href="#discovery"><span class="n">03</span>Discovery</a>
         <a href="#decision"><span class="n">04</span>The decision</a>
         <a href="#apps"><span class="n">05</span>The apps</a>
         <a href="#after"><span class="n">06</span>Not shipped</a>
-    </div>
-</nav>
+    </nav>
+</div>
 
 <main>
     <!-- ================= Overview ================= -->
@@ -671,8 +683,8 @@
                     </div>
                     <div class="rd-related-body">
                         <p class="rd-related-eyebrow">Healthcare &amp; life sciences</p>
-                        <h3 class="rd-related-title">Seventeen roles, one release</h3>
-                        <p class="rd-related-desc">Pharma speaker programs ran on email, spreadsheets and a legacy portal. They became one multi-tenant platform where a rep, a compliance monitor and an accountant work the same program record.</p>
+                        <h3 class="rd-related-title">One speaker-bureau platform for 17 roles</h3>
+                        <p class="rd-related-desc">Seventeen roles, 496 user stories, one MVP. Cutting a pharma speaker-bureau backlog down to the one flow every role touches.</p>
                     </div>
                     <span class="rd-related-cta">Read the case study &rarr;</span>
                 </a>
@@ -685,7 +697,7 @@
                     <div class="rd-related-body">
                         <p class="rd-related-eyebrow">Consumer lending</p>
                         <h3 class="rd-related-title">Getting consumer lending off the counter</h3>
-                        <p class="rd-related-desc">Vietnam's third-largest consumer lender originated every loan at a counter. A four-goal client brief became one problem, and the app that built a second door.</p>
+                        <p class="rd-related-desc">Vietnam's third-largest consumer lender originated every loan at a counter. Reframing a four-goal client brief down to one problem, then shipping it.</p>
                     </div>
                     <span class="rd-related-cta">Read the case study &rarr;</span>
                 </a>
@@ -707,15 +719,6 @@
     </section>
 </main>
 
-<button type="button" class="rd-to-top" aria-label="Back to top">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-       stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-       stroke-linejoin="round" aria-hidden="true" focusable="false">
-    <line x1="12" y1="20" x2="12" y2="5"></line>
-    <polyline points="5 12 12 5 19 12"></polyline>
-  </svg>
-</button>
-
 <div class="rd-closing">
 <footer id="footer-placeholder"></footer>
 </div>
@@ -726,7 +729,6 @@
 <script src="../js/script.js"></script>
 <script src="../js/ai-chat.js"></script>
 <script src="../js/socialize.js"></script>
-<script src="../js/back-to-top.js"></script>
 
 <script src="../js/case-toc.js"></script>
 

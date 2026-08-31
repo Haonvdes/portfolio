@@ -100,7 +100,12 @@
 
       /* <details>/<summary> gives collapsed-by-default, the click target
          and keyboard/screen-reader semantics for free — no JS. */
-      .rd-work-archive { grid-column: 1 / -1; margin-top: 16px; }
+      .rd-work-archive {
+        grid-column: 1 / -1;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid var(--rd-border);
+      }
       .rd-work-archive-summary {
         display: flex; align-items: center; justify-content: space-between;
         cursor: pointer; list-style: none;
@@ -173,11 +178,13 @@
          at 40px on mobile while the nav sat at 16px. -->
     <div class="first-section rd-shell" style="height: 20vh; min-height: 460px; padding-block: 24px;">
     <div class="experience">
-       <h1 class="display animate__animated animate__fadeIn" style="margin-top: var(--m-0);">From Idea to Impact<br>Shaping the Future of Digital Products</h1>
-        <p class="lg-regular animate__animated animate__fadeIn" style="padding-top: 24px; max-width: 820px; line-height: 28px;">
-            I turn ambiguous ideas into products that create real impact — framing the right problem, prioritising what matters, and aligning design, business, and engineering around a single outcome.
-        </p>
-</div>
+        <div class="rd-hero-headline-group">
+            <h1 class="rd-hero-headline animate__animated animate__fadeIn">From Idea to Impact<br>Shaping the Future of Digital Products</h1>
+            <p class="rd-hero-lead animate__animated animate__fadeIn">
+                I turn ambiguous ideas into products that create real impact — framing the right problem, prioritising what matters, and aligning design, business, and engineering around a single outcome.
+            </p>
+        </div>
+    </div>
     </div>
 </header>
     <section class="container-fluid">
@@ -197,9 +204,18 @@
                              initializeCaseStudyLinks() binds click on any
                              [data-case-study] element and routes to
                              case-studies/${slug}.html. Unchanged from before;
-                             only the markup/visual layer changed here. -->
+                             only the markup/visual layer changed here.
+
+                             .rd-work-tile-title / .rd-work-desc are kept word-for-word
+                             identical to that case study's own <h1 class="rd-case-title"> /
+                             og:description by scripts/sync-thumbnails.js (2026-08-31, Hao's
+                             call). Don't hand-edit these two fields; edit the case study and
+                             run `node scripts/sync-thumbnails.js` instead. Tiles whose case
+                             study hasn't been rebuilt to that h1 class yet (web-3,
+                             marketing-platform) are skipped by the script and still
+                             hand-written — see [[portfolio-card-content-mapping]]. -->
                         <div class="rd-work-tile" data-case-study="web-3">
-                            <div class="rd-work-media"><img src="./public/web3.jpg" alt="" loading="lazy"></div>
+                            <div class="rd-work-media"><img src="./public/ar_casecover.jpeg" alt="Aura Network case study cover" loading="lazy"></div>
                             <div class="rd-work-tile-body">
                                 <p class="rd-work-eyebrow">Web3 infrastructure</p>
                                 <h3 class="rd-work-tile-title">Holding six products together through a platform change</h3>
@@ -209,17 +225,17 @@
                         </div>
 
                         <div class="rd-work-tile" data-case-study="customer-engagement">
-                            <div class="rd-work-media"><img src="./public/ce_cover.webp" alt="" loading="lazy"></div>
+                            <div class="rd-work-media"><img src="./public/case-study-framework/ce_cover.png" alt="Customer visit management case study cover — the redesigned trip overview" loading="lazy"></div>
                             <div class="rd-work-tile-body">
                                 <p class="rd-work-eyebrow">Internal tooling</p>
-                                <h3 class="rd-work-tile-title">Cutting four roles to keep one release</h3>
-                                <p class="rd-work-desc">Thirty-six usability defects, five user roles, six weeks. Cutting four roles out of a redesign to keep the release — and shipping it into the company super app.</p>
+                                <h3 class="rd-work-tile-title">The visit tool that couldn't leave the desk</h3>
+                                <p class="rd-work-desc">An internal tool old enough that nothing could be attached to it and nothing could be done away from a desk. Thirty-six usability defects, a redesign, and a place inside the company super app.</p>
                             </div>
                             <span class="rd-work-cta">Read the case study →</span>
                         </div>
 
                         <div class="rd-work-tile" data-case-study="lending">
-                            <div class="rd-work-media"><img src="./public/UC_lending.png" alt="" loading="lazy"></div>
+                            <div class="rd-work-media"><img src="./public/hd/cover.png" alt="HD Saison app screens: a loan dashboard on the home tab and a loan management screen with repayment schedule and progress" loading="lazy"></div>
                             <div class="rd-work-tile-body">
                                 <p class="rd-work-eyebrow">Consumer lending</p>
                                 <h3 class="rd-work-tile-title">Getting consumer lending off the counter</h3>
@@ -229,17 +245,17 @@
                         </div>
 
                         <div class="rd-work-tile" data-case-study="healthcare">
-                            <div class="rd-work-media"><img src="./public/hc_cover.webp" alt="" loading="lazy"></div>
+                            <div class="rd-work-media"><img src="./public/hc_hero.png" alt="Speaker-bureau platform case study cover" loading="lazy"></div>
                             <div class="rd-work-tile-body">
                                 <p class="rd-work-eyebrow">Healthcare — pharma</p>
                                 <h3 class="rd-work-tile-title">One speaker-bureau platform for 17 roles</h3>
-                                <p class="rd-work-desc">Seventeen roles, 496 user stories, one MVP. Prioritising a pharma speaker-bureau platform across conflicting user segments.</p>
+                                <p class="rd-work-desc">Seventeen roles, 496 user stories, one MVP. Cutting a pharma speaker-bureau backlog down to the one flow every role touches.</p>
                             </div>
                             <span class="rd-work-cta">Read the case study →</span>
                         </div>
 
                         <div class="rd-work-tile" data-case-study="marketing-platform">
-                            <div class="rd-work-media"><img src="./public/marketing.png" alt="" loading="lazy"></div>
+                            <div class="rd-work-media"><img src="./public/is/cover_isystem.png" alt="iSystem salon platform dashboard: today's overview stats, an hourly booking chart, and a waiting-list table" loading="lazy"></div>
                             <div class="rd-work-tile-body">
                                 <p class="rd-work-eyebrow">Marketing platform</p>
                                 <h3 class="rd-work-tile-title">Eight apps, one team</h3>

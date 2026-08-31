@@ -102,7 +102,7 @@
                     <li><button type="button" data-index="0"><span class="n">01</span><span>Lending</span></button></li>
                     <li><button type="button" data-index="1"><span class="n">02</span><span>Web3</span></button></li>
                     <li><button type="button" data-index="2"><span class="n">03</span><span>Communication</span></button></li>
-                    <li><button type="button" data-index="3"><span class="n">04</span><span>Marketing</span></button></li>
+                    <li><button type="button" data-index="3"><span class="n">04</span><span>Engagement</span></button></li>
                 </ul>
             </div>
 
@@ -112,7 +112,17 @@
                      are the control and position indicator. Below 768px the deck is a
                      horizontal scroll-snap carousel the reader swipes; the dots are the
                      control and run autoplay. js/initiatives.js keeps dots and scroll
-                     position in sync in both modes. -->
+                     position in sync in both modes.
+
+                     Each panel's .rd-initiative-title / .rd-initiative-desc (and the matching
+                     tile on work.html) are kept word-for-word identical to that case study's
+                     own <h1 class="rd-case-title"> / og:description by
+                     scripts/sync-thumbnails.js (2026-08-31, Hao's call — the case study is
+                     always the source, cards never diverge from it). Don't hand-edit these two
+                     fields; edit the case study and run `node scripts/sync-thumbnails.js`
+                     instead. Panels whose case study hasn't been rebuilt to that h1 class yet
+                     (Aura/web-3, iSystem/marketing-platform) are skipped by the script and
+                     still hand-written — see [[portfolio-card-content-mapping]]. -->
                 <div class="rd-initiative-deck" id="initiative-deck">
                 <!-- HD Saison — carries the "I run rigorous discovery and frame problems"
                      claim (Case-Study-Framework.md, Part 0). Every figure is sourced in
@@ -132,8 +142,8 @@
                     <div class="rd-initiative-row">
                         <div class="rd-initiative-body">
                             <div class="rd-initiative-head">
-                                <h3 class="rd-initiative-title">Eight signatures, one branch visit</h3>
-                                <p class="rd-initiative-desc">Vietnam's oldest consumer finance company originated every loan in-branch. It became a mobile app for applying, signing and servicing a loan without visiting one.</p>
+                                <h3 class="rd-initiative-title">Getting consumer lending off the counter</h3>
+                                <p class="rd-initiative-desc">Vietnam's third-largest consumer lender originated every loan at a counter. Reframing a four-goal client brief down to one problem, then shipping it.</p>
                             </div>
 
                             <div class="rd-detail-block rd-detail-outcome">
@@ -161,7 +171,7 @@
                         </div>
 
                         <div class="rd-initiative-media">
-                            <img src="./public/UC_lending.png" alt="HD Saison lending case study cover">
+                            <img src="./public/hd/cover.png" alt="HD Saison app screens: a loan dashboard on the home tab and a loan management screen with repayment schedule and progress">
                         </div>
                     </div>
                 </article>
@@ -211,7 +221,7 @@
                         </div>
 
                         <div class="rd-initiative-media">
-                            <img src="./public/ar_casecover.webp" alt="Aura Network case study cover">
+                            <img src="./public/ar_casecover.jpeg" alt="Aura Network case study cover">
                         </div>
                     </div>
                 </article>
@@ -251,8 +261,8 @@
                     <div class="rd-initiative-row">
                         <div class="rd-initiative-body">
                             <div class="rd-initiative-head">
-                                <h3 class="rd-initiative-title">Seventeen roles, one release</h3>
-                                <p class="rd-initiative-desc">Pharma speaker programs ran on email, spreadsheets and a legacy portal. They became one multi-tenant platform where a rep, a compliance monitor and an accountant work the same program record.</p>
+                                <h3 class="rd-initiative-title">One speaker-bureau platform for 17 roles</h3>
+                                <p class="rd-initiative-desc">Seventeen roles, 496 user stories, one MVP. Cutting a pharma speaker-bureau backlog down to the one flow every role touches.</p>
                             </div>
 
                             <div class="rd-detail-block rd-detail-outcome">
@@ -280,86 +290,74 @@
                                  flexes to fill so this pins to the bottom (Figma 40000132:3671,
                                  y=622 of a 662px column). -->
                             <div class="rd-initiative-actions">
-                                <!-- Held back 2026-08-13. ./case-studies/healthcare.html exists
-                                     and renders, but is not ready to be linked yet — same call as
-                                     the five work.html cards. A <button disabled> rather than a
-                                     styled <a>, because a disabled anchor is not a thing: an <a
-                                     href> stays keyboard-focusable and navigable no matter what
-                                     CSS says. To ship it, restore the line below:
-                                     <a href="./case-studies/healthcare.html" class="rd-btn rd-btn-text">Learn More</a> -->
-                                <button type="button" class="rd-btn rd-btn-text" disabled aria-disabled="true">Coming soon</button>
+                                <!-- Un-held 2026-08-30: healthcare.html has been live and linked
+                                     from work.html since 2026-08-29 (see
+                                     [[portfolio-work-page-coming-soon]]), so leaving this CTA
+                                     disabled just contradicted that page. -->
+                                <a href="./case-studies/healthcare.html" class="rd-btn rd-btn-text">Learn More</a>
                             </div>
                         </div>
 
                         <div class="rd-initiative-media">
-                            <img src="./public/hc_cover.webp" alt="Role-by-feature product map for the speaker-bureau platform">
+                            <img src="./public/hc_hero.png" alt="Speaker-bureau platform case study cover">
                         </div>
                     </div>
                 </article>
                 </div>
 
-                <!-- iSystem — replaced the "Initiative 04" placeholder on 2026-08-03.
-                     Copy and every figure are sourced in iSystem-Research-and-Rewrite.md.
+                <!-- Customer Engagement — replaced the iSystem/Marketing-Platform panel
+                     2026-08-30 (Hao's call: swap Marketing off the homepage for this one).
 
-                     CLAIM: "I sequence a dependency chain and refuse the parallel build."
-                     Deliberately NOT the "conflicting user segments" claim assigned in
-                     Case-Study-Framework.md Part 0 — the speaker-bureau card above already
-                     carries that one, and Part 0 forbids two case studies proving the same
-                     thing. That one is arbitration (17 roles competing for one MVP);
-                     iSystem is ordering
-                     (each phase makes the next possible). >>> HAO: if you disagree, the
-                     two cards are the ones to re-balance.
+                     Title, description and both outcome stats are pulled from
+                     customer-engagement.html's own current copy — its h1, its og:description,
+                     its "Outcomes / Success metric" aside, and the "scope narrowed to one
+                     role: the manager" line in its Charter section. Title/desc here are now
+                     word-for-word what work.html's tile also shows (fixed 2026-08-30) —
+                     both previously quoted "Cutting four roles to keep one release", the
+                     exact old title customer-engagement.html itself retitled away from,
+                     see the comment above that page's h1.
 
-                     Evidence labelling per the framework:
-                       8 → 1  Tagged "(target)" as of 2026-08-16. The 8 parallel apps are
-                              the client's real scope, but the "→ 1" never happened —
-                              iSystem folded before GA, so this is design intent, not an
-                              outcome. It was untagged before, which read as a result.
-                       50     Tagged "(client-reported)". This cell used to read
-                              "50 vs 54,000 — Salons vs market (reported)", which broke the
-                              rule it was trying to follow: 50 is client-reported and 54,000
-                              is a published 2022 industry figure, so ONE tag could not
-                              cover the cell honestly. The 54,000 and the 220x gap are not
-                              lost — they are stated with full context in the Problem block
-                              directly below, which is where the comparison belongs.
-                     No launch metric appears anywhere on this card, because there is none:
-                     the company folded before GA. The closing paragraph says so outright
-                     rather than letting the reader assume it shipped. -->
-                <div class="rd-initiative-panel" id="panel-isystem">
+                     CLAIM: this replaces iSystem's "sequencing a dependency chain" claim
+                     with something closer to "I cut scope under stakeholder pressure and
+                     keep the release" — see Customer-Engagement-Research-and-Intake.md,
+                     "the two answers that still block the claim". Hao has not formally
+                     picked this claim for Part 0; noting it here since swapping the panel
+                     changes which claims the homepage covers. -->
+                <div class="rd-initiative-panel" id="panel-ce">
                 <article class="rd-initiative-card">
                     <div class="rd-initiative-row">
                         <div class="rd-initiative-body">
                             <div class="rd-initiative-head">
-                                <h3 class="rd-initiative-title">Eight apps, one team</h3>
-                                <p class="rd-initiative-desc">A startup was building eight apps at once for three user types. It became one transaction spine — book, check in, pay — with everything else sequenced behind it.</p>
+                                <h3 class="rd-initiative-title">The visit tool that couldn't leave the desk</h3>
+                                <p class="rd-initiative-desc">An internal tool old enough that nothing could be attached to it and nothing could be done away from a desk. Thirty-six usability defects, a redesign, and a place inside the company super app.</p>
                             </div>
 
                             <div class="rd-detail-block rd-detail-outcome">
                                 <p class="rd-detail-label">Outcome</p>
                                 <div class="rd-mini-stat-row">
-                                    <div><strong>8 → 1</strong><span>Parallel apps unified (target)</span></div>
-                                    <div><strong>50</strong><span>Active salons (client-reported)</span></div>
+                                    <div><strong>42%</strong><span>Cut in time on the main task (estimated)</span></div>
+                                    <div><strong>36 / 36</strong><span>Audit findings addressed (counted)</span></div>
                                 </div>
                             </div>
 
-                            <div class="rd-initiative-detail" id="detail-isystem">
+                            <div class="rd-initiative-detail" id="detail-ce">
                                 <div class="rd-detail-block">
                                     <p class="rd-detail-label">Problem</p>
-                                    <p>iSystem wanted 20% of a 54,000-salon US market and had 50 salons on the platform — a 220x gap. Against that, one team was scoped to build eight apps in parallel, and the plan gave four of them to the 400 staff and owners while 7,730 customers waited on the other four.</p>
+                                    <p>The tool that planned every client visit was old enough that nothing could be attached to it and nothing could be done away from a desk — no way to capture what a customer said mid-visit. A five-day audit across five modules found thirty-six usability defects, one of them critical, on the screen managers open most.</p>
                                 </div>
 
                                 <div class="rd-detail-para">
-                                    <p>I sequenced the build around the only order the eight apps actually support: check-in is meaningless without a booking, the POS has nothing to total without a check-in, and every owner report is a query over transactions that do not exist until those three ship. What I killed was the remarketing suite — the client's own stated priority — because a retention tool has nothing to retain against on day one. The spine was specced and prototyped; iSystem folded before it reached general availability, so no launch number here is mine to claim.</p>
+                                    <p>I narrowed the redesign's scope to one role — the manager, on desktop and mobile — rather than rebuild it for all five roles the tool served. What I deferred was every other role's version of the same screens. The trade held: the tool now runs inside the company super app.</p>
                                 </div>
                             </div>
 
                             <div class="rd-initiative-actions">
-                                <a href="./case-studies/marketing-platform.html" class="rd-btn rd-btn-text">Learn More</a>
+                                <a href="./case-studies/customer-engagement.html" class="rd-btn rd-btn-text">Learn More</a>
                             </div>
                         </div>
 
                         <div class="rd-initiative-media">
-                            <img src="./public/marketing.png" alt="iSystem salon platform case study cover">
+                            <img src="./public/case-study-framework/ce_cover.png" alt="Customer visit management case study cover — the redesigned trip overview">
                         </div>
                     </div>
                 </article>
@@ -373,7 +371,7 @@
                     <button type="button" class="rd-deck-dot" data-index="0" aria-label="Show Lending Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
                     <button type="button" class="rd-deck-dot" data-index="1" aria-label="Show Web3 Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
                     <button type="button" class="rd-deck-dot" data-index="2" aria-label="Show Communication Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
-                    <button type="button" class="rd-deck-dot" data-index="3" aria-label="Show Marketing Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
+                    <button type="button" class="rd-deck-dot" data-index="3" aria-label="Show Customer Engagement"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
                 </div>
             </div>
         </div>

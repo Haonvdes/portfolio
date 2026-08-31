@@ -5,18 +5,18 @@
 // content, and simply not running (no GSAP, reduced motion, mobile) leaves
 // a correct page behind.
 //
-// Desktop/tablet (>=769px): one pinned, scroll-scrubbed timeline —
+// All widths, including mobile: one pinned, scroll-scrubbed timeline —
 // STEP 1 hold -> STEP 2 Validate/Build fade -> STEP 3 Discovery/Launch
 // converge -> STEP 4 heading + panel reveal. Convergence distance is
 // measured from the live DOM (stage width vs. circle width) rather than
 // hard-coded, and re-measured on every ScrollTrigger refresh
-// (invalidateOnRefresh), so it stays correct across the 1024px circle-size
-// breakpoint and on browser resize.
-//
-// Mobile (<769px): this file does nothing. redesign.css already renders
-// every stage of the diagram at once, statically — a pinned scroll-hijack
-// on a small viewport was judged worse than a readable static section (see
-// the CSS file header for the reasoning).
+// (invalidateOnRefresh), so it stays correct across the 1024px/768px
+// circle-size breakpoints and on browser resize. Mobile used to skip the
+// pin entirely (a scroll-hijack on a small viewport read worse than a
+// static section) — Hao asked 2026-08-31 for the mobile version to animate
+// the same way desktop does, so it now runs unconditionally; see
+// redesign.css §13 for the `#ai-accelerate .rd-ai-pin` override that keeps
+// the mobile pin box full-height instead of the static fallback's `0`.
 (function () {
   var section = document.querySelector('.rd-ai-accelerate');
   if (!section) return;
@@ -63,19 +63,44 @@
   if (!pinEl || !stage || !discovery || !validate || !build || !launch || !revealHeading || !revealPanel) return;
 
   var CONVERGE_GAP = 16; // px between Discovery/Launch once converged — matches the CSS reduced-motion fallback's gap
+  // Mobile-only: at the 72px mobile circle size the long relabel text
+  // ("Discover, Validate, and experiment") reads cramped against the edge
+  // even at the smallest legible font-size, so Step 4 also scales Discovery
+  // /Launch up — Hao asked for this 2026-08-31 over shrinking the text
+  // further. Desktop circles are already roomy enough and get scale: 1 (a
+  // no-op). convergeDelta() reserves room for this scale-up up front (using
+  // the POST-scale width, not the current one) so Step 3's convergence
+  // already leaves the exact gap Step 4's growth fills — it doesn't
+  // re-converge or overlap when the circles grow.
+  var MOBILE_CIRCLE_SCALE = 1.6;
+
+  function isMobile() {
+    return window.matchMedia('(max-width: 768px)').matches;
+  }
+
+  function circleScale() {
+    return isMobile() ? MOBILE_CIRCLE_SCALE : 1;
+  }
 
   function convergeDelta() {
     var stageWidth = stage.getBoundingClientRect().width;
     var circleWidth = discovery.getBoundingClientRect().width;
-    return Math.max(0, stageWidth / 2 - CONVERGE_GAP / 2 - circleWidth);
+    // `x` translates the circle's original (unscaled) box; the Step 4 scale
+    // that follows grows it around its own center, not from this new edge —
+    // so the final edge sits at center ± (circleWidth*scale)/2, not
+    // center ± circleWidth*scale. Averaging the unscaled and scaled widths
+    // here (vs. the plain `circleWidth` the desktop/scale-1 case reduces to)
+    // reserves exactly the gap Step 4's growth fills, no more.
+    var scale = circleScale();
+    return Math.max(0, stageWidth / 2 - CONVERGE_GAP / 2 - circleWidth * (1 + scale) / 2);
   }
 
   ScrollTrigger.matchMedia({
-    '(min-width: 769px)': function () {
+    'all': function () {
       section.classList.add('js-ai-ready');
 
       gsap.set([validate, build], { opacity: 1, scale: 1, filter: 'blur(0px)' });
-      gsap.set([discovery, launch], { x: 0 });
+      gsap.set([discovery, launch], { x: 0, scale: 1 });
       gsap.set(loopLines, { opacity: 1 });
       gsap.set(relabelShort, { opacity: 1 });
       gsap.set(relabelLong, { opacity: 0 });
@@ -115,7 +140,8 @@
         .to(revealHeadingGroup, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }) // STEP 4
         .to(revealPanel, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.45')
         .to(relabelShort, { opacity: 0, duration: 0.4, ease: 'power1.out' }, '<')
-        .to(relabelLong, { opacity: 1, duration: 0.4, ease: 'power1.out' }, '<');
+        .to(relabelLong, { opacity: 1, duration: 0.4, ease: 'power1.out' }, '<')
+        .to([discovery, launch], { scale: function () { return circleScale(); }, duration: 0.4, ease: 'power1.out' }, '<');
 
       return function () {
         section.classList.remove('js-ai-ready');

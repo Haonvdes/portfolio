@@ -6,13 +6,10 @@
     <link rel="icon" type="image/x-icon" href="../public/favicon.png">
     <title>iSystem | Case Study — Stephano Ng</title>
 
-    <!-- TWO stylesheets, not seven. The 2021 page this replaces also loaded
-         case-legacy.css, case-retheme-v3.css, Bootstrap 5, a Google Fonts
-         "inter" link and the Font Awesome *Pro* CDN. None of them are here.
-         Every class on this page is .rd-*, which lives in redesign.css, and
-         the Pro webfont never resolved without a licence anyway — it was
-         rendering as stray bars, which is why the section-menu icon below is
-         an inline SVG. -->
+    <!-- Every class on this page is .rd-*, which lives in redesign.css. The
+         section-menu icon below is an inline SVG (not an icon-font glyph)
+         because the icon font it would otherwise use never resolves without
+         a licence and renders as stray bars. -->
     <link rel="stylesheet" href="../css/styles/style.css">
     <link rel="stylesheet" href="../css/styles/redesign.css">
 
@@ -44,87 +41,6 @@
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-
-<!--
-  ============================================================================
-  iSYSTEM — case study, v3 layout.
-
-  WHAT THIS FILE IS. A rebuild of marketing-platform.html on the structure of
-  lending-new-v3.html, written 2026-08-20. Unlike customer-engagement-v3.html,
-  which was a port — that file already carried .rd-case-* markup and even the
-  .rd-decision block, so moving it into the v3 shell was rearrangement — this
-  one is a rewrite. marketing-platform.html is a 2021 page built on Bootstrap
-  and case-legacy.css with no .rd-* markup anywhere in it. There was nothing
-  to port. marketing-platform.html itself is untouched and is still the file
-  work.html routes to.
-
-  WHERE THE COPY COMES FROM. Part C of `iSystem-Research-and-Rewrite.md`
-  (research dated 3 Aug 2026), not from the 2021 page. That document is the
-  rewrite; this file is that rewrite in HTML. The old page contributed its
-  product facts — the eight app names, the feature lists inside each app, the
-  three segment counts — and almost none of its prose, because the framework
-  audit in Part B found five of eight sections missing and the one present
-  section running at four times its proper size.
-
-  THE §04 DECISION IS CONFIRMED. Part E item 3 of the research doc flagged the
-  transaction-spine argument as RECONSTRUCTED — built by the researcher from
-  the page's artifacts, on the reasoning that the spine is the only sequence
-  the eight apps support and the remarketing suite is visibly the client's
-  priority — and said it must not ship until Hao confirmed he actually made
-  that call. Hao confirmed it on 2026-08-20: yes, that was the call, in those
-  terms. §04 is therefore in the first person. If that ever turns out to be
-  remembered rather than recorded, §04 is the section to revisit; everything
-  else on the page stands on documents.
-
-  DEFECTS FROM THE AUDIT, FIXED HERE (Part F of the research doc):
-    1. NO NAVIGATION (critical). The 2021 page has no #nav-placeholder, so
-       js/script.js injects nothing and a reader who lands there has no way
-       back to the site. It is in the header below.
-    2. SEVEN DEAD PROTOTYPE CTAs (critical). All seven "Play Prototype"
-       buttons pointed at isystem.invisionapp.com. InVision shut its
-       prototyping product on 31 Dec 2024 and deleted hosted prototypes; a
-       direct fetch returns nothing, and they have been dead roughly nineteen
-       months. Removed, at Hao's call 2026-08-20, and replaced with one plain
-       line in §05 saying where the prototypes went. A dead CTA reads worse
-       than no CTA — it reads as a portfolio nobody has opened in two years.
-       DO NOT reinstate an invisionapp.com link on this page.
-    3. ORPHANED OWNER TAB. `<div id="Owner" class="tabcontent">` sat outside
-       the .container-fluid wrapping Customer and Staff, so it was not a
-       sibling of the tabs it belonged to. Moot here: the panels are three
-       siblings inside .rd-case-tabpanels.
-    4. DUPLICATED ICON GRID. The eight-icon block rendered twice, verbatim,
-       34 identical lines under "Introduction" and again under "Stay
-       Connected". Appears once here, as the §01 checklist.
-    5. INVALID CSS — `padding-bottom: 24x`, no unit, silently dropped. Gone
-       with the inline styles.
-    6. ELEVEN VISIBLE MISSPELLINGS — Marketting, Desinger (his own job
-       title), Onwner ×3 including a tab label users clicked, Managemnt,
-       Consitent, Chose Staff, Chose services, reivew, refferal, iamge — on a
-       page whose stated client expectation was "Consistent". They do not
-       survive the retype. Note that some FILENAMES still carry the typo
-       (ic_consitent.svg, ic_reivew.svg, IC_stafff.svg); those are asset
-       paths, they resolve, and renaming them is a separate job.
-
-  WHAT THE 2021 PAGE LED ON, AND WHY THIS ONE DOES NOT. Eight apps, three
-  user types, a feature inventory. Part 1 of the framework bans effort
-  measures as headline metrics — "screens designed", "flows mapped" — and
-  "eight apps built" is the same currency. The headline here is the
-  prioritisation call instead, which is this page's assigned claim: I
-  prioritise across conflicting user segments. No other case study in the set
-  carries that claim.
-
-  EVIDENCE. 7,730 customers / 350 staff / 50 owners are CLIENT-REPORTED and
-  are tagged that way in every instance — they must never ship unlabelled.
-  The ~54,000 salons, 250,000+ technicians, USD 3.58bn nail-care market and
-  the ~50% Vietnamese-owned share are PUBLISHED industry figures (Nails
-  Magazine / MarketsandData aggregations, checked 3 Aug 2026). The full-day-
-  without-paper outcome is a TARGET and was never measured.
-
-  >>> OPEN items still outstanding, marked in place below: the real timeline,
-  team composition, validation method, what changed between spec and handoff,
-  and when/why iSystem folded.
-  ============================================================================
--->
 
 <header class="rd-case-hero">
     <div id="nav-placeholder"></div>
@@ -175,12 +91,6 @@
 
             <h2 class="rd-case-h2">Overview</h2>
 
-            <!-- FOUR rows, not six. Timeline and Team are omitted rather than
-                 filled with something that looks like an answer — see the OPEN
-                 note below. Status is a full sentence and it is deliberately not
-                 the word "Shipped": a reviewer who discovers on their own that
-                 iSystem is gone discounts everything else on the page, and a
-                 reviewer who is told in the snapshot reads the rest as honest. -->
             <div class="rd-case-snapshot">
                 <div>
                     <span class="rd-case-meta-k">Role</span>
@@ -200,16 +110,6 @@
                 </div>
             </div>
 
-            <!-- >>> OPEN — the two snapshot rows that are missing.
-                 TIMELINE: "Created Dec 2021" on the old page is a single date, not
-                 a timeline. When did the engagement start? HD Saison had exactly
-                 this problem and the true window turned out to be longer, which
-                 read better.
-                 TEAM: how many engineers, was anyone else on design, was there a
-                 PM on the client side? The framework requires the row.
-                 Add both cells above once answered; the rest of the table is
-                 already in framework order with Role first. -->
-
             <div class="rd-case-split">
                 <div class="rd-case-body">
                     <div>
@@ -219,16 +119,10 @@
 
                     <div>
                         <h3 class="rd-case-label is-heading">The eight apps, as briefed</h3>
-                        <!-- The eight-icon grid from the 2021 page, rendered ONCE.
-                             Real product icons from public/is/ rather than the
-                             inline stroke set the other v3 pages use, because
-                             these exist, they are the actual app marks, and
-                             .rd-case-checklist-icon already handles an <img>
-                             child (see redesign.css: `img { width:100%;
-                             height:100%; object-fit:contain }`). Listing all
-                             eight here is what makes §04 legible — the reader
-                             has to have seen the pile before they watch it get
-                             sequenced. -->
+                        <!-- Real product icons, not the inline stroke set other v3
+                             pages use: .rd-case-checklist-icon already handles an
+                             <img> child (see redesign.css: `img { width:100%;
+                             height:100%; object-fit:contain }`). -->
                         <div class="rd-case-checklist">
                             <div class="rd-case-checklist-row">
                                 <span class="rd-case-checklist-icon" aria-hidden="true"><img src="../public/is/IC_Booking.svg" alt="" loading="lazy"></span>
@@ -342,11 +236,8 @@
                 </p>
             </div>
 
-            <!-- Three discovery insights in the Industry Challenges card shape from
-                 lending-new-v3.html — one .rd-case-card wrapping a .rd-case-grid,
-                 each cell an ic-challenge.svg above an h3.rd-case-challenge-title.
-                 On .rd-case-challenge-title specifically: these headings take their
-                 size from `.rd-case-card h3`, whose descendant specificity beats
+            <!-- .rd-case-challenge-title headings take their size from
+                 `.rd-case-card h3`, whose descendant specificity beats
                  .rd-case-label regardless of source order. The class is that same
                  look given its own name, so the title survives if the tag moves. -->
             <div class="rd-case-card">
@@ -380,20 +271,10 @@
                 </ol>
             </div>
 
-            <!-- >>> OPEN — the client's retention numbers. The transaction-spine
-                 argument was reached through design work rather than through the
-                 client's own data, and the doc's §8 says so plainly. If any
-                 retention or repeat-visit figure was ever shared, it belongs here
-                 as a fourth insight and it strengthens §04 considerably. -->
         </div>
     </section>
 
-    <!-- ================= The decision =================
-         CONFIRMED BY HAO 2026-08-20 as a real call made in these terms — see the
-         file-header note. It was reconstructed in the research doc and flagged as
-         needing confirmation before it could ship in the first person. It has it.
-         .rd-decision / .rd-option markup is the same component lending-new-v3.html
-         and customer-engagement-v3.html use; CSS already in redesign.css. -->
+    <!-- ================= The decision ================= -->
     <section class="rd-case-section is-tinted" id="decision">
         <div class="rd-case-inner rd-shell">
             <div style="max-width: 684px; text-align: center;">
@@ -473,10 +354,7 @@
                 </div>
             </div>
 
-            <!-- Segment tabs, wired by the generic script at the foot of this file.
-                 Ordered by the spine, not by user count: Customer is where a
-                 transaction starts. Replaces the 2021 page's opentab() handler,
-                 whose Owner panel sat outside the tab container entirely. -->
+            <!-- Segment tabs, wired by the generic script at the foot of this file. -->
             <div class="rd-case-tabs" role="tablist" aria-label="User segments">
                 <button type="button" class="rd-case-tab is-active" role="tab" aria-selected="true" aria-controls="tabpanel-customer" id="tab-customer">Customer</button>
                 <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-staff" id="tab-staff">Staff</button>
@@ -596,9 +474,6 @@
 
             <div style="max-width: 684px; text-align: center;">
                 <div class="rd-case-body">
-                    <!-- The honest replacement for seven dead buttons. Hao's call
-                         2026-08-20: remove them and say why, rather than remove
-                         them silently. -->
                     <p>
                         Interactive prototypes were built and shared for every major flow above.
                         They were hosted on InVision, which shut down its prototyping product at the
@@ -608,18 +483,6 @@
                 </div>
             </div>
 
-            <!-- >>> OPEN — the validation method, and be careful here. Expert
-                 inspection, or moderated testing with real salon staff? The
-                 framework treats naming the method as the thing that separates you
-                 from people who shipped on instinct. If it was neither, "not
-                 validated, and here is why" is an acceptable answer and a better
-                 one than a claim that collapses when probed.
-
-                 >>> OPEN — delivery. What changed between spec and handoff? Scope
-                 cuts, technical constraints, anything the client rejected. Two or
-                 three sentences and this section closes properly. If nothing was
-                 built beyond the spec, say that — it is already implied by the
-                 status line and stating it costs nothing. -->
         </div>
     </section>
 
@@ -630,7 +493,7 @@
 
             <div class="rd-case-wiki">
                 <div class="rd-case-wiki-row">
-                    <div class="rd-case-body">
+                    <div class="rd-case-body rd-case-wiki-intro">
                         <p>
                             The transaction spine was specced, prototyped and handed off in December
                             2021. The later phases were never built, and iSystem no longer exists. I
@@ -652,10 +515,6 @@
                             The call still looks right to me — but I never got the evidence, and a
                             decision without an outcome is an argument, not a result.
                         </p>
-                        <!-- >>> OPEN — when and why did iSystem fold? One clause makes the
-                             whole page more credible. "I don't know what happened after
-                             handoff" is also a perfectly good answer and should be written
-                             in as that, rather than left as silence. -->
                     </div>
                 </div>
                 <h3 class="rd-case-wiki-title">What I'd do differently</h3>
@@ -678,11 +537,10 @@
             <div class="rd-related">
                 <a class="rd-related-card" href="./healthcare.html">
                     <div class="rd-related-media">
-                        <img src="../public/hc_cover.webp"
-                             alt="Role-by-feature product map for the speaker-bureau platform" loading="lazy">
+                        <img src="../public/hc_hero.png"
+                             alt="Speaker-bureau platform case study cover" loading="lazy">
                     </div>
                     <div class="rd-related-body">
-                        <p class="rd-related-eyebrow">Healthcare &amp; life sciences</p>
                         <h3 class="rd-related-title">One speaker-bureau platform for 17 roles</h3>
                         <p class="rd-related-desc">Seventeen roles, 496 user stories, one MVP. Cutting a pharma speaker-bureau backlog down to the one flow every role touches.</p>
                     </div>
@@ -691,11 +549,10 @@
 
                 <a class="rd-related-card" href="./lending.html">
                     <div class="rd-related-media">
-                        <img src="../public/UC_lending.png"
-                             alt="HD Saison consumer lending case study cover" loading="lazy">
+                        <img src="../public/hd/cover.png"
+                             alt="HD Saison app screens: a loan dashboard on the home tab and a loan management screen with repayment schedule and progress" loading="lazy">
                     </div>
                     <div class="rd-related-body">
-                        <p class="rd-related-eyebrow">Consumer lending</p>
                         <h3 class="rd-related-title">Getting consumer lending off the counter</h3>
                         <p class="rd-related-desc">Vietnam's third-largest consumer lender originated every loan at a counter. Reframing a four-goal client brief down to one problem, then shipping it.</p>
                     </div>
@@ -704,11 +561,10 @@
 
                 <a class="rd-related-card" href="./web-3.html">
                     <div class="rd-related-media">
-                        <img src="../public/ar_casecover.webp"
+                        <img src="../public/ar_casecover.jpeg"
                              alt="Aura Network case study cover" loading="lazy">
                     </div>
                     <div class="rd-related-body">
-                        <p class="rd-related-eyebrow">Web3 infrastructure</p>
                         <h3 class="rd-related-title">A chain that locked developers out</h3>
                         <p class="rd-related-desc">A permissioned NFT chain with a closed developer pool became a permissionless, EVM-compatible Layer 1 open to any Ethereum-toolchain builder.</p>
                     </div>
@@ -723,18 +579,16 @@
 <footer id="footer-placeholder"></footer>
 </div>
 
-<!-- js/script-2021.js is NOT loaded here. It carried opentab() and the jQuery
-     the 2021 page depended on; both are replaced by the two small vanilla
-     scripts below, and nothing else on this page needs jQuery. -->
 <script src="../js/script.js"></script>
 <script src="../js/ai-chat.js"></script>
 <script src="../js/socialize.js"></script>
 
 <script src="../js/case-toc.js"></script>
+<script src="../js/case-wiki-intro.js"></script>
 
-<!-- Segment tabs — ported unchanged from lending-new-v3.html. Binds to
-     .rd-case-tab / .rd-case-tabpanel generically and returns early when a page
-     has no tabs, so there is nothing project-specific in it. -->
+<!-- Segment tabs. Binds to .rd-case-tab / .rd-case-tabpanel generically and
+     returns early when a page has no tabs, so there is nothing
+     project-specific in it. -->
 <script>
 (function () {
   var tabs = document.querySelectorAll('.rd-case-tab');
@@ -756,11 +610,11 @@
 </script>
 
 <!-- App pickers — click a row, the row goes active and the render beside it
-     cross-fades to that row's data-image. Ported unchanged from
-     lending-new-v3.html. Generic over every `.rd-case-checklist[data-picker]`
-     on the page, so all three segment panels share one implementation. The
-     eight-app checklist in §01 has no data-picker attribute and is correctly
-     ignored — it is a list, not a control. -->
+     cross-fades to that row's data-image. Generic over every
+     `.rd-case-checklist[data-picker]` on the page, so all three segment
+     panels share one implementation. The eight-app checklist in §01 has no
+     data-picker attribute and is correctly ignored — it is a list, not a
+     control. -->
 <script>
 (function () {
   document.querySelectorAll('.rd-case-checklist[data-picker]').forEach(function (picker) {

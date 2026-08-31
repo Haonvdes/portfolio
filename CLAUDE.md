@@ -50,4 +50,13 @@ drift is invisible in an image. Recipe: `.claude/memory/portfolio_mobile_respons
 
 Case study prose must read as a person wrote it — short sentences, concrete nouns,
 contractions fine, no aphoristic closing lines. Nothing in visible page copy may describe how
-the page was built or what research went into it; that belongs in an HTML comment.
+the page was built or what research went into it.
+
+## Comments in HTML/JS
+
+An HTML comment ships to every visitor — anyone can read it via view-source or DevTools, so it
+is not a private channel. Keep a comment in the file only if it explains non-obvious *code*
+behavior (why a script is written the way it is, a constraint a future edit could break).
+Research notes, Figma node IDs, "ported from X", provenance, and any narrative about how or why
+a section was built belong in `.claude/memory/`, not the page. Details:
+`.claude/memory/feedback_no_process_talk_on_page.md`.

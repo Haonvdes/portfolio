@@ -6,7 +6,7 @@
 // `.rd-case-toc` comment for why the component moved here at all — in short,
 // every earlier shape of this rail ended up fighting the site nav
 // (js/script.js) for an edge, top or bottom, and a corner control that opens
-// on demand doesn't compete for an edge at all. (Hao, 2026-08-30.)
+// on demand doesn't compete for an edge at all.
 (function () {
   var root = document.querySelector('.rd-case-toc');
   if (!root) return;

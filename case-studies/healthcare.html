@@ -42,172 +42,6 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-<!--
-  ============================================================================
-  SPEAKER BUREAU PLATFORM — case study, v3 layout.
-
-  >>> CLIENT IS NOT NAMED ANYWHERE ON THIS PAGE. The engagement is under NDA.
-  Refer to it as "the client" or "a speaker-bureau platform" only. Do NOT
-  reintroduce the product name, the programme name or the client's name in
-  copy, comments, alt text, <title>, OG tags, image filenames or the URL. The
-  source folder and the internal design-system skills both use the real names;
-  none of them may cross into this file. This rule outranks every other note
-  below.
-
-  WHAT THIS FILE IS. healthcare.html rebuilt on the structure of
-  lending-new-v3.html, at Hao's request 2026-08-20 — the fourth page moved onto
-  the v3 shell, after lending-new-v3, customer-engagement-v3 and
-  marketing-platform-v3. Like the customer-engagement port and unlike the
-  iSystem one, this was rearrangement rather than rewriting: healthcare.html
-  already carried .rd-case-* markup and already had the .rd-decision block, so
-  almost every sentence here was already written and checked on that page.
-  healthcare.html is untouched.
-
-  WHAT THE V3 SHELL CHANGED:
-    - `<body class="rd-case is-hero-glow" style="--rd-hero-glow: #8fd0b8;">`.
-      Swapped from the overlap hero (Hao, 2026-08-23, applied across the v3
-      set alongside customer-engagement-v3): the glow variant keeps title,
-      lead and `.rd-case-cover` as three direct children of
-      `.rd-case-hero-inner` — the cover lives INSIDE the header again, not in
-      §01 — so a pastel radial glow sits behind the hero and the cover image
-      gets sketch.com's 3D tilt-in entrance (js/hero-entrance.js, see the
-      `.is-hero-glow` block in redesign.css). Do NOT re-add `.is-hero-overlap`:
-      the two variants fight over where `.rd-case-cover` lives.
-    - The eyebrow ("Case study · Healthcare & life sciences") is gone — v3's
-      hero is title + lead only, and Domain is already the second snapshot row.
-      NOTE: the sector label still reads "Healthcare & life sciences" on the
-      .rd-related cards of the other three v3 pages. Hao considered relabelling
-      it "Communication" on 2026-08-20 and chose to keep Healthcare & life
-      sciences. If that ever flips, it has to flip in four places at once.
-    - Seven sections became six. §7 Learning and §8 What I'd change merged into
-      one §06 built on .rd-case-wiki — prose in the top row, three lessons in
-      .rd-case-lesson-row beneath.
-    - The two-link .rd-case-pager became three .rd-related cards.
-    - ALL FIVE MAP CROPS MOVED INTO §05's TABS. On the old page they were
-      scattered — the role strip in Discovery, the reconciliation chain in
-      Discovery, the thin/spine pair in The Decision, the full map in Solution
-      Design. Each is now one picker row inside a themed tab, and each image
-      appears exactly once on the page. That is why §04 has no figure in it:
-      the visual evidence for the spine argument is tab 2 of §05, not a
-      duplicate crop under the decision block. §04 on lending-new-v3.html and
-      customer-engagement-v3.html carries no figure either, so this is the
-      house pattern rather than an omission.
-    - The role strip keeps `.rd-case-figure.is-strip` with its
-      .rd-figure-frame / .rd-figure-scroll wrapper, INSIDE the picker's figure.
-      Squeezing ~2,200px of role labels into an 800px column turns them into a
-      grey smear and the labels are the entire point, so that crop scrolls
-      rather than shrinks. Do not "fix" it to fit.
-
-  THE §04 DECISION IS CONFIRMED. healthcare.html carried a loud .rd-todo under
-  its decision block: the options, criteria and kill list were RECONSTRUCTED
-  from the artifacts — the Must-have/Post-MVP tiering, the 13-swimlane map, and
-  the backlog's own shape (attendee 5 stories, rookie 1, against 45 for a
-  region manager) — and it said the narrative must be confirmed before it
-  shipped. Hao confirmed it on 2026-08-20: that was the call, in those terms.
-  §04 is therefore first person and the warning is gone. If it ever turns out
-  to be remembered rather than recorded, §04 is the section to revisit;
-  everything else on this page stands on counted artifacts.
-
-  EVIDENCE MARKERS. The .rd-evidence pills are gone, converted to plain
-  "(counted)" / "(client spec)" / "(target)" parentheticals — the same call Hao
-  made on lending-new-v3.html on 2026-08-20, applied across all four v3 pages
-  for consistency. Identical words, no pill styling.
-
-  SOURCING. Every figure marked (counted) is derived from the source set in
-  "case study 1/", with the derivation written up in
-  CASE-STUDY-1-SOURCE-INVENTORY.md:
-    17 roles, 3 personas ....... personas doc, client spec set
-    496 user stories ........... count across the 19 role backlog docs
-    13 workflow areas .......... swimlanes on the role-by-feature product map
-    19 open TBUs ............... count across the same docs
-    ~21,350 lines / 17 commits . prototype repo history, 8 May – 15 Jul 2026
-  Nothing else on this page is a number.
-
-  ASSIGNED CLAIM (Part 0 of the framework): "I prioritise across conflicting
-  user segments." No other project in the set has 17 roles competing for one
-  MVP. This page deliberately does NOT try to carry the metrics claim — see
-  §06, which says plainly that nothing was measured.
-
-  >>> OPEN items, marked in place below: team size and role boundary, the
-  field-side baseline, the immediate trigger for "why now", the target set at
-  the start, the validation method, the constraints that bit in delivery, and
-  an optional third lesson. Seven in total; the previous file rendered eleven
-  .rd-todo boxes covering the same ground.
-
-  ---------------------------------------------------------------------------
-  2026-08-29 — FOUR ADDITIONS, ALL ADDITIVE. Hao's instruction was "keep the
-  current information and add more, don't override anything", so nothing that
-  was already on this page was edited, moved or rewritten. What changed:
-
-    1. An unnumbered pull-quote beat between §01 and §02 (Figma 40000453:672).
-       Not in the TOC — it is one line, not a section. It is NOT a testimonial;
-       see its own comment for why the Figma's attributed version cannot ship.
-    2. A User Landscape component at the end of §02 (Figma 40000438:9332),
-       sourced from the 17 role documents rather than from the node's own
-       placeholder cells.
-    3. A NEW numbered §06 "What got built" (Figma 40000455:3114 + 40000444:9502)
-       carrying the screen wall and the release contents. Every image in it is
-       a placeholder pending redacted exports. THIS IS THE ONLY CHANGE THAT
-       TOUCHED EXISTING MARKUP: the TOC gained a row and Handed off / AI
-       Accelerate renumbered 06→07 and 07→08. The section ids did not change,
-       so js/case-toc.js's scroll-spy is unaffected.
-    4. A SECOND COPY of the AI Accelerate section, #ai-accelerate-v2, with three
-       new layers stacked under the existing loop. The original #ai-accelerate
-       is byte-identical to what it was. Not in the TOC. See its own banner.
-
-  What was NOT done, and why:
-    - §01's snapshot rows are untouched. The Figma frame disagrees with all six
-      of them (it says UX Lead / Mar 2025–Jun 2026 / 22 members / Shipped);
-      Hao's call was that the page as it stands is the true version.
-    - The Figma's "Post Release Number" band (42% / $10,000 / 4.3) is not built.
-      Those are HD Saison's figures left in a healthcare frame — confirmed by
-      Hao — and building them would contradict §07, which says plainly that
-      nothing here was measured.
-
-  ---------------------------------------------------------------------------
-  2026-08-29, LATER THE SAME DAY — RESTRUCTURED ONTO THE FIGMA SHAPE.
-
-  Hao's reasoning: this project is recent and does not yet carry the depth of
-  narrative the other case studies do, so the page follows the Figma frame's
-  own structure rather than the essay shape lending-new-v3 and
-  customer-engagement-v3 use. Stat container, framing band, problems carousel —
-  the reader meets the numbers and the pain before any argument starts.
-
-  READING ORDER IS NOW SEVEN NUMBERED SECTIONS PLUS TWO UNNUMBERED BEATS:
-    01 Overview   — the six-cell stat container, and nothing else
-       Healthcare in US            (band, unnumbered, not in the TOC)
-       Problems carousel           (three pain points, unnumbered, not in TOC)
-    02 The problem + User Landscape
-    03 Discovery                   — the four-questions block removed
-    04 The decision
-    05 What got built              — THE MAP IS NOW INSIDE THIS SECTION
-    06 Handed off
-    07 AI Accelerate               (+ #ai-accelerate-v2, still not in the TOC)
-
-  THE MAP IS NO LONGER ITS OWN SECTION. Hao: "The map và what got to built là
-  một — the map có thể là data cần thiết cho các section trên nó." It is now the
-  evidence block at the foot of §05, and it collected the three blocks that were
-  displaced when §01 shrank. Section ids are unchanged apart from #map going
-  away, so js/case-toc.js's scroll-spy needed nothing.
-
-  NOTHING WAS DELETED EXCEPT THE FOUR-QUESTIONS BLOCK, which Hao asked to be
-  removed by name. Every other displaced paragraph, list and stat was MOVED and
-  says so at its new home. The two open items that block carried are recorded
-  in place in §03 rather than lost with the markup.
-
-  WHERE THE FIGMA VALUES WENT. The design's raw values were checked against
-  tokens.css and redesign.css before any CSS was written:
-    32px SemiBold quote -> --rd-fs-3xl + --rd-fw-heading   (exact match)
-    16px Medium caption -> --rd-fs-md  + --rd-fw-body      (exact match)
-    #131313 / #4b5563   -> --rd-ink / --rd-ink-muted       (near-duplicates)
-    1392px container    -> nothing; --rd-shell (1440) less .rd-case-inner's
-                           24px a side IS 1392
-  No new token was added and no literal hex or px was written where a token
-  already covered it. The six-cell Overview container needed no new CSS at all:
-  .rd-case-snapshot is already `repeat(auto-fit, minmax(160px, 1fr))`.
-  ============================================================================
--->
-
 <header class="rd-case-hero">
     <div id="nav-placeholder"></div>
 
@@ -257,28 +91,7 @@
         <div class="rd-case-inner rd-shell">
             <h2 class="rd-case-h2" data-aos="fade-up">Overview</h2>
 
-            <!-- SIX cells, matching Figma 40000307:3874 exactly: Role · Domain ·
-                 Timeline · Team · Platform · Status, one bordered container
-                 divided into columns.
-
-                 REDUCED TO THE CONTAINER ALONE ON 2026-08-29, Hao's call. This
-                 project is recent and does not yet carry the depth of narrative
-                 the other case studies do, so it follows the Figma structure —
-                 stat container, then a framing band, then the problems carousel —
-                 rather than the essay shape the other v3 pages use.
-
-                 NOTHING WAS DELETED TO DO THAT. The three blocks that used to
-                 live below this container were MOVED, and each carries a comment
-                 at its new home saying where it came from:
-                   · "The problem" prose        -> the Healthcare in US band below
-                   · The 13 workflow areas      -> §05, as part of the map evidence
-                   · The 17 / 496 / 10 stats    -> §05, same place
-                   · The spine-first paragraph  -> §05, closing the release block
-
-                 Values are the page's own, NOT the Figma frame's: that frame
-                 says UX Lead / Mar 2025–Jun 2026 / Shipped, and Hao confirmed on
-                 2026-08-29 that the page as it stood is the true version. Only
-                 Team was taken from the frame, on his instruction. -->
+            
             <div class="rd-case-snapshot" data-aos="fade-up">
                 <div>
                     <span class="rd-case-meta-k">Role</span>
@@ -306,25 +119,11 @@
                 </div>
             </div>
 
-            <!-- >>> OPEN — the role boundary, still. The Team cell is now filled,
-                 but the harder half of that old note stands: did you also own
-                 design and the prototype build? The framework wants "I decided"
-                 verbs, and §05 claims a coded prototype, which reads as design
-                 ownership whether or not it was. One sentence somewhere on this
-                 page closes it. -->
+            
         </div>
     </section>
 
-
-    <!-- ================= Healthcare in US (unnumbered band) =================
-         Figma 40000409:7302. A thin framing band between the Overview container
-         and the problems carousel: centred heading, centred italic lead. Not
-         numbered and not in the TOC — it is one sentence of framing, the same
-         call as the carousel below it.
-
-         THE LEAD IS THE PARAGRAPH MOVED OUT OF §01, verbatim. It was §01's
-         "The problem" block, and the Figma node happens to carry the very same
-         sentence, so this is where it was always meant to sit. -->
+    
     <section class="rd-case-section is-tinted rd-case-band">
         <div class="rd-case-inner rd-shell rd-case-band-inner" data-aos="fade-up">
             <h2 class="rd-case-band-title">Healthcare in US</h2>
@@ -332,43 +131,7 @@
         </div>
     </section>
 
-    <!-- ================= Problems carousel (unnumbered beat) =================
-         Figma 40000453:672, built to the node's own measurements: an 84px avatar
-         and a 73×60 quote glyph on one justify-between row, a 32px DM Sans
-         SemiBold Italic quote, a 48×2px rule beside a 16px attribution, then
-         three dots left and two chevron buttons right.
-
-         WHAT IT CARRIES. Three high-level pain points, one per slide (Hao,
-         2026-08-29). They are the three findings §03 already proves, lifted to
-         the top of the page so the reader meets the problem before the evidence
-         for it.
-
-         >>> IT IS NOT A TESTIMONIAL AND THE ATTRIBUTION IS NOT A SPEAKER.
-         The Figma node draws this attributed to `CTO – "Masked Name"` over a
-         photograph. There is no interview transcript behind this page, so
-         nothing here is written as speech and no line is put in a person's
-         mouth. Each attribution names the ROLE GROUP the pain belongs to — who
-         it happens to, not who said it. If real quotes ever exist, the copy
-         swaps in and the layout does not have to change; keep the attribution
-         masked to a role either way, since the NDA rule at the top of this file
-         covers people as well as the company.
-
-         >>> ASSETS. Avatars are stock photos in public/, matched to each
-         slide's role group by filename (user_Representative.png, "user_
-         Accounting.png" — leading space is literal, user_Compliance and
-         Auditor.png); alt="" since the figcaption already carries the role.
-         The quote glyph and the chevrons are hand-authored inline SVG. Figma's
-         exported assets could not be downloaded — neither sandbox can reach
-         figma.com — and those URLs expire in about seven days, so committing
-         them would ship a broken page next week. The chevrons are Lucide
-         chevron-left / chevron-right, drawn from their real path data, so they
-         match the node exactly. The glyph is drawn to match. If Hao wants the
-         precise vector, he exports it and it drops in here.
-
-         Wiring is js/quote-carousel.js: dot/arrow navigation plus autoplay
-         (~6s), pausing on hover/focus and restarting on manual navigation. With
-         no JS the first slide shows and the controls do nothing visible — the
-         section still reads. -->
+    
     <section class="rd-case-section is-tinted rd-case-quotes-section">
         <div class="rd-case-inner rd-shell">
             <div class="rd-quotes" data-quote-carousel>
@@ -486,32 +249,7 @@
                 </p>
             </div>
 
-            <!-- ===== User Landscape (Figma 40000438:9332) =====
-                 Added 2026-08-29. The Figma node ships this component with every
-                 RESPONSIBILITY and PERMISSION cell reading "Placeholder text" and
-                 a USER row that lists sixteen names, one of them ("Teritory") not
-                 a role at all. Both were resolved against the source set rather
-                 than transcribed:
-
-                   - The 17 names are the 17 role documents in "case study 1/"
-                     (STARS-1.2.2.2 through .18, excluding .1 Shared Features,
-                     which is not a role). That is the same count §01 calls
-                     "17 roles ... (counted)", so the two now agree by
-                     construction instead of by coincidence.
-                   - Every RESPONSIBILITY and PERMISSION line is condensed from
-                     the "1. Overview" section of those documents, which state
-                     each role's job and then, verbatim, what it "usually has the
-                     ability to" do. Nothing here is inferred from a role's name.
-
-                 >>> NDA: those documents name the client in almost every
-                 paragraph, and the accounting one names two of their staff.
-                 None of that is in the copy below and none of it may be added.
-
-                 SITS AT THE END OF §02 ON PURPOSE. §02 describes and §03
-                 concludes (the same describe → conclude → prove spine as
-                 customer-engagement-v3.html). A landscape of who touches a
-                 program is description; the verdict about what the record means
-                 to each of them is §03's opening line and must stay there. -->
+            
             <div class="rd-case-landscape" data-aos="fade-up">
                 <!-- Mobile-only accordion (≤1024px, see redesign.css): each
                      column's head is a <button> toggling .is-expanded on its
@@ -686,44 +424,11 @@
                 </div>
             </div>
 
-            <!-- >>> OPEN — the field-side baseline, and it is the most valuable
-                 missing item on this page. Programs per year, average approval
-                 cycle, exceptions raised per quarter. Any ONE of them turns the
-                 strongest claim here from a target into a measurement, and turns
-                 §06 from the most honest section into the strongest one. -->
-
-            <!-- >>> REMOVED 2026-08-29, Hao's call: the "four questions, answered in
-                 writing" block (Who are the users / Why now / What would tell us it
-                 worked / Is it feasible) that used to close this section. It read as
-                 a framework worksheet rather than as part of the story, and this page
-                 now opens with the problems carousel, which carries the same ground
-                 in the user's terms.
-
-                 THE TWO OPEN ITEMS IT CARRIED ARE STILL OPEN, so they are recorded
-                 here rather than lost with the markup:
-
-                 >>> OPEN — "WHY NOW" has no immediate trigger, only a standing one.
-                 Compliance risk is true every quarter. What made it urgent THAT
-                 quarter — a contract renewal, a failed audit, a legacy portal being
-                 sunset, a new tenant to onboard? It is the first thing anyone senior
-                 asks about a project this size, and §06's third lesson currently
-                 admits the gap instead of closing it.
-
-                 >>> OPEN — the target set AT THE START. §06 says program-request
-                 cycle time is what you WOULD have tracked, which is not the same as
-                 a target you actually set before you knew the answer. If a real one
-                 was set, the number belongs on this page. If none was, §06 should
-                 say so plainly rather than implying one. -->
+            
         </div>
     </section>
 
-    <!-- ================= The decision =================
-         CONFIRMED BY HAO 2026-08-20 as a real call made in these terms — see the
-         file-header note. healthcare.html carried a warning under this block
-         saying it was reconstructed from the artifacts and must be confirmed
-         before shipping; it has been, and the warning is gone. No figure inside
-         this section: the visual evidence for the spine argument is tab 2 of
-         §05, where all five map crops now live, each appearing once. -->
+    
     <section class="rd-case-section is-tinted" id="decision">
         <div class="rd-case-inner rd-shell">
             <div style="max-width: 684px; text-align: center;" data-aos="fade-up">
@@ -787,111 +492,9 @@
         </div>
     </section>
 
-    <!-- ================= What got built =================
-         Figma 40000455:3114 (the screen wall) + 40000444:9502 (the
-         "New Experiences" panel), added 2026-08-29.
-
-         >>> WIRED 2026-08-29 (public/s5_02.png – s5_08.png). Hao supplied 7
-         real screens, not the single hc_built_wall.png export this section
-         first expected. s5_01 (the app's login screen) is excluded — it isn't
-         a view of the program record. The single panel next to "What the
-         release actually contains" uses s5_02 (program detail overview).
-
-         >>> UPDATED 2026-08-29, SAME DAY: the wall (.rd-case-wall-pin /
-         .rd-case-wall-row, redesign.css §13f) is no longer a static grid —
-         it's a pinned scroll marquee (js/case-wall-marquee.js). See the
-         second banner comment, directly above .rd-case-wall-pin below, for
-         how that's wired and what NOT to hand-edit in the markup.
-
-         >>> NDA — CHECK BEFORE ADDING MORE. The Figma node's screens were live
-         captures: a tenant name in the sidebar, a physician's full name with
-         hospital, licence and NPI numbers, named attendees, a therapeutic area
-         in a budget title. None of that can ship. The 7 wired here read as
-         synthetic/placeholder data (generic "AZ Health Care" branding, no
-         hospital/licence detail tying to a real person) rather than a live
-         capture, but confirm before adding more from the same source — a CSS
-         blur is not redaction, the file still carries the pixels.
-
-         WHY IT IS HERE AND NOT LATER. The page went decision (§04) → evidence
-         (§05) → outcome, with nothing between the argument and the admission
-         that the outcome was never measured. This is the missing beat: what the
-         argument actually produced. It also makes §07's opening line land as
-         restraint rather than as an empty ending.
-
-         RENUMBERING: adding this section moved Handed off 06 → 07 and AI
-         Accelerate 07 → 08 in the TOC. #ai-accelerate-v2 is still absent from
-         the TOC on purpose (see its own banner).
-
-         >>> THE ID IS "release", NOT "built", AND THAT IS NOT A STYLE CHOICE.
-         redesign.css carries a bare `#built { min-height: 100vh; display: flex;
-         align-items: center }` rule for lending-new-v3.html's sequencing
-         section — an id selector with no page scope, so ANY page using
-         id="built" silently inherits it. This section had that id for about
-         ten minutes and laid its three children out as a flex ROW: the screen
-         wall came out 127px wide and the page scrolled sideways at 390px.
-         Nothing errors and nothing warns; it just looks broken. Check
-         redesign.css for a bare `#id` rule before reusing a section id here. -->
+    
     <section class="rd-case-section is-tinted" id="release">
-        <!-- Full-bleed, on the same .rd-case-figure.is-full pattern as
-             lending-new-v3.html's built band: the point of a wall of screens is
-             density, and density is exactly what disappears at column width.
-
-             Real crops, not one Figma export: Hao supplied 7 redacted screens
-             (public/s5_02.png – s5_08.png; s5_01 is the app's login screen and
-             was left out — it isn't a view of the program record). Two rows,
-             ordered oppositely so they don't read as the same strip twice.
-
-             PINNED MARQUEE (js/case-wall-marquee.js, GSAP + ScrollTrigger,
-             same pattern as js/ai-accelerate-v2.js): once this figure's top
-             hits the viewport top, it pins for ~3 screens of scroll while the
-             two rows scrub horizontally in opposite directions, then releases
-             into normal flow.
-
-             >>> TITLE + INTRO LIVE INSIDE THE PIN NOW (Hao, 2026-08-29, third
-             round on this section). Round 1 put them in their own .rd-case-
-             inner ABOVE the figure — normal flow, so they scrolled off BEFORE
-             the pin ever activated, and only the two rows were visible during
-             the whole 3-screen hold. Hao's actual spec: title + desc + both
-             rows all visible together on ONE screen, held in place, THEN
-             release so the rest of the section scrolls up. So .rd-case-wall-
-             header (h2 + intro paragraphs) is a child of .rd-case-wall-pin,
-             stacked above .rd-case-wall-images, and the two travel together.
-             See .rd-case-wall-header / .rd-case-wall-pin in redesign.css §13f
-             for how it's sized (clamp()s, same technique as .rd-ai-pin) to
-             actually fit a heading + 2 paragraphs + 2 image rows in one 100vh
-             box without clipping — verified at 1366x768 through 1920x1080,
-             not just eyeballed.
-
-             >>> NOT GSAP's pin:true ANY MORE (Hao, round 4, real Safari only
-             — never reproduced in Chromium, and a minimal isolated repro of
-             the same structure didn't reproduce it either, so the exact
-             internal cause was never pinned down). GSAP's own pin-spacer,
-             which is supposed to reserve the ~3-screen hold distance in the
-             document's flow, was silently sizing itself wrong in WebKit
-             specifically for THIS element — the wall stayed visually fixed
-             on screen, but the checklist card and everything after it kept
-             scrolling normally underneath it the whole time, as if no space
-             had been reserved at all. .rd-case-wall-spacer (new wrapper,
-             .is-full > .rd-case-wall-spacer > .rd-case-wall-pin) now does that
-             reserving itself, in plain CSS (`height: 400vh` — 100vh visible +
-             300vh hold — only once js-wall-ready is added), with
-             .rd-case-wall-pin as `position: sticky; top: 0` inside it —
-             native browser behavior, no per-browser spacer math to get wrong.
-             GSAP/ScrollTrigger still runs, but ONLY to scrub the two rows'
-             xPercent against scroll progress through the spacer
-             (js/case-wall-marquee.js) — it no longer pins anything.
-
-             THE MARKUP HERE IS DELIBERATELY UNDUPLICATED — 7 imgs per row, not
-             21. The JS clones each row's own children ×2 at init (for a
-             seamless 3×-wide loop track) ONLY once it has confirmed GSAP +
-             ScrollTrigger are present and motion isn't reduced; skipped
-             entirely on mobile (<769px). Default/no-JS/reduced-motion render:
-             header stacks above both rows, no sticky, spacer height back to
-             auto, each row a single horizontally-scrollable line (always 2
-             rows, not a wrapped grid) — see .rd-case-wall-row /
-             .rd-case-wall-spacer in redesign.css §13f. Do
-             not hand-add more <img> copies here; that would triple-clone
-             under JS (21 → 63) and break the loop math. -->
+        
         <figure class="rd-case-figure is-full">
             <div class="rd-case-wall-spacer">
             <div class="rd-case-wall-pin">
@@ -968,10 +571,7 @@
                             </div>
                         </div>
 
-                        <!-- >>> OPEN — the Figma node tags one row "Experiment" with an
-                             outbound link. Nothing in the source set says which of these
-                             five was run as an experiment or where it points, so no tag
-                             is rendered. Add one only against something real. -->
+                        
                     </div>
 
                     <!-- Program detail overview (public/s5_02.png) — the program
@@ -985,31 +585,7 @@
             </div>
         </div>
 
-        <!-- ========== THE MAP, folded in as this section's evidence ==========
-             Was its own §05 until 2026-08-29. Hao's call: "The map và what got
-             to built là một — the map có thể là data cần thiết cho các section
-             trên nó." So it is no longer a section that argues; it is the data
-             the sections above it stand on, and it sits at the end of the one
-             that shows what shipped.
-
-             THREE THINGS TRAVELLED WITH IT, all MOVED out of §01 rather than
-             rewritten, when §01 was reduced to its stat container:
-               · the 13 workflow areas checklist
-               · the 17 / 496 / 10 highlight stats
-               · the spine-first closing paragraph, which now closes this block
-             None of their copy changed. Together with the map crops they are
-             every counted number on this page in one place, which is the point.
-
-             The ids on the tab buttons and panels are unchanged (tab-whole /
-             tab-density / tab-recon and their tabpanel-* partners), so the
-             generic tab script at the foot of this file still wires them with
-             no change. Only the wrapper around them moved.
-
-             `.rd-case-evidence` exists only to put air between this block and
-             the release card above it: .rd-case-section has no gap between its
-             own direct children (each section normally has exactly one
-             .rd-case-inner), so without it the bordered wiki-title sits flush
-             against the card's bottom edge. -->
+        
         <div class="rd-case-inner rd-shell rd-case-evidence">
             <h3 class="rd-case-wiki-title" data-aos="fade-up">The artifact all of it came off</h3>
 
@@ -1269,19 +845,6 @@
                 </div>
             </div>
 
-            <!-- >>> OPEN — the validation method. Was the prototype tested with real
-                 reps and coordinators (moderated testing), or reviewed by the client
-                 team (expert inspection)? One sentence, and it separates this from
-                 shipping on instinct. "Neither, and here is why" is an acceptable
-                 answer for a spec-and-handoff engagement.
-
-                 >>> OPEN — the constraints that actually bit in delivery. A
-                 dependency that slipped, a technical limit that forced a rethink, a
-                 scope cut agreed with engineering. The transfer-funds change above
-                 is a design change, not a constraint. This is where technical
-                 partnership becomes visible and most candidates have nothing to say
-                 here, which is exactly why two or three sentences are worth having. -->
-
         </div>
     </section>
 
@@ -1292,7 +855,7 @@
 
             <div class="rd-case-wiki">
                 <div class="rd-case-wiki-row">
-                    <div class="rd-case-body" data-aos="fade-up">
+                    <div class="rd-case-body rd-case-wiki-intro" data-aos="fade-up">
                         <p>
                             I moved on before a measurement cycle closed, so there is no outcome
                             number here I can stand behind. I would rather say that than imply a win.
@@ -1309,12 +872,7 @@
                             run one program end to end, and the exception rate — compliance issues
                             raised after the fact instead of caught in the flow.
                         </p>
-                        <!-- >>> OPEN — and this is the highest-value item on the page. If you
-                             can source ANY of those three from the client, even directionally,
-                             even under NDA as a ratio, this section becomes the strongest in
-                             the case study rather than the most honest one. The framework
-                             explicitly allows the form "cut approval time roughly 60%
-                             (client-reported)". -->
+                        
                     </div>
                 </div>
                 <h3 class="rd-case-wiki-title" data-aos="fade-up">What I'd do differently</h3>
@@ -1323,29 +881,14 @@
                         <div class="rd-case-lesson"><strong>496 stories, zero baselines.</strong> The spec is thorough — as-is and to-be flows for all 17 roles — but thorough isn't proven, and I still can't tell you what the old process cost. A week timing real program requests at the start would have turned the spine-first argument from a diagram into a measurement.</div>
                         <div class="rd-case-lesson"><strong>I let the design system drift.</strong> Catching 17 of 18 status tokens out of sync was fine. Needing to catch it was the miss — calling code the source of truth on day one would have cost nothing.</div>
                         <div class="rd-case-lesson"><strong>I answered "why now" with a standing reason.</strong> Compliance risk is true every quarter. I never pinned down what made it urgent that quarter, which is the first thing anyone senior asks about a project this size.</div>
-                        <!-- >>> OPEN — the third lesson above is the weakest of the three and is
-                             the one to replace. What the framework wants here is something
-                             specific and unflattering about a call you got WRONG on this
-                             project — not a gap in the research. Self-awareness is a
-                             screened-for trait and this is the cheapest place on the page to
-                             show it. -->
+                        
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ================= AI Accelerate (scroll-driven) =================
-         Added 2026-08-26 per "Scroll-Driven AI Accelerate Section —
-         Implementation Prompt.md" at the repo root, against Figma
-         40000417:8561. Content-wise it's a generic product-lifecycle
-         diagram rather than part of this case study's own narrative, but
-         it's §07 in the TOC above at Hao's explicit request (2026-08-27) —
-         id="ai-accelerate" is what js/case-toc.js's scroll-spy matches
-         against the "#ai-accelerate" href, same as every other numbered
-         section. See css/styles/redesign.css §13 and js/ai-accelerate.js
-         for the pin/scrub implementation and its static/reduced-motion/
-         mobile fallbacks. -->
+    
     <section class="rd-case-section is-tinted rd-ai-accelerate" id="ai-accelerate">
         <div class="rd-ai-pin">
             <div class="rd-case-inner rd-shell rd-ai-inner">
@@ -1477,35 +1020,7 @@
         </div>
     </section>
 
-    <!-- ================= AI Accelerate — V2 (duplicate) =================
-         >>> THIS IS A SECOND COPY OF THE SECTION ABOVE, NOT A REPLACEMENT.
-         Added 2026-08-29 at Hao's instruction: "keep the current information
-         and add more — duplicate the section, don't override anything." The
-         original #ai-accelerate is byte-identical to what it was and is still
-         the one wired to js/ai-accelerate.js. Everything down to the closing
-         </div> of .rd-ai-pin here is a verbatim copy of it; the three layers
-         after that div are the new material.
-
-         WHY IT NEEDS ITS OWN SCRIPT. js/ai-accelerate.js opens with
-         `document.querySelector('.rd-ai-accelerate')` and, further down,
-         `document.querySelector('.rd-ai-toggle')` / `'[data-ai-panel]'` —
-         all first-match, all unscoped. With two sections on the page every
-         one of those resolves to the ORIGINAL, so this copy would render
-         with no pin and a dead toggle. js/ai-accelerate-v2.js is that same
-         file with its three root lookups scoped to #ai-accelerate-v2 and
-         nothing else changed. Both scripts are loaded at the foot of this
-         file; neither can see the other's section.
-
-         NOT IN THE TOC ON PURPOSE. Adding it would renumber every entry and
-         put two "AI Accelerate" rows in the rail. When one of the two wins:
-         delete the loser, rename the survivor's id back to "ai-accelerate",
-         drop the matching script tag, and the TOC never has to change.
-
-         PLACEMENT IS STILL OPEN. The proposal was to move this section ahead
-         of §06 Handed off so the page doesn't close on a diagram — deferred,
-         because moving it means touching the TOC and §06, and the standing
-         instruction is to touch neither yet.
-         ============================================================== -->
+    
 <section class="rd-case-section is-tinted rd-ai-accelerate is-v2" id="ai-accelerate-v2">
         <div class="rd-ai-pin">
             <div class="rd-case-inner rd-shell rd-ai-inner">
@@ -1638,18 +1153,7 @@
                 </div>
             </div>
         </div>
-        <!-- ---------------------------------------------------------------
-             THE THREE STACKED LAYERS. Siblings of .rd-ai-pin, never children
-             of it: .rd-ai-pin goes `position: fixed` while GSAP drives it, so
-             anything inside it is pinned too and would sit on top of the
-             circles for the whole scrub. Out here they are ordinary flow
-             content that arrives after the pinned sequence releases.
-
-             Order is an argument, not a list: the loop above asks WHERE A
-             HUMAN HAS TO STAY; §built answers HOW THE WORK MOVED (the branch),
-             §cost answers WHAT IT REPLACED (the handoff), and §gate closes by
-             naming the one flow on this project where none of it applies.
-             ------------------------------------------------------------ -->
+        
         <div class="rd-case-inner rd-shell rd-ai-stack">
 
             <!-- ===== Layer 2 — the design branch =====
@@ -1705,14 +1209,10 @@
                     <div class="rd-case-checklist-row"><span>Nothing is ever &ldquo;ready for dev&rdquo;, because the branch already runs</span></div>
                 </div>
 
-                <!-- >>> OPEN — the specifics that would make this concrete rather
-                     than stated: what the branch convention actually was, who
-                     reviewed a design diff, and whether tokens were generated
-                     from code or hand-kept. One sentence each and this layer
-                     stops being a principle and starts being a practice. -->
+                
             </div>
 
-            <!-- ===== Layer 3 — what the handoff cost, and what replaced it ===== -->
+            
             <div class="rd-ai-layer">
                 <p class="rd-case-label is-heading">The handoff</p>
                 <h3 class="rd-ai-layer-title">Four artifacts became one</h3>
@@ -1804,11 +1304,10 @@
             <div class="rd-related" data-aos="fade-up">
                 <a class="rd-related-card" href="./lending.html">
                     <div class="rd-related-media">
-                        <img src="../public/UC_lending.png"
-                             alt="HD Saison consumer lending case study cover" loading="lazy">
+                        <img src="../public/hd/cover.png"
+                             alt="HD Saison app screens: a loan dashboard on the home tab and a loan management screen with repayment schedule and progress" loading="lazy">
                     </div>
                     <div class="rd-related-body">
-                        <p class="rd-related-eyebrow">Consumer lending</p>
                         <h3 class="rd-related-title">Getting consumer lending off the counter</h3>
                         <p class="rd-related-desc">Vietnam's third-largest consumer lender originated every loan at a counter. Reframing a four-goal client brief down to one problem, then shipping it.</p>
                     </div>
@@ -1817,11 +1316,10 @@
 
                 <a class="rd-related-card" href="./web-3.html">
                     <div class="rd-related-media">
-                        <img src="../public/ar_casecover.webp"
+                        <img src="../public/ar_casecover.jpeg"
                              alt="Aura Network case study cover" loading="lazy">
                     </div>
                     <div class="rd-related-body">
-                        <p class="rd-related-eyebrow">Web3 infrastructure</p>
                         <h3 class="rd-related-title">A chain that locked developers out</h3>
                         <p class="rd-related-desc">A permissioned NFT chain with a closed developer pool became a permissionless, EVM-compatible Layer 1 open to any Ethereum-toolchain builder.</p>
                     </div>
@@ -1830,11 +1328,10 @@
 
                 <a class="rd-related-card" href="./marketing-platform.html">
                     <div class="rd-related-media">
-                        <img src="../public/marketing.png"
-                             alt="iSystem marketing platform case study cover" loading="lazy">
+                        <img src="../public/is/cover_isystem.png"
+                             alt="iSystem salon platform dashboard: today's overview stats, an hourly booking chart, and a waiting-list table" loading="lazy">
                     </div>
                     <div class="rd-related-body">
-                        <p class="rd-related-eyebrow">Salon software · Startup</p>
                         <h3 class="rd-related-title">Eight apps, one team</h3>
                         <p class="rd-related-desc">A startup was building eight apps at once for three user types. It became one transaction spine — book, check in, pay — with everything else sequenced behind it.</p>
                     </div>
@@ -1855,22 +1352,7 @@
 <script src="../js/socialize.js"></script>
 <!-- Problems carousel, the unnumbered beat above §02. -->
 <script src="../js/quote-carousel.js"></script>
-<!-- §06 "What got built" screen wall: pinned marquee, same GSAP + ScrollTrigger
-     pattern as ai-accelerate-v2.js below. See the banner comment above
-     .rd-case-wall-pin for what it does and does not touch.
 
-     LOADS BEFORE ai-accelerate.js/-v2.js ON PURPOSE, even though it was
-     added after them (Hao, 2026-08-29, real-Safari-only bug): ScrollTrigger
-     creates triggers in SCRIPT execution order, not DOM order, and §06's
-     wall sits ABOVE §08 AI Accelerate in the DOM. With this script loading
-     last (after both ai-accelerate files), the wall's ScrollTrigger was
-     being created AFTER two others whose trigger elements sit LOWER in the
-     DOM than its own — a create-order/DOM-order mismatch. Chromium tolerated
-     it; WebKit did not — its pin-spacer for the wall silently failed to hold
-     the scroll distance open, so the checklist card and everything after it
-     scrolled through normally UNDERNEATH the still-fixed, still-pinned wall
-     for most of its ~3-screen hold. Loading this first makes ScrollTrigger
-     creation order match DOM order again. -->
 <script src="../js/case-wall-marquee.js"></script>
 <script src="../js/ai-accelerate.js"></script>
 <!-- Scoped copy for the duplicated #ai-accelerate-v2 section; see the banner
@@ -1879,10 +1361,8 @@
 <script src="../js/ai-accelerate-v2.js"></script>
 
 <script src="../js/case-toc.js"></script>
+<script src="../js/case-wiki-intro.js"></script>
 
-<!-- Map-view tabs — ported unchanged from lending-new-v3.html. Binds to
-     .rd-case-tab / .rd-case-tabpanel generically and returns early on pages
-     with no tabs, so there is nothing project-specific in it. -->
 <script>
 (function () {
   var tabs = document.querySelectorAll('.rd-case-tab');
@@ -1903,43 +1383,16 @@
 }());
 </script>
 
-<!-- Map-crop pickers — click a row, the row goes active and the figure beside
-     it cross-fades to that row's data-image. Ported unchanged from
-     lending-new-v3.html. Generic over every `.rd-case-checklist[data-picker]`,
-     so both picker panels share one implementation. The 13-swimlane checklist
-     in §01 has no data-picker attribute and is correctly ignored — it is a
-     list, not a control. The Reconciliation tab has no picker because it has
-     one crop. -->
-<script>
-(function () {
-  document.querySelectorAll('.rd-case-checklist[data-picker]').forEach(function (picker) {
-    var image = document.getElementById(picker.dataset.picker);
-    if (!image) return;
-    var rows = picker.querySelectorAll('.rd-case-checklist-row');
-
-    function select(row) {
-      rows.forEach(function (r) {
-        r.classList.toggle('is-active', r === row);
-        r.setAttribute('aria-selected', r === row ? 'true' : 'false');
-      });
-      var src = row.dataset.image;
-      if (!src || src === image.getAttribute('src')) return;
-      image.style.opacity = 0;
-      setTimeout(function () {
-        image.src = src;
-        image.style.opacity = 1;
-      }, 150);
-    }
-
-    rows.forEach(function (row) {
-      row.addEventListener('click', function () { select(row); });
-      row.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(row); }
-      });
-    });
-  });
-}());
-</script>
+<!-- Shared component, js/case-picker.js: click a row, the row goes active and
+     the figure beside it cross-fades to that row's data-image. Generic over
+     every `.rd-case-checklist[data-picker]` on the page, so both map-crop
+     picker panels share one implementation. The 13-swimlane checklist in §01
+     has no data-picker attribute and is correctly ignored — it is a list, not
+     a control. The Reconciliation tab has no picker because it has one crop.
+     This used to be a plain copy that had drifted from lending-new-v3.html's
+     embed-aware version (the iframe branches are a no-op on a page with no
+     iframe in the figure) — one file now covers both. -->
+<script src="../js/case-picker.js"></script>
 
 <!-- Role-landscape accordion — mobile-only in effect (redesign.css gates the
      collapse behind the ≤1024px media query), but the toggle itself runs at

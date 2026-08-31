@@ -5,8 +5,8 @@
   CSS does the stacking on its own: every .rd-work-card shares
   `position: sticky; top: var(--rd-journey-top)`, so each parks until the next
   scrolls up over it. The heading column shares that same line, which keeps the
-  timeline top-aligned with it. The spec's scroll-scrubbed scale/lift is deliberately NOT implemented —
-  Hao removed it on 2026-08-02 because it made the whole stack drift upward as
+  timeline top-aligned with it. The spec's scroll-scrubbed scale/lift is deliberately NOT
+  implemented — it made the whole stack drift upward as
   the last card pinned. Once every card is parked the result is a flat year
   strip sitting over a single card.
 

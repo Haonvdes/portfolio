@@ -48,10 +48,7 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-<!-- ============ Section 1 — nav + hero (Figma 40000188:5690) ============ -->
-<!-- Reuses .rd-hero-inner / .rd-hero-row / .rd-hero-content / .rd-hero-headline-group /
-     .rd-hero-headline / .rd-hero-lead from the homepage hero — only the illustration
-     column (.rd-about-hero-media) is specific to this page. -->
+<!-- ============ Section 1 — nav + hero ============ -->
 <header class="rd-about-hero">
     <div id="nav-placeholder"></div>
 
@@ -65,9 +62,6 @@
                     <p class="rd-hero-lead animate__animated animate__fadeIn">
                         My background sits at the intersection of design, business, and cross-functional collaboration. Beyond designing products, I&rsquo;ve worked with stakeholders to shape proposals, communicate complex ideas, align teams, and turn business needs into actionable product decisions.
                     </p>
-                    <!-- The present-status line used to sit here. Moved into the
-                         Professional Journey rail on 2026-08-13 at Hao's request —
-                         see .rd-journey-status below. -->
                 </div>
             </div>
 
@@ -79,23 +73,12 @@
 </header>
 
 <main>
-    <!-- ==== Section 2 — My Path of Growth and Leadership (Figma 40000113:8615) ==== -->
+    
     <section class="rd-journey-section" data-aos="fade-up">
         <div class="rd-journey-inner rd-shell">
             <div class="rd-journey-intro" data-node-id="40000113:8666">
                 <h2 class="rd-section-heading">Professional Journey</h2>
-                <!-- Career framing + present status, merged into one paragraph on
-                     2026-08-13 at Hao's request (they were two separate <p>s, and before
-                     that the status line lived in the hero).
-                     The status half exists because the timeline below closes at Jun 2026
-                     and nothing else on the page accounts for the months since — a reader
-                     fills that gap themselves. It sits ABOVE the 01–05 index because that
-                     list is reverse chronological, so "now" belongs before the most recent
-                     role, not after the oldest.
-                     This is the ONE place on the site that should carry availability — see
-                     the note in templates/nav.html about not repeating #opentowork on every
-                     page.
-                     >>> HAO: update or delete the month when the next role starts. -->
+                
                 <p class="rd-journey-blurb">Each step in my career has taken me closer to the bigger picture: understanding the problem, shaping the direction, and bringing people together to build the right thing. The next one is where that becomes the whole job. <span class="rd-status">Available now</span> &mdash; my engagement at Horizons Technology closed in June 2026, and I&rsquo;m looking at Product Manager roles in fintech, lending and enterprise platforms.</p>
 
                 <!-- Timeline index — the homepage's .rd-deck-index component
@@ -112,20 +95,7 @@
                 </ul>
             </div>
 
-            <!-- Dates follow Hao's BHXH (social-insurance) contribution record, which
-                 is the authoritative timeline — it corrected three employer names and
-                 four date ranges that work-experience.html and both resumes had wrong,
-                 and it is why FPT now closes at Dec 2025 instead of "Now".
-                 Roles + scope of work come from [Stephano Ng] Resume_PM/PD.pdf, rewritten
-                 in a PM voice (outcomes and prioritisation rather than design output).
-                 The Horizons card has NO source material — its summary and bullets are
-                 drafted and need Hao's confirmation.
-                 Interaction (js/journey.js): sticky-stacking cards per
-                 scroll-stacking-timeline-spec.md. The scale/lift transform is
-                 deliberately NOT applied — Hao removed it on 2026-08-02 because
-                 it made every card drift upward as the last one pinned. The
-                 stack's end state is a flat year strip over one card, and
-                 clicking a year brings that card to the front. -->
+            
             <div class="rd-journey-list">
                 <article class="rd-work-card">
                     <div class="rd-work-tagrow">
@@ -157,18 +127,7 @@
                     </div>
                     <div class="rd-work-body" id="work-fpt">
                             <div class="rd-work-head">
-                                <!-- Deliberately generic — no project named (Hao, 2026-08-13).
-                                     The split matters even without names: his correction of
-                                     2026-08-09 stands, that on the Web3 engagement he was Lead
-                                     Product Design and NOT PM (he framed the platform trade-offs
-                                     and drove alignment; the founders decided). A bare "Project
-                                     Manager" covering all four years would read as if it included
-                                     that one, which an interviewer can catch against the case
-                                     study. "PM on some, lead product designer on others" is true
-                                     of every engagement without claiming any specific one.
-                                     >>> HAO: the PM engagements are the strongest PM evidence you
-                                     have and none of them appears anywhere on this site. Worth a
-                                     card on the homepage, not just a clause here. -->
+                                
                                 <h3 class="rd-work-title">Project Manager / Lead Product Designer at FPT Software</h3>
                                 <!-- Keep to three lines. The card height is fixed at
                                      --rd-work-h: 420px and a fourth line overflows it by 8px —
@@ -267,13 +226,7 @@
         </div>
     </section>
 
-    <!-- ==== Section 5 — What I've Learned Along the Way (Figma 40000188:5716) ====
-         Replaced the old single-quote + logo strip. One viewport tall, per the
-         1024px Figma frame.
-         The three 60px lesson icons are Hao's Figma exports in public/. They are
-         applied as CSS masks, not <img>: the files hardcode fill="black", and a
-         mask lets the colour come from --rd-ink like every other mark on the
-         page, so a token change still reaches them. -->
+    
     <section class="rd-learn-section" data-aos="fade-up">
         <div class="rd-learn-inner rd-shell">
             <div class="rd-learn-head">
@@ -326,9 +279,7 @@
         </div>
     </section>
 
-    <!-- ==== Section 6 — Professional Activities (Figma 40000079:7055) ====
-         The two left cards are live data: js/socialize.js fills #club-section
-         (Strava group stats) and #playback-info (Spotify). Those ids must stay. -->
+    
     <section class="rd-activities-section" data-aos="fade-up">
         <div class="rd-split-head rd-shell">
             <!-- Trailing space before the <br> is load-bearing: the mobile rule
@@ -373,7 +324,6 @@
     </section>
 </main>
 
-<!-- ======= Section 7 — closing CTA + footer bar (Figma 40000113:8484) ======= -->
 <!-- Identical structure to index.html so the two pages stay in lockstep. -->
 <div class="rd-closing">
 <footer id="footer-placeholder"></footer>

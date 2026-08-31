@@ -338,6 +338,27 @@
       b.addEventListener("click", function () { select(+b.dataset.index); });
     });
 
+    /* Mobile-only whole-card click, matching .rd-related-card's pattern on
+       case-study pages. Desktop deliberately keeps "Learn
+       More" as the sole click target — the desktop card carries a full
+       Problem paragraph the reader may want to select/copy, and a card-wide
+       click handler would fight that; the mobile card shows only
+       title/desc/CTA (redesign.css hides rd-detail-outcome and
+       rd-initiative-detail there), so a tap anywhere is unambiguous. A real
+       <a> stays the click source either way — this only widens its hit area,
+       and lets a tap that lands on the anchor itself navigate natively
+       instead of double-firing. */
+    panels.forEach(function (p) {
+      var card = p.querySelector(".rd-initiative-card");
+      var cta = card && card.querySelector(".rd-initiative-actions a");
+      if (!card || !cta) return;
+      card.addEventListener("click", function (e) {
+        if (!mq.matches) return;
+        if (e.target.closest("a")) return;
+        window.location.href = cta.href;
+      });
+    });
+
     /* A real swipe stops autoplay; our own scrollTo does not. */
     deck.addEventListener("pointerdown", function () {
       if (mq.matches) stop();

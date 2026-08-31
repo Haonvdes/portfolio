@@ -25,8 +25,7 @@
     <!-- Selected Project card grid — scoped to this page, not added to
          redesign.css. Anatomy borrowed from .rd-related-card (the "more
          like this" row on every finished case study), sized up for a
-         primary grid. Review history: case-studies/_preview-work-cards.html
-         (Version B2, approved by Hao 2026-08-29). -->
+         primary grid. -->
     <style>
       .rd-work-grid {
         display: grid;
@@ -208,16 +207,15 @@
 
                              .rd-work-tile-title / .rd-work-desc are kept word-for-word
                              identical to that case study's own <h1 class="rd-case-title"> /
-                             og:description by scripts/sync-thumbnails.js (2026-08-31, Hao's
-                             call). Don't hand-edit these two fields; edit the case study and
-                             run `node scripts/sync-thumbnails.js` instead. Tiles whose case
+                             og:description by scripts/sync-thumbnails.js. Don't hand-edit
+                             these two fields; edit the case study and run
+                             `node scripts/sync-thumbnails.js` instead. Tiles whose case
                              study hasn't been rebuilt to that h1 class yet (web-3,
                              marketing-platform) are skipped by the script and still
-                             hand-written — see [[portfolio-card-content-mapping]]. -->
+                             hand-written. -->
                         <div class="rd-work-tile" data-case-study="web-3">
                             <div class="rd-work-media"><img src="./public/ar_casecover.jpeg" alt="Aura Network case study cover" loading="lazy"></div>
                             <div class="rd-work-tile-body">
-                                <p class="rd-work-eyebrow">Web3 infrastructure</p>
                                 <h3 class="rd-work-tile-title">Holding six products together through a platform change</h3>
                                 <p class="rd-work-desc">Lead product designer for a Layer 1 blockchain: running the design function across six surfaces, and defining products with four engineering groups while the platform changed underneath them.</p>
                             </div>
@@ -227,7 +225,6 @@
                         <div class="rd-work-tile" data-case-study="customer-engagement">
                             <div class="rd-work-media"><img src="./public/case-study-framework/ce_cover.png" alt="Customer visit management case study cover — the redesigned trip overview" loading="lazy"></div>
                             <div class="rd-work-tile-body">
-                                <p class="rd-work-eyebrow">Internal tooling</p>
                                 <h3 class="rd-work-tile-title">The visit tool that couldn't leave the desk</h3>
                                 <p class="rd-work-desc">An internal tool old enough that nothing could be attached to it and nothing could be done away from a desk. Thirty-six usability defects, a redesign, and a place inside the company super app.</p>
                             </div>
@@ -237,7 +234,6 @@
                         <div class="rd-work-tile" data-case-study="lending">
                             <div class="rd-work-media"><img src="./public/hd/cover.png" alt="HD Saison app screens: a loan dashboard on the home tab and a loan management screen with repayment schedule and progress" loading="lazy"></div>
                             <div class="rd-work-tile-body">
-                                <p class="rd-work-eyebrow">Consumer lending</p>
                                 <h3 class="rd-work-tile-title">Getting consumer lending off the counter</h3>
                                 <p class="rd-work-desc">Vietnam's third-largest consumer lender originated every loan at a counter. Reframing a four-goal client brief down to one problem, then shipping it.</p>
                             </div>
@@ -247,7 +243,6 @@
                         <div class="rd-work-tile" data-case-study="healthcare">
                             <div class="rd-work-media"><img src="./public/hc_hero.png" alt="Speaker-bureau platform case study cover" loading="lazy"></div>
                             <div class="rd-work-tile-body">
-                                <p class="rd-work-eyebrow">Healthcare — pharma</p>
                                 <h3 class="rd-work-tile-title">One speaker-bureau platform for 17 roles</h3>
                                 <p class="rd-work-desc">Seventeen roles, 496 user stories, one MVP. Cutting a pharma speaker-bureau backlog down to the one flow every role touches.</p>
                             </div>
@@ -257,7 +252,6 @@
                         <div class="rd-work-tile" data-case-study="marketing-platform">
                             <div class="rd-work-media"><img src="./public/is/cover_isystem.png" alt="iSystem salon platform dashboard: today's overview stats, an hourly booking chart, and a waiting-list table" loading="lazy"></div>
                             <div class="rd-work-tile-body">
-                                <p class="rd-work-eyebrow">Marketing platform</p>
                                 <h3 class="rd-work-tile-title">Eight apps, one team</h3>
                                 <p class="rd-work-desc">A startup with fifty salons, a twenty-percent ambition and eight apps in flight. Cutting it to one transaction spine — book, check in, pay — and sequencing the rest behind it.</p>
                             </div>
@@ -270,7 +264,7 @@
                              just no longer visible until the reader opens this. -->
                         <details class="rd-work-archive">
                             <summary class="rd-work-archive-summary">
-                                <span>In progress / Archived</span>
+                                <span>Archived</span>
                                 <span class="rd-work-archive-icon" aria-hidden="true">
                                     <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                                 </span>
@@ -279,21 +273,19 @@
                                 <div class="rd-work-tile is-soon" data-case-study="core-banking" data-status="coming-soon" aria-disabled="true">
                                     <div class="rd-work-media"><img src="./public/coreBanking.png" alt="" loading="lazy"></div>
                                     <div class="rd-work-tile-body">
-                                        <p class="rd-work-eyebrow">Digital banking</p>
-                                        <h3 class="rd-work-tile-title">Core Banking <span class="rd-soon-badge">In progress</span></h3>
-                                        <p class="rd-work-desc">Digital banking and payments work. Case study in progress.</p>
+                                        <h3 class="rd-work-tile-title">Core Banking <span class="rd-soon-badge">Archived</span></h3>
+                                        <p class="rd-work-desc">Digital banking and payments work. Case study archived.</p>
                                     </div>
-                                    <span class="rd-work-cta is-muted">Coming soon</span>
+                                    <span class="rd-work-cta is-muted">Archived</span>
                                 </div>
 
                                 <div class="rd-work-tile is-soon" data-case-study="automotive" data-status="coming-soon" aria-disabled="true">
                                     <div class="rd-work-media"><img src="./public/automotive.png" alt="" loading="lazy"></div>
                                     <div class="rd-work-tile-body">
-                                        <p class="rd-work-eyebrow">Mobility</p>
-                                        <h3 class="rd-work-tile-title">Automotive <span class="rd-soon-badge">In progress</span></h3>
-                                        <p class="rd-work-desc">Automotive and mobility work. Case study in progress.</p>
+                                        <h3 class="rd-work-tile-title">Automotive <span class="rd-soon-badge">Archived</span></h3>
+                                        <p class="rd-work-desc">Automotive and mobility work. Case study archived.</p>
                                     </div>
-                                    <span class="rd-work-cta is-muted">Coming soon</span>
+                                    <span class="rd-work-cta is-muted">Archived</span>
                                 </div>
                             </div>
                         </details>

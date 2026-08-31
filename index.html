@@ -18,9 +18,7 @@
          stylesheet can't silently unstyle the redesign. Must stay after style.css
          so .rd-* rules win the cascade. -->
     <link rel="stylesheet" href="./css/styles/redesign.css">
-    <!-- Desktop vertical scroll-snap deck for Selected Product Initiatives
-         (added 2026-08-07). Must stay after redesign.css so its rules win the
-         cascade on desktop; mobile (<=768px) keeps the swipe carousel. -->
+    
     <link rel="stylesheet" href="./css/styles/initiatives-desktop.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
     <script>
@@ -53,7 +51,6 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-<!-- ============ Section 1 — nav + hero (Figma 40000031:5463 / 5788) ============ -->
 <header class="rd-hero-section">
     <div id="nav-placeholder"></div>
 
@@ -64,13 +61,7 @@
                     <h1 class="rd-hero-headline animate__animated animate__fadeIn">
                         Building products that connect<br>customer needs, business goals, and execution.
                     </h1>
-                    <!-- "nearly eight years" — NOT "over eight". The BHXH-verified timeline on
-                         about.html starts Dec 2018, which is 7y8m as of Aug 2026, and the
-                         At a Glance bar further down this page says "7+ Years". "Over eight"
-                         contradicted both, and a reader can falsify it by adding up the About
-                         page. Corrected 2026-08-13. Chotot-PM-Profile-Tailoring.md recommends
-                         "8+ years everywhere", but it counted from work-experience.html's
-                         Jan 2018 start, which the BHXH record superseded — do not restore it. -->
+                    
                     <p class="rd-hero-lead animate__animated animate__fadeIn">
                         I help organizations transform complex business problems into digital products that deliver measurable value. With nearly eight years of experience leading enterprise product design, I collaborate closely with engineering, business, and stakeholders to shape strategy, prioritize opportunities, and deliver products that matter.
                     </p>
@@ -81,16 +72,13 @@
 </header>
 
 <main>
-    <!-- ==== Section 2 — Selected Product Initiatives (Figma 40000124:720) ==== -->
+    
     <section class="rd-initiatives-section">
         <div class="rd-initiatives-inner rd-shell">
             <!-- Desktop: this becomes the sticky left rail beside the card stack.
                  Mobile: it stays a plain heading block above the carousel. -->
             <div class="rd-section-head rd-initiatives-rail">
-                <!-- Heading, intro and index are direct children so DOM order IS
-                     the desktop reading order. The "View All" link that used to
-                     end the rail (and the .rd-head-row wrapper before it) is
-                     gone — removed 2026-08-12. -->
+                
                 <h2 class="rd-section-heading">Selected Product Initiatives</h2>
                 <p class="rd-section-intro">
                     Good product decisions happen at the intersection of customer needs, business priorities, and execution. I focus on finding the right problems, making the right trade-offs, and turning decisions into outcomes.
@@ -101,42 +89,15 @@
                 <ul class="rd-deck-index" id="deck-index">
                     <li><button type="button" data-index="0"><span class="n">01</span><span>Lending</span></button></li>
                     <li><button type="button" data-index="1"><span class="n">02</span><span>Web3</span></button></li>
-                    <li><button type="button" data-index="2"><span class="n">03</span><span>Communication</span></button></li>
-                    <li><button type="button" data-index="3"><span class="n">04</span><span>Engagement</span></button></li>
+                    <li><button type="button" data-index="2"><span class="n">03</span><span>Pharma</span></button></li>
+                    <li><button type="button" data-index="3"><span class="n">04</span><span>Enterprise</span></button></li>
                 </ul>
             </div>
 
             <div class="rd-initiative-wrap">
-                <!-- Desktop >=769px: the deck is a vertical scroll-snap stack — one
-                     full-viewport card per scroll, fading in from the bottom; the dots
-                     are the control and position indicator. Below 768px the deck is a
-                     horizontal scroll-snap carousel the reader swipes; the dots are the
-                     control and run autoplay. js/initiatives.js keeps dots and scroll
-                     position in sync in both modes.
-
-                     Each panel's .rd-initiative-title / .rd-initiative-desc (and the matching
-                     tile on work.html) are kept word-for-word identical to that case study's
-                     own <h1 class="rd-case-title"> / og:description by
-                     scripts/sync-thumbnails.js (2026-08-31, Hao's call — the case study is
-                     always the source, cards never diverge from it). Don't hand-edit these two
-                     fields; edit the case study and run `node scripts/sync-thumbnails.js`
-                     instead. Panels whose case study hasn't been rebuilt to that h1 class yet
-                     (Aura/web-3, iSystem/marketing-platform) are skipped by the script and
-                     still hand-written — see [[portfolio-card-content-mapping]]. -->
+                
                 <div class="rd-initiative-deck" id="initiative-deck">
-                <!-- HD Saison — carries the "I run rigorous discovery and frame problems"
-                     claim (Case-Study-Framework.md, Part 0). Every figure is sourced in
-                     HD-Saison-Research-and-Rewrite.md. Evidence labelling per the
-                     framework: 2h approval is tagged "(target)" because it was never
-                     measured; 8 → 1 signatures is tagged "(client-reported)" — it comes
-                     from HD Saison's own process docs, not from anything Hao measured.
-                     The third stat, "6M+ customers in scope", was dropped 2026-08-16:
-                     Part 1 allows two metrics, and that one was the weakest of the three
-                     — company scale at launch, not a personal result. The 6M → 15M
-                     customer growth belongs on lending.html, not here.
-                     The durability proof (shipped May 2022, still live at v1.1.30 four
-                     years on) moved into the closing paragraph, where it reads as an
-                     outcome rather than a bare date. -->
+                
                 <div class="rd-initiative-panel is-active" id="panel-hd">
                 <article class="rd-initiative-card">
                     <div class="rd-initiative-row">
@@ -177,14 +138,7 @@
                 </article>
                 </div>
 
-                <!-- Aura Network — carries the "I own a roadmap and decide what not to
-                     build" claim (Case-Study-Framework.md, Part 0). Copy and figures are
-                     sourced in Aura-Network-Research-and-Rewrite.md; both outcome numbers
-                     are cumulative network totals published by aura.network, so they are
-                     labelled "(published)" rather than presented as personal results.
-                     "published" is the fifth evidence tag, added to Part 4 of
-                     Case-Study-Framework.md on 2026-08-16 precisely for these two numbers
-                     — the earlier "(public)" was not a tag the framework recognised. -->
+                
                 <div class="rd-initiative-panel" id="panel-aura">
                 <article class="rd-initiative-card">
                     <div class="rd-initiative-row">
@@ -227,33 +181,7 @@
                 </article>
                 </div>
 
-                <!-- Speaker bureau platform (client unnamed — NDA) — carries the "I prioritise across
-                     conflicting user segments" claim (Case-Study-Framework.md, Part 0).
-                     Replaced the "Improving communication workflow" placeholder on
-                     2026-08-03: that card had no outcome slot and its design-system-drift
-                     subject is in fact a workstream OF this project (color-drift-report.md),
-                     so it is folded into the case study rather than kept as a stub.
-
-                     Every figure below is counted directly from the source set in
-                     "case study 1/" and listed in CASE-STUDY-1-SOURCE-INVENTORY.md:
-                       17 roles + 3 personas   — 1.2.1 Personas
-                       496 user stories        — grep "I WANT" across the 19 role backlogs
-                       13 workflow areas       — swimlanes in image-20250531-113204.png
-                     These are SCOPE figures, not outcome figures — which is exactly why
-                     they sit in Problem framing and NOT in the stat bar. The framework
-                     bans effort metrics as headline numbers.
-
-                     OUTCOME STATS — both are sourced, neither is invented:
-                       3 → 1  The accounting spec documents the as-is: the reconciliation
-                              team cross-references expenses DAILY across three systems
-                              (the bureau platform, the corporate card, the ledger) on a
-                              77–102 column client report. "→ 1" is the design intent, so
-                              the cell is tagged (target) — it was never measured.
-                       17     Roles served by one system of record. Population affected,
-                              which the framework permits as a headline; "17 roles mapped"
-                              would be effort and is banned. Note the wording carefully.
-                     >>> HAO: replace 3 → 1 the moment you can source a real before/after
-                     on approval cycle time — that is the stronger claim. -->
+                
                 <!-- NDA: the source docs name the pharma tenants (and the client's own
                      accounting leads). None of that appears here and none of it should. -->
                 <div class="rd-initiative-panel" id="panel-comms">
@@ -273,8 +201,7 @@
                                 </div>
                             </div>
 
-                            <!-- Detail stack — Figma 40000124:734. Order is Problem framing →
-                                 Outcome stats → closing paragraph. -->
+                            
                             <div class="rd-initiative-detail" id="detail-comms">
                                 <div class="rd-detail-block">
                                     <p class="rd-detail-label">Problem</p>
@@ -286,14 +213,9 @@
                                 </div>
                             </div>
 
-                            <!-- Sibling of .rd-initiative-detail, not a child: the detail block
-                                 flexes to fill so this pins to the bottom (Figma 40000132:3671,
-                                 y=622 of a 662px column). -->
+                            
                             <div class="rd-initiative-actions">
-                                <!-- Un-held 2026-08-30: healthcare.html has been live and linked
-                                     from work.html since 2026-08-29 (see
-                                     [[portfolio-work-page-coming-soon]]), so leaving this CTA
-                                     disabled just contradicted that page. -->
+                                
                                 <a href="./case-studies/healthcare.html" class="rd-btn rd-btn-text">Learn More</a>
                             </div>
                         </div>
@@ -305,24 +227,7 @@
                 </article>
                 </div>
 
-                <!-- Customer Engagement — replaced the iSystem/Marketing-Platform panel
-                     2026-08-30 (Hao's call: swap Marketing off the homepage for this one).
-
-                     Title, description and both outcome stats are pulled from
-                     customer-engagement.html's own current copy — its h1, its og:description,
-                     its "Outcomes / Success metric" aside, and the "scope narrowed to one
-                     role: the manager" line in its Charter section. Title/desc here are now
-                     word-for-word what work.html's tile also shows (fixed 2026-08-30) —
-                     both previously quoted "Cutting four roles to keep one release", the
-                     exact old title customer-engagement.html itself retitled away from,
-                     see the comment above that page's h1.
-
-                     CLAIM: this replaces iSystem's "sequencing a dependency chain" claim
-                     with something closer to "I cut scope under stakeholder pressure and
-                     keep the release" — see Customer-Engagement-Research-and-Intake.md,
-                     "the two answers that still block the claim". Hao has not formally
-                     picked this claim for Part 0; noting it here since swapping the panel
-                     changes which claims the homepage covers. -->
+                
                 <div class="rd-initiative-panel" id="panel-ce">
                 <article class="rd-initiative-card">
                     <div class="rd-initiative-row">
@@ -370,13 +275,13 @@
                 <div class="rd-deck-dots" id="deck-dots">
                     <button type="button" class="rd-deck-dot" data-index="0" aria-label="Show Lending Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
                     <button type="button" class="rd-deck-dot" data-index="1" aria-label="Show Web3 Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
-                    <button type="button" class="rd-deck-dot" data-index="2" aria-label="Show Communication Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
-                    <button type="button" class="rd-deck-dot" data-index="3" aria-label="Show Customer Engagement"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
+                    <button type="button" class="rd-deck-dot" data-index="2" aria-label="Show Pharma Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
+                    <button type="button" class="rd-deck-dot" data-index="3" aria-label="Show Enterprise Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
                 </div>
             </div>
         </div>
     </section>
-    <!-- ======== Section 3 — How I Create Impact (Figma 40000031:5907) ======== -->
+    
     <section class="rd-impact-section" data-aos="fade-up">
         <div class="rd-impact-inner rd-shell">
             <div class="rd-section-head">
@@ -421,7 +326,6 @@
 
 </main>
 
-<!-- ======= Section 4 — closing CTA + footer bar (Figma 40000028:3230) ======= -->
 <div class="rd-closing">
 <footer id="footer-placeholder"></footer>
 </div>

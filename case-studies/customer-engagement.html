@@ -283,6 +283,12 @@
                     "it's ugly". What came back was sharper, and it is the finding the rest of
                     this project hangs off.
                 </p>
+                <p>
+                    Managers, specifically, because the four roles don't get different screens —
+                    permissions just turn features on or off. Manager has the fullest set of
+                    them, so whatever breaks for a manager breaks for the other three too, plus
+                    more.
+                </p>
             </div>
 
             <div class="rd-case-body" data-aos="fade-up">
@@ -292,10 +298,14 @@
                     stopped using eleven of the fourteen. That is a different problem from a
                     tool being hard to use, and it needs a different fix.
                 </p>
-                
+
                 <p>
                     A clear enough picture to design against. Not a picture that fits in three
                     and a half months.
+                </p>
+                <p>
+                    Two different symptoms, same root: nobody trusted what the tool gave back,
+                    whether they were putting information in or pulling it out.
                 </p>
             </div>
         </div>
@@ -308,7 +318,7 @@
             <h2 class="rd-case-h2" data-aos="fade-up">Everything pointed at the same form</h2>
 
             <div class="rd-case-body" data-aos="fade-up">
-                <p>Five days of audit, five interviews, and a survey of the wider team. They disagreed about plenty. They agreed about one screen.</p>
+                <p>Five days of audit, five interviews, and a survey of the wider team. The filters were already a known problem. The audit's one critical defect — and the interview's top complaint — both landed on the same screen: the form.</p>
             </div>
 
             <div class="rd-tabs rd-bench-views rd-tabs-collapsible" role="tablist" aria-label="Findings, three views" id="findings-tabs">
@@ -608,14 +618,15 @@
                 <p>
                     This is the plan as proposed, before the scope was cut. It is here because
                     the sequencing decision inside it — foundation first, screens second — is
-                    the one that survived everything that came later.
+                    the one that survived everything that came later. What didn't survive was
+                    the scope itself: three groups wanted three different things, nobody had
+                    the authority to settle it, and it stayed unresolved for two months.
                 </p>
             </div>
 
             
             <div class="rd-tabs rd-tabs-collapsible" role="tablist" aria-label="Charter views">
-                <button type="button" class="rd-tab" role="tab" aria-selected="true" aria-controls="charter-panel-principle" id="charter-tab-principle"><span>Design principle</span></button>
-                <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="charter-panel-process" id="charter-tab-process"><span>Process &amp; allocation</span></button>
+                <button type="button" class="rd-tab" role="tab" aria-selected="true" aria-controls="charter-panel-principle" id="charter-tab-principle"><span>Approach</span></button>
                 <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="charter-panel-timeline" id="charter-tab-timeline"><span>Timeline & Activity</span></button>
                 <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="charter-panel-collab" id="charter-tab-collab"><span>Collaboration &amp; communication</span></button>
             </div>
@@ -626,12 +637,11 @@
                  see the Findings dropdown's comment above for why. -->
             <div class="rd-tabs-dropdown">
                 <button type="button" class="rd-tabs-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="charter-dropdown-panel" aria-label="Charter views">
-                    <span data-tabs-dropdown-value>Design principle</span>
+                    <span data-tabs-dropdown-value>Approach</span>
                     <svg class="rd-tabs-dropdown-chev" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
                 <ul class="rd-tabs-dropdown-panel" id="charter-dropdown-panel" role="listbox" aria-label="Charter views">
-                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="charter-tab-principle" aria-selected="true">Design principle</li>
-                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="charter-tab-process" aria-selected="false">Process &amp; allocation</li>
+                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="charter-tab-principle" aria-selected="true">Approach</li>
                     <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="charter-tab-timeline" aria-selected="false">Timeline &amp; Activity</li>
                     <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="charter-tab-collab" aria-selected="false">Collaboration &amp; communication</li>
                 </ul>
@@ -643,80 +653,27 @@
                          style="flex:1 1 0; min-width:280px; border-radius:16px;"
                          alt="Phase flow: UX discovery and research, design, validation, then a build-and-launch gate, measure, optimize, looping back to the start.">
                 </div>
-            </div>
 
-            <div id="charter-panel-process" role="tabpanel" aria-labelledby="charter-tab-process" style="width:100%;" hidden>
-                <div class="rd-case-grid is-five">
+                <div class="rd-case-grid is-four is-numbered" style="margin-top:32px;">
                     <div>
                         <span class="rd-case-num-chip is-goal">1</span>
-                        <h4 class="rd-case-challenge-title">Project kick-off (1 week)</h4>
-                        <p class="rd-case-label">Deliverables</p>
-                        <ul class="rd-case-list">
-                            <li>Resource &amp; working plan</li>
-                            <li>Working process</li>
-                        </ul>
-                        <p class="rd-case-label">Activity</p>
-                        <ul class="rd-case-list">
-                            <li>Onboarding resources and introduction to the working team</li>
-                            <li>Gathering the existing business documents and business perspective</li>
-                        </ul>
+                        <h4 class="rd-case-challenge-title">Foundation before screens</h4>
+                        <p class="rd-case-num-desc">Understand the problem, users, constraints and business context before designing interfaces.</p>
                     </div>
                     <div>
                         <span class="rd-case-num-chip is-goal">2</span>
-                        <h4 class="rd-case-challenge-title">UX discovery (4 weeks)</h4>
-                        <p class="rd-case-label">Deliverables</p>
-                        <ul class="rd-case-list">
-                            <li>Overall performance evaluation</li>
-                            <li>Analysis &amp; estimation of metric</li>
-                        </ul>
-                        <p class="rd-case-label">Activity</p>
-                        <ul class="rd-case-list">
-                            <li>Conduct UI/UX audit</li>
-                            <li>Review tool data records</li>
-                            <li>Conduct user workshop with tool owner and representative user</li>
-                            <li>Proposed solution and metric</li>
-                            <li>Workshop</li>
-                        </ul>
+                        <h4 class="rd-case-challenge-title">Validate before committing</h4>
+                        <p class="rd-case-num-desc">Test important assumptions before they become expensive engineering decisions.</p>
                     </div>
                     <div>
                         <span class="rd-case-num-chip is-goal">3</span>
-                        <h4 class="rd-case-challenge-title">Design foundation (4 weeks)</h4>
-                        <p class="rd-case-label">Deliverables</p>
-                        <ul class="rd-case-list">
-                            <li>Design library</li>
-                        </ul>
-                        <p class="rd-case-label">Activity</p>
-                        <ul class="rd-case-list">
-                            <li>Develop initial design library</li>
-                            <li>Define behavior for components</li>
-                            <li>Atomic design</li>
-                        </ul>
+                        <h4 class="rd-case-challenge-title">Ship to learn</h4>
+                        <p class="rd-case-num-desc">Launch with enough confidence to learn from real behavior, rather than trying to perfect everything upfront.</p>
                     </div>
                     <div>
                         <span class="rd-case-num-chip is-goal">4</span>
-                        <h4 class="rd-case-challenge-title">Design sprint (11 weeks)</h4>
-                        <p class="rd-case-label">Deliverables</p>
-                        <ul class="rd-case-list">
-                            <li>Final UI designs for desktop &amp; mobile (Figma)</li>
-                            <li>Design release every 3 weeks</li>
-                        </ul>
-                        <p class="rd-case-label">Activity</p>
-                        <ul class="rd-case-list">
-                            <li>Translate business documents into the user interface</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <span class="rd-case-num-chip is-goal">5</span>
-                        <h4 class="rd-case-challenge-title">Development</h4>
-                        <p class="rd-case-label">Deliverables</p>
-                        <ul class="rd-case-list">
-                            <li>Additional user interface</li>
-                        </ul>
-                        <p class="rd-case-label">Activity</p>
-                        <ul class="rd-case-list">
-                            <li>Designer pairs with the dev team to inspect the design</li>
-                            <li>Develop additional UI and change requests</li>
-                        </ul>
+                        <h4 class="rd-case-challenge-title">Measure, then optimize</h4>
+                        <p class="rd-case-num-desc">Use product behavior and outcomes to decide what deserves iteration.</p>
                     </div>
                 </div>
             </div>
@@ -728,13 +685,18 @@
                 </figure>
             </div>
 
-            <!-- Real content, not invented for the tab: restates the release
-                 cadence already established in §07's closing prose (8/9/11 April
-                 releases, dev team starting on the next piece while the previous
-                 was still being drawn) rather than leaving this fourth tab empty. -->
             <div id="charter-panel-collab" role="tabpanel" aria-labelledby="charter-tab-collab" style="width:100%;" hidden>
-                <div class="rd-case-body">
-                    <p>Design went to development in pieces, not as a package: overview on 8 April, the request form on the 9th, agenda on the 11th. Three releases in four days, each one something the client's dev team could start on while the next was still being drawn. Getting there meant the scope had to give.</p>
+                <div class="rd-case-card" style="width:100%;">
+                    <div class="rd-case-split">
+                        <figure class="rd-case-figure">
+                            <img src="../public/ce_collaboration.png" loading="lazy" style="border-radius:0; border:0;"
+                                 alt="Five coordination actions across delivery, staircased by stage: got the budget approved, connected the business owner and the tool owner, staffed the team, opened the door to discovery, kept everyone aligned through delivery.">
+                        </figure>
+                        <div>
+                            <h4 class="rd-case-challenge-title">The 5 Cs Model</h4>
+                            <p class="rd-case-num-desc">The collaboration concept behind this: 5Cs, building up from the bottom. I proposed the plan to the sponsor, connected both outside parties, brought my team on to start the work, and kept everyone posted at every milestone. Five stages: Cognizance, Communication, Coordination, Cooperation, Collaboration.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -750,8 +712,9 @@
             <div style="max-width: 80vw; text-align: center;" data-aos="fade-up">
                 <div class="rd-case-body" style="margin-top:24px;">
                     <p>
-                        The scope narrowed to one role: the manager, on desktop and mobile.
-                        The overview answers "what needs me today" before anyone touches a
+                        That plan didn't survive contact with three stakeholders who couldn't
+                        agree. What shipped was narrower: one role, the manager, on desktop and
+                        mobile. The overview answers "what needs me today" before anyone touches a
                         filter. The request form gives thirty loose fields somewhere to belong.
                         Mobile did not exist at all, and now does the four things people do
                         between meetings. All three were possible because the foundation came
@@ -840,7 +803,7 @@
                 <h3 class="rd-case-wiki-title" data-aos="fade-up">What I'd do differently</h3>
                 <div class="rd-case-wiki-row">
                     <div class="rd-case-lesson-row" data-aos="fade-up">
-                        <div class="rd-case-lesson"><strong>I reported the risk instead of fixing it.</strong> Feedback from three groups with nobody able to settle a disagreement — I flagged it two weeks running and recorded it both times. Agreeing who decides is a week-one job and I treated it as a reporting line.</div>
+                        <div class="rd-case-lesson"><strong>I reported the risk instead of fixing it.</strong> The three-way disagreement from the plan above — I flagged it two weeks running and recorded it both times, but never forced a decision. Agreeing who decides is a week-one job and I treated it as a reporting line.</div>
                         <div class="rd-case-lesson"><strong>I never established the baseline.</strong> The headline claim was a time saving and the 6.2 minutes came out of a model. A day timing managers doing the task in week one would have cost almost nothing and given me a number I could still stand behind.</div>
                         <div class="rd-case-lesson"><strong>Cutting scope bought the release.</strong> This one held. Narrowing to one role, built mobile-first, is why there was something to embed in the super app two phases later — a wide, shallow desktop redesign would not have survived that move.</div>
                     </div>

@@ -126,6 +126,18 @@
   --rd-severity-attention: #3f74b3;
   --rd-severity-minor: #4f7d3a;
 
+  /* Added 2026-09-01 for the "Design-in-the-Loop" case-study diagram
+     (case-studies/_preview-design-in-the-loop.html) — a git-graph with more
+     categorical lanes (main/dev/feature/concept/components/tokens) than the
+     existing --rd-market and --rd-severity ramps cover. main reuses
+     --rd-ink-muted, dev reuses --rd-primary, the AI/concept lane reuses
+     --rd-pain-chip, and the tokens lane reuses --rd-market-a — only the
+     three genuinely new hues below were added, same check-first-add-only-
+     if-nothing-fits bar as --rd-accent-yellow and --rd-pain-chip above. */
+  --rd-diagram-feature: #6d5fd1;      /* feature-branch lane */
+  --rd-diagram-components: #0e8e7d;   /* design/components lane */
+  --rd-diagram-concept-dead: #a08363; /* an abandoned concept-branch lane */
+
   /* ---------------------------------------------------------------------
      TYPE SYSTEM — ALIASES ONLY. Do not put literal values back here.
 
@@ -143,6 +155,10 @@
      --------------------------------------------------------------------- */
   --rd-font: var(--font-ui);
   --rd-font-wordmark: var(--font-wordmark);
+  /* Added 2026-09-01 alongside --rd-diagram-* above — the git-graph diagram
+     sets branch names and commit messages in a monospace face (git-log
+     convention); nothing on the existing scale covers that. */
+  --rd-font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   --rd-lh-prose: var(--lh-prose);
   --rd-lh-tight: var(--lh-tight);
@@ -6261,7 +6277,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
    six still occupy their own 1/6-width column instead of stretching to fill
    the row, which is correct here: the row is a fixed slot count, not a fluid
    fill. */
-.rd-case-lesson-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.rd-case-lesson-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .rd-case-lesson {
   display: flex;
   align-items: flex-start;
@@ -7733,6 +7749,17 @@ ol.rd-case-list > li { list-style-type: decimal; }
 @media (max-width: 900px) {
   .rd-ai-ba { grid-template-columns: 1fr; }
 }
+/* `.rd-ai-evi` was built for the white AI section and is reused on
+   healthcare.html as the page's evidence strip. Two adjustments it needs
+   outside that home:
+
+   In `.rd-case-band` the container centres its text (`.rd-case-band-inner`
+   sets text-align:center), which drags the stat labels with it — two-line
+   labels centred under a left-aligned number read as a mistake. The strip
+   re-asserts left alignment for itself only.
+ */
+.rd-case-band .rd-ai-evi { margin-top: 32px; text-align: left; }
+
 @media (max-width: 768px) {
   .rd-ai-evi { grid-template-columns: 1fr; }
   .rd-ai-evi-stat { border-left: 0; border-top: 1px solid var(--rd-border-soft); }

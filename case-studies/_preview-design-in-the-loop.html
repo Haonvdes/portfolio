@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="robots" content="noindex">
+    <title>Preview — Design-in-the-Loop diagram</title>
+
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+
+    <!--
+      ==========================================================================
+      REVIEW-ONLY FILE. Created 1 Sep 2026. Nothing in redesign.css was touched
+      except adding three new colour tokens and one font token (see their
+      comments at the top of redesign.css, dated 2026-09-01) — everything else
+      in this file resolves through tokens that already existed.
+
+      This is the "Design-in-the-Loop" git-graph diagram (originally reviewed
+      as a standalone Claude artifact) cloned in and re-skinned onto the site's
+      real tokens instead of its own private CSS variables:
+
+        - Colour: --rd-ink / --rd-ink-muted / --rd-white / --rd-surface /
+          --rd-border for chrome; lane colours reuse --rd-primary (dev),
+          --rd-pain-chip (the AI/concept lane — reusing the existing orange
+          rather than adding a fourth accent), --rd-market-a (tokens lane),
+          --rd-ink-muted (main); --rd-diagram-feature/-components/-concept-dead
+          are the three genuinely new hues.
+        - Type: DM Sans (--font-ui) for every prose/UI string, matching the
+          rest of the site; IBM Plex Mono (new --rd-font-mono token) only
+          for text that IS a git ref or commit message — branch names in the
+          lane rail and the commit labels on the graph. Sizes are the
+          --rd-fs-* ladder throughout the HTML chrome; the SVG micro-labels
+          inside the graph itself stay off-ladder, same exemption the
+          benchmark/severity charts elsewhere in this file already have.
+        - Spacing/radius: --m-*/--p-*/--r-* ladder — --r-16 on the two cards
+          (graph + detail panel) matches .rd-case-card's own radius, and the
+          flat bordered look (no box-shadow) matches .rd-case-card too; the
+          artifact version's drop shadow is gone on purpose.
+        - No dark-mode block. The site has none, so the artifact's
+          prefers-color-scheme/[data-theme] variants were dropped rather than
+          ported — single light theme throughout, like every other page here.
+
+      Content, commit messages and the graph's data/geometry logic are
+      unchanged from the reviewed version. Component width here is a
+      standalone 1180px shell — resize/nest it to match whichever case study
+      section it lands in.
+      ==========================================================================
+    -->
+    <style>
+      /* ---- preview furniture only ---- */
+      .pv-bar {
+        position: sticky; top: 0; z-index: 50;
+        display: flex; gap: 16px; align-items: baseline;
+        padding: 12px 24px;
+        background: #0b2f47; color: #fff;
+        font-size: 13px; letter-spacing: 0.04em;
+      }
+      .pv-bar strong { text-transform: uppercase; letter-spacing: 0.08em; }
+      .pv-note {
+        max-width: 1180px; margin: 0 auto; padding: 16px 24px 0;
+        font-size: 14px; line-height: 1.6; opacity: 0.7; max-inline-size: 70ch;
+      }
+
+      /* ================= Design-in-the-Loop diagram — tokenized ================= */
+      .dl-page{
+        max-width:1180px;
+        margin:0 auto;
+        padding: var(--m-56) var(--m-24) var(--m-72);
+        --dl-lane-main:var(--rd-ink-muted);
+        --dl-lane-dev:var(--rd-primary);
+        --dl-lane-feature:var(--rd-diagram-feature);
+        --dl-lane-concept:var(--rd-pain-chip);
+        --dl-lane-concept-dead:var(--rd-diagram-concept-dead);
+        --dl-lane-components:var(--rd-diagram-components);
+        --dl-lane-tokens:var(--rd-market-a);
+        --dl-band-discovery:rgba(234,104,0,0.06);
+        --dl-band-delivery:rgba(14,142,125,0.05);
+      }
+
+      .dl-kicker{
+        font-size:var(--rd-fs-sm);
+        font-weight:var(--rd-fw-emphasis);
+        letter-spacing:0.08em;
+        text-transform:uppercase;
+        color:var(--rd-primary);
+        margin:0 0 var(--m-14);
+      }
+      .dl-h1{
+        font-size:var(--rd-fs-3xl);
+        line-height:var(--rd-lh-heading);
+        margin:0 0 var(--m-16);
+        text-wrap:balance;
+        font-weight:var(--rd-fw-emphasis);
+        color:var(--rd-ink);
+      }
+      .dl-subhead{
+        font-size:var(--rd-fs-lg);
+        line-height:var(--rd-lh-prose);
+        font-weight:var(--rd-fw-body);
+        color:var(--rd-ink-muted);
+        max-width:62ch;
+        margin:0 0 var(--m-32);
+      }
+      .dl-subhead strong{ color:var(--rd-ink); font-weight:var(--rd-fw-heading); }
+
+      .dl-legend{
+        display:flex;
+        flex-wrap:wrap;
+        gap:var(--m-10) var(--m-20);
+        align-items:center;
+        padding:var(--p-14) var(--p-18);
+        background:var(--rd-white);
+        border:1px solid var(--rd-border);
+        border-radius:var(--r-12);
+        margin-bottom:var(--m-20);
+        font-family:var(--rd-font-mono);
+        font-size:var(--rd-fs-xs);
+        color:var(--rd-ink-muted);
+      }
+      .dl-legend-group{ display:flex; align-items:center; gap:var(--m-16); flex-wrap:wrap; }
+      .dl-legend-sep{ width:1px; align-self:stretch; background:var(--rd-border); margin:0 2px; }
+      .dl-swatch{ display:inline-flex; align-items:center; gap:7px; white-space:nowrap; }
+      .dl-swatch .dl-dot{ width:9px; height:9px; border-radius:50%; flex:none; }
+      .dl-legend-line{ display:inline-flex; align-items:center; gap:7px; white-space:nowrap; }
+      .dl-legend-line svg{ display:block; }
+
+      .dl-graph-wrap{
+        background:var(--rd-white);
+        border:1px solid var(--rd-border);
+        border-radius:var(--r-16);
+        overflow-x:auto;
+        padding:6px 0 0;
+      }
+      .dl-graph-inner{ min-width:920px; }
+      svg#dl-graph{ display:block; width:100%; height:auto; }
+
+      .dl-lane-label{ font-family:var(--rd-font-mono); font-size:var(--rd-fs-xs); font-weight:var(--rd-fw-heading); }
+      .dl-lane-sub{ font-family:var(--rd-font-mono); font-size:9.5px; font-weight:400; fill:var(--rd-ink-muted); opacity:.8; }
+      .dl-band-label{ font-family:var(--rd-font-mono); font-size:10px; font-weight:var(--rd-fw-heading); letter-spacing:0.1em; }
+      .dl-gate-label{ font-family:var(--rd-font-mono); font-size:var(--rd-fs-xs); fill:var(--rd-ink-muted); }
+      .dl-commit-msg{ font-family:var(--rd-font-mono); font-size:var(--rd-fs-xs); fill:var(--rd-ink-muted); }
+      .dl-commit-msg.dl-emph{ fill:var(--rd-ink); font-weight:var(--rd-fw-heading); }
+      .dl-label-chip{ fill:var(--rd-white); opacity:0.88; transition:opacity .15s ease; }
+      .dl-label-group:hover .dl-label-chip{ opacity:1; }
+      .dl-label-group:hover .dl-commit-msg{ fill:var(--rd-ink); }
+
+      .dl-edge{ fill:none; stroke-width:2.25; }
+      .dl-edge.dl-dashed{ stroke-dasharray:5 5; stroke-width:2; opacity:0.85; }
+      .dl-spine{ fill:none; stroke-width:2.25; }
+      .dl-spine.dl-faint{ opacity:0.55; stroke-dasharray:2 5; }
+
+      .dl-node{ cursor:pointer; }
+      .dl-node circle.dl-hit{ fill:transparent; }
+      .dl-node circle.dl-halo{ fill:none; stroke-width:3; opacity:0.16; transition:opacity .15s ease, stroke-width .15s ease; }
+      .dl-node:hover circle.dl-halo, .dl-node:focus-visible circle.dl-halo{ opacity:0.45; stroke-width:3.5; }
+      .dl-node.dl-selected circle.dl-halo{ opacity:0.9; stroke-width:4; }
+      .dl-node circle.dl-core{ stroke:var(--rd-white); stroke-width:2.5; }
+      .dl-node.dl-dead circle.dl-core{ fill:var(--rd-white); }
+      .dl-node:focus{ outline:none; }
+      .dl-node:focus-visible circle.dl-halo{ stroke:var(--rd-primary); opacity:0.7; }
+
+      .dl-dead-mark{ stroke-width:1.6; }
+
+      .dl-panel{
+        margin-top:var(--m-18);
+        background:var(--rd-white);
+        border:1px solid var(--rd-border);
+        border-radius:var(--r-16);
+        padding:var(--p-24) var(--p-24) var(--p-32);
+        display:flex;
+        gap:var(--m-18);
+        align-items:flex-start;
+        min-height:96px;
+      }
+      .dl-panel-dot{
+        width:12px; height:12px; border-radius:50%; margin-top:6px; flex:none;
+        box-shadow:0 0 0 4px var(--rd-surface);
+      }
+      .dl-panel-body{ flex:1; min-width:0; }
+      .dl-panel-eyebrow{
+        font-size:var(--rd-fs-xs); font-weight:var(--rd-fw-heading);
+        letter-spacing:0.04em; text-transform:uppercase;
+        color:var(--rd-ink-muted); margin:0 0 var(--m-6);
+      }
+      .dl-panel-title{
+        font-family:var(--rd-font-mono);
+        font-size:var(--rd-fs-md); font-weight:var(--rd-fw-heading);
+        margin:0 0 var(--m-8); color:var(--rd-ink);
+      }
+      .dl-panel-detail{ font-size:var(--rd-fs-sm); line-height:var(--rd-lh-prose); color:var(--rd-ink-muted); margin:0; max-width:68ch; }
+      .dl-panel-hint{ font-size:var(--rd-fs-sm); color:var(--rd-ink-muted); margin:0; }
+
+      .dl-caption{
+        margin-top:var(--m-16);
+        font-size:var(--rd-fs-xs);
+        color:var(--rd-ink-muted);
+        font-style:italic;
+      }
+
+      @media (prefers-reduced-motion: reduce){
+        .dl-node circle.dl-halo{ transition:none; }
+      }
+    </style>
+</head>
+<body class="pv">
+  <div class="pv-bar"><strong>Preview</strong><span>Design-in-the-Loop diagram — mapped to site tokens, ready to drop into a case study</span></div>
+  <p class="pv-note">Colour, type and spacing now resolve through --rd-*/--fs-*/--fw-*/--m-*/--p-*/--r-* — see the file's header comment for the exact mapping. Content and graph logic unchanged from the version reviewed as an artifact.</p>
+
+  <div class="dl-page">
+    <p class="dl-kicker">Workflow model</p>
+    <h1 class="dl-h1">Design-in-the-Loop</h1>
+    <p class="dl-subhead">A normal git-flow — <strong>main → dev → feature</strong> — running alongside a design track of its own. Tokens and components are long-lived branches design and engineering both pull from. A concept branch is short-lived: spun up per feature, pushed hard with AI during discovery, and either merged in or closed. Click any commit below for what actually happens at that point.</p>
+
+    <div class="dl-legend">
+      <div class="dl-legend-group">
+        <span class="dl-swatch"><span class="dl-dot" style="background:var(--dl-lane-main)"></span>main</span>
+        <span class="dl-swatch"><span class="dl-dot" style="background:var(--dl-lane-dev)"></span>dev</span>
+        <span class="dl-swatch"><span class="dl-dot" style="background:var(--dl-lane-feature)"></span>feature</span>
+        <span class="dl-swatch"><span class="dl-dot" style="background:var(--dl-lane-concept)"></span>design / concept</span>
+        <span class="dl-swatch"><span class="dl-dot" style="background:var(--dl-lane-components)"></span>design / components</span>
+        <span class="dl-swatch"><span class="dl-dot" style="background:var(--dl-lane-tokens)"></span>design / tokens</span>
+      </div>
+      <div class="dl-legend-sep"></div>
+      <div class="dl-legend-group">
+        <span class="dl-legend-line"><svg width="22" height="10"><line x1="0" y1="5" x2="22" y2="5" stroke="var(--rd-ink-muted)" stroke-width="2"/></svg>merge</span>
+        <span class="dl-legend-line"><svg width="22" height="10"><line x1="0" y1="5" x2="22" y2="5" stroke="var(--rd-ink-muted)" stroke-width="2" stroke-dasharray="4 4"/></svg>sync pull</span>
+        <span class="dl-legend-line"><svg width="14" height="14" viewBox="0 0 14 14"><line x1="3" y1="3" x2="11" y2="11" stroke="var(--rd-ink-muted)" stroke-width="1.8"/><line x1="11" y1="3" x2="3" y2="11" stroke="var(--rd-ink-muted)" stroke-width="1.8"/></svg>abandoned</span>
+      </div>
+    </div>
+
+    <div class="dl-graph-wrap">
+      <div class="dl-graph-inner">
+        <svg id="dl-graph" viewBox="0 0 1500 626" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Git-flow diagram showing design token, component, and concept branches feeding into a feature branch during discovery, then merging through dev to main.">
+          <!-- populated by script -->
+        </svg>
+      </div>
+    </div>
+
+    <div class="dl-panel" id="dl-panel">
+      <span class="dl-panel-dot" id="dl-panelDot" style="background:var(--rd-ink-muted)"></span>
+      <div class="dl-panel-body">
+        <p class="dl-panel-hint" id="dl-panelHint">Click a commit on the graph to see what happened there — who was involved, and what it produced.</p>
+        <p class="dl-panel-eyebrow" id="dl-panelEyebrow" style="display:none"></p>
+        <p class="dl-panel-title" id="dl-panelTitle" style="display:none"></p>
+        <p class="dl-panel-detail" id="dl-panelDetail" style="display:none"></p>
+      </div>
+    </div>
+
+    <p class="dl-caption">Modeled on a checkout redesign. Branch names, commit messages and timings are illustrative, not a literal commit log. Concept branches fork from dev rather than feature — discovery often starts before the feature branch, or its sprint, exists.</p>
+  </div>
+
+  <script>
+  (function(){
+    const svgNS = "http://www.w3.org/2000/svg";
+    const svg = document.getElementById("dl-graph");
+
+    const marginLeft = 208, marginRight = 36, marginTop = 44, rowH = 78;
+    const plotW = 1500 - marginLeft - marginRight;
+    const lanes = [
+      { id:"main",       label:"main",                sub:"production",         cls:"main",       y:0 },
+      { id:"dev",        label:"dev",                 sub:"integration",        cls:"dev",        y:1 },
+      { id:"feature",    label:"feature/checkout",     sub:"this feature",       cls:"feature",    y:2 },
+      { id:"conceptA",   label:"design/concept-a",     sub:"AI prototype · won", cls:"concept",    y:3 },
+      { id:"conceptB",   label:"design/concept-b",     sub:"AI prototype · cut", cls:"concept-dead", y:4 },
+      { id:"components", label:"design/components",    sub:"shared library",     cls:"components", y:5 },
+      { id:"tokens",     label:"design/tokens",        sub:"shared foundation",  cls:"tokens",     y:6 },
+    ];
+    const laneY = i => marginTop + i*rowH + 40;
+    const X = t => marginLeft + (t/100)*plotW;
+    const gateT = 41;
+
+    function curve(x1,y1,x2,y2){
+      const dx = (x2-x1)*0.55;
+      return `M ${x1} ${y1} C ${x1+dx} ${y1}, ${x2-dx} ${y2}, ${x2} ${y2}`;
+    }
+
+    const commits = {
+      main: [
+        { t:3,  type:"anchor", title:"baseline: checkout v1 live", eyebrow:"Shipped", detail:"Current production baseline, before the redesign starts." },
+        { t:97, type:"anchor", title:"release: checkout v2", eyebrow:"Shipped", detail:"Redesigned checkout goes live. Everything above this line — the AI prototyping, the discarded flow, the refactor — is invisible to the user. They just get a faster checkout." },
+      ],
+      dev: [
+        { t:7,  type:"commit", title:"dev: sprint branch cut from main", eyebrow:"Dev", detail:"Sprint branch opens. Nothing design-related has happened yet." },
+        { t:88, type:"merge",  title:"merge: feature/checkout", eyebrow:"Dev", detail:"Production-ready code lands — payment logic, tests, and error states included. The prototype itself never merges here; only what got rebuilt on top of it does." },
+        { t:95, type:"merge",  title:"merge to main", eyebrow:"Dev", detail:"Dev branch ships to main after final review." },
+      ],
+      feature: [
+        { t:11, type:"commit", title:"feature: cut from dev", eyebrow:"Dev", detail:"Branch opens for the checkout redesign. Runs in parallel with design's exploration below." },
+        { t:gateT+1, type:"merge", title:"merge: concept-a prototype", eyebrow:"Cross-functional · AI", detail:"The winning prototype merges in as reference — layout, copy, and interaction pattern come across. State management and real API calls don't; those get rebuilt." },
+        { t:58, type:"commit", title:"refactor: swap prototype markup for production components", eyebrow:"Dev", detail:"AI-generated scaffolding gets replaced with the real component library. Same layout, real code underneath." },
+        { t:69, type:"commit", title:"wire real payment logic", eyebrow:"Dev", detail:"Connects the flow to the actual payment service — idempotency, retries, the parts a prototype skips entirely." },
+        { t:80, type:"commit", title:"add loading/error states + tests", eyebrow:"Dev", detail:"Hardening pass: edge cases, failure states, test coverage." },
+        { t:88, type:"merge",  title:"merge to dev", eyebrow:"Dev", detail:"Feature is done and merges back for release." },
+      ],
+      conceptA: [
+        { t:16, type:"commit", title:"concept: explore 3 layouts (AI-generated)", eyebrow:"Design · AI", detail:"Designer briefs the direction; AI generates layout variants fast enough to compare same-day instead of same-sprint." },
+        { t:25, type:"commit", title:"prototype: single-page checkout flow", eyebrow:"Design · AI", detail:"Best direction gets built out as a working prototype — real component styling, placeholder data." },
+        { t:33, type:"commit", title:"user test: 5 sessions — flow A preferred", eyebrow:"Design", detail:"Quick round of testing, run against both concept branches at once." },
+        { t:gateT, type:"merge", title:"POC approved → merges into feature", eyebrow:"Design", detail:"Gate passed. This branch's job is done — it merges into feature and stops existing." },
+      ],
+      conceptB: [
+        { t:17, type:"commit", title:"concept: stepper checkout flow (AI-generated)", eyebrow:"Design · AI", detail:"Second direction, explored in parallel with flow A rather than after it." },
+        { t:27, type:"commit", title:"user test: 5 sessions — drop-off on step 2", eyebrow:"Design", detail:"Testing surfaces a real usability problem before any engineering time is spent building it." },
+        { t:35, type:"dead", title:"abandoned", eyebrow:"Design", detail:"Branch closes without merging. The cost of being wrong here is a few days of design and AI time — not a shipped feature that has to be walked back later." },
+      ],
+      components: [
+        { t:5,  type:"commit", title:"components: v14 — Input, Stepper", eyebrow:"Design system", detail:"Baseline component library both concept branches build against." },
+        { t:50, type:"commit", title:"components: v15 — checkout summary card", eyebrow:"Design system", detail:"New component ships mid-project; the feature branch pulls it in during the refactor pass." },
+        { t:92, type:"commit", title:"components: v16", eyebrow:"Design system", detail:"Library keeps moving independent of any one feature." },
+      ],
+      tokens: [
+        { t:3,  type:"commit", title:"tokens: v8 — spacing scale", eyebrow:"Design system", detail:"Foundational values the component library is built on." },
+        { t:45, type:"commit", title:"tokens: v9 — success/error semantic colors", eyebrow:"Design system", detail:"New semantic colors land just in time for the checkout's error states." },
+        { t:90, type:"commit", title:"tokens: v10", eyebrow:"Design system", detail:"Tokens keep evolving underneath everything else, on their own cadence." },
+      ],
+    };
+
+    const edges = [
+      { from:["main",3],       to:["dev",7],         cls:"dev" },
+      { from:["dev",8],        to:["feature",11],   cls:"feature" },
+      { from:["dev",9],        to:["conceptA",16],  cls:"concept" },
+      { from:["dev",9],        to:["conceptB",17],  cls:"concept-dead" },
+      { from:["conceptA",gateT],to:["feature",gateT+1], cls:"concept" },
+      { from:["feature",88],   to:["dev",88],        cls:"feature" },
+      { from:["dev",95],       to:["main",97],       cls:"dev" },
+      { from:["tokens",45],    to:["components",50], cls:"tokens", dashed:true },
+      { from:["components",50],to:["feature",58],    cls:"components", dashed:true },
+    ];
+
+    function laneById(id){ return lanes.find(l => l.id === id); }
+    function pt(laneId, t){ return [X(t), laneY(laneById(laneId).y)]; }
+
+    function el(tag, attrs){
+      const e = document.createElementNS(svgNS, tag);
+      for (const k in attrs) e.setAttribute(k, attrs[k]);
+      return e;
+    }
+
+    // --- phase bands ---
+    // Span every lane row symmetrically (same padding above the first lane as
+    // below the last), so the bottom lane (tokens) sits inside the shading too.
+    const gx = X(gateT);
+    const plotTop = laneY(0) - 44;
+    const plotBottom = laneY(lanes.length - 1) + 44;
+    const plotHeight = plotBottom - plotTop;
+    svg.appendChild(el("rect", { x:marginLeft, y:plotTop, width:gx-marginLeft, height:plotHeight, fill:"var(--dl-band-discovery)" }));
+    svg.appendChild(el("rect", { x:gx, y:plotTop, width:(marginLeft+plotW)-gx, height:plotHeight, fill:"var(--dl-band-delivery)" }));
+    svg.appendChild(el("line", { x1:gx, y1:plotTop, x2:gx, y2:plotBottom, stroke:"var(--rd-border)", "stroke-width":1.5, "stroke-dasharray":"4 4" }));
+
+    const bandLabelY = marginTop - 18;
+    const tDiscovery = el("text", { class:"dl-band-label", x:marginLeft+6, y:bandLabelY, fill:"var(--dl-lane-concept)" });
+    tDiscovery.textContent = "DISCOVERY — design + AI";
+    svg.appendChild(tDiscovery);
+    const tDelivery = el("text", { class:"dl-band-label", x:gx+10, y:bandLabelY, fill:"var(--dl-lane-components)" });
+    tDelivery.textContent = "DELIVERY — refactor + ship";
+    svg.appendChild(tDelivery);
+    const tGate = el("text", { class:"dl-gate-label", x:gx+8, y:plotBottom+18, fill:"var(--rd-ink-muted)" });
+    tGate.textContent = "go / no-go review";
+    svg.appendChild(tGate);
+
+    // --- lane labels ---
+    lanes.forEach(l => {
+      const y = laneY(l.y);
+      svg.appendChild(el("line", { x1:marginLeft-14, y1:y, x2:marginLeft+plotW, y2:y, stroke:"var(--rd-border)", "stroke-width":1, opacity:0.35 }));
+      const dot = el("circle", { cx:14, cy:y, r:5, class:"dl-fill-"+l.cls });
+      svg.appendChild(dot);
+      const label = el("text", { class:"dl-lane-label", x:28, y:y-3, fill:"var(--rd-ink)" });
+      label.textContent = l.label;
+      svg.appendChild(label);
+      const sub = el("text", { class:"dl-lane-sub", x:28, y:y+12 });
+      sub.textContent = l.sub;
+      svg.appendChild(sub);
+    });
+
+    // --- lane spines ---
+    Object.keys(commits).forEach(laneId => {
+      const lane = laneById(laneId);
+      const list = commits[laneId];
+      const y = laneY(lane.y);
+      for (let i=0;i<list.length-1;i++){
+        const x1 = X(list[i].t), x2 = X(list[i+1].t);
+        const dead = list[i].type === "dead";
+        const p = el("path", { d:`M ${x1} ${y} L ${x2} ${y}`, class:"dl-spine" + (dead ? " dl-faint" : "") });
+        p.style.stroke = `var(--dl-lane-${lane.cls})`;
+        if (dead) p.style.display = "none";
+        svg.appendChild(p);
+      }
+    });
+
+    // --- edges (branch/merge) ---
+    edges.forEach(e => {
+      const p1 = pt(e.from[0], e.from[1]);
+      const p2 = pt(e.to[0], e.to[1]);
+      const path = el("path", { d: curve(p1[0],p1[1],p2[0],p2[1]), class:"dl-edge" + (e.dashed ? " dl-dashed" : "") });
+      path.style.stroke = `var(--dl-lane-${e.cls})`;
+      svg.appendChild(path);
+    });
+
+    // --- commit nodes ---
+    const panelDot = document.getElementById("dl-panelDot");
+    const panelHint = document.getElementById("dl-panelHint");
+    const panelEyebrow = document.getElementById("dl-panelEyebrow");
+    const panelTitle = document.getElementById("dl-panelTitle");
+    const panelDetail = document.getElementById("dl-panelDetail");
+    let selected = null;
+
+    function selectNode(g, data, colorVar){
+      if (selected) selected.classList.remove("dl-selected");
+      g.classList.add("dl-selected");
+      selected = g;
+      panelHint.style.display = "none";
+      panelEyebrow.style.display = "";
+      panelTitle.style.display = "";
+      panelDetail.style.display = "";
+      panelDot.style.background = colorVar;
+      panelEyebrow.textContent = data.eyebrow;
+      panelTitle.textContent = data.title;
+      panelDetail.textContent = data.detail;
+    }
+
+    Object.keys(commits).forEach(laneId => {
+      const lane = laneById(laneId);
+      const y = laneY(lane.y);
+      let labelTier = 0;
+      commits[laneId].forEach(c => {
+        const x = X(c.t);
+        const colorVar = `var(--dl-lane-${lane.cls})`;
+        const g = el("g", { class:"dl-node", tabindex:"0", role:"button", "aria-label": c.title });
+
+        const r = c.type === "anchor" ? 7.5 : 6.5;
+        const hit = el("circle", { class:"dl-hit", cx:x, cy:y, r:16 });
+        g.appendChild(hit);
+        const halo = el("circle", { class:"dl-halo", cx:x, cy:y, r:r+6 });
+        halo.style.stroke = colorVar;
+        g.appendChild(halo);
+
+        if (c.type === "dead"){
+          g.classList.add("dl-dead");
+          const core = el("circle", { class:"dl-core", cx:x, cy:y, r:r });
+          core.style.stroke = colorVar;
+          core.style.strokeWidth = "2";
+          g.appendChild(core);
+          const s = 4.2;
+          const m1 = el("line", { class:"dl-dead-mark", x1:x-s, y1:y-s, x2:x+s, y2:y+s });
+          const m2 = el("line", { class:"dl-dead-mark", x1:x+s, y1:y-s, x2:x-s, y2:y+s });
+          m1.style.stroke = colorVar; m2.style.stroke = colorVar;
+          g.appendChild(m1); g.appendChild(m2);
+        } else {
+          const core = el("circle", { class:"dl-core", cx:x, cy:y, r:r });
+          core.style.fill = colorVar;
+          g.appendChild(core);
+          if (c.type === "merge"){
+            const ring = el("circle", { cx:x, cy:y, r:r+3.5, fill:"none" });
+            ring.style.stroke = colorVar;
+            ring.style.strokeWidth = "1.4";
+            g.appendChild(ring);
+          }
+        }
+
+        const title = el("title", {});
+        title.textContent = c.title;
+        g.appendChild(title);
+
+        g.addEventListener("click", () => selectNode(g, c, colorVar));
+        g.addEventListener("keydown", (ev) => {
+          if (ev.key === "Enter" || ev.key === " "){ ev.preventDefault(); selectNode(g, c, colorVar); }
+        });
+
+        svg.appendChild(g);
+
+        // Labels always sit in the gap ABOVE this lane's own line, so neighboring
+        // lanes never both write into the same gap. Successive labels within a
+        // lane alternate a near/far tier so tightly-packed commits don't collide.
+        const tierOffset = labelTier % 2 === 0 ? 14 : 32;
+        const ty = y - tierOffset;
+        labelTier++;
+
+        let anchor = "middle", tx = x;
+        const rightBound = marginLeft + plotW;
+        if (x > rightBound - 90) { anchor = "end"; tx = x - r - 4; }
+        else if (x < marginLeft + 90) { anchor = "start"; tx = x + r + 4; }
+
+        const label = el("text", { class:"dl-commit-msg" + (c.type==="merge"||c.type==="anchor" ? " dl-emph" : ""), x:tx, y:ty, "text-anchor":anchor });
+        label.textContent = truncate(c.title, 26);
+        svg.appendChild(label);
+        const bbox = label.getBBox();
+        const chip = el("rect", { x:bbox.x-4, y:bbox.y-2, width:bbox.width+8, height:bbox.height+4, rx:3, class:"dl-label-chip" });
+        svg.insertBefore(chip, label);
+
+        // group the chip + text so hovering either reveals the untruncated message
+        const labelGroup = el("g", { class:"dl-label-group" });
+        svg.insertBefore(labelGroup, chip);
+        labelGroup.appendChild(chip);
+        labelGroup.appendChild(label);
+        const labelTitle = el("title", {});
+        labelTitle.textContent = c.title;
+        labelGroup.appendChild(labelTitle);
+      });
+    });
+
+    function truncate(s, n){ return s.length > n ? s.slice(0,n-1)+"…" : s; }
+
+    // lane color CSS (kept in JS to guarantee var names match lane.cls)
+    const style = document.createElement("style");
+    style.textContent = `
+      .dl-fill-main{ fill:var(--dl-lane-main); }
+      .dl-fill-dev{ fill:var(--dl-lane-dev); }
+      .dl-fill-feature{ fill:var(--dl-lane-feature); }
+      .dl-fill-concept{ fill:var(--dl-lane-concept); }
+      .dl-fill-concept-dead{ fill:var(--dl-lane-concept-dead); }
+      .dl-fill-components{ fill:var(--dl-lane-components); }
+      .dl-fill-tokens{ fill:var(--dl-lane-tokens); }
+    `;
+    document.head.appendChild(style);
+  })();
+  </script>
+</body>
+</html>

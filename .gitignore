@@ -5,3 +5,6 @@
 .playwright-mcp/
 _to_delete/
 _portfolio-git-broken-backup/
+
+# local preview drafts — keep on disk, never publish
+case-studies/_preview-*

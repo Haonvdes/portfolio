@@ -1,2 +1,7 @@
 .DS_Store
 .claude/memory/
+
+# scratch / dead weight — never push
+.playwright-mcp/
+_to_delete/
+_portfolio-git-broken-backup/

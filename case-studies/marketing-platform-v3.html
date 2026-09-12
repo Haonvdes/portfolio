@@ -609,42 +609,7 @@
 }());
 </script>
 
-<!-- App pickers — click a row, the row goes active and the render beside it
-     cross-fades to that row's data-image. Generic over every
-     `.rd-case-checklist[data-picker]` on the page, so all three segment
-     panels share one implementation. The eight-app checklist in §01 has no
-     data-picker attribute and is correctly ignored — it is a list, not a
-     control. -->
-<script>
-(function () {
-  document.querySelectorAll('.rd-case-checklist[data-picker]').forEach(function (picker) {
-    var image = document.getElementById(picker.dataset.picker);
-    if (!image) return;
-    var rows = picker.querySelectorAll('.rd-case-checklist-row');
-
-    function select(row) {
-      rows.forEach(function (r) {
-        r.classList.toggle('is-active', r === row);
-        r.setAttribute('aria-selected', r === row ? 'true' : 'false');
-      });
-      var src = row.dataset.image;
-      if (!src || src === image.getAttribute('src')) return;
-      image.style.opacity = 0;
-      setTimeout(function () {
-        image.src = src;
-        image.style.opacity = 1;
-      }, 150);
-    }
-
-    rows.forEach(function (row) {
-      row.addEventListener('click', function () { select(row); });
-      row.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(row); }
-      });
-    });
-  });
-}());
-</script>
+<script src="../js/case-picker.js"></script>
 
 </body>
 </html>

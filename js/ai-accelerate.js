@@ -49,6 +49,7 @@
   var build = section.querySelector('[data-role="build"]');
   var launch = section.querySelector('[data-role="launch"]');
   var loopLines = section.querySelectorAll('.rd-ai-loop-line');
+  var stageCaption = section.querySelector('.rd-ai-stage-caption');
   var revealHeading = section.querySelector('.rd-ai-reveal-heading');
   // The question and the toggle are part of the same Step 4 reveal as the
   // heading — one group, not separate appearances — so they animate
@@ -62,7 +63,9 @@
 
   if (!pinEl || !stage || !discovery || !validate || !build || !launch || !revealHeading || !revealPanel) return;
 
-  var CONVERGE_GAP = 16; // px between Discovery/Launch once converged — matches the CSS reduced-motion fallback's gap
+  // 0: Hao asked (2026-09-10, B2) for the last two circles to finish touching
+  // rather than a hair apart. The CSS reduced-motion fallback's gap matches.
+  var CONVERGE_GAP = 0;
   // Mobile-only: at the 72px mobile circle size the long relabel text
   // ("Discover, Validate, and experiment") reads cramped against the edge
   // even at the smallest legible font-size, so Step 4 also scales Discovery
@@ -104,6 +107,7 @@
       gsap.set(loopLines, { opacity: 1 });
       gsap.set(relabelShort, { opacity: 1 });
       gsap.set(relabelLong, { opacity: 0 });
+      if (stageCaption) gsap.set(stageCaption, { opacity: 1, y: 0 });
       gsap.set(revealHeadingGroup, { opacity: 0, y: 20 });
       gsap.set(revealPanel, { opacity: 0, y: 30 });
 
@@ -135,6 +139,7 @@
       tl.to({}, { duration: 0.35 }) // STEP 1 — hold so the initial state registers before anything moves
         .to([validate, build], { opacity: 0, scale: 0, filter: 'blur(2px)', duration: 1, ease: 'power1.out' }) // STEP 2
         .to(loopLines, { opacity: 0, duration: 0.6 }, '<')
+        .to(stageCaption || {}, { opacity: 0, y: -8, duration: 0.6, ease: 'power1.out' }, '<') // caption is STEP 1 only
         .to(discovery, { x: function () { return convergeDelta(); }, duration: 1, ease: 'power2.inOut' }) // STEP 3
         .to(launch, { x: function () { return -convergeDelta(); }, duration: 1, ease: 'power2.inOut' }, '<')
         .to(revealHeadingGroup, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }) // STEP 4
@@ -161,11 +166,20 @@
   if (!toggle || !panel) return;
 
   var buttons = toggle.querySelectorAll('.rd-tab');
-  // Every swappable piece — the two step lists per column AND the two
-  // per-column subtitles in the tinted head — carries data-ai-state, so one
-  // selector and one select() loop drives all of them.
-  var stateEls = panel.querySelectorAll('[data-ai-state]');
-  var wraps = panel.querySelectorAll('.rd-ai-swap-wrap');
+  // Every swappable piece — the two step lists per column, the two per-column
+  // subtitles in the tinted head, and the closing line under the card —
+  // carries data-ai-state, so one select() loop drives all of them.
+  //
+  // The closing line is queried SEPARATELY rather than by widening the scope:
+  // the two toggle buttons themselves also carry data-ai-state, and a query
+  // from any ancestor holding both would sweep them into the hide loop and
+  // take the control off the page.
+  var closingWrap = document.querySelector('.rd-ai-closing-wrap');
+  function join(a, b) { return Array.prototype.slice.call(a).concat(Array.prototype.slice.call(b)); }
+  var stateEls = join(panel.querySelectorAll('[data-ai-state]'),
+                      closingWrap ? closingWrap.querySelectorAll('[data-ai-state]') : []);
+  var wraps = join(panel.querySelectorAll('.rd-ai-swap-wrap'),
+                   closingWrap ? [closingWrap] : []);
 
   function select(state) {
     buttons.forEach(function (btn) {
@@ -206,8 +220,16 @@
   // per column) to the taller of its two states, so toggling to the shorter
   // one leaves whitespace instead of shrinking the card and moving the
   // "every round" band (and the closing line below it) up the page.
+  //
+  // Skipped below 769px: there the two columns stack into a mobile accordion
+  // (see the IIFE at the foot of this file) and an inline min-height would
+  // hold a collapsed column open. Clearing rather than leaving the old value
+  // matters because this re-runs on resize — crossing the breakpoint has to
+  // undo the desktop lock, not just stop refreshing it.
   function lockHeight() {
+    var narrow = window.matchMedia('(max-width: 768px)').matches;
     wraps.forEach(function (wrap) {
+      if (narrow) { wrap.style.minHeight = ''; return; }
       var max = 0;
       wrap.querySelectorAll('[data-ai-state]').forEach(function (el) {
         max = Math.max(max, measure(el));
@@ -237,4 +259,80 @@
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(lockHeight, 150);
   });
+}());
+
+// Mobile accordion on the two panel columns (≤768px, where .rd-ai-panel-cols
+// stacks). One column is open at a time and one is always open — collapsing
+// both would leave a card with two headings and no content. "Discovery,
+// validate and experiment" is the one that starts open (Hao, 2026-09-10).
+//
+// Roles and handlers are attached from JS and removed again above the
+// breakpoint, so the desktop markup keeps no aria-expanded a sighted or
+// assistive user could act on when there is nothing to expand. The heads are
+// not <button>s: each one holds a <p> title and a <p> subtitle, which is flow
+// content a button may not contain.
+(function () {
+  var panel = document.querySelector('[data-ai-panel]');
+  if (!panel) return;
+  var cols = Array.prototype.slice.call(panel.querySelectorAll('.rd-ai-panel-col'));
+  if (cols.length < 2) return;
+
+  var mq = window.matchMedia('(max-width: 768px)');
+  var parts = cols.map(function (col, i) {
+    var head = col.querySelector('.rd-ai-panel-head');
+    var body = col.querySelector(':scope > .rd-ai-swap-wrap');
+    if (body && !body.id) body.id = 'rd-ai-panel-body-' + i;
+    return { col: col, head: head, body: body };
+  }).filter(function (p) { return p.head && p.body; });
+  if (parts.length < 2) return;
+
+  function open(target) {
+    parts.forEach(function (p) {
+      var isOpen = p === target;
+      p.col.classList.toggle('is-collapsed', !isOpen);
+      if (mq.matches) p.head.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  }
+
+  function onActivate(p) {
+    return function (e) {
+      if (!mq.matches) return;
+      if (e.type === 'keydown') {
+        if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+        e.preventDefault();
+      }
+      // Re-tapping the open head is a no-op rather than a close: something
+      // has to stay open.
+      if (!p.col.classList.contains('is-collapsed')) return;
+      open(p);
+    };
+  }
+
+  parts.forEach(function (p) {
+    p.head.addEventListener('click', onActivate(p));
+    p.head.addEventListener('keydown', onActivate(p));
+  });
+
+  function sync() {
+    if (mq.matches) {
+      parts.forEach(function (p) {
+        p.head.setAttribute('role', 'button');
+        p.head.setAttribute('tabindex', '0');
+        p.head.setAttribute('aria-controls', p.body.id);
+      });
+      open(parts[0]);
+    } else {
+      parts.forEach(function (p) {
+        p.head.removeAttribute('role');
+        p.head.removeAttribute('tabindex');
+        p.head.removeAttribute('aria-controls');
+        p.head.removeAttribute('aria-expanded');
+        p.col.classList.remove('is-collapsed');
+      });
+    }
+  }
+
+  sync();
+  if (mq.addEventListener) mq.addEventListener('change', sync);
+  else if (mq.addListener) mq.addListener(sync);
 }());

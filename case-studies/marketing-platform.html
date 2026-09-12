@@ -13,11 +13,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=inter" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
-    <!-- This page has no #nav-placeholder, but it DOES have #footer-placeholder,
-         and js/script.js injects the shared footer (now carrying the closing CTA)
-         into it. Without redesign.css that chrome renders unstyled. Every
-         selector in it is scoped to .rd-* or the two placeholder ids, so the
-         2021 page body is untouched. -->
+    <!-- js/script.js injects the shared nav into #nav-placeholder and the shared
+         closing CTA + footer into #footer-placeholder. Without redesign.css that
+         chrome renders unstyled. Every selector in it is scoped to .rd-* or the
+         two placeholder ids, so the 2021 page body is untouched. -->
     <link rel="stylesheet" href="../css/styles/redesign.css">
     <!-- v3 retheme: colour + typography only. Must load LAST. -->
     <link rel="stylesheet" href="../css/styles/case-retheme-v3.css">
@@ -42,6 +41,7 @@
       </svg>
     </button>
     <section id="header">
+      <div id="nav-placeholder"></div>
       <div id="wrapper">
         <div class="rd-grid">
           <div class="row header_cnt">
@@ -268,7 +268,7 @@
           <div class="row justify-content-center">
             <div class="col-12 col-lg-8">
               <h2 class="t_case">Let’s Explore Individual Product</h2>
-              <p class="txt" style="padding-bottom: 24x;">Here's an overview of the iSystem ecosystem's products; there's too much to cover, so let's take a look and try the prototype in each section.</p>
+              <p class="txt" style="padding-bottom: 24x;">Here's an overview of the iSystem ecosystem's products — eight apps across three user types. Below is what each one does, and the screens that carry it.</p>
             </div>
           </div>
         </div>
@@ -310,9 +310,6 @@
                     <h3 class="subtitle" style="padding-bottom:16px;font-size: 16px; text-transform: capitalize;">Confirm</h3>
                   </div>
                 </div>
-                <button class="cta_case">
-                  <a href="https://isystem.invisionapp.com/console/share/2D31P63MK8" target="_blank" style="color:white">Play Prototype</a>
-                </button>
               </div>
             </div>
           </div>
@@ -347,9 +344,6 @@
                         <p style="text-align: left; max-width: 400px;">Top-up to using services without cash, easy, quickly to process.</p>
                       </div>
                     </div>
-                    <button class="cta_case" style="margin-bottom: 0;">
-                      <a href="https://isystem.invisionapp.com/console/share/7W2YM2E46A" target="_blank" style="color:white">Play Prototype</a>
-                    </button>
                   </div>
                   <div class="col-sm-12 col-md-7 col-lg-7 ">
                     <picture>
@@ -428,9 +422,6 @@
                     <h3 class="subtitle" style="padding-bottom:8px;font-size: 16px; text-transform: capitalize;">Review and Confirm</h3>
                     <p>That's all information, users need to reivew information and they can add more services on screen.</p>
                   </div>
-                  <button class="cta_case">
-                    <a href="https://isystem.invisionapp.com/console/share/KT32DF0O76" style="color:white"target="__blank">Play Prototype</a>
-                  </button>
                 </div>
               </div>
             </div>
@@ -464,9 +455,6 @@
                       <h3 class="subtitle" style="padding-bottom:8px;font-size: 16px; text-transform: capitalize;">Review and get gift card</h3>
                     </div>
                   </div>
-                  <button class="cta_case">
-                    <a href="https://isystem.invisionapp.com/console/share/GQ32FJNJWF" style="color:white" target="__blank">Play Prototype</a>
-                  </button>
                 </div>
               </div>
             </div>
@@ -483,9 +471,6 @@
                 <p style="text-align: left; padding-bottom: 16px;">Similar to the customer check-in application, when the customer checks in, the customer data will show on the waiting list, 
                     and reception will identify that there are customers based on the waiting list and assign staff to serve.</p>
                 
-                <button class="cta_case" style="margin-bottom: 0;">
-                    <a href="https://isystem.invisionapp.com/console/share/KT32DF0O76" target="_blank" style="color:white">Play Prototype</a>
-                  </button>
                 
               </div>
               <div class="col-12 col-md-7 col-lg-6 offset-lg-1">
@@ -502,9 +487,6 @@
                 <h2 class="subtitle" style="padding-bottom:16px; font-size: 18px; text-transform: uppercase;">iPOS</h2>
                 <p style="text-align: left;">As its title implies, iPOS is used for the calculation of the cost and the linking to the iCheckin app. 
                     Easy to use with essential functionality such as streamlined flow</p>
-                <button class="cta_case" style="margin-bottom: 0;">
-                    <a href="https://isystem.invisionapp.com/console/share/N532D9VK9V" target="_blank" style="color:white">Play Prototype</a>
-                  </button>
                 
               </div>
               <div class="col-12 col-md-7 col-lg-6 offset-lg-1">
@@ -537,9 +519,6 @@
                     <h3 class="subtitle" style="padding-bottom:16px;font-size: 16px; text-transform: capitalize;">History Check</h3>
                   </div>
                 </div>
-                <button class="cta_case">
-                  <a href="https://isystem.invisionapp.com/console/share/5432FH33XS" target="_blank" style="color:white">Play Prototype</a>
-                </button>
               </div>
             </div>
           </div>
@@ -554,9 +533,6 @@
               <h2 class="subtitle" style="padding-bottom:16px; font-size: 18px; text-transform: uppercase;">CRM</h2>
               <p style="text-align: left; padding-bottom: 16px;">CRM helps easy handling your business. Everything is integrated into one endpoint. Business owners can control everything from business time to time, 
                 view customer information and create ad campaigns directly to customers.</p>
-                <button class="cta_case" style="margin-bottom: 0;">
-                  <a href="https://isystem.invisionapp.com/console/share/QK1XXCM9F5" target="_blank" style="color:white">Play Prototype</a>
-                </button>
             </div>
             <div class="col-12 col-md-7 col-lg-6 offset-lg-1">
               <img src="../public/is/owner1.png" alt="image" class="img-fluid">
@@ -580,10 +556,53 @@
     
       </div>
     </section>
-  <section>
-    <footer class="container-fluid" id="footer-placeholder"></footer>
+    <section class="rd-case-section is-tinted">
+      <div class="rd-case-inner rd-shell">
+        <h2 class="rd-case-h2">Related case studies</h2>
 
-  </section>
+        <div class="rd-related">
+          <a class="rd-related-card" href="./healthcare.html">
+            <div class="rd-related-media">
+              <img src="../public/hc_hero.png"
+                   alt="Speaker-bureau platform case study cover" loading="lazy">
+            </div>
+            <div class="rd-related-body">
+              <h3 class="rd-related-title">One speaker-bureau platform for 17 roles</h3>
+              <p class="rd-related-desc">Seventeen roles, 496 user stories, one MVP. Cutting a pharma speaker-bureau backlog down to the one flow every role touches.</p>
+            </div>
+            <span class="rd-related-cta">Read the case study &rarr;</span>
+          </a>
+
+          <a class="rd-related-card" href="./lending.html">
+            <div class="rd-related-media">
+              <img src="../public/hd/cover.png"
+                   alt="HD Saison app screens: a loan dashboard on the home tab and a loan management screen with repayment schedule and progress" loading="lazy">
+            </div>
+            <div class="rd-related-body">
+              <h3 class="rd-related-title">Getting consumer lending off the counter</h3>
+              <p class="rd-related-desc">Vietnam's third-largest consumer lender originated every loan at a counter. Reframing a four-goal client brief down to one problem, then shipping it.</p>
+            </div>
+            <span class="rd-related-cta">Read the case study &rarr;</span>
+          </a>
+
+          <a class="rd-related-card" href="./web-3.html">
+            <div class="rd-related-media">
+              <img src="../public/ar_casecover.webp"
+                   alt="Aura Network case study cover" loading="lazy">
+            </div>
+            <div class="rd-related-body">
+              <h3 class="rd-related-title">The blockchain for enterprise, entertainment &amp; government</h3>
+              <p class="rd-related-desc">A Layer 1 blockchain running six product surfaces at once. Running the design function across all of them, and defining products with four engineering groups.</p>
+            </div>
+            <span class="rd-related-cta">Read the case study &rarr;</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  <div class="rd-closing">
+    <footer id="footer-placeholder"></footer>
+  </div>
     <script src="../js/script.js"></script>
     <script src="../js/script-2021.js"></script>
   

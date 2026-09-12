@@ -1,875 +1,834 @@
-<!doctype html>
-<html
-  lang="en"
-  data-theme="alias semantic component spacer"
-  data-color-mode="light"
->
-  <head
-    lang="en"
-    data-theme="alias semantic component spacer"
-    data-color-mode="light"
-  >
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-    />
-    <link rel="icon" type="image/x-icon" href="../public/favicon.png" />
-    <title>
-      Stephano Ng | Practical AI, Product Design and Professional Project
-      Management
-    </title>
-    <link rel="stylesheet" href="../css/styles/style.css" />
+<!DOCTYPE html>
+<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="icon" type="image/x-icon" href="../public/favicon.png">
+    <title>Aura Network | Case Study — Stephano Ng</title>
+
+    <link rel="stylesheet" href="../css/styles/style.css">
     <link rel="stylesheet" href="../css/styles/redesign.css">
-    <!-- v3 retheme: colour + typography only. Must load LAST. -->
-    <link rel="stylesheet" href="../css/styles/case-retheme-v3.css">
     <link rel="stylesheet" href="../css/styles/back-to-top.css">
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"
-    ></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7VM3QDKCYW"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-      gtag('config', 'G-7VM3QDKCYW');
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7VM3QDKCYW');
     </script>
-    <!-- Open Graph Meta Tags -->
-    <meta
-      property="og:title"
-      content="Stephano Ng | Practical AI, UXD and PMP"
-    />
-    <meta
-      property="og:description"
-      content="Stephano specializes in bridging the gap between business strategy and user-centered solutions that drive measurable results."
-    />
-    <meta property="og:image" content="../public/assets/og-img.png" />
-    <meta property="og:url" content="www.stpnguyen.com" />
-    <meta property="og:type" content="website" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <!-- Google Tag Manager -->
-    <script>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, 'script', 'dataLayer', 'GTM-PF5XGDGK');
-    </script>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PF5XGDGK');</script>
     <!-- End Google Tag Manager -->
-  </head>
-  <body>
-    <!-- Back to top. Inline SVG arrow: the page's icon font is the Font Awesome
-         *Pro* CDN, whose webfont needs a licence, so the glyph never resolved
-         and this rendered as stray bars. Styles in css/styles/back-to-top.css,
-         behaviour in js/back-to-top.js — no jQuery, so web-3-v3 can use it too. -->
-    <button type="button" class="rd-to-top" aria-label="Back to top">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-           stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-           stroke-linejoin="round" aria-hidden="true" focusable="false">
+
+    <meta property="og:title" content="Aura Network | Stephano Ng">
+    <meta property="og:description" content="A Layer 1 blockchain running six product surfaces at once. Running the design function across all of them, and defining products with four engineering groups.">
+    <meta property="og:image" content="../public/ar_casecover.webp">
+    <meta property="og:url" content="https://www.stpnguyen.com/case-studies/web-3.html">
+    <meta property="og:type" content="article">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+</head>
+<body class="rd-case is-hero-glow" style="--rd-hero-glow: #8fb4f0;">
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- Inline SVG arrow: the page's icon font is the Font Awesome *Pro* CDN, whose
+     webfont needs a licence, so a glyph never resolves and renders as stray bars.
+     Styles in css/styles/back-to-top.css, behaviour in js/back-to-top.js. -->
+<button type="button" class="rd-to-top" aria-label="Back to top">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+         stroke-linejoin="round" aria-hidden="true" focusable="false">
         <line x1="12" y1="20" x2="12" y2="5"></line>
         <polyline points="5 12 12 5 19 12"></polyline>
-      </svg>
+    </svg>
+</button>
+
+<header class="rd-case-hero">
+    <div id="nav-placeholder"></div>
+
+    <div class="rd-case-hero-inner rd-shell">
+        <h1 class="rd-case-title reveal">The blockchain for enterprise, entertainment &amp; government</h1>
+        <p class="rd-case-lead animate__animated animate__fadeIn">
+            Aura Network empowers enterprises, entertainment industries, and governments with
+            scalable blockchain solutions for NFT utility and real-world asset tokenization.
+        </p>
+
+        <figure class="rd-case-cover rd-b6-cover">
+            <img src="../public/ar_casecover.webp" alt="Aura Network case study cover">
+        </figure>
+    </div>
+</header>
+
+<div class="rd-case-toc">
+    <button type="button" class="rd-case-toc-toggle" aria-label="Section menu" aria-expanded="false" aria-controls="rd-case-toc-panel">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <line x1="8" y1="6" x2="20" y2="6"></line>
+            <line x1="8" y1="12" x2="20" y2="12"></line>
+            <line x1="8" y1="18" x2="20" y2="18"></line>
+            <circle cx="4" cy="6" r="1"></circle>
+            <circle cx="4" cy="12" r="1"></circle>
+            <circle cx="4" cy="18" r="1"></circle>
+        </svg>
     </button>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-      <iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-      ></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    <nav class="rd-case-toc-panel" id="rd-case-toc-panel" aria-label="Sections">
+        <a href="#" class="rd-case-toc-top">Back to top</a>
+        <a href="#overview"><span class="n">01</span>Overview</a>
+        <a href="#webs"><span class="n">02</span>Read, write, own</a>
+        <a href="#frictions"><span class="n">03</span>UX in Web3 today</a>
+        <a href="#chasm"><span class="n">04</span>The chasm</a>
+        <a href="#squads"><span class="n">05</span>Six squads</a>
+        <a href="#after"><span class="n">06</span>Stopped looking</a>
+    </nav>
+</div>
 
-    <header
-      class="header"
-      style="height: 40vh; border-bottom: 2px solid #c8ddeb"
-    >
-      <div class="container" id="nav-placeholder"></div>
-      <div
-        class="rd-grid first-section"
-        style="height: 60vh; min-height: 460px"
-      >
-        <div class="experience">
-          <h1 class="display animate__animated animate__fadeIn">
-            The Blockchain for<br />Enterprise, Entertainment & Government
-          </h1>
-          <p
-            class="lg-regular animate__animated animate__fadeIn"
-            style="padding-top: 24px; max-width: 820px; line-height: 28px"
-          >
-            Aura Network empowers enterprises, entertainment industries, and
-            governments with scalable blockchain solutions for NFT utility and
-            real-world asset tokenization.
-          </p>
-        </div>
-      </div>
-    </header>
+<main>
+    <!-- ================= 01 · Overview ================= -->
+    <section class="rd-case-section is-tinted" id="overview">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2" data-aos="fade-up">Overview</h2>
 
-    <section class="biz-information rd-grid">
-      <div class="case-cover" data-aos="fade-up">
-        <img src="../public/ar_casecover.jpeg" alt="Aura Network case study cover" />
-      </div>
-      <div class="case-overview" data-aos="fade-up">
-        <h1>Overview</h1>
-        <div class="case-snapshot">
-          <div class="company">
-            <p class="md-regular">Duration</p>
-            <p class="md-bold">27/07/2022 - 05/06/2024</p>
-          </div>
-          <div class="company">
-            <p class="md-regular">Industry</p>
-            <p class="md-bold">Web3</p>
-          </div>
-          <div class="company">
-            <p class="md-regular">Scope</p>
-            <p class="md-bold">UX / Brand / 3D / Graphic</p>
-          </div>
-          <div class="company">
-            <p class="md-regular">Team Size</p>
-            <p class="md-bold">10 Members</p>
-          </div>
-          <div class="company">
-            <p class="md-regular">Role</p>
-            <p class="md-bold">PM, Lead Product Designers</p>
-          </div>
-        </div>
-      </div>
-      <div class="biz-objective" data-aos="fade-up">
-        <div class="outcome" data-aos="fade-up">
-          <div class="outcome-info">
-            <div style="display: flex; flex-direction: column; gap: 16px">
-              <p class="sub-heading">business Impact</p>
-              <ul class="md-regular">
-                <li>
-                  <span style="font-weight: 700">Market Expansion:</span>
-                  Positioned to accelerate NFT adoption in emerging markets,
-                  particularly Southeast Asia, through user-friendly interfaces
-                  and practical use cases.
-                </li>
-                <li>
-                  <span style="font-weight: 700"
-                    >Partnerships and Collaborations:</span
-                  >
-                  Strategic alliances with Web2 and Web3 organizations like FPT
-                  Corporation enhance credibility and facilitate onboarding.
-                </li>
-                <li>
-                  <span style="font-weight: 700">Innovation:</span> Integration
-                  of NFTs into the Metaverse and multichain interoperability
-                  fosters a more interconnected Web3 ecosystem.
-                </li>
-              </ul>
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 16px">
-              <p class="sub-heading">Moving forward with Roadmap</p>
-              <div class="roadmap">
-                <div class="roadmap-info">
-                  <p
-                    class="md-bold"
-                    style="color: var(--grey-G400); text-transform: uppercase"
-                  >
-                    ✅ Past Milestones
-                  </p>
-                  <ul class="md-regular">
-                    <li>
-                      Launch of mainnet "Serenity" in June 2022 after successful
-                      testnets.
-                    </li>
-                    <li>
-                      Integration with networks like Arbitrum and Polygon.
-                    </li>
-                  </ul>
+            <div class="rd-case-snapshot" data-aos="fade-up">
+                <div>
+                    <span class="rd-case-meta-k">Role</span>
+                    <span class="rd-case-meta-v">Lead Product Design</span>
                 </div>
-                <div class="roadmap-info">
-                  <p class="md-bold" style="text-transform: uppercase">
-                    🟡 Current Focus
-                  </p>
-                  <ul class="md-regular">
-                    <li>
-                      Expanding the ecosystem through strategic partnerships.
-                    </li>
-                    <li>Driving community engagement in emerging markets.</li>
-                  </ul>
+                <div>
+                    <span class="rd-case-meta-k">Domain</span>
+                    <span class="rd-case-meta-v">Web3 — L1 Blockchain</span>
                 </div>
-                <div class="roadmap-info">
-                  <p class="md-bold" style="text-transform: uppercase">
-                    🎯 Future Plans
-                  </p>
-                  <ul class="md-regular">
-                    <li>Development of infrastructure for RWA tokenization.</li>
-                    <li>
-                      Enhancement of multichain capabilities for applications.
-                    </li>
-                  </ul>
+                <div>
+                    <span class="rd-case-meta-k">Timeline</span>
+                    <span class="rd-case-meta-v">Jul 2022 – Jun 2024</span>
                 </div>
-              </div>
+                <div>
+                    <span class="rd-case-meta-k">Team</span>
+                    <span class="rd-case-meta-v">10</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Platform</span>
+                    <span class="rd-case-meta-v">Web, Desktop</span>
+                </div>
+                <div>
+                    <span class="rd-case-meta-k">Status</span>
+                    <span class="rd-case-meta-v">Shipped</span>
+                </div>
             </div>
-          </div>
-          <div class="outcome-highlight">
-            <p class="sub-heading">Outcomes</p>
-            <div class="out-come-data">
-              <p class="display">20+</p>
-              <p class="md-regular">
-                Daaps, The entertainment industry struggles with managing and
-              </p>
+
+            <!-- Tenure boundary: 27 Jul 2022 – 5 Jun 2024. Nothing dated after
+                 5 Jun 2024 may be claimed here as a result — that rules out the
+                 FPT Corporation investment (Feb 2025) and the "RWA chain"
+                 repositioning (Feb 2025). Serenity was a *testnet* (Apr 2022);
+                 the mainnet is Xstaxy, 20 Mar 2023. There is no published
+                 Arbitrum or Polygon integration — Aura is Cosmos/IBC, and EVM
+                 compatibility only lets those chains' dApps be ported. -->
+            <div class="rd-case-split" data-aos="fade-up">
+                <div class="rd-case-body">
+                    <div>
+                        <h3 class="rd-case-label is-heading">Introduction</h3>
+                        <p><strong>Market expansion.</strong> Positioned to accelerate NFT adoption in emerging markets, particularly Southeast Asia, through user-friendly interfaces and practical use cases.</p>
+                        <p><strong>Partnerships and collaborations.</strong> Strategic alliances with Web2 and Web3 organisations to build credibility and make onboarding easier.</p>
+                        <p><strong>Innovation.</strong> Integration of NFTs into the metaverse, and multichain interoperability through Cosmos IBC.</p>
+                    </div>
+
+                    <hr class="rd-case-split-rule">
+
+                    <div>
+                        <h3 class="rd-case-label is-heading">Moving forward with a defined roadmap</h3>
+                        <div class="rd-case-cols is-three rd-b6-roadmap">
+                            <div>
+                                <h4 class="rd-case-challenge-title">Past milestones</h4>
+                                <ul class="rd-case-list is-tight">
+                                    <li>Serenity testnet, April 2022.</li>
+                                    <li>Xstaxy mainnet live, 20 March 2023 — after 15 months of development.</li>
+                                    <li>Aura EVM, 23 May 2024: a permissioned CosmWasm NFT chain becomes a permissionless, general-purpose EVM Layer 1.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="rd-case-challenge-title">Current focus</h4>
+                                <ul class="rd-case-list is-tight">
+                                    <li>Expanding the ecosystem through strategic partnerships.</li>
+                                    <li>Driving community engagement in emerging markets.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="rd-case-challenge-title">Future plans</h4>
+                                <ul class="rd-case-list is-tight">
+                                    <li>Infrastructure for real-world asset tokenization.</li>
+                                    <li>Multichain capabilities for applications.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="rd-case-highlight">
+                    <p class="rd-case-meta-k">Outcomes / Success metric</p>
+                    <div class="rd-case-highlight-stat">
+                        <strong>20+</strong>
+                        <span>dApps built on the chain</span>
+                    </div>
+                    <div class="rd-case-highlight-stat">
+                        <strong>141K+</strong>
+                        <span>Unique active addresses</span>
+                    </div>
+                    <div class="rd-case-highlight-stat">
+                        <strong>1.5B+</strong>
+                        <span>Transactions processed</span>
+                    </div>
+                </aside>
             </div>
-            <div class="out-come-data">
-              <p class="display">141K+</p>
-              <p class="md-regular">
-                Daaps, The entertainment industry struggles with managing and
-              </p>
-            </div>
-            <div class="out-come-data">
-              <p class="display">1.5B</p>
-              <p class="md-regular">
-                Daaps, The entertainment industry struggles with managing and
-              </p>
-            </div>
-          </div>
         </div>
-        <div class="industry-challenges" data-aos="fade-up">
-          <p class="sub-heading">Industry Challenges</p>
-          <div class="biz-statement">
-            <div class="challenge">
-              <p class="sub-heading" style="padding: 0px 24px">Challenges</p>
-              <div class="challenge-info">
-                <p class="md-bold">1️⃣ NFT Adoption</p>
-                <p class="md-regular">
-                  Increasing adoption among non-crypto users by improving user
-                  experience and expanding use cases beyond collectibles.
-                </p>
-              </div>
-              <div class="challenge-info">
-                <p class="md-bold">2️⃣ Interoperability</p>
-                <p class="md-regular">
-                  Enhancing compatibility across different blockchain networks
-                  to enable seamless multichain integration.
-                </p>
-              </div>
-              <div class="challenge-info">
-                <p class="md-bold">3️⃣ Regulatory Frameworks:</p>
-                <p class="md-regular">
-                  Navigating the evolving legal landscape for blockchain
-                  technology and NFTs while ensuring compliance.
-                </p>
-              </div>
-            </div>
-            <div class="solution">
-              <p class="sub-heading" style="padding: 0px 24px">solutions</p>
-              <div class="solution-info">
-                <p class="md-bold">✅ Enhancing Accessibility</p>
-                <p class="md-regular">
-                  Aura Network provides user-friendly interfaces and practical
-                  applications for NFTs, making them accessible to non-crypto
-                  users.
-                </p>
-              </div>
-              <div class="solution-info">
-                <p class="md-bold">✅ Seamless Multichain Integration</p>
-                <p class="md-regular">
-                  Utilizes Cosmos IBC (Inter-Blockchain Communication) to ensure
-                  smooth interoperability between multiple blockchains.
-                </p>
-              </div>
-              <div class="solution-info">
-                <p class="md-bold">
-                  ✅ Adapting to Evolving Compliance Standards
-                </p>
-                <p class="md-regular">
-                  The entertainment industry struggles with managing and
-                  monetizing assets like media rights and franchise properties
-                  in a secure and verifiable manner.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="eco-system" data-aos="fade-up">
-          <p class="sub-heading">ecosystem</p>
-          <div class="container articles-container" id="articlesContainer">
-            <!-- Articles will be dynamically inserted here -->
-          </div>
-        </div>
-      </div>
     </section>
 
-    <section class="work-information">
-      <div class="section stuff" data-aos="fade-up">
-        <div class="rd-grid stuff-header">
-          <h1 style="text-align: center">
-            <span style="color: var(--grey-G400)">Let's Dive-in to see</span
-            ><br />
-            How the Product Became Success
-          </h1>
-          <p class="lg-medium" style="text-align: center; max-width: 1000px">
-            Discover how my passion for innovation shapes every step of my
-            journey in creating cutting-edge digital solutions. Dive into my
-            specialized domain, processes, and the team moments that keep me
-            inspired and ahead of the game.
-          </p>
-        </div>
-        <!-- Tab links -->
-        <div class="hastag">
-          <button
-            class="hastag-items"
-            onclick="openHastag(event,'team')"
-            id="defaultOpen"
-          >
-            <p class="lg-regular">#team</p>
-          </button>
-          <button
-            class="hastag-items"
-            onclick="openHastag(event,'processes&tools')"
-          >
-            <p class="lg-regular">#processes and tools</p>
-          </button>
-        </div>
-      </div>
-      <div class="rd-grid" style="margin-top: -40px" data-aos="fade-up">
-        <!-- Tab content -->
-        <div id="team" class="information animate__animated animate__fadeIn">
-          <div class="work-detail">
-            <section id="card-section">
-              <div class="container cs-container" data-aos="fade-up">
-                <div class="cs-left-side" style="gap: 32px">
-                  <div class="value-statement">
-                    <div
-                      style="
-                        display: flex;
-                        flex-direction: column;
-                        gap: 4px;
-                        padding-bottom: 16px;
-                      "
-                    >
-                      <h3>The Team</h3>
-                      <p class="md-bold">
-                        <span style="color: var(--grey-G400)">Where</span>
-                        Everyone is always on the same page
-                      </p>
-                    </div>
-                    <p class="md-medium">
-                      As a leader, I believe in empowering each team member by
-                      providing clear communication channels, aligning goals,
-                      and encouraging innovation.
-                    </p>
-                  </div>
-                  <div class="cs-feature-wrapper">
-                    <div class="cs-team">
-                      <div class="cs-team-item">
-                        <div
-                          style="
-                            display: flex;
-                            flex-direction: column;
-                            gap: 8px;
-                          "
-                        >
-                          <img src="/public/ar_commitment.svg" alt="" />
-                          <p class="md-bold">Commitment</p>
-                        </div>
-                        <p class="md-regular">
-                          Each team member stays focused on achieving sprint
-                          goals, delivering consistent value, and driving
-                          meaningful progress.
-                        </p>
-                      </div>
-                      <div class="cs-team-item">
-                        <div
-                          style="
-                            display: flex;
-                            flex-direction: column;
-                            gap: 8px;
-                          "
-                        >
-                          <img src="/public/ar_courage.svg" alt="" />
-                          <p class="md-bold">Courageous</p>
-                        </div>
-                        <p class="md-regular">
-                          We foster open discussions, embrace constructive
-                          feedback, and challenge assumptions to drive
-                          innovation and improvement.
-                        </p>
-                      </div>
-                      <div class="cs-team-item">
-                        <div
-                          style="
-                            display: flex;
-                            flex-direction: column;
-                            gap: 8px;
-                          "
-                        >
-                          <img src="/public/ar_collaborative.svg" alt="" />
-                          <p class="md-bold">Collaboration</p>
-                        </div>
-                        <p class="md-regular">
-                          By maintaining a clear backlog and shared objectives,
-                          the team aligns efforts to maximize impact and
-                          efficiency.
-                        </p>
-                      </div>
-                      <div class="cs-team-item">
-                        <div
-                          style="
-                            display: flex;
-                            flex-direction: column;
-                            gap: 8px;
-                          "
-                        >
-                          <img src="/public/ar_creative.svg" alt="" />
-                          <p class="md-bold">Creativity</p>
-                        </div>
-                        <p class="md-regular">
-                          We value diverse perspectives and expertise,
-                          cultivating an environment where new ideas thrive and
-                          solutions emerge.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="cs-right-side">
-                  <div class="cs-image-container" style="height: 400px">
-                    <img
-                      class="cs-feature-image"
-                      src="/public/ar_team.png"
-                      alt="Figma"
-                      style="opacity: 1"
-                    />
-                  </div>
-                </div>
-              </div>
-            </section>
-            <h2 class="/" style="color: var(--grey-G400); text-align: center">
-              Unified Through Communication<br />
-              <span style="color: var(--text-neutral-body)"
-                >Approach & Accountability</span
-              >
-            </h2>
-            <section id="card-section">
-              <div class="container cs-container" data-aos="fade-up">
-                <p
-                  class="sub-heading"
-                  style="
-                    grid-column: span 2;
-                    padding: 16px;
-                    border-bottom: 1px solid var(--border-neutral-default);
-                  "
-                >
-                  Product Wiki
-                </p>
-                <div class="approach">
-                  <div class="approach-info">
-                    <img src="..//public/ar_flowbased.svg" alt="" />
-                    <p class="md-bold">Flow Based</p>
-                    <ul class="md-medium">
-                      <li>
-                        For the continuous work (social post, marketing campain,
-                        etc)
-                      </li>
-                      <li>
-                        Just in time (whenever new work needs to be replenished
-                        in a waiting queue)
-                      </li>
-                      <li>
-                        Teams receive feedback whenever the functionality is
-                        released to the customer
-                      </li>
-                      <li>Delivery can happen at any time</li>
-                    </ul>
-                  </div>
-                  <div class="approach-info">
-                    <img src="..//public/ar_iterationbasde.svg" alt="" />
-                    <p class="md-bold">Iteration Based</p>
-                    <ul class="md-medium">
-                      <li>
-                        For the time-boxed work (product development, design
-                        sprint, etc)
-                      </li>
-                      <li>Iterative (at the start of each iteration)</li>
-                      <li>
-                        Teams receive feedback at the end of each iteration
-                      </li>
-                      <li>Incremental delivery (most frequently - biweekly)</li>
-                    </ul>
-                  </div>
-                </div>
-                <div
-                  class="stage-info"
-                  style="
-                    padding: 24px;
-                    grid-column: span 2;
-                    border-bottom: 1px solid var(--border-neutral-default);
-                    display: flex;
-                    flex-direction: column;
-                  "
-                >
-                  <p class="sub-heading" style="color: var(--grey-G400)">
-                    seperates approach,
-                    <span style="color: var(--text-neutral-body)"
-                      >but have the same mind<br />From WoW to communication
-                      plan and RACI chart</span
-                    >
-                  </p>
-                  <div style="display: flex; flex-direction: row; gap: 32px">
-                    <div class="stage-info-sum">
-                      <div style="display: flex; gap: 8px; align-items: center">
-                        <p class="md-bold" style="color: var(--grey-G500)">
-                          01. Backlog Refinement
-                        </p>
-                      </div>
-                      <ul class="md-regular">
-                        <li>Prioritize the product backlog</li>
-                        <li>
-                          Ensure backlog items are clear, well-defined, and
-                          estimated
-                        </li>
-                        <li>Align backlog with business and customer needs</li>
-                        <li>
-                          Collaborate with the team to clarify acceptance
-                          criteria
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="stage-info-sum">
-                      <div style="display: flex; gap: 8px; align-items: center">
-                        <p class="md-bold" style="color: var(--grey-G500)">
-                          02. Sprint Planning
-                        </p>
-                      </div>
-                      <ul class="md-regular">
-                        <li>Forecast team velocity</li>
-                        <li>Estimate task durations</li>
-                        <li>Define and commit to Sprint Backlog</li>
-                        <li>Set a clear Sprint Goal</li>
-                      </ul>
-                    </div>
-                    <div class="stage-info-sum">
-                      <div style="display: flex; gap: 8px; align-items: center">
-                        <p class="md-bold" style="color: var(--grey-G500)">
-                          03. Sprint Execution
-                        </p>
-                      </div>
-                      <ul class="md-regular">
-                        <li>Conduct Daily Stand-Ups (DSUs)</li>
-                        <li>
-                          Collaborate to remove blockers and ensure progress
-                        </li>
-                        <li>
-                          Maintain team cohesion and alignment toward sprint
-                          goals
-                        </li>
-                        <li>
-                          Ensure visibility and communication within the team
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="stage-info-sum">
-                      <div style="display: flex; gap: 8px; align-items: center">
-                        <p class="md-bold" style="color: var(--grey-G500)">
-                          04. Sprint Review
-                        </p>
-                      </div>
-                      <ul class="md-regular">
-                        <li>
-                          Demonstrate the product increment to stakeholders
-                        </li>
-                        <li>Gather feedback for future improvements</li>
-                        <li>
-                          Assess achievement of Sprint Goals and deliverables
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="stage-info-sum">
-                      <div style="display: flex; gap: 8px; align-items: center">
-                        <p class="md-bold" style="color: var(--grey-G500)">
-                          05. Sprint Retrospective
-                        </p>
-                      </div>
-                      <ul class="md-regular">
-                        <li>Identify areas for team and process improvement</li>
-                        <li>Discuss lessons learned from the sprint</li>
-                        <li>
-                          Implement actionable items for continuous enhancement
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="communication" style="grid-column: span 2">
-                    <p class="md-bold" style="padding-bottom: 16px">
-                      Communication Plan & RACI Chart
-                    </p>
-                    <div class="case-cover">
-                      <img
-                        src="../public/ar_communication.png"
-                        alt="image"
-                        style="border-radius: 0"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-        <div
-          id="processes&tools"
-          class="information animate__animated animate__fadeIn"
-        >
-          <section id="card-section">
-            <div class="container cs-container" data-aos="fade-up">
-              <div class="cs-left-side">
-                <div class="cs-introduce">
-                  <h3>Automation</h3>
-                  <p class="md-medium">
-                    Enhance productivity with AI-driven workflows that automate
-                    repetitive tasks, reduce manual effort, and improve
-                    accuracy. By integrating intelligent automation, teams can
-                    focus on high-value work while maintaining seamless
-                    collaboration.
-                  </p>
-                </div>
-                <div class="cs-feature-wrapper">
-                  <p class="md-bold">Key Benefits:</p>
-                  <ul class="md-medium">
-                    <li>
-                      Efficiency: Automates repetitive tasks, reducing manual
-                      effort.
-                    </li>
-                    <li>
-                      Accuracy: Ensures consistent and error-free task
-                      execution.
-                    </li>
-                    <li>
-                      Collaboration: Keeps everyone aligned with real-time
-                      updates.
-                    </li>
-                    <li>
-                      Scalability: Adapts to evolving project needs seamlessly.
-                    </li>
-                  </ul>
-                  <div
-                    class="outcome-highlight"
-                    style="
-                      padding: 16px;
-                      flex-direction: row;
-                      border-radius: var(--r-16);
-                      border: 1px solid var(--border-neutral-default);
-                      background-color: var(--bg-surface-transparent);
-                    "
-                  >
-                    <div class="out-come-data" style="flex: 1">
-                      <h2 style="color: var(--text-neutral-body)">20%</h2>
-                      <p
-                        class="md-regular"
-                        style="color: var(--text-neutral-body)"
-                      >
-                        Effort reduction
-                      </p>
-                    </div>
-                    <div class="out-come-data" style="flex: 1">
-                      <h2 style="color: var(--text-neutral-body)">20%</h2>
-                      <p
-                        class="md-regular"
-                        style="color: var(--text-neutral-body)"
-                      >
-                        Effort reduction
-                      </p>
-                    </div>
-                    <div
-                      class="out-come-data"
-                      style="border: none; padding: 0; flex: 1"
-                    >
-                      <h2 style="color: var(--text-neutral-body)">20%</h2>
-                      <p
-                        class="md-regular"
-                        style="color: var(--text-neutral-body)"
-                      >
-                        Effort reduction
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="cs-right-side">
-                <div class="cs-image-container" style="height: 400px">
-                  <img
-                    class="cs-feature-image"
-                    src="/public/ar_automation.png"
-                    alt="Figma"
-                    style="opacity: 1"
-                  />
-                </div>
-              </div>
+    <!-- ================= Ecosystem (unnumbered band) ================= -->
+    <!-- #articlesContainer is filled by js/case-studies.js (OverlappingArticles).
+         Keep the id and the .article-card children it writes — the layout for
+         them is the B6 block in redesign.css. -->
+    <section class="rd-case-section is-tinted" id="ecosystem">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2" data-aos="fade-up">Eight surfaces on one chain</h2>
+            <div class="rd-case-body" data-aos="fade-up">
+                <p>Wallet, explorer, indexer, marketplace, swap and bot, plus the two protocols the
+                   chain depends on for data and randomness. Each one is a separate product with its
+                   own users, and all of them sit on the same ledger.</p>
             </div>
-            <div id="tool" class="cs-feature-section" data-aos="fade-up"></div>
-            <!--
-              The process view is the phase/sprint/product selector that used to
-              live on the homepage; js/script.js injects templates/{phase,sprint,
-              product}.html into #processContent. Deliberately NOT id="process" —
-              that id is what js/case-studies.js renders its placeholder-image
-              carousel into, and this replaces that carousel. Also deliberately
-              not class="information": openHastag() hides every .information
-              element when switching tabs and only restores the panel it was
-              given, so a nested one would stay display:none.
-            -->
-            <div id="process-block" class="cs-process-block" data-aos="fade-up">
-              <div class="cs-process-intro">
-                <div class="cs-process-selector">
-                  <label for="phaseSelector" class="sub-heading"
-                    >Driving Success Across Every:</label
-                  >
-                  <select
-                    id="phaseSelector"
-                    onchange="updateProcess()"
-                    class="sub-heading"
-                  >
-                    <option value="phase">Phase</option>
-                    <option value="sprint">Sprint</option>
-                    <option value="product">Product</option>
-                  </select>
-                </div>
-                <p class="lg-medium">
-                  My structured yet flexible project management process ensures
-                  no detail is overlooked. From ideation to execution and
-                  beyond, I collaborate with stakeholders, adapt to challenges,
-                  and deliver high-quality results that align with both user
-                  needs and business goals.
-                </p>
-              </div>
-              <div id="processContent">
-                <!-- templates/{phase,sprint,product}.html injected here -->
-              </div>
+            <div class="rd-b6-eco" data-aos="fade-up">
+                <div class="articles-container" id="articlesContainer"></div>
             </div>
-          </section>
         </div>
-      </div>
     </section>
 
-    <section class="showcase">
-      <div
-        class="rd-grid"
-        style="display: flex; gap: 40px; flex-direction: column"
-      >
-        <div class="container navigate" data-aos="fade-up">
-          <h1 class="h1" style="text-align: left">
-            <span style="color: var(--grey-G400)">Our Effort 🎉</span><br />
-            Come to an artifacts
-          </h1>
-          <div class="button-group" style="display: flex; gap: 16px">
-            <button class="btn-secondary" onclick="loadContent('SeekHype')">
-              SeekHype
-            </button>
-            <button class="btn-secondary" onclick="loadContent('Swap')">
-              Swap
-            </button>
-            <button class="btn-secondary" onclick="loadContent('Safe')">
-              Safe
-            </button>
-            <button class="btn-secondary" onclick="loadContent('Scan')">
-              Scan
-            </button>
-            <button class="btn-secondary" onclick="loadContent('Bot')">
-              AuraBot
-            </button>
-            <button class="btn-secondary" onclick="loadContent('Index')">
-              Index
-            </button>
-          </div>
-          <p class="md-medium case-desc" id="casedescription"></p>
+    <!-- ================= 02 · Read, write, own ================= -->
+    <section class="rd-case-section is-tinted" id="webs">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2" data-aos="fade-up">A short history of web evolution</h2>
+            <div class="rd-case-body" data-aos="fade-up">
+                <p>Three eras of the web, and what each one added for the person using it:
+                   first reading, then writing, then owning. Aura sits in the third, where
+                   holding your own keys becomes part of the job.</p>
+            </div>
+
+            <div class="rd-b6-webs" data-aos="fade-up">
+                <div>
+                    <div class="rd-b6-web-head">
+                        <p class="rd-case-label">1991–2004</p>
+                        <h3 class="rd-case-challenge-title">Web 1.0: the read-only web</h3>
+                    </div>
+                    <p class="rd-case-num-desc">A static network of text-and-image pages. People read them, and only a few built websites. The first public site went live on 6 August 1991.</p>
+                </div>
+                <div>
+                    <div class="rd-b6-web-head">
+                        <p class="rd-case-label">2004–present</p>
+                        <h3 class="rd-case-challenge-title">Web 2.0: the read-write social web</h3>
+                    </div>
+                    <p class="rd-case-num-desc">Blogs, social networks and video sites let anyone post, comment and share. Users made most of the content. The platforms kept the accounts and the data.</p>
+                </div>
+                <div>
+                    <div class="rd-b6-web-head">
+                        <p class="rd-case-label">Present and forward</p>
+                        <h3 class="rd-case-challenge-title">Web 3.0: the read-write-own web</h3>
+                    </div>
+                    <p class="rd-case-num-desc">Tokens, NFTs and identity sit in a wallet the user controls, not on a platform's servers. The user signs every transaction, and a lost key can't be reset.</p>
+                </div>
+            </div>
         </div>
-        <div class="show-case-detail" id="showCaseDetail" data-aos="fade-up">
-          <div class="fact-card" data-aos="fade-up">
-            <div class="fact-title">
-              <p class="sub-heading">Fact Card</p>
+    </section>
+
+    <!-- ================= 03 · UX in Web3 today ================= -->
+    <section class="rd-case-section is-tinted" id="frictions">
+        <div class="rd-case-inner rd-shell">
+            <!-- No data-aos on this block: js/web3-frictions.js pins the stage
+                 with position: sticky and drives the cards from scroll position. -->
+            <div class="rd-b6-fx">
+                <div class="rd-b6-fx-stage">
+                    <div class="rd-b6-fx-intro">
+                        <h2 class="rd-b6-fx-title">Current state of UX in Web3</h2>
+                        <p>Why people who aren&rsquo;t early adopters try it once and leave.</p>
+                        <ul class="rd-deck-index">
+                            <li><button type="button" aria-controls="fx-knowledge"><span class="n">01</span><span>Assumes expert users</span></button></li>
+                            <li><button type="button" aria-controls="fx-late"><span class="n">02</span><span>Design comes in late</span></button></li>
+                            <li><button type="button" aria-controls="fx-value"><span class="n">03</span><span>No clear reason to use it</span></button></li>
+                            <li><button type="button" aria-controls="fx-wait"><span class="n">04</span><span>Transactions that keep you waiting</span></button></li>
+                        </ul>
+                    </div>
+
+                    <div class="rd-b6-fx-deck">
+                        <article class="rd-b6-fx-card" id="fx-knowledge">
+                            <span class="rd-learn-icon rd-icon-design" aria-hidden="true"></span>
+                            <h3>Assumes expert users</h3>
+                            <p>Most apps assume the user already understands the technology. Screens are full of acronyms and long alphanumeric strings that early adopters read easily and most people don&rsquo;t.</p>
+                        </article>
+                        <article class="rd-b6-fx-card" id="fx-late">
+                            <span class="rd-learn-icon rd-icon-teams" aria-hidden="true"></span>
+                            <h3>Design comes in late</h3>
+                            <p>Web3 teams focus on the technology and bring designers in late in the development cycle. Many apps get the visual layer right and still leave people stuck in confusing flows.</p>
+                        </article>
+                        <article class="rd-b6-fx-card" id="fx-value">
+                            <span class="rd-learn-icon rd-icon-goal" aria-hidden="true"></span>
+                            <h3>No clear reason to use it</h3>
+                            <p>Outside of speculation, most apps don&rsquo;t say what the product is or why someone should use it. Crypto is both an investment and a way to pay, and few apps pick one and design around it.</p>
+                        </article>
+                        <article class="rd-b6-fx-card" id="fx-wait">
+                            <span class="rd-learn-icon rd-icon-design" aria-hidden="true"></span>
+                            <h3>Transactions that keep you waiting</h3>
+                            <p>One transaction can need several confirmations and pending messages, split between a wallet and a DeFi app, minutes apart. Web2 users already find a three-second wait long.</p>
+                        </article>
+                    </div>
+                </div>
             </div>
-            <div class="fact-content">
-              <div class="main-feature">
-                <p class="lg-bold" style="font-weight: 700">Main Feature</p>
-                <ul id="fact-main"></ul>
-              </div>
-              <div class="audience">
-                <p class="lg-bold" style="font-weight: 700">Audience</p>
-                <ul id="fact-audience"></ul>
-              </div>
-              <div class="format">
-                <p class="lg-bold" style="font-weight: 700">Format</p>
-                <ul id="fact-format"></ul>
-              </div>
-              <div class="scope">
-                <p class="lg-bold" style="font-weight: 700">Scope</p>
-                <ul id="fact-scope"></ul>
-              </div>
+        </div>
+    </section>
+
+    <!-- ================= 04 · The chasm ================= -->
+    <section class="rd-case-section is-tinted" id="chasm">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2" data-aos="fade-up">Web3 was built by early adopters, <br> for early adopters</h2>
+            <div class="rd-case-body" data-aos="fade-up">
+                <p>New technological paradigms can only create positive social change if they're
+                   widely accessible and experienced by diverse people.</p>
             </div>
-            <div class="call-to-action" style="padding: 16px">
-              <a
-                id="ctaButton"
-                href="https://beta.seekhype.io/"
-                target="_blank"
-              >
-                <button class="btn-ghosh" style="width: fit-content">
-                  Experience Now
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="m22.707 11.293-7-7a1 1 0 0 0-1.414 1.414L19.586 11H2a1 1 0 0 0 0 2h17.586l-5.293 5.293a1 1 0 1 0 1.414 1.414l7-7a1 1 0 0 0 0-1.414z"
-                    ></path>
-                  </svg>
+
+            <div class="rd-phase" data-aos="fade-up">
+                <div class="rd-phase-panel" id="w3cPanel">
+                    <div class="rd-phase-row">
+                        <article class="rd-case-card rd-phase-card rd-w3c-card">
+                            <div class="rd-phase-goal">
+                                <h3 class="rd-phase-goal-title">
+                                    <span id="w3cGoalTitle"></span>
+                                    <img src="../public/ic_flag.svg" alt="" width="24" height="24">
+                                </h3>
+                                <p id="w3cGoal"></p>
+                            </div>
+                            <dl class="rd-phase-facts" id="w3cFacts"></dl>
+                        </article>
+
+                        <div class="rd-phase-priority">
+                            <h3 class="rd-phase-priority-title">Who each phase was for</h3>
+
+                            <div class="rd-w3c-chart" id="w3cChart" data-active="early">
+                                <button type="button" class="rd-w3c-market" data-side="early" aria-pressed="true" aria-controls="w3cPanel">Early market</button>
+                                <p class="rd-w3c-chasm">The chasm <span aria-hidden="true">&darr;</span></p>
+                                <button type="button" class="rd-w3c-market" data-side="main" aria-pressed="false" aria-controls="w3cPanel">Mainstream market</button>
+
+                                <span class="rd-w3c-bracket" data-side="early" aria-hidden="true"></span>
+                                <span class="rd-w3c-bracket" data-side="main" aria-hidden="true"></span>
+
+                                <!-- Stretched to the grid's column widths, so x and y scale
+                                     independently; the non-scaling stroke keeps the gaps
+                                     between groups the same width at every size. -->
+                                <svg class="rd-w3c-svg" viewBox="0 0 630 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                                    <g data-side="early">
+                                        <path class="rd-w3c-seg is-innovators" vector-effect="non-scaling-stroke" d="M0 100 L0 91.02 L5 90.87 L10 90.69 L15 90.48 L20 90.25 L25 89.99 L30 89.7 L35 89.37 L40 89 L45 88.59 L50 88.13 L55 87.62 L60 87.06 L65 86.44 L70 85.75 L75 85 L80 84.17 L85 83.28 L90 82.3 L95 81.24 L100 80.09 L100 100Z"/>
+                                        <path class="rd-w3c-seg is-early" vector-effect="non-scaling-stroke" d="M100 100 L100 80.09 L105 78.85 L110 77.53 L115 76.1 L120 74.58 L125 72.97 L130 71.25 L135 69.44 L140 67.53 L145 65.53 L150 63.43 L155 61.24 L160 58.97 L165 56.62 L170 54.2 L175 51.71 L180 49.17 L185 46.57 L190 43.95 L195 41.29 L200 38.63 L200 100Z"/>
+                                    </g>
+                                    <g data-side="main">
+                                        <path class="rd-w3c-seg is-em" vector-effect="non-scaling-stroke" d="M230 100 L230 38.63 L235 35.96 L240 33.31 L245 30.68 L250 28.1 L255 25.57 L260 23.12 L265 20.76 L270 18.5 L275 16.35 L280 14.34 L285 12.47 L290 10.77 L295 9.23 L300 7.87 L305 6.71 L310 5.74 L315 4.98 L320 4.44 L325 4.11 L330 4 L330 100Z"/>
+                                        <path class="rd-w3c-seg is-lm" vector-effect="non-scaling-stroke" d="M330 100 L330 4 L335 4.11 L340 4.44 L345 4.98 L350 5.74 L355 6.71 L360 7.87 L365 9.23 L370 10.77 L375 12.47 L380 14.34 L385 16.35 L390 18.5 L395 20.76 L400 23.12 L405 25.57 L410 28.1 L415 30.68 L420 33.31 L425 35.96 L430 38.63 L430 100Z"/>
+                                        <path class="rd-w3c-seg is-laggards" vector-effect="non-scaling-stroke" d="M430 100 L430 38.63 L435 41.29 L440 43.95 L445 46.57 L450 49.17 L455 51.71 L460 54.2 L465 56.62 L470 58.97 L475 61.24 L480 63.43 L485 65.53 L490 67.53 L495 69.44 L500 71.25 L505 72.97 L510 74.58 L515 76.1 L520 77.53 L525 78.85 L530 80.09 L535 81.24 L540 82.3 L545 83.28 L550 84.17 L555 85 L560 85.75 L565 86.44 L570 87.06 L575 87.62 L580 88.13 L585 88.59 L590 89 L595 89.37 L600 89.7 L605 89.99 L610 90.25 L615 90.48 L620 90.69 L625 90.87 L630 91.02 L630 100Z"/>
+                                    </g>
+                                </svg>
+
+                                <span class="rd-w3c-note" data-side="early" aria-hidden="true">Minimum feature set <span>&larr;</span></span>
+                                <span class="rd-w3c-note" data-side="main" aria-hidden="true">Whole product <span>&rarr;</span></span>
+
+                                <ul class="rd-w3c-groups">
+                                    <li class="is-innovators" data-side="early"><span class="rd-w3c-sw is-innovators" aria-hidden="true"></span>Innovators <strong>2.5%</strong></li>
+                                    <li class="is-early" data-side="early"><span class="rd-w3c-sw is-early" aria-hidden="true"></span>Early adopters <strong>13.5%</strong></li>
+                                    <li class="is-em" data-side="main"><span class="rd-w3c-sw is-em" aria-hidden="true"></span>Early majority <strong>34%</strong></li>
+                                    <li class="is-lm" data-side="main"><span class="rd-w3c-sw is-lm" aria-hidden="true"></span>Late majority <strong>34%</strong></li>
+                                    <li class="is-laggards" data-side="main"><span class="rd-w3c-sw is-laggards" aria-hidden="true"></span>Laggards <strong>16%</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rd-w3c-approach" data-aos="fade-up">
+                <div class="rd-w3c-approach-head">
+                    <h3 class="rd-phase-priority-title">How the approach shifted with the market</h3>
+                    <p>While Aura was raising money, design had to make the chain look credible to backers: a brand, a social presence, and research into who it was for. Once the goal turned to adoption, the work moved into the products. That meant interfaces and one design system across every surface, checked against real users through testing, airdrops and usage data.</p>
+                </div>
+
+                <div class="rd-b6-phaseblock">
+                    <div class="rd-b6-phaseband">
+                        <span class="rd-b6-phase is-raise">Early market</span>
+                        <span class="rd-b6-phase is-adopt">Mainstream market</span>
+                    </div>
+
+                    <div class="rd-case-grid is-five rd-b6-phasecols">
+                        <div>
+                            <p class="rd-case-label is-raise">Strategy</p>
+                            <ul class="rd-case-list is-tight">
+                                <li>Develop project charters</li>
+                                <li>Allocate resources</li>
+                                <li>Establish team roles</li>
+                                <li>Branding design</li>
+                                <li>Social marketing design</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="rd-case-label is-raise">Tools &amp; designs</p>
+                            <ul class="rd-case-list is-tight">
+                                <li>Market research</li>
+                                <li>User research</li>
+                                <li>Behavioural research</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="rd-case-label is-adopt">Implementation</p>
+                            <ul class="rd-case-list is-tight">
+                                <li>Branding design</li>
+                                <li>Social marketing design</li>
+                                <li>Motion</li>
+                                <li>Merchandise design</li>
+                                <li>Mascot design</li>
+                                <li>User interface</li>
+                                <li>Design system</li>
+                                <li>Interaction design</li>
+                                <li>Design audit</li>
+                                <li>Usability testing</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="rd-case-label is-adopt">Validate</p>
+                            <ul class="rd-case-list is-tight">
+                                <li>Hearing from users</li>
+                                <li>Airdrop</li>
+                                <li>Pulling data from real users</li>
+                                <li>Usability testing</li>
+                                <li>Heuristic evaluation</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="rd-case-label is-adopt">Optimise</p>
+                            <ul class="rd-case-list is-tight">
+                                <li>Fix test findings</li>
+                                <li>Design system updates</li>
+                                <li>Re-test changed flows</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 05 · Six squads ================= -->
+    <section class="rd-case-section is-tinted" id="squads">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2" data-aos="fade-up">Keeping six squads on the same page</h2>
+            <div class="rd-case-body" data-aos="fade-up">
+                <p>Six product squads and a shared resource pool, each squad owning one surface.
+                   What held them together was not a tool — it was one backlog convention, one
+                   design system, and a standing agreement about who decides what.</p>
+            </div>
+
+            <div class="rd-tabs rd-tabs-collapsible" role="tablist" aria-label="Views of how the team worked" data-aos="fade-up">
+                <button type="button" class="rd-tab" role="tab" aria-selected="true" aria-controls="tabpanel-team" id="tab-team"><span>Team &amp; definition</span></button>
+                <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-systems" id="tab-systems"><span>Systems, tools and automation</span></button>
+            </div>
+            <!-- Stands in for the pill row at <=768px. Option data-values are the
+                 tab ids; js/case-tabs.js keeps the two in sync. -->
+            <div class="rd-tabs-dropdown">
+                <button type="button" class="rd-tabs-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="squads-dropdown-panel" aria-label="Views of how the team worked">
+                    <span data-tabs-dropdown-value>Team &amp; definition</span>
+                    <svg class="rd-tabs-dropdown-chev" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
-              </a>
+                <ul class="rd-tabs-dropdown-panel" id="squads-dropdown-panel" role="listbox" aria-label="Views of how the team worked">
+                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-team" aria-selected="true">Team &amp; definition</li>
+                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-systems" aria-selected="false">Systems, tools and automation</li>
+                </ul>
             </div>
-          </div>
-          <div class="fact-images" data-aos="fade-up">
-            <img class="case-cover" id="displayImage" src="" alt="Showcase" />
-          </div>
+
+            <div class="rd-case-tabpanels">
+                <!-- ---------- Team & definition ---------- -->
+                <div class="rd-case-tabpanel" id="tabpanel-team" role="tabpanel" aria-labelledby="tab-team">
+                    <div class="rd-case-card-stack">
+                        <div class="rd-case-card">
+                            <div class="rd-case-split is-media">
+                                <div class="rd-case-body rd-case-features-body">
+                                    <div class="rd-case-panel-head">
+                                        <h3 class="rd-case-panel-title">The team</h3>
+                                        <p>As a leader I believe in empowering each team member by providing
+                                           clear communication channels, aligning goals, and encouraging
+                                           innovation.</p>
+                                    </div>
+
+                                    <div class="rd-case-grid is-two is-compact rd-b6-values">
+                                        <div>
+                                            <img class="rd-case-challenge-icon" src="../public/ar_commitment.svg" alt="" loading="lazy">
+                                            <h4 class="rd-case-challenge-title">Commitment</h4>
+                                            <p>Each team member stays focused on achieving sprint goals, delivering consistent value, and driving meaningful progress.</p>
+                                        </div>
+                                        <div>
+                                            <img class="rd-case-challenge-icon" src="../public/ar_courage.svg" alt="" loading="lazy">
+                                            <h4 class="rd-case-challenge-title">Courage</h4>
+                                            <p>We foster open discussions, embrace constructive feedback, and challenge assumptions to drive innovation and improvement.</p>
+                                        </div>
+                                        <div>
+                                            <img class="rd-case-challenge-icon" src="../public/ar_collaborative.svg" alt="" loading="lazy">
+                                            <h4 class="rd-case-challenge-title">Collaboration</h4>
+                                            <p>By maintaining a clear backlog and shared objectives, the team aligns efforts to maximise impact and efficiency.</p>
+                                        </div>
+                                        <div>
+                                            <img class="rd-case-challenge-icon" src="../public/ar_creative.svg" alt="" loading="lazy">
+                                            <h4 class="rd-case-challenge-title">Creativity</h4>
+                                            <p>We value diverse perspectives and expertise, cultivating an environment where new ideas thrive and solutions emerge.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <figure class="rd-case-figure">
+                                    <img src="../public/ar_team.png" alt="Team structure: a product manager above a shared resource pool and six squads, each squad staffed with a product owner, software engineer, QC and product designer">
+                                </figure>
+                            </div>
+                        </div>
+
+                        <h3 class="rd-ai-layer-title rd-b6-unified">Unified through communication, <br> approach and accountability</h3>
+
+                        <div class="rd-case-card rd-b6-wiki">
+                            <div class="rd-b6-wiki-row">
+                                <h3 class="rd-case-panel-title">Product wiki</h3>
+                            </div>
+                            <div class="rd-b6-wiki-row is-cells">
+                                <div class="rd-case-grid is-two is-compact">
+                                    <div>
+                                        <img class="rd-case-challenge-icon" src="../public/ar_flowbased.svg" alt="" loading="lazy">
+                                        <h4 class="rd-case-challenge-title">Flow based (Kanban)</h4>
+                                        <ul class="rd-case-list is-tight">
+                                            <li>For continuous work — social posts, marketing campaigns.</li>
+                                            <li>Just in time: new work enters whenever the queue needs replenishing.</li>
+                                            <li>Feedback arrives whenever functionality reaches the customer.</li>
+                                            <li>Delivery can happen at any time.</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <img class="rd-case-challenge-icon" src="../public/ar_iterationbasde.svg" alt="" loading="lazy">
+                                        <h4 class="rd-case-challenge-title">Iteration based (Scrum)</h4>
+                                        <ul class="rd-case-list is-tight">
+                                            <li>For time-boxed work — product development, design sprints.</li>
+                                            <li>Iterative: scope is set at the start of each iteration.</li>
+                                            <li>Feedback arrives at the end of each iteration.</li>
+                                            <li>Incremental delivery, most often biweekly.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="rd-b6-wiki-row">
+                                <h3 class="rd-case-label is-heading rd-b6-dual">Separate approaches, <br><span>one set of ceremonies</span></h3>
+                                <div class="rd-b6-scrum">
+                                    <img src="../public/Scrum-Process-Chart.svg" alt="Scrum cycle: backlog refinement and sprint planning to build the right thing, the sprint with its daily stand-up, then sprint review and retrospective to build the thing right" loading="lazy">
+                                </div>
+                            </div>
+
+                            <div class="rd-b6-wiki-row is-cells">
+                                <div class="rd-case-grid is-five rd-b6-sprint">
+                                    <div>
+                                        <p class="rd-case-label">01 Backlog refinement</p>
+                                        <ul class="rd-case-list is-tight">
+                                            <li>Prioritise the product backlog</li>
+                                            <li>Ensure items are clear, well-defined and estimated</li>
+                                            <li>Align the backlog with business and customer needs</li>
+                                            <li>Clarify acceptance criteria with the team</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <p class="rd-case-label">02 Sprint planning</p>
+                                        <ul class="rd-case-list is-tight">
+                                            <li>Forecast team velocity</li>
+                                            <li>Estimate task durations</li>
+                                            <li>Define and commit to the sprint backlog</li>
+                                            <li>Set a clear sprint goal</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <p class="rd-case-label">03 Sprint execution</p>
+                                        <ul class="rd-case-list is-tight">
+                                            <li>Run daily stand-ups</li>
+                                            <li>Remove blockers and keep progress visible</li>
+                                            <li>Hold alignment toward the sprint goal</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <p class="rd-case-label">04 Sprint review</p>
+                                        <ul class="rd-case-list is-tight">
+                                            <li>Demonstrate the increment to stakeholders</li>
+                                            <li>Gather feedback for future improvements</li>
+                                            <li>Assess the sprint goal and deliverables</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <p class="rd-case-label">05 Retrospective</p>
+                                        <ul class="rd-case-list is-tight">
+                                            <li>Identify areas for team and process improvement</li>
+                                            <li>Discuss lessons learned from the sprint</li>
+                                            <li>Commit actionable items for the next one</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="rd-b6-wiki-row rd-b6-raci">
+                                <p class="rd-case-label is-heading">Communication plan &amp; RACI chart</p>
+                                <figure class="rd-case-figure">
+                                    <img src="../public/ar_communication.png" alt="Communication plan and RACI chart: kick-off, planning, stand-up, sprint demo, retrospective and milestone updates, each with a frequency, owner, channel and the roles required or optional">
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ---------- Systems, tools and automation ---------- -->
+                <div class="rd-case-tabpanel" id="tabpanel-systems" role="tabpanel" aria-labelledby="tab-systems" hidden>
+                    <div class="rd-case-card-stack">
+                        <!-- Not id="tool": js/case-studies.js renders its 2021 tool strip
+                             into any #tool it finds, on top of this card. -->
+                        <div class="rd-case-card">
+                            <div class="rd-case-split is-media">
+                                <div class="rd-case-body rd-case-features-body">
+                                    <div class="rd-case-panel-head">
+                                        <h3 class="rd-case-panel-title">Tools and automation</h3>
+                                        <p>All six squads worked in the same tools, so the backlog, the designs
+                                           and the conversations lived in one place. Automation between them
+                                           carried the repetitive parts of a sprint — status rollups, hand-off
+                                           notifications, release notes — so the team could spend its attention
+                                           on work that needs judgement.</p>
+                                    </div>
+
+                                    <div>
+                                        <h4 class="rd-case-features-label">Main tools and automation</h4>
+                                        <div class="rd-case-checklist" data-picker="b6-tool-image" role="tablist" aria-label="Main tools and automation">
+                                            <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true" data-image="../public/ar_tool_figma.png">
+                                                <span class="rd-case-checklist-icon"><img src="../public/ar_tool_figma.svg" alt="" loading="lazy"></span>
+                                                <span>Figma</span>
+                                            </div>
+                                            <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/ar_tool_jira.png">
+                                                <span class="rd-case-checklist-icon"><img src="../public/ar_tool_jira.svg" alt="" loading="lazy"></span>
+                                                <span>Jira</span>
+                                            </div>
+                                            <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/ar_tool_discord.png">
+                                                <span class="rd-case-checklist-icon"><img src="../public/ar_tool_discord.svg" alt="" loading="lazy"></span>
+                                                <span>Discord</span>
+                                            </div>
+                                            <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false">
+                                                <span class="rd-case-checklist-icon"><img src="../public/ar_tool_teams.svg" alt="" loading="lazy"></span>
+                                                <span>Microsoft Teams</span>
+                                            </div>
+                                            <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false">
+                                                <span class="rd-case-checklist-icon"><img src="../public/ar_tool_github.svg" alt="" loading="lazy"></span>
+                                                <span>GitHub</span>
+                                            </div>
+                                            <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/ar_automation.png">
+                                                <span class="rd-case-checklist-icon">
+                                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                                                </span>
+                                                <span>Automation</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <figure class="rd-case-figure">
+                                    <img id="b6-tool-image" src="../public/ar_tool_figma.png" alt="The selected tool or automation workflow as the team used it" loading="lazy">
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
-    <footer
-      class="container-fluid"
-      id="footer-placeholder"
-      data-aos="fade-up"
-    ></footer>
-    <script src="../js/script.js"></script>
-    <script src="../js/case-studies.js"></script>
-  <script src="../js/back-to-top.js"></script>
+    <!-- ================= Artifacts (unnumbered band) ================= -->
+    <!-- The panel below is driven by js/case-studies.js: .button-group buttons
+         call loadContent(key), which fills #casedescription, #fact-main,
+         #fact-audience, #fact-format, #fact-scope, #ctaButton and #displayImage.
+         The keys must stay exactly as they are in contentMap. -->
+    <section class="rd-case-section is-tinted" id="artifacts">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2" data-aos="fade-up">What the surfaces actually look like</h2>
+
+            <div class="rd-b6-showcase-nav" data-aos="fade-up">
+                <!-- .rd-bench-views keeps js/case-tabs.js off this group: these
+                     buttons have no aria-controls, and loadContent() swaps the
+                     one shared panel instead. -->
+                <div class="button-group rd-tabs rd-bench-views rd-tabs-collapsible" aria-label="Product surfaces">
+                    <button type="button" class="rd-tab" aria-pressed="true" onclick="loadContent('SeekHype')"><span>SeekHype</span></button>
+                    <button type="button" class="rd-tab" aria-pressed="false" onclick="loadContent('Swap')"><span>Swap</span></button>
+                    <button type="button" class="rd-tab" aria-pressed="false" onclick="loadContent('Safe')"><span>Safe</span></button>
+                    <button type="button" class="rd-tab" aria-pressed="false" onclick="loadContent('Scan')"><span>Scan</span></button>
+                    <button type="button" class="rd-tab" aria-pressed="false" onclick="loadContent('Bot')"><span>AuraBot</span></button>
+                    <button type="button" class="rd-tab" aria-pressed="false" onclick="loadContent('Index')"><span>Index</span></button>
+                </div>
+                <div class="rd-tabs-dropdown" id="showcase-select">
+                    <button type="button" class="rd-tabs-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="showcase-dropdown-panel" aria-label="Product surfaces">
+                        <span data-tabs-dropdown-value>SeekHype</span>
+                        <svg class="rd-tabs-dropdown-chev" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <ul class="rd-tabs-dropdown-panel" id="showcase-dropdown-panel" role="listbox" aria-label="Product surfaces">
+                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="SeekHype" aria-selected="true">SeekHype</li>
+                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="Swap" aria-selected="false">Swap</li>
+                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="Safe" aria-selected="false">Safe</li>
+                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="Scan" aria-selected="false">Scan</li>
+                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="Bot" aria-selected="false">AuraBot</li>
+                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="Index" aria-selected="false">Index</li>
+                    </ul>
+                </div>
+                <p class="rd-case-num-desc case-desc" id="casedescription"></p>
+            </div>
+
+            <div class="show-case-detail rd-b6-showcase" id="showCaseDetail" data-aos="fade-up">
+                <div class="fact-card rd-case-card">
+                    <div class="rd-b6-fact-head">
+                        <p class="rd-case-label">Fact card</p>
+                    </div>
+                    <div class="rd-b6-fact-body">
+                        <div class="fact-content">
+                            <div class="main-feature">
+                                <p class="rd-case-label is-heading">Main features</p>
+                                <ul id="fact-main" class="rd-case-list is-tight"></ul>
+                            </div>
+                            <div class="audience">
+                                <p class="rd-case-label is-heading">Audience</p>
+                                <ul id="fact-audience" class="rd-case-list is-tight"></ul>
+                            </div>
+                            <div class="format">
+                                <p class="rd-case-label is-heading">Format</p>
+                                <ul id="fact-format" class="rd-case-list is-tight"></ul>
+                            </div>
+                            <div class="scope">
+                                <p class="rd-case-label is-heading">Scope</p>
+                                <ul id="fact-scope" class="rd-case-list is-tight"></ul>
+                            </div>
+                        </div>
+                        <a id="ctaButton" class="rd-btn rd-btn-primary" href="https://beta.seekhype.io/" target="_blank" rel="noopener">
+                            Experience now
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path fill="currentColor" d="m22.707 11.293-7-7a1 1 0 0 0-1.414 1.414L19.586 11H2a1 1 0 0 0 0 2h17.586l-5.293 5.293a1 1 0 1 0 1.414 1.414l7-7a1 1 0 0 0 0-1.414z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <figure class="fact-images rd-case-figure">
+                    <img id="displayImage" src="" alt="Product screens for the selected surface">
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 06 · Stopped looking ================= -->
+    <section class="rd-case-section is-tinted" id="after">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2" data-aos="fade-up">It shipped, and then I stopped looking</h2>
+
+            <!-- >>> OPEN — the opening paragraph. The Figma places lending.html's
+                 paragraph here ("Gives the top slot, unconditionally, to loans
+                 awaiting signature…"), which belongs to HD Saison. -->
+
+            <!-- >>> OPEN — three lessons, as .rd-case-lesson divs inside the row
+                 below. The Figma has three identical placeholder tiles reading
+                 "Short lesson learned (keyword, short 3 keys)". Each one wants a
+                 claim the writer owns, in the voice the other case studies use.
+                 The row is deliberately written on one line with no whitespace
+                 inside it: the rule that collapses this card while it is empty
+                 uses :empty, which a stray newline would defeat. -->
+            <div class="rd-case-card" data-aos="fade-up">
+                <p class="rd-case-label">What I'd do differently</p>
+                <div class="rd-case-lesson-row"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Related case studies ================= -->
+    <section class="rd-case-section is-tinted">
+        <div class="rd-case-inner rd-shell">
+            <h2 class="rd-case-h2" data-aos="fade-up">Related case studies</h2>
+
+            <div class="rd-related" data-aos="fade-up">
+                <a class="rd-related-card" href="./healthcare.html">
+                    <div class="rd-related-media">
+                        <img src="../public/hc_hero.png"
+                             alt="Speaker-bureau platform case study cover" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <h3 class="rd-related-title">One speaker-bureau platform for 17 roles</h3>
+                        <p class="rd-related-desc">A rep, a compliance monitor and an accountant working the same program record — and how a 496-story backlog became one shippable release.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+
+                <a class="rd-related-card" href="./lending.html">
+                    <div class="rd-related-media">
+                        <img src="../public/hd/cover.png"
+                             alt="HD Saison app screens: a loan dashboard on the home tab and a loan management screen with repayment schedule and progress" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <h3 class="rd-related-title">Getting consumer lending off the counter</h3>
+                        <p class="rd-related-desc">Vietnam's third-largest consumer lender originated every loan at a counter. Reframing a four-goal client brief down to one problem, then shipping it.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+
+                <a class="rd-related-card" href="./marketing-platform.html">
+                    <div class="rd-related-media">
+                        <img src="../public/is/cover_isystem.png"
+                             alt="iSystem salon platform dashboard: today's overview stats, an hourly booking chart, and a waiting-list table" loading="lazy">
+                    </div>
+                    <div class="rd-related-body">
+                        <h3 class="rd-related-title">Eight apps, one team</h3>
+                        <p class="rd-related-desc">A startup was building eight apps at once for three user types. It became one transaction spine — book, check in, pay — with everything else sequenced behind it.</p>
+                    </div>
+                    <span class="rd-related-cta">Read the case study &rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div class="rd-closing">
+<footer id="footer-placeholder"></footer>
+</div>
+
+<script src="../js/script.js"></script>
+<script src="../js/case-studies.js"></script>
+<script src="../js/case-picker.js"></script>
+<script src="../js/back-to-top.js"></script>
+<script src="../js/case-toc.js"></script>
+<script src="../js/web3-frictions.js"></script>
+<script src="../js/web3-chasm-data.js"></script>
+<script src="../js/web3-chasm.js"></script>
+<script src="../js/case-tabs.js"></script>
+
+<script>
+// The showcase pills call loadContent() inline; its mobile dropdown needs the
+// same call, and each side has to follow the other so resizing across 768px
+// never shows a stale selection. Runs after case-tabs.js, which defines the
+// dropdown's .value.
+(function () {
+  var select = document.getElementById('showcase-select');
+  if (!select) return;
+
+  select.addEventListener('change', function () { loadContent(select.value); });
+
+  document.querySelectorAll('#artifacts .button-group button').forEach(function (button) {
+    var key = /loadContent\('([^']+)'/.exec(button.getAttribute('onclick') || '');
+    if (!key) return;
+    button.addEventListener('click', function () { select.value = key[1]; });
+  });
+})();
+</script>
 </body>
 </html>
-
-<!-- <script>
-  // Function to check if a valid token exists in sessionStorage
-  function hasValidToken() {
-    const token = sessionStorage.getItem('caseStudyToken');
-    if (!token) return false;
-
-    try {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const payload = JSON.parse(window.atob(base64));
-
-      return payload?.exp && payload.exp * 1000 > Date.now();
-    } catch (error) {
-      console.error('Invalid token:', error);
-      return false;
-    }
-  }
-
-  // Redirect if token is missing or invalid
-  if (!hasValidToken()) {
-    alert('Unauthorized! Redirecting to homepage...');
-    window.location.href = '/';
-  }
-</script> -->

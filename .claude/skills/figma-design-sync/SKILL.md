@@ -57,6 +57,15 @@ the user to re-find nodes that are already documented:
 | Case Study — Customer Engagement v3 | root | `40000252:4705` |
 | Case Study — Customer Engagement v3 | §05 Findings, right panel (per pill) | `40000390:6101` |
 | Case Study — Customer Engagement v3 | §07 Screens, "Three numbers carried the case" stat row | `40000391:6102` |
+| Case Study — Healthcare | "problems": Figures band + pain-point carousel | `40000453:672` |
+| Case Study — Healthcare | Shipped screens: header + tab strip | `40000555:357` (header row `40000555:358`) |
+| Case Study — Healthcare | Shipped screens: all seven feature frames | `40000577:459` |
+| Case Study — Healthcare | §04 B3 decision: phase track + goal card + MoSCoW + legend | `40000532:7804` (track `40000566:1419`, row `40000566:1435`, MoSCoW raster `40000566:1462`, legend `40000566:1463`) |
+| Case Study — Aura / web-3 | root (`Case_web3`, file `R2444s7q1V2Rp7Ubd6l5BH`) | `40000586:5147` |
+| Case Study — Aura / web-3 | §01 roadmap, three columns | `40000586:5229` |
+| Case Study — Aura / web-3 | §02 "A Short History of Web Evolution" band | `40000586:5361` (columns `40000586:5363`) |
+| Case Study — Aura / web-3 | §04 phases card: Approach + phase band + five columns + metric panel | `40000586:5490` (card `40000586:5496`, band `40000586:5501`, columns `40000586:5506`, metrics `40000586:5522`) |
+| Case Study — Aura / web-3 | §05 "How We Work Together": team card + heading + Product Wiki | `40000586:5533` (team card `40000586:5545`, heading `40000586:5592`, wiki `40000586:5593`, approaches `40000586:5596`) |
 
 If the user gives a link/node not on this list, use it — then add it to this
 table and to the relevant source comment (the file header in `redesign.css`

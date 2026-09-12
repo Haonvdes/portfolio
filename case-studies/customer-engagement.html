@@ -626,28 +626,141 @@
 
             
             <div class="rd-tabs rd-tabs-collapsible" role="tablist" aria-label="Charter views">
-                <button type="button" class="rd-tab" role="tab" aria-selected="true" aria-controls="charter-panel-principle" id="charter-tab-principle"><span>Approach</span></button>
-                <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="charter-panel-timeline" id="charter-tab-timeline"><span>Timeline & Activity</span></button>
-                <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="charter-panel-collab" id="charter-tab-collab"><span>Collaboration &amp; communication</span></button>
+                <button type="button" class="rd-tab" role="tab" aria-selected="true" aria-controls="charter-panel-collab" id="charter-tab-collab"><span>Collaboration &amp; communication</span></button>
+                <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="charter-panel-principle" id="charter-tab-principle"><span>Approach</span></button>
+                <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="charter-panel-timeline" id="charter-tab-timeline"><span>Timeline &amp; Activity</span></button>
             </div>
             <!-- Mobile-only stand-in for the row above (<=768px). Options carry
                  each tab's own id — case-tabs.js reads it back to find the tab
                  to select() on change, since this group has no page-specific
                  script of its own. Custom listbox, not a native <select> —
-                 see the Findings dropdown's comment above for why. -->
+                 see the Findings dropdown's comment above for why. Option
+                 order and the toggle's own default text both have to match the
+                 tab row, including which one starts aria-selected. -->
             <div class="rd-tabs-dropdown">
                 <button type="button" class="rd-tabs-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="charter-dropdown-panel" aria-label="Charter views">
-                    <span data-tabs-dropdown-value>Approach</span>
+                    <span data-tabs-dropdown-value>Collaboration &amp; communication</span>
                     <svg class="rd-tabs-dropdown-chev" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
                 <ul class="rd-tabs-dropdown-panel" id="charter-dropdown-panel" role="listbox" aria-label="Charter views">
-                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="charter-tab-principle" aria-selected="true">Approach</li>
+                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="charter-tab-collab" aria-selected="true">Collaboration &amp; communication</li>
+                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="charter-tab-principle" aria-selected="false">Approach</li>
                     <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="charter-tab-timeline" aria-selected="false">Timeline &amp; Activity</li>
-                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="charter-tab-collab" aria-selected="false">Collaboration &amp; communication</li>
                 </ul>
             </div>
 
-            <div id="charter-panel-principle" role="tabpanel" aria-labelledby="charter-tab-principle" style="width:100%;">
+            <div id="charter-panel-collab" role="tabpanel" aria-labelledby="charter-tab-collab" style="width:100%;">
+                <div class="rd-case-body" data-aos="fade-up">
+                    <p>
+                        Nobody in this project reported to me. The sponsor funded it, the
+                        business owner lived with the tool, the tool owner ran the system it
+                        sat on. Getting the three of them to move in the right order was most
+                        of the job.
+                    </p>
+                </div>
+
+                <figure class="rd-case-figure is-strip rd-ceflow">
+                    <div class="rd-figure-frame">
+                        <div class="rd-figure-scroll">
+                            <svg class="rd-ceflow-svg" viewBox="0 0 900 626" role="img"
+                                 aria-label="Coordination sequence across four parties. One: I send the proposal to the sponsor. Two: the sponsor approves, and that approval gates everything below it. Three: two conversations run at the same time from the same point — one with the business owner about their needs, pains and direction, one with the tool owner about what it takes to build and when. Four: one meeting with everyone in the room. Five: a status meeting with every party, repeating every week through delivery.">
+                                <defs>
+                                    <!-- orient="auto-start-reverse" is what lets one marker serve
+                                         both ends of a line: the fork's stem uses marker-start to
+                                         point an arrowhead back into my own lifeline, showing the
+                                         exchange runs both ways without drawing a second line. -->
+                                    <marker id="ceflow-head" viewBox="0 0 10 10" refX="9" refY="5"
+                                            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                        <path class="rd-ceflow-head" d="M0,0 L10,5 L0,10 Z"></path>
+                                    </marker>
+                                </defs>
+
+                                <g class="rd-ceflow-life">
+                                    <line x1="120" y1="60" x2="120" y2="612"></line>
+                                    <line x1="330" y1="60" x2="330" y2="612"></line>
+                                    <line x1="570" y1="60" x2="570" y2="612"></line>
+                                    <line x1="790" y1="60" x2="790" y2="612"></line>
+                                </g>
+
+                                <rect class="rd-ceflow-box" x="32" y="4" width="176" height="52" rx="10"></rect>
+                                <text class="rd-ceflow-name" x="120" y="27" text-anchor="middle">Sponsor</text>
+                                <text class="rd-ceflow-sub" x="120" y="45" text-anchor="middle">funds the work</text>
+
+                                <rect class="rd-ceflow-box is-self" x="242" y="4" width="176" height="52" rx="10"></rect>
+                                <text class="rd-ceflow-name" x="330" y="27" text-anchor="middle">Me</text>
+                                <text class="rd-ceflow-sub" x="330" y="45" text-anchor="middle">product manager</text>
+
+                                <rect class="rd-ceflow-box" x="482" y="4" width="176" height="52" rx="10"></rect>
+                                <text class="rd-ceflow-name" x="570" y="27" text-anchor="middle">Business owner</text>
+                                <text class="rd-ceflow-sub" x="570" y="45" text-anchor="middle">uses the tool</text>
+
+                                <rect class="rd-ceflow-box" x="702" y="4" width="176" height="52" rx="10"></rect>
+                                <text class="rd-ceflow-name" x="790" y="27" text-anchor="middle">Tool owner</text>
+                                <text class="rd-ceflow-sub" x="790" y="45" text-anchor="middle">builds it</text>
+
+                                <text class="rd-ceflow-label" x="228" y="94" text-anchor="middle">1 &middot; Proposal for the work</text>
+                                <line class="rd-ceflow-arrow" x1="322" y1="104" x2="134" y2="104" marker-end="url(#ceflow-head)"></line>
+
+                                <text class="rd-ceflow-label" x="228" y="140" text-anchor="middle">2 &middot; Approval</text>
+                                <line class="rd-ceflow-arrow" x1="134" y1="150" x2="322" y2="150" marker-end="url(#ceflow-head)"></line>
+
+                                <rect class="rd-ceflow-gate" x="16" y="172" width="868" height="46" rx="8"></rect>
+                                <text class="rd-ceflow-tag is-gate" x="450" y="192" text-anchor="middle">APPROVAL GATE</text>
+                                <text class="rd-ceflow-note" x="450" y="210" text-anchor="middle">Nothing below this line starts without it.</text>
+
+                                <text class="rd-ceflow-tag" x="230" y="232">AT THE SAME TIME</text>
+                                <rect class="rd-ceflow-frag" x="230" y="242" width="654" height="156" rx="8"></rect>
+
+                                <line class="rd-ceflow-arrow" x1="330" y1="300" x2="392" y2="300" marker-start="url(#ceflow-head)"></line>
+                                <circle class="rd-ceflow-dot" cx="392" cy="300" r="4"></circle>
+                                <line class="rd-ceflow-arrow" x1="392" y1="300" x2="562" y2="270" marker-end="url(#ceflow-head)"></line>
+                                <line class="rd-ceflow-arrow" x1="392" y1="300" x2="782" y2="354" marker-end="url(#ceflow-head)"></line>
+                                <text class="rd-ceflow-label" x="558" y="258" text-anchor="end">3a &middot; Their needs, pains and direction</text>
+                                <text class="rd-ceflow-label" x="778" y="378" text-anchor="end">3b &middot; What it takes to build, and when</text>
+
+                                <rect class="rd-ceflow-band" x="64" y="430" width="782" height="58" rx="10"></rect>
+                                <line class="rd-ceflow-join" x1="120" y1="452" x2="790" y2="452"></line>
+                                <circle class="rd-ceflow-dot" cx="120" cy="452" r="5"></circle>
+                                <circle class="rd-ceflow-dot" cx="330" cy="452" r="5"></circle>
+                                <circle class="rd-ceflow-dot" cx="570" cy="452" r="5"></circle>
+                                <circle class="rd-ceflow-dot" cx="790" cy="452" r="5"></circle>
+                                <text class="rd-ceflow-label" x="455" y="477" text-anchor="middle">4 &middot; Everyone in one room, on the same information</text>
+
+                                <text class="rd-ceflow-tag" x="16" y="514">EVERY WEEK</text>
+                                <rect class="rd-ceflow-frag" x="16" y="524" width="868" height="88" rx="8"></rect>
+                                <text class="rd-ceflow-label" x="455" y="552" text-anchor="middle">5 &middot; Status meeting with every party</text>
+                                <line class="rd-ceflow-join" x1="120" y1="572" x2="790" y2="572"></line>
+                                <circle class="rd-ceflow-dot" cx="120" cy="572" r="5"></circle>
+                                <circle class="rd-ceflow-dot" cx="330" cy="572" r="5"></circle>
+                                <circle class="rd-ceflow-dot" cx="570" cy="572" r="5"></circle>
+                                <circle class="rd-ceflow-dot" cx="790" cy="572" r="5"></circle>
+                                <path class="rd-ceflow-arrow" d="M 856 556 a 14 14 0 1 1 -10 4" marker-end="url(#ceflow-head)"></path>
+                                <text class="rd-ceflow-note" x="455" y="598" text-anchor="middle">It ran that way through delivery.</text>
+                            </svg>
+                        </div>
+                    </div>
+                    <figcaption>The order the four of us had to move in.</figcaption>
+                </figure>
+
+                <div class="rd-case-body" data-aos="fade-up">
+                    <p>That sequence is not accidental. It follows the 5 Cs, bottom to top.</p>
+                </div>
+
+                <div class="rd-case-card" style="width:100%;">
+                    <div class="rd-case-split">
+                        <figure class="rd-case-figure">
+                            <img src="../public/ce_collaboration.png" loading="lazy" style="border-radius:0; border:0;"
+                                 alt="Five coordination actions across delivery, staircased by stage: got the budget approved, connected the business owner and the tool owner, staffed the team, opened the door to discovery, kept everyone aligned through delivery.">
+                        </figure>
+                        <div>
+                            <h4 class="rd-case-challenge-title">The 5 Cs Model</h4>
+                            <p class="rd-case-num-desc">The collaboration concept behind this: 5Cs, building up from the bottom. I proposed the plan to the sponsor, connected both outside parties, brought my team on to start the work, and kept everyone posted at every milestone. Five stages: Cognizance, Communication, Coordination, Cooperation, Collaboration.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="charter-panel-principle" role="tabpanel" aria-labelledby="charter-tab-principle" style="width:100%;" hidden>
                 <div style="display:flex; flex-wrap:wrap; align-items:center; gap:40px;">
                                       <img src="../public/ce_charter_buildlaunch.png" loading="lazy"
                          style="flex:1 1 0; min-width:280px; border-radius:16px;"
@@ -685,20 +798,6 @@
                 </figure>
             </div>
 
-            <div id="charter-panel-collab" role="tabpanel" aria-labelledby="charter-tab-collab" style="width:100%;" hidden>
-                <div class="rd-case-card" style="width:100%;">
-                    <div class="rd-case-split">
-                        <figure class="rd-case-figure">
-                            <img src="../public/ce_collaboration.png" loading="lazy" style="border-radius:0; border:0;"
-                                 alt="Five coordination actions across delivery, staircased by stage: got the budget approved, connected the business owner and the tool owner, staffed the team, opened the door to discovery, kept everyone aligned through delivery.">
-                        </figure>
-                        <div>
-                            <h4 class="rd-case-challenge-title">The 5 Cs Model</h4>
-                            <p class="rd-case-num-desc">The collaboration concept behind this: 5Cs, building up from the bottom. I proposed the plan to the sponsor, connected both outside parties, brought my team on to start the work, and kept everyone posted at every milestone. Five stages: Cognizance, Communication, Coordination, Cooperation, Collaboration.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 

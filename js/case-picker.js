@@ -11,6 +11,13 @@
 // templates/case-study-v3.template.html. Keeping one copy means a future
 // fix here reaches every case study, instead of landing in whichever file
 // happened to get edited.
+//
+// Centralised 2026-09-10: case-study-framework.html, marketing-platform-v3.html
+// and web-3-v3.html each carried a byte-identical inline copy of an OLDER
+// version of this loop — no embed branch — so the same data-picker markup
+// behaved differently depending on which page it sat on, and nothing in the
+// markup or the CSS said so. Those copies are gone. Add behaviour here, never
+// in a page.
 (function () {
   document.querySelectorAll('.rd-case-checklist[data-picker]').forEach(function (picker) {
     var image = document.getElementById(picker.dataset.picker);
@@ -28,7 +35,11 @@
       var src = row.dataset.image;
 
       if (!src) {
-        if (embed) embed.hidden = false;
+        // No image and no iframe to fall back to (a row whose screenshot does
+        // not exist yet): keep whatever is showing rather than hide the image
+        // and leave the panel blank.
+        if (!embed) return;
+        embed.hidden = false;
         image.hidden = true;
         if (figure) figure.classList.add('is-embed');
         return;
@@ -45,11 +56,23 @@
       }, 150);
     }
 
+    // Hover selects too, on pointer devices only. It is deliberately layered
+    // ON TOP of click rather than replacing it: hover reaches neither touch nor
+    // keyboard, so click and Enter/Space stay the definition of "select" and
+    // hover just calls into the same select(). Gated on (hover: hover) so a
+    // touch device never fires it from a tap's synthetic mouseenter.
+    var canHover = window.matchMedia && window.matchMedia('(hover: hover)').matches;
+
     rows.forEach(function (row) {
       row.addEventListener('click', function () { select(row); });
       row.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(row); }
       });
+      if (canHover) {
+        row.addEventListener('mouseenter', function () {
+          if (!row.classList.contains('is-active')) select(row);
+        });
+      }
     });
   });
 }());

@@ -435,12 +435,9 @@
             <div class="rd-scrollover-spacer" aria-hidden="true"></div>
         </div>
 
-        <!-- `is-viewport-fit` (desktop only, see "16. Three screens fits one
-             screen" in redesign.css) makes the tabs and the active panel land
-             inside exactly one viewport. It sits on this wrapper rather than on
-             the <section>, because the section also contains the two-viewport-
-             tall pinned stage above, so "fits one screen" can only be true of
-             the part that scrolls over it. -->
+        <!-- `is-viewport-fit` is the block that climbs over the pinned band above
+             ("15. Scroll-over band" in redesign.css). It no longer sizes itself to
+             the viewport; the name is historical. -->
         <div class="is-viewport-fit">
         <div class="rd-case-inner rd-shell" style="align-items:center;">
             <div style="max-width: 684px; text-align: center;">

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="robots" content="noindex">
+    <title>Preview — Web3 chasm and phases</title>
+
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+</head>
+<body class="rd-case">
+
+<main>
+<section class="rd-case-section is-tinted" id="chasm">
+    <div class="rd-case-inner rd-shell">
+        <h2 class="rd-case-h2">Web3 was built by early adopters, <br> for early adopters</h2>
+        <div class="rd-case-body">
+            <p>New technological paradigms can only create positive social change if they're
+               widely accessible and experienced by diverse people.</p>
+        </div>
+
+        <div class="rd-phase">
+            <div class="rd-phase-panel" id="w3cPanel">
+                <div class="rd-phase-row">
+                    <article class="rd-case-card rd-phase-card rd-w3c-card">
+                        <div class="rd-phase-goal">
+                            <h3 class="rd-phase-goal-title">
+                                <span id="w3cGoalTitle"></span>
+                                <img src="../public/ic_flag.svg" alt="" width="24" height="24">
+                            </h3>
+                            <p id="w3cGoal"></p>
+                        </div>
+                        <dl class="rd-phase-facts" id="w3cFacts"></dl>
+                    </article>
+
+                    <div class="rd-phase-priority">
+                        <h3 class="rd-phase-priority-title">Who each phase was for</h3>
+
+                        <div class="rd-w3c-chart" id="w3cChart" data-active="early">
+                            <button type="button" class="rd-w3c-market" data-side="early" aria-pressed="true" aria-controls="w3cPanel">Early market</button>
+                            <p class="rd-w3c-chasm">The chasm <span aria-hidden="true">&darr;</span></p>
+                            <button type="button" class="rd-w3c-market" data-side="main" aria-pressed="false" aria-controls="w3cPanel">Mainstream market</button>
+
+                            <span class="rd-w3c-bracket" data-side="early" aria-hidden="true"></span>
+                            <span class="rd-w3c-bracket" data-side="main" aria-hidden="true"></span>
+
+                            <!-- Stretched to the grid's column widths, so x and y scale
+                                 independently; the non-scaling stroke keeps the gaps
+                                 between groups the same width at every size. -->
+                            <svg class="rd-w3c-svg" viewBox="0 0 630 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                                <g data-side="early">
+                                    <path class="rd-w3c-seg is-innovators" vector-effect="non-scaling-stroke" d="M0 100 L0 91.02 L5 90.87 L10 90.69 L15 90.48 L20 90.25 L25 89.99 L30 89.7 L35 89.37 L40 89 L45 88.59 L50 88.13 L55 87.62 L60 87.06 L65 86.44 L70 85.75 L75 85 L80 84.17 L85 83.28 L90 82.3 L95 81.24 L100 80.09 L100 100Z"/>
+                                    <path class="rd-w3c-seg is-early" vector-effect="non-scaling-stroke" d="M100 100 L100 80.09 L105 78.85 L110 77.53 L115 76.1 L120 74.58 L125 72.97 L130 71.25 L135 69.44 L140 67.53 L145 65.53 L150 63.43 L155 61.24 L160 58.97 L165 56.62 L170 54.2 L175 51.71 L180 49.17 L185 46.57 L190 43.95 L195 41.29 L200 38.63 L200 100Z"/>
+                                </g>
+                                <g data-side="main">
+                                    <path class="rd-w3c-seg is-em" vector-effect="non-scaling-stroke" d="M230 100 L230 38.63 L235 35.96 L240 33.31 L245 30.68 L250 28.1 L255 25.57 L260 23.12 L265 20.76 L270 18.5 L275 16.35 L280 14.34 L285 12.47 L290 10.77 L295 9.23 L300 7.87 L305 6.71 L310 5.74 L315 4.98 L320 4.44 L325 4.11 L330 4 L330 100Z"/>
+                                    <path class="rd-w3c-seg is-lm" vector-effect="non-scaling-stroke" d="M330 100 L330 4 L335 4.11 L340 4.44 L345 4.98 L350 5.74 L355 6.71 L360 7.87 L365 9.23 L370 10.77 L375 12.47 L380 14.34 L385 16.35 L390 18.5 L395 20.76 L400 23.12 L405 25.57 L410 28.1 L415 30.68 L420 33.31 L425 35.96 L430 38.63 L430 100Z"/>
+                                    <path class="rd-w3c-seg is-laggards" vector-effect="non-scaling-stroke" d="M430 100 L430 38.63 L435 41.29 L440 43.95 L445 46.57 L450 49.17 L455 51.71 L460 54.2 L465 56.62 L470 58.97 L475 61.24 L480 63.43 L485 65.53 L490 67.53 L495 69.44 L500 71.25 L505 72.97 L510 74.58 L515 76.1 L520 77.53 L525 78.85 L530 80.09 L535 81.24 L540 82.3 L545 83.28 L550 84.17 L555 85 L560 85.75 L565 86.44 L570 87.06 L575 87.62 L580 88.13 L585 88.59 L590 89 L595 89.37 L600 89.7 L605 89.99 L610 90.25 L615 90.48 L620 90.69 L625 90.87 L630 91.02 L630 100Z"/>
+                                </g>
+                            </svg>
+
+                            <span class="rd-w3c-note" data-side="early" aria-hidden="true">Minimum feature set <span>&larr;</span></span>
+                            <span class="rd-w3c-note" data-side="main" aria-hidden="true">Whole product <span>&rarr;</span></span>
+
+                            <ul class="rd-w3c-groups">
+                                <li class="is-innovators" data-side="early"><span class="rd-w3c-sw is-innovators" aria-hidden="true"></span>Innovators <strong>2.5%</strong></li>
+                                <li class="is-early" data-side="early"><span class="rd-w3c-sw is-early" aria-hidden="true"></span>Early adopters <strong>13.5%</strong></li>
+                                <li class="is-em" data-side="main"><span class="rd-w3c-sw is-em" aria-hidden="true"></span>Early majority <strong>34%</strong></li>
+                                <li class="is-lm" data-side="main"><span class="rd-w3c-sw is-lm" aria-hidden="true"></span>Late majority <strong>34%</strong></li>
+                                <li class="is-laggards" data-side="main"><span class="rd-w3c-sw is-laggards" aria-hidden="true"></span>Laggards <strong>16%</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="rd-w3c-approach">
+            <div class="rd-w3c-approach-head">
+                <h3 class="rd-phase-priority-title">How the approach shifted with the market</h3>
+                <p>While Aura was raising money, design had to make the chain look credible to backers: a brand, a social presence, and research into who it was for. Once the goal turned to adoption, the work moved into the products. That meant interfaces and one design system across every surface, checked against real users through testing, airdrops and usage data.</p>
+            </div>
+
+            <div class="rd-b6-phaseblock">
+                <div class="rd-b6-phaseband">
+                    <span class="rd-b6-phase is-raise">Early market</span>
+                    <span class="rd-b6-phase is-adopt">Mainstream market</span>
+                </div>
+
+                <div class="rd-case-grid is-five rd-b6-phasecols">
+                    <div>
+                        <p class="rd-case-label is-raise">Strategy</p>
+                        <ul class="rd-case-list is-tight">
+                            <li>Develop project charters</li>
+                            <li>Allocate resources</li>
+                            <li>Establish team roles</li>
+                            <li>Branding design</li>
+                            <li>Social marketing design</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="rd-case-label is-raise">Tools &amp; designs</p>
+                        <ul class="rd-case-list is-tight">
+                            <li>Market research</li>
+                            <li>User research</li>
+                            <li>Behavioural research</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="rd-case-label is-adopt">Implementation</p>
+                        <ul class="rd-case-list is-tight">
+                            <li>Branding design</li>
+                            <li>Social marketing design</li>
+                            <li>Motion</li>
+                            <li>Merchandise design</li>
+                            <li>Mascot design</li>
+                            <li>User interface</li>
+                            <li>Design system</li>
+                            <li>Interaction design</li>
+                            <li>Design audit</li>
+                            <li>Usability testing</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="rd-case-label is-adopt">Validate</p>
+                        <ul class="rd-case-list is-tight">
+                            <li>Hearing from users</li>
+                            <li>Airdrop</li>
+                            <li>Pulling data from real users</li>
+                            <li>Usability testing</li>
+                            <li>Heuristic evaluation</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="rd-case-label is-adopt">Optimise</p>
+                        <ul class="rd-case-list is-tight">
+                            <li>Fix test findings</li>
+                            <li>Design system updates</li>
+                            <li>Re-test changed flows</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</main>
+
+<script src="../js/web3-chasm-data.js"></script>
+<script src="../js/web3-chasm.js"></script>
+</body>
+</html>

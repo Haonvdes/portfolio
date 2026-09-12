@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="robots" content="noindex">
+    <title>Preview — case component, 4 variants + before/after slider</title>
+
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+
+    <!--
+      ==========================================================================
+      REVIEW-ONLY FILE. Batch B1.
+
+      As of 2026-09-10 this file styles nothing itself: the component lives in
+      redesign.css's B1 block and its behaviour in js/case-picker.js (row
+      selection, including hover) and js/case-compare.js (the wipe). What is
+      left here is markup plus the labels between the cards, so the preview and
+      the real pages can no longer drift apart.
+
+      All four variants are the same shell the live pages already use —
+      .rd-case-card > .rd-case-split.is-media. Only the block at the bottom of
+      the left column changes: .rd-case-accordion (V1), .rd-case-grid.is-two
+      .is-compact (V2), .rd-case-checklist with data-picker (V3 and V4).
+      ==========================================================================
+    -->
+
+    <style>
+    /* Preview-page chrome only. Every rule for the component itself now lives
+       in redesign.css's B1 block, and the behaviour in js/case-picker.js and
+       js/case-compare.js — this file styles nothing but the labels between
+       the cards. */
+    .b1-page { padding-block: 0; }
+    .b1-page.rd-case-inner { gap: 0; }
+    .b1-page > h1 {
+      margin: 0 0 var(--m-8);
+      font-size: var(--rd-fs-2xl);
+      font-weight: var(--rd-fw-emphasis);
+      line-height: var(--rd-lh-heading);
+      color: var(--rd-ink);
+    }
+    .b1-page > p.b1-note {
+      margin: 0 0 var(--m-40);
+      max-width: 70ch;
+      font-size: var(--rd-fs-sm);
+      line-height: var(--rd-lh-prose);
+      color: var(--rd-ink-muted);
+    }
+    .b1-label {
+      margin: var(--m-48) 0 var(--m-12);
+      font-size: var(--rd-fs-xs);
+      font-weight: var(--rd-fw-emphasis);
+      line-height: var(--rd-lh-tight);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--rd-ink-muted);
+    }
+    </style>
+</head>
+<body class="rd-case">
+
+<section class="rd-case-section">
+<div class="b1-page rd-case-inner rd-shell">
+    <h1>Case component — 4 variants</h1>
+    <p class="b1-note">
+        Same shell every time: copy on the left, image panel on the right. Only the block
+        under the paragraph changes. V1 carries the before/after wipe; drag it, or focus it
+        and use the arrow keys.
+    </p>
+
+    <!-- ============================== V1 =============================== -->
+    <p class="b1-label">V1 — collapsible, problem &amp; solution · with before/after slider</p>
+
+    <div class="rd-case-card b1-component">
+        <div class="rd-case-split is-media">
+            <div class="rd-case-body rd-case-features-body">
+                <div class="rd-case-panel-head">
+                    <h3 class="rd-case-panel-title">Search Optimization</h3>
+                    <p>
+                        Five things, in the order they have to exist. Budget is not last:
+                        allocation and charges carry the weight of the whole record, and
+                        deferring them would have meant rebuilding around them later.
+                    </p>
+                </div>
+
+                <div class="rd-case-accordion">
+                    <details open>
+                        <summary>
+                            Problems / findings
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+                        </summary>
+                        <div class="rd-case-accordion-body">
+                            <ul>
+                                <li>Low visibility of selected items</li>
+                                <li>Weak hierarchy between available and selected items</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details open>
+                        <summary>
+                            Solution
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+                        </summary>
+                        <div class="rd-case-accordion-body">
+                            <ul>
+                                <li>Create a dedicated &ldquo;Selected Items (n)&rdquo; section for better visibility</li>
+                                <li>Separate selected items from the main table to improve hierarchy</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
+            <figure class="rd-case-figure is-compare">
+                <div class="rd-compare" data-compare>
+                    <img class="rd-compare-before" src="../public/hc_search_old.png" alt="The tools menu in the system being replaced" loading="lazy">
+                    <img class="rd-compare-after" src="../public/hc_search_new.png" alt="The same settings, reorganised into a searchable panel" loading="lazy">
+                    <span class="rd-compare-tag is-before">Before</span>
+                    <span class="rd-compare-tag is-after">After</span>
+                    <div class="rd-compare-handle">
+                        <span class="rd-compare-grip">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg>
+                        </span>
+                    </div>
+                    <input class="rd-compare-range" type="range" min="0" max="100" step="0.1" value="50" aria-label="Reveal the before or after screen">
+                </div>
+            </figure>
+        </div>
+    </div>
+
+    <!-- ============================== V2 =============================== -->
+    <p class="b1-label">V2 — grid, 4 blocks with icons</p>
+
+    <div class="rd-case-card b1-component">
+        <div class="rd-case-split is-media">
+            <div class="rd-case-body rd-case-features-body">
+                <div class="rd-case-panel-head">
+                    <h3 class="rd-case-panel-title">Venue Search</h3>
+                    <p>
+                        Five things, in the order they have to exist. Budget is not last:
+                        allocation and charges carry the weight of the whole record, and
+                        deferring them would have meant rebuilding around them later.
+                    </p>
+                </div>
+
+                <div class="rd-case-grid is-two is-compact">
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/ar_commitment.svg" alt="" loading="lazy">
+                        <h4 class="rd-case-challenge-title">Commitment</h4>
+                        <p>Each team member was dedicated to achieving sprint goals and delivering value consistently.</p>
+                    </div>
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/ar_courage.svg" alt="" loading="lazy">
+                        <h4 class="rd-case-challenge-title">Courage</h4>
+                        <p>We encouraged open discussions, constructive feedback, and the willingness to challenge assumptions to improve processes.</p>
+                    </div>
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/ar_creative.svg" alt="" loading="lazy">
+                        <h4 class="rd-case-challenge-title">Focus</h4>
+                        <p>By maintaining a prioritized backlog and clear sprint objectives, the team stayed aligned on what truly mattered.</p>
+                    </div>
+                    <div>
+                        <img class="rd-case-challenge-icon" src="../public/ar_collaborative.svg" alt="" loading="lazy">
+                        <h4 class="rd-case-challenge-title">Respect</h4>
+                        <p>We fostered a culture of mutual respect, valuing each team member&rsquo;s expertise, contributions, and perspectives.</p>
+                    </div>
+                </div>
+            </div>
+
+            <figure class="rd-case-figure">
+                <img src="../public/hc_venue_new.png" alt="Venue search results ranked against the program's budget and headcount" loading="lazy">
+            </figure>
+        </div>
+    </div>
+
+    <!-- ============================== V3 =============================== -->
+    <p class="b1-label">V3 — list items</p>
+
+    <div class="rd-case-card b1-component">
+        <div class="rd-case-split is-media">
+            <div class="rd-case-body rd-case-features-body">
+                <div class="rd-case-panel-head">
+                    <h3 class="rd-case-panel-title">Rep Dashboard</h3>
+                    <p>
+                        Five things, in the order they have to exist. Budget is not last:
+                        allocation and charges carry the weight of the whole record, and
+                        deferring them would have meant rebuilding around them later.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="rd-case-features-label">Highlight Screens</h4>
+                    <div class="rd-case-checklist" data-picker="b1-highlight-image" role="tablist" aria-label="Highlight screens">
+                        <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true" data-image="../public/hc_repdashboard_new.png">
+                            <span>01. Program Request</span>
+                            <span class="rd-case-chip">Experiment &rarr;</span>
+                        </div>
+                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hc_budget_new.png"><span>02. Region Allocation</span></div>
+                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hc_search_new.png"><span>03. Search Optimization</span></div>
+                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hc_speaker_new.png"><span>04. AI &ndash; Evaluation</span></div>
+                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hc_venue_new.png"><span>05. Personalize Package &amp; Promotion</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <figure class="rd-case-figure">
+                <img id="b1-highlight-image" src="../public/hc_repdashboard_new.png" alt="The screen for the selected row" loading="lazy">
+            </figure>
+        </div>
+    </div>
+
+    <!-- ============================== V4 =============================== -->
+    <p class="b1-label">V4 — list items with icons, hover swaps the image</p>
+
+    <div class="rd-case-card b1-component">
+        <div class="rd-case-split is-media">
+            <div class="rd-case-body rd-case-features-body">
+                <div class="rd-case-panel-head">
+                    <h3 class="rd-case-panel-title">Program Detail</h3>
+                    <p>
+                        Five things, in the order they have to exist. Budget is not last:
+                        allocation and charges carry the weight of the whole record, and
+                        deferring them would have meant rebuilding around them later.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="rd-case-features-label">Tool List</h4>
+                    <div class="rd-case-checklist" data-picker="b1-picker-image" role="tablist" aria-label="Tool list">
+                        <div class="rd-case-checklist-row is-selectable is-active" role="tab" tabindex="0" aria-selected="true" data-image="../public/hc_program_new.png">
+                            <span class="rd-case-checklist-icon"><img src="../public/ar_tool_figma.svg" alt="" loading="lazy"></span>
+                            <span>Design (Figma)</span>
+                        </div>
+                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hc_budget_new.png">
+                            <span class="rd-case-checklist-icon"><img src="../public/ar_tool_jira.svg" alt="" loading="lazy"></span>
+                            <span>Project Management (Jira)</span>
+                        </div>
+                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hc_speaker_new.png">
+                            <span class="rd-case-checklist-icon"><img src="../public/ar_tool_discord.svg" alt="" loading="lazy"></span>
+                            <span>Primary Communication (Discord)</span>
+                        </div>
+                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hc_repdashboard_new.png">
+                            <span class="rd-case-checklist-icon"><img src="../public/ar_tool_teams.svg" alt="" loading="lazy"></span>
+                            <span>Secondary Communication (Teams)</span>
+                        </div>
+                        <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/hc_venue_new.png">
+                            <span class="rd-case-checklist-icon"><img src="../public/ar_tool_github.svg" alt="" loading="lazy"></span>
+                            <span>Version Control (Github)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <figure class="rd-case-figure">
+                <img id="b1-picker-image" src="../public/hc_program_new.png" alt="The screen for the selected row" loading="lazy">
+            </figure>
+        </div>
+    </div>
+</div>
+</section>
+
+<script src="../js/case-picker.js"></script>
+<script src="../js/case-compare.js"></script>
+
+</body>
+</html>

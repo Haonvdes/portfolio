@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="robots" content="noindex">
+    <title>Preview B3 — What not to build first</title>
+
+    <link rel="stylesheet" href="../css/styles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="../css/styles/redesign.css">
+</head>
+<body class="rd-case">
+
+<main>
+<section class="rd-case-section is-tinted" id="decision">
+    <div class="rd-case-inner rd-shell">
+
+        <div class="rd-phase-intro">
+            <h2 class="rd-case-h2">The decision: what not to build first</h2>
+            <div class="rd-case-body">
+                <p>
+                    A backlog spread over seventeen roles and thirteen workflow areas isn't a
+                    ranking problem. Slice it by role and you ship a rep experience that
+                    dead-ends at an approval nobody can give. Slice it by feature and you ship
+                    a budget module with no program to attach it to. So the work runs in
+                    phases, and each phase gets its own must, should, could and won't.
+                </p>
+            </div>
+        </div>
+
+        <div class="rd-phase">
+            <div class="rd-phase-track" role="tablist" aria-label="Release phases" id="phTrack"></div>
+
+            <div class="rd-phase-panel" role="tabpanel" id="phPanel">
+                <div class="rd-phase-row">
+                    <article class="rd-case-card rd-phase-card">
+                        <div class="rd-phase-goal">
+                            <h3 class="rd-phase-goal-title">
+                                <span id="phGoalTitle"></span>
+                                <img src="../public/ic_flag.svg" alt="" width="24" height="24">
+                            </h3>
+                            <p id="phGoal"></p>
+                        </div>
+                        <dl class="rd-phase-facts" id="phFacts"></dl>
+                    </article>
+
+                    <div class="rd-phase-priority">
+                        <h3 class="rd-phase-priority-title">Feature prioritization</h3>
+                        <div class="rd-moscow" id="phMoscow"></div>
+                    </div>
+                </div>
+
+                <ul class="rd-moscow-key" id="phKey"></ul>
+            </div>
+        </div>
+
+        <div class="rd-phase-intro">
+            <div class="rd-case-body">
+                <p>
+                    Budget is not last. Allocation and charges carry the weight of the whole
+                    record, and deferring them would have meant rebuilding around them later.
+                    That is why budget sits in the MVP and not in a later release.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+</main>
+
+<script src="_preview-b3-decision-data.js"></script>
+<script>
+(function () {
+  var D = window.B3_DECISION;
+  var track = document.getElementById('phTrack');
+  if (!D || !track) return;
+
+  var els = {
+    panel: document.getElementById('phPanel'),
+    goalTitle: document.getElementById('phGoalTitle'),
+    goal: document.getElementById('phGoal'),
+    facts: document.getElementById('phFacts'),
+    moscow: document.getElementById('phMoscow'),
+    key: document.getElementById('phKey')
+  };
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  var steps = D.phases.map(function (p, i) {
+    var b = el('button', 'rd-phase-step');
+    b.type = 'button';
+    b.id = 'phTab' + i;
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-controls', 'phPanel');
+    var label = el('span', 'rd-phase-step-label');
+    label.appendChild(el('span', null, p.step));
+    label.appendChild(el('span', null, p.name));
+    var seg = el('span', 'rd-phase-step-seg');
+    seg.setAttribute('aria-hidden', 'true');
+    b.appendChild(label);
+    b.appendChild(seg);
+    b.addEventListener('click', function () { select(i); });
+    track.appendChild(b);
+    return b;
+  });
+
+  D.tiers.forEach(function (t) {
+    var li = el('li');
+    var sw = el('span', 'rd-moscow-sw is-' + t.id);
+    sw.setAttribute('aria-hidden', 'true');
+    li.appendChild(sw);
+    li.appendChild(el('span', null, t.label));
+    els.key.appendChild(li);
+  });
+
+  function quadrant(t, rows) {
+    var q = el('div', 'rd-moscow-q is-' + t.id);
+    q.appendChild(el('h4', 'rd-sr-only', t.label));
+    q.appendChild(el('p', null, t.desc));
+    if (rows.length) {
+      var ul = el('ul');
+      rows.forEach(function (r) { ul.appendChild(el('li', null, r)); });
+      q.appendChild(ul);
+    }
+    return q;
+  }
+
+  // Quadrants and tiles share one grid, so DOM order is the layout:
+  // must, should (top) · the four tiles · could, won't (bottom).
+  function renderMoscow(p) {
+    var T = D.tiers, m = els.moscow;
+    m.textContent = '';
+    m.appendChild(quadrant(T[0], p.moscow.must));
+    m.appendChild(quadrant(T[1], p.moscow.should));
+    var tiles = el('div', 'rd-moscow-tiles');
+    tiles.setAttribute('aria-hidden', 'true');
+    T.forEach(function (t) { tiles.appendChild(el('span', 'rd-moscow-tile is-' + t.id, t.label)); });
+    m.appendChild(tiles);
+    m.appendChild(quadrant(T[2], p.moscow.could));
+    m.appendChild(quadrant(T[3], p.moscow.wont));
+  }
+
+  function select(i) {
+    var p = D.phases[i];
+    steps.forEach(function (b, j) {
+      b.setAttribute('aria-selected', j === i ? 'true' : 'false');
+      b.tabIndex = j === i ? 0 : -1;
+    });
+    els.panel.setAttribute('aria-labelledby', steps[i].id);
+    els.goalTitle.textContent = p.name + ' goal';
+    els.goal.textContent = p.goal;
+    els.facts.textContent = '';
+    p.facts.forEach(function (f) {
+      var row = el('div');
+      row.appendChild(el('dt', null, f[0]));
+      row.appendChild(el('dd', null, f[1]));
+      els.facts.appendChild(row);
+    });
+    renderMoscow(p);
+  }
+
+  track.addEventListener('keydown', function (e) {
+    var cur = steps.indexOf(document.activeElement);
+    if (cur < 0) return;
+    var next = { ArrowRight: cur + 1, ArrowLeft: cur - 1, Home: 0, End: steps.length - 1 }[e.key];
+    if (next == null || next < 0 || next >= steps.length) return;
+    e.preventDefault();
+    select(next);
+    steps[next].focus();
+  });
+
+  select(0);
+})();
+</script>
+</body>
+</html>

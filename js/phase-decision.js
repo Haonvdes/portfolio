@@ -1,4 +1,4 @@
-/* Release-phase track + MoSCoW quadrants (healthcare.html §04). Reads
+/* Release-phase track + MoSCoW 2x2 list (healthcare.html §04). Reads
    window.B3_DECISION from js/phase-decision-data.js, which must load first. */
 
 (function () {
@@ -11,8 +11,7 @@
     goalTitle: document.getElementById('phGoalTitle'),
     goal: document.getElementById('phGoal'),
     facts: document.getElementById('phFacts'),
-    moscow: document.getElementById('phMoscow'),
-    key: document.getElementById('phKey')
+    moscow: document.getElementById('phMoscow')
   };
 
   function el(tag, cls, text) {
@@ -40,19 +39,14 @@
     return b;
   });
 
-  D.tiers.forEach(function (t) {
-    var li = el('li');
-    var sw = el('span', 'rd-moscow-sw is-' + t.id);
-    sw.setAttribute('aria-hidden', 'true');
-    li.appendChild(sw);
-    li.appendChild(el('span', null, t.label));
-    els.key.appendChild(li);
-  });
-
   function quadrant(t, rows) {
     var q = el('div', 'rd-moscow-q is-' + t.id);
-    q.appendChild(el('h4', 'rd-sr-only', t.label));
-    q.appendChild(el('p', null, t.desc));
+    var h = el('h4');
+    var sw = el('span', 'rd-moscow-sw is-' + t.id);
+    sw.setAttribute('aria-hidden', 'true');
+    h.appendChild(sw);
+    h.appendChild(el('span', null, t.label));
+    q.appendChild(h);
     if (rows.length) {
       var ul = el('ul');
       rows.forEach(function (r) { ul.appendChild(el('li', null, r)); });
@@ -61,19 +55,10 @@
     return q;
   }
 
-  // Quadrants and tiles share one grid, so DOM order is the layout:
-  // must, should (top) · the four tiles · could, won't (bottom).
   function renderMoscow(p) {
-    var T = D.tiers, m = els.moscow;
+    var m = els.moscow;
     m.textContent = '';
-    m.appendChild(quadrant(T[0], p.moscow.must));
-    m.appendChild(quadrant(T[1], p.moscow.should));
-    var tiles = el('div', 'rd-moscow-tiles');
-    tiles.setAttribute('aria-hidden', 'true');
-    T.forEach(function (t) { tiles.appendChild(el('span', 'rd-moscow-tile is-' + t.id, t.label)); });
-    m.appendChild(tiles);
-    m.appendChild(quadrant(T[2], p.moscow.could));
-    m.appendChild(quadrant(T[3], p.moscow.wont));
+    D.tiers.forEach(function (t) { m.appendChild(quadrant(t, p.moscow[t.id])); });
   }
 
   function select(i) {

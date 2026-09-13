@@ -3,8 +3,9 @@
 
   The stage pins for one viewport while the track scrolls past it, and one
   scroll gesture moves exactly one card. CSS fades the old card out and the new
-  one in. There is no scroll-snap anywhere on the page; instead, while the page
-  is inside the track, this script takes the wheel / touch / key input itself:
+  one in. The page snaps section by section (redesign.css, B6), but a snap
+  point per card would fight the pinned stage, so while the page is inside the
+  track this script takes the wheel / touch / key input itself:
 
   - The first event of a gesture steps one card and jumps the page to that
     card's rest position. The rest of that gesture (the finger's travel, a

@@ -49,7 +49,7 @@
   var build = section.querySelector('[data-role="build"]');
   var launch = section.querySelector('[data-role="launch"]');
   var loopLines = section.querySelectorAll('.rd-ai-loop-line');
-  var stageCaption = section.querySelector('.rd-ai-stage-caption');
+  var stagePhases = section.querySelector('.rd-ai-phases');
   var revealHeading = section.querySelector('.rd-ai-reveal-heading');
   // The question and the toggle are part of the same Step 4 reveal as the
   // heading — one group, not separate appearances — so they animate
@@ -107,7 +107,7 @@
       gsap.set(loopLines, { opacity: 1 });
       gsap.set(relabelShort, { opacity: 1 });
       gsap.set(relabelLong, { opacity: 0 });
-      if (stageCaption) gsap.set(stageCaption, { opacity: 1, y: 0 });
+      if (stagePhases) gsap.set(stagePhases, { autoAlpha: 1, y: 0 });
       gsap.set(revealHeadingGroup, { opacity: 0, y: 20 });
       gsap.set(revealPanel, { opacity: 0, y: 30 });
 
@@ -139,7 +139,7 @@
       tl.to({}, { duration: 0.35 }) // STEP 1 — hold so the initial state registers before anything moves
         .to([validate, build], { opacity: 0, scale: 0, filter: 'blur(2px)', duration: 1, ease: 'power1.out' }) // STEP 2
         .to(loopLines, { opacity: 0, duration: 0.6 }, '<')
-        .to(stageCaption || {}, { opacity: 0, y: -8, duration: 0.6, ease: 'power1.out' }, '<') // caption is STEP 1 only
+        .to(stagePhases || {}, { autoAlpha: 0, y: -8, duration: 0.6, ease: 'power1.out' }, '<') // phase columns are STEP 1 only
         .to(discovery, { x: function () { return convergeDelta(); }, duration: 1, ease: 'power2.inOut' }) // STEP 3
         .to(launch, { x: function () { return -convergeDelta(); }, duration: 1, ease: 'power2.inOut' }, '<')
         .to(revealHeadingGroup, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }) // STEP 4

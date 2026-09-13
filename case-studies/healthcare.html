@@ -41,7 +41,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
-<body class="rd-case is-hero-glow" style="--rd-hero-glow: #8fd0b8;">
+<body class="rd-case is-hero-glow">
 
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
@@ -235,7 +235,7 @@
                         </blockquote>
                         <figcaption class="rd-quote-by">
                             <span class="rd-quote-rule" aria-hidden="true"></span>
-                            Compliance and Auditor — the governance group
+                            Compliance and Auditor — the oversight group
                         </figcaption>
                     </figure>
 
@@ -288,8 +288,8 @@
                 <div class="rd-hc-rolesview-head">
                     <h3 class="rd-hc-rolesview-title">Role &amp; permission</h3>
                     <div class="rd-tabs rd-hc-rolesview-tabs" role="tablist" aria-label="Role and permission view">
-                        <button type="button" class="rd-tab" role="tab" id="tab-roles-interactive" aria-selected="true" aria-controls="panel-roles-interactive"><span>Interactive</span></button>
-                        <button type="button" class="rd-tab" role="tab" id="tab-roles-table" aria-selected="false" aria-controls="panel-roles-table"><span>Table</span></button>
+                        <button type="button" class="rd-tab" role="tab" id="tab-roles-interactive" aria-selected="true" aria-controls="panel-roles-interactive"><span>By role</span></button>
+                        <button type="button" class="rd-tab" role="tab" id="tab-roles-table" aria-selected="false" aria-controls="panel-roles-table"><span>By group</span></button>
                     </div>
                 </div>
 
@@ -338,13 +338,16 @@
 
                 <div role="tabpanel" id="panel-roles-table" aria-labelledby="tab-roles-table" hidden>
                     <div class="rd-case-landscape">
-                        <!-- Mobile-only accordion (≤1024px, see redesign.css): each
-                             column's head is a <button> toggling .is-expanded on its
-                             .rd-case-landscape-col; the three cells hide/show off that
-                             class. Desktop ignores the class entirely — the subgrid
-                             row count (button + 3 cells = 4, matching
-                             grid-template-rows: auto auto auto auto) is unchanged, so
-                             nothing above 1024px moves. Propose ships pre-expanded. -->
+                        <!-- Desktop: each column is a subgrid over seven rows, and the three
+                             row labels below span all five columns between them. The labels
+                             inside each cell are visually hidden there and are what screen
+                             readers get, so the spanning ones are aria-hidden.
+                             ≤1024px: the spanning labels drop out and each column's head is a
+                             <button> toggling .is-expanded, which shows its three cells.
+                             Propose ships pre-expanded. -->
+                        <p class="rd-case-landscape-rowlabel is-user" aria-hidden="true">User</p>
+                        <p class="rd-case-landscape-rowlabel is-resp" aria-hidden="true">Responsibility</p>
+                        <p class="rd-case-landscape-rowlabel is-perm" aria-hidden="true">Permission</p>
                         <div class="rd-case-landscape-col is-expanded">
                             <button type="button" class="rd-case-landscape-head" aria-expanded="true" aria-controls="landscape-propose-user landscape-propose-resp landscape-propose-perm">
                                 <span class="rd-case-num-chip is-neutral">1</span>
@@ -353,11 +356,7 @@
                             </button>
                             <div class="rd-case-landscape-cell" id="landscape-propose-user">
                                 <p class="rd-case-label">User</p>
-                                <ul class="rd-case-list is-tight">
-                                    <li>Rookie</li>
-                                    <li>Representative</li>
-                                    <li>Medical Science Liaison</li>
-                                </ul>
+                                <p class="rd-case-landscape-text">Rookie, Representative, Medical Science Liaison</p>
                             </div>
                             <div class="rd-case-landscape-cell" id="landscape-propose-resp">
                                 <p class="rd-case-label">Responsibility</p>
@@ -365,7 +364,7 @@
                             </div>
                             <div class="rd-case-landscape-cell" id="landscape-propose-perm">
                                 <p class="rd-case-label">Permission</p>
-                                <p class="rd-case-landscape-text">Initiate a program and nominate a speaker. Read program details, attendees, speaker roster, budget and library.</p>
+                                <p class="rd-case-landscape-text">Representative initiates programs and nominates speakers, and reads program details, attendees, budget, roster and library. MSL nominates and reads the calendar, roster and library. Rookie only launches the playbook.</p>
                             </div>
                         </div>
 
@@ -377,20 +376,15 @@
                             </button>
                             <div class="rd-case-landscape-cell" id="landscape-approval-user">
                                 <p class="rd-case-label">User</p>
-                                <ul class="rd-case-list is-tight">
-                                    <li>Division Manager</li>
-                                    <li>Region Manager</li>
-                                    <li>Brand Manager</li>
-                                    <li>Home Office</li>
-                                </ul>
+                                <p class="rd-case-landscape-text">Division Manager, Region Manager, Brand Manager, Home Office</p>
                             </div>
                             <div class="rd-case-landscape-cell" id="landscape-approval-resp">
                                 <p class="rd-case-label">Responsibility</p>
-                                <p class="rd-case-landscape-text">Approve the program and the speaker, hold the budget, and keep what the field is doing aligned with the plan.</p>
+                                <p class="rd-case-landscape-text">Approve the programs and speakers the field puts up, keep an eye on budget, and keep each level below them in line with goals.</p>
                             </div>
                             <div class="rd-case-landscape-cell" id="landscape-approval-perm">
                                 <p class="rd-case-label">Permission</p>
-                                <p class="rd-case-landscape-text">Initiate <em>and</em> approve programs and speakers, manage brand budgets, counter-sign contracts, read the global dashboard.</p>
+                                <p class="rd-case-landscape-text">All four initiate and approve programs and speakers. Region Manager adds the global dashboard. Brand Manager and Home Office also counter-sign contracts, manage brand budgets and approve inquiries.</p>
                             </div>
                         </div>
 
@@ -402,35 +396,47 @@
                             </button>
                             <div class="rd-case-landscape-cell" id="landscape-operation-user">
                                 <p class="rd-case-label">User</p>
-                                <ul class="rd-case-list is-tight">
-                                    <li>Coordinator</li>
-                                    <li>Bureau Manager</li>
-                                    <li>Project Team</li>
-                                    <li>Accounting Team</li>
-                                </ul>
+                                <p class="rd-case-landscape-text">Coordinator, Bureau Manager, Project Team, Administrator, Super Admin, Accounting Team</p>
                             </div>
                             <div class="rd-case-landscape-cell" id="landscape-operation-resp">
                                 <p class="rd-case-label">Responsibility</p>
-                                <p class="rd-case-landscape-text">Run the event — hotel, travel, materials, venue, reminders — then settle what it cost and reconcile it against the ledger.</p>
+                                <p class="rd-case-landscape-text">Run the event — hotel, travel, materials, venue, reminders — then settle what it cost and reconcile it against the card and accounting records.</p>
                             </div>
                             <div class="rd-case-landscape-cell" id="landscape-operation-perm">
                                 <p class="rd-case-label">Permission</p>
-                                <p class="rd-case-landscape-text">Submit inquiries and expenses; the senior half approves them. Read payment, budget and the global dashboard.</p>
+                                <p class="rd-case-landscape-text">Coordinator submits inquiries and expenses; Bureau Manager, Project Team, Administrator and Super Admin approve and review them. Only the Accounting Team reconciles, or sees card details.</p>
+                            </div>
+                        </div>
+
+                        <div class="rd-case-landscape-col">
+                            <button type="button" class="rd-case-landscape-head" aria-expanded="false" aria-controls="landscape-oversight-user landscape-oversight-resp landscape-oversight-perm">
+                                <span class="rd-case-num-chip is-neutral">3</span>
+                                <p class="rd-case-landscape-group">Oversight</p>
+                                <svg class="rd-case-landscape-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </button>
+                            <div class="rd-case-landscape-cell" id="landscape-oversight-user">
+                                <p class="rd-case-label">User</p>
+                                <p class="rd-case-landscape-text">Compliance, Auditor</p>
+                            </div>
+                            <div class="rd-case-landscape-cell" id="landscape-oversight-resp">
+                                <p class="rd-case-label">Responsibility</p>
+                                <p class="rd-case-landscape-text">Check every engagement against medical regulation and company policy, and keep the audit trail.</p>
+                            </div>
+                            <div class="rd-case-landscape-cell" id="landscape-oversight-perm">
+                                <p class="rd-case-label">Permission</p>
+                                <p class="rd-case-landscape-text">Read the program calendar, speaker roster and library. Change nothing.</p>
                             </div>
                         </div>
 
                         <div class="rd-case-landscape-col">
                             <button type="button" class="rd-case-landscape-head" aria-expanded="false" aria-controls="landscape-attendant-user landscape-attendant-resp landscape-attendant-perm">
-                                <span class="rd-case-num-chip is-neutral">4</span>
+                                <span class="rd-case-num-chip is-neutral">5</span>
                                 <p class="rd-case-landscape-group">Attendant</p>
                                 <svg class="rd-case-landscape-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </button>
                             <div class="rd-case-landscape-cell" id="landscape-attendant-user">
                                 <p class="rd-case-label">User</p>
-                                <ul class="rd-case-list is-tight">
-                                    <li>Speaker</li>
-                                    <li>Attendee</li>
-                                </ul>
+                                <p class="rd-case-landscape-text">Speaker, Attendee</p>
                             </div>
                             <div class="rd-case-landscape-cell" id="landscape-attendant-resp">
                                 <p class="rd-case-label">Responsibility</p>
@@ -438,32 +444,7 @@
                             </div>
                             <div class="rd-case-landscape-cell" id="landscape-attendant-perm">
                                 <p class="rd-case-label">Permission</p>
-                                <p class="rd-case-landscape-text">See their own engagement, register, sign in, answer the survey. Nothing about budget, nothing about anyone else.</p>
-                            </div>
-                        </div>
-
-                        <div class="rd-case-landscape-col">
-                            <button type="button" class="rd-case-landscape-head" aria-expanded="false" aria-controls="landscape-governance-user landscape-governance-resp landscape-governance-perm">
-                                <span class="rd-case-num-chip is-neutral">5</span>
-                                <p class="rd-case-landscape-group">Governance</p>
-                                <svg class="rd-case-landscape-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            </button>
-                            <div class="rd-case-landscape-cell" id="landscape-governance-user">
-                                <p class="rd-case-label">User</p>
-                                <ul class="rd-case-list is-tight">
-                                    <li>Compliance</li>
-                                    <li>Auditor</li>
-                                    <li>Administrator</li>
-                                    <li>Super Admin</li>
-                                </ul>
-                            </div>
-                            <div class="rd-case-landscape-cell" id="landscape-governance-resp">
-                                <p class="rd-case-label">Responsibility</p>
-                                <p class="rd-case-landscape-text">Check every engagement against medical regulation and company policy, keep the audit trail, and run the tenant.</p>
-                            </div>
-                            <div class="rd-case-landscape-cell" id="landscape-governance-perm">
-                                <p class="rd-case-label">Permission</p>
-                                <p class="rd-case-landscape-text">Compliance and the auditor read and change nothing — calendar, roster, library. The administrators configure and approve.</p>
+                                <p class="rd-case-landscape-text">Speaker signs the contract, prepares slides, submits expenses and tracks honoraria. Attendee registers, signs in and gives feedback. Neither sees a budget or anyone else’s programs.</p>
                             </div>
                         </div>
                     </div>
@@ -482,10 +463,10 @@
                 <h2 class="rd-case-h2">The system was the last to know</h2>
                 <div class="rd-case-body" style="margin-top:24px;">
                     <p>
-                        I mapped all 17 roles and wrote three personas — a sales rep, an event
-                        coordinator, a speaker (counted) — and gave each role an as-is and a to-be
-                        flow. What discovery found came down to four things, and only one of them
-                        came from the field.
+                        I mapped all 17 roles, wrote personas for the rep, the coordinator and
+                        the speaker, and drew an as-is and a to-be flow for each role. Then I
+                        checked those flows against the client's own program data. Four things
+                        stood out.
                     </p>
                 </div>
             </div>
@@ -514,86 +495,36 @@
                     </div>
                     <div>
                         <span class="rd-case-num-chip is-neutral">3</span>
-                        <h4 class="rd-case-challenge-title">It ends in a federal filing</h4>
-                        <p class="rd-case-num-desc">Payments to doctors are reported to the federal government, so an approval chain nobody can trace is a legal risk, not a hassle. That is why every role doc carries an access matrix and an audit-trail requirement.</p>
-                    </div>
-                    <!-- Fourth finding, and the only one from the client's records
-                         rather than an interview: request-form export, 793 programs,
-                         2025 — "Have you pre-confirmed the speaker?" = Yes on 650.
-                         The exemption is in the client's own SLA goals sheet. -->
-                    <div>
-                        <span class="rd-case-num-chip is-neutral">4</span>
                         <h4 class="rd-case-challenge-title">82% arrived already confirmed</h4>
                         <p class="rd-case-num-desc">On four programs in five the rep had confirmed the speaker by phone or text before the request form was opened, and the contract exempts exactly those from its five-day confirmation deadline. The system wasn't running the process. It was certifying one that had already happened elsewhere (client system, 2025).</p>
                     </div>
-                </div>
-            </div>
-
-            <div class="rd-case-card rd-hc-miss" data-aos="fade-up">
-                <div class="rd-case-split is-chart">
-                    <div class="rd-hc-miss-text">
-                        <span class="rd-case-num-chip is-neutral">5</span>
+                    <div>
+                        <span class="rd-case-num-chip is-neutral">4</span>
                         <h4 class="rd-case-challenge-title">The checklist lived inside the program</h4>
                         <p class="rd-case-num-desc">Every program carried its own checklist, one stage per status, and the only place to see it was inside that program. With 32 programs dated in May alone, finding out what was still open meant opening them one at a time.</p>
-                        <p class="rd-case-num-desc">Notes piled up in seven threads beside it, and the checklists stayed unfinished long after the event. The representative dashboard in this release opens on a to-do list instead: the same steps, lifted out of the record, with a count of what's left.</p>
                     </div>
-
-                    <figure class="rd-hc-months">
-                        <p class="rd-case-label">Programs by month, 2026</p>
-                        <!-- --v is the month's program count; bar height is computed
-                             from it in redesign.css (B4 block), so the markup is the
-                             only place the numbers live. The table below repeats them
-                             for screen readers, since the plot is aria-hidden. -->
-                        <ol class="rd-hc-months-plot" aria-hidden="true">
-                            <li style="--v:3"><span class="rd-hc-months-val">3</span><span class="rd-hc-months-bar"></span><span class="rd-hc-months-lab">Jan</span></li>
-                            <li style="--v:13"><span class="rd-hc-months-val">13</span><span class="rd-hc-months-bar"></span><span class="rd-hc-months-lab">Feb</span></li>
-                            <li style="--v:17"><span class="rd-hc-months-val">17</span><span class="rd-hc-months-bar"></span><span class="rd-hc-months-lab">Mar</span></li>
-                            <li style="--v:20"><span class="rd-hc-months-val">20</span><span class="rd-hc-months-bar"></span><span class="rd-hc-months-lab">Apr</span></li>
-                            <li class="is-peak" style="--v:32"><span class="rd-hc-months-val">32</span><span class="rd-hc-months-bar"></span><span class="rd-hc-months-lab">May</span></li>
-                            <li style="--v:18"><span class="rd-hc-months-val">18</span><span class="rd-hc-months-bar"></span><span class="rd-hc-months-lab">Jun</span></li>
-                            <li style="--v:10"><span class="rd-hc-months-val">10</span><span class="rd-hc-months-bar"></span><span class="rd-hc-months-lab">Jul</span></li>
-                            <li class="is-partial" style="--v:3"><span class="rd-hc-months-val">3</span><span class="rd-hc-months-bar"></span><span class="rd-hc-months-lab">Aug</span></li>
-                            <li class="is-partial" style="--v:2"><span class="rd-hc-months-val">2</span><span class="rd-hc-months-bar"></span><span class="rd-hc-months-lab">Sep</span></li>
-                            <li class="is-partial" style="--v:1"><span class="rd-hc-months-val">1</span><span class="rd-hc-months-bar"></span><span class="rd-hc-months-lab">Oct</span></li>
-                            <li class="is-partial" style="--v:1"><span class="rd-hc-months-val">1</span><span class="rd-hc-months-bar"></span><span class="rd-hc-months-lab">Nov</span></li>
-                            <li class="is-partial" style="--v:0"><span class="rd-hc-months-val">0</span><span class="rd-hc-months-bar"></span><span class="rd-hc-months-lab">Dec</span></li>
-                        </ol>
-                        <p class="rd-hc-months-note" aria-hidden="true"><span>Not yet requested</span></p>
-                        <table class="rd-sr-only">
-                            <caption>Programs by month, 2026</caption>
-                            <thead><tr><th scope="col">Month</th><th scope="col">Programs</th></tr></thead>
-                            <tbody>
-                                <tr><th scope="row">January</th><td>3</td></tr>
-                                <tr><th scope="row">February</th><td>13</td></tr>
-                                <tr><th scope="row">March</th><td>17</td></tr>
-                                <tr><th scope="row">April</th><td>20</td></tr>
-                                <tr><th scope="row">May</th><td>32</td></tr>
-                                <tr><th scope="row">June</th><td>18</td></tr>
-                                <tr><th scope="row">July</th><td>10</td></tr>
-                                <tr><th scope="row">August</th><td>3</td></tr>
-                                <tr><th scope="row">September</th><td>2</td></tr>
-                                <tr><th scope="row">October</th><td>1</td></tr>
-                                <tr><th scope="row">November</th><td>1</td></tr>
-                                <tr><th scope="row">December</th><td>0</td></tr>
-                            </tbody>
-                        </table>
-                        <figcaption class="rd-aud-source">May held 32 programs, more than ten times January. August to December are hatched because the count was taken in mid-July, before most programs for those months had been requested (client system).</figcaption>
-                    </figure>
                 </div>
             </div>
 
-            <div class="rd-ai-evi" data-aos="fade-up">
-                <div class="rd-ai-evi-stat">
-                    <strong>41</strong>
-                    <span>notes written on an average program, spread across seven separate threads — venue, catering, AV, sign-in, budget, speaker, programme (client system)</span>
-                </div>
-                <div class="rd-ai-evi-stat">
-                    <strong>28</strong>
-                    <span>checklist items across a program's pending and confirmed stages, many of them no more than a note that an email went out (client system)</span>
-                </div>
-                <div class="rd-ai-evi-stat">
-                    <strong>86%</strong>
-                    <span>of programs still carried an unfinished checklist stage, counted 251 working days after the event (client system, 2025)</span>
+            <div class="rd-hc-figures" data-aos="fade-up">
+                <h3 class="rd-hc-figures-title">Key figures</h3>
+                <div class="rd-ai-evi">
+                    <div class="rd-ai-evi-stat">
+                        <strong>32</strong>
+                        <span>programs dated in May 2026, more than ten times January (client system)</span>
+                    </div>
+                    <div class="rd-ai-evi-stat">
+                        <strong>41</strong>
+                        <span>notes written on an average program, spread across seven separate threads — venue, catering, AV, sign-in, budget, speaker, programme (client system)</span>
+                    </div>
+                    <div class="rd-ai-evi-stat">
+                        <strong>28</strong>
+                        <span>checklist items across a program's pending and confirmed stages, many of them no more than a note that an email went out (client system)</span>
+                    </div>
+                    <div class="rd-ai-evi-stat">
+                        <strong>86%</strong>
+                        <span>of programs still carried an unfinished checklist stage, counted 251 working days after the event (client system, 2025)</span>
+                    </div>
                 </div>
             </div>
 
@@ -638,18 +569,6 @@
                             <div class="rd-moscow" id="phMoscow"></div>
                         </div>
                     </div>
-
-                    <ul class="rd-moscow-key" id="phKey"></ul>
-                </div>
-            </div>
-
-            <div class="rd-phase-intro">
-                <div class="rd-case-body">
-                    <p>
-                        Budget is not last. Allocation and charges carry the weight of the whole
-                        record, and deferring them would have meant rebuilding around them later.
-                        That is why budget sits in the MVP and not in a later release.
-                    </p>
                 </div>
             </div>
 
@@ -683,12 +602,46 @@
                     </div>
                 </div>
 
-                <!-- Held through STEP 1 and faded out with Validate/Build at STEP 2
-                     (js/ai-accelerate.js), so it reads as a caption on the four-phase
-                     state rather than on the two-phase one it collapses into. -->
-                <p class="rd-ai-stage-caption">Four phases. Every product I've shipped has run this loop.</p>
-
                 <div class="rd-ai-reveal">
+                    <!-- Held through STEP 1 and faded out with Validate/Build at STEP 2
+                         (js/ai-accelerate.js). Once that script takes over it is laid
+                         over the top of this reveal block, which is still invisible at
+                         STEP 1, so it adds no height to the pinned box. -->
+                    <div class="rd-ai-phases">
+                        <div class="rd-ai-phase is-discovery">
+                            <p class="rd-ai-phase-title">01 Discovery</p>
+                            <ul class="rd-case-list is-tight">
+                                <li>Map all 17 roles and every handoff between them</li>
+                                <li>Write personas for a rep, a coordinator and a speaker</li>
+                                <li>Draw an as-is and a to-be flow for each role</li>
+                            </ul>
+                        </div>
+                        <div class="rd-ai-phase is-validate">
+                            <p class="rd-ai-phase-title">02 Validate</p>
+                            <ul class="rd-case-list is-tight">
+                                <li>Check what people said against the client's own records</li>
+                                <li>Give each phase its own must, should, could and won't</li>
+                                <li>Keep budget in the MVP, not a later release</li>
+                            </ul>
+                        </div>
+                        <div class="rd-ai-phase is-build">
+                            <p class="rd-ai-phase-title">03 Build</p>
+                            <ul class="rd-case-list is-tight">
+                                <li>Build the program-request spine first</li>
+                                <li>Give the four roles that own the record the whole flow</li>
+                                <li>Redesign each screen against the one it replaced</li>
+                            </ul>
+                        </div>
+                        <div class="rd-ai-phase is-launch">
+                            <p class="rd-ai-phase-title">04 Launch</p>
+                            <ul class="rd-case-list is-tight">
+                                <li>Go live in June 2026, beside the old system</li>
+                                <li>Leave programs already in flight where they started</li>
+                                <li>Hold the client's 30-day closing rate as the baseline</li>
+                            </ul>
+                        </div>
+                    </div>
+
                     <h3 class="rd-ai-reveal-heading">AI enablement across product screens, sprints and phases</h3>
 
                     <p class="rd-ai-reveal-question">Is this flow critical to the customer's business?</p>
@@ -784,29 +737,38 @@
         <div class="rd-case-inner rd-shell rd-ai-stack">
 
             <!-- ===== Layer 1 — the model =====
-                 Self-contained: variables, classes and ids all live under
-                 .rd-dil / dil- so this can be lifted out or dropped onto
-                 another page without auditing the rest of redesign.css. Fonts
-                 requested in <head> (IBM Plex Sans/Mono aren't loaded
-                 anywhere else on the site). No dark-mode block — this site
-                 has no dark theme, so the artifact's [data-theme]/
-                 prefers-color-scheme variants were dropped rather than
-                 shipping a diagram that flips color scheme on its own. -->
+                 Variables, classes and ids all live under .rd-dil / dil- so
+                 nothing here leaks into the rest of redesign.css. IBM Plex
+                 Sans/Mono are requested in <head> for this block only. -->
             <div class="rd-ai-layer">
-                <p class="rd-case-label is-heading">The model</p>
-                <h3 class="rd-ai-layer-title">The whole loop, drawn as a git flow</h3>
+                <h3 class="rd-ai-layer-title">What the loop looks like on a real feature</h3>
+                <div class="rd-case-body">
+                    <p>
+                        Whichever answer the toggle gives, the loop underneath is the same.
+                        AI gets an idea to a working POC in days, people test it, and only
+                        what passes gets built properly.
+                    </p>
+                </div>
+
+                <!-- Collapsed by default. The graph is drawn on first open (see the
+                     script below): SVG getBBox() returns zero inside a closed
+                     <details>, which would size every label chip to nothing. -->
+                <details class="rd-ai-model">
+                    <summary class="rd-ai-model-summary">
+                        <span>The model</span>
+                        <span class="rd-ai-model-icon" aria-hidden="true">
+                            <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                    </summary>
+                <div class="rd-ai-model-panel">
 
                 <div class="rd-case-body">
                     <p>
-                        Everything above happens inside one shape: a normal git flow &mdash;
-                        main &rarr; dev &rarr; feature &mdash; with a design track running beside
-                        it. Tokens and components are long-lived branches design and engineering
-                        both pull from. A concept branch is short-lived: spun up per feature,
-                        pushed hard with AI during discovery, then merged in or closed. None of
-                        the pieces are new &mdash; Figma's own branch/merge model, and plugins
-                        like GitFig and Tokens Studio that sync design tokens through git, already
-                        do parts of this. Drawing them as one flow is what's below. Click a commit
-                        for what happens there.
+                        AI drafts each direction from the spec and the Figma file as working
+                        code, on the real tokens. Each one goes out as a link people can click.
+                        A concept that passes the gate merges into the feature branch and gets
+                        rebuilt properly. One that fails just closes. Click a commit for what
+                        happens there.
                     </p>
                 </div>
 
@@ -820,7 +782,6 @@
                             --lane-components:#0E8E7D; --lane-tokens:#0B6B58;
                             --accent:#C2760A; --band-discovery:rgba(194,118,10,0.055);
                             --band-delivery:rgba(14,142,125,0.05); --focus-ring:#3F5FE0;
-                            --shadow:0 1px 2px rgba(20,22,26,0.04), 0 8px 24px rgba(20,22,26,0.06);
                             font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
                             color:var(--text);
                         }
@@ -829,8 +790,7 @@
 
                         .rd-dil .legend{
                             display:flex; flex-wrap:wrap; gap:10px 22px; align-items:center;
-                            padding:14px 18px; background:var(--surface); border:1px solid var(--border);
-                            border-radius:10px; margin-bottom:22px;
+                            margin-top:16px;
                             font-family:"IBM Plex Mono", monospace; font-size:12.5px; color:var(--text-dim);
                         }
                         .rd-dil .legend-group{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
@@ -840,10 +800,7 @@
                         .rd-dil .legend-line{ display:inline-flex; align-items:center; gap:7px; white-space:nowrap; }
                         .rd-dil .legend-line svg{ display:block; }
 
-                        .rd-dil .graph-wrap{
-                            background:var(--surface); border:1px solid var(--border); border-radius:12px;
-                            box-shadow:var(--shadow); overflow-x:auto; padding:6px 0 0;
-                        }
+                        .rd-dil .graph-wrap{ overflow-x:auto; }
                         .rd-dil .graph-inner{ min-width:920px; }
                         .rd-dil svg#dil-graph{ display:block; width:100%; height:auto; }
 
@@ -892,6 +849,15 @@
                         }
                     </style>
 
+                    <div class="graph-wrap">
+                        <div class="graph-inner">
+                            <svg id="dil-graph" viewBox="0 0 1500 626" xmlns="http://www.w3.org/2000/svg" role="img"
+                                 aria-label="Git-flow diagram showing design token, component, and concept branches feeding into a feature branch during discovery, then merging through dev to main.">
+                                <!-- populated by script -->
+                            </svg>
+                        </div>
+                    </div>
+
                     <div class="legend">
                         <div class="legend-group">
                             <span class="swatch"><span class="dot" style="background:var(--lane-main)"></span>main</span>
@@ -909,15 +875,6 @@
                         </div>
                     </div>
 
-                    <div class="graph-wrap">
-                        <div class="graph-inner">
-                            <svg id="dil-graph" viewBox="0 0 1500 626" xmlns="http://www.w3.org/2000/svg" role="img"
-                                 aria-label="Git-flow diagram showing design token, component, and concept branches feeding into a feature branch during discovery, then merging through dev to main.">
-                                <!-- populated by script -->
-                            </svg>
-                        </div>
-                    </div>
-
                     <div class="panel" id="dil-panel">
                         <span class="panel-dot" id="dil-panelDot" style="background:var(--text-faint)"></span>
                         <div class="panel-body">
@@ -928,14 +885,117 @@
                         </div>
                     </div>
 
-                    <p class="caption">Modeled on a checkout redesign. Branch names, commit messages and timings are illustrative, not a literal commit log. Concept branches fork from dev rather than feature &mdash; discovery often starts before the feature branch, or its sprint, exists.</p>
                 </div>
+                </div>
+                </details>
+
+                <details class="rd-ai-model">
+                    <summary class="rd-ai-model-summary">
+                        <span>Handoff process</span>
+                        <span class="rd-ai-model-icon" aria-hidden="true">
+                            <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                    </summary>
+                <div class="rd-ai-model-panel">
+
+                <div class="rd-ai-ba">
+                    <div class="rd-ai-ba-col is-before">
+                        <p class="rd-ai-ba-lede">Four artifacts, four owners, each written from the last one and drifting from it the moment it was.</p>
+                        <div class="rd-case-checklist">
+                            <div class="rd-case-checklist-row"><span>A specification document</span></div>
+                            <div class="rd-case-checklist-row"><span>A design file redrawing what the document said</span></div>
+                            <div class="rd-case-checklist-row"><span>Tickets restating the design in a third vocabulary</span></div>
+                            <div class="rd-case-checklist-row"><span>Test cases written against whichever of the three was newest</span></div>
+                        </div>
+                    </div>
+                    <span class="rd-ai-ba-arrow" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    <div class="rd-ai-ba-col is-after">
+                        <p class="rd-ai-ba-lede">One branch carrying the spec, the screens and something that runs. Reviewed once, on the diff.</p>
+                        <div class="rd-case-checklist">
+                            <div class="rd-case-checklist-row"><span>The spec, beside the code it specifies</span><span class="rd-case-chip">AI + Human</span></div>
+                            <div class="rd-case-checklist-row"><span>The screens, as components rather than pictures of components</span><span class="rd-case-chip">AI + Human</span></div>
+                            <div class="rd-case-checklist-row"><span>A prototype a client can click through</span><span class="rd-case-chip">AI</span></div>
+                            <div class="rd-case-checklist-row"><span>The review, once, where the change actually is</span></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                </details>
+
+                <details class="rd-ai-model">
+                    <summary class="rd-ai-model-summary">
+                        <span>Artifact</span>
+                        <span class="rd-ai-model-icon" aria-hidden="true">
+                            <svg width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                    </summary>
+                <div class="rd-ai-model-panel">
+
+                <div class="rd-ai-evi">
+                    <div class="rd-ai-evi-stat">
+                        <strong>10 weeks</strong>
+                        <span>8 May to 15 July 2026, spec and build running together rather than in sequence (counted)</span>
+                    </div>
+                    <div class="rd-ai-evi-stat">
+                        <strong>17</strong>
+                        <span>commits, each one a reviewable slice of the working prototype (counted)</span>
+                    </div>
+                    <div class="rd-ai-evi-stat">
+                        <strong>~21,350</strong>
+                        <span>lines of a running multi-tenant prototype (counted)</span>
+                    </div>
+                </div>
+
+                <div class="rd-case-body">
+                    <p>
+                        That is what the loop above buys. Not fewer people and not less thinking —
+                        a client could open the thing and disagree with it while the specification
+                        was still being written, which is the only kind of disagreement that is
+                        cheap to act on.
+                    </p>
+                </div>
+                </div>
+                </details>
+
+                <script>
+                // One collapsible open at a time. Closing a block above the one just
+                // opened pulls the page up, so scroll by the same amount to keep the
+                // clicked summary where the reader's pointer is.
+                (function(){
+                    const group = document.querySelectorAll(".rd-ai-model");
+                    group.forEach(d => d.addEventListener("toggle", () => {
+                        if (!d.open) return;
+                        const top = d.getBoundingClientRect().top;
+                        group.forEach(o => { if (o !== d) o.open = false; });
+                        const shift = d.getBoundingClientRect().top - top;
+                        if (shift) window.scrollBy({ top: shift, behavior: "instant" });
+                    }));
+                })();
+                </script>
 
                 <script>
                 (function(){
                     const svgNS = "http://www.w3.org/2000/svg";
                     const svg = document.getElementById("dil-graph");
                     if (!svg) return;
+
+                    // Opening the <details> grows the page below the GSAP pin, so
+                    // ScrollTrigger's cached start/end positions go stale.
+                    const details = svg.closest("details");
+                    let built = false;
+                    if (details){
+                        details.addEventListener("toggle", () => {
+                            if (details.open && !built) build();
+                            if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+                        });
+                        if (!details.open) return;
+                    }
+                    build();
+
+                    function build(){
+                    built = true;
 
                     const marginLeft = 208, marginRight = 36, marginTop = 44, rowH = 78;
                     const plotW = 1500 - marginLeft - marginRight;
@@ -1029,13 +1089,13 @@
 
                     const bandLabelY = marginTop - 18;
                     const tDiscovery = el("text", { class:"band-label", x:marginLeft+6, y:bandLabelY, fill:"var(--lane-concept)" });
-                    tDiscovery.textContent = "DISCOVERY — design + AI";
+                    tDiscovery.textContent = "DISCOVER, VALIDATE, EXPERIMENT · AI + HUMAN";
                     svg.appendChild(tDiscovery);
                     const tDelivery = el("text", { class:"band-label", x:gx+10, y:bandLabelY, fill:"var(--lane-components)" });
-                    tDelivery.textContent = "DELIVERY — refactor + ship";
+                    tDelivery.textContent = "BUILD, LAUNCH, SCALE · HUMAN SIGNS OFF";
                     svg.appendChild(tDelivery);
                     const tGate = el("text", { class:"gate-label", x:gx+8, y:plotBottom+18, fill:"var(--text-dim)" });
-                    tGate.textContent = "go / no-go review";
+                    tGate.textContent = "spec check or review gate";
                     svg.appendChild(tGate);
 
                     lanes.forEach(l => {
@@ -1190,144 +1250,9 @@
                             if (m) p.style.stroke = `var(--${m.replace("stroke-","lane-")})`;
                         }
                     });
+                    }
                 })();
                 </script>
-            </div>
-
-            <!-- ===== Layer 2 — the design branch =====
-                 Framed as the correction to §07's second lesson ("I let the
-                 design system drift... calling code the source of truth on day
-                 one would have cost nothing"), NOT as something this project
-                 did from the start — it didn't, and §07 says so two sections
-                 BELOW this one (it used to sit above; the section moved in B2).
-                 Claiming otherwise here would contradict the page's own closing
-                 admission, which is the one thing on it a reader is most likely
-                 to remember. -->
-            <div class="rd-ai-layer">
-                <p class="rd-case-label is-heading">Built</p>
-                <h3 class="rd-ai-layer-title">Design moved onto the branch</h3>
-
-                <div class="rd-case-body">
-                    <p>
-                        Seventeen of eighteen status tokens drifted out of sync on this project
-                        before anyone noticed. The fix was not more diligence. It was moving the
-                        design onto the same branch as the code it describes, so a component
-                        change and the screen that consumes it arrive in one review and merge
-                        once.
-                    </p>
-                </div>
-
-                <!-- Hand-drawn rather than a screenshot of a real graph: a real
-                     one would carry the client's repo name, and this page names
-                     nobody. currentColor + CSS classes, not fill="" attributes —
-                     SVG presentation attributes ignore var(), so the lane colours
-                     have to come from CSS rules (see .rd-ai-branch in redesign.css). -->
-                <div class="rd-ai-branch">
-                    <svg class="rd-ai-branch-svg" viewBox="0 0 720 132" role="img"
-                         aria-label="A design branch splitting off the main line, carrying three commits, and merging back in a single review">
-                        <path class="rd-ai-branch-rail is-main" d="M24 100 H696" />
-                        <path class="rd-ai-branch-rail is-design" d="M148 100 C188 100 188 40 228 40 H500 C540 40 540 100 580 100" />
-                        <circle class="rd-ai-branch-node is-main" cx="72" cy="100" r="7" />
-                        <circle class="rd-ai-branch-node is-main" cx="148" cy="100" r="7" />
-                        <circle class="rd-ai-branch-node is-design" cx="268" cy="40" r="7" />
-                        <circle class="rd-ai-branch-node is-design" cx="368" cy="40" r="7" />
-                        <circle class="rd-ai-branch-node is-design" cx="468" cy="40" r="7" />
-                        <circle class="rd-ai-branch-node is-merge" cx="580" cy="100" r="9" />
-                        <circle class="rd-ai-branch-node is-main" cx="656" cy="100" r="7" />
-                        <text class="rd-ai-branch-label is-design" x="268" y="20">tokens</text>
-                        <text class="rd-ai-branch-label is-design" x="368" y="20">component</text>
-                        <text class="rd-ai-branch-label is-design" x="468" y="20">the screen using it</text>
-                        <text class="rd-ai-branch-label is-merge" x="580" y="126">one review</text>
-                        <text class="rd-ai-branch-label is-main" x="24" y="126">main</text>
-                    </svg>
-                </div>
-
-                <div class="rd-case-checklist rd-ai-branch-notes">
-                    <div class="rd-case-checklist-row"><span>Tokens and components are defined once, in code, and the design reads from them</span></div>
-                    <div class="rd-case-checklist-row"><span>A design change arrives as a diff — reviewable, arguable, revertable</span></div>
-                    <div class="rd-case-checklist-row"><span>Nothing is ever &ldquo;ready for dev&rdquo;, because the branch already runs</span></div>
-                </div>
-
-                
-            </div>
-
-            <div class="rd-ai-layer">
-                <p class="rd-case-label is-heading">The handoff</p>
-                <h3 class="rd-ai-layer-title">Four artifacts became one</h3>
-
-                <div class="rd-ai-ba">
-                    <div class="rd-ai-ba-col is-before">
-                        <p class="rd-ai-ba-k">Before</p>
-                        <p class="rd-ai-ba-lede">Four artifacts, four owners, each written from the last one and drifting from it the moment it was.</p>
-                        <div class="rd-case-checklist">
-                            <div class="rd-case-checklist-row"><span>A specification document</span></div>
-                            <div class="rd-case-checklist-row"><span>A design file redrawing what the document said</span></div>
-                            <div class="rd-case-checklist-row"><span>Tickets restating the design in a third vocabulary</span></div>
-                            <div class="rd-case-checklist-row"><span>Test cases written against whichever of the three was newest</span></div>
-                        </div>
-                    </div>
-                    <div class="rd-ai-ba-col is-after">
-                        <p class="rd-ai-ba-k">After</p>
-                        <p class="rd-ai-ba-lede">One branch carrying the spec, the screens and something that runs. Reviewed once, on the diff.</p>
-                        <div class="rd-case-checklist">
-                            <div class="rd-case-checklist-row"><span>The spec, beside the code it specifies</span><span class="rd-case-chip">AI + Human</span></div>
-                            <div class="rd-case-checklist-row"><span>The screens, as components rather than pictures of components</span><span class="rd-case-chip">AI + Human</span></div>
-                            <div class="rd-case-checklist-row"><span>A prototype a client can click through</span><span class="rd-case-chip">AI</span></div>
-                            <div class="rd-case-checklist-row"><span>The review, once, where the change actually is</span></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- The only counted numbers in this section. Everything above is
-                     description; this is the receipt. Derivation is in
-                     "case study 1/CASE-STUDY-1-SOURCE-INVENTORY.md" — prototype
-                     repo history, 8 May to 15 Jul 2026. -->
-                <div class="rd-ai-evi">
-                    <div class="rd-ai-evi-stat">
-                        <strong>10 weeks</strong>
-                        <span>8 May to 15 July 2026, spec and build running together rather than in sequence (counted)</span>
-                    </div>
-                    <div class="rd-ai-evi-stat">
-                        <strong>17</strong>
-                        <span>commits, each one a reviewable slice of the working prototype (counted)</span>
-                    </div>
-                    <div class="rd-ai-evi-stat">
-                        <strong>~21,350</strong>
-                        <span>lines of a running multi-tenant prototype (counted)</span>
-                    </div>
-                </div>
-
-                <div class="rd-case-body">
-                    <p>
-                        That is what the loop above buys. Not fewer people and not less thinking —
-                        a client could open the thing and disagree with it while the specification
-                        was still being written, which is the only kind of disagreement that is
-                        cheap to act on.
-                    </p>
-                </div>
-            </div>
-
-            <!-- ===== Layer 4 — the limit ===== -->
-            <div class="rd-ai-layer">
-                <p class="rd-case-label is-heading">The gate</p>
-                <h3 class="rd-ai-layer-title">Where a human still owns it</h3>
-
-                <div class="rd-case-card rd-ai-gate">
-                    <div class="rd-case-body">
-                        <p>
-                            Reconciliation on this platform runs ten manual checks, daily, and ends
-                            in a filing to the federal government (counted). Speed is not the thing
-                            to optimise there.
-                        </p>
-                        <p>
-                            That is what the toggle is for. On a flow where being wrong is a legal
-                            problem rather than a bug, a person owns every decision and the machine
-                            owns the labour &mdash; and the honest version of this section is that
-                            most of the thirteen workflow areas are not that flow, and one of them
-                            very much is.
-                        </p>
-                    </div>
-                </div>
             </div>
 
         </div>
@@ -1766,7 +1691,7 @@
         </div>
     </section>
 
-    <!-- ================= Handed off ================= -->
+    <!-- ================= Live since June ================= -->
     <section class="rd-case-section is-tinted" id="after">
         <div class="rd-case-inner rd-shell">
             <h2 class="rd-case-h2" data-aos="fade-up">Live since June, running beside the system it replaces</h2>
@@ -1777,8 +1702,8 @@
                         <p>
                             The platform went live in June 2026 and runs in parallel with the system
                             it was built to replace — programs already in flight stay where they
-                            started. I left the month after, before a measurement cycle closed on the
-                            new one, so there is no outcome number here I can stand behind. I would
+                            started. It hasn't been through a full measurement cycle yet, so there is
+                            no outcome number here I can stand behind. I would
                             rather say that than imply a win.
                         </p>
                         <p>
@@ -1791,7 +1716,7 @@
                             switched on.
                         </p>
                         <p>
-                            Three measures are what I would have tracked. Closing rate against that
+                            Three measures are the ones I'd track. Closing rate against that
                             thirty-day deadline first, because it is the one with money attached.
                             Then coordinator hours to run one program end to end, and the exception
                             rate — compliance issues raised after the fact instead of caught in the
@@ -1941,7 +1866,7 @@
   });
 }());
 
-/* Role & permission view switch: Interactive (role band) / Table (landscape).
+/* Role & permission view switch: By role (role band) / By group (landscape).
    Not js/case-tabs.js — this page does not load it (see the note above the
    .rd-case-tabs script). */
 (function () {

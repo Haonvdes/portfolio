@@ -3,10 +3,10 @@
 
 window.B3_DECISION = {
   tiers: [
-    { id: 'must',   label: 'Must',    desc: 'Without these the phase doesn’t hold together.' },
-    { id: 'should', label: 'Should',  desc: 'Worth real effort, but the phase still stands without them.' },
-    { id: 'could',  label: 'Could',   desc: 'Nice to have if there’s room left in the phase.' },
-    { id: 'wont',   label: 'Won’t', desc: 'Left out of this phase on purpose.' }
+    { id: 'must',   label: 'Must' },
+    { id: 'should', label: 'Should' },
+    { id: 'could',  label: 'Could' },
+    { id: 'wont',   label: 'Won’t' }
   ],
 
   phases: [
@@ -16,7 +16,6 @@ window.B3_DECISION = {
       facts: [
         ['Roles with screens', '4 of 17'],
         ['Workflow areas', '6 of 13'],
-        ['Backlog tier', 'Must have'],
         ['Done when', 'One program closes']
       ],
       moscow: {
@@ -32,7 +31,6 @@ window.B3_DECISION = {
       facts: [
         ['Roles with screens', '4 of 17'],
         ['Workflow areas', '6 of 13'],
-        ['Backlog tier', 'Must have'],
         ['Done when', 'Owner roles sign off']
       ],
       moscow: {
@@ -48,7 +46,6 @@ window.B3_DECISION = {
       facts: [
         ['Roles with screens', '4 of 17'],
         ['Workflow areas', '6 of 13'],
-        ['Backlog tier', 'Must have'],
         ['Status', 'Live, June 2026']
       ],
       moscow: {
@@ -64,7 +61,6 @@ window.B3_DECISION = {
       facts: [
         ['Roles with screens', '17 of 17'],
         ['Workflow areas', '13 of 13'],
-        ['Backlog tier', 'Post-MVP'],
         ['Done when', 'Every role signs off']
       ],
       moscow: {
@@ -80,7 +76,6 @@ window.B3_DECISION = {
       facts: [
         ['Roles with screens', '17 of 17'],
         ['Workflow areas', '13 of 13'],
-        ['Backlog tier', 'Post-MVP'],
         ['Done when', 'All 17 roles live']
       ],
       moscow: {

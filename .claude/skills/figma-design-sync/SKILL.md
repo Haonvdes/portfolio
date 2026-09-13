@@ -65,6 +65,7 @@ the user to re-find nodes that are already documented:
 | Case Study — Aura / web-3 | §01 roadmap, three columns | `40000586:5229` |
 | Case Study — Aura / web-3 | §02 "A Short History of Web Evolution" band | `40000586:5361` (columns `40000586:5363`) |
 | Case Study — Aura / web-3 | §04 phases card: Approach + phase band + five columns + metric panel | `40000586:5490` (card `40000586:5496`, band `40000586:5501`, columns `40000586:5506`, metrics `40000586:5522`) |
+| Case Study — Aura / web-3 | "State of UX in Web3" plain column + bordered card pair — also the pattern for healthcare.html's Handoff process before/after (`.rd-ai-ba`) | `40000586:5384` (plain col `40000586:5387`, card `40000586:5412`) |
 | Case Study — Aura / web-3 | §05 "How We Work Together": team card + heading + Product Wiki | `40000586:5533` (team card `40000586:5545`, heading `40000586:5592`, wiki `40000586:5593`, approaches `40000586:5596`) |
 
 If the user gives a link/node not on this list, use it — then add it to this

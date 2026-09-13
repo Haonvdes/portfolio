@@ -32,8 +32,15 @@
   // which can cache this trigger's start/end against a shorter page than
   // the one the reader actually scrolls. Refreshing on every image's own
   // load keeps it correct regardless of load order.
+  // Debounced: a full refresh re-measures every trigger on the page, and one
+  // per image mid-scroll shows up as a visible hitch.
+  var refreshTimer;
+  function queueRefresh() {
+    clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(function () { ScrollTrigger.refresh(); }, 150);
+  }
   Array.prototype.forEach.call(document.images, function (img) {
-    if (!img.complete) img.addEventListener('load', function () { ScrollTrigger.refresh(); }, { once: true });
+    if (!img.complete) img.addEventListener('load', queueRefresh, { once: true });
   });
 
   ScrollTrigger.matchMedia({
@@ -53,6 +60,10 @@
       [rowA, rowB].forEach(function (row) {
         if (row.dataset.wallCloned) return;
         var originals = Array.prototype.slice.call(row.children);
+        // Eager, not lazy: the clones sit in an overflow:hidden row moved by
+        // transform, and Safari never counts them as near the viewport — they
+        // stay unloaded and the row shows a blank gap where they should be.
+        originals.forEach(function (img) { img.loading = 'eager'; });
         for (var copy = 0; copy < 2; copy++) {
           originals.forEach(function (img) {
             row.appendChild(img.cloneNode(true));
@@ -78,6 +89,12 @@
           end: 'bottom bottom',
           scrub: 0.6,
           invalidateOnRefresh: true,
+          // This file loads before ai-accelerate.js, whose pin sits ABOVE this
+          // section and adds its own scroll distance. Triggers refresh in
+          // creation order, so without this the wall measured its start
+          // before that pin spacer existed and ran ~2,400px early: the rows
+          // finished moving before the wall even reached the top.
+          refreshPriority: -1,
           // Same GSAP-documented fix as ai-accelerate-v2.js: this site sets
           // `scroll-behavior: smooth` globally, which double-eases against
           // `scrub` and overshoots. Toggled off only while this trigger is

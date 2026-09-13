@@ -110,12 +110,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 // eventually lands inside one of those tails and reads it as
                 // a genuine reversal. `scrollend` sidesteps the whole problem
                 // by only ever comparing two already-settled positions.
-                // Auto-hide the peeked nav after 5s of no pointer interest,
+                // Auto-hide the peeked nav after 1.5s of no pointer interest,
                 // so it doesn't linger over content the reader scrolled up
                 // to see. Hovering cancels the timer; leaving restarts it
                 // (only while still peeked — a nav already hidden or pinned
                 // at the top has nothing to auto-hide).
-                const AUTO_HIDE_DELAY = 5000;
+                const AUTO_HIDE_DELAY = 1500;
                 let hideTimer = null;
                 const clearHideTimer = () => {
                     if (hideTimer) {
@@ -126,9 +126,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 const scheduleHideTimer = () => {
                     clearHideTimer();
                     hideTimer = setTimeout(() => {
+                        hideTimer = null;
+                        // A delay this short can land while a keyboard user
+                        // is tabbing through the links or the mobile menu is
+                        // open — don't pull the bar out from under either.
+                        if (navOuter.querySelector(":focus-visible") ||
+                            document.body.classList.contains("nav-open")) return;
                         navOuter.classList.remove("rd-nav-peek");
                         navOuter.classList.add("rd-nav-hidden");
-                        hideTimer = null;
                     }, AUTO_HIDE_DELAY);
                 };
 

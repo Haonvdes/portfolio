@@ -138,15 +138,6 @@
   --rd-diagram-components: #0e8e7d;   /* design/components lane */
   --rd-diagram-concept-dead: #a08363; /* an abandoned concept-branch lane */
 
-  /* Added 2026-09-11 — B3 MoSCoW legend, Figma 40000566:1463 (healthcare
-     §04). Must is not here: its swatch is #d35353, which is --rd-market-b
-     exactly, so it reuses that. Figma's quadrant image paints MUST pink
-     (#ffb2e0) against its own red legend; the legend wins, so tile and
-     swatch stay one colour. The three below have no existing match. */
-  --rd-moscow-should: #27fad4;
-  --rd-moscow-could: #a8cfff;
-  --rd-moscow-wont: #afafe4;
-
   /* ---------------------------------------------------------------------
      TYPE SYSTEM — ALIASES ONLY. Do not put literal values back here.
 
@@ -4321,34 +4312,20 @@ ol.rd-case-list > li { list-style-type: decimal; }
    live site, not this project's Figma file.
 
    Shared DNA, both layouts below:
-   1. A pastel radial-gradient glow behind the hero, standing in for
-      sketch's 7680x3148 `hero__orbs` raster — three radial-gradients
-      instead of shipping that asset for a page that only needs the colour,
-      not the texture. Colour is ONE custom property, `--rd-hero-glow`, not
-      three independent hex values (Hao's call, 2026-08-21: every case study
-      should get its own tint). `color-mix()` fans that single colour out
-      into the three-orb cluster at different strengths against white, so a
-      page opts in with one line — `style="--rd-hero-glow: #f2c9c9"` on
-      `<body>` — instead of picking and keeping three related pastels in
-      sync by hand. The default below is sketch's own lavender, used
-      whenever a page sets `.is-hero-glow` and nothing else.
-   2. A 3D tilt-in entrance on `.rd-case-cover img`: rotateX(12deg) -> ~2deg
+   1. No background tint and no tinted shadow. The per-case pastel glow
+      (`--rd-hero-glow`) was removed 2026-09-13 (Hao) — the hero sits on the
+      plain page surface on every case study.
+   2. A 3D tilt-in entrance on `.rd-case-cover img`: rotateX(12deg) -> flat
       + fade, 0.8s, cubic-bezier(.785,.135,.15,.86) — sketch's own curve,
-      snap-through-the-middle rather than linear. Triggered once by
+      snap-through-the-middle rather than linear. It ends at `transform: none`,
+      not sketch's resting rotateX(2deg): a leftover tilt shrinks the image's
+      bottom edge in perspective, so it stopped lining up with the cover's
+      `::after` fade overlay (Hao, 2026-09-13). Triggered once by
       IntersectionObserver (js/hero-entrance.js) adding `.is-shown`, not by
-      scroll position — sketch measured the same (teardown §2) and confirmed
-      it fires once on enter and never re-fires. `.js-hero-glow` is the class
-      that script adds to `<body>` before it starts observing, so the hidden
-      pre-animation state only ever applies with JS present; without it (or
-      with the observer never firing) the image sits at its resting state,
-      fully visible, from first paint — same no-js safety net as sketch's own
-      `.no-js` escape hatch, never a permanently-invisible image. */
-.is-hero-glow {
-  /* Default tint — sketch's own lavender. Override per case study with
-     `style="--rd-hero-glow: #yourHex"` on <body>; nothing else needs to
-     change, on this page or in this file, to give a case its own colour. */
-  --rd-hero-glow: #cdb8ef;
-}
+      scroll position. `.js-hero-glow` is the class that script adds to
+      `<body>` before it starts observing, so the hidden pre-animation state
+      only ever applies with JS present; without it the image sits at its
+      resting state, fully visible, from first paint. */
 .is-hero-glow .rd-case-hero {
   position: relative;
   isolation: isolate; /* keeps the ::before glow under the content without
@@ -4385,40 +4362,20 @@ ol.rd-case-list > li { list-style-type: decimal; }
      do. Hao, 2026-08-23: cut it. */
   padding-bottom: 0;
 }
-.is-hero-glow .rd-case-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 140vh;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(60% 45% at 55% 25%, color-mix(in srgb, var(--rd-hero-glow) 55%, white) 0%, transparent 70%),
-    radial-gradient(45% 40% at 30% 35%, color-mix(in srgb, var(--rd-hero-glow) 28%, white) 0%, transparent 70%),
-    radial-gradient(50% 40% at 50% 30%, color-mix(in srgb, var(--rd-hero-glow) 45%, white) 0%, transparent 75%);
-}
-.is-hero-glow .rd-case-cover img {
-  transform-style: preserve-3d;
-  will-change: transform, opacity;
-  /* Shadow tinted to the same per-case colour so it blends into the glow
-     instead of reading as a generic grey drop shadow — sketch does the same
-     with a fixed pink; this just ties it to the dynamic variable instead. */
-  box-shadow: 0 40px 200px color-mix(in srgb, var(--rd-hero-glow) 55%, transparent);
-}
 .is-hero-glow.js-hero-glow .rd-case-cover img:not(.is-shown) {
   opacity: 0;
   transform: rotateX(12deg);
 }
 .is-hero-glow .rd-case-cover img.is-shown {
-  animation: rd-hero-tilt-in 0.8s cubic-bezier(0.785, 0.135, 0.15, 0.86) both;
+  animation: rd-hero-tilt-in 0.8s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 }
 @keyframes rd-hero-tilt-in {
   from { opacity: 0; transform: rotateX(12deg); }
-  to   { opacity: 1; transform: rotateX(2deg); }
+  to   { opacity: 1; transform: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .is-hero-glow.js-hero-glow .rd-case-cover img:not(.is-shown) { opacity: 1; transform: none; }
-  .is-hero-glow .rd-case-cover img.is-shown { animation-duration: 1ms; }
+  .is-hero-glow .rd-case-cover img.is-shown { animation: none; }
 }
 
 /* ---- Default layout: text row, cover below (matches the sketch.com screen-
@@ -4557,13 +4514,6 @@ ol.rd-case-list > li { list-style-type: decimal; }
   width: 100%;
   height: 100%;
   max-width: none;
-  /* No tinted drop shadow on this variant (Hao's call, 2026-08-23) — the
-     split cover fills a hard-edged column rather than floating free like the
-     default layout's tilted card, so the shadow just read as a smudge along
-     its bottom edge instead of lift. Overrides the shared `.is-hero-glow
-     .rd-case-cover img` shadow below; every page on the split sub-variant
-     gets this for free without needing its own override. */
-  box-shadow: none;
 }
 @media (max-width: 900px) {
   .is-hero-glow.is-hero-split .rd-case-hero { min-height: auto; }
@@ -6223,6 +6173,12 @@ ol.rd-case-list > li { list-style-type: decimal; }
   overflow: hidden;
 }
 .rd-case-wiki > * { padding: 24px; }
+/* The bordered box is the measure here — a 1040px cap inside it leaves a
+   ragged empty band on the right at wide viewports. */
+.rd-case-wiki .rd-case-body,
+.rd-case-wiki .rd-case-list,
+.rd-case-card .rd-case-body,
+.rd-case-card .rd-case-list { max-width: none; }
 .rd-case-wiki-row + .rd-case-wiki-row { border-top: 1px solid var(--rd-border); }
 .rd-case-wiki-title {
   margin: 0;
@@ -7453,6 +7409,65 @@ ol.rd-case-list > li { list-style-type: decimal; }
   gap: clamp(40px, 7vh, 72px);
 }
 .rd-ai-layer { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+/* The stack continues the toggle above rather than starting a new beat, so it
+   is pulled up through the pin's bottom padding (the same clamp as
+   .rd-ai-pin) to leave 32px under the closing line. */
+.rd-ai-accelerate > .rd-ai-stack {
+  margin-top: calc(32px - clamp(16px, 5vh, 72px));
+  /* .rd-ai-pin is positioned with an opaque fill; without this it paints over
+     the part of the stack that now overlaps its padding. */
+  position: relative;
+  z-index: 1;
+}
+
+/* Collapsible blocks (model, handoff, artifact), same treatment as work.html's
+   .rd-work-archive: hairline, uppercase summary, chevron that flips. Siblings
+   stack as one accordion — each draws its top rule, the last closes the list. */
+.rd-ai-model { display: block; border-top: 1px solid var(--rd-border); }
+/* Margins, not flex gap: a closed <details> still lays out its content slot,
+   so a gap would pad every collapsed row. */
+.rd-ai-model[open] > :not(summary) + * { margin-top: 20px; }
+.rd-ai-model[open] > summary + * { margin-top: 4px; }
+.rd-ai-model + .rd-ai-model { margin-top: -20px; }
+.rd-ai-model:not(:has(+ .rd-ai-model)) { border-bottom: 1px solid var(--rd-border); }
+.rd-ai-model[open] { padding-bottom: 32px; }
+.rd-ai-model-summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  cursor: pointer; list-style: none;
+  padding: 16px 0;
+  font-size: var(--rd-fs-xs); font-weight: var(--rd-fw-emphasis);
+  letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7;
+}
+.rd-ai-model-summary::-webkit-details-marker { display: none; }
+.rd-ai-model-summary::marker { content: ""; }
+.rd-ai-model-summary:hover { opacity: 1; }
+.rd-ai-model-icon {
+  display: inline-flex; flex: none; width: 20px; height: 20px;
+  align-items: center; justify-content: center;
+  transition: transform 0.15s ease;
+}
+.rd-ai-model[open] > .rd-ai-model-summary .rd-ai-model-icon { transform: rotate(180deg); }
+/* Every block's content sits in the same card, so the three read as one set.
+   Boxes that carried their own card before (the receipt, the "after" column)
+   drop their outer edge inside it rather than nesting a card in a card. */
+.rd-ai-model-panel {
+  display: flex; flex-direction: column; gap: 20px;
+  padding: 24px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+}
+.rd-ai-model-panel .rd-ai-evi { background: none; border: 0; border-radius: 0; }
+.rd-ai-model-panel .rd-ai-evi-stat { padding: 0 24px; }
+.rd-ai-model-panel .rd-ai-evi-stat:first-child { padding-left: 0; }
+/* "Before" keeps its vertical padding so its rows stay level with "after". */
+.rd-ai-model-panel .rd-ai-ba-col { padding-left: 0; padding-right: 0; }
+.rd-ai-model-panel .rd-ai-ba-col.is-after {
+  padding: 24px;
+  /* A soft edge, not a fill: the AI chips are --rd-surface and vanish on it. */
+  border-color: var(--rd-border-soft);
+}
+
 /* One step down from .rd-case-h2 and one up from .rd-case-card h3: these are
    sub-headings inside a section that already has its own <h2>, so they must
    not compete with "AI Accelerate" at the top of it. */
@@ -7525,40 +7540,72 @@ ol.rd-case-list > li { list-style-type: decimal; }
 .rd-ai-branch-label.is-merge { fill: var(--rd-ink); font-weight: var(--rd-fw-emphasis); }
 
 /* --- before / after ----------------------------------------------------
-   Two cards that argue against each other, so they are the same width and
-   the same internal rhythm; only the eyebrow and the border weight differ.
-   `align-items: stretch` (the grid default) matters here — the two columns
-   hold different numbers of rows and a top-aligned pair would leave the
-   shorter card floating. */
+   Figma 40000586:5384 (the web-3 "State of UX" pair): the "before" column
+   sits flat on the section surface and only the "after" column is a card,
+   so the argument is the one thing on the band with an edge.
+   Both columns keep the same padding and a 1px border (transparent on
+   "before") so their rows start on the same line across the pair. */
 .rd-ai-ba {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
   width: 100%;
+}
+/* The arrow stands in for the old Before/After eyebrows: it sits in its own
+   grid track between the columns and turns to point down once they stack. */
+.rd-ai-ba-arrow {
+  display: flex;
+  align-self: center;
+  justify-self: center;
+  color: var(--rd-ink);
 }
 .rd-ai-ba-col {
   display: flex;
   flex-direction: column;
   gap: 16px;
   padding: 24px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--r-20);
+}
+.rd-ai-ba-col.is-after {
   background: var(--rd-white);
-  border: 1px solid var(--rd-border-soft);
-  border-radius: 16px;
+  border-color: var(--rd-border);
 }
-/* The "after" column is the argument; the "before" column is the setup. A
-   full-weight border on one and the soft border on the other says which is
-   which without a colour or a badge. */
-.rd-ai-ba-col.is-after { border-color: var(--rd-border); }
-.rd-ai-ba-k {
-  margin: 0;
+/* Rows lose the checklist's boxed list and take Figma's numbered 32px
+   badge instead, drawn with a counter so the markup stays a plain
+   .rd-case-checklist. "Before" badges are muted, "after" badges use the
+   same orange as the AI chips in that column. */
+.rd-ai-ba .rd-case-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  background: none;
+  counter-reset: rd-ai-ba;
+}
+.rd-ai-ba .rd-case-checklist-row {
+  padding: 4px 0;
+  border-top: 0;
+  counter-increment: rd-ai-ba;
+}
+.rd-ai-ba .rd-case-checklist-row::before {
+  content: counter(rd-ai-ba);
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: var(--rd-ink-muted);
+  font-size: var(--rd-fs-sm);
   font-weight: var(--rd-fw-emphasis);
-  font-size: var(--rd-fs-xs);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--rd-ink);
-  opacity: 0.6;
+  color: var(--rd-ink-inverse);
 }
-.rd-ai-ba-col.is-after .rd-ai-ba-k { color: var(--rd-primary); opacity: 1; }
+.rd-ai-ba-col.is-after .rd-case-checklist-row::before { background: var(--rd-pain-chip); }
 .rd-ai-ba-lede {
   margin: 0;
   font-size: var(--rd-fs-md);
@@ -7616,6 +7663,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
    receipt survives one step longer because its three figures are short. */
 @media (max-width: 900px) {
   .rd-ai-ba { grid-template-columns: 1fr; }
+  .rd-ai-ba-arrow { transform: rotate(90deg); }
 }
 /* `.rd-ai-evi` was built for the white AI section and is reused on
    healthcare.html as the page's evidence strip. Two adjustments it needs
@@ -7632,6 +7680,9 @@ ol.rd-case-list > li { list-style-type: decimal; }
   .rd-ai-evi { grid-template-columns: 1fr; }
   .rd-ai-evi-stat { border-left: 0; border-top: 1px solid var(--rd-border-soft); }
   .rd-ai-evi-stat:first-child { border-top: 0; }
+  .rd-ai-model-panel { padding: 16px; }
+  .rd-ai-model-panel .rd-ai-evi-stat { padding: 16px 0; }
+  .rd-ai-model-panel .rd-ai-evi-stat:first-child { padding-top: 0; }
   /* §13 skips the pin entirely at this width and renders the diagram
      statically, so the stack below it is simply the next thing on the page —
      the vh-based inset above would be doing nothing useful. */
@@ -7654,15 +7705,15 @@ ol.rd-case-list > li { list-style-type: decimal; }
    table. `grid-row: 1 / -1` is what makes the column a subgrid participant;
    removing it silently reverts to the ragged layout with no error.
 
-   Row gaps come from the PARENT's row-gap, not from a `gap` on the column:
-   on a subgridded axis the child's own gap is ignored. */
+   Spacing is padding on the rows' items, not row-gap: on a subgridded axis
+   the column's own gap is ignored, and a parent row-gap would open a hole
+   above each row label's divider. */
 .rd-case-landscape {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: auto auto auto auto; /* head · user · responsibility · permission */
-  row-gap: 16px;
+  /* head · User label · users · Responsibility label · text · Permission label · text */
+  grid-template-rows: repeat(7, auto);
   width: 100%;
-  padding: 24px 0;
   background: var(--rd-white);
   border: 1px solid var(--rd-border);
   border-radius: 16px;
@@ -7672,9 +7723,47 @@ ol.rd-case-list > li { list-style-type: decimal; }
   grid-row: 1 / -1;
   grid-template-rows: subgrid;
   padding-inline: 24px;
-  border-left: 1px solid var(--rd-border-soft);
 }
-.rd-case-landscape-col:first-child { border-left: 0; }
+/* Placed explicitly: the row labels occupy rows 2, 4 and 6 across every
+   column, so auto-placement finds no free full-height slot and pushes all
+   five columns into implicit tracks off to the right. */
+.rd-case-landscape-col:nth-of-type(1) { grid-column: 1; }
+.rd-case-landscape-col:nth-of-type(2) { grid-column: 2; }
+.rd-case-landscape-col:nth-of-type(3) { grid-column: 3; }
+.rd-case-landscape-col:nth-of-type(4) { grid-column: 4; }
+.rd-case-landscape-col:nth-of-type(5) { grid-column: 5; }
+.rd-case-landscape-col > .rd-case-landscape-head { grid-row: 1; padding-block: 24px; }
+.rd-case-landscape-col > .rd-case-landscape-cell:nth-child(2) { grid-row: 3; }
+.rd-case-landscape-col > .rd-case-landscape-cell:nth-child(3) { grid-row: 5; }
+.rd-case-landscape-col > .rd-case-landscape-cell:nth-child(4) { grid-row: 7; }
+.rd-case-landscape-cell { padding-bottom: 24px; }
+
+/* Row labels: said once per band, across all five columns, with the band's
+   divider on top. Same style as the Interactive view's .rb-section-title. */
+.rd-case-landscape-rowlabel {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 24px 24px 12px;
+  border-top: 1px solid var(--rd-border-soft);
+  font-family: var(--rd-font);
+  font-size: var(--rd-fs-xl);
+  font-weight: var(--rd-fw-heading);
+  line-height: var(--rd-lh-heading);
+  color: var(--rd-ink);
+}
+.rd-case-landscape-rowlabel.is-user { grid-row: 2; }
+.rd-case-landscape-rowlabel.is-resp { grid-row: 4; }
+.rd-case-landscape-rowlabel.is-perm { grid-row: 6; }
+
+/* The per-cell label repeats the row label, so on desktop it is kept for
+   screen readers only; the accordion below shows it again. */
+.rd-case-landscape .rd-case-label {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 /* Head is a <button> so the mobile accordion (below) is reachable by
    keyboard and gets a real aria-expanded state; these resets keep it looking
    exactly like the plain div it replaced at every width. */
@@ -7704,11 +7793,6 @@ ol.rd-case-list > li { list-style-type: decimal; }
    so desktop, where every cell always shows, gets no dead affordance. */
 .rd-case-landscape-chevron { display: none; flex-shrink: 0; color: var(--rd-ink-muted); }
 .rd-case-landscape-cell { display: flex; flex-direction: column; gap: 8px; }
-/* .rd-case-list is `max-width: var(--rd-measure-case)` (1040px), wider than
-   any column here, so it is inert; the column's own track does the limiting.
-   Left padding is the list's, not the cell's, so the labels above stay flush
-   with the column edge while the role names hang their bullets inside it. */
-.rd-case-landscape-cell .rd-case-list { padding-left: 18px; }
 .rd-case-landscape-text {
   margin: 0;
   font-size: var(--rd-fs-sm);
@@ -7727,17 +7811,31 @@ ol.rd-case-list > li { list-style-type: decimal; }
     display: flex;
     flex-direction: column;
     gap: 0;
-    padding: 0;
   }
+  .rd-case-landscape-rowlabel { display: none; }
   .rd-case-landscape-col {
     display: flex;
     flex-direction: column;
     gap: 16px;
     padding: 24px;
-    border-left: 0;
     border-top: 1px solid var(--rd-border-soft);
   }
-  .rd-case-landscape-col:first-child { border-top: 0; }
+  .rd-case-landscape-col:first-of-type { border-top: 0; }
+  .rd-case-landscape-col > .rd-case-landscape-head { padding-block: 0; }
+  .rd-case-landscape-cell { padding-bottom: 0; }
+  .rd-case-landscape .rd-case-label {
+    position: static;
+    width: auto; height: auto;
+    overflow: visible;
+    clip-path: none;
+    font-size: var(--rd-fs-md);
+    font-weight: var(--rd-fw-heading);
+    line-height: var(--rd-lh-heading);
+    letter-spacing: normal;
+    text-transform: none;
+    color: var(--rd-ink);
+    opacity: 1;
+  }
 
   /* Accordion: each column's three cells are siblings of its head button
      (not a wrapper div — a wrapper would collapse the desktop subgrid's row
@@ -8064,7 +8162,10 @@ ol.rd-case-list > li { list-style-type: decimal; }
 }
 .rd-case-wall-spacer.js-wall-ready .rd-case-wall-row {
   justify-content: center;
-  overflow-x: hidden;
+  /* Visible, not hidden: this row is the element the scrub translates, and an
+     overflow clip moves with its own box — at xPercent -33 the right third of
+     the screen went blank. .rd-case-wall-pin already clips at the viewport. */
+  overflow-x: visible;
   will-change: transform;
 }
 
@@ -8132,7 +8233,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
 .rd-case-split > .rd-case-body > .rd-case-grid { display: grid; }
 
 /* ---- Hero cover ----------------------------------------------------------
-   ar_casecover.webp is a 2880×908 banner — a 3.17:1 strip, where every other
+   ar_casecover.jpeg is a 1500×500 banner — a 3:1 strip, where every other
    case cover is nearer 1.6:1. .rd-case-cover is `flex: 1 1 auto` with an
    object-fit:cover image, so on this page it takes the hero's leftover height
    and crops the banner to its middle third. Pin the figure to the file's own
@@ -8148,7 +8249,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
 .is-hero-glow .rd-case-cover.rd-b6-cover {
   height: auto;
   align-self: start;
-  aspect-ratio: 2880 / 908;
+  aspect-ratio: 1500 / 500;
   min-height: 0;
 }
 
@@ -8164,35 +8265,42 @@ ol.rd-case-list > li { list-style-type: decimal; }
 .rd-case-cols.rd-b6-roadmap > div { gap: 16px; }
 
 /* ---- Ecosystem strip -----------------------------------------------------
-   js/case-studies.js writes .article-card children into #articlesContainer and
-   positions each one with an inline `left` (320px cards on a 160px stride, so
-   eight of them need 1440px, plus the 128px a hover shift adds to the tail).
+   js/case-studies.js writes .article-card children into #articlesContainer,
+   positions each one with an inline `left` (320px cards on a 200px stride),
+   and sets the container's width to include the room a hover shift needs.
    case-studies.css gives .articles-container `overflow:hidden` and no
-   position, which both clips the strip and leaves the absolute children
-   resolving against whatever ancestor happens to be positioned. Give the
-   container the positioning context and the real width, and let the wrapper
-   scroll instead of clipping.
+   position; this gives it the positioning context instead.
+
+   The scroller bleeds to both viewport edges so the strip is never cut at the
+   column edge. Its left padding puts the first card back on the ink edge; the
+   right bleed sits on the container as padding, because a scroller's own end
+   padding isn't counted in its scroll width in every browser. 100vw is safe
+   here for the same reason as the rule at ~4574 (overflow-x: hidden on body).
 
    A scroller clips both axes: `overflow-x: auto` forces the y axis to
    compute to `auto` too, so `.article-card:hover`'s `translateY(-1rem)
-   rotate(2deg)` — plus its shadow — got sliced off at the top edge. Padding
-   is inside the scroll container's padding box, so it gives the lift somewhere
-   to go; the negative inline margin keeps the strip on the 64px ink edge
-   despite the side padding the rotation needs. */
+   rotate(2deg)` — plus its shadow — would be sliced off at the top edge. The
+   block padding gives the lift somewhere to go. */
 .rd-b6-eco {
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  padding: 32px 12px 28px;
-  margin-inline: -12px;
+  margin-inline: calc(50% - 50vw);
+  padding: 32px 0 28px calc(50vw - 50%);
 }
 .rd-b6-eco .articles-container {
   position: relative;
-  width: 1600px;
+  isolation: isolate; /* the cards' inline z-indexes run to 26; keep them local */
+  box-sizing: content-box;
   height: 280px;
+  padding-right: calc(50vw - 50%);
   overflow: visible;
 }
+/* The container is content-box (see above) and bootstrap-grid.css makes
+   every element inherit box-sizing — without this the cards pick up
+   content-box too and grow by their padding and border (280px → 330px). */
 .rd-b6-eco .article-card {
+  box-sizing: border-box;
   box-shadow: var(--rd-shadow-card);
   border-color: var(--rd-border);
 }
@@ -8229,6 +8337,23 @@ ol.rd-case-list > li { list-style-type: decimal; }
   .rd-b6-webs { grid-template-columns: 1fr; }
 }
 
+/* ---- §02 ecosystem: two blocks under one h2 ------------------------------
+   The web-evolution history and the surfaces strip share the section. Each
+   block keeps the section's own 32px rhythm inside, and the second one gets
+   the same again on top so the break between them reads. The history's
+   heading is a sub-heading at the card-title size, like §05's. */
+.rd-b6-group { display: flex; flex-direction: column; gap: 32px; }
+.rd-b6-group + .rd-b6-group { margin-top: 32px; }
+.rd-ai-layer-title.rd-b6-subhead {
+  font-size: var(--rd-fs-2xl);
+  font-weight: var(--rd-fw-emphasis);
+}
+@media (max-width: 768px) {
+  .rd-b6-group { gap: 24px; }
+  .rd-b6-group + .rd-b6-group { margin-top: 24px; }
+  .rd-ai-layer-title.rd-b6-subhead { font-size: var(--rd-fs-xl); }
+}
+
 /* ---- §03 frictions deck --------------------------------------------------
    About's journey layout (intro column + numbered rail on the left, cards on
    the right) with About §5's lesson card (60px masked icon, 20px title, body).
@@ -8239,9 +8364,9 @@ ol.rd-case-list > li { list-style-type: decimal; }
    one grid cell, so they all take the tallest card's height. The script moves
    `.is-active` as the page scrolls: the outgoing card fades out, and the
    incoming one waits for that to finish before it fades in, so two cards'
-   text never overlap. No scroll-snap: the script turns each wheel / swipe /
-   key gesture inside the track into exactly one card, and outside it the page
-   scrolls freely.
+   text never overlap. The script turns each wheel / swipe / key gesture inside
+   the track into exactly one card; outside it the page's section snap takes
+   over (see "Section-by-section scrolling" below).
 
    Track height is `100vh + n × 50vh`. It sets how far the page travels while
    pinned (the scrollbar and TOC still move through it); the script spaces the
@@ -8325,6 +8450,74 @@ ol.rd-case-list > li { list-style-type: decimal; }
 .rd-b6-fx.is-live .rd-b6-fx-card.is-active {
   opacity: 1;
   transition-delay: 0.3s;
+}
+
+/* ---- Section-by-section scrolling ---------------------------------------
+   The homepage pattern (html is the snap container, every section a landing
+   point), opted into with body.is-section-snap. Most sections here are taller
+   than the viewport; a snap area bigger than the viewport may rest anywhere
+   it still covers it, so those scroll freely inside and only stop at their
+   top edge.
+
+   #frictions lands on its track, not the section box: the stage pins from the
+   track's first pixel and js/web3-frictions.js measures its card positions
+   from there, so a stop 72px above it would cost an extra scroll before the
+   first card.
+
+   Safari also needs a second stop per section, its last full view, from a
+   zero-size ::after: WebKit scrolls UP from one section straight to the top of
+   the one above, so the bottom of a long section (and §03's last three cards)
+   could only be reached going down. Chrome already lands on that last view by
+   itself, and the markers break it there — Chrome won't rest anywhere a small
+   snap area is on screen, so it jumps the last viewport of every long section
+   and pulls js/web3-frictions.js off card 3. Hence the Safari-only @supports
+   (`-apple-system-body` is a WebKit system-font keyword).
+
+   The marker is start-aligned at `100% - 100vh` rather than end-aligned at the
+   bottom, so on a section shorter than the viewport it clamps onto the
+   section's own top instead of landing above it; the 72px is
+   `.rd-case-section`'s bottom padding, so an overhang that is only padding
+   adds no stop. Not visibility:hidden — browsers skip hidden boxes when
+   collecting snap targets. */
+html:has(body.is-section-snap) {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+.is-section-snap .rd-case-hero,
+.is-section-snap main > .rd-case-section,
+.is-section-snap .rd-b6-fx.is-live {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+.is-section-snap main > #frictions { scroll-snap-align: none; }
+@supports (font: -apple-system-body) {
+  .is-section-snap main > .rd-case-section,
+  .is-section-snap .rd-b6-fx.is-live { position: relative; }
+  .is-section-snap main > .rd-case-section::after,
+  .is-section-snap .rd-b6-fx.is-live::after {
+    content: '';
+    position: absolute;
+    top: max(0px, calc(100% - 100vh - 72px));
+    left: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+  /* The track's last stop is exactly its last card's rest position. */
+  .is-section-snap .rd-b6-fx.is-live::after { top: calc(100% - 100vh); }
+  .is-section-snap main > #frictions::after { content: none; }
+}
+.is-section-snap .rd-closing { scroll-snap-align: end; }
+@media (max-width: 1180px), (max-height: 700px) {
+  html:has(body.is-section-snap) { scroll-snap-type: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:has(body.is-section-snap) {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
 }
 
 @media (max-width: 1180px) {
@@ -8443,6 +8636,38 @@ ol.rd-case-list > li { list-style-type: decimal; }
 .rd-b6-phasecols .rd-case-list > li,
 .rd-b6-wiki .rd-case-list > li { padding-bottom: 0; margin-top: 0; line-height: normal; }
 
+/* ---- §05 pinned header ---------------------------------------------------
+   Heading, intro and pills stay at the top of the viewport while the tab
+   panels scroll under them, and leave with the section. The 24px padding
+   gives the pinned header air above the pills and an opaque band for the
+   panels to pass under; the matching negative margins keep the resting
+   layout exactly where it was. Short viewports skip the pin — the header
+   would take most of the screen. At ≤768 only the dropdown pins: the
+   wrapper steps out of the layout so the dropdown's sticky range is the
+   whole section, not the wrapper. */
+.rd-b6-squads-head { display: flex; flex-direction: column; gap: 32px; }
+@media (min-width: 769px) and (min-height: 600px) {
+  .rd-b6-squads-head {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding-block: 24px;
+    margin-block: -24px;
+    background: var(--rd-surface);
+  }
+}
+@media (max-width: 768px) {
+  .rd-b6-squads-head { display: contents; }
+  .rd-b6-squads-head .rd-tabs-dropdown {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding-block: 12px;
+    margin-block: -12px;
+    background: var(--rd-surface);
+  }
+}
+
 /* ---- §05 team, wiki, sprint ---------------------------------------------
    The team card is the shared B1 V2 icon-block markup and the wiki's two
    approaches reuse the same `.rd-case-grid.is-compact`. §05 runs on three
@@ -8524,6 +8749,30 @@ ol.rd-case-list > li { list-style-type: decimal; }
    .show-case-detail and .fact-card come from case-studies.css, which is still
    imported by style.css. Only the pieces that fight the .rd-case surface are
    restated here. */
+/* Access notice above the pills. Yellow carries the warning (fill, edge,
+   icon); the sentence itself is body copy and stays body ink. Hugs its text
+   rather than spanning the column. */
+.rd-b6-notice {
+  display: flex;
+  align-items: flex-start;
+  align-self: flex-start;
+  gap: 12px;
+  max-width: 100%;
+  padding: var(--p-16);
+  background: var(--yellow-Y50);
+  border: 1px solid var(--yellow-Y300);
+  border-radius: 12px;
+  color: var(--yellow-Y700);
+}
+.rd-b6-notice svg { flex: none; margin-top: 3px; }
+.rd-b6-notice p {
+  margin: 0;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+
 .rd-b6-showcase-nav { display: flex; flex-direction: column; gap: 16px; }
 .rd-b6-showcase-nav .button-group { flex-wrap: wrap; }
 /* .rd-bench-views is only here as case-tabs.js's opt-out marker; its chart-card
@@ -9363,13 +9612,14 @@ ol.rd-case-list > li { list-style-type: decimal; }
 .rd-case-band-figures-body { display: flex; flex-direction: column; gap: var(--m-40); }
 .rd-case-band-rule { width: 100%; height: 1px; background: var(--rd-border-soft); }
 
-/* Node type scale. Both were a step down from it: the title read at --rd-fs-2xl
-   against the node's 32, the lead at --rd-fs-md against its 24. */
+/* Title follows the node's 32. The lead deliberately does NOT follow the
+   node's 24 — at that size it read as a second heading (Hao, 2026-09-13), so it
+   sits at the case-study lead size instead, the same as the hero lead. */
 .rd-case-band .rd-case-band-title { font-size: var(--rd-fs-3xl); }
 /* --rd-measure, not --rd-measure-case: the latter is 1040px, wider than the
    node's cap. The node caps it at 926px;
    778 is the nearest value the system already carries. */
-.rd-case-band .rd-case-band-lead { max-width: var(--rd-measure); font-size: var(--rd-fs-2xl); }
+.rd-case-band .rd-case-band-lead { max-width: var(--rd-measure); font-size: var(--rd-fs-lg); }
 
 /* The node draws the three figures as plain columns on the page ground — no
    fill, no stroke, no dividers. Scoped to .rd-case-band so the AI section's
@@ -9400,11 +9650,10 @@ ol.rd-case-list > li { list-style-type: decimal; }
      above draws a hairline between stacked stats — the node has neither. */
   .rd-case-band .rd-ai-evi { gap: var(--m-32); }
   .rd-case-band .rd-ai-evi-stat { border-top: 0; }
-  /* One step down each, the same move .rd-quote-text already makes at this
-     breakpoint (32 -> --rd-fs-xl): 32/24 is a desktop scale, and the lead ran
-     to seven lines on a 390px screen. */
+  /* One step down, the same move .rd-quote-text already makes at this
+     breakpoint (32 -> --rd-fs-xl): 32 is a desktop scale. The lead is already
+     at --rd-fs-lg on desktop, so it needs no step here. */
   .rd-case-band .rd-case-band-title { font-size: var(--rd-fs-2xl); }
-  .rd-case-band .rd-case-band-lead { font-size: var(--rd-fs-lg); }
 }
 
 /* --- B2e. Shipped-screens header and tab strip, flush left ---------------
@@ -9424,17 +9673,43 @@ ol.rd-case-list > li { list-style-type: decimal; }
   .rd-split-head.is-case { align-items: flex-start; gap: var(--m-16); }
 }
 
-/* --- B2b. Step-1 caption on the loop stage -------------------------------
-   Visible in the static/reduced-motion render too; ai-accelerate.js fades it
-   out with Validate and Build at STEP 2, so it only ever describes the
-   four-phase state. */
-.rd-ai-stage-caption {
+/* --- B2b. Step-1 phase columns under the loop stage ----------------------
+   One column per circle. In normal flow for the static/reduced-motion render;
+   once .js-ai-ready is on, it is laid over the top of .rd-ai-reveal (which is
+   at opacity 0 during STEP 1) so it costs the pinned box no height.
+   ai-accelerate.js fades it out with autoAlpha at STEP 2 — visibility:hidden
+   is what stops the invisible layer eating clicks on the toggle below it. */
+.rd-ai-phases {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--m-32);
+  width: 100%;
+}
+.js-ai-ready .rd-ai-reveal { position: relative; }
+.js-ai-ready .rd-ai-phases { position: absolute; top: 0; left: 0; right: 0; }
+.rd-ai-phase { display: flex; flex-direction: column; gap: var(--m-12); }
+.rd-ai-phase-title {
   margin: 0;
-  text-align: center;
   font-size: var(--rd-fs-md);
-  font-weight: var(--rd-fw-body);
-  line-height: var(--rd-lh-prose);
-  color: var(--rd-ink-muted);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: var(--rd-lh-tight);
+}
+.rd-ai-phase.is-discovery .rd-ai-phase-title { color: var(--yellow-Y900); }
+.rd-ai-phase.is-validate .rd-ai-phase-title { color: var(--blue-B700); }
+.rd-ai-phase.is-build .rd-ai-phase-title { color: #434c00; }
+.rd-ai-phase.is-launch .rd-ai-phase-title { color: var(--emerald-E800); }
+.rd-ai-phase .rd-case-list { max-width: none; }
+/* style.css gives every bare `li` 12px of bottom padding. */
+.rd-ai-phase .rd-case-list li { padding-bottom: 0; }
+@media (max-height: 860px) and (min-width: 769px) {
+  .rd-ai-phase { gap: var(--m-8); }
+  .rd-ai-phase .rd-case-list li { font-size: var(--rd-fs-sm); }
+}
+@media (max-width: 768px) {
+  .rd-ai-phases { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--m-24) var(--m-16); }
+  .rd-ai-phase { gap: var(--m-8); }
+  .rd-ai-phase .rd-case-list { padding-left: 18px; }
+  .rd-ai-phase .rd-case-list li { font-size: var(--rd-fs-sm); }
 }
 
 /* --- B2c. Closing line, one per pill -------------------------------------
@@ -9515,116 +9790,36 @@ ol.rd-case-list > li { list-style-type: decimal; }
 .rd-related-title { text-transform: none; }
 
 /* ================================================================ B4 —
-   Healthcare: checklist finding + programs-by-month chart
+   Healthcare §03: key figures strip
    ================================================================
-   Finding 5 in healthcare.html §03 sits in its own card under the four-up
-   findings grid. Everything here is prefixed .rd-hc-; no other page uses it.
+   Everything here is prefixed .rd-hc-; no other page uses it. */
 
-   Selectors inside the card carry two classes on purpose: `.rd-case-card p`
-   (0,1,1) sets size/weight/colour on every <p> in a card and `.rd-case p`
-   resets text-transform, so a bare single-class rule on a <p> here loses. */
-
-.rd-hc-miss-text {
+.rd-hc-figures {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
-
-/* ---- Programs by month ------------------------------------------------
-   HTML columns rather than an SVG: a viewBox scales its text with the box,
-   which leaves 12 month labels unreadable at phone width. Each <li> carries
-   its count as --v; bar height is --v against the May peak of 32.
-
-   The <li> has inline padding and the columns no gap, so each label's
-   border-top joins its neighbour's into one unbroken baseline. */
-.rd-hc-months {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  min-width: 0;
+/* Same size as the page's other between-card H3 ("Role & permission",
+   .rd-hc-rolesview-title). Two classes so the page-level h3 rules lose. */
+.rd-hc-figures .rd-hc-figures-title {
   margin: 0;
-}
-.rd-hc-months .rd-case-label {
-  font-size: var(--rd-fs-xs);
-  font-weight: var(--rd-fw-emphasis);
-  text-transform: uppercase;
-}
-.rd-hc-months-plot {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  align-items: end;
-  height: 248px;
-  margin: 8px 0 0;
-  padding: 0;
-  list-style: none;
-}
-.rd-hc-months-plot > li {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 6px;
-  height: 100%;
-  min-width: 0;
-  padding-inline: 3px;
-}
-.rd-hc-months-val {
-  text-align: center;
-  font-size: var(--rd-fs-xs);
-  font-weight: var(--rd-fw-body);
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
+  font-size: var(--rd-fs-2xl);
+  font-weight: var(--rd-fw-heading);
+  line-height: var(--rd-lh-heading);
+  text-transform: none;
   color: var(--rd-ink);
 }
-.rd-hc-months-bar {
-  display: block;
-  height: calc(var(--v) * 180px / 32);
-  background: var(--rd-market-rest);
-  border-radius: 4px 4px 0 0;
+/* .rd-ai-evi is three-up by default; this page carries four figures.
+   Two-up in the tablet band, where the shared rule stays at three and the
+   labels would wrap to six lines; the 768 one-column rule then applies. */
+.rd-hc-figures .rd-ai-evi { grid-template-columns: repeat(4, 1fr); }
+@media (min-width: 769px) and (max-width: 1024px) {
+  .rd-hc-figures .rd-ai-evi { grid-template-columns: repeat(2, 1fr); }
+  .rd-hc-figures .rd-ai-evi-stat:nth-child(odd) { border-left: 0; }
+  .rd-hc-figures .rd-ai-evi-stat:nth-child(n+3) { border-top: 1px solid var(--rd-border-soft); }
 }
-.rd-hc-months-lab {
-  margin-inline: -3px;
-  padding-top: 8px;
-  border-top: 1px solid var(--rd-border-muted);
-  text-align: center;
-  font-size: var(--rd-fs-xs);
-  line-height: 1;
-  color: var(--rd-ink-muted);
-}
-.rd-hc-months-plot > li.is-peak .rd-hc-months-bar { background: var(--rd-ink); }
-.rd-hc-months-plot > li.is-peak .rd-hc-months-val { font-weight: var(--rd-fw-emphasis); }
-/* Months after the count was taken: hatched and outlined, so they read as
-   incomplete rather than as quiet months. The outline keeps a 1-program bar
-   visible where the hatch alone would be too short to show. */
-.rd-hc-months-plot > li.is-partial .rd-hc-months-bar {
-  background: repeating-linear-gradient(135deg, var(--rd-border-muted) 0 1px, transparent 1px 5px);
-  box-shadow: inset 0 0 0 1px var(--rd-border-muted);
-}
-.rd-hc-months-plot > li.is-partial .rd-hc-months-val { color: var(--rd-ink-muted); }
-
-/* Bracket under Aug–Dec. Same 12-column track as the plot, so the span
-   lines up with the hatched bars without measuring anything. */
-.rd-hc-months .rd-hc-months-note {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  margin: 0;
-  font-size: var(--rd-fs-xs);
-  line-height: 1.3;
-  color: var(--rd-ink-muted);
-}
-.rd-hc-months-note > span {
-  grid-column: 8 / 13;
-  margin-inline: 3px;
-  padding-top: 6px;
-  border-top: 1px solid var(--rd-border-muted);
-  text-align: center;
-}
-.rd-hc-months .rd-aud-source { margin: 0; }
-
-@media (max-width: 430px) {
-  .rd-hc-months-plot > li { padding-inline: 1px; }
-  .rd-hc-months-lab { margin-inline: -1px; font-size: 11px; }
-  .rd-hc-months-val { font-size: 11px; }
+@media (max-width: 768px) {
+  .rd-hc-figures .rd-ai-evi { grid-template-columns: 1fr; }
 }
 
 /* ================================================================ B3 —
@@ -9760,117 +9955,61 @@ ol.rd-case-list > li { list-style-type: decimal; }
   line-height: var(--rd-lh-heading);
 }
 
-/* ---- MoSCoW as axes — Figma 40000566:1462 --------------------------------
-   Figma ships this as a raster; it is drawn here because its contents change
-   with every phase. Rows: top quadrants / the four tiles / bottom quadrants.
-   The two 1fr rows resolve to the taller of the pair, which keeps the tiles
-   on the centre line. The vertical axis is the grid's ::before; the
-   horizontal one belongs to the tile row, so it always runs through the gap
-   between the tiles. */
+/* ---- MoSCoW as a 2x2 list ------------------------------------------------
+   Must, should (top) · could, won't (bottom). Each quadrant carries its own
+   heading, so there is no legend. Only Must is coloured. */
 .rd-moscow {
-  --rd-moscow-tile-w: 232px;
-  position: relative;
   display: grid;
   flex: 1 1 auto;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: 1fr auto 1fr;
-  gap: var(--m-32) var(--m-48);
+  grid-auto-rows: minmax(260px, auto);
 }
-.rd-moscow::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: var(--m-2);
-  margin-left: calc(var(--m-2) / -2);
-  background: var(--rd-ink);
-}
-.rd-moscow-q { display: flex; flex-direction: column; gap: var(--m-8); min-width: 0; }
-.rd-case .rd-moscow-q p,
-.rd-case .rd-moscow-q li {
-  font-size: var(--rd-fs-md);
-  font-weight: var(--rd-fw-body);
-  line-height: var(--rd-lh-tight);
-  color: var(--rd-ink-muted);
-}
-.rd-case .rd-moscow-q ul { margin: 0; padding-left: var(--p-48); }
-/* padding-bottom: style.css gives every li 12px, which doubled the list. */
-.rd-case .rd-moscow-q li { padding-bottom: 0; list-style-type: circle; }
-.rd-moscow-q li::marker { color: var(--rd-ink-muted); }
-
-.rd-moscow-tiles {
-  position: relative;
-  display: grid;
-  grid-column: 1 / -1;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--m-16);
-}
-.rd-moscow-tiles::before {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  top: 50%;
-  height: var(--m-2);
-  margin-top: calc(var(--m-2) / -2);
-  background: var(--rd-ink);
-}
-.rd-moscow-tile {
+.rd-moscow-q {
   box-sizing: border-box;
   display: flex;
+  flex-direction: column;
+  gap: var(--m-12);
+  min-width: 0;
+  padding: var(--p-40);
+}
+.rd-moscow-q:nth-child(odd) { padding-left: 0; border-right: 1px solid var(--rd-border); }
+.rd-moscow-q:nth-child(-n+2) { padding-top: 0; border-bottom: 1px solid var(--rd-border); }
+.rd-moscow-q:nth-child(n+3) { padding-bottom: 0; }
+.rd-case .rd-moscow-q h4 {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  width: min(100%, var(--rd-moscow-tile-w));
-  padding: var(--p-20) var(--p-12);
-  font-family: var(--rd-font);
-  font-size: var(--rd-fs-2xl);
+  gap: var(--m-8);
+  margin: 0;
+  font-size: var(--rd-fs-md);
   font-weight: var(--rd-fw-emphasis);
   line-height: var(--rd-lh-tight);
   text-transform: uppercase;
   color: var(--rd-ink);
 }
-.rd-moscow-tile:nth-child(odd) { justify-self: end; }
-.rd-moscow-tile:nth-child(even) { justify-self: start; }
-
-/* Ink on #d35353 is about 2.9:1, so the Must tile takes the inverse. */
-.rd-moscow-tile.is-must { color: var(--rd-ink-inverse); }
-.rd-moscow-tile.is-must, .rd-moscow-sw.is-must { background: var(--rd-market-b); }
-.rd-moscow-tile.is-should, .rd-moscow-sw.is-should { background: var(--rd-moscow-should); }
-.rd-moscow-tile.is-could, .rd-moscow-sw.is-could { background: var(--rd-moscow-could); }
-.rd-moscow-tile.is-wont, .rd-moscow-sw.is-wont { background: var(--rd-moscow-wont); }
-
-/* ---- Legend — Figma 40000566:1463 ----------------------------------------
-   Same shape as .rd-market-key, but at Figma's 16px swatch and full-ink
-   label, which that class does not have. */
-.rd-case .rd-moscow-key {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--m-8) var(--m-24);
-  margin: 0;
-  padding: 0;
-}
-.rd-case .rd-moscow-key li {
-  display: flex;
-  align-items: center;
-  gap: var(--m-16);
+.rd-moscow-sw { flex: 0 0 auto; width: var(--m-12); height: var(--m-12); border-radius: var(--r-2); background: var(--rd-ink-muted); }
+.rd-moscow-sw.is-must { background: var(--rd-market-b); }
+.rd-case .rd-moscow-q ul { margin: 0; padding-left: var(--p-20); }
+/* padding-bottom: style.css gives every li 12px, which doubled the list. */
+.rd-case .rd-moscow-q li {
   padding-bottom: 0;
-  list-style-type: none;
+  list-style-type: circle;
   font-size: var(--rd-fs-md);
   font-weight: var(--rd-fw-body);
-  line-height: var(--rd-lh-tight);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
 }
-.rd-moscow-sw { flex: 0 0 auto; width: var(--m-16); height: var(--m-16); border-radius: var(--r-2); }
+.rd-moscow-q li::marker { color: var(--rd-ink-muted); }
 
 @media (max-width: 1180px) {
   .rd-phase-row { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 768px) {
-  .rd-moscow { gap: var(--m-24); }
-  .rd-moscow-tiles { gap: var(--m-12); }
-  .rd-moscow-tile { padding-block: var(--p-12); font-size: var(--rd-fs-md); }
-  .rd-case .rd-moscow-q p,
+  .rd-moscow { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; }
+  .rd-moscow-q,
+  .rd-moscow-q:nth-child(n) { padding: var(--p-24) 0; border-right: 0; border-bottom: 1px solid var(--rd-border); }
+  .rd-moscow-q:first-child { padding-top: 0; }
+  .rd-moscow-q:last-child { padding-bottom: 0; border-bottom: 0; }
   .rd-case .rd-moscow-q li { font-size: var(--rd-fs-sm); }
-  .rd-case .rd-moscow-q ul { padding-left: var(--p-20); }
 }
 @media (max-width: 430px) {
   .rd-phase-step-label { font-size: var(--rd-fs-xs); }
@@ -9890,9 +10029,8 @@ ol.rd-case-list > li { list-style-type: decimal; }
 }
 .rd-hc-rolesview-head {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
   gap: var(--m-16);
 }
 /* `.rd-case h3` (0,1,1) owns margin and colour; size is ours. */

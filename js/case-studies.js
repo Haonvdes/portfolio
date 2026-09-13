@@ -1,82 +1,31 @@
 // ecosystem //
-const iconPaths = {
-    safe: '/public/aura_pyxis.png',
-    scan: '/public/aura_scan.png',
-    swap: '/public/aura_swap.png',
-    seekhype: '/public/aura_seekhype.png',
-    Dev3Map: '/public/aura_dev3.png',
-    band: '/public/aura_band.png',
-    index: '/public/aura_index.png',
-    nois: '/public/aura_nois.png'
-};
-
+// Mirrors aura.network/ecosystem: same projects, order, tags and copy.
 const articles = [
-    {
-        id: 1,
-        title: "SeekHYPE",
-        description: "NFT Marketplace for IP, crypto collectibles and non-fungible tokens.",
-        category: "NFT",
-        icon: iconPaths.seekhype,
-        iconColor: 'black'
-    },
-    {
-        id: 2,
-        title: "Aura Swap",
-        description: "Swap, earn, and bridge real-world assets with secure, compliant infrastructure",
-        category: "DeFi",
-        icon: iconPaths.swap,
-        iconColor: 'black'
-    },
-    {
-        id: 3,
-        title: "Aura Safe",
-        description: "Multi-signature and fine -grain access control, asset management tool",
-        category: "Infrastructure",
-        icon: iconPaths.safe,
-        iconColor: 'black'
-    },
-    {
-        id: 4,
-        title: "Aura Scan",
-        description: "The next generation blockchain explorer for Aura Network",
-        category: "Infrastructure",
-        icon: iconPaths.scan,
-        iconColor: 'black'
-    },
-    {
-        id: 5,
-        title: "Aura Index",
-        description: "An indexing service to provide real-time data for Aura ecosystem",
-        category: "Infrastructure",
-        icon: iconPaths.index,
-        iconColor: 'index'
-    },
-    {
-        id: 7,
-        title: "Band Protocol",
-        description: "A oracle platform that aggregates and connects real-world data.",
-        category: "Infrastructure",
-        icon: iconPaths.band,
-        iconColor: 'black'
-    },
-    {
-        id: 8,
-        title: "Noise Network",
-        description: "A protocol that allows developers to use secure, and cost efficient via IBC",
-        category: "Web2 Transition",
-        icon: iconPaths.nois,
-        iconColor: 'nois'
-    },
-    {
-        id: 6,
-        title: "Dev3Map",
-        description: "A library for accepting Bitcoin deposits to any IBC-enabled blockchain",
-        category: "Infrastructure",
-        icon: iconPaths.Dev3Map,
-        iconColor: 'black'
-    }
-
-
+    { title: "Aurascan", category: "Infrastructure", description: "The next generation blockchain explorer for Aura Network", icon: '/public/aura_scan.png' },
+    { title: "Aura Safe", category: "Infrastructure", description: "Multi-signature and fine-grain access control, asset management tool", icon: '/public/aura_pyxis.png' },
+    { title: "Aura Index", category: "Infrastructure", description: "An indexing service to provide real-time data for Aura ecosystem", icon: '/public/aura_index.png' },
+    { title: "Band Protocol", category: "Infrastructure", description: "A cross-chain data oracle platform that aggregates and connects real-world data and APIs to smart contracts.", icon: '/public/aura_band.png' },
+    { title: "Nois Network", category: "Infrastructure", description: "Reliable Randomness For the Interchain", icon: '/public/aura_nois.png' },
+    { title: "Dev3Map", category: "Infrastructure", description: "The Interchain Developers Metrics Map", icon: '/public/aura_dev3.png' },
+    { title: "Nimbus", category: "DeFi", description: "A Personalized Portfolio for Crypto investors", icon: '/public/aura_nimbus.png' },
+    { title: "AuraSwap", category: "DeFi", description: "Swap, earn, and bridge real-world assets with secure, compliant infrastructure", icon: '/public/aura_swap.png' },
+    { title: "BingX", category: "CEX", description: "", icon: '/public/aura_bingx.png' },
+    { title: "MEXC", category: "CEX", description: "", icon: '/public/aura_mexc.png' },
+    { title: "ONUS", category: "CEX", description: "", icon: '/public/aura_onus.png' },
+    { title: "Gate", category: "CEX", description: "", icon: '/public/aura_gate.png' },
+    { title: "Aliniex", category: "CEX", description: "", icon: '/public/aura_aliniex.png' },
+    { title: "Monsterra", category: "Web3 Game", description: "A leading multi-chain NFT Game with free-to-play-and-earn mechanism developed by CrescentShine Studio, offering gamers an unparalleled and immersive gaming experience.", icon: '/public/aura_monsterra.png' },
+    { title: "Yooldo", category: "Web3 Game", description: "Yooldo is a gaming platform renowned for its innovative Anti abuse system, Jury DAO", icon: '/public/aura_yooldo.png' },
+    { title: "AhaFast Ride 2 Earn", category: "Web2 Transition", description: "Spearheading the Blockchain O2O (Online-to-offline) movement in Vietnam", icon: '/public/aura_aha.webp' },
+    { title: "Subwallet", category: "Wallet", description: "A non-custodial Web3 Wallet", icon: '/public/aura_subwallet.png' },
+    { title: "Coin98", category: "Wallet", description: "The #1 non-custodial, multi-chain wallet, and DeFi gateway, designed to seamlessly connect users to the crypto world in a safe and secure manner.", icon: '/public/aura_coin98.png' },
+    { title: "Keplr", category: "Wallet", description: "Wallet for the Inter blockchain ecosystem", icon: '/public/aura_keplr.png' },
+    { title: "Leap Wallet", category: "Wallet", description: "The Super Wallet for Web3", icon: '/public/aura_leap.png' },
+    { title: "Klever", category: "Wallet", description: "The Ultimate Crypto Wallet for Your Digital Assets", icon: '/public/aura_klever.png' },
+    { title: "SeekHYPE", category: "NFT", description: "NFT Marketplace for IP", icon: '/public/aura_seekhype.png' },
+    { title: "Stakify", category: "NFT", description: "NFT Staking Campaign Platform", icon: '/public/aura_stakify.png' },
+    { title: "Aura Validators", category: "Validator", description: "", icon: '/public/aura_scan.png' },
+    { title: "Micro3", category: "SocialFi", description: "A Decentralized SocialFi Mint-To-Earn platform that empowers Web3 projects and individuals through the creator economy, leveraging advanced LayerZero and Chainlink technologies.", icon: '/public/aura_micro3.png' }
 ];
 
 class OverlappingArticles {
@@ -85,11 +34,22 @@ class OverlappingArticles {
         this.articles = articles;
         this.CARD_WIDTH = 320;
         this.CARD_HEIGHT = 280;
-        this.OVERLAP_PERCENTAGE = 0.5;
-        this.HOVER_SHIFT_PERCENTAGE = 0.4;
+        // Distance between card lefts: 3/8 of each card sits under the next.
+        this.STRIDE = 200;
+        this.HOVER_GAP = 24;
 
         this.renderArticles();
+        // Sized to include the hover shift (and the hovered card's tilt), so
+        // hovering never changes the strip's scroll width.
+        this.container.style.width = `${
+            this.CARD_WIDTH + this.STRIDE * (articles.length - 1) + this.hoverShift() + this.HOVER_GAP
+        }px`;
         this.setupEventListeners();
+    }
+
+    // Enough shift to uncover the whole hovered card, plus a small gap.
+    hoverShift() {
+        return this.CARD_WIDTH - this.STRIDE + this.HOVER_GAP;
     }
 
     renderArticles() {
@@ -109,23 +69,21 @@ class OverlappingArticles {
         card.innerHTML = `
             <div class="card-header-ar">
                 <div class="icon">
-                    <img src="${article.icon}" alt="Icon" style="stroke: ${article.iconColor};">
+                    <img src="${article.icon}" alt="">
                 </div>
                 <span class=md-medium>${article.category}</span>
             </div>
             <div class="card-content">
                 <h3 class="card-title sub-heading" style="text-transform:capitalize">${article.title}</h3>
-            <p class="card-description md-medium">${article.description}</p>
-                
-                </div>
+                ${article.description ? `<p class="card-description md-medium">${article.description}</p>` : ''}
+            </div>
         `;
 
         return card;
     }
 
     calculateCardPosition(index) {
-        if (index === 0) return 0;
-        return this.CARD_WIDTH * (1 - this.OVERLAP_PERCENTAGE) * index;
+        return this.STRIDE * index;
     }
 
     setupEventListeners() {
@@ -147,8 +105,7 @@ class OverlappingArticles {
         cards.forEach((card, index) => {
             if (index > hoveredIndex) {
                 card.style.left = `${
-                    this.calculateCardPosition(index) + 
-                    this.CARD_WIDTH * this.HOVER_SHIFT_PERCENTAGE
+                    this.calculateCardPosition(index) + this.hoverShift()
                 }px`;
             }
 
@@ -365,7 +322,12 @@ function updateActiveButton(selectedKey) {
 function initShowcase() {
     if (!document.getElementById("displayImage")) return; // not a showcase page
 
-    loadContent('SeekHype', false);
+    // The first panel is whichever pill the markup marks pressed, so the
+    // page's own button order decides it.
+    const pressed = document.querySelector('.button-group button[aria-pressed="true"]') ||
+        document.querySelector(".button-group button");
+    const first = pressed && /loadContent\('([^']+)'/.exec(pressed.getAttribute("onclick") || "");
+    loadContent(first ? first[1] : "SeekHype", false);
 
     // Hovering a button is a strong signal of intent — warm that panel now so
     // the click itself is instant.

@@ -267,9 +267,16 @@
   // would have its bottom permanently off-screen — it is stuck, so you cannot
   // scroll to reach it. Pulling its sticky line up by the overflow lets it
   // scroll until its bottom shows, then dock.
+  // `height` is the BODY's height, but the card is that body plus the year-pill
+  // row above it — so measuring the body alone under-reports the card by the
+  // row and the lift engages about 46px later than it should. Both boxes are
+  // read in the same frame, so the difference is the card's own chrome
+  // whatever state the height transition happens to be in.
   function liftIfTallerThanViewport(card, height) {
+    var body = card.querySelector('.rd-work-body');
+    var chrome = body ? card.offsetHeight - body.offsetHeight : 0;
     var available = window.innerHeight - STICKY_TOP;
-    var overflow = height - available;
+    var overflow = height + chrome - available;
     card.style.top = overflow > 0 ? STICKY_TOP - overflow + 'px' : '';
   }
 
@@ -328,7 +335,11 @@
       }
       // The card changed height, so every card below it — and every snap point
       // below it — just moved, and the tail slack depends on that height.
-        positionMarkers();
+      // measureTags() alongside them for the same reason onResize() calls all
+      // three: expanding does not change a pill's width today, but nothing
+      // guarantees that for the next bit of copy that lands in a card.
+      measureTags();
+      positionMarkers();
       update();
     });
 

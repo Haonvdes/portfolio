@@ -5,12 +5,13 @@ stpnguyen.com via GitHub Pages from `main`. Working branch is `redesign`.
 
 ## Two rules that come before everything else
 
-1. **Ask before you edit. Every time.** Read, analyse, say what you would change and in which
-   file — then stop and wait for an explicit yes. A question is a request for an answer, not
-   permission to edit. "[No preference]" is not consent.
-2. **Edit only the files the request names.** Anything shared (`css/styles/style.css`,
-   `grid.css`, `redesign.css`, `templates/*`) or documentary gets raised first, not edited
-   first. Every page loads the shared sheets, so a scoped rule there still has site-wide reach.
+1. **Edit directly — no proposal step** (Hao, 2026-09-11: "Từ nay không cần đề xuất. Sửa
+   luôn nhé."). Make the change in the same turn, then report what changed and where. This
+   replaces the old ask-before-every-edit rule.
+2. **Keep edits to what the request needs.** Anything shared (`css/styles/style.css`,
+   `grid.css`, `redesign.css`, `templates/*`) gets a tightly scoped selector and a line in the
+   report saying it was touched. Every page loads the shared sheets, so a scoped rule there
+   still has site-wide reach.
 
 Details and the incidents behind both: `.claude/memory/feedback_scope_discipline.md`.
 

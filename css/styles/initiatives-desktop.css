@@ -1,67 +1,44 @@
 /* ======================================================================
-   Selected Product Initiatives — Desktop sticky stack
-   Rewritten 2026-08-09. Replaces the 2026-08-07 "one 100vh container with
-   an inner scroll track" presentation.
+   Selected Product Initiatives — desktop (>= 769px)
 
-   WHY IT CHANGED
-   The deck used to be its own scroll container, with js/initiatives.js
-   forwarding wheel events into it and releasing them at the ends. That is a
-   scroll-within-a-scroll: the page is already snap-bound to this section, so
-   the deck had to swallow every gesture and hand it back — fiddly on
-   trackpads, awkward for keyboard users, and it hid three of four cards
-   behind a control most readers never found.
+   Rewritten 2026-09-14. The sticky card STACK (every card parked under the
+   next, with a scale/blur/dim pass) is gone: it showed parts of two cards at
+   once and blurred everything past card 2. The section now uses the same
+   pinned deck as web-3.html §03 (js/pinned-deck.js):
 
-   The new model is the one the About page journey already uses, so the site
-   has ONE stacking pattern rather than two:
+     • js/initiatives.js adds `.is-live` to the section when the pinned deck
+       can run (>= 1181 wide, > 700 tall, motion allowed);
+     • the section is the track, `100vh + n × 50vh` tall with no vertical
+       padding (the script measures card rest positions from its border box);
+     • .rd-initiatives-inner is the sticky 100vh stage: rail left, card right,
+       both vertically centred;
+     • all four panels share one grid cell and only `.is-active` shows. The
+       outgoing card fades out, the incoming one waits for that to finish, so
+       two cards' text never overlap. No blur, no scale;
+     • one scroll gesture = one card (the script handles wheel/touch/keys).
 
-     • every panel is laid out and shares one sticky top, so each parks until
-       the next scrolls up over it, receding behind a damped scale/blur/dim
-       pass written by js/initiatives.js;
-     • the snap targets are zero-size .rd-deck-snap markers placed at each
-       panel's resting offset — NOT the panels. A stuck element is a broken
-       snap target: its snap area travels with the viewport and the scroller
-       chases itself. (Same note lives on .rd-work-snap in redesign.css.)
-     • the markers must not be visibility:hidden — browsers skip hidden boxes
-       when collecting snap targets, so there would be nothing to land on.
-     • the section gives up its own snap point, exactly as .rd-journey-section
-       does, or the first gesture is spent re-landing on the section top
-       instead of moving to card 1.
-     • `scroll-snap-stop: always` is what enforces ONE card per gesture;
-       `mandatory` alone lets a fast flick carry through two or three.
+   Without `.is-live` (769–1180, short screens, reduced motion) the four cards
+   are a plain vertical list and the rail index is hidden.
 
    Mobile (<=768px) is untouched — horizontal swipe carousel with dots and
    autoplay, see redesign.css @media (max-width: 768px).
    ----------------------------------------------------------------------
-   Scoping: linked AFTER redesign.css in index.html, so these rules win the
-   cascade where they overlap. Rules that must apply at every width (the
-   markers, the rail index base) sit outside the media gate on purpose.
+   Linked AFTER redesign.css in index.html, so these rules win the cascade
+   where they overlap.
    ====================================================================== */
 
 :root {
-  /* Resting offset of a parked card AND the scroll-margin of its snap marker.
-     These must stay equal or a card lands off its own snap point. Read back by
-     js/initiatives.js, which falls back to 88 if the property is missing. */
-  --rd-deck-top: 88px;
-}
-
-/* Zero-size snap targets, created by js/initiatives.js at every width.
-   Deliberately OUTSIDE the desktop gate: on mobile the deck is a horizontal
-   flex track, and four unstyled spans would become flex items and push the
-   carousel out of alignment. Taking them out of flow everywhere costs nothing.
-   NOT visibility:hidden — see the header note. */
-.rd-deck-snap {
-  position: absolute;
-  left: 0;
-  width: 1px;
-  height: 1px;
-  pointer-events: none;
-  background: transparent;
+  /* Desktop card height. Fills the screen on short viewports but stops at
+     760px — about the height of the case-study split cards. It stays a
+     DEFINITE height: the card's inner chain ends in
+     `.rd-initiative-detail { flex: 1 1 0 }`, which collapses to nothing in an
+     auto-height column. */
+  --rd-deck-card-h: min(calc(100vh - 128px), 760px);
 }
 
 /* ---------------------------------------------------------- rail index --- */
-/* Desktop position indicator and jump control; .rd-deck-dots does this job on
-   mobile. Base rules live here (unggated) so the desktop `display: block`
-   below can win on source order — media queries add no specificity. */
+/* Position indicator and jump control for the pinned deck; .rd-deck-dots does
+   this job on mobile. Hidden unless the section is `.is-live` (see below). */
 .rd-deck-index {
   display: none;
   position: relative;
@@ -69,6 +46,12 @@
   margin: 28px 0 0;
   padding: 0;
   border-top: 1px solid #d9d6cd;
+}
+/* The rail is a flex column with align-items:flex-start, which shrink-wraps the
+   list to its longest label. Stretch it to the intro paragraph's width instead. */
+.rd-initiatives-rail .rd-deck-index {
+  align-self: stretch;
+  max-width: var(--rd-measure);
 }
 .rd-deck-index li {
   list-style: none;
@@ -121,8 +104,6 @@
 
 /* ============================== desktop ================================== */
 @media (min-width: 769px) {
-  /* The section is now as tall as its four cards, not one viewport, and the
-     markers are its stops. */
   .rd-initiatives-section {
     display: block;
     height: auto;
@@ -149,69 +130,37 @@
     gap: 0;
   }
 
-  /* position: relative is what the absolutely-placed markers resolve against.
-     padding-bottom is tail slack so the LAST card can still reach its parked
-     position instead of stopping dead when the document ends. */
   .rd-initiative-deck {
-    display: block;
-    position: relative;
-    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
     height: auto;
     min-height: 0;
     overflow: visible;
     scroll-snap-type: none;
-    padding-bottom: 40vh;
   }
 
-  /* Every panel is laid out — the base rule shows only .is-active — and they
-     share one sticky top so they stack. .is-active is (0,2,0), so it has to be
-     named here or the parked cards would lay out differently from the live one.
-     `animation: none` kills the tab-era fade, which would otherwise replay
-     every time JS toggles the class. */
+  /* Every panel is laid out — the base rule shows only .is-active, which is
+     (0,2,0), so it has to be named here. `animation: none` kills the tab-era
+     fade, which would otherwise replay every time JS toggles the class. */
   .rd-initiative-panel,
-  .rd-initiative-panel[hidden],
   .rd-initiative-panel.is-active {
     display: block;
-    position: sticky;
-    top: var(--rd-deck-top);
     flex: none;
     height: auto;
     min-height: 0;
     width: 100%;
     padding: 0;
-    opacity: 1;
     animation: none;
-    transition: none;              /* the rAF pass owns these properties now */
-    scroll-snap-align: none;
-    /* scale from the top edge, so a receding card sinks into the stack rather
-       than shrinking toward its middle and drifting off the sticky line */
-    transform-origin: 50% 0%;
-    will-change: transform, opacity, filter;
-    backface-visibility: hidden;
-  }
-  .rd-initiative-panel + .rd-initiative-panel { margin-top: 40px; }
-
-  .rd-deck-snap {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-    scroll-margin-top: var(--rd-deck-top);
   }
 
-  /* A DEFINITE height, not `height:auto` + `max-height`. The card's inner chain
-     ends in `.rd-initiative-detail { flex: 1 1 0 }`, and a flex-basis of 0 in an
-     auto-height column has no free space to grow into — the detail block would
-     collapse to nothing and every card would render as a title and a stat bar.
-     A real height keeps the existing squeeze working: the fixed parts hold and
-     only the detail gives, truncating under its ::after fade. */
   .rd-initiative-card {
-    height: calc(100vh - var(--rd-deck-top) - 40px);
+    height: var(--rd-deck-card-h);
     min-height: 0;
     max-height: none;
   }
 
-  /* The rail index replaces the carousel dots above the breakpoint. */
   .rd-deck-dots { display: none; }
-  .rd-deck-index { display: block; }
 
   /* No autoplay on desktop; the pill tabs are long gone. */
   .rd-tabs,
@@ -219,7 +168,7 @@
   .rd-deck-dot-progress { display: none; }
 }
 
-/* Rail beside the stack only where there is room for a 360px column. Between
+/* Rail beside the cards only where there is room for a 360px column. Between
    769 and 1180 it stays a normal heading block above the cards. */
 @media (min-width: 1181px) {
   .rd-initiatives-inner {
@@ -228,26 +177,76 @@
     gap: 64px;
     align-items: start;
   }
-  .rd-initiatives-rail {
-    position: sticky;
-    top: var(--rd-deck-top);
-    align-self: start;
-  }
   .rd-initiatives-rail .rd-section-intro { margin-top: 12px; }
+}
+
+/* ---------------------------------------------------------- pinned deck --- */
+/* Only ever present at >= 1181px wide (js/initiatives.js gates it). */
+.rd-initiatives-section.is-live {
+  position: relative;
+  height: calc(100vh + var(--rd-deck-n, 4) * 50vh);
+  padding-block: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+.rd-initiatives-section.is-live .rd-initiatives-inner {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  /* The row (as tall as the card) is centred in the screen; the rail and the
+     card both start at its top, so the heading lines up with the card's edge. */
+  align-content: center;
+  align-items: start;
+}
+.rd-initiatives-section.is-live .rd-deck-index { display: block; }
+.rd-initiatives-section.is-live .rd-initiative-deck {
+  display: grid;
+  gap: 0;
+}
+/* visibility, not just opacity: the hidden cards carry a Learn More link that
+   must not take clicks or keyboard focus. It flips at the end of the fade-out
+   and at the start of the fade-in. */
+.rd-initiatives-section.is-live .rd-initiative-panel {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+.rd-initiatives-section.is-live .rd-initiative-panel.is-active {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease 0.3s, visibility 0s linear 0.3s;
+}
+
+/* Safari needs a stop at the track's last view (card 4's rest), or scrolling
+   up from the next section skips straight to the section top and cards 4→2
+   can only be reached going down. Chrome finds that view by itself, and a
+   small snap marker breaks it there — so WebKit only, exactly as web-3's
+   frictions deck does it (`-apple-system-body` is a WebKit-only keyword). */
+@supports (font: -apple-system-body) {
+  .rd-initiatives-section.is-live::after {
+    content: "";
+    position: absolute;
+    top: calc(100% - 100vh);
+    left: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .rd-deck-marker,
   .rd-deck-index button { transition: none; }
-  .rd-initiative-panel { filter: none !important; }
 }
 
-/* Under 700px of viewport height the deck stops being one-card-per-viewport —
-   scroll snapping is already disabled there (redesign.css). The fixed
-   `calc(100vh - …)` card height above would leave the card shorter than its own
-   fixed parts (head + outcome bar + actions, with the detail already hidden by
-   `max-height: 820px`), so it has to grow instead. This sheet loads after
-   redesign.css, so relaxing it has to happen here. */
+/* Under 700px of viewport height the card stops being one-screen-tall — the
+   pinned deck does not run and scroll snapping is off (redesign.css). A fixed
+   card height would leave the card shorter than its own fixed parts (head +
+   outcome bar + actions, with the detail already hidden by redesign.css), so it
+   has to grow instead. */
 @media (min-width: 769px) and (max-height: 700px) {
   .rd-initiative-card {
     height: auto;

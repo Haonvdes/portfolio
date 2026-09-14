@@ -90,8 +90,8 @@ B0 ──┐
 
       **Đã đo (2026-09-10), đang chờ Hao chốt.** Slot ảnh desktop là 321×770
       (tỉ lệ 0.42) trong khi mọi cover đều nằm ngang (1.13 → 3.00). Phần ảnh
-      còn thấy theo chiều ngang: `hd/cover` 37%, `ar_casecover` 14%,
-      `hc_hero` 26%, `ce_cover` 27%.
+      còn thấy theo chiều ngang: `cv_lending` 37%, `cv_web3` 14%,
+      `cv_pharma` 26%, `cv_enterprise` 27%.
 
       | Hướng | Slot | visW |
       |---|---|---|

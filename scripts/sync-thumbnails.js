@@ -72,6 +72,9 @@ const TARGETS = [
   {
     file: "index.html",
     mediaClass: "rd-initiative-media",
+    // The deck uses its own portrait covers (public/cv_home_*.png), cropped for
+    // the tall media column, so only title/desc are synced here.
+    syncImage: false,
     titleTag: "h3",
     titleClass: "rd-initiative-title",
     descTag: "p",
@@ -247,8 +250,10 @@ for (const target of TARGETS) {
 
     const caseHtml = fs.readFileSync(caseStudyPath, "utf8");
 
-    const cover = findCoverImage(caseHtml);
-    if (!cover || !cover.src) {
+    const cover = target.syncImage === false ? null : findCoverImage(caseHtml);
+    if (target.syncImage === false) {
+      console.log(`  skip   ${slug} (image) — ${target.file} keeps its own covers`);
+    } else if (!cover || !cover.src) {
       console.log(`  skip   ${slug} (image) — no recognised cover image markup`);
     } else {
       const newSrc = toRootRelative(cover.src);

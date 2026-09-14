@@ -111,6 +111,30 @@
       gsap.set(revealHeadingGroup, { opacity: 0, y: 20 });
       gsap.set(revealPanel, { opacity: 0, y: 30 });
 
+      // Past the end, GSAP parks the pin with transform: translateY(distance).
+      // A transform moves only the paint, and position: sticky works from the
+      // layout box, so the pinned header inside (.rd-pin-head) would stick
+      // against a spot 2,000+px above where it is drawn and never visibly
+      // stick. Moving that distance from the spacer's bottom padding to its top
+      // puts the pin at the same place in layout, with the same total height.
+      var shifted = 0;
+      function toLayoutOffset() {
+        var y = parseFloat(gsap.getProperty(pinEl, 'y')) || 0;
+        if (!y || shifted) return;
+        var spacer = pinEl.parentNode;
+        spacer.style.paddingTop = y + 'px';
+        spacer.style.paddingBottom = Math.max(0, (parseFloat(spacer.style.paddingBottom) || 0) - y) + 'px';
+        gsap.set(pinEl, { y: 0 });
+        shifted = y;
+      }
+      function toTransformOffset() {
+        if (!shifted) return;
+        var spacer = pinEl.parentNode;
+        spacer.style.paddingTop = '0px';
+        spacer.style.paddingBottom = ((parseFloat(spacer.style.paddingBottom) || 0) + shifted) + 'px';
+        shifted = 0;
+      }
+
       var tl = gsap.timeline({
         scrollTrigger: {
           trigger: pinEl,
@@ -132,7 +156,10 @@
           // page keeps its smooth behavior untouched.
           onToggle: function (self) {
             document.documentElement.style.scrollBehavior = self.isActive ? 'auto' : '';
-          }
+          },
+          onLeave: toLayoutOffset,
+          onEnterBack: toTransformOffset,
+          onRefresh: function (self) { shifted = 0; if (self.progress === 1) toLayoutOffset(); }
         }
       });
 
@@ -178,8 +205,6 @@
   function join(a, b) { return Array.prototype.slice.call(a).concat(Array.prototype.slice.call(b)); }
   var stateEls = join(panel.querySelectorAll('[data-ai-state]'),
                       closingWrap ? closingWrap.querySelectorAll('[data-ai-state]') : []);
-  var wraps = join(panel.querySelectorAll('.rd-ai-swap-wrap'),
-                   closingWrap ? [closingWrap] : []);
 
   function select(state) {
     buttons.forEach(function (btn) {
@@ -190,75 +215,21 @@
     });
   }
 
-  // Measures a hidden list's real height by briefly unhiding it (off-flow
-  // and invisible so nothing flashes or shifts), then restores whatever
-  // hidden state it already had. Needed because the two states have
-  // different row counts (5 vs 3) and some rows wrap at narrow widths, so a
-  // hard-coded pixel guess would drift from the real layout.
-  function measure(list) {
-    var wasHidden = list.hidden;
-    list.hidden = false;
-    list.style.position = 'absolute';
-    // Absolute positioning alone shrinks the box to fit its content instead
-    // of the column's actual width, which rewraps the row text and throws
-    // off the height reading (caught by measuring 300px then rendering at
-    // 308px on load) — pin left/right to the wrap's own width so it wraps
-    // exactly as it would in normal flow.
-    list.style.left = '0';
-    list.style.right = '0';
-    list.style.visibility = 'hidden';
-    var height = list.getBoundingClientRect().height;
-    list.style.position = '';
-    list.style.left = '';
-    list.style.right = '';
-    list.style.visibility = '';
-    list.hidden = wasHidden;
-    return height;
-  }
-
-  // Locks each swap region (both step lists per column, and both subtitles
-  // per column) to the taller of its two states, so toggling to the shorter
-  // one leaves whitespace instead of shrinking the card and moving the
-  // "every round" band (and the closing line below it) up the page.
-  //
-  // Skipped below 769px: there the two columns stack into a mobile accordion
-  // (see the IIFE at the foot of this file) and an inline min-height would
-  // hold a collapsed column open. Clearing rather than leaving the old value
-  // matters because this re-runs on resize — crossing the breakpoint has to
-  // undo the desktop lock, not just stop refreshing it.
-  function lockHeight() {
-    var narrow = window.matchMedia('(max-width: 768px)').matches;
-    wraps.forEach(function (wrap) {
-      if (narrow) { wrap.style.minHeight = ''; return; }
-      var max = 0;
-      wrap.querySelectorAll('[data-ai-state]').forEach(function (el) {
-        max = Math.max(max, measure(el));
-      });
-      wrap.style.minHeight = max + 'px';
-    });
-  }
-
+  // The card hugs whichever state is showing, so a switch
+  // changes the pinned box's height. GSAP holds that box and its spacer at
+  // the height it last measured, so it has to measure again. The scroll
+  // position is put back afterwards: WebKit's scroll anchoring otherwise
+  // moves the page by the pinned header's height when the list grows.
   buttons.forEach(function (btn) {
-    btn.addEventListener('click', function () { select(btn.dataset.aiState); });
+    btn.addEventListener('click', function () {
+      var y = window.pageYOffset;
+      select(btn.dataset.aiState);
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+      if (window.pageYOffset !== y) window.scrollTo({ top: y, behavior: 'instant' });
+    });
   });
 
   select('critical'); // default state on load
-  lockHeight();
-
-  // Re-lock once the real webfont is in: this script tag runs before DM
-  // Sans necessarily finishes downloading, so the first lockHeight() can
-  // measure fallback-font metrics — a touch shorter than the real font,
-  // which left the floor a few px under the active state's actual height
-  // (caught by measuring 280px pre-swap against a 295px post-swap render).
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(lockHeight);
-  }
-
-  var resizeTimer;
-  window.addEventListener('resize', function () {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(lockHeight, 150);
-  });
 }());
 
 // Mobile accordion on the two panel columns (≤768px, where .rd-ai-panel-cols

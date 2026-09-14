@@ -69,6 +69,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 navOuter.insertAdjacentElement("afterend", navSpacer);
 
                 const THRESHOLD = 20;
+                // Upward travel needed before the bar comes back, summed
+                // across consecutive settled scrolls and reset by any
+                // downward one — so nudging up a line or two to re-read
+                // stays quiet, but a deliberate scroll back up still reveals.
+                const revealDistance = () => Math.max(240, window.innerHeight * 0.35);
+                let upTravel = 0;
                 let navHeight = navOuter.offsetHeight;
                 let isFixed = false;
                 let stableY = window.scrollY;
@@ -95,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         navOuter.classList.remove("rd-nav-fixed", "rd-nav-hidden", "rd-nav-peek");
                         navSpacer.style.display = "none";
                         isFixed = false;
+                        upTravel = 0;
                         stableY = y;
                     }
                 }, { passive: true });
@@ -140,15 +147,30 @@ document.addEventListener("DOMContentLoaded", function () {
                 const classifyDirection = () => {
                     if (!isFixed) return;
                     const y = window.scrollY;
+                    // A jump a script made (js/pin-head.js, bringing a new
+                    // tab panel up under its pinned header) is not the reader
+                    // scrolling back up; revealing the bar there would drop it
+                    // over the pills they just clicked.
+                    if (window.rdNavIgnoreScroll) {
+                        window.rdNavIgnoreScroll = false;
+                        upTravel = 0;
+                        stableY = y;
+                        return;
+                    }
                     const delta = y - stableY;
                     if (delta > THRESHOLD) {
+                        upTravel = 0;
                         clearHideTimer();
                         navOuter.classList.remove("rd-nav-peek");
                         navOuter.classList.add("rd-nav-hidden");
                     } else if (delta < -THRESHOLD) {
-                        navOuter.classList.add("rd-nav-peek");
-                        navOuter.classList.remove("rd-nav-hidden");
-                        scheduleHideTimer();
+                        upTravel -= delta;
+                        if (upTravel >= revealDistance()) {
+                            upTravel = 0;
+                            navOuter.classList.add("rd-nav-peek");
+                            navOuter.classList.remove("rd-nav-hidden");
+                            scheduleHideTimer();
+                        }
                     }
                     stableY = y;
                 };
@@ -485,6 +507,28 @@ async function updateProcess() {
       duration: 800, // Animation duration in ms
       once: true,     // Animate only once
     });
+
+    // AOS measures each block's trigger point once, at init and on window
+    // resize. Anything that changes the page height afterwards — a tab
+    // switch to a shorter panel, most often — leaves those points stale, and
+    // blocks further down sit invisible in the viewport until the reader
+    // scrolls past where they used to be. Re-measure whenever the body
+    // changes height; refresh() only recomputes offsets and re-checks.
+    if ("ResizeObserver" in window) {
+      let queued = false;
+      let lastHeight = document.body.offsetHeight;
+      new ResizeObserver(() => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(() => {
+          queued = false;
+          const h = document.body.offsetHeight;
+          if (h === lastHeight) return;
+          lastHeight = h;
+          AOS.refresh();
+        });
+      }).observe(document.body);
+    }
   });
 
 //end onscroll animation //

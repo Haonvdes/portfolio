@@ -32,7 +32,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 </head>
-<body class="rd-case is-hero-glow">
+<body class="rd-case rd-ce is-hero-glow">
 
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
@@ -226,19 +226,21 @@
             
             <div data-aos="fade-up">
                 <h3 class="rd-case-label is-heading" style="margin-bottom:16px;">Who touches a visit</h3>
-                <div class="rd-case-persona">
-                    <div class="rd-case-persona-num">
-                        <strong>04</strong>
-                        <span>User types</span>
+                <figure class="rd-case-figure">
+                    <div class="rd-case-persona">
+                        <div class="rd-case-persona-num">
+                            <strong>04</strong>
+                            <span>User types</span>
+                        </div>
+                        <div class="rd-case-persona-cols">
+                            <div><strong>CE Member</strong><span>Execution Level</span></div>
+                            <div><strong>CE Leader</strong><span>Moderate Level</span></div>
+                            <div><strong>CE Manager</strong><span>Confirm level</span></div>
+                            <div><strong>CE FSU</strong><span>Approve level</span></div>
+                        </div>
                     </div>
-                    <div class="rd-case-persona-cols">
-                        <div><strong>CE Member</strong><span>Execution Level</span></div>
-                        <div><strong>CE Leader</strong><span>Moderate Level</span></div>
-                        <div><strong>CE Manager</strong><span>Confirm level</span></div>
-                        <div><strong>CE FSU</strong><span>Approve level</span></div>
-                    </div>
-                </div>
-                <p style="margin-top:16px;">The manager carries the coordination load: they open the record, chase the delivery unit, and answer for it if the visit goes wrong.</p>
+                    <figcaption>The manager carries the coordination load: they open the record, chase the delivery unit, and answer for it if the visit goes wrong.</figcaption>
+                </figure>
             </div>
 
             
@@ -315,28 +317,33 @@
     <section class="rd-case-section is-tinted" id="audit-findings">
         <div class="rd-case-inner rd-shell">
             
-            <h2 class="rd-case-h2" data-aos="fade-up">Everything pointed at the same form</h2>
+            <!-- Pinned while the panel scrolls under it. The tabs and their dropdown
+                 must stay adjacent siblings: js/case-tabs.js pairs them through
+                 nextElementSibling. -->
+            <div class="rd-pin-head">
+                <h2 class="rd-case-h2">Everything pointed at the same form</h2>
 
-            <div class="rd-case-body" data-aos="fade-up">
-                <p>Five days of audit, five interviews, and a survey of the wider team. The filters were already a known problem. The audit's one critical defect — and the interview's top complaint — both landed on the same screen: the form.</p>
-            </div>
+                <div class="rd-case-body">
+                    <p>Five days of audit, five interviews, and a survey of the wider team. The filters were already a known problem. The audit's one critical defect — and the interview's top complaint — both landed on the same screen: the form.</p>
+                </div>
 
-            <div class="rd-tabs rd-bench-views rd-tabs-collapsible" role="tablist" aria-label="Findings, three views" id="findings-tabs">
-                <button type="button" class="rd-tab" role="tab" aria-selected="true" aria-controls="findings-panel" id="findings-tab-audit" data-view="audit"><span>Audit key findings</span></button>
-                <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="findings-panel" id="findings-tab-interview" data-view="interview"><span>User interview and survey</span></button>
-                <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="findings-panel" id="findings-tab-business" data-view="business"><span>Business data</span></button>
-            </div>
+                <div class="rd-tabs rd-bench-views rd-tabs-collapsible" role="tablist" aria-label="Findings, three views" id="findings-tabs">
+                    <button type="button" class="rd-tab" role="tab" aria-selected="true" aria-controls="findings-panel" id="findings-tab-audit" data-view="audit"><span>Audit key findings</span></button>
+                    <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="findings-panel" id="findings-tab-interview" data-view="interview"><span>User interview and survey</span></button>
+                    <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="findings-panel" id="findings-tab-business" data-view="business"><span>Business data</span></button>
+                </div>
             
-            <div class="rd-tabs-dropdown" id="findings-select">
-                <button type="button" class="rd-tabs-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="findings-dropdown-panel" aria-label="Findings, three views">
-                    <span data-tabs-dropdown-value>Audit key findings</span>
-                    <svg class="rd-tabs-dropdown-chev" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </button>
-                <ul class="rd-tabs-dropdown-panel" id="findings-dropdown-panel" role="listbox" aria-label="Findings, three views">
-                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="audit" aria-selected="true">Audit key findings</li>
-                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="interview" aria-selected="false">User interview and survey</li>
-                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="business" aria-selected="false">Business data</li>
-                </ul>
+                <div class="rd-tabs-dropdown" id="findings-select">
+                    <button type="button" class="rd-tabs-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="findings-dropdown-panel" aria-label="Findings, three views">
+                        <span data-tabs-dropdown-value>Audit key findings</span>
+                        <svg class="rd-tabs-dropdown-chev" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <ul class="rd-tabs-dropdown-panel" id="findings-dropdown-panel" role="listbox" aria-label="Findings, three views">
+                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="audit" aria-selected="true">Audit key findings</li>
+                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="interview" aria-selected="false">User interview and survey</li>
+                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="business" aria-selected="false">Business data</li>
+                    </ul>
+                </div>
             </div>
 
             
@@ -611,139 +618,113 @@
     
     <section class="rd-case-section is-tinted" id="charter">
         <div class="rd-case-inner rd-shell">
-            <h2 class="rd-case-h2" data-aos="fade-up">How the work was planned</h2>
+            <!-- Pinned while the panels scroll under it. The tabs and their dropdown
+                 must stay adjacent siblings: js/case-tabs.js pairs them through
+                 nextElementSibling. -->
+            <div class="rd-pin-head">
+                <h2 class="rd-case-h2">How the work was planned</h2>
 
-            
-            <div class="rd-case-body" data-aos="fade-up">
-                <p>
-                    This is the plan as proposed, before the scope was cut. It is here because
-                    the sequencing decision inside it — foundation first, screens second — is
-                    the one that survived everything that came later. What didn't survive was
-                    the scope itself: three groups wanted three different things, nobody had
-                    the authority to settle it, and it stayed unresolved for two months.
-                </p>
-            </div>
-
-            
-            <div class="rd-tabs rd-tabs-collapsible" role="tablist" aria-label="Charter views">
-                <button type="button" class="rd-tab" role="tab" aria-selected="true" aria-controls="charter-panel-collab" id="charter-tab-collab"><span>Collaboration &amp; communication</span></button>
-                <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="charter-panel-principle" id="charter-tab-principle"><span>Approach</span></button>
-                <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="charter-panel-timeline" id="charter-tab-timeline"><span>Timeline &amp; Activity</span></button>
-            </div>
-            <!-- Mobile-only stand-in for the row above (<=768px). Options carry
-                 each tab's own id — case-tabs.js reads it back to find the tab
-                 to select() on change, since this group has no page-specific
-                 script of its own. Custom listbox, not a native <select> —
-                 see the Findings dropdown's comment above for why. Option
-                 order and the toggle's own default text both have to match the
-                 tab row, including which one starts aria-selected. -->
-            <div class="rd-tabs-dropdown">
-                <button type="button" class="rd-tabs-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="charter-dropdown-panel" aria-label="Charter views">
-                    <span data-tabs-dropdown-value>Collaboration &amp; communication</span>
-                    <svg class="rd-tabs-dropdown-chev" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </button>
-                <ul class="rd-tabs-dropdown-panel" id="charter-dropdown-panel" role="listbox" aria-label="Charter views">
-                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="charter-tab-collab" aria-selected="true">Collaboration &amp; communication</li>
-                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="charter-tab-principle" aria-selected="false">Approach</li>
-                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="charter-tab-timeline" aria-selected="false">Timeline &amp; Activity</li>
-                </ul>
-            </div>
-
-            <div id="charter-panel-collab" role="tabpanel" aria-labelledby="charter-tab-collab" style="width:100%;">
-                <div class="rd-case-body" data-aos="fade-up">
+                <div class="rd-case-body">
                     <p>
-                        Nobody in this project reported to me. The sponsor funded it, the
-                        business owner lived with the tool, the tool owner ran the system it
-                        sat on. Getting the three of them to move in the right order was most
-                        of the job.
+                        This is the plan as proposed, before the scope was cut. It is here because
+                        the sequencing decision inside it — foundation first, screens second — is
+                        the one that survived everything that came later. What didn't survive was
+                        the scope itself: three groups wanted three different things, nobody had
+                        the authority to settle it, and it stayed unresolved for two months.
                     </p>
                 </div>
 
+                <div class="rd-tabs rd-tabs-collapsible" role="tablist" aria-label="Charter views">
+                    <button type="button" class="rd-tab" role="tab" aria-selected="true" aria-controls="charter-panel-collab" id="charter-tab-collab"><span>Collaboration &amp; communication</span></button>
+                    <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="charter-panel-principle" id="charter-tab-principle"><span>Approach</span></button>
+                    <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="charter-panel-timeline" id="charter-tab-timeline"><span>Timeline &amp; Activity</span></button>
+                </div>
+                <!-- Mobile-only stand-in for the row above (<=768px). Options carry
+                     each tab's own id — case-tabs.js reads it back to find the tab
+                     to select() on change, since this group has no page-specific
+                     script of its own. Custom listbox, not a native <select> —
+                     see the Findings dropdown's comment above for why. Option
+                     order and the toggle's own default text both have to match the
+                     tab row, including which one starts aria-selected. -->
+                <div class="rd-tabs-dropdown">
+                    <button type="button" class="rd-tabs-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="charter-dropdown-panel" aria-label="Charter views">
+                        <span data-tabs-dropdown-value>Collaboration &amp; communication</span>
+                        <svg class="rd-tabs-dropdown-chev" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <ul class="rd-tabs-dropdown-panel" id="charter-dropdown-panel" role="listbox" aria-label="Charter views">
+                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="charter-tab-collab" aria-selected="true">Collaboration &amp; communication</li>
+                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="charter-tab-principle" aria-selected="false">Approach</li>
+                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="charter-tab-timeline" aria-selected="false">Timeline &amp; Activity</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="charter-panel-collab" role="tabpanel" aria-labelledby="charter-tab-collab" style="width:100%;">
                 <figure class="rd-case-figure is-strip rd-ceflow">
                     <div class="rd-figure-frame">
                         <div class="rd-figure-scroll">
-                            <svg class="rd-ceflow-svg" viewBox="0 0 900 626" role="img"
-                                 aria-label="Coordination sequence across four parties. One: I send the proposal to the sponsor. Two: the sponsor approves, and that approval gates everything below it. Three: two conversations run at the same time from the same point — one with the business owner about their needs, pains and direction, one with the tool owner about what it takes to build and when. Four: one meeting with everyone in the room. Five: a status meeting with every party, repeating every week through delivery.">
+                            <svg class="rd-ceflow-svg" viewBox="0 0 1300 252" role="img"
+                                 aria-label="Coordination sequence across four parties, left to right. One: I send the proposal to the sponsor. Two: the sponsor approves, and nothing after starts without it. Three: two conversations run at the same time — one with the business owner about their needs, pains and direction, one with the tool owner about what it takes to build and when. Four: one meeting with everyone in the room. Five: a status meeting with every party, repeating every week through delivery.">
                                 <defs>
-                                    <!-- orient="auto-start-reverse" is what lets one marker serve
-                                         both ends of a line: the fork's stem uses marker-start to
-                                         point an arrowhead back into my own lifeline, showing the
-                                         exchange runs both ways without drawing a second line. -->
                                     <marker id="ceflow-head" viewBox="0 0 10 10" refX="9" refY="5"
-                                            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                            markerWidth="6" markerHeight="6" orient="auto">
                                         <path class="rd-ceflow-head" d="M0,0 L10,5 L0,10 Z"></path>
                                     </marker>
                                 </defs>
 
-                                <g class="rd-ceflow-life">
-                                    <line x1="120" y1="60" x2="120" y2="612"></line>
-                                    <line x1="330" y1="60" x2="330" y2="612"></line>
-                                    <line x1="570" y1="60" x2="570" y2="612"></line>
-                                    <line x1="790" y1="60" x2="790" y2="612"></line>
-                                </g>
-
-                                <rect class="rd-ceflow-box" x="32" y="4" width="176" height="52" rx="10"></rect>
-                                <text class="rd-ceflow-name" x="120" y="27" text-anchor="middle">Sponsor</text>
-                                <text class="rd-ceflow-sub" x="120" y="45" text-anchor="middle">funds the work</text>
-
-                                <rect class="rd-ceflow-box is-self" x="242" y="4" width="176" height="52" rx="10"></rect>
-                                <text class="rd-ceflow-name" x="330" y="27" text-anchor="middle">Me</text>
-                                <text class="rd-ceflow-sub" x="330" y="45" text-anchor="middle">product manager</text>
-
-                                <rect class="rd-ceflow-box" x="482" y="4" width="176" height="52" rx="10"></rect>
-                                <text class="rd-ceflow-name" x="570" y="27" text-anchor="middle">Business owner</text>
-                                <text class="rd-ceflow-sub" x="570" y="45" text-anchor="middle">uses the tool</text>
-
-                                <rect class="rd-ceflow-box" x="702" y="4" width="176" height="52" rx="10"></rect>
-                                <text class="rd-ceflow-name" x="790" y="27" text-anchor="middle">Tool owner</text>
-                                <text class="rd-ceflow-sub" x="790" y="45" text-anchor="middle">builds it</text>
-
-                                <text class="rd-ceflow-label" x="228" y="94" text-anchor="middle">1 &middot; Proposal for the work</text>
-                                <line class="rd-ceflow-arrow" x1="322" y1="104" x2="134" y2="104" marker-end="url(#ceflow-head)"></line>
-
-                                <text class="rd-ceflow-label" x="228" y="140" text-anchor="middle">2 &middot; Approval</text>
-                                <line class="rd-ceflow-arrow" x1="134" y1="150" x2="322" y2="150" marker-end="url(#ceflow-head)"></line>
-
-                                <rect class="rd-ceflow-gate" x="16" y="172" width="868" height="46" rx="8"></rect>
-                                <text class="rd-ceflow-tag is-gate" x="450" y="192" text-anchor="middle">APPROVAL GATE</text>
-                                <text class="rd-ceflow-note" x="450" y="210" text-anchor="middle">Nothing below this line starts without it.</text>
-
-                                <text class="rd-ceflow-tag" x="230" y="232">AT THE SAME TIME</text>
-                                <rect class="rd-ceflow-frag" x="230" y="242" width="654" height="156" rx="8"></rect>
-
-                                <line class="rd-ceflow-arrow" x1="330" y1="300" x2="392" y2="300" marker-start="url(#ceflow-head)"></line>
-                                <circle class="rd-ceflow-dot" cx="392" cy="300" r="4"></circle>
-                                <line class="rd-ceflow-arrow" x1="392" y1="300" x2="562" y2="270" marker-end="url(#ceflow-head)"></line>
-                                <line class="rd-ceflow-arrow" x1="392" y1="300" x2="782" y2="354" marker-end="url(#ceflow-head)"></line>
-                                <text class="rd-ceflow-label" x="558" y="258" text-anchor="end">3a &middot; Their needs, pains and direction</text>
-                                <text class="rd-ceflow-label" x="778" y="378" text-anchor="end">3b &middot; What it takes to build, and when</text>
-
-                                <rect class="rd-ceflow-band" x="64" y="430" width="782" height="58" rx="10"></rect>
-                                <line class="rd-ceflow-join" x1="120" y1="452" x2="790" y2="452"></line>
-                                <circle class="rd-ceflow-dot" cx="120" cy="452" r="5"></circle>
-                                <circle class="rd-ceflow-dot" cx="330" cy="452" r="5"></circle>
-                                <circle class="rd-ceflow-dot" cx="570" cy="452" r="5"></circle>
-                                <circle class="rd-ceflow-dot" cx="790" cy="452" r="5"></circle>
-                                <text class="rd-ceflow-label" x="455" y="477" text-anchor="middle">4 &middot; Everyone in one room, on the same information</text>
-
-                                <text class="rd-ceflow-tag" x="16" y="514">EVERY WEEK</text>
-                                <rect class="rd-ceflow-frag" x="16" y="524" width="868" height="88" rx="8"></rect>
-                                <text class="rd-ceflow-label" x="455" y="552" text-anchor="middle">5 &middot; Status meeting with every party</text>
-                                <line class="rd-ceflow-join" x1="120" y1="572" x2="790" y2="572"></line>
-                                <circle class="rd-ceflow-dot" cx="120" cy="572" r="5"></circle>
-                                <circle class="rd-ceflow-dot" cx="330" cy="572" r="5"></circle>
-                                <circle class="rd-ceflow-dot" cx="570" cy="572" r="5"></circle>
-                                <circle class="rd-ceflow-dot" cx="790" cy="572" r="5"></circle>
-                                <path class="rd-ceflow-arrow" d="M 856 556 a 14 14 0 1 1 -10 4" marker-end="url(#ceflow-head)"></path>
-                                <text class="rd-ceflow-note" x="455" y="598" text-anchor="middle">It ran that way through delivery.</text>
+                                <rect class="rd-ceflow-box" x="4" y="66" width="180" height="120" rx="10"></rect>
+                                <text class="rd-ceflow-label" x="94" y="109" text-anchor="middle">1 &middot; Proposal</text>
+                                <text class="rd-ceflow-label" x="94" y="129" text-anchor="middle">for the work</text>
+                                <text class="rd-ceflow-note" x="94" y="153" text-anchor="middle">Me to the sponsor</text>
+                                <line class="rd-ceflow-arrow" x1="184" y1="126" x2="224" y2="126" marker-end="url(#ceflow-head)"></line>
+                                <rect class="rd-ceflow-gate" x="224" y="66" width="200" height="120" rx="10"></rect>
+                                <text class="rd-ceflow-label" x="324" y="110" text-anchor="middle">2 &middot; Approval</text>
+                                <text class="rd-ceflow-note" x="324" y="134" text-anchor="middle">Nothing after this</text>
+                                <text class="rd-ceflow-note" x="324" y="152" text-anchor="middle">starts without it</text>
+                                <path class="rd-ceflow-arrow" d="M424 126 H460 M460 56 V196"></path>
+                                <line class="rd-ceflow-arrow" x1="460" y1="56" x2="500" y2="56" marker-end="url(#ceflow-head)"></line>
+                                <line class="rd-ceflow-arrow" x1="460" y1="196" x2="500" y2="196" marker-end="url(#ceflow-head)"></line>
+                                <rect class="rd-ceflow-box" x="500" y="8" width="280" height="96" rx="10"></rect>
+                                <text class="rd-ceflow-label" x="640" y="39" text-anchor="middle">3a &middot; Their needs, pains</text>
+                                <text class="rd-ceflow-label" x="640" y="59" text-anchor="middle">and direction</text>
+                                <text class="rd-ceflow-note" x="640" y="83" text-anchor="middle">Me and the business owner</text>
+                                <text class="rd-ceflow-tag" x="640" y="131" text-anchor="middle">AT THE SAME TIME</text>
+                                <rect class="rd-ceflow-box" x="500" y="148" width="280" height="96" rx="10"></rect>
+                                <text class="rd-ceflow-label" x="640" y="179" text-anchor="middle">3b &middot; What it takes to</text>
+                                <text class="rd-ceflow-label" x="640" y="199" text-anchor="middle">build, and when</text>
+                                <text class="rd-ceflow-note" x="640" y="223" text-anchor="middle">Me and the tool owner</text>
+                                <path class="rd-ceflow-arrow" d="M780 56 H816 V196 H780"></path>
+                                <line class="rd-ceflow-arrow" x1="816" y1="126" x2="856" y2="126" marker-end="url(#ceflow-head)"></line>
+                                <rect class="rd-ceflow-box" x="856" y="66" width="200" height="120" rx="10"></rect>
+                                <text class="rd-ceflow-label" x="956" y="109" text-anchor="middle">4 &middot; Everyone in</text>
+                                <text class="rd-ceflow-label" x="956" y="129" text-anchor="middle">one room</text>
+                                <text class="rd-ceflow-note" x="956" y="153" text-anchor="middle">On the same information</text>
+                                <line class="rd-ceflow-arrow" x1="1056" y1="126" x2="1096" y2="126" marker-end="url(#ceflow-head)"></line>
+                                <rect class="rd-ceflow-box" x="1096" y="66" width="200" height="120" rx="10"></rect>
+                                <text class="rd-ceflow-label" x="1196" y="109" text-anchor="middle">5 &middot; Status meeting</text>
+                                <text class="rd-ceflow-label" x="1196" y="129" text-anchor="middle">with every party</text>
+                                <text class="rd-ceflow-note" x="1196" y="153" text-anchor="middle">Through delivery</text>
+                                <path class="rd-ceflow-arrow" d="M1236 186 V214 H1156 V188" marker-end="url(#ceflow-head)"></path>
+                                <text class="rd-ceflow-tag" x="1196" y="240" text-anchor="middle">EVERY WEEK</text>
                             </svg>
                         </div>
                     </div>
-                    <figcaption>The order the four of us had to move in.</figcaption>
                 </figure>
 
-                <div class="rd-case-body" data-aos="fade-up">
-                    <p>That sequence is not accidental. It follows the 5 Cs, bottom to top.</p>
+                <div class="rd-case-body" data-aos="fade-up" style="margin-top:24px;">
+                    <p>
+                        The three people I needed each saw a different part of this project.
+                        The sponsor paid for the work and signed off on scope. The business
+                        owner and three CC managers used the tool every day and knew where it
+                        hurt. The tool owner ran the system underneath and knew what it could
+                        take. I was the one place those views met. I carried each side's limits
+                        to the others, kept decisions in the right order, and made sure nobody
+                        built on something that wasn't agreed yet.
+                    </p>
+                </div>
+
+                <div class="rd-case-body" data-aos="fade-up" style="margin:48px 0 24px;">
+                    <h3 class="rd-case-label is-heading">That sequence is not accidental.<br>It follows the 5 Cs, bottom to top.</h3>
                 </div>
 
                 <div class="rd-case-card" style="width:100%;">
@@ -809,7 +790,7 @@
                 <h2 class="rd-case-h2">Three surfaces carried the narrowed scope</h2>
             </div>
             <div style="max-width: 80vw; text-align: center;" data-aos="fade-up">
-                <div class="rd-case-body" style="margin-top:24px;">
+                <div class="rd-case-body">
                     <p>
                         That plan didn't survive contact with three stakeholders who couldn't
                         agree. What shipped was narrower: one role, the manager, on desktop and
@@ -867,43 +848,37 @@
     <!-- ================= Shipped ================= -->
     <section class="rd-case-section is-tinted" id="after">
         <div class="rd-case-inner rd-shell">
-            <h2 class="rd-case-h2" data-aos="fade-up">It shipped, and I never got the number</h2>
+            <h2 class="rd-case-h2" data-aos="fade-up">Shipped, and now part of the super app</h2>
 
             <div class="rd-case-wiki">
                 <div class="rd-case-wiki-row">
                     <div class="rd-case-body rd-case-wiki-intro" data-aos="fade-up">
                         <p>
-                            Phase 1 released. Phase 2 and 3 carried on with the features that had
-                            been cut for being nice rather than necessary, and the tool now sits
-                            inside the company super app as a webview — which is the real
-                            vindication of the narrowing call. What I cannot give you is a
-                            post-release number: every time figure on this page is a pre-launch
-                            model, and I want to be exact about that rather than let a percentage
-                            do work it hasn't earned.
+                            Phase 1 released. Phases 2 and 3 picked up the features that had been cut
+                            for being nice rather than necessary, and the tool now sits inside the
+                            company super app as a webview. That move was only possible because
+                            phase 1 stayed narrow. Post-release figures aren't public, so the time
+                            figures on this page are pre-launch estimates.
                         </p>
                         <p>
-                            The modelling itself is worth reporting honestly too. Four revisions of
-                            the estimate exist and they do not agree — baselines of 5.75, 2.46 and
-                            6.2 minutes appear across them. I would present the last: 6.2 → 3.6
-                            minutes, a 42% reduction (estimated), because it is the only revision
-                            whose arithmetic is internally consistent and it is the most recent. The
-                            "34%" in the summary paragraph was never updated when the model changed,
-                            and I would not quote it.
+                            The estimate went through four revisions, with baselines of 5.75, 2.46 and
+                            6.2 minutes. This page uses the latest: 6.2 → 3.6 minutes, a 42% reduction
+                            (estimated). It's the most recent revision and the one whose arithmetic
+                            holds together.
                         </p>
                         <p>
-                            What I would defend without qualification is the defect and needs
-                            accounting: all 36 audit findings addressed in the design (counted), and
-                            six of nine user needs met — the other three counted rather than
-                            quietly dropped (counted).
+                            The counted results: all 36 audit findings addressed in the design
+                            (counted), and six of nine user needs met, with the other three kept on
+                            the list (counted).
                         </p>
-                        
+
                     </div>
                 </div>
-                <h3 class="rd-case-wiki-title" data-aos="fade-up">What I'd do differently</h3>
+                <h3 class="rd-case-wiki-title" data-aos="fade-up">What I'd carry into the next project</h3>
                 <div class="rd-case-wiki-row">
                     <div class="rd-case-lesson-row" data-aos="fade-up">
-                        <div class="rd-case-lesson"><strong>I reported the risk instead of fixing it.</strong> The three-way disagreement from the plan above — I flagged it two weeks running and recorded it both times, but never forced a decision. Agreeing who decides is a week-one job and I treated it as a reporting line.</div>
-                        <div class="rd-case-lesson"><strong>I never established the baseline.</strong> The headline claim was a time saving and the 6.2 minutes came out of a model. A day timing managers doing the task in week one would have cost almost nothing and given me a number I could still stand behind.</div>
+                        <div class="rd-case-lesson"><strong>Settle who decides in week one.</strong> The three-way disagreement from the plan above was flagged and recorded two weeks running. Agreeing early on who makes the call turns a flagged risk into a decision faster.</div>
+                        <div class="rd-case-lesson"><strong>Time the task before designing it.</strong> The 6.2-minute baseline came from a model. A day spent timing managers on the real task in week one costs very little and gives a measured baseline to compare against.</div>
                         <div class="rd-case-lesson"><strong>Cutting scope bought the release.</strong> This one held. Narrowing to one role, built mobile-first, is why there was something to embed in the super app two phases later — a wide, shallow desktop redesign would not have survived that move.</div>
                     </div>
                 </div>
@@ -972,6 +947,8 @@
 <script src="../js/case-wiki-intro.js"></script>
 
 <script src="../js/case-tabs.js"></script>
+
+<script src="../js/pin-head.js"></script>
 
 <script>
 (function () {

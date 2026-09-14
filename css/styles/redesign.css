@@ -105,6 +105,11 @@
   --rd-market-subject: #cba377;  /* HD Saison */
   --rd-market-rest: #d8d6d2;     /* the other 13 */
 
+  /* Healthcare §04 MoSCoW swatches. Must reuses --rd-market-b (#d35353). */
+  --rd-moscow-should: #27fad4;
+  --rd-moscow-could: #a8cfff;
+  --rd-moscow-wont: #afafe4;
+
   /* Added 2026-08-21 — "Business pain point" numbered chips, Figma
      40000298:868 (lending-new-v3.html only). No token on the type/colour
      ladder covers this orange; the sibling "Business goal" chips reuse
@@ -6193,37 +6198,21 @@ ol.rd-case-list > li { list-style-type: decimal; }
 
 /* Retrospective intro — the .rd-case-body directly above "What I'd do
    differently" (marked `.rd-case-wiki-intro` in each case study's markup).
-   js/case-wiki-intro.js wraps its existing <p> children in
-   .rd-case-wiki-intro-text at runtime and clamps to six lines, appending a
-   See more/See less toggle only when the text actually overflows that
-   clamp — short intros (case-study-framework.html's one-paragraph example)
-   never get a toggle. The wrapper drops out of `.rd-case-wiki-intro`'s own
-   `display: flex; flex-direction: column; gap: 16px` (see .rd-case-body)
-   once it becomes a -webkit-box, so the 16px inter-paragraph gap is
-   restored by hand below rather than inherited. */
-.rd-case-wiki-intro-text {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 6;
-  overflow: hidden;
-}
-.rd-case-wiki-intro-text p + p { margin-top: 16px; }
-.rd-case-wiki-intro.is-expanded .rd-case-wiki-intro-text {
-  display: block;
-  -webkit-line-clamp: unset;
-  overflow: visible;
-}
+   js/case-wiki-intro.js cuts the text to six lines itself and appends this
+   toggle inline, at the end of the cut text ("…text… See more") and after
+   the last paragraph once expanded — so it's an inline link, not a block on
+   its own line. Short intros never get a toggle. */
 .rd-case-wiki-intro-toggle {
-  align-self: flex-start;
-  margin-top: 8px;
+  display: inline;
   padding: 0;
   border: 0;
   background: none;
   font: inherit;
   font-weight: 700;
-  text-align: left;
+  line-height: inherit;
   text-decoration: underline;
   text-underline-offset: 2px;
+  white-space: nowrap;
   color: var(--rd-ink);
   cursor: pointer;
 }
@@ -8192,42 +8181,41 @@ ol.rd-case-list > li { list-style-type: decimal; }
 .rd-ceflow { width: 100%; }
 /* The strip frame's scroller is edge-to-edge by default; the diagram's
    outermost strokes would sit on the frame border without this. */
-.rd-ceflow .rd-figure-scroll { padding: 16px 0; }
+.rd-ceflow .rd-figure-scroll { padding: 24px; }
 .rd-ceflow-svg {
   display: block;
   width: 100%;
-  /* Below this the labels stop being readable, and the labels are the content
-     — so the frame scrolls instead of the diagram shrinking. Capped at the top
-     end because the viewBox scales type with width, and a 900-unit diagram
-     stretched across a 1400px viewport renders 20px+ chart labels. */
-  min-width: 880px;
-  max-width: 1080px;
-  margin-inline: auto;
+  /* Fills the frame. The 1300-unit viewBox is sized to the frame's widest
+     (1390px), so type renders at about its set size there; below min-width the
+     labels would get too small to read, so the frame scrolls instead. */
+  min-width: 1100px;
   height: auto;
 }
 
-/* Actors */
+/* Steps. The gate is solid ink-bordered and tinted because it is a hard stop;
+   every other step is a plain box. */
 .rd-ceflow-box { fill: var(--rd-white); stroke: var(--rd-border-soft); stroke-width: 1.5; }
-.rd-ceflow-box.is-self { fill: var(--rd-tint); stroke: var(--rd-primary); }
-.rd-ceflow-name { fill: var(--rd-ink); font-size: 15px; font-weight: var(--rd-fw-emphasis); }
-.rd-ceflow-sub { fill: var(--rd-ink-muted); font-size: 12px; }
-.rd-ceflow-life { stroke: var(--rd-border-muted); stroke-width: 1; stroke-dasharray: 4 6; }
-
-/* Messages */
-.rd-ceflow-arrow { stroke: var(--rd-ink); stroke-width: 2; fill: none; }
-.rd-ceflow-head { fill: var(--rd-ink); }
-.rd-ceflow-dot { fill: var(--rd-ink); }
-.rd-ceflow-join { stroke: var(--rd-ink); stroke-width: 2; }
-.rd-ceflow-label { fill: var(--rd-ink); font-size: 14px; font-weight: var(--rd-fw-emphasis); }
-.rd-ceflow-note { fill: var(--rd-ink-muted); font-size: 13px; }
-
-/* Fragments. The gate is solid-bordered and filled because it is a hard stop;
-   the two dashed frames are spans of time, not events, and read as brackets. */
-.rd-ceflow-tag { fill: var(--rd-ink-muted); font-size: 11px; font-weight: var(--rd-fw-emphasis); letter-spacing: 0.08em; }
-.rd-ceflow-tag.is-gate { fill: var(--rd-ink); }
 .rd-ceflow-gate { fill: var(--rd-tint); stroke: var(--rd-ink); stroke-width: 1.5; }
-.rd-ceflow-frag { fill: none; stroke: var(--rd-border-muted); stroke-width: 1.5; stroke-dasharray: 6 5; }
-.rd-ceflow-band { fill: var(--rd-panel-tint); stroke: var(--rd-border-soft); stroke-width: 1.5; }
+.rd-ceflow-label { fill: var(--rd-ink); font-size: 16px; font-weight: var(--rd-fw-emphasis); }
+.rd-ceflow-note { fill: var(--rd-ink-muted); font-size: 14.5px; }
+.rd-ceflow-tag { fill: var(--rd-ink-muted); font-size: 12px; font-weight: var(--rd-fw-emphasis); letter-spacing: 0.08em; }
+
+/* Connectors */
+.rd-ceflow-arrow { stroke: var(--rd-ink); stroke-width: 2; fill: none; stroke-linejoin: round; }
+.rd-ceflow-head { fill: var(--rd-ink); }
+
+/* ---- customer-engagement.html page spacing (body.rd-ce) -----------------
+   A heading sits 24px above whatever follows it. The section column's gap is
+   32px, so the h2 gives 8px back; ≤768 that gap is already 24px. The #screens
+   h2 is wrapped in its own div, so the wrapper gives the 8px back there.
+   Captions sit 8px under their visual (figure gap 12 − 4). */
+.rd-ce.is-hero-glow .rd-case-hero-inner { row-gap: 24px; }
+@media (min-width: 769px) {
+  .rd-ce .rd-case-inner > .rd-case-h2,
+  .rd-ce .rd-pin-head > .rd-case-h2,
+  .rd-ce .rd-case-inner > div:has(> .rd-case-h2:only-child) { margin-bottom: -8px; }
+}
+.rd-ce .rd-case-figure > figcaption { margin-top: -4px; }
 
 /* ================================================================ B6 — web-3
    case-studies/web-3.html only. Everything here is scoped to that page's own
@@ -8653,9 +8641,9 @@ html:has(body.is-section-snap) {
    would take most of the screen. At ≤768 only the dropdown pins: the
    wrapper steps out of the layout so the dropdown's sticky range is the
    whole section, not the wrapper. */
-.rd-b6-squads-head { display: flex; flex-direction: column; gap: 32px; }
+.rd-pin-head { display: flex; flex-direction: column; gap: 32px; }
 @media (min-width: 769px) and (min-height: 600px) {
-  .rd-b6-squads-head {
+  .rd-pin-head {
     position: sticky;
     top: 0;
     z-index: 10;
@@ -8665,8 +8653,8 @@ html:has(body.is-section-snap) {
   }
 }
 @media (max-width: 768px) {
-  .rd-b6-squads-head { display: contents; }
-  .rd-b6-squads-head .rd-tabs-dropdown {
+  .rd-pin-head { display: contents; }
+  .rd-pin-head .rd-tabs-dropdown {
     position: sticky;
     top: 0;
     z-index: 10;
@@ -8674,7 +8662,32 @@ html:has(body.is-section-snap) {
     margin-block: -12px;
     background: var(--rd-surface);
   }
+  /* A chart card's dropdown already carries a 14px top margin, which would
+     otherwise override the pad-cancelling margins above. */
+  .rd-pin-head .rd-bench-views.rd-tabs-collapsible + .rd-tabs-dropdown { margin-block: 2px -12px; }
 }
+/* .rd-pin-head, once pinned (js/pin-head.js sets .is-stuck, desktop only):
+   the intro hides and the pills move up to the right of the heading, so the
+   header takes as little of the viewport as it can. Pills wrap under the
+   heading when the two don't fit on one line. The spacer JS inserts after the
+   header keeps the content below from jumping up when it shrinks. */
+.rd-pin-head.is-stuck {
+  flex-flow: row wrap;
+  align-items: center;
+  align-content: flex-start;  /* rows stay at the top while JS eases the height */
+  justify-content: space-between;
+  gap: 12px 24px;
+  /* A shadow, not a border, so the pinned height JS measures is unchanged. */
+  box-shadow: 0 1px 0 var(--rd-border-soft);
+}
+.rd-pin-head { transition: box-shadow 240ms ease; }
+.rd-pin-head.is-stuck > .rd-case-body,
+.rd-pin-head.is-stuck > .rd-pin-head-intro { display: none; }
+.rd-pin-head.is-stuck > .rd-case-h2 { margin: 0; flex: 0 1 auto; min-width: 0; }
+/* The pills are 4px taller than the heading; the negative margin lets them
+   centre on it without pushing the heading 2px down from where it rests. */
+.rd-pin-head.is-stuck > .rd-tabs { width: auto; margin: -2px 0; flex: 0 0 auto; }
+.rd-pin-head-spacer { flex: none; height: 0; }
 
 /* ---- §05 team, wiki, sprint ---------------------------------------------
    The team card is the shared B1 V2 icon-block markup and the wiki's two
@@ -9721,13 +9734,46 @@ html:has(body.is-section-snap) {
 }
 
 /* --- B2c. Closing line, one per pill -------------------------------------
-   Both lines carry data-ai-state; the wrap is measured by the same
-   lockHeight() as the panel's swap regions so switching pill cannot change
-   the section's height. Centred to match .rd-ai-reveal-closing's own rule. */
+   Both lines carry data-ai-state and swap with the pill. Centred to match
+   .rd-ai-reveal-closing's own rule. */
 .rd-ai-closing-wrap { width: 100%; position: relative; }
 /* auto: the line is capped at --rd-measure-case, so the box itself has to be
    centred, not just its text. */
 .rd-ai-closing-wrap > .rd-ai-reveal-closing { margin: 0 auto; }
+
+/* --- B2e. Pinned heading + pills ------------------------------------------
+   The heading, question and Yes/No pills are a shared .rd-pin-head: they pin
+   while the card scrolls under them and let go at the closing line. The
+   header's opaque band reaches 24px above its own box, into the stage's
+   bottom edge, and sits over the absolutely placed STEP 1 phase columns, so
+   both are lifted above it. At rest it keeps the reveal's own spacing. */
+.rd-ai-reveal > .rd-pin-head:not(.is-stuck) { gap: inherit; }
+/* Pinned, the question stays: heading and question stack on the left, the
+   pills that answer it sit on the right, centred on the pair. The heading
+   wraps before the pills do. */
+.rd-ai-reveal > .rd-pin-head.is-stuck {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 24px;
+  align-items: center;
+}
+.rd-ai-reveal > .rd-pin-head.is-stuck > .rd-ai-reveal-heading,
+.rd-ai-reveal > .rd-pin-head.is-stuck > .rd-ai-reveal-question { grid-column: 1; text-align: left; }
+.rd-ai-reveal > .rd-pin-head.is-stuck > .rd-ai-toggle { grid-column: 2; grid-row: 1 / span 2; }
+.js-ai-ready .rd-ai-stage,
+.js-ai-ready .rd-ai-phases { z-index: 11; }
+/* ≤768 the header steps out of the layout and has no dropdown to pin, so the
+   pills pin on their own. */
+@media (max-width: 768px) {
+  .rd-ai-reveal > .rd-pin-head > .rd-ai-toggle {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding-block: 12px;
+    margin-block: -12px;
+    background: var(--rd-surface);
+  }
+}
 
 /* --- B2d. Mobile accordion on the two panel columns ----------------------
    ≤768px only, where .rd-ai-panel-cols stacks. The collapsing element is the
@@ -9737,8 +9783,7 @@ html:has(body.is-section-snap) {
 
    grid-template-rows 1fr -> 0fr is the transition that works without
    measuring: the child needs min-height:0 and overflow:hidden or it refuses
-   to shrink below its content. lockHeight() in ai-accelerate.js clears its
-   inline min-height below this breakpoint for the same reason. */
+   to shrink below its content. */
 @media (max-width: 768px) {
   .rd-ai-panel-col > .rd-ai-swap-wrap {
     display: grid;
@@ -9996,6 +10041,9 @@ html:has(body.is-section-snap) {
 }
 .rd-moscow-sw { flex: 0 0 auto; width: var(--m-12); height: var(--m-12); border-radius: var(--r-2); background: var(--rd-ink-muted); }
 .rd-moscow-sw.is-must { background: var(--rd-market-b); }
+.rd-moscow-sw.is-should { background: var(--rd-moscow-should); }
+.rd-moscow-sw.is-could { background: var(--rd-moscow-could); }
+.rd-moscow-sw.is-wont { background: var(--rd-moscow-wont); }
 .rd-case .rd-moscow-q ul { margin: 0; padding-left: var(--p-20); }
 /* padding-bottom: style.css gives every li 12px, which doubled the list. */
 .rd-case .rd-moscow-q li {

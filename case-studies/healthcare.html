@@ -580,7 +580,15 @@
         <div class="rd-ai-pin">
             <div class="rd-case-inner rd-shell rd-ai-inner">
                 <div class="rd-ai-header">
-                    <h2 class="rd-case-h2">The shape didn't change.<br>AI just carries more of it now.</h2>
+                    <h2 class="rd-case-h2">With the order settled,<br>the question was how fast each phase could ship</h2>
+                    <div class="rd-case-body">
+                        <p>
+                            Every phase went through the same four steps: discovery, validation,
+                            build and launch. With AI working inside each of them, those four close
+                            into two. Work out what to build and test it. Then build it, launch it
+                            and scale it.
+                        </p>
+                    </div>
                 </div>
 
                 <div class="rd-ai-stage">
@@ -642,19 +650,21 @@
                         </div>
                     </div>
 
-                    <h3 class="rd-ai-reveal-heading">AI enablement across product screens, sprints and phases</h3>
+                    <div class="rd-pin-head">
+                        <h3 class="rd-ai-reveal-heading">AI enablement across product screens, sprints and phases</h3>
 
-                    <p class="rd-ai-reveal-question">Is this flow critical to the customer's business?</p>
+                        <p class="rd-ai-reveal-question">Is this flow critical to the customer's business?</p>
 
-                    <!-- Real toggle buttons (aria-pressed), not a tablist — this is a
-                         binary either/or control, not a set of parallel views. Visual
-                         reuses .rd-tabs/.rd-tab, the sitewide pill component (see
-                         "Tab strip" in this file), with an [aria-pressed] state rule
-                         added alongside its existing [aria-selected] one. Wiring is in
-                         js/ai-accelerate.js. -->
-                    <div class="rd-tabs rd-ai-toggle" role="group" aria-label="Is this flow critical to the customer's business?">
-                        <button type="button" class="rd-tab" aria-pressed="true" data-ai-state="critical"><span>Yes, it's critical</span></button>
-                        <button type="button" class="rd-tab" aria-pressed="false" data-ai-state="normal"><span>No, this is normal</span></button>
+                        <!-- Real toggle buttons (aria-pressed), not a tablist — this is a
+                             binary either/or control, not a set of parallel views. Visual
+                             reuses .rd-tabs/.rd-tab, the sitewide pill component (see
+                             "Tab strip" in this file), with an [aria-pressed] state rule
+                             added alongside its existing [aria-selected] one. Wiring is in
+                             js/ai-accelerate.js. -->
+                        <div class="rd-tabs rd-ai-toggle" role="group" aria-label="Is this flow critical to the customer's business?">
+                            <button type="button" class="rd-tab" aria-pressed="true" data-ai-state="critical"><span>Yes, it's critical</span></button>
+                            <button type="button" class="rd-tab" aria-pressed="false" data-ai-state="normal"><span>No, this is normal</span></button>
+                        </div>
                     </div>
 
                     <!-- aria-live: the swapped step lists below are announced on toggle.
@@ -723,9 +733,9 @@
 
                     <!-- One line at a time, matched to the pill above. Both carry
                          data-ai-state and sit inside a .rd-ai-swap-wrap so the same
-                         select()/lockHeight() pair that drives the panel drives them
-                         too — see js/ai-accelerate.js, which queries this wrap
-                         separately because it lives OUTSIDE [data-ai-panel]. -->
+                         select() that drives the panel drives them too — see
+                         js/ai-accelerate.js, which queries this wrap separately
+                         because it lives OUTSIDE [data-ai-panel]. -->
                     <div class="rd-ai-swap-wrap rd-ai-closing-wrap">
                         <p class="rd-ai-reveal-closing" data-ai-state="critical"><strong>Critical: a human owns every decision, AI owns the labour.</strong></p>
                         <p class="rd-ai-reveal-closing" data-ai-state="normal" hidden><strong>Not critical: AI owns the path, the customer owns the gate.</strong></p>
@@ -1702,9 +1712,8 @@
                         <p>
                             The platform went live in June 2026 and runs in parallel with the system
                             it was built to replace — programs already in flight stay where they
-                            started. It hasn't been through a full measurement cycle yet, so there is
-                            no outcome number here I can stand behind. I would
-                            rather say that than imply a win.
+                            started. It hasn't been through a full measurement cycle yet, so outcome
+                            numbers will come after the first one.
                         </p>
                         <p>
                             What the old process cost is on record, because the client measured it
@@ -1725,12 +1734,12 @@
                         
                     </div>
                 </div>
-                <h3 class="rd-case-wiki-title" data-aos="fade-up">What I'd do differently</h3>
+                <h3 class="rd-case-wiki-title" data-aos="fade-up">What I'd carry into the next project</h3>
                 <div class="rd-case-wiki-row">
                     <div class="rd-case-lesson-row" data-aos="fade-up">
-                        <div class="rd-case-lesson"><strong>A thick spec, and I never asked for the baseline.</strong> It had as-is and to-be flows for all 17 roles, but thick isn't the same as proven. The client had been measuring itself against ten contractual deadlines the whole time, in a report I could have asked for in week one. I argued sequencing from a diagram when I could have argued it from their own numbers.</div>
-                        <div class="rd-case-lesson"><strong>I let the design system drift.</strong> Catching 17 of 18 status tokens out of sync was fine. Needing to catch it was the miss — calling code the source of truth on day one would have cost nothing.</div>
-                        <div class="rd-case-lesson"><strong>I answered "why now" with a standing reason.</strong> Compliance risk is true every quarter. I never pinned down what made it urgent that quarter, which is the first thing anyone senior asks about a project this size.</div>
+                        <div class="rd-case-lesson"><strong>Ask for the client's own numbers early.</strong> The spec had as-is and to-be flows for all 17 roles. The client had also been measuring itself against ten contractual deadlines, in an existing report. Asking for it in week one lets the sequencing argument rest on their numbers as well as the diagram.</div>
+                        <div class="rd-case-lesson"><strong>Make code the source of truth on day one.</strong> A check caught 17 of 18 status tokens out of sync. Naming code as the source of truth from the start keeps that drift from building up.</div>
+                        <div class="rd-case-lesson"><strong>Name the "why now" for this quarter.</strong> Compliance risk is a standing reason, true every quarter. Next time I'd also name what makes it urgent this quarter, since that's the first question senior stakeholders ask on a project this size.</div>
                         
                     </div>
                 </div>
@@ -1768,14 +1777,14 @@
                     <span class="rd-related-cta">Read the case study &rarr;</span>
                 </a>
 
-                <a class="rd-related-card" href="./marketing-platform.html">
+                <a class="rd-related-card" href="./customer-engagement.html">
                     <div class="rd-related-media">
-                        <img src="../public/is/cover_isystem.png"
-                             alt="iSystem salon platform dashboard: today's overview stats, an hourly booking chart, and a waiting-list table" loading="lazy">
+                        <img src="../public/cv_enterprise.png"
+                             alt="Customer visit management case study cover — the redesigned trip overview" loading="lazy">
                     </div>
                     <div class="rd-related-body">
-                        <h3 class="rd-related-title">Eight apps, one team</h3>
-                        <p class="rd-related-desc">A startup was building eight apps at once for three user types. It became one transaction spine — book, check in, pay — with everything else sequenced behind it.</p>
+                        <h3 class="rd-related-title">The visit tool that couldn't leave the desk</h3>
+                        <p class="rd-related-desc">An internal tool old enough that nothing could be attached to it and nothing could be done away from a desk. Thirty-six usability defects, a redesign, and a place inside the company super app.</p>
                     </div>
                     <span class="rd-related-cta">Read the case study &rarr;</span>
                 </a>
@@ -1797,6 +1806,7 @@
 
 <script src="../js/case-wall-marquee.js"></script>
 <script src="../js/ai-accelerate.js"></script>
+<script src="../js/pin-head.js"></script>
 <script src="../js/role-matrix-data.js"></script>
 <script src="../js/role-matrix.js"></script>
 <script src="../js/phase-decision-data.js"></script>

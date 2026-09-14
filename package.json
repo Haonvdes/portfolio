@@ -20,6 +20,7 @@
   "scripts": {
     "start": "node app.js",
     "push": "bash scripts/push.sh",
+    "release": "bash scripts/release.sh",
     "sync-thumbnails": "node scripts/sync-thumbnails.js"
   },
   "devDependencies": {

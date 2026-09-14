@@ -269,22 +269,22 @@
 
                     <div class="rd-b6-fx-deck">
                         <article class="rd-b6-fx-card" id="fx-knowledge">
-                            <span class="rd-learn-icon rd-icon-design" aria-hidden="true"></span>
+                            <img class="rd-case-challenge-icon" src="../public/ar_ic_expert.svg" alt="" loading="lazy">
                             <h3>Assumes expert users</h3>
                             <p>Most apps assume the user already understands the technology. Screens are full of acronyms and long alphanumeric strings that early adopters read easily and most people don&rsquo;t.</p>
                         </article>
                         <article class="rd-b6-fx-card" id="fx-late">
-                            <span class="rd-learn-icon rd-icon-teams" aria-hidden="true"></span>
+                            <img class="rd-case-challenge-icon" src="../public/ar_ic_design.svg" alt="" loading="lazy">
                             <h3>Design comes in late</h3>
                             <p>Web3 teams focus on the technology and bring designers in late in the development cycle. Many apps get the visual layer right and still leave people stuck in confusing flows.</p>
                         </article>
                         <article class="rd-b6-fx-card" id="fx-value">
-                            <span class="rd-learn-icon rd-icon-goal" aria-hidden="true"></span>
+                            <img class="rd-case-challenge-icon" src="../public/ar_ic_reason.svg" alt="" loading="lazy">
                             <h3>No clear reason to use it</h3>
                             <p>Outside of speculation, most apps don&rsquo;t say what the product is or why someone should use it. Crypto is both an investment and a way to pay, and few apps pick one and design around it.</p>
                         </article>
                         <article class="rd-b6-fx-card" id="fx-wait">
-                            <span class="rd-learn-icon rd-icon-design" aria-hidden="true"></span>
+                            <img class="rd-case-challenge-icon" src="../public/ar_ic_waiting.svg" alt="" loading="lazy">
                             <h3>Transactions that keep you waiting</h3>
                             <p>One transaction can need several confirmations and pending messages, split between a wallet and a DeFi app, minutes apart. Web2 users already find a three-second wait long.</p>
                         </article>
@@ -435,7 +435,7 @@
             <!-- Pinned while the panels scroll under it, so the pills stay in reach.
                  The tabs and their dropdown must stay adjacent siblings:
                  js/case-tabs.js pairs them through nextElementSibling. -->
-            <div class="rd-b6-squads-head">
+            <div class="rd-pin-head">
                 <h2 class="rd-case-h2">Keeping six squads on the same page</h2>
                 <div class="rd-case-body">
                     <p>Six product squads and a shared resource pool, each squad owning one surface.
@@ -632,13 +632,11 @@
                                                 <span class="rd-case-checklist-icon"><img src="../public/ar_tool_discord.svg" alt="" loading="lazy"></span>
                                                 <span>Discord</span>
                                             </div>
-                                            <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false">
-                                                <span class="rd-case-checklist-icon"><img src="../public/ar_tool_teams.svg" alt="" loading="lazy"></span>
-                                                <span>Microsoft Teams</span>
-                                            </div>
-                                            <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false">
-                                                <span class="rd-case-checklist-icon"><img src="../public/ar_tool_github.svg" alt="" loading="lazy"></span>
-                                                <span>GitHub</span>
+                                            <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/ar_tool_ds.png">
+                                                <span class="rd-case-checklist-icon">
+                                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>
+                                                </span>
+                                                <span>Shared design system</span>
                                             </div>
                                             <div class="rd-case-checklist-row is-selectable" role="tab" tabindex="0" aria-selected="false" data-image="../public/ar_automation.png">
                                                 <span class="rd-case-checklist-icon">
@@ -776,12 +774,12 @@
                         </p>
                     </div>
                 </div>
-                <h3 class="rd-case-wiki-title" data-aos="fade-up">What I'd do differently</h3>
+                <h3 class="rd-case-wiki-title" data-aos="fade-up">What I'd carry into the next project</h3>
                 <div class="rd-case-wiki-row">
                     <div class="rd-case-lesson-row" data-aos="fade-up">
-                        <div class="rd-case-lesson"><strong>I didn't put a number on the seam.</strong> We knew the zone split would confuse people, and we shipped it without counting who reached the conversion step or gave up there. Without that count, "smooth it over later" had nothing to rank it against.</div>
-                        <div class="rd-case-lesson"><strong>I tested with people who already knew crypto.</strong> Airdrops and our own community brought in people who already held a wallet. They were easy to reach and the least like the mainstream users the products needed next. I should have recruited people who had never signed a transaction.</div>
-                        <div class="rd-case-lesson"><strong>I kept designers on brand work too long.</strong> During the raise, brand and social work was the right use of the team. Once the goal turned to adoption, I still split the same people across brand and six product surfaces. Moving more of them onto the products sooner would have put the design system in place earlier.</div>
+                        <div class="rd-case-lesson"><strong>Put a number on known trade-offs.</strong> The zone split was a known trade-off. Counting who reaches the conversion step, and who drops there, gives "smooth it over later" something to rank against.</div>
+                        <div class="rd-case-lesson"><strong>Recruit beyond the existing community.</strong> Airdrops and our own community brought in people who already held a wallet. They were easy to reach, but mainstream users were the next audience. Next time I'd also test with people who have never signed a transaction.</div>
+                        <div class="rd-case-lesson"><strong>Move designers to product as the goal shifts.</strong> During the raise, brand and social work was the right use of the team. Once the goal turned to adoption, shifting more of the team onto the six product surfaces early gets the design system in place sooner.</div>
                     </div>
                 </div>
             </div>
@@ -818,14 +816,14 @@
                     <span class="rd-related-cta">Read the case study &rarr;</span>
                 </a>
 
-                <a class="rd-related-card" href="./marketing-platform.html">
+                <a class="rd-related-card" href="./customer-engagement.html">
                     <div class="rd-related-media">
-                        <img src="../public/is/cover_isystem.png"
-                             alt="iSystem salon platform dashboard: today's overview stats, an hourly booking chart, and a waiting-list table" loading="lazy">
+                        <img src="../public/cv_enterprise.png"
+                             alt="Customer visit management case study cover — the redesigned trip overview" loading="lazy">
                     </div>
                     <div class="rd-related-body">
-                        <h3 class="rd-related-title">Eight apps, one team</h3>
-                        <p class="rd-related-desc">A startup was building eight apps at once for three user types. It became one transaction spine — book, check in, pay — with everything else sequenced behind it.</p>
+                        <h3 class="rd-related-title">The visit tool that couldn't leave the desk</h3>
+                        <p class="rd-related-desc">An internal tool old enough that nothing could be attached to it and nothing could be done away from a desk. Thirty-six usability defects, a redesign, and a place inside the company super app.</p>
                     </div>
                     <span class="rd-related-cta">Read the case study &rarr;</span>
                 </a>
@@ -850,6 +848,7 @@
 <script src="../js/web3-chasm.js"></script>
 <script src="../js/case-tabs.js"></script>
 <script src="../js/case-wiki-intro.js"></script>
+<script src="../js/pin-head.js"></script>
 
 <script>
 // The showcase pills call loadContent() inline; its mobile dropdown needs the
@@ -867,42 +866,6 @@
     if (!key) return;
     button.addEventListener('click', function () { select.value = key[1]; });
   });
-})();
-
-// §05's header stays pinned while the panels scroll under it. Switching tabs
-// from deep inside the long Team panel would otherwise leave the reader
-// mid-page in the new, shorter panel, so bring the new panel's start up to
-// just under the pinned header. Registered after case-tabs.js, so the panel
-// has already been swapped when this runs.
-(function () {
-  var section = document.getElementById('squads');
-  if (!section) return;
-  var head = section.querySelector('.rd-b6-squads-head');
-  var panels = section.querySelector('.rd-case-tabpanels');
-  var dropdown = section.querySelector('.rd-tabs-dropdown');
-  if (!head || !panels) return;
-
-  function toPanelStart() {
-    // Whichever element is actually pinned at this width: the whole header,
-    // or only the dropdown on narrow screens.
-    var pinned = [head, dropdown].filter(function (el) {
-      return el && getComputedStyle(el).position === 'sticky' && el.offsetHeight > 0;
-    })[0];
-    if (!pinned) return;
-    var box = pinned.parentNode;
-    if (getComputedStyle(box).display === 'contents') box = box.parentNode;
-    var gap = parseFloat(getComputedStyle(box).rowGap) || 0;
-    gap += parseFloat(getComputedStyle(pinned).marginBottom) || 0;
-    var target = window.pageYOffset + panels.getBoundingClientRect().top - pinned.offsetHeight - gap;
-    if (window.pageYOffset > target + 1) {
-      window.scrollTo({ top: target, behavior: 'instant' });
-    }
-  }
-
-  section.querySelectorAll('.rd-tabs .rd-tab').forEach(function (tab) {
-    tab.addEventListener('click', toPanelStart);
-  });
-  if (dropdown) dropdown.addEventListener('change', toPanelStart);
 })();
 </script>
 </body>

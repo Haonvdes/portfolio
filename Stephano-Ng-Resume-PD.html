@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stephano Ng — Sr. Product Designer | Resume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/*
+  Resume — Stephano Ng, Sr. Product Designer
+  Tokens transcribed from portfolio/css/styles/{tokens,redesign}.css so this
+  document and the site read as one thing. Prefix --cv-* to keep it standalone.
+
+  Print target: A4 (210 x 297mm), 2 pages, 14mm margins.
+  Screen view renders the same two sheets on a grey backdrop.
+*/
+:root{
+  --cv-ink:#0a2a30;
+  --cv-primary:#01679c;
+  --cv-surface:#f3f3ef;
+  --cv-rule:#d9d9d2;
+  --cv-muted:#5c7379;
+  --cv-font:"DM Sans","Manrope",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+
+  /* Type scale — the site's tokens shifted down one step for print density. */
+  --cv-fs-xs:8pt;
+  --cv-fs-sm:8.6pt;
+  --cv-fs-md:9.3pt;
+  --cv-fs-lg:10.6pt;
+  --cv-fs-xl:12.5pt;
+  --cv-fs-2xl:22pt;
+
+  --cv-lh-prose:1.45;
+  --cv-lh-tight:1.3;
+
+  --cv-page-w:210mm;
+  --cv-page-h:297mm;
+  --cv-pad:12mm;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:var(--cv-font);
+  font-size:var(--cv-fs-md);
+  font-weight:500;
+  line-height:var(--cv-lh-prose);
+  color:var(--cv-ink);
+  background:#e8e8e4;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+p{margin:0;}
+ul{margin:0;padding:0;list-style:none;}
+a{color:var(--cv-primary);text-decoration:none;}
+
+/* ------------------------------------------------------------------ page - */
+.cv-page{
+  width:var(--cv-page-w);
+  min-height:var(--cv-page-h);
+  padding:var(--cv-pad);
+  margin:24px auto;
+  background:#fff;
+  box-shadow:0 2px 16px rgba(10,42,48,.16);
+  display:flex;
+  flex-direction:column;
+}
+
+/* ---------------------------------------------------------------- header - */
+.cv-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12mm;
+  padding-bottom:5mm;
+  border-bottom:1.5px solid var(--cv-ink);
+}
+.cv-name{
+  font-size:var(--cv-fs-2xl);
+  font-weight:700;
+  line-height:1.05;
+  letter-spacing:-.015em;
+  margin:0;
+}
+.cv-alias{
+  font-size:var(--cv-fs-sm);
+  font-weight:500;
+  color:var(--cv-muted);
+  letter-spacing:0;
+}
+.cv-role{
+  margin-top:2mm;
+  font-size:var(--cv-fs-xl);
+  font-weight:600;
+  color:var(--cv-primary);
+  line-height:var(--cv-lh-tight);
+}
+.cv-contact{
+  text-align:right;
+  font-size:var(--cv-fs-sm);
+  line-height:1.7;
+  white-space:nowrap;
+}
+.cv-contact span{display:block;}
+.cv-contact a{color:var(--cv-ink);}
+.cv-contact .cv-site{color:var(--cv-primary);font-weight:600;}
+
+/* ----------------------------------------------------------------- intro - */
+.cv-summary{
+  margin-top:4mm;
+  font-size:var(--cv-fs-lg);
+  line-height:1.5;
+}
+.cv-summary strong{font-weight:700;}
+
+/* --------------------------------------------------------------- section - */
+.cv-section{margin-top:5.5mm;}
+.cv-section-title{
+  font-size:var(--cv-fs-sm);
+  font-weight:700;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  color:var(--cv-ink);
+  margin:0 0 3mm;
+  padding-bottom:1.5mm;
+  border-bottom:1px solid var(--cv-rule);
+}
+
+/* -------------------------------------------------------------- role card - */
+.cv-role-item{
+  padding:2.8mm 0;
+  border-bottom:1px solid var(--cv-rule);
+  break-inside:avoid;
+  page-break-inside:avoid;
+}
+.cv-role-item:last-child{border-bottom:0;}
+.cv-role-head{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:8mm;
+}
+.cv-role-title{
+  font-size:var(--cv-fs-lg);
+  font-weight:700;
+  line-height:var(--cv-lh-tight);
+  margin:0;
+}
+.cv-role-title .cv-at{font-weight:500;color:var(--cv-muted);}
+.cv-dates{
+  font-size:var(--cv-fs-sm);
+  font-weight:600;
+  color:var(--cv-muted);
+  white-space:nowrap;
+  letter-spacing:.01em;
+}
+.cv-role-blurb{
+  margin-top:1.5mm;
+  font-size:var(--cv-fs-md);
+  color:var(--cv-ink);
+}
+.cv-meta{
+  margin-top:2mm;
+  display:flex;
+  flex-wrap:wrap;
+  gap:2mm;
+}
+.cv-meta li{
+  font-size:var(--cv-fs-xs);
+  font-weight:600;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  color:var(--cv-muted);
+  background:var(--cv-surface);
+  border:1px solid var(--cv-rule);
+  border-radius:2px;
+  padding:.8mm 2mm;
+}
+.cv-bullets{margin-top:2mm;}
+.cv-bullets li{
+  position:relative;
+  padding-left:4.5mm;
+  margin-bottom:.8mm;
+  line-height:1.4;
+}
+.cv-bullets li:last-child{margin-bottom:0;}
+.cv-bullets li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:.62em;
+  width:2mm;
+  height:1px;
+  background:var(--cv-primary);
+}
+
+/* ----------------------------------------------------------- two columns - */
+.cv-cols{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:4mm 10mm;
+}
+.cv-group-title{
+  font-size:var(--cv-fs-md);
+  font-weight:700;
+  margin:0 0 1mm;
+}
+/* Skills read as inline groups, not bullets — a bulleted list of single words
+   burns five lines to say what one line says, and page 2 has no room for it. */
+.cv-skill-row{
+  display:grid;
+  grid-template-columns:34mm 1fr;
+  gap:4mm;
+  padding:1.6mm 0;
+  border-bottom:1px solid var(--cv-rule);
+  break-inside:avoid;
+}
+.cv-skill-row:last-child{border-bottom:0;}
+.cv-skill-label{
+  font-size:var(--cv-fs-sm);
+  font-weight:700;
+  letter-spacing:.04em;
+  line-height:1.4;
+}
+.cv-skill-val{line-height:1.4;}
+
+/* credential rows — label left, issuer right */
+.cv-cred li{
+  display:flex;
+  justify-content:space-between;
+  gap:5mm;
+  padding:1.4mm 0;
+  border-bottom:1px solid var(--cv-rule);
+  line-height:1.35;
+}
+.cv-cred li:last-child{border-bottom:0;}
+.cv-cred .cv-issuer{
+  font-size:var(--cv-fs-sm);
+  color:var(--cv-muted);
+  white-space:nowrap;
+  font-weight:500;
+}
+.cv-cred .cv-cred-name{font-weight:600;}
+
+/* selected work */
+.cv-work li{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:6mm;
+  padding:2mm 0;
+  border-bottom:1px solid var(--cv-rule);
+  break-inside:avoid;
+}
+.cv-work li:last-child{border-bottom:0;}
+.cv-work .cv-work-name{font-weight:700;}
+.cv-work .cv-work-desc{
+  color:var(--cv-muted);
+  font-size:var(--cv-fs-sm);
+}
+.cv-work .cv-work-link{
+  font-size:var(--cv-fs-sm);
+  font-weight:600;
+  white-space:nowrap;
+}
+
+/* education block */
+.cv-edu{display:flex;justify-content:space-between;gap:6mm;align-items:baseline;}
+.cv-edu + .cv-edu{margin-top:1.6mm;}
+.cv-edu-school{font-weight:700;font-size:var(--cv-fs-lg);}
+.cv-edu-major{color:var(--cv-muted);}
+.cv-edu-year{
+  margin-left:2mm;
+  font-size:var(--cv-fs-sm);
+  font-weight:600;
+  letter-spacing:.01em;
+}
+
+/* footer line */
+.cv-foot{
+  margin-top:auto;
+  padding-top:5mm;
+  border-top:1px solid var(--cv-rule);
+  display:flex;
+  justify-content:space-between;
+  font-size:var(--cv-fs-xs);
+  color:var(--cv-muted);
+  letter-spacing:.04em;
+}
+
+/* ----------------------------------------------------------------- print - */
+@page{size:A4;margin:0;}
+@media print{
+  body{background:#fff;}
+  .cv-page{
+    margin:0;
+    box-shadow:none;
+    width:auto;
+    min-height:auto;
+    height:var(--cv-page-h);
+    page-break-after:always;
+  }
+  .cv-page:last-child{page-break-after:auto;}
+  a{color:var(--cv-primary);}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================= PAGE 1 == -->
+<section class="cv-page">
+
+  <header class="cv-head">
+    <div>
+      <h1 class="cv-name">Stephano Ng <span class="cv-alias">/ Hao Nguyen Vinh</span></h1>
+      <p class="cv-role">Sr. Product Designer</p>
+    </div>
+    <div class="cv-contact">
+      <span><a class="cv-site" href="https://stpnguyen.com">stpnguyen.com</a></span>
+      <span><a href="https://www.linkedin.com/in/stpnguyen/">linkedin.com/in/stpnguyen</a></span>
+      <span><a href="mailto:hello@stpnguyen.com">hello@stpnguyen.com</a></span>
+      <span><a href="tel:+84907915146">0907 915 146</a></span>
+      <span>Ho Chi Minh City, Vietnam</span>
+    </div>
+  </header>
+
+  <p class="cv-summary">
+    Product designer with <strong>nearly eight years</strong> across banking, lending, Web3 and
+    enterprise platforms. I work close to the business — framing the problem before the solution,
+    setting the UX direction, and staying with the work through delivery. Four of those years were
+    spent leading design for a cross-functional team of 10 serving the VN, US and JP markets, which
+    is where I also picked up the delivery side of the job.
+  </p>
+
+  <section class="cv-section">
+    <h2 class="cv-section-title">Experience</h2>
+
+    <article class="cv-role-item">
+      <div class="cv-role-head">
+        <h3 class="cv-role-title">UX &amp; Product Consultant <span class="cv-at">— Horizons Technology Vietnam</span></h3>
+        <span class="cv-dates">Jan 2026 – Jul 2026</span>
+      </div>
+      <p class="cv-role-blurb">
+        Consulted on product and UX direction for an in-house platform team — framing the problem
+        before the solution, prioritising what earned a place on the roadmap, and keeping design
+        decisions tied to business outcomes.
+      </p>
+      <ul class="cv-bullets">
+        <li>Partnered with the in-house team to frame product problems before committing to a solution.</li>
+        <li>Ran discovery with stakeholders and turned the findings into a prioritised backlog.</li>
+        <li>Set the UX direction and reviewed delivery against it.</li>
+        <li>Advised on ways of working so design, engineering and business stayed aligned through delivery.</li>
+      </ul>
+    </article>
+
+    <article class="cv-role-item">
+      <div class="cv-role-head">
+        <h3 class="cv-role-title">Lead Product Designer / Project Manager <span class="cv-at">— FPT Software</span></h3>
+        <span class="cv-dates">Oct 2021 – Dec 2025</span>
+      </div>
+      <p class="cv-role-blurb">
+        Four years across finance, Web3 and automotive engagements serving the VN, US and JP markets
+        — lead product designer on some, project manager on others.
+      </p>
+      <ul class="cv-bullets">
+        <li>Led a cross-functional team of 10, owning UX/UI strategy and execution for a B2B auction platform across VN, US and JP.</li>
+        <li>Set the UX/UI architecture direction and held delivery to it, signing off high-impact work before release.</li>
+        <li>Found and cleared design bottlenecks to protect delivery throughput.</li>
+        <li>Aligned UX, engineering and product around one set of design decisions.</li>
+        <li>Built tailored solution proposals that won new customers by tying UX/UI to their business needs.</li>
+        <li>Reviewed high-visibility releases against the agreed scope before they shipped.</li>
+      </ul>
+    </article>
+
+    <article class="cv-role-item">
+      <div class="cv-role-head">
+        <h3 class="cv-role-title">Sr. Product Designer <span class="cv-at">— Aperia Solutions</span></h3>
+        <span class="cv-dates">Feb 2020 – Jun 2021</span>
+      </div>
+      <p class="cv-role-blurb">
+        Worked across ten core banking products, establishing the shared design system and turning
+        customer requirements into changes that shipped.
+      </p>
+      <ul class="cv-bullets">
+        <li>Helped establish a design system serving 10 core banking products, giving teams a consistent, scalable base.</li>
+        <li>Gathered requirements directly from customers and turned them into prioritised product improvements.</li>
+        <li>Produced wireframes, prototypes and UX frameworks to raise usability across the financial platforms.</li>
+        <li>Held products to consistent behaviour so the banking ecosystem read as one product.</li>
+      </ul>
+    </article>
+
+  </section>
+
+  <div class="cv-foot">
+    <span>Stephano Ng — Sr. Product Designer</span>
+    <span>Page 1 of 2</span>
+  </div>
+
+</section>
+
+<!-- ============================================================= PAGE 2 == -->
+<section class="cv-page">
+
+  <section class="cv-section" style="margin-top:0;">
+    <h2 class="cv-section-title">Experience (continued)</h2>
+
+    <article class="cv-role-item">
+      <div class="cv-role-head">
+        <h3 class="cv-role-title">Product Designer <span class="cv-at">— Tinh Van Software</span></h3>
+        <span class="cv-dates">Aug 2019 – Oct 2019</span>
+      </div>
+      <p class="cv-role-blurb">
+        Designed the lending experience for a service reaching more than 500,000 customers, working
+        with stakeholders to fit the business rules to what users could actually complete.
+      </p>
+      <ul class="cv-bullets">
+        <li>Owned UX for a lending service serving 500,000+ customers.</li>
+        <li>Worked with stakeholders to turn business requirements into flows people could complete.</li>
+        <li>Ran user research and usability testing to close the gap on product-market fit.</li>
+        <li>Partnered with engineering to ship responsive, accessible interfaces.</li>
+      </ul>
+    </article>
+
+    <article class="cv-role-item">
+      <div class="cv-role-head">
+        <h3 class="cv-role-title">UI/UX Designer <span class="cv-at">— Panic Bear</span></h3>
+        <span class="cv-dates">Dec 2018 – Mar 2019</span>
+      </div>
+      <p class="cv-role-blurb">
+        First product role — improving the storefront experience for an electronics business selling
+        into the Australian market, with conversion as the measure.
+      </p>
+      <ul class="cv-bullets">
+        <li>Improved UX for electronics products in the Australian market, lifting usability and conversion.</li>
+        <li>Built interactive prototypes and ran user testing to validate interactions before build.</li>
+        <li>Contributed to UX strategy and sharpened digital touchpoints to raise engagement.</li>
+        <li>Kept design documentation and style guides current so work stayed consistent across projects.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="cv-section">
+    <h2 class="cv-section-title">Selected Work</h2>
+    <ul class="cv-work">
+      <li>
+        <span><span class="cv-work-name">Aura Network</span> <span class="cv-work-desc">— Web3 platform, lead product design</span></span>
+        <a class="cv-work-link" href="https://stpnguyen.com/case-studies/web-3.html">stpnguyen.com/case-studies/web-3</a>
+      </li>
+      <li>
+        <span><span class="cv-work-name">HD Saison</span> <span class="cv-work-desc">— consumer lending app</span></span>
+        <a class="cv-work-link" href="https://stpnguyen.com/case-studies/lending.html">stpnguyen.com/case-studies/lending</a>
+      </li>
+      <li>
+        <span><span class="cv-work-name">iSystem</span> <span class="cv-work-desc">— marketing platform</span></span>
+        <a class="cv-work-link" href="https://stpnguyen.com/case-studies/marketing-platform.html">stpnguyen.com/case-studies/marketing-platform</a>
+      </li>
+    </ul>
+  </section>
+
+  <section class="cv-section">
+    <h2 class="cv-section-title">Skills</h2>
+    <div class="cv-skill-row">
+      <span class="cv-skill-label">Product Design</span>
+      <span class="cv-skill-val">UX strategy &amp; discovery · Wireframing &amp; prototyping · Design system operations · User research &amp; usability testing · Interaction &amp; visual design · Accessibility</span>
+    </div>
+    <div class="cv-skill-row">
+      <span class="cv-skill-label">Delivery &amp; Leadership</span>
+      <span class="cv-skill-val">Agile, Scrum &amp; hybrid delivery · Roadmap &amp; backlog prioritisation · Stakeholder engagement · Team leadership &amp; mentorship · Scope, budget &amp; risk management</span>
+    </div>
+    <div class="cv-skill-row">
+      <span class="cv-skill-label">Craft &amp; Tools</span>
+      <span class="cv-skill-val">Figma · Prototyping &amp; design QA · Jira, Confluence, Miro · Frontend: HTML, CSS, JavaScript</span>
+    </div>
+    <div class="cv-skill-row">
+      <span class="cv-skill-label">Languages</span>
+      <span class="cv-skill-val">Vietnamese — native · English — professional working</span>
+    </div>
+  </section>
+
+  <section class="cv-section">
+    <h2 class="cv-section-title">Education &amp; Credentials</h2>
+    <div class="cv-edu">
+      <span class="cv-edu-school">Hoa Sen University</span>
+      <span class="cv-edu-major">Business Administration <span class="cv-edu-year">2024 – 2026</span></span>
+    </div>
+    <div class="cv-edu">
+      <span class="cv-edu-school">FPT University</span>
+      <span class="cv-edu-major">Design <span class="cv-edu-year">2014 – 2017</span></span>
+    </div>
+    <div class="cv-cols" style="margin-top:4mm;">
+      <div>
+        <h3 class="cv-group-title">Certifications</h3>
+        <ul class="cv-cred">
+          <li><span class="cv-cred-name">Project Management Professional (PMP)</span><span class="cv-issuer">PMI</span></li>
+          <li><span class="cv-cred-name">Agile Certified Practitioner (PMI-ACP)</span><span class="cv-issuer">PMI</span></li>
+          <li><span class="cv-cred-name">Professional Scrum Master (PSM)</span><span class="cv-issuer">Scrum.org</span></li>
+          <li><span class="cv-cred-name">Value Stream Management</span><span class="cv-issuer">PMI</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="cv-group-title">AI &amp; Awards</h3>
+        <ul class="cv-cred">
+          <li><span class="cv-cred-name">Practical Application of GenAI for PM</span><span class="cv-issuer">PMI</span></li>
+          <li><span class="cv-cred-name">Data Landscape of GenAI for PM</span><span class="cv-issuer">PMI</span></li>
+          <li><span class="cv-cred-name">Dream Team 2022</span><span class="cv-issuer">FPT Software</span></li>
+          <li><span class="cv-cred-name">Web Design — Grade: Good</span><span class="cv-issuer">FPT University</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="cv-foot">
+    <span>hello@stpnguyen.com · stpnguyen.com</span>
+    <span>Page 2 of 2</span>
+  </div>
+
+</section>
+
+</body>
+</html>

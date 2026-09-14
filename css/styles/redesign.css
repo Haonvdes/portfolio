@@ -4276,7 +4276,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
      tuned against a wide box, where even the tall end of the clamp reads as
      landscape. At mobile's ~360px column width that same clamp (506px on an
      844-tall phone) makes a portrait-ish box, and `object-fit: cover` on
-     ce_cover.png / hc_hero.png (both ~1.55:1 landscape) had to zoom in
+     cv_enterprise.png / cv_pharma.png (both ~1.55:1 landscape) had to zoom in
      ~2.2x to fill it — cropping most of both side edges instead of the mild
      top/bottom trim the desktop box gets. Swapping to a fixed aspect-ratio
      matched to those two source images (2784x1800 and 2784x1742, both
@@ -6914,6 +6914,14 @@ ol.rd-case-list > li { list-style-type: decimal; }
        than ~1950px ever reach this floor (125px of band showed at 2600x1300
        without it). A floor, not a height — the content never stretches. */
     min-height: var(--rd-scrollover-overlap);
+    /* Where the floor above is taller than the content (tall screens), the
+       content sits in the middle of it instead of hanging off the top with
+       all the slack underneath. padding-bottom mirrors §16's padding-top so
+       the gaps above and below come out equal. */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 40px;
     /* FULL-BLEED, or the band leaks down both edges. The stage is 100vw and
        this block is inset by .rd-case-section's gutter, so an inset cover
        leaves a strip of screenshots visible either side of the tab panel all
@@ -8233,7 +8241,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
 .rd-case-split > .rd-case-body > .rd-case-grid { display: grid; }
 
 /* ---- Hero cover ----------------------------------------------------------
-   ar_casecover.jpeg is a 1500×500 banner — a 3:1 strip, where every other
+   cv_web3.jpeg is a 1500×500 banner — a 3:1 strip, where every other
    case cover is nearer 1.6:1. .rd-case-cover is `flex: 1 1 auto` with an
    object-fit:cover image, so on this page it takes the hero's leftover height
    and crops the banner to its middle third. Pin the figure to the file's own

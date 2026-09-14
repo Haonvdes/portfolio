@@ -89,9 +89,9 @@
                 <!-- Desktop position indicator + jump control. Hidden below 769px,
                      where .rd-deck-dots does the same job for the carousel. -->
                 <ul class="rd-deck-index" id="deck-index">
-                    <li><button type="button" data-index="0"><span class="n">01</span><span>Lending</span></button></li>
-                    <li><button type="button" data-index="1"><span class="n">02</span><span>Web3</span></button></li>
-                    <li><button type="button" data-index="2"><span class="n">03</span><span>Pharma</span></button></li>
+                    <li><button type="button" data-index="0"><span class="n">01</span><span>Pharma</span></button></li>
+                    <li><button type="button" data-index="1"><span class="n">02</span><span>Lending</span></button></li>
+                    <li><button type="button" data-index="2"><span class="n">03</span><span>Web3</span></button></li>
                     <li><button type="button" data-index="3"><span class="n">04</span><span>Enterprise</span></button></li>
                 </ul>
             </div>
@@ -100,7 +100,56 @@
                 
                 <div class="rd-initiative-deck" id="initiative-deck">
                 
-                <div class="rd-initiative-panel is-active" id="panel-hd">
+                <!-- NDA: the source docs name the pharma tenants (and the client's own
+                     accounting leads). None of that appears here and none of it should. -->
+                <div class="rd-initiative-panel is-active" id="panel-comms">
+                <article class="rd-initiative-card">
+                    <div class="rd-initiative-row">
+                        <div class="rd-initiative-body">
+                            <div class="rd-initiative-head">
+                                <h3 class="rd-initiative-title">One speaker-bureau platform for 17 roles</h3>
+                                <p class="rd-initiative-desc">Seventeen roles, 38 document types per program, one MVP. Cutting a pharma speaker-bureau backlog down to the one flow every role touches.</p>
+                            </div>
+
+                            <div class="rd-detail-block rd-detail-outcome">
+                                <p class="rd-detail-label">Outcome</p>
+                                <div class="rd-mini-stat-row">
+                                    <div><strong>3 → 1</strong><span>Systems reconciled (target)</span></div>
+                                    <div><strong>17</strong><span>Roles on one system (client-reported)</span></div>
+                                </div>
+                            </div>
+
+                            
+                            <div class="rd-initiative-detail" id="detail-comms">
+                                <div class="rd-detail-block">
+                                    <p class="rd-detail-label">Problem</p>
+                                    <p>Seventeen roles touch a single speaker program — rep, manager, speaker, coordinator, compliance, accounting, auditor — each with its own approval gate and its own definition of "done". Mapped end to end, the work spread across 13 workflow areas, all of it competing for one MVP.</p>
+                                </div>
+
+                                <div class="rd-detail-para">
+                                    <p>I cut the backlog to the program-request spine — the one flow all 17 roles touch — and shipped the four roles that own it end to end. What I deferred was every role that only reads the record: attendee self-service, auditor tooling, the rookie onboarding track. The trade was reach for coherence: fewer roles served, but no half-built approval chain in production.</p>
+                                </div>
+                            </div>
+
+                            
+                            <div class="rd-initiative-actions">
+                                
+                                <a href="./case-studies/healthcare.html" class="rd-btn rd-btn-text">Learn More</a>
+                            </div>
+                        </div>
+
+                        <div class="rd-initiative-media">
+                            <picture>
+                                <source media="(max-width: 768px)" srcset="./public/cv_pharma.png">
+                                <img src="./public/cv_home_pharma.png" alt="Speaker-bureau platform screens: the program budget dashboard">
+                            </picture>
+                        </div>
+                    </div>
+                </article>
+                </div>
+
+                
+                <div class="rd-initiative-panel" id="panel-hd">
                 <article class="rd-initiative-card">
                     <div class="rd-initiative-row">
                         <div class="rd-initiative-body">
@@ -134,7 +183,10 @@
                         </div>
 
                         <div class="rd-initiative-media">
-                            <img src="./public/hd/cover.png" alt="HD Saison app screens: a loan dashboard on the home tab and a loan management screen with repayment schedule and progress">
+                            <picture>
+                                <source media="(max-width: 768px)" srcset="./public/cv_lending.png">
+                                <img src="./public/cv_home_lending.png" alt="HD Saison consumer lending app screens">
+                            </picture>
                         </div>
                     </div>
                 </article>
@@ -146,8 +198,8 @@
                     <div class="rd-initiative-row">
                         <div class="rd-initiative-body">
                             <div class="rd-initiative-head">
-                                <h3 class="rd-initiative-title">A chain that locked developers out</h3>
-                                <p class="rd-initiative-desc">A permissioned NFT chain with a closed developer pool became a permissionless, EVM-compatible Layer 1 open to any Ethereum-toolchain builder.</p>
+                                <h3 class="rd-initiative-title">Holding six products together through a platform change</h3>
+                                <p class="rd-initiative-desc">A Layer 1 blockchain running six product surfaces at once. Running the design function across all of them, and defining products with four engineering groups.</p>
                             </div>
 
                             <div class="rd-detail-block rd-detail-outcome">
@@ -177,53 +229,10 @@
                         </div>
 
                         <div class="rd-initiative-media">
-                            <img src="./public/ar_casecover.jpeg" alt="Aura Network case study cover">
-                        </div>
-                    </div>
-                </article>
-                </div>
-
-                
-                <!-- NDA: the source docs name the pharma tenants (and the client's own
-                     accounting leads). None of that appears here and none of it should. -->
-                <div class="rd-initiative-panel" id="panel-comms">
-                <article class="rd-initiative-card">
-                    <div class="rd-initiative-row">
-                        <div class="rd-initiative-body">
-                            <div class="rd-initiative-head">
-                                <h3 class="rd-initiative-title">One speaker-bureau platform for 17 roles</h3>
-                                <p class="rd-initiative-desc">Seventeen roles, 496 user stories, one MVP. Cutting a pharma speaker-bureau backlog down to the one flow every role touches.</p>
-                            </div>
-
-                            <div class="rd-detail-block rd-detail-outcome">
-                                <p class="rd-detail-label">Outcome</p>
-                                <div class="rd-mini-stat-row">
-                                    <div><strong>3 → 1</strong><span>Systems reconciled (target)</span></div>
-                                    <div><strong>17</strong><span>Roles on one system (client-reported)</span></div>
-                                </div>
-                            </div>
-
-                            
-                            <div class="rd-initiative-detail" id="detail-comms">
-                                <div class="rd-detail-block">
-                                    <p class="rd-detail-label">Problem</p>
-                                    <p>Seventeen roles touch a single speaker program — rep, manager, speaker, coordinator, compliance, accounting, auditor — each with its own approval gate and its own definition of "done". Mapped end to end, that came to 496 user stories across 13 workflow areas, all of it competing for one MVP.</p>
-                                </div>
-
-                                <div class="rd-detail-para">
-                                    <p>I cut the backlog to the program-request spine — the one flow all 17 roles touch — and shipped the four roles that own it end to end. What I deferred was every role that only reads the record: attendee self-service, auditor tooling, the rookie onboarding track. The trade was reach for coherence: fewer roles served, but no half-built approval chain in production.</p>
-                                </div>
-                            </div>
-
-                            
-                            <div class="rd-initiative-actions">
-                                
-                                <a href="./case-studies/healthcare.html" class="rd-btn rd-btn-text">Learn More</a>
-                            </div>
-                        </div>
-
-                        <div class="rd-initiative-media">
-                            <img src="./public/hc_hero.png" alt="Speaker-bureau platform case study cover">
+                            <picture>
+                                <source media="(max-width: 768px)" srcset="./public/cv_web3.jpeg">
+                                <img src="./public/cv_home_web3.png" alt="Aura Network dApp screens: wallet, bridge and swap">
+                            </picture>
                         </div>
                     </div>
                 </article>
@@ -264,7 +273,10 @@
                         </div>
 
                         <div class="rd-initiative-media">
-                            <img src="./public/case-study-framework/ce_cover.png" alt="Customer visit management case study cover — the redesigned trip overview">
+                            <picture>
+                                <source media="(max-width: 768px)" srcset="./public/cv_enterprise.png">
+                                <img src="./public/cv_home_enterprise.png" alt="Customer visit management tool: the redesigned trip overview">
+                            </picture>
                         </div>
                     </div>
                 </article>
@@ -275,9 +287,9 @@
                      sticky bar at the bottom of the viewport while the deck is in
                      view; on mobile (<=768px) it sits under the swipe carousel. -->
                 <div class="rd-deck-dots" id="deck-dots">
-                    <button type="button" class="rd-deck-dot" data-index="0" aria-label="Show Lending Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
-                    <button type="button" class="rd-deck-dot" data-index="1" aria-label="Show Web3 Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
-                    <button type="button" class="rd-deck-dot" data-index="2" aria-label="Show Pharma Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
+                    <button type="button" class="rd-deck-dot" data-index="0" aria-label="Show Pharma Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
+                    <button type="button" class="rd-deck-dot" data-index="1" aria-label="Show Lending Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
+                    <button type="button" class="rd-deck-dot" data-index="2" aria-label="Show Web3 Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
                     <button type="button" class="rd-deck-dot" data-index="3" aria-label="Show Enterprise Services"><span class="rd-deck-dot-progress" aria-hidden="true"></span></button>
                 </div>
             </div>
@@ -336,6 +348,7 @@
 <script src="./js/script.js"></script>
 <script src="./js/ai-chat.js"></script>
 <script src="./js/socialize.js"></script>
+<script src="./js/pinned-deck.js"></script>
 <script src="./js/initiatives.js"></script>
 
 </html>

@@ -1,5 +1,10 @@
 /* Release phases for healthcare.html §04, read by js/phase-decision.js.
-   `tiers` is fixed; `phases[i].moscow` is keyed by the same four ids. */
+   `tiers` is fixed; `phases[i].moscow` is keyed by the same four ids.
+   `flows` are lane ids from js/role-matrix-data.js. The card's impacted users
+   are computed from them, so a role only shows up where the role matrix
+   already gives it that lane — never list roles here by hand. `leads` only
+   picks which three of those are named up front; one outside the computed
+   set is ignored. */
 
 window.B3_DECISION = {
   tiers: [
@@ -13,11 +18,9 @@ window.B3_DECISION = {
     {
       step: 'Phase 1', name: 'MVP',
       goal: 'One program goes the whole way on a single record: requested, approved, funded, contracted, run and closed.',
-      facts: [
-        ['Roles with screens', '4 of 17'],
-        ['Workflow areas', '6 of 13'],
-        ['Done when', 'One program closes']
-      ],
+      flows: ['nomination', 'contracting', 'program', 'budgeting', 'registration'],
+      leads: ['representative', 'division', 'coordinator'],
+      agreement: 'Every handoff due within 2 to 10 working days',
       moscow: {
         must:   ['Program request: raise, route, approve', 'Budget allocation and charges', 'Speaker nomination and contracting', 'Event-day check-in and attestation', 'One program record every role reads'],
         should: ['A rep dashboard that opens on a to-do list', 'Venue booking inside the request'],
@@ -28,11 +31,9 @@ window.B3_DECISION = {
     {
       step: 'Phase 2', name: 'UAT',
       goal: 'The four roles that own a program run real ones through the MVP before anyone else touches it.',
-      facts: [
-        ['Roles with screens', '4 of 17'],
-        ['Workflow areas', '6 of 13'],
-        ['Done when', 'Owner roles sign off']
-      ],
+      flows: ['nomination', 'contracting', 'program', 'budgeting', 'registration'],
+      leads: ['representative', 'division', 'coordinator'],
+      agreement: 'Every handoff due within 2 to 10 working days',
       moscow: {
         must:   ['A program closed end to end by the four owner roles', 'Charges that match the budget on every test program', 'A reason on every rejection'],
         should: ['Fixes wherever testers stall on the request form'],
@@ -43,11 +44,9 @@ window.B3_DECISION = {
     {
       step: 'Phase 3', name: 'Release 1',
       goal: 'The MVP goes live for the roles that carry a program from request to closed event.',
-      facts: [
-        ['Roles with screens', '4 of 17'],
-        ['Workflow areas', '6 of 13'],
-        ['Status', 'Live, June 2026']
-      ],
+      flows: ['nomination', 'contracting', 'program', 'budgeting', 'registration'],
+      leads: ['representative', 'division', 'coordinator'],
+      agreement: 'Every handoff due within 2 to 10 working days',
       moscow: {
         must:   ['Request, budget, contracting and event day, live', 'Access scoped to the four owner roles'],
         should: ['Rep dashboard', 'Venue booking'],
@@ -58,11 +57,9 @@ window.B3_DECISION = {
     {
       step: 'Phase 4', name: 'UAT',
       goal: 'The Post-MVP areas get tested by the roles that settle and audit a program: accounting, compliance and auditors.',
-      facts: [
-        ['Roles with screens', '17 of 17'],
-        ['Workflow areas', '13 of 13'],
-        ['Done when', 'Every role signs off']
-      ],
+      flows: ['inquiry', 'reporting', 'expense', 'payment', 'recon'],
+      leads: ['accounting', 'coordinator', 'speaker'],
+      agreement: 'Speakers paid in 5 working days, program closed within 30 days',
       moscow: {
         must:   ['Expense forms and payment against real charges', 'Reconciliation that balances to the budget', 'An audit trail compliance can read'],
         should: ['Operational reports'],
@@ -73,11 +70,9 @@ window.B3_DECISION = {
     {
       step: 'Phase 5', name: 'Release 2',
       goal: 'The seven Post-MVP workflow areas go live, and every role gets its own screen on the same record.',
-      facts: [
-        ['Roles with screens', '17 of 17'],
-        ['Workflow areas', '13 of 13'],
-        ['Done when', 'All 17 roles live']
-      ],
+      flows: ['onboarding', 'inquiry', 'reporting', 'library', 'expense', 'payment', 'recon'],
+      leads: ['accounting', 'coordinator', 'representative'],
+      agreement: 'Speakers paid in 5 working days, program closed within 30 days',
       moscow: {
         must:   ['Expense, billing and payment', 'Reconciliation', 'Screens for all seventeen roles'],
         should: ['Reporting', 'Inquiry'],

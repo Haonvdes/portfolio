@@ -117,6 +117,15 @@
      documented substitution the outcomes card already makes). */
   --rd-pain-chip: #ea6800;
 
+  /* 5 Cs levels, C1 Cognizance → C5 Collaboration (customer-engagement.html
+     §05 only: diagram chips and the staircase rows). C1–C3 are the hexes in
+     public/ce_collaboration.png; C4 and C5 follow Hao's 2026-09-15 reference. */
+  --rd-5c-1: #166534;
+  --rd-5c-2: #4a3aff;
+  --rd-5c-3: #ea6800;
+  --rd-5c-4: #e2c14f;
+  --rd-5c-5: #4aa3e0;
+
   /* Audit Findings severity colours (customer-engagement-v3.html §05 only).
      Approximated from the reference screenshot Hao pasted 2026-08-25 (a
      four-circle severity cluster + accordion) — NOT pulled from a live
@@ -6727,6 +6736,29 @@ ol.rd-case-list > li { list-style-type: decimal; }
 .rd-case-tabpanels { display: flex; width: 100%; }
 .rd-case-tabpanel[hidden] { display: none; }
 
+/* AI feature badge — healthcare.html shipped-screens tabs (Venue Search).
+   Sits inside a .rd-case-panel-title, so it sets its own size and weight
+   rather than inheriting the title's. */
+.rd-ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  margin-left: 8px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--rd-primary);
+  color: var(--rd-ink-inverse);
+  font-size: var(--rd-fs-xs);
+  font-weight: var(--rd-fw-heading);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.rd-ai-badge svg { width: 12px; height: 12px; flex: none; }
+
 /* ------------------------------------------ 15. Scroll-over band ---------
    lending-new-v3.html §homepage — the full-bleed screens band pins below the
    section rail with the "Three screens carried the reframe" heading and lead
@@ -8116,6 +8148,17 @@ ol.rd-case-list > li { list-style-type: decimal; }
    on the page that has to share its screen with two rows of images below it,
    so it runs tighter than every other section intro. */
 .rd-case-wall-header { gap: clamp(12px, 2vh, 24px); }
+/* The header sits inside the 100vw .is-full figure, so it never gets the
+   section's --grid-gutter. Take the .rd-grid geometry instead (1520 max, 64px
+   inset) so it lands on the same edge as the sections around it. ≤768 already
+   matches via .rd-case-inner's 16px. */
+@media (min-width: 769px) {
+  .rd-case-wall-header {
+    box-sizing: border-box;
+    max-width: var(--grid-outer);
+    padding-inline: var(--grid-edge);
+  }
+}
 .rd-case-wall-images {
   display: flex;
   flex-direction: column;
@@ -8182,6 +8225,8 @@ ol.rd-case-list > li { list-style-type: decimal; }
 /* The strip frame's scroller is edge-to-edge by default; the diagram's
    outermost strokes would sit on the frame border without this. */
 .rd-ceflow .rd-figure-scroll { padding: 24px; }
+/* Large containers take the strong --rd-border, same as .rd-case-card. */
+.rd-case-figure.is-strip.rd-ceflow .rd-figure-scroll { border-color: var(--rd-border); }
 .rd-ceflow-svg {
   display: block;
   width: 100%;
@@ -8203,6 +8248,133 @@ ol.rd-case-list > li { list-style-type: decimal; }
 /* Connectors */
 .rd-ceflow-arrow { stroke: var(--rd-ink); stroke-width: 2; fill: none; stroke-linejoin: round; }
 .rd-ceflow-head { fill: var(--rd-ink); }
+.rd-ceflow-dot { fill: var(--rd-ink); }
+
+/* 5 Cs chips on the diagram, and the link to the staircase card below
+   (js/ce-5c-link.js). Each step is a <g role="button">; its .rd-ceflow-hit
+   rect makes the gaps between a step's shapes clickable and doubles as the
+   focus ring, since outline on an SVG <g> is unreliable in WebKit. */
+.rd-ceflow-step[data-c="1"], .rd-ce5c-row[data-c="1"] { --rd-ce5c-color: var(--rd-5c-1); }
+.rd-ceflow-step[data-c="2"], .rd-ce5c-row[data-c="2"] { --rd-ce5c-color: var(--rd-5c-2); }
+.rd-ceflow-step[data-c="3"], .rd-ce5c-row[data-c="3"] { --rd-ce5c-color: var(--rd-5c-3); }
+.rd-ceflow-step[data-c="4"], .rd-ce5c-row[data-c="4"] { --rd-ce5c-color: var(--rd-5c-4); }
+.rd-ceflow-step[data-c="5"], .rd-ce5c-row[data-c="5"] { --rd-ce5c-color: var(--rd-5c-5); }
+
+.rd-ceflow-chip { fill: var(--rd-ce5c-color); }
+.rd-ceflow-chip-text { fill: var(--rd-ink-inverse); font-family: var(--rd-font-mono); font-size: 12px; font-weight: var(--rd-fw-emphasis); }
+.rd-ceflow-step { cursor: pointer; outline: none; }
+.rd-ceflow-hit { fill: transparent; stroke: transparent; stroke-width: 2; }
+.rd-ceflow-step:focus-visible .rd-ceflow-hit { stroke: var(--rd-primary); }
+.rd-ceflow-step.is-selected .rd-ceflow-box,
+.rd-ceflow-step.is-selected .rd-ceflow-gate { stroke: var(--rd-ce5c-color); stroke-width: 2.5; }
+
+[data-ce5c].has-selection .rd-ceflow-step:not(.is-selected),
+[data-ce5c].has-selection .rd-ceflow-conn,
+[data-ce5c].has-selection .rd-ce5c-row:not(.is-selected) { opacity: 0.35; }
+
+/* Heading + paragraph left, model right, starting 32px under the diagram so
+   the diagram and the model fit in one screen under the pinned header.
+   Stacked, the model moves up between the heading and the paragraph; on
+   phones it goes straight under the diagram. */
+.rd-ce5c-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  grid-template-areas: "head model" "text model";
+  grid-template-rows: auto 1fr;
+  column-gap: 40px;
+  row-gap: 16px;
+  align-items: start;
+  margin-top: 32px;
+}
+.rd-ce5c-head { grid-area: head; }
+.rd-ce5c-model { grid-area: model; min-width: 0; }
+.rd-ce5c-text { grid-area: text; }
+
+/* C1 is full width and each level above is --rd-ce5c-step narrower, so the
+   rows themselves draw the staircase. */
+.rd-ce5c-stair {
+  --rd-ce5c-step: 6%;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+  align-items: flex-start;
+}
+.rd-ce5c-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 6px 14px;
+  font: inherit;
+  text-align: left;
+  color: var(--rd-ink);
+  background: transparent;
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 0;
+  cursor: pointer;
+}
+.rd-ce5c-row[data-c="1"] { width: 100%; }
+.rd-ce5c-row[data-c="2"] { width: calc(100% - var(--rd-ce5c-step)); }
+.rd-ce5c-row[data-c="3"] { width: calc(100% - 2 * var(--rd-ce5c-step)); }
+.rd-ce5c-row[data-c="4"] { width: calc(100% - 3 * var(--rd-ce5c-step)); }
+.rd-ce5c-row[data-c="5"] { width: calc(100% - 4 * var(--rd-ce5c-step)); }
+.rd-ce5c-row:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: -2px; }
+/* Inset bar, not a border, so the selected row doesn't shift. */
+.rd-ce5c-row.is-selected { background: var(--rd-white); box-shadow: inset 4px 0 0 var(--rd-ce5c-color); }
+.rd-ce5c-chip {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--rd-ce5c-color);
+  color: var(--rd-ink-inverse);
+  font-family: var(--rd-font-mono);
+  font-size: var(--rd-fs-xs);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: 1;
+}
+/* Fixed to the longest name (COLLABORATION) so the definitions line up. */
+.rd-ce5c-name {
+  flex: none;
+  width: calc(13 * (0.62em + 0.12em));
+  font-family: var(--rd-font-mono);
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: var(--rd-lh-tight);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.rd-ce5c-def { min-width: 0; font-size: var(--rd-fs-sm); line-height: var(--rd-lh-tight); }
+
+.rd-ce5c-model > p.rd-ce5c-source {
+  margin: 8px 0 0;
+  font-size: var(--rd-fs-sm);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink-muted);
+}
+.rd-ce5c-source a { color: var(--rd-primary); text-decoration: underline; text-underline-offset: 2px; }
+
+@media (max-width: 1024px) {
+  .rd-ce5c-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "head" "model" "text";
+    grid-template-rows: auto;
+    row-gap: 24px;
+  }
+}
+@media (max-width: 768px) {
+  .rd-ce5c-layout { grid-template-areas: "model" "head" "text"; }
+  .rd-ce5c-stair { --rd-ce5c-step: 4%; }
+  .rd-ce5c-row { flex-wrap: wrap; row-gap: 2px; padding: 8px 12px; }
+  .rd-ce5c-name { width: auto; }
+  .rd-ce5c-def { flex-basis: 100%; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rd-ceflow-step, .rd-ceflow-conn, .rd-ce5c-row { transition: opacity 0.2s ease; }
+}
 
 /* ---- customer-engagement.html page spacing (body.rd-ce) -----------------
    A heading sits 24px above whatever follows it. The section column's gap is
@@ -9194,8 +9366,8 @@ html:has(body.is-section-snap) {
    Figma 40000532:8153. <details>/<summary> rather than a JS accordion:
    the open/closed state, the keyboard handling and the ARIA all come
    free from the element, and the chevron is the only thing that needs
-   CSS. Open panel takes --rd-surface (Figma #f3f3ef, an exact token
-   match); the divider is --rd-border-soft, the same hairline
+   CSS. An open section's header takes --rd-surface (#f3f3ef) and its
+   body stays white (Hao, 2026-09-15); the divider is --rd-border-soft, the same hairline
    .rd-case-checklist already uses, so V1 and V3/V4 draw the same line.
 
    display:block is load-bearing. redesign.css's
@@ -9244,10 +9416,7 @@ html:has(body.is-section-snap) {
   transition: transform 0.2s ease;
 }
 .rd-case-accordion details[open] > summary svg { transform: rotate(180deg); }
-.rd-case-accordion details[open] > .rd-case-accordion-body {
-  background: var(--rd-surface);
-}
-.rd-case-accordion-body { padding: var(--p-12) var(--p-16); }
+.rd-case-accordion-body { padding: var(--p-12) var(--p-16); background: var(--rd-white); }
 .rd-case-accordion-body ul { margin: 0; padding-left: var(--p-20); }
 .rd-case-accordion-body li {
   font-size: var(--rd-fs-sm);
@@ -9689,7 +9858,6 @@ html:has(body.is-section-snap) {
    apart by justify-between. An even 1:1 split lands within a few px of that at
    every width the site actually renders, and carries no magic number. */
 .rd-split-head.is-case .rd-split-head-note { text-align: left; }
-.rd-case-tabs.is-start { justify-content: flex-start; }
 @media (max-width: 768px) {
   .rd-split-head.is-case { align-items: flex-start; gap: var(--m-16); }
 }
@@ -9993,6 +10161,68 @@ html:has(body.is-section-snap) {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
+
+/* Impact rows (healthcare only — js/phase-decision.js adds .is-stack; the
+   web-3 card never does): label on top, a list or run of text underneath. */
+.rd-phase-facts > div.is-stack {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--m-8);
+}
+.rd-phase-facts .is-stack dt {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--m-16);
+  font-weight: var(--rd-fw-emphasis);
+}
+.rd-phase-facts-aside { font-weight: var(--rd-fw-body); color: var(--rd-ink-muted); }
+.rd-phase-facts .is-stack dd {
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-prose);
+  text-align: left;
+}
+.rd-phase-users { position: relative; display: block; }
+.rd-phase-user {
+  white-space: nowrap;
+  color: var(--rd-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.rd-phase-user:hover { text-decoration-thickness: 2px; }
+.rd-phase-more {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: var(--rd-fw-emphasis);
+  color: var(--rd-ink);
+  cursor: pointer;
+}
+.rd-phase-more:hover,
+.rd-phase-more[aria-expanded="true"] { color: var(--rd-primary); }
+.rd-phase-more:focus-visible { outline: var(--m-2) solid var(--rd-primary); outline-offset: var(--m-2); }
+/* Spans the card's text column, so it never runs off a phone screen. */
+.rd-phase-more-pop {
+  box-sizing: border-box;
+  position: absolute;
+  top: calc(100% + var(--m-8));
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--m-4) var(--m-12);
+  padding: var(--p-12) var(--p-16);
+  border: 1px solid var(--rd-line);
+  border-radius: var(--r-8);
+  background: var(--rd-white);
+  box-shadow: 0 12px 32px rgba(10, 42, 48, 0.16);
+}
+/* display:flex above beats the UA [hidden] rule, so restate it. */
+.rd-phase-more-pop[hidden] { display: none; }
+.rd-hc-rolesview { scroll-margin-top: calc(var(--m-80) + var(--m-48)); }  /* clears the fixed nav */
 
 .rd-phase-priority {
   box-sizing: border-box;

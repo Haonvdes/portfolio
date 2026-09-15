@@ -51,7 +51,7 @@
       // only drives the marquee, it doesn't pin anything.
       spacerEl.classList.add('js-wall-ready');
 
-      // The markup carries one clean set of 7 screenshots per row (see the
+      // The markup carries one clean set of screenshots per row (see the
       // HTML comment) so the no-JS/mobile/reduced-motion fallback stays a
       // normal, non-repetitive grid. Only once this branch is confirmed to
       // run does each row get cloned to 3x its own width — the minimum a

@@ -659,12 +659,12 @@
                 </div>
             </div>
 
-            <div id="charter-panel-collab" role="tabpanel" aria-labelledby="charter-tab-collab" style="width:100%;">
+            <div id="charter-panel-collab" role="tabpanel" aria-labelledby="charter-tab-collab" style="width:100%;" data-ce5c>
                 <figure class="rd-case-figure is-strip rd-ceflow">
                     <div class="rd-figure-frame">
                         <div class="rd-figure-scroll">
-                            <svg class="rd-ceflow-svg" viewBox="0 0 1300 252" role="img"
-                                 aria-label="Coordination sequence across four parties, left to right. One: I send the proposal to the sponsor. Two: the sponsor approves, and nothing after starts without it. Three: two conversations run at the same time — one with the business owner about their needs, pains and direction, one with the tool owner about what it takes to build and when. Four: one meeting with everyone in the room. Five: a status meeting with every party, repeating every week through delivery.">
+                            <svg class="rd-ceflow-svg" viewBox="0 0 1300 270" role="group"
+                                 aria-label="Coordination sequence, left to right, in five steps. Each step can be selected to show its level in the 5 Cs model below.">
                                 <defs>
                                     <marker id="ceflow-head" viewBox="0 0 10 10" refX="9" refY="5"
                                             markerWidth="6" markerHeight="6" orient="auto">
@@ -672,73 +672,146 @@
                                     </marker>
                                 </defs>
 
-                                <rect class="rd-ceflow-box" x="4" y="66" width="180" height="120" rx="10"></rect>
-                                <text class="rd-ceflow-label" x="94" y="109" text-anchor="middle">1 &middot; Proposal</text>
-                                <text class="rd-ceflow-label" x="94" y="129" text-anchor="middle">for the work</text>
-                                <text class="rd-ceflow-note" x="94" y="153" text-anchor="middle">Me to the sponsor</text>
-                                <line class="rd-ceflow-arrow" x1="184" y1="126" x2="224" y2="126" marker-end="url(#ceflow-head)"></line>
-                                <rect class="rd-ceflow-gate" x="224" y="66" width="200" height="120" rx="10"></rect>
-                                <text class="rd-ceflow-label" x="324" y="110" text-anchor="middle">2 &middot; Approval</text>
-                                <text class="rd-ceflow-note" x="324" y="134" text-anchor="middle">Nothing after this</text>
-                                <text class="rd-ceflow-note" x="324" y="152" text-anchor="middle">starts without it</text>
-                                <path class="rd-ceflow-arrow" d="M424 126 H460 M460 56 V196"></path>
-                                <line class="rd-ceflow-arrow" x1="460" y1="56" x2="500" y2="56" marker-end="url(#ceflow-head)"></line>
-                                <line class="rd-ceflow-arrow" x1="460" y1="196" x2="500" y2="196" marker-end="url(#ceflow-head)"></line>
-                                <rect class="rd-ceflow-box" x="500" y="8" width="280" height="96" rx="10"></rect>
-                                <text class="rd-ceflow-label" x="640" y="39" text-anchor="middle">3a &middot; Their needs, pains</text>
-                                <text class="rd-ceflow-label" x="640" y="59" text-anchor="middle">and direction</text>
-                                <text class="rd-ceflow-note" x="640" y="83" text-anchor="middle">Me and the business owner</text>
-                                <text class="rd-ceflow-tag" x="640" y="131" text-anchor="middle">AT THE SAME TIME</text>
-                                <rect class="rd-ceflow-box" x="500" y="148" width="280" height="96" rx="10"></rect>
-                                <text class="rd-ceflow-label" x="640" y="179" text-anchor="middle">3b &middot; What it takes to</text>
-                                <text class="rd-ceflow-label" x="640" y="199" text-anchor="middle">build, and when</text>
-                                <text class="rd-ceflow-note" x="640" y="223" text-anchor="middle">Me and the tool owner</text>
-                                <path class="rd-ceflow-arrow" d="M780 56 H816 V196 H780"></path>
-                                <line class="rd-ceflow-arrow" x1="816" y1="126" x2="856" y2="126" marker-end="url(#ceflow-head)"></line>
-                                <rect class="rd-ceflow-box" x="856" y="66" width="200" height="120" rx="10"></rect>
-                                <text class="rd-ceflow-label" x="956" y="109" text-anchor="middle">4 &middot; Everyone in</text>
-                                <text class="rd-ceflow-label" x="956" y="129" text-anchor="middle">one room</text>
-                                <text class="rd-ceflow-note" x="956" y="153" text-anchor="middle">On the same information</text>
-                                <line class="rd-ceflow-arrow" x1="1056" y1="126" x2="1096" y2="126" marker-end="url(#ceflow-head)"></line>
-                                <rect class="rd-ceflow-box" x="1096" y="66" width="200" height="120" rx="10"></rect>
-                                <text class="rd-ceflow-label" x="1196" y="109" text-anchor="middle">5 &middot; Status meeting</text>
-                                <text class="rd-ceflow-label" x="1196" y="129" text-anchor="middle">with every party</text>
-                                <text class="rd-ceflow-note" x="1196" y="153" text-anchor="middle">Through delivery</text>
-                                <path class="rd-ceflow-arrow" d="M1236 186 V214 H1156 V188" marker-end="url(#ceflow-head)"></path>
-                                <text class="rd-ceflow-tag" x="1196" y="240" text-anchor="middle">EVERY WEEK</text>
+                                <g class="rd-ceflow-conn" aria-hidden="true">
+                                    <line class="rd-ceflow-arrow" x1="344" y1="150" x2="376" y2="150" marker-end="url(#ceflow-head)"></line>
+                                    <line class="rd-ceflow-arrow" x1="580" y1="150" x2="612" y2="150" marker-end="url(#ceflow-head)"></line>
+                                    <line class="rd-ceflow-arrow" x1="808" y1="150" x2="840" y2="150" marker-end="url(#ceflow-head)"></line>
+                                </g>
+
+                                <g class="rd-ceflow-step" data-c="1" tabindex="0" role="button" aria-pressed="false"
+                                   aria-label="Step 1, Cognizance: I present the plan to the sponsor. Approval is a gate, nothing after it starts without it.">
+                                    <rect class="rd-ceflow-hit" x="2" y="74" width="344" height="138" rx="12"></rect>
+                                    <rect class="rd-ceflow-box" x="4" y="90" width="176" height="120" rx="10"></rect>
+                                    <text class="rd-ceflow-label" x="92" y="133" text-anchor="middle">1 &middot; Plan to</text>
+                                    <text class="rd-ceflow-label" x="92" y="153" text-anchor="middle">the sponsor</text>
+                                    <text class="rd-ceflow-note" x="92" y="177" text-anchor="middle">Me and the sponsor</text>
+                                    <line class="rd-ceflow-arrow" x1="180" y1="150" x2="212" y2="150" marker-end="url(#ceflow-head)"></line>
+                                    <rect class="rd-ceflow-gate" x="212" y="90" width="132" height="120" rx="10"></rect>
+                                    <text class="rd-ceflow-label" x="278" y="134" text-anchor="middle">Approval</text>
+                                    <text class="rd-ceflow-note" x="278" y="158" text-anchor="middle">Nothing starts</text>
+                                    <text class="rd-ceflow-note" x="278" y="176" text-anchor="middle">without it</text>
+                                    <circle class="rd-ceflow-chip" cx="32" cy="90" r="13"></circle>
+                                    <text class="rd-ceflow-chip-text" x="32" y="94.5" text-anchor="middle">C1</text>
+                                </g>
+
+                                <g class="rd-ceflow-step" data-c="2" tabindex="0" role="button" aria-pressed="false"
+                                   aria-label="Step 2, Communication: I email the business owner and the tool owner, then meet them both with the sponsor.">
+                                    <rect class="rd-ceflow-hit" x="374" y="74" width="208" height="138" rx="12"></rect>
+                                    <rect class="rd-ceflow-box" x="376" y="90" width="204" height="120" rx="10"></rect>
+                                    <text class="rd-ceflow-label" x="478" y="129" text-anchor="middle">2 &middot; Connect the</text>
+                                    <text class="rd-ceflow-label" x="478" y="149" text-anchor="middle">two owners</text>
+                                    <text class="rd-ceflow-note" x="478" y="173" text-anchor="middle">Email, then a meeting</text>
+                                    <text class="rd-ceflow-note" x="478" y="191" text-anchor="middle">with the sponsor</text>
+                                    <circle class="rd-ceflow-chip" cx="404" cy="90" r="13"></circle>
+                                    <text class="rd-ceflow-chip-text" x="404" y="94.5" text-anchor="middle">C2</text>
+                                </g>
+
+                                <g class="rd-ceflow-step" data-c="3" tabindex="0" role="button" aria-pressed="false"
+                                   aria-label="Step 3, Coordination: once everything is agreed, I staff each stage of the work: interview, design, build, test.">
+                                    <rect class="rd-ceflow-hit" x="610" y="74" width="200" height="138" rx="12"></rect>
+                                    <rect class="rd-ceflow-box" x="612" y="90" width="196" height="120" rx="10"></rect>
+                                    <text class="rd-ceflow-label" x="710" y="129" text-anchor="middle">3 &middot; Staff</text>
+                                    <text class="rd-ceflow-label" x="710" y="149" text-anchor="middle">the work</text>
+                                    <text class="rd-ceflow-note" x="710" y="173" text-anchor="middle">Interview &middot; design</text>
+                                    <text class="rd-ceflow-note" x="710" y="191" text-anchor="middle">build &middot; test</text>
+                                    <circle class="rd-ceflow-chip" cx="640" cy="90" r="13"></circle>
+                                    <text class="rd-ceflow-chip-text" x="640" y="94.5" text-anchor="middle">C3</text>
+                                </g>
+
+                                <g class="rd-ceflow-step" data-c="4" tabindex="0" role="button" aria-pressed="false"
+                                   aria-label="Step 4, Cooperation: a business-level sync with the sponsor, the business owner, the tool owner and me, every week.">
+                                    <rect class="rd-ceflow-hit" x="838" y="74" width="208" height="196" rx="12"></rect>
+                                    <rect class="rd-ceflow-box" x="840" y="90" width="204" height="120" rx="10"></rect>
+                                    <text class="rd-ceflow-label" x="942" y="129" text-anchor="middle">4 &middot; Weekly</text>
+                                    <text class="rd-ceflow-label" x="942" y="149" text-anchor="middle">business sync</text>
+                                    <text class="rd-ceflow-note" x="942" y="173" text-anchor="middle">Sponsor &middot; business owner</text>
+                                    <text class="rd-ceflow-note" x="942" y="191" text-anchor="middle">tool owner &middot; me</text>
+                                    <path class="rd-ceflow-arrow" d="M982 210 V236 H902 V213" marker-end="url(#ceflow-head)"></path>
+                                    <text class="rd-ceflow-tag" x="942" y="262" text-anchor="middle">EVERY WEEK</text>
+                                    <circle class="rd-ceflow-chip" cx="868" cy="90" r="13"></circle>
+                                    <text class="rd-ceflow-chip-text" x="868" y="94.5" text-anchor="middle">C4</text>
+                                </g>
+
+                                <g class="rd-ceflow-step" data-c="5" tabindex="0" role="button" aria-pressed="false"
+                                   aria-label="Step 5, Collaboration: each party runs its own team, the business team, the tool team and my team, and the teams work together across parties.">
+                                    <rect class="rd-ceflow-hit" x="1046" y="0" width="252" height="270" rx="12"></rect>
+                                    <text class="rd-ceflow-label" x="1178" y="18" text-anchor="middle">5 &middot; Each party runs</text>
+                                    <text class="rd-ceflow-label" x="1178" y="38" text-anchor="middle">its own team</text>
+                                    <path class="rd-ceflow-arrow" d="M1044 150 H1068 M1068 88 V212"></path>
+                                    <line class="rd-ceflow-arrow" x1="1068" y1="88" x2="1092" y2="88" marker-end="url(#ceflow-head)"></line>
+                                    <line class="rd-ceflow-arrow" x1="1068" y1="150" x2="1092" y2="150" marker-end="url(#ceflow-head)"></line>
+                                    <line class="rd-ceflow-arrow" x1="1068" y1="212" x2="1092" y2="212" marker-end="url(#ceflow-head)"></line>
+                                    <rect class="rd-ceflow-box" x="1092" y="64" width="172" height="48" rx="10"></rect>
+                                    <text class="rd-ceflow-label" x="1178" y="94" text-anchor="middle">Business team</text>
+                                    <rect class="rd-ceflow-box" x="1092" y="126" width="172" height="48" rx="10"></rect>
+                                    <text class="rd-ceflow-label" x="1178" y="156" text-anchor="middle">Tool team</text>
+                                    <rect class="rd-ceflow-box" x="1092" y="188" width="172" height="48" rx="10"></rect>
+                                    <text class="rd-ceflow-label" x="1178" y="218" text-anchor="middle">My team</text>
+                                    <path class="rd-ceflow-arrow" d="M1264 88 H1284 V212 H1264 M1284 150 H1264"></path>
+                                    <circle class="rd-ceflow-dot" cx="1284" cy="88" r="3.5"></circle>
+                                    <circle class="rd-ceflow-dot" cx="1284" cy="150" r="3.5"></circle>
+                                    <circle class="rd-ceflow-dot" cx="1284" cy="212" r="3.5"></circle>
+                                    <text class="rd-ceflow-tag" x="1188" y="262" text-anchor="middle">TEAMS WORK TOGETHER</text>
+                                    <circle class="rd-ceflow-chip" cx="1120" cy="64" r="13"></circle>
+                                    <text class="rd-ceflow-chip-text" x="1120" y="68.5" text-anchor="middle">C5</text>
+                                </g>
                             </svg>
                         </div>
                     </div>
                 </figure>
 
-                <div class="rd-case-body" data-aos="fade-up" style="margin-top:24px;">
-                    <p>
-                        The three people I needed each saw a different part of this project.
-                        The sponsor paid for the work and signed off on scope. The business
-                        owner and three CC managers used the tool every day and knew where it
-                        hurt. The tool owner ran the system underneath and knew what it could
-                        take. I was the one place those views met. I carried each side's limits
-                        to the others, kept decisions in the right order, and made sure nobody
-                        built on something that wasn't agreed yet.
-                    </p>
-                </div>
-
-                <div class="rd-case-body" data-aos="fade-up" style="margin:48px 0 24px;">
-                    <h3 class="rd-case-label is-heading">That sequence is not accidental.<br>It follows the 5 Cs, bottom to top.</h3>
-                </div>
-
-                <div class="rd-case-card" style="width:100%;">
-                    <div class="rd-case-split">
-                        <figure class="rd-case-figure">
-                            <img src="../public/ce_collaboration.png" loading="lazy" style="border-radius:0; border:0;"
-                                 alt="Five coordination actions across delivery, staircased by stage: got the budget approved, connected the business owner and the tool owner, staffed the team, opened the door to discovery, kept everyone aligned through delivery.">
-                        </figure>
-                        <div>
-                            <h4 class="rd-case-challenge-title">The 5 Cs Model</h4>
-                            <p class="rd-case-num-desc">The collaboration concept behind this: 5Cs, building up from the bottom. I proposed the plan to the sponsor, connected both outside parties, brought my team on to start the work, and kept everyone posted at every milestone. Five stages: Cognizance, Communication, Coordination, Cooperation, Collaboration.</p>
+                <!-- Grid areas: head + text left, model right; stacked below 1024px
+                     (and model-first on phones) so the model stays near the diagram. -->
+                <div class="rd-ce5c-layout">
+                    <div class="rd-case-body rd-ce5c-head">
+                        <h3 class="rd-case-label is-heading">That sequence is not accidental.<br>It follows the 5 Cs, bottom to top.</h3>
+                    </div>
+                    <div class="rd-ce5c-model">
+                        <!-- DOM order is C1 → C5 so Tab and screen readers go bottom-up;
+                             column-reverse in CSS puts C5 on top. -->
+                        <div class="rd-ce5c-stair">
+                            <button type="button" class="rd-ce5c-row" data-c="1" aria-pressed="false">
+                                <span class="rd-ce5c-chip" aria-hidden="true">C1</span>
+                                <span class="rd-ce5c-name">Cognizance</span>
+                                <span class="rd-ce5c-def">Everyone involved knows the work exists.</span>
+                            </button>
+                            <button type="button" class="rd-ce5c-row" data-c="2" aria-pressed="false">
+                                <span class="rd-ce5c-chip" aria-hidden="true">C2</span>
+                                <span class="rd-ce5c-name">Communication</span>
+                                <span class="rd-ce5c-def">The parties know each other and have a way to talk.</span>
+                            </button>
+                            <button type="button" class="rd-ce5c-row" data-c="3" aria-pressed="false">
+                                <span class="rd-ce5c-chip" aria-hidden="true">C3</span>
+                                <span class="rd-ce5c-name">Coordination</span>
+                                <span class="rd-ce5c-def">Each side has its own goal and adjusts so it doesn't block the others.</span>
+                            </button>
+                            <button type="button" class="rd-ce5c-row" data-c="4" aria-pressed="false">
+                                <span class="rd-ce5c-chip" aria-hidden="true">C4</span>
+                                <span class="rd-ce5c-name">Cooperation</span>
+                                <span class="rd-ce5c-def">Goals stay separate but point the same way, so every side gains.</span>
+                            </button>
+                            <button type="button" class="rd-ce5c-row" data-c="5" aria-pressed="false">
+                                <span class="rd-ce5c-chip" aria-hidden="true">C5</span>
+                                <span class="rd-ce5c-name">Collaboration</span>
+                                <span class="rd-ce5c-def">One shared goal that everyone works toward.</span>
+                            </button>
                         </div>
+                        <p class="rd-ce5c-source">Model from Gain, <a href="https://www.thisisgain.com/post/the-collaborative-organisation-beyond-tools-time-and-space" target="_blank" rel="noopener">The Collaborative Organisation: Beyond Tools, Time, and Space</a> (2022).</p>
+                    </div>
+                    <div class="rd-case-body rd-ce5c-text">
+                        <p>
+                            The three people I needed each saw a different part of this project.
+                            The sponsor paid for the work and signed off on scope. The business
+                            owner and three CC managers used the tool every day and knew where it
+                            hurt. The tool owner ran the system underneath and knew what it could
+                            take. I was the one place those views met. I carried each side's limits
+                            to the others, kept decisions in the right order, and made sure nobody
+                            built on something that wasn't agreed yet.
+                        </p>
                     </div>
                 </div>
+
+                <p class="rd-sr-only" aria-live="polite" data-ce5c-live></p>
             </div>
 
             <div id="charter-panel-principle" role="tabpanel" aria-labelledby="charter-tab-principle" style="width:100%;" hidden>
@@ -949,6 +1022,7 @@
 <script src="../js/case-tabs.js"></script>
 
 <script src="../js/pin-head.js"></script>
+<script src="../js/ce-5c-link.js"></script>
 
 <script>
 (function () {

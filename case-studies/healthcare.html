@@ -284,7 +284,7 @@
                 </p>
             </div>
 
-            <div class="rd-hc-rolesview" data-aos="fade-up">
+            <div class="rd-hc-rolesview" id="role-permission" data-aos="fade-up">
                 <div class="rd-hc-rolesview-head">
                     <h3 class="rd-hc-rolesview-title">Role &amp; permission</h3>
                     <div class="rd-tabs rd-hc-rolesview-tabs" role="tablist" aria-label="Role and permission view">
@@ -1277,43 +1277,33 @@
             <div class="rd-case-wall-spacer">
             <div class="rd-case-wall-pin">
                 <div class="rd-case-inner rd-shell rd-case-wall-header">
-                    <h2 class="rd-case-h2">One record, and the four roles that own it</h2>
+                    <h2 class="rd-case-h2">A look inside the platform</h2>
 
                     <div class="rd-case-body">
                         <p>
-                            The release is the program-request spine and the roles that carry a
-                            program from a rep's nomination to an approved, funded, contracted
-                            event. Everything on these screens is the same object seen from a
-                            different seat — the request a rep raises, the queue a manager
-                            approves from, the budget line accounting charges against, the roster
-                            a coordinator books travel for.
-                        </p>
-                        <p>
-                            That is the whole argument made visible. A role that only reads the
-                            record got no screen in this release, and the four that own it got the
-                            whole flow.
+                            A selection of screens from the release: sign-in, the dashboards,
+                            program requests and detail, budget, speaker profiles, the event
+                            calendar and post-event evaluations.
                         </p>
                     </div>
                 </div>
 
                 <div class="rd-case-wall-images" aria-hidden="true">
                     <div class="rd-case-wall-row" data-wall-row="a">
-                        <img src="../public/s5_02.png" alt="" loading="lazy">
-                        <img src="../public/s5_03.png" alt="" loading="lazy">
-                        <img src="../public/s5_04.png" alt="" loading="lazy">
-                        <img src="../public/s5_05.png" alt="" loading="lazy">
                         <img src="../public/s5_06.png" alt="" loading="lazy">
+                        <img src="../public/s5_02.png" alt="" loading="lazy">
+                        <img src="../public/s5_10.png" alt="" loading="lazy">
+                        <img src="../public/s5_04.png" alt="" loading="lazy">
+                        <img src="../public/s5_09.png" alt="" loading="lazy">
                         <img src="../public/s5_07.png" alt="" loading="lazy">
-                        <img src="../public/s5_08.png" alt="" loading="lazy">
                     </div>
                     <div class="rd-case-wall-row" data-wall-row="b">
-                        <img src="../public/s5_08.png" alt="" loading="lazy">
+                        <img src="../public/s5_01.png" alt="" loading="lazy">
+                        <img src="../public/s5_11.png" alt="" loading="lazy">
                         <img src="../public/s5_07.png" alt="" loading="lazy">
-                        <img src="../public/s5_06.png" alt="" loading="lazy">
+                        <img src="../public/s5_08.png" alt="" loading="lazy">
                         <img src="../public/s5_05.png" alt="" loading="lazy">
-                        <img src="../public/s5_04.png" alt="" loading="lazy">
                         <img src="../public/s5_03.png" alt="" loading="lazy">
-                        <img src="../public/s5_02.png" alt="" loading="lazy">
                     </div>
                 </div>
             </div>
@@ -1328,7 +1318,7 @@
              on; `.is-case` only recentres the two columns and unsets the note's
              right-alignment. -->
         <div class="rd-split-head is-case" data-aos="fade-up">
-            <h2 class="rd-case-h2">From experiment to real product, <br>the effects every user needs"</h2>
+            <h2 class="rd-case-h2">The screens that shipped,<br>and what they replaced</h2>
             <p class="rd-split-head-note">
                 The map said what to build. These are the screens that came out of it, each
                 one against the thing it replaced &mdash; where there was something to replace.
@@ -1340,37 +1330,52 @@
              right. Four tabs carry the .rd-compare wipe because those features have a
              matching hc_*_old export; a feature with no _old is new and gets a plain
              figure instead. Never pair an _old from a different feature. -->
-        <div class="rd-case-tabs is-start" role="tablist" aria-label="Screens that shipped">
-                <button type="button" class="rd-case-tab is-active" role="tab" aria-selected="true" aria-controls="tabpanel-hc-program" id="tab-hc-program">Program Detail</button>
-                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-budget" id="tab-hc-budget">Budget &amp; Allocation</button>
-                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-speaker" id="tab-hc-speaker">Speaker</button>
-                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-search" id="tab-hc-search">Search Optimization</button>
-                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-venue" id="tab-hc-venue">Venue Search</button>
-                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-rep" id="tab-hc-rep">REP Dashboard</button>
-                <button type="button" class="rd-case-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-calendar" id="tab-hc-calendar">Event Calendar</button>
+        <div class="rd-tabs rd-tabs-collapsible rd-hc-screens-tabs" role="tablist" aria-label="Screens that shipped">
+            <button type="button" class="rd-tab" role="tab" aria-selected="true" aria-controls="tabpanel-hc-venue" id="tab-hc-venue"><span>Venue Search</span></button>
+            <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-search" id="tab-hc-search"><span>Search Optimization</span></button>
+            <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-budget" id="tab-hc-budget"><span>Budget &amp; Allocation</span></button>
+            <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-calendar" id="tab-hc-calendar"><span>Event Calendar</span></button>
+            <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-program" id="tab-hc-program"><span>Program Detail</span></button>
+            <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-rep" id="tab-hc-rep"><span>REP Dashboard</span></button>
+            <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-speaker" id="tab-hc-speaker"><span>Speaker</span></button>
+        </div>
+        <div class="rd-tabs-dropdown">
+            <button type="button" class="rd-tabs-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="hc-screens-dropdown-panel" aria-label="Screens that shipped">
+                <span data-tabs-dropdown-value>Venue Search</span>
+                <svg class="rd-tabs-dropdown-chev" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <ul class="rd-tabs-dropdown-panel" id="hc-screens-dropdown-panel" role="listbox" aria-label="Screens that shipped">
+                <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-venue" aria-selected="true">Venue Search</li>
+                <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-search" aria-selected="false">Search Optimization</li>
+                <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-budget" aria-selected="false">Budget &amp; Allocation</li>
+                <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-calendar" aria-selected="false">Event Calendar</li>
+                <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-program" aria-selected="false">Program Detail</li>
+                <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-rep" aria-selected="false">REP Dashboard</li>
+                <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-speaker" aria-selected="false">Speaker</li>
+            </ul>
         </div>
 
         <div class="rd-case-tabpanels" style="width:100%;">
-            <div class="rd-case-tabpanel" id="tabpanel-hc-program" role="tabpanel" aria-labelledby="tab-hc-program">
+            <div class="rd-case-tabpanel" id="tabpanel-hc-venue" role="tabpanel" aria-labelledby="tab-hc-venue">
                 <div class="rd-case-card">
                     <div class="rd-case-split is-media">
                         <div class="rd-case-body rd-case-features-body">
                             <div class="rd-case-panel-head">
-                                <h3 class="rd-case-panel-title">Program Detail</h3>
-                                <p>The record all seventeen roles open. Who speaks, where, against whose budget, and what state the thing is in &mdash; it has to be readable in one pass or the other sixteen people go and ask someone.</p>
+                                <h3 class="rd-case-panel-title">Venue Search <span class="rd-ai-badge"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l1.9 5.6L19.5 9.5l-5.6 1.9L12 17l-1.9-5.6L4.5 9.5l5.6-1.9z"/><path d="M19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9z"/></svg>AI &middot; New</span></h3>
+                                <p>A new feature, and the first one built on AI. It reads the program, searches Google for venues that fit, and hands the coordinator a shortlist. Before, the coordinator did that search by hand.</p>
                             </div>
 
                             <div class="rd-case-accordion">
-                                <details open>
+                                <details>
                                     <summary>
-                                        Problems / findings
+                                        Findings
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
                                     </summary>
                                     <div class="rd-case-accordion-body">
                                         <ul>
-                                            <li>Status sat inside the details table, not on the record</li>
-                                            <li>Eighteen unlabelled actions in a strip across the top, in no order</li>
-                                            <li>Details, attendees and costs were three flat tables with nothing tying them together</li>
+                                            <li>Coordinators searched Google by hand and built the venue list themselves, one program at a time</li>
+                                            <li>Nothing checked a quote against the program&rsquo;s own budget</li>
+                                            <li>Whatever got chosen never made it back onto the record</li>
                                         </ul>
                                     </div>
                                 </details>
@@ -1381,143 +1386,17 @@
                                     </summary>
                                     <div class="rd-case-accordion-body">
                                         <ul>
-                                            <li>Status and the four people who own the program promoted into the header</li>
-                                            <li>Actions split into tabs, one per thing you would come here to do</li>
-                                            <li>Costs carry the estimate, the actual and the variance side by side</li>
+                                            <li>AI takes the program&rsquo;s headcount, budget and location and searches Google for venues that match</li>
+                                            <li>Results come back as a ranked list, each with a total for that headcount and what it leaves on the budget</li>
+                                            <li>Add to Program writes the venue straight onto the record</li>
                                         </ul>
                                     </div>
                                 </details>
                             </div>
                         </div>
 
-                        <figure class="rd-case-figure is-compare">
-                            <div class="rd-compare" data-compare>
-                                <img class="rd-compare-before" src="../public/hc_program_old.png" alt="The old program record: a strip of unlabelled action buttons over three flat tables" loading="lazy">
-                                <img class="rd-compare-after" src="../public/hc_program_new.png" alt="The rebuilt record: status and owners in the header, the rest behind tabs, costs showing variance" loading="lazy">
-                                <span class="rd-compare-tag is-before">Before</span>
-                                <span class="rd-compare-tag is-after">After</span>
-                                <div class="rd-compare-handle">
-                                    <span class="rd-compare-grip">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg>
-                                    </span>
-                                </div>
-                                <input class="rd-compare-range" type="range" min="0" max="100" step="0.1" value="50" aria-label="Reveal the before or after screen">
-                            </div>
-                        </figure>
-                    </div>
-                </div>
-            </div>
-            <div class="rd-case-tabpanel" id="tabpanel-hc-budget" role="tabpanel" aria-labelledby="tab-hc-budget" hidden>
-                <div class="rd-case-card">
-                    <div class="rd-case-split is-media">
-                        <div class="rd-case-body rd-case-features-body">
-                            <div class="rd-case-panel-head">
-                                <h3 class="rd-case-panel-title">Budget and Allocation</h3>
-                                <p>Allocation runs top-down and charges run bottom-up. The two have to meet on the same record, which is why this could not be deferred to a later release.</p>
-                            </div>
-
-                            <div class="rd-case-accordion">
-                                <details open>
-                                    <summary>
-                                        Problems / findings
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
-                                    </summary>
-                                    <div class="rd-case-accordion-body">
-                                        <ul>
-                                            <li>Four totals in grey boxes, with nothing tying them to a program or a region</li>
-                                            <li>Regions listed with program counts; budgets listed somewhere else entirely</li>
-                                            <li>No way to see what was still unallocated without exporting</li>
-                                        </ul>
-                                    </div>
-                                </details>
-                                <details open>
-                                    <summary>
-                                        Solution
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
-                                    </summary>
-                                    <div class="rd-case-accordion-body">
-                                        <ul>
-                                            <li>Committed, allocated and unallocated on one overview</li>
-                                            <li>Allocation by area, filterable down to a single region</li>
-                                            <li>A quarterly table carrying allocated, distributed, committed, costs to date and remaining</li>
-                                        </ul>
-                                    </div>
-                                </details>
-                            </div>
-                        </div>
-
-                        <figure class="rd-case-figure is-compare">
-                            <div class="rd-compare" data-compare>
-                                <img class="rd-compare-before" src="../public/hc_budget_old.png" alt="The old budget view: four grey total boxes beside a list of regions" loading="lazy">
-                                <img class="rd-compare-after" src="../public/hc_budget_new.png" alt="The rebuilt view: an allocation overview, a by-area breakdown and a quarterly summary" loading="lazy">
-                                <span class="rd-compare-tag is-before">Before</span>
-                                <span class="rd-compare-tag is-after">After</span>
-                                <div class="rd-compare-handle">
-                                    <span class="rd-compare-grip">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg>
-                                    </span>
-                                </div>
-                                <input class="rd-compare-range" type="range" min="0" max="100" step="0.1" value="50" aria-label="Reveal the before or after screen">
-                            </div>
-                        </figure>
-                    </div>
-                </div>
-            </div>
-            <div class="rd-case-tabpanel" id="tabpanel-hc-speaker" role="tabpanel" aria-labelledby="tab-hc-speaker" hidden>
-                <div class="rd-case-card">
-                    <div class="rd-case-split is-media">
-                        <div class="rd-case-body rd-case-features-body">
-                            <div class="rd-case-panel-head">
-                                <h3 class="rd-case-panel-title">Speaker Profile</h3>
-                                <p>A speaker is a compliance object before they are a person on a stage. Payments to them end up in a federal filing, so the checks are the profile, not an attachment to it.</p>
-                            </div>
-
-                            <div class="rd-case-accordion">
-                                <details open>
-                                    <summary>
-                                        Problems / findings
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
-                                    </summary>
-                                    <div class="rd-case-accordion-body">
-                                        <ul>
-                                            <li>Compliance checks read as plain text lines with no date and no state</li>
-                                            <li>Five utilisation boxes across the top, most of them reading N/A</li>
-                                            <li>Eight actions greyed out along the bottom of the page</li>
-                                        </ul>
-                                    </div>
-                                </details>
-                                <details open>
-                                    <summary>
-                                        Solution
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
-                                    </summary>
-                                    <div class="rd-case-accordion-body">
-                                        <ul>
-                                            <li>OIG, SAM, state-by-state and FDA debarment surfaced with the date each was cleared</li>
-                                            <li>Credentials, practice and education as cards, editable in place</li>
-                                            <li>Training history and upcoming appearances beside the profile instead of behind a tab</li>
-                                        </ul>
-                                    </div>
-                                </details>
-                            </div>
-                        </div>
-
-                        <figure class="rd-case-figure is-compare">
-                            <div class="rd-compare" data-compare>
-                                <img class="rd-compare-before" src="../public/hc_speaker_old.png" alt="The old speaker profile: utilisation boxes reading N/A above plain-text compliance lines" loading="lazy">
-                                <img class="rd-compare-after" src="../public/hc_speaker_new.png" alt="The rebuilt profile: four dated compliance checks, credentials and appearances as cards" loading="lazy">
-                                <span class="rd-compare-tag is-before">Before</span>
-                                <span class="rd-compare-tag is-after">After</span>
-                                <div class="rd-compare-handle">
-                                    <span class="rd-compare-grip">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg>
-                                    </span>
-                                </div>
-                                <input class="rd-compare-range" type="range" min="0" max="100" step="0.1" value="50" aria-label="Reveal the before or after screen">
-                            </div>
+                        <figure class="rd-case-figure">
+                            <img src="../public/hc_venue_new.png" alt="Venue search results ranked against the program&rsquo;s headcount and budget, each with a total and a match score" loading="lazy">
                         </figure>
                     </div>
                 </div>
@@ -1532,9 +1411,9 @@
                             </div>
 
                             <div class="rd-case-accordion">
-                                <details open>
+                                <details>
                                     <summary>
-                                        Problems / findings
+                                        Findings
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
                                     </summary>
                                     <div class="rd-case-accordion-body">
@@ -1579,26 +1458,26 @@
                     </div>
                 </div>
             </div>
-            <div class="rd-case-tabpanel" id="tabpanel-hc-venue" role="tabpanel" aria-labelledby="tab-hc-venue" hidden>
+            <div class="rd-case-tabpanel" id="tabpanel-hc-budget" role="tabpanel" aria-labelledby="tab-hc-budget" hidden>
                 <div class="rd-case-card">
                     <div class="rd-case-split is-media">
                         <div class="rd-case-body rd-case-features-body">
                             <div class="rd-case-panel-head">
-                                <h3 class="rd-case-panel-title">Venue Search</h3>
-                                <p>New in this release. Booking a room used to be a coordinator holding the headcount in their head and calling around.</p>
+                                <h3 class="rd-case-panel-title">Budget and Allocation</h3>
+                                <p>Allocation runs top-down and charges run bottom-up. The two have to meet on the same record, which is why this could not be deferred to a later release.</p>
                             </div>
 
                             <div class="rd-case-accordion">
-                                <details open>
+                                <details>
                                     <summary>
-                                        Problems / findings
+                                        Findings
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
                                     </summary>
                                     <div class="rd-case-accordion-body">
                                         <ul>
-                                            <li>The search had nothing to search &mdash; venues were a phone call and a spreadsheet</li>
-                                            <li>Nothing checked a quote against the program&rsquo;s own budget</li>
-                                            <li>Whatever got chosen never made it back onto the record</li>
+                                            <li>Four totals in grey boxes, with nothing tying them to a program or a region</li>
+                                            <li>Regions listed with program counts; budgets listed somewhere else entirely</li>
+                                            <li>No way to see what was still unallocated without exporting</li>
                                         </ul>
                                     </div>
                                 </details>
@@ -1609,9 +1488,66 @@
                                     </summary>
                                     <div class="rd-case-accordion-body">
                                         <ul>
-                                            <li>Search takes the program&rsquo;s headcount, budget and postcode as its inputs</li>
-                                            <li>Every result carries a total for that headcount and what it leaves on the budget</li>
-                                            <li>Add to Program writes the venue straight onto the record</li>
+                                            <li>Committed, allocated and unallocated on one overview</li>
+                                            <li>Allocation by area, filterable down to a single region</li>
+                                            <li>A quarterly table carrying allocated, distributed, committed, costs to date and remaining</li>
+                                        </ul>
+                                    </div>
+                                </details>
+                            </div>
+                        </div>
+
+                        <figure class="rd-case-figure is-compare">
+                            <div class="rd-compare" data-compare>
+                                <img class="rd-compare-before" src="../public/hc_budget_old.png" alt="The old budget view: four grey total boxes beside a list of regions" loading="lazy">
+                                <img class="rd-compare-after" src="../public/hc_budget_new.png" alt="The rebuilt view: an allocation overview, a by-area breakdown and a quarterly summary" loading="lazy">
+                                <span class="rd-compare-tag is-before">Before</span>
+                                <span class="rd-compare-tag is-after">After</span>
+                                <div class="rd-compare-handle">
+                                    <span class="rd-compare-grip">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg>
+                                    </span>
+                                </div>
+                                <input class="rd-compare-range" type="range" min="0" max="100" step="0.1" value="50" aria-label="Reveal the before or after screen">
+                            </div>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+            <div class="rd-case-tabpanel" id="tabpanel-hc-calendar" role="tabpanel" aria-labelledby="tab-hc-calendar" hidden>
+                <div class="rd-case-card">
+                    <div class="rd-case-split is-media">
+                        <div class="rd-case-body rd-case-features-body">
+                            <div class="rd-case-panel-head">
+                                <h3 class="rd-case-panel-title">Event Calendar</h3>
+                                <p>Every program that carries a date, on one calendar &mdash; because &ldquo;where is this program&rdquo; was usually a question about when.</p>
+                            </div>
+
+                            <div class="rd-case-accordion">
+                                <details>
+                                    <summary>
+                                        Findings
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+                                    </summary>
+                                    <div class="rd-case-accordion-body">
+                                        <ul>
+                                            <li>Programs were rows in a list; nothing showed what was happening on a given day</li>
+                                            <li>Two programs on the same date in the same territory only surfaced by accident</li>
+                                            <li>Checking a speaker&rsquo;s availability meant opening each program in turn</li>
+                                        </ul>
+                                    </div>
+                                </details>
+                                <details open>
+                                    <summary>
+                                        Solution
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+                                    </summary>
+                                    <div class="rd-case-accordion-body">
+                                        <ul>
+                                            <li>Month, week and day views over the same set of programs</li>
+                                            <li>A day opens to everything on it, colour-coded by state</li>
+                                            <li>Each entry carries the rep, the speaker, the time, the location and expected attendance</li>
                                         </ul>
                                     </div>
                                 </details>
@@ -1619,7 +1555,64 @@
                         </div>
 
                         <figure class="rd-case-figure">
-                            <img src="../public/hc_venue_new.png" alt="Venue search results ranked against the program&rsquo;s headcount and budget, each with a total and a match score" loading="lazy">
+                            <img src="../public/s5_04.png" alt="The event calendar in month view, a day opened to its programs, each with its representative, speaker, time and location" loading="lazy">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+            <div class="rd-case-tabpanel" id="tabpanel-hc-program" role="tabpanel" aria-labelledby="tab-hc-program" hidden>
+                <div class="rd-case-card">
+                    <div class="rd-case-split is-media">
+                        <div class="rd-case-body rd-case-features-body">
+                            <div class="rd-case-panel-head">
+                                <h3 class="rd-case-panel-title">Program Detail</h3>
+                                <p>The record all seventeen roles open. Who speaks, where, against whose budget, and what state the thing is in &mdash; it has to be readable in one pass or the other sixteen people go and ask someone.</p>
+                            </div>
+
+                            <div class="rd-case-accordion">
+                                <details>
+                                    <summary>
+                                        Findings
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+                                    </summary>
+                                    <div class="rd-case-accordion-body">
+                                        <ul>
+                                            <li>Status sat inside the details table, not on the record</li>
+                                            <li>Eighteen unlabelled actions in a strip across the top, in no order</li>
+                                            <li>Details, attendees and costs were three flat tables with nothing tying them together</li>
+                                        </ul>
+                                    </div>
+                                </details>
+                                <details open>
+                                    <summary>
+                                        Solution
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+                                    </summary>
+                                    <div class="rd-case-accordion-body">
+                                        <ul>
+                                            <li>Status and the four people who own the program promoted into the header</li>
+                                            <li>Actions split into tabs, one per thing you would come here to do</li>
+                                            <li>Costs carry the estimate, the actual and the variance side by side</li>
+                                        </ul>
+                                    </div>
+                                </details>
+                            </div>
+                        </div>
+
+                        <figure class="rd-case-figure is-compare">
+                            <div class="rd-compare" data-compare>
+                                <img class="rd-compare-before" src="../public/hc_program_old.png" alt="The old program record: a strip of unlabelled action buttons over three flat tables" loading="lazy">
+                                <img class="rd-compare-after" src="../public/hc_program_new.png" alt="The rebuilt record: status and owners in the header, the rest behind tabs, costs showing variance" loading="lazy">
+                                <span class="rd-compare-tag is-before">Before</span>
+                                <span class="rd-compare-tag is-after">After</span>
+                                <div class="rd-compare-handle">
+                                    <span class="rd-compare-grip">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg>
+                                    </span>
+                                </div>
+                                <input class="rd-compare-range" type="range" min="0" max="100" step="0.1" value="50" aria-label="Reveal the before or after screen">
+                            </div>
                         </figure>
                     </div>
                 </div>
@@ -1651,26 +1644,26 @@
                     </div>
                 </div>
             </div>
-            <div class="rd-case-tabpanel" id="tabpanel-hc-calendar" role="tabpanel" aria-labelledby="tab-hc-calendar" hidden>
+            <div class="rd-case-tabpanel" id="tabpanel-hc-speaker" role="tabpanel" aria-labelledby="tab-hc-speaker" hidden>
                 <div class="rd-case-card">
                     <div class="rd-case-split is-media">
                         <div class="rd-case-body rd-case-features-body">
                             <div class="rd-case-panel-head">
-                                <h3 class="rd-case-panel-title">Event Calendar</h3>
-                                <p>Every program that carries a date, on one calendar &mdash; because &ldquo;where is this program&rdquo; was usually a question about when.</p>
+                                <h3 class="rd-case-panel-title">Speaker Profile</h3>
+                                <p>A speaker is a compliance object before they are a person on a stage. Payments to them end up in a federal filing, so the checks are the profile, not an attachment to it.</p>
                             </div>
 
                             <div class="rd-case-accordion">
-                                <details open>
+                                <details>
                                     <summary>
-                                        Problems / findings
+                                        Findings
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
                                     </summary>
                                     <div class="rd-case-accordion-body">
                                         <ul>
-                                            <li>Programs were rows in a list; nothing showed what was happening on a given day</li>
-                                            <li>Two programs on the same date in the same territory only surfaced by accident</li>
-                                            <li>Checking a speaker&rsquo;s availability meant opening each program in turn</li>
+                                            <li>Compliance checks read as plain text lines with no date and no state</li>
+                                            <li>Five utilisation boxes across the top, most of them reading N/A</li>
+                                            <li>Eight actions greyed out along the bottom of the page</li>
                                         </ul>
                                     </div>
                                 </details>
@@ -1681,17 +1674,29 @@
                                     </summary>
                                     <div class="rd-case-accordion-body">
                                         <ul>
-                                            <li>Month, week and day views over the same set of programs</li>
-                                            <li>A day opens to everything on it, colour-coded by state</li>
-                                            <li>Each entry carries the rep, the speaker, the time, the location and expected attendance</li>
+                                            <li>OIG, SAM, state-by-state and FDA debarment surfaced with the date each was cleared</li>
+                                            <li>Credentials, practice and education as cards, editable in place</li>
+                                            <li>Training history and upcoming appearances beside the profile instead of behind a tab</li>
                                         </ul>
                                     </div>
                                 </details>
                             </div>
                         </div>
 
-                        <figure class="rd-case-figure">
-                            <img src="../public/s5_04.png" alt="The event calendar in month view, a day opened to its programs, each with its representative, speaker, time and location" loading="lazy">
+                        <figure class="rd-case-figure is-compare">
+                            <div class="rd-compare" data-compare>
+                                <img class="rd-compare-before" src="../public/hc_speaker_old.png" alt="The old speaker profile: utilisation boxes reading N/A above plain-text compliance lines" loading="lazy">
+                                <img class="rd-compare-after" src="../public/hc_speaker_new.png" alt="The rebuilt profile: four dated compliance checks, credentials and appearances as cards" loading="lazy">
+                                <span class="rd-compare-tag is-before">Before</span>
+                                <span class="rd-compare-tag is-after">After</span>
+                                <div class="rd-compare-handle">
+                                    <span class="rd-compare-grip">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg>
+                                    </span>
+                                </div>
+                                <input class="rd-compare-range" type="range" min="0" max="100" step="0.1" value="50" aria-label="Reveal the before or after screen">
+                            </div>
                         </figure>
                     </div>
                 </div>
@@ -1814,36 +1819,10 @@
 <script src="../js/case-toc.js"></script>
 <script src="../js/case-wiki-intro.js"></script>
 
-<!-- Scoped PER .rd-case-tabs group, not to every .rd-case-tab on the page.
-     This page now has two groups (the product-map views and the shipped
-     screens); the unscoped version deselected one group's tab and hid its
-     panel whenever the other was clicked. js/case-tabs.js already does this
-     for lending and customer-engagement, but its second loop also claims
-     `.rd-tabs .rd-tab`, which here is the AI section's Yes/No toggle — those
-     buttons carry no aria-controls, so that loop would throw on the first
-     click. Consolidate once that loop tolerates a group without panels. -->
-<script>
-(function () {
-  document.querySelectorAll('.rd-case-tabs').forEach(function (group) {
-    var tabs = group.querySelectorAll('.rd-case-tab');
-    if (!tabs.length) return;
-
-    function select(tab) {
-      tabs.forEach(function (t) {
-        var active = t === tab;
-        t.classList.toggle('is-active', active);
-        t.setAttribute('aria-selected', active ? 'true' : 'false');
-        var panel = document.getElementById(t.getAttribute('aria-controls'));
-        if (panel) panel.hidden = !active;
-      });
-    }
-
-    tabs.forEach(function (tab) {
-      tab.addEventListener('click', function () { select(tab); });
-    });
-  });
-}());
-</script>
+<!-- Tab groups (shipped screens, role & permission view) and their mobile
+     dropdown. Its guard skips the AI section's Yes/No toggle, which switches
+     state rather than panels. -->
+<script src="../js/case-tabs.js"></script>
 
 <!-- Shared component, js/case-picker.js: click a row, the row goes active and
      the figure beside it cross-fades to that row's data-image. Generic over
@@ -1872,22 +1851,6 @@
     head.addEventListener('click', function () {
       var expanded = col.classList.toggle('is-expanded');
       head.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-    });
-  });
-}());
-
-/* Role & permission view switch: By role (role band) / By group (landscape).
-   Not js/case-tabs.js — this page does not load it (see the note above the
-   .rd-case-tabs script). */
-(function () {
-  var tabs = document.querySelectorAll('.rd-hc-rolesview-tabs .rd-tab');
-  tabs.forEach(function (tab) {
-    tab.addEventListener('click', function () {
-      tabs.forEach(function (t) {
-        var active = t === tab;
-        t.setAttribute('aria-selected', active ? 'true' : 'false');
-        document.getElementById(t.getAttribute('aria-controls')).hidden = !active;
-      });
     });
   });
 }());

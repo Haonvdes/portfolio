@@ -3,6 +3,7 @@
 
 (function () {
   var D = window.B3_DECISION;
+  var M = window.ROLE_MATRIX;
   var track = document.getElementById('phTrack');
   if (!D || !track) return;
 
@@ -39,6 +40,113 @@
     return b;
   });
 
+  /* Opens the Role & permission view on one role: back to the "By role" tab
+     if the reader left it on "By group", then role-matrix.js renders it. */
+  function showRole(id) {
+    var view = document.getElementById('role-permission');
+    var matrix = document.querySelector('[data-role-matrix]');
+    if (!view || !matrix) return;
+    var tab = document.getElementById('tab-roles-interactive');
+    if (tab && tab.getAttribute('aria-selected') !== 'true') tab.click();
+    matrix.dispatchEvent(new CustomEvent('rb:show', { detail: id }));
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    view.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+
+  function stackRow(label, aside, body) {
+    var row = el('div', 'is-stack');
+    var dt = el('dt', null, label);
+    if (aside) dt.appendChild(el('span', 'rd-phase-facts-aside', aside));
+    var dd = el('dd');
+    dd.appendChild(body);
+    row.appendChild(dt);
+    row.appendChild(dd);
+    return row;
+  }
+
+  function userLink(r) {
+    var a = el('a', 'rd-phase-user', r.name);
+    a.href = '#role-permission';
+    a.title = 'See what ' + r.name + ' can do';
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      closeMore(false);
+      showRole(r.id);
+    });
+    return a;
+  }
+
+  /* The "(+N)" popover. Only one exists at a time: select() rebuilds the
+     card, so a phase switch drops it along with its toggle. */
+  var more = null;
+  function closeMore(returnFocus) {
+    if (!more || more.pop.hidden) return;
+    more.pop.hidden = true;
+    more.toggle.setAttribute('aria-expanded', 'false');
+    if (returnFocus) more.toggle.focus();
+  }
+  document.addEventListener('click', function (e) {
+    if (more && !more.wrap.contains(e.target)) closeMore(false);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && more && !more.pop.hidden) closeMore(true);
+  });
+
+  /* Impacted users come from the role matrix, not from this file: every role
+     that holds at least one of the phase's lanes. Three are named; the rest
+     sit behind the (+N) toggle. */
+  function renderImpact(p) {
+    more = null;
+    if (!M || !p.flows) return;
+    var lanes = M.lanes.filter(function (l) { return p.flows.indexOf(l.id) !== -1; });
+    var users = M.roles.filter(function (r) {
+      return lanes.some(function (l) { return M.has(r, l.id); });
+    });
+    var leads = (p.leads || []).map(function (id) {
+      return users.filter(function (r) { return r.id === id; })[0];
+    }).filter(Boolean).slice(0, 3);
+    for (var i = 0; leads.length < 3 && i < users.length; i++) {
+      if (leads.indexOf(users[i]) === -1) leads.push(users[i]);
+    }
+    var rest = users.filter(function (r) { return leads.indexOf(r) === -1; });
+
+    var wrap = el('span', 'rd-phase-users');
+    leads.forEach(function (r, i) {
+      if (i) wrap.appendChild(document.createTextNode(', '));
+      wrap.appendChild(userLink(r));
+    });
+    if (rest.length) {
+      var toggle = el('button', 'rd-phase-more', '(+' + rest.length + ')');
+      toggle.type = 'button';
+      toggle.id = 'phMoreToggle';
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-controls', 'phMore');
+      toggle.setAttribute('aria-label', rest.length + ' more impacted users');
+      var pop = el('div', 'rd-phase-more-pop');
+      pop.id = 'phMore';
+      pop.hidden = true;
+      rest.forEach(function (r) { pop.appendChild(userLink(r)); });
+      toggle.addEventListener('click', function () {
+        var opening = pop.hidden;
+        pop.hidden = !opening;
+        toggle.setAttribute('aria-expanded', opening ? 'true' : 'false');
+      });
+      wrap.appendChild(document.createTextNode(' '));
+      wrap.appendChild(toggle);
+      wrap.appendChild(pop);
+      more = { wrap: wrap, toggle: toggle, pop: pop };
+    }
+    els.facts.appendChild(stackRow('Impacted users', users.length + ' of ' + M.roles.length, wrap));
+
+    els.facts.appendChild(stackRow('Flows', null, document.createTextNode(
+      lanes.map(function (l) { return l.label; }).join(' · ')
+    )));
+
+    if (p.agreement) {
+      els.facts.appendChild(stackRow('Agreement', null, document.createTextNode(p.agreement)));
+    }
+  }
+
   function quadrant(t, rows) {
     var q = el('div', 'rd-moscow-q is-' + t.id);
     var h = el('h4');
@@ -71,12 +179,7 @@
     els.goalTitle.textContent = p.name + ' goal';
     els.goal.textContent = p.goal;
     els.facts.textContent = '';
-    p.facts.forEach(function (f) {
-      var row = el('div');
-      row.appendChild(el('dt', null, f[0]));
-      row.appendChild(el('dd', null, f[1]));
-      els.facts.appendChild(row);
-    });
+    renderImpact(p);
     renderMoscow(p);
   }
 

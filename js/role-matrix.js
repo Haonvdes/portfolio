@@ -166,6 +166,10 @@
     if (current) quote.innerHTML = defaultQuote(current);
   });
 
+  /* Lets another component open a role here (js/phase-decision.js does, from
+     the release card's impacted users). */
+  root.addEventListener('rb:show', function (e) { render(e.detail); });
+
   /* Opens on the widest-reaching role: if even that one has empty areas, the
      band makes the point before anyone clicks. */
   render('homeoffice');

@@ -101,11 +101,15 @@
   function wireGroups(groupSelector, tabSelector, toggleActiveClass) {
     document.querySelectorAll(groupSelector).forEach(function (group) {
       var tabs = group.querySelectorAll(tabSelector);
+      // A pill row that switches state rather than panels (healthcare.html's
+      // Yes/No .rd-ai-toggle: aria-pressed, no aria-controls) is not a tab
+      // group. Wiring it would stamp aria-selected on its buttons, which the
+      // shared .rd-tab style reads as the filled state.
+      if (!group.querySelector(tabSelector + '[aria-controls]')) { return; }
       // Mobile dropdown fallback (see .rd-tabs-collapsible in redesign.css):
       // opt-in per group by placing a `.rd-tabs-dropdown` right after the
       // group, its option `data-value`s matching each tab's own id. A group
-      // with no such sibling (healthcare.html's Yes/No .rd-ai-toggle) is
-      // untouched.
+      // with no such sibling keeps its pills at every width.
       var mobileSelect = group.nextElementSibling;
       if (!mobileSelect || !mobileSelect.classList.contains('rd-tabs-dropdown')) { mobileSelect = null; }
 
@@ -114,7 +118,8 @@
           var active = t === tab;
           if (toggleActiveClass) { t.classList.toggle('is-active', active); }
           t.setAttribute('aria-selected', active ? 'true' : 'false');
-          document.getElementById(t.getAttribute('aria-controls')).hidden = !active;
+          var panel = document.getElementById(t.getAttribute('aria-controls'));
+          if (panel) { panel.hidden = !active; }
         });
         if (mobileSelect) { mobileSelect.value = tab.id; }
       }

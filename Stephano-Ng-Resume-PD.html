@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Stephano Ng — Sr. Product Designer | Resume</title>
+<script src="js/analytics.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -290,10 +291,93 @@ a{color:var(--cv-primary);text-decoration:none;}
   letter-spacing:.04em;
 }
 
+/* --------------------------------------------------------------- actions - */
+.cv-layout{
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  gap:24px;
+  padding:0 16px;
+}
+.cv-sheets{min-width:0;}
+.cv-actions{
+  position:sticky;
+  top:24px;
+  margin-top:24px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.cv-btn{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:40px;
+  height:40px;
+  padding:0;
+  border:1px solid var(--cv-ink);
+  border-radius:999px;
+  background:#fff;
+  color:var(--cv-ink);
+  cursor:pointer;
+  transition:background-color .15s ease,color .15s ease;
+}
+.cv-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.cv-btn:hover,
+.cv-btn:focus-visible{background:var(--cv-ink);color:#fff;}
+.cv-btn:focus-visible{outline:2px solid var(--cv-primary);outline-offset:2px;}
+.cv-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+.cv-btn .cv-icon-done{display:none;}
+.cv-btn.is-done .cv-icon-link{display:none;}
+.cv-btn.is-done .cv-icon-done{display:block;}
+
+/* Label bubble to the left of each icon; .is-done keeps it open after a copy. */
+.cv-btn::after{
+  content:attr(data-label);
+  position:absolute;
+  right:calc(100% + 12px);
+  top:50%;
+  transform:translateY(-50%);
+  padding:4px 8px;
+  border-radius:6px;
+  background:var(--cv-ink);
+  color:#fff;
+  font:500 12px/1.4 var(--cv-font);
+  white-space:nowrap;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .15s ease;
+}
+.cv-btn:hover::after,
+.cv-btn:focus-visible::after,
+.cv-btn.is-done::after{opacity:1;}
+
+/* --cv-zoom is set by the script in <head> from the width left beside the panel. */
+@media screen{
+  .cv-page{zoom:var(--cv-zoom,1);}
+}
+/* Phones: no room beside the sheet, so the panel sits above it as a row. */
+@media screen and (max-width:639px){
+  .cv-layout{flex-direction:column-reverse;align-items:stretch;gap:0;}
+  .cv-actions{
+    position:static;
+    flex-direction:row;
+    align-self:flex-end;
+    margin-top:16px;
+  }
+  .cv-btn::after{right:auto;left:50%;top:calc(100% + 8px);transform:translateX(-50%);}
+  .cv-btn:hover::after,
+  .cv-btn:focus-visible::after{opacity:0;}
+  .cv-btn.is-done::after{opacity:1;}
+}
+
 /* ----------------------------------------------------------------- print - */
 @page{size:A4;margin:0;}
 @media print{
   body{background:#fff;}
+  .cv-layout{display:block;padding:0;}
+  .cv-actions{display:none;}
   .cv-page{
     margin:0;
     box-shadow:none;
@@ -306,8 +390,49 @@ a{color:var(--cv-primary);text-decoration:none;}
   a{color:var(--cv-primary);}
 }
 </style>
+<script>
+  (function(){
+    var SHEET=793.7, GUTTER=32, PANEL=40+24, PHONE=640;
+    function fit(){
+      var w=window.innerWidth;
+      var room=w-GUTTER-(w>=PHONE?PANEL:0);
+      var z=Math.min(1,room/SHEET);
+      document.documentElement.style.setProperty('--cv-zoom',z.toFixed(3));
+    }
+    fit();
+    window.addEventListener('resize',fit);
+
+    // Touch devices get the native share sheet; everywhere else the link is
+    // copied, because desktop share sheets rarely include the app HR uses.
+    window.cvShare=function(btn){
+      var url=location.href.split('#')[0];
+      if(navigator.share && matchMedia('(pointer:coarse)').matches){
+        navigator.share({title:document.title,url:url}).catch(function(){});
+        return;
+      }
+      var label=btn.getAttribute('data-label');
+      function done(text){
+        btn.setAttribute('data-label',text);
+        btn.classList.add('is-done');
+        btn.parentNode.querySelector('.cv-sr').textContent=text;
+        setTimeout(function(){
+          btn.setAttribute('data-label',label);
+          btn.classList.remove('is-done');
+        },2000);
+      }
+      if(navigator.clipboard){
+        navigator.clipboard.writeText(url).then(function(){done('Link copied');},function(){window.prompt('Copy this link',url);});
+      }else{
+        window.prompt('Copy this link',url);
+      }
+    };
+  })();
+</script>
 </head>
 <body>
+
+<div class="cv-layout">
+<main class="cv-sheets">
 
 <!-- ============================================================= PAGE 1 == -->
 <section class="cv-page">
@@ -391,20 +516,6 @@ a{color:var(--cv-primary);text-decoration:none;}
       </ul>
     </article>
 
-  </section>
-
-  <div class="cv-foot">
-    <span>Stephano Ng — Sr. Product Designer</span>
-    <span>Page 1 of 2</span>
-  </div>
-
-</section>
-
-<!-- ============================================================= PAGE 2 == -->
-<section class="cv-page">
-
-  <section class="cv-section" style="margin-top:0;">
-    <h2 class="cv-section-title">Experience (continued)</h2>
 
     <article class="cv-role-item">
       <div class="cv-role-head">
@@ -422,6 +533,20 @@ a{color:var(--cv-primary);text-decoration:none;}
         <li>Partnered with engineering to ship responsive, accessible interfaces.</li>
       </ul>
     </article>
+  </section>
+
+  <div class="cv-foot">
+    <span>Stephano Ng — Sr. Product Designer</span>
+    <span>Page 1 of 2</span>
+  </div>
+
+</section>
+
+<!-- ============================================================= PAGE 2 == -->
+<section class="cv-page">
+
+  <section class="cv-section" style="margin-top:0;">
+    <h2 class="cv-section-title">Experience (continued)</h2>
 
     <article class="cv-role-item">
       <div class="cv-role-head">
@@ -445,6 +570,10 @@ a{color:var(--cv-primary);text-decoration:none;}
     <h2 class="cv-section-title">Selected Work</h2>
     <ul class="cv-work">
       <li>
+        <span><span class="cv-work-name">Speaker Bureau Platform</span> <span class="cv-work-desc">— pharma compliance SaaS, UX lead</span></span>
+        <a class="cv-work-link" href="https://stpnguyen.com/case-studies/healthcare.html">stpnguyen.com/case-studies/healthcare</a>
+      </li>
+      <li>
         <span><span class="cv-work-name">Aura Network</span> <span class="cv-work-desc">— Web3 platform, lead product design</span></span>
         <a class="cv-work-link" href="https://stpnguyen.com/case-studies/web-3.html">stpnguyen.com/case-studies/web-3</a>
       </li>
@@ -455,6 +584,10 @@ a{color:var(--cv-primary);text-decoration:none;}
       <li>
         <span><span class="cv-work-name">iSystem</span> <span class="cv-work-desc">— marketing platform</span></span>
         <a class="cv-work-link" href="https://stpnguyen.com/case-studies/marketing-platform.html">stpnguyen.com/case-studies/marketing-platform</a>
+      </li>
+      <li>
+        <span><span class="cv-work-name">Customer Visit Management</span> <span class="cv-work-desc">— internal enterprise tool, PM</span></span>
+        <a class="cv-work-link" href="https://stpnguyen.com/case-studies/customer-engagement.html">stpnguyen.com/case-studies/customer-engagement</a>
       </li>
     </ul>
   </section>
@@ -517,6 +650,22 @@ a{color:var(--cv-primary);text-decoration:none;}
   </div>
 
 </section>
+</main>
+
+<aside class="cv-actions" aria-label="Resume actions">
+  <a class="cv-btn" href="Stephano-Ng-Resume-PD.pdf" download="Stephano-Ng-Resume-PD.pdf" aria-label="Download PDF" data-label="Download PDF">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+  </a>
+  <button class="cv-btn" type="button" onclick="window.print()" aria-label="Print" data-label="Print">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/></svg>
+  </button>
+  <button class="cv-btn" type="button" onclick="cvShare(this)" aria-label="Share link" data-label="Share link">
+    <svg class="cv-icon-link" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+    <svg class="cv-icon-done" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+  </button>
+  <span class="cv-sr" aria-live="polite"></span>
+</aside>
+</div>
 
 </body>
 </html>

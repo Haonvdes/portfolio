@@ -14,8 +14,8 @@
   Tokens transcribed from portfolio/css/styles/{tokens,redesign}.css so this
   document and the site read as one thing. Prefix --cv-* to keep it standalone.
 
-  Print target: A4 (210 x 297mm), 2 pages, 14mm margins.
-  Screen view renders the same two sheets on a grey backdrop.
+  Print target: A4 (210 x 297mm), 3 pages (cover letter + 2 resume pages), 14mm margins.
+  Screen view renders the same three sheets on a grey backdrop.
 */
 :root{
   --cv-ink:#0a2a30;
@@ -291,6 +291,22 @@ a{color:var(--cv-primary);text-decoration:none;}
   letter-spacing:.04em;
 }
 
+/* ----------------------------------------------------------- cover letter - */
+/* Letter type matches .cv-summary so the cover and the resume read as one document. */
+.cv-letter{
+  margin-top:10mm;
+  font-size:var(--cv-fs-lg);
+  line-height:1.5;
+}
+.cv-letter-body p + p{margin-top:4.5mm;}
+.cv-letter-salute{font-weight:700;}
+.cv-letter-sign{margin-top:10mm;}
+.cv-letter-sign p + p{margin-top:1.5mm;}
+.cv-letter-name{
+  font-size:var(--cv-fs-xl);
+  font-weight:600;
+  color:var(--cv-primary);
+}
 /* --------------------------------------------------------------- actions - */
 .cv-layout{
   display:flex;
@@ -328,6 +344,8 @@ a{color:var(--cv-primary);text-decoration:none;}
 .cv-btn:focus-visible{background:var(--cv-ink);color:#fff;}
 .cv-btn:focus-visible{outline:2px solid var(--cv-primary);outline-offset:2px;}
 .cv-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+/* Back exists only on phones — see the phone block below. */
+.cv-back{display:none;}
 .cv-btn .cv-icon-done{display:none;}
 .cv-btn.is-done .cv-icon-link{display:none;}
 .cv-btn.is-done .cv-icon-done{display:block;}
@@ -357,16 +375,31 @@ a{color:var(--cv-primary);text-decoration:none;}
 @media screen{
   .cv-page{zoom:var(--cv-zoom,1);}
 }
-/* Phones: no room beside the sheet, so the panel sits above it as a row. */
+/* Phones: no room beside the sheet, so the buttons float over it — actions bottom
+   right, Back bottom left. Back is phone-only and the script removes it when there is
+   no history to return to; this document has no nav of its own. */
 @media screen and (max-width:639px){
-  .cv-layout{flex-direction:column-reverse;align-items:stretch;gap:0;}
+  .cv-layout{flex-direction:column;align-items:stretch;gap:0;padding-bottom:88px;}
   .cv-actions{
-    position:static;
+    position:fixed;
+    right:16px;
+    bottom:16px;
+    top:auto;
+    z-index:10;
     flex-direction:row;
-    align-self:flex-end;
-    margin-top:16px;
+    gap:12px;
+    margin:0;
   }
-  .cv-btn::after{right:auto;left:50%;top:calc(100% + 8px);transform:translateX(-50%);}
+  .cv-back.is-available{
+    display:inline-flex;
+    position:fixed;
+    left:16px;
+    bottom:16px;
+    z-index:10;
+  }
+  .cv-btn{box-shadow:0 2px 12px rgba(10,42,48,.22);}
+  /* The bubble flips above the icon: below it would sit off the bottom of the screen. */
+  .cv-btn::after{right:auto;left:50%;top:auto;bottom:calc(100% + 8px);transform:translateX(-50%);}
   .cv-btn:hover::after,
   .cv-btn:focus-visible::after{opacity:0;}
   .cv-btn.is-done::after{opacity:1;}
@@ -434,6 +467,45 @@ a{color:var(--cv-primary);text-decoration:none;}
 <div class="cv-layout">
 <main class="cv-sheets">
 
+<!-- ========================================================= COVER PAGE == -->
+<section class="cv-page">
+
+  <div class="cv-letter">
+    <div class="cv-letter-body">
+      <p class="cv-letter-salute">Dear Hiring Team,</p>
+
+      <p>Thank you for taking the time to explore my work.</p>
+
+      <p>
+        If you’ve made it this far, you probably already have a sense of how I think about
+        products. What I’d add is simple: I enjoy the space between users, design, engineering
+        and the business — and I care about getting everyone moving toward the same outcome.
+      </p>
+
+      <p>
+        I’m open to product roles where I can stay close to users, work across disciplines,
+        and contribute to real product outcomes.
+      </p>
+
+      <p>
+        My resume is below. If anything here feels relevant to what your team is building,
+        I’d be glad to talk.
+      </p>
+    </div>
+
+    <div class="cv-letter-sign">
+      <p class="cv-letter-salute">Best regards,</p>
+      <p class="cv-letter-name">Stephano Ng</p>
+    </div>
+  </div>
+
+  <div class="cv-foot">
+    <span>Stephano Ng — Sr. Product Designer</span>
+    <span>Cover letter</span>
+  </div>
+
+</section>
+
 <!-- ============================================================= PAGE 1 == -->
 <section class="cv-page">
 
@@ -445,7 +517,7 @@ a{color:var(--cv-primary);text-decoration:none;}
     <div class="cv-contact">
       <span><a class="cv-site" href="https://stpnguyen.com">stpnguyen.com</a></span>
       <span><a href="https://www.linkedin.com/in/stpnguyen/">linkedin.com/in/stpnguyen</a></span>
-      <span><a href="mailto:hello@stpnguyen.com">hello@stpnguyen.com</a></span>
+      <span><a href="mailto:stpnguyen.info@gmail.com">stpnguyen.info@gmail.com</a></span>
       <span><a href="tel:+84907915146">0907 915 146</a></span>
       <span>Ho Chi Minh City, Vietnam</span>
     </div>
@@ -464,7 +536,7 @@ a{color:var(--cv-primary);text-decoration:none;}
 
     <article class="cv-role-item">
       <div class="cv-role-head">
-        <h3 class="cv-role-title">UX &amp; Product Consultant <span class="cv-at">— Horizons Technology Vietnam</span></h3>
+        <h3 class="cv-role-title">UX &amp; Product Consultant <span class="cv-at">— H3Tech, Inc.</span></h3>
         <span class="cv-dates">Jan 2026 – Jul 2026</span>
       </div>
       <p class="cv-role-blurb">
@@ -537,7 +609,7 @@ a{color:var(--cv-primary);text-decoration:none;}
 
   <div class="cv-foot">
     <span>Stephano Ng — Sr. Product Designer</span>
-    <span>Page 1 of 2</span>
+    <span>Resume — page 1 of 2</span>
   </div>
 
 </section>
@@ -645,8 +717,8 @@ a{color:var(--cv-primary);text-decoration:none;}
   </section>
 
   <div class="cv-foot">
-    <span>hello@stpnguyen.com · stpnguyen.com</span>
-    <span>Page 2 of 2</span>
+    <span>Stephano Ng — Sr. Product Designer</span>
+    <span>Resume — page 2 of 2</span>
   </div>
 
 </section>
@@ -665,7 +737,29 @@ a{color:var(--cv-primary);text-decoration:none;}
   </button>
   <span class="cv-sr" aria-live="polite"></span>
 </aside>
+
+<button class="cv-btn cv-back" type="button" aria-label="Back" data-label="Back">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+</button>
 </div>
+
+<script>
+  (function(){
+    var back=document.querySelector('.cv-back');
+    if(!back)return;
+    // Go by the referrer, not history.back(): about.html opens this page with
+    // target="_blank", where the entry behind it is about:blank. No referrer (typed
+    // URL, opened from a file) means there is nowhere to go, so the button stays out.
+    var ref=document.referrer,to=null;
+    try{
+      var u=new URL(ref,location.href);
+      if(u.origin===location.origin&&u.href!==location.href)to=u.href;
+    }catch(e){}
+    if(!to)return;
+    back.classList.add('is-available');
+    back.addEventListener('click',function(){location.href=to;});
+  })();
+</script>
 
 </body>
 </html>

@@ -8,3 +8,7 @@ _portfolio-git-broken-backup/
 
 # local preview drafts — keep on disk, never publish
 case-studies/_preview-*
+
+# Project Manager resume — private, sent as a PDF attachment, never deployed
+Stephano-Ng-Resume-PJM.html
+Stephano-Ng-Resume-PJM.pdf

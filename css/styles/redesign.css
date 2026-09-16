@@ -216,6 +216,26 @@
      list's bottom — so without this it can never reach the sticky line, and it
      alone sits low while the other pills are docked. */
   --rd-journey-tail: 240px;
+  /* Height of the bottom-up fade over the desktop card stack. One knob — the
+     gradient reads as "half the screen dissolving into the background", so it
+     is expressed in vh rather than px and follows the window. */
+  --rd-journey-fade-h: 50vh;
+  /* The landing motion, in one place. js/journey.js reads both and runs the
+     card's rise with them, and .rd-work-tag transitions the pill with them, so
+     the card and its year pill can never drift out of step. Slower and gentler
+     than the old 420ms/cubic-bezier(0.22, 1, 0.36, 1): the card now travels
+     most of a screen rather than closing a 24px gap, and that curve is so
+     front-loaded it covered 90% of the distance in the first sixth of the
+     time — which read as a snap, not a rise. */
+  --rd-journey-land: 640ms;
+  --rd-journey-land-ease: cubic-bezier(0.33, 1, 0.68, 1);
+  /* How far below the card in front the next one waits before it commits.
+     js/journey.js reads it. The two failure modes it sits between: at 0 the
+     cards touch and the incoming one reads as having been parked there all
+     along; at a full screen down the gap under the front card becomes a void
+     (Hao, 2026-09-16). This is enough separation to read as "arriving", and
+     deep enough into the bottom fade to show as a ghost rather than a card. */
+  --rd-journey-hold-gap: 140px;
 }
 
 /* Shared 1440px column */
@@ -1492,10 +1512,12 @@ p.rd-detail-label {
   border-right: 1px solid var(--rd-white);
 }
 .rd-mini-stat-row > div:last-child { border-right: 0; }
+/* 20px: these sit inside the initiative card, under its 24px
+   .rd-initiative-title, so 24px here made figure and card title equal. */
 .rd-mini-stat-row strong {
   width: 100%;
   font-weight: var(--rd-fw-emphasis);
-  font-size: var(--rd-fs-2xl);
+  font-size: var(--rd-fs-xl);
   line-height: var(--rd-lh-tight);
   text-transform: uppercase;
   color: var(--rd-ink);
@@ -1870,6 +1892,41 @@ p.rd-detail-label {
      containing block's PADDING box, so margin here would do nothing. */
   padding-bottom: var(--rd-journey-tail);
 }
+/* Bottom-up fade over the card column — the vertical counterpart of the phone
+   deck's right-edge mask, and of the customer-engagement strip's fade. The
+   lower half of the stack dissolves into the section background, so a card
+   scrolling up out of the stack softens instead of being cut by the fold.
+
+   `position: sticky; bottom: 0` rather than `fixed`: sticky is bounded by
+   `.rd-journey-list`'s padding box, so the overlay pins to the bottom of the
+   window only while the stack is on screen and rides away with the section
+   afterwards. A fixed layer would keep tinting the bottom of every section
+   below this one.
+
+   The two negative margins give it a zero footprint — `margin-bottom` cancels
+   its own height, `margin-top` cancels the column gap it would otherwise
+   inherit as a flex item — so adding it moves nothing in the layout.
+
+   `rgba(255, 255, 255, 0)` is the transparent end, not `transparent`: the
+   keyword is rgba(0, 0, 0, 0) and interpolating to it drags the midpoint
+   grey. Same pairing as the hero fade and the CE strip.
+
+   Desktop only. Below 1181px the cards stop stacking (see the reset in the
+   max-width: 1180px block) and there is nothing for the fade to soften. */
+.rd-journey-list::after {
+  content: "";
+  position: sticky;
+  bottom: 0;
+  z-index: 5;   /* over the cards, which stick at z-index auto */
+  height: var(--rd-journey-fade-h);
+  margin-top: -24px;
+  margin-bottom: calc(var(--rd-journey-fade-h) * -1);
+  pointer-events: none;
+  background: linear-gradient(to top, var(--rd-surface), rgba(255, 255, 255, 0));
+}
+@media (max-width: 1180px) {
+  .rd-journey-list::after { content: none; }
+}
 /* Every card shares the same sticky top, so each parks until the next scrolls
    up over it. No scale/lift transform: Hao removed it because it made the whole
    stack drift upward as the last card pinned. Once they are all parked the
@@ -1878,6 +1935,11 @@ p.rd-detail-label {
   position: sticky;
   top: var(--rd-journey-top);
   width: 100%;
+  /* js/journey.js holds the incoming card clear of the one in front until the
+     scroll commits to it, then lands it in one move. Defaults to 0 so no JS
+     means plain sticky stacking. No transition here on purpose: the hold is
+     scrubbed every frame, so the landing is animated in JS instead. */
+  transform: translateY(var(--rd-card-y, 0px));
 }
 /* One scroll = one card.
    The snap points are these zero-size markers, NOT the cards themselves:
@@ -1979,7 +2041,10 @@ html:has(body.rd-about) {
   /* Defaults to the "no JS" state: the plain designed resting inset. */
   transform: translateX(var(--rd-tag-x, 0px));
   will-change: transform;
-  transition: color 0.15s ease;
+  /* --rd-tag-x is a step now, set on the same commit that lands the card, so
+     the slide into the strip is eased here rather than scrubbed by scroll. */
+  transition: color 0.15s ease,
+              transform var(--rd-journey-land) var(--rd-journey-land-ease);
 }
 .rd-work-tag:hover { color: var(--rd-primary); }
 /* journey.js marks whichever card is currently at the front of the stack. */
@@ -2013,6 +2078,9 @@ html:has(body.rd-about) {
 }
 @media (prefers-reduced-motion: reduce) {
   .rd-work-body { transition: none; }
+  /* Colour only — the pill jumps straight to its slot, matching the card,
+     which journey.js also lands without an animation here. */
+  .rd-work-tag { transition: color 0.15s ease; }
 }
 .rd-work-head {
   display: flex;
@@ -2695,18 +2763,77 @@ html:has(body.rd-about) {
     flex: 0 1 auto;
     flex-direction: row;
     align-items: flex-start;
-    gap: 12px;
+    /* Both shared with the ::after overlay below — it has to cancel the gap
+       as well as its own width to keep the deck's scroll width honest, and it
+       has to know the side padding to reach past it to the screen edge. One
+       value each so they cannot drift. */
+    --rd-deck-gap: 12px;
+    --rd-deck-pad: 16px;
+    gap: var(--rd-deck-gap);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    width: calc(100% + 32px);
-    margin-inline: -16px;
-    padding-inline: 16px;
+    width: calc(100% + (var(--rd-deck-pad) * 2));
+    margin-inline: calc(var(--rd-deck-pad) * -1);
+    padding-inline: var(--rd-deck-pad);
     padding-block: 4px;
-    scroll-padding-inline: 16px;
+    scroll-padding-inline: var(--rd-deck-pad);
   }
   .rd-journey-list::-webkit-scrollbar { display: none; }
+
+  /* Right-edge fade, same affordance as the customer-engagement diagram strip
+     (`.rd-case-figure.is-strip .rd-figure-frame::after`): the deck's last card
+     dissolves into the section background instead of ending on a hard cut.
+
+     This was a `mask-image` on the scroller first, which is the tidier way to
+     write it and paints in the right place in both engines — but a mask
+     promotes the element to its own compositing layer, and a composited
+     scroller that also carries `-webkit-overflow-scrolling: touch` is the
+     classic recipe for a layer that stops repainting while the PAGE scrolls
+     under it. Mobile went wrong exactly there (Hao, 2026-09-16). An ordinary
+     painted box has none of that.
+
+     `position: sticky; right: 0` is what lets it be an ordinary box: the
+     scroller has no wrapper to hang an overlay on, and an absolute child of an
+     overflow container scrolls away with the content. Sticky pins it to the
+     right edge of the scrollport instead, so the cards move under it.
+
+     Zero footprint: the negative margin cancels its own width AND the column
+     gap it inherits as a flex item, so it overlaps the last 56px of the deck
+     instead of adding 68px of dead scroll runway past the last card.
+     `align-self: stretch` because the row is `align-items: flex-start`, which
+     would otherwise collapse it to no height at all.
+
+     The translate is what puts it FLUSH with the screen. A sticky element is
+     clamped to its containing block, which here is the deck's content box —
+     and the deck carries --rd-deck-pad of side padding, so `right: 0` alone
+     stops the fade a hard 16px short of the edge and leaves a crisp strip of
+     card there (Hao, 2026-09-16). A transform moves the painted box across
+     that padding without touching layout, so the zero footprint above still
+     holds. */
+  .rd-journey-list::after {
+    content: "";
+    position: sticky;
+    /* `bottom: auto` undoes the desktop rule above, which this one only
+       redefines rather than replaces. Left at its `bottom: 0` the overlay is
+       sticky on BOTH axes: harmless while the deck has no vertical overflow,
+       but a trap for whoever next changes its height. */
+    right: 0;
+    bottom: auto;
+    z-index: 2;
+    flex: 0 0 56px;
+    align-self: stretch;
+    height: auto;
+    margin: 0 0 0 calc(-56px - var(--rd-deck-gap));
+    transform: translateX(var(--rd-deck-pad));
+    pointer-events: none;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), var(--rd-surface));
+  }
+  /* Set by js/journey.js once the deck is scrolled to its right end. Without
+     it the overlay sits on the LAST card, fading its border and the end of
+     every line — and there is nothing left to hint at. */
+  .rd-journey-list.is-deck-end::after { opacity: 0; }
 
   /* The 28px shortfall is the peek that says "there is more to the right". */
   .rd-work-card {
@@ -4794,9 +4921,13 @@ ol.rd-case-list > li { list-style-type: decimal; }
   padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.28);
 }
+/* One step below the section H2 that heads the block these sit in — 24px
+   under a 32px H2, and 20px at ≤768 where that H2 drops to 24px (the
+   step-down lives in the ≤768 block). They used to be 32px with no mobile
+   override, which left the figure larger than its own heading on a phone. */
 .rd-case-highlight-stat strong {
   font-weight: var(--rd-fw-heading);
-  font-size: var(--rd-fs-3xl);
+  font-size: var(--rd-fs-2xl);
   line-height: 1.1;
   color: var(--rd-ink-inverse);
 }
@@ -4870,7 +5001,14 @@ ol.rd-case-list > li { list-style-type: decimal; }
 }
 
 @media (max-width: 1024px) {
-  .rd-case-split { grid-template-columns: 1fr; gap: 24px; }
+  /* minmax(0, 1fr), not 1fr. A `1fr` track keeps an automatic minimum of
+     min-content, so the swipe decks inside a case body (`.rd-case-grid
+     .is-four.is-numbered`, whose cards are `flex: 0 0 calc(100% - 28px)`)
+     pushed the single column to 403px inside a 358px container — and the
+     deck's own full-bleed `calc(100% + 32px)` widened that to 435px, which
+     is the horizontal scroll the whole page had on a phone. A scroll
+     container must never be allowed to size its own parent. */
+  .rd-case-split { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .rd-case-highlight { position: static; }
   /* The empty third is a luxury of a wide screen. Below 1024 the content
      column is ~896px, so a third of it is 283px — narrower than the mobile
@@ -4949,6 +5087,10 @@ ol.rd-case-list > li { list-style-type: decimal; }
   .rd-case-section { padding: 48px 0; }
   .rd-case-inner { padding-inline: 16px; gap: 24px; }
   .rd-case-h2 { font-size: var(--rd-fs-2xl); }
+  /* The two figure blocks step down with the H2 above them — both are 24px
+     on desktop, which would tie with .rd-case-h2 once it drops to 24px here. */
+  .rd-case-highlight-stat strong,
+  .rd-case-band .rd-ai-evi-stat strong { font-size: var(--rd-fs-xl); }
   .rd-case-grid,
   .rd-case-grid.is-two,
   .rd-case-grid.is-four,
@@ -5022,7 +5164,12 @@ ol.rd-case-list > li { list-style-type: decimal; }
   .rd-hero-inner { gap: 32px; }
   .rd-hero-row { gap: 32px; }
 
-  .rd-section-heading { font-size: var(--rd-fs-xl); }
+  /* .rd-section-heading stays at its ≤768 size (24px) here. It used to step
+     down to 20px, which put it UNDER the 24px .rd-initiative-title sitting
+     inside the section it heads — a heading has to outrank its own contents.
+     If this ever needs to shrink again, .rd-initiative-title must drop with
+     it and stay at least one step below. */
+  .rd-initiative-title { font-size: var(--rd-fs-xl); }
   .rd-cta-heading { font-size: var(--rd-fs-xl); }
 
   /* Long unbroken tokens — "3–5h → 2h", "50 vs 54,000", URLs in case-study copy
@@ -5598,7 +5745,10 @@ ol.rd-case-list > li { list-style-type: decimal; }
 .rd-bench-bubble.is-minor circle { fill: var(--rd-severity-minor); }
 .rd-bench-bubble-num {
   font-family: var(--rd-font); fill: var(--rd-ink-inverse);
-  font-size: 30px; font-weight: var(--rd-fw-emphasis); text-anchor: middle;
+  /* 20px, was an off-ladder 30px. The chart SVG only starts scaling below
+     ~500px, so between there and 768px this text rendered at its literal
+     size against a 24px H2 and outsized it. */
+  font-size: var(--rd-fs-xl); font-weight: var(--rd-fw-emphasis); text-anchor: middle;
 }
 .rd-bench-bubble-label {
   font-family: var(--rd-font); fill: var(--rd-ink-muted);
@@ -6006,7 +6156,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
    `object-contain size-full` — see .rd-bench-map below. */
 .rd-case-split.is-chart { grid-template-columns: minmax(280px, 1fr) 2.3fr; align-items: stretch; }
 @media (max-width: 1024px) {
-  .rd-case-split.is-chart { grid-template-columns: 1fr; }
+  .rd-case-split.is-chart { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* Copy left, product render right — Figma 40000256:5857 ("Looking at the
@@ -6091,7 +6241,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
    panel bleeds into on the fourth. */
 .rd-case-card:has(> .rd-case-split.is-media) { padding: 0; }
 @media (max-width: 1024px) {
-  .rd-case-split.is-media { grid-template-columns: 1fr; }
+  .rd-case-split.is-media { grid-template-columns: minmax(0, 1fr); }
   /* Stacked, there is no panel beside the copy to line up with. */
   .rd-case-split.is-media > .rd-case-body { padding-top: 24px; }
   .rd-case-split.is-media > .rd-case-figure {
@@ -6297,7 +6447,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
    squeezed into the narrow track. */
 .rd-case-split.is-chart.is-reverse { grid-template-columns: 2.3fr minmax(280px, 1fr); }
 @media (max-width: 1024px) {
-  .rd-case-split.is-chart.is-reverse { grid-template-columns: 1fr; }
+  .rd-case-split.is-chart.is-reverse { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* ------------------------------------------ 10b. Scrollable bench panel ---
@@ -7664,13 +7814,21 @@ ol.rd-case-list > li { list-style-type: decimal; }
   border-left: 1px solid var(--rd-border-soft);
 }
 .rd-ai-evi-stat:first-child { border-left: 0; }
+/* 20px, not 24px: this component appears under headings of three different
+   sizes and the figure has to stay below whichever one heads its block.
+   Here (the "Key figures" strip) the h3 is 24px. The two other contexts set
+   their own value — .rd-case-band below (32px H2) and .rd-ai-model-panel
+   just under this (20px h3). */
 .rd-ai-evi-stat strong {
   font-family: var(--rd-font);
   font-weight: var(--rd-fw-heading);
-  font-size: var(--rd-fs-2xl);
+  font-size: var(--rd-fs-xl);
   line-height: var(--rd-lh-tight);
   color: var(--rd-ink);
 }
+/* Inside a model panel the governing heading is .rd-ai-layer-title at 20px,
+   so the figure steps one further down to 18px. */
+.rd-ai-model-panel .rd-ai-evi-stat strong { font-size: var(--rd-fs-lg); }
 .rd-ai-evi-stat span {
   font-size: var(--rd-fs-sm);
   line-height: var(--rd-lh-prose);
@@ -9053,7 +9211,27 @@ html:has(body.is-section-snap) {
 }
 
 @media (max-width: 768px) {
-  .rd-case-grid.rd-b6-phasecols { grid-template-columns: 1fr; }
+  /* Stacked, the five phase columns run for most of a screen each and the
+     reader loses the sense that they're one sequence. One swipeable row
+     instead: snapped so a column always lands square, and sized so the next
+     one peeks in as the affordance that there is more to the right. */
+  .rd-case-grid.rd-b6-phasecols {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: min(78%, 260px);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--p-16);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .rd-b6-phasecols > div { scroll-snap-align: start; }
+  .rd-b6-phasecols::-webkit-scrollbar { height: 4px; }
+  .rd-b6-phasecols::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: var(--rd-border);
+  }
 }
 
 
@@ -9290,19 +9468,13 @@ html:has(body.is-section-snap) {
   box-shadow: inset 0 0 0 1px var(--rb-edge);
 }
 .rb-vrow.is-on .rb-vmark { background: var(--rb-on); box-shadow: none; }
-.rb-vlabel {
-  font-size: var(--rd-fs-md);
-  font-weight: var(--rd-fw-emphasis);
-  color: var(--rd-ink-muted);
-  margin: 0;
-}
-.rb-vrow.is-on .rb-vlabel { color: var(--rd-ink); }
 .rb-vquote {
   font-size: var(--rd-fs-sm);
   line-height: var(--rd-lh-prose);
   color: var(--rd-ink-muted);
-  margin: var(--m-4) 0 0;
+  margin: 0;
 }
+.rb-vrow.is-on .rb-vquote { color: var(--rd-ink); }
 
 @media (max-width: 900px) {
   .rb-page { padding: var(--m-40) var(--m-20) var(--m-56); }
@@ -9829,7 +10001,8 @@ html:has(body.is-section-snap) {
   padding: 0;
   border-left: 0;
 }
-.rd-case-band .rd-ai-evi-stat strong { font-size: var(--rd-fs-3xl); }
+/* One step below .rd-case-band-title (32px H2, 24px at ≤768). */
+.rd-case-band .rd-ai-evi-stat strong { font-size: var(--rd-fs-2xl); }
 .rd-case-band .rd-ai-evi-stat span { font-size: var(--rd-fs-md); }
 /* The 32px margin the older rule above adds is now the parent's gap; leaving
    both stacks them into 72. */
@@ -9940,6 +10113,18 @@ html:has(body.is-section-snap) {
     padding-block: 12px;
     margin-block: -12px;
     background: var(--rd-surface);
+  }
+  /* The two answers are one either/or choice, so they stay on one line:
+     .rd-tabs wraps by default and .rd-tab's white-space: nowrap means the
+     labels cannot give any width back, so the pills themselves lose the
+     padding, tracking and 2px of type instead. */
+  .rd-ai-toggle { flex-wrap: nowrap; gap: 8px; }
+  .rd-ai-toggle .rd-tab {
+    flex: 0 1 auto;
+    min-width: 0;
+    padding: 10px 12px;
+    font-size: var(--rd-fs-xs);
+    letter-spacing: 0.02em;
   }
 }
 
@@ -10348,8 +10533,7 @@ html:has(body.is-section-snap) {
 .rd-hc-roles .rb-quote,
 .rd-hc-roles .rb-overview,
 .rd-hc-roles .rb-journey-name,
-.rd-hc-roles .rb-journey-none,
-.rd-hc-roles .rb-vlabel {
+.rd-hc-roles .rb-journey-none {
   font-size: var(--rd-fs-md);
   line-height: var(--rd-lh-prose);
   font-weight: var(--rd-fw-body);
@@ -10371,8 +10555,7 @@ html:has(body.is-section-snap) {
 }
 .rd-hc-roles .rb-quote b,
 .rd-hc-roles .rb-axis span.is-on,
-.rd-hc-roles .rb-journey-name,
-.rd-hc-roles .rb-vlabel { font-weight: var(--rd-fw-heading); }
+.rd-hc-roles .rb-journey-name { font-weight: var(--rd-fw-heading); }
 
 /* The stage carries the block's one visible frame; its sections are split by
    full-width rules, so the padding moves from the stage onto each section. */
@@ -10391,7 +10574,8 @@ html:has(body.is-section-snap) {
 .rd-hc-roles .rb-head { display: flex; flex-direction: column; align-items: flex-start; gap: var(--m-16); }
 .rd-hc-roles .rb-select { position: relative; max-width: 100%; }
 .rd-hc-roles .rb-select-toggle,
-.rd-hc-roles .rb-journeys-toggle {
+.rd-hc-roles .rb-journeys-toggle,
+.rd-hc-roles .rb-overview-toggle {
   display: flex;
   align-items: center;
   gap: var(--m-12);
@@ -10405,7 +10589,8 @@ html:has(body.is-section-snap) {
   cursor: pointer;
 }
 .rd-hc-roles .rb-select-toggle:focus-visible,
-.rd-hc-roles .rb-journeys-toggle:focus-visible {
+.rd-hc-roles .rb-journeys-toggle:focus-visible,
+.rd-hc-roles .rb-overview-toggle:focus-visible {
   outline: 2px solid var(--rd-primary);
   outline-offset: 4px;
   border-radius: var(--r-4);
@@ -10419,7 +10604,8 @@ html:has(body.is-section-snap) {
 }
 .rd-hc-roles .rb-chev { flex: none; transition: transform 0.2s ease; }
 .rd-hc-roles .rb-select.is-open .rb-chev,
-.rd-hc-roles .rb-journeys-toggle[aria-expanded="true"] .rb-chev { transform: rotate(180deg); }
+.rd-hc-roles .rb-journeys-toggle[aria-expanded="true"] .rb-chev,
+.rd-hc-roles .rb-overview-toggle[aria-expanded="true"] .rb-chev { transform: rotate(180deg); }
 
 /* Panel styled after .rd-tabs-dropdown-panel, the site's one listbox look. */
 .rd-hc-roles .rb-select-panel {
@@ -10483,10 +10669,18 @@ html:has(body.is-section-snap) {
 }
 .rd-hc-roles .rb-legend .hot { background: var(--rb-hot); }
 .rd-hc-roles .rb-vert { border-top: 0; }
+.rd-hc-roles .rb-vrow:last-child { padding-bottom: 0; border-bottom: 0; }
 .rd-hc-roles .rb-vrow.is-hot .rb-vmark { background: var(--rb-hot); }
 
 /* --- overview; the band's hover quote reads out under the facts --- */
+.rd-hc-roles .rb-overview-toggle {
+  justify-content: space-between;
+  width: 100%;
+}
+.rd-hc-roles .rb-overview-toggle .rb-section-title { margin: 0; }
+.rd-hc-roles .rb-overview-body { margin-top: var(--m-16); }
 .rd-hc-roles .rb-overview { margin: 0 0 var(--m-16); color: var(--rd-ink); }
+.rd-hc-roles .rb-overview-body[hidden] { display: none; }
 .rd-hc-roles .rb-facts {
   display: flex;
   flex-wrap: wrap;
@@ -10556,8 +10750,22 @@ html:has(body.is-section-snap) {
 }
 /* Wrapped rows would start a line with a stray divider or arrow; stack. */
 @media (max-width: 768px) {
-  .rd-hc-roles .rb-facts { flex-direction: column; }
-  .rd-hc-roles .rb-facts span + span { margin-left: 0; padding-left: 0; border-left: 0; }
+  /* Stacked, the facts read as three lines floating in one tinted box; each
+     gets its own full-width container instead. */
+  .rd-hc-roles .rb-facts {
+    flex-direction: column;
+    width: 100%;
+    row-gap: var(--m-8);
+    padding: 0;
+    background: none;
+  }
+  .rd-hc-roles .rb-facts span {
+    width: 100%;
+    padding: var(--m-12) var(--m-16);
+    border-radius: var(--r-8);
+    background: var(--rd-surface);
+  }
+  .rd-hc-roles .rb-facts span + span { margin-left: 0; padding-left: var(--m-16); border-left: 0; }
   .rd-hc-roles .rb-steps { flex-direction: column; align-items: flex-start; row-gap: 0; }
   .rd-hc-roles .rb-steps li { flex-direction: column; align-items: flex-start; }
   .rd-hc-roles .rb-steps li + li::before { content: "\2193"; margin: var(--m-4) 0 var(--m-4) var(--m-16); }

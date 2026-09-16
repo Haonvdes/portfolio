@@ -10,7 +10,29 @@
   the last card pinned. Once every card is parked the result is a flat year
   strip sitting over a single card.
 
-  Three jobs here:
+  Four jobs here:
+
+  0. THE LANDING
+     Sticky alone lets the incoming card ride the scroll straight up across the
+     front card's text, which left the two smeared together for the whole
+     gesture. Holding it against the bottom edge of the card in front fixed the
+     smear but bought a worse problem: the next card sat parked in plain sight
+     halfway up the screen, so it read as having been there all along instead of
+     arriving (Hao, 2026-09-16).
+
+     So the card now waits HOLD_GAP below the card in front — far enough to sit
+     in the 50vh bottom fade and show as a ghost, close enough that the space
+     between them reads as a runway rather than a void. At the commit point it
+     travels the rest of the way to the sticky line in one eased move, up out of
+     the fade and onto the stack.
+
+     HOLD_PEEK caps that on a short window: the waiting card never parks below
+     the fold, where nothing of it would show at all.
+
+     The hold is an exact per-frame transform (--rd-card-y), so it can carry no
+     CSS transition; the landing therefore runs as its own WAAPI animation with
+     `composite: 'add'` on top of that transform, starting from where the card
+     was drawn last frame and resolving to nothing.
 
   1. YEAR STRIP
      At rest every pill sits at the same 24px inset, exactly as designed. All
@@ -19,9 +41,9 @@
      preceding pills' widths (minus 1px each, so neighbouring borders collapse
      into a single hairline), into its slot in one continuous strip.
 
-     That slide is scrubbed by scroll over the last TAG_LEAD pixels of the
-     card's approach to the sticky line, so the pills travel into place as you
-     scroll instead of being pre-fanned on load.
+     The pill belongs to its card, so it takes its slot on the same commit the
+     card lands on — a step, eased by a CSS transition on .rd-work-tag, not a
+     scrub.
 
   2. NAVIGATION
      Scrolling decides which card is at the front — that is just DOM order plus
@@ -57,7 +79,6 @@
     ) || 60;
   var TAG_BASE = 24; // .rd-work-tagrow's resting left inset
   var BORDER = 1; // pill border width, collapsed between neighbours
-  var TAG_LEAD = 220; // px of approach over which a pill slides into the strip
   var VISIBLE_BULLETS = 4; // must match the :nth-child(n + 5) rule in redesign.css
   var DISABLE_BELOW = 1181; // matches the max-width: 1180px reset in redesign.css
 
@@ -128,10 +149,37 @@
     railMarker.style.transform = 'translateY(' + li.offsetTop + 'px)';
   }
 
+  // A stuck sticky element reports its CURRENT offset from `offsetTop`, not the
+  // one it would have in flow — so once the stack is pinned every card returns
+  // the same number and the spacing between them reads as zero. The static
+  // offsets are rebuilt from the card heights and the list's row gap instead,
+  // which sticky does not touch. Everything that needs "where would this card
+  // sit unpinned" reads this array.
+  var staticTop = entries.map(function () {
+    return 0;
+  });
+  function measureOffsets() {
+    var gap = parseFloat(getComputedStyle(list).rowGap) || 0;
+    var y = 0;
+    entries.forEach(function (e, i) {
+      staticTop[i] = y;
+      y += e.card.offsetHeight + gap;
+    });
+  }
+
   // Card heights change when a list is expanded, so this has to re-run then too.
   function positionMarkers() {
+    // Below the stacking breakpoint the markers must all sit at 0. Their
+    // offsets describe a VERTICAL stack, but the phone deck is a horizontal
+    // scroller — and `overflow-x: auto` computes overflow-y to `auto` as well,
+    // so leaving them spread down the page gave the deck ~1,800px of vertical
+    // scroll inside a 600px box. One stray vertical scroll there and the cards
+    // are cut off mid-sentence with their titles above the top edge (Hao,
+    // 2026-09-16). Nothing is lost by parking them: the phone deck snaps on
+    // `scroll-snap-align` on the cards themselves, not on these.
+    var stacked = isStacked();
     entries.forEach(function (e, i) {
-      markers[i].style.top = e.card.offsetTop + 'px';
+      markers[i].style.top = (stacked ? staticTop[i] : 0) + 'px';
     });
   }
 
@@ -192,41 +240,144 @@
     moveMarker(frontIndex);
   }
 
+  // Where each card was actually drawn on the previous frame, and whether it
+  // had already committed to the front. Both are needed to run the landing as a
+  // one-shot animation instead of scrubbing it with the scroll.
+  var renderedAt = entries.map(function () { return 0; });
+  var hasLanded = entries.map(function () { return false; });
+  var primed = false;
+
+  // A card whose scope list is expanded gets its sticky line pulled up by
+  // js/journey.js (liftIfTallerThanViewport), so read the line off the card
+  // rather than assuming the shared one.
+  function lineOf(card) {
+    var explicit = parseFloat(card.style.top);
+    return isNaN(explicit) ? STICKY_TOP : explicit;
+  }
+
+  // The card lands when it is this far through its approach. Below it the card
+  // waits at the fold; at it the card travels the rest of the way in one move.
+  var COMMIT = 0.5;
+
+  // How much of a waiting card's top edge sits above the bottom of the window.
+  // Not zero: a fully hidden card gives no hint that the stack continues. Kept
+  // small because the bottom fade (--rd-journey-fade-h, 50vh) is ~80% opaque
+  // this close to the edge, so this reads as a ghost of a card rather than a
+  // card — which is the whole difference Hao asked for.
+  var HOLD_PEEK = 96;
+
+  // ...and how far below the card in front it waits. See --rd-journey-hold-gap
+  // for why this value and not 0 or a whole screen.
+  var HOLD_GAP = 140;
+
+  // Read from the stylesheet for the same reason STICKY_TOP is: .rd-work-tag
+  // transitions the year pill with these exact values, so taking them from
+  // anywhere else would let the card and its pill drift apart.
+  var rootStyle = getComputedStyle(document.documentElement);
+  var LAND_MS = parseFloat(rootStyle.getPropertyValue('--rd-journey-land')) || 640;
+  var LAND_EASE =
+    rootStyle.getPropertyValue('--rd-journey-land-ease').trim() ||
+    'cubic-bezier(0.33, 1, 0.68, 1)';
+  HOLD_GAP =
+    parseFloat(rootStyle.getPropertyValue('--rd-journey-hold-gap')) || HOLD_GAP;
+
   function update() {
     ticking = false;
 
     if (!isStacked()) {
       entries.forEach(function (e) {
         e.card.style.removeProperty('--rd-tag-x');
+        e.card.style.removeProperty('--rd-card-y');
         if (e.tag) e.tag.removeAttribute('aria-current');
       });
+      primed = false;
       return;
     }
 
     var listTop = list.getBoundingClientRect().top;
     var front = 0;
+    var prevBottom = null;
+    // The lowest a waiting card may park. Read every frame rather than cached:
+    // it moves with the window, and a phone's URL bar collapsing changes
+    // innerHeight mid-scroll without firing a resize.
+    var foldLine = window.innerHeight - HOLD_PEEK;
 
     entries.forEach(function (e, i) {
-      // Where the card's top edge would sit if it weren't pinned.
-      var naturalTop = listTop + e.card.offsetTop;
-      // Positive while the card is still approaching the sticky line, <= 0 once
-      // it has reached it and pinned.
-      var distance = naturalTop - STICKY_TOP;
+      var line = lineOf(e.card);
+      // Where the card's top edge would sit if it weren't pinned, clamped by
+      // sticky: it can never draw above its own line.
+      var natural = listTop + staticTop[i];
+      if (natural < line) natural = line;
 
-      if (distance <= 1) front = i;
+      var target;
+      var landed;
 
-      // 0 while the card is still TAG_LEAD or more below the line, ramping to 1
-      // exactly as it pins — so the pill slides from its resting inset into its
-      // slot in the strip, scrubbed by scroll rather than eased on a timer.
-      var progress = 1 - distance / TAG_LEAD;
-      progress = progress < 0 ? 0 : progress > 1 ? 1 : progress;
+      if (i === 0) {
+        target = natural;
+        landed = natural <= line + 1;
+      } else {
+        var span = staticTop[i] - staticTop[i - 1];
+        // 0 where the card starts its approach (one card-plus-gap below the
+        // line), 1 where it would pin.
+        var p = (line + span - natural) / span;
+        p = p < 0 ? 0 : p > 1 ? 1 : p;
+        landed = p >= COMMIT;
+        // Before the commit the card waits HOLD_GAP below the one in front,
+        // but never past the fold — on a short window that cap is what stops
+        // the wait position sliding off screen entirely. prevBottom is then the
+        // floor underneath both, so when several cards are waiting the second
+        // sits a full card-height below the first instead of inside it.
+        // `natural` stays in the outer max so a card still below its wait
+        // position is left exactly where the document puts it: the clamp only
+        // ever holds a card DOWN, never drags one up early.
+        var hold = Math.max(
+          prevBottom,
+          Math.min(foldLine, prevBottom + HOLD_GAP)
+        );
+        target = landed ? line : Math.max(natural, hold);
+      }
+
+      // The hold is exact per frame, so the transform can carry no CSS
+      // transition. The landing is therefore run as its own animation, added on
+      // top of the scrubbed transform: it starts where the card was drawn last
+      // frame and resolves to nothing, so the scroll keeps full control the
+      // moment it finishes.
+      if (primed && landed !== hasLanded[i] && !reduceMotion.matches) {
+        var delta = renderedAt[i] - target;
+        if (Math.abs(delta) > 1) {
+          e.card.animate(
+            [
+              { transform: 'translateY(' + delta.toFixed(1) + 'px)' },
+              { transform: 'translateY(0px)' }
+            ],
+            {
+              duration: LAND_MS,
+              easing: LAND_EASE,
+              composite: 'add'
+            }
+          );
+        }
+      }
 
       e.card.style.setProperty(
-        '--rd-tag-x',
-        (travel[i] * progress).toFixed(1) + 'px'
+        '--rd-card-y',
+        (target - natural).toFixed(1) + 'px'
       );
+      // The pill belongs to the card, so it takes its slot in the strip on the
+      // same commit rather than on a scrub of its own; .rd-work-tag transitions
+      // the step.
+      e.card.style.setProperty(
+        '--rd-tag-x',
+        (landed ? travel[i] : 0).toFixed(1) + 'px'
+      );
+
+      renderedAt[i] = target;
+      hasLanded[i] = landed;
+      if (landed) front = i;
+      prevBottom = target + e.card.offsetHeight;
     });
 
+    primed = true;
     paint(front);
   }
 
@@ -343,6 +494,17 @@
       update();
     });
 
+    // The card's height ANIMATES, so on the click frame offsetHeight is still
+    // the old value and the static offsets built from it would be a card-height
+    // out of date — which now feeds the landing, not just the snap markers.
+    // Re-run once the height has actually settled.
+    e.body.addEventListener('transitionend', function (ev) {
+      if (ev.target !== e.body || ev.propertyName !== 'height') return;
+      measureOffsets();
+      positionMarkers();
+      update();
+    });
+
     // A card left open when the viewport crosses the breakpoint would keep a
     // stale pixel height, so drop it and re-measure.
     // A card left open across a resize keeps a stale pixel height, and its
@@ -372,9 +534,45 @@
     entries.forEach(function (e) {
       e.card.dispatchEvent(new Event('rd-remeasure'));
     });
+    // After the remeasure, not before: a card left expanded gets its height
+    // back there, and the static offsets are built out of those heights.
+    measureOffsets();
     positionMarkers();
     update();
+    // Crossing 768px turns the deck into a scroller or back again, so the
+    // end-of-deck flag has to be recomputed even without a deck scroll.
+    readDeckEdge();
   }
+
+  /* ------------------------------------ 5. phone deck right-edge fade - */
+
+  /* Below 769px the stack becomes a horizontal swipe deck and redesign.css
+     masks its right edge so the next card dissolves into the section
+     background. The mask is pinned to the element's box, not the content, so
+     once the deck is scrolled to its end it would sit on top of the LAST
+     card and eat its border and the last few characters of every line. This
+     flag lets the stylesheet drop the mask there. Read `scrollLeft` only
+     inside rAF: reading it in the scroll handler itself forces layout on
+     every frame of a momentum swipe.
+
+     The 2px slack absorbs sub-pixel scroll positions — a deck scrolled fully
+     right lands on fractional values in both Chromium and WebKit, so an
+     exact comparison never fires. */
+  var deckTicking = false;
+
+  function readDeckEdge() {
+    deckTicking = false;
+    var max = list.scrollWidth - list.clientWidth;
+    list.classList.toggle('is-deck-end', max <= 0 || list.scrollLeft >= max - 2);
+  }
+
+  function onDeckScroll() {
+    if (deckTicking) return;
+    deckTicking = true;
+    window.requestAnimationFrame(readDeckEdge);
+  }
+
+  list.addEventListener('scroll', onDeckScroll, { passive: true });
 
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onResize);
@@ -385,6 +583,8 @@
   window.addEventListener('load', onResize);
 
   measureTags();
+  measureOffsets();
   positionMarkers();
   update();
+  readDeckEdge();
 })();

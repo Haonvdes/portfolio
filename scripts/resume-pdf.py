@@ -82,5 +82,6 @@ pages = len(re.findall(rb"/Type\s*/Page[^s]", OUT.read_bytes()))
 shown = OUT.relative_to(ROOT) if OUT.is_relative_to(ROOT) else OUT
 print(f"resume-pdf: wrote {shown} ({OUT.stat().st_size // 1024} KB, {pages} pages, "
       f"{tagged} links tagged utm_source={UTM['utm_source']})")
-if pages != 2:
-    sys.exit(f"resume-pdf: expected 2 A4 pages, got {pages} — content overflowed")
+if pages != 3:
+    sys.exit(f"resume-pdf: expected 3 A4 pages (cover letter + 2 resume pages), got {pages} "
+             "— content overflowed")

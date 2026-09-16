@@ -306,10 +306,15 @@
                             </div>
 
                             <div class="rb-section">
-                                <h4 class="rb-section-title">User overview</h4>
-                                <div class="rb-overview"></div>
-                                <div class="rb-facts"></div>
-                                <div class="rb-quote" aria-live="polite"></div>
+                                <button type="button" class="rb-overview-toggle" aria-expanded="true" aria-controls="rb-overview-body">
+                                    <span class="rb-section-title">User overview</span>
+                                    <svg class="rb-chev" width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </button>
+                                <div class="rb-overview-body" id="rb-overview-body">
+                                    <div class="rb-overview"></div>
+                                    <div class="rb-facts"></div>
+                                    <div class="rb-quote" aria-live="polite"></div>
+                                </div>
                             </div>
 
                             <div class="rb-section rb-journeys">

@@ -54,7 +54,18 @@
     $('rb-name').textContent = r.name;
     toggle.setAttribute('aria-label', 'Role: ' + r.name);
 
-    var segs = '', axis = '', vert = '';
+    /* Mobile reads the same three states as the legend, one row per state
+       with the areas listed inside it — not one row per area: 13 stacked
+       rows pushed everything below the fold. The rows carry no heading; the
+       colour mark is the legend's, and repeating its words here says nothing
+       the reader has not just read. */
+    var buckets = [
+      { cls: ' is-on is-hot', lanes: [] },
+      { cls: ' is-on', lanes: [] },
+      { cls: '', lanes: [] }
+    ];
+
+    var segs = '', axis = '';
     M.lanes.forEach(function (l) {
       var on = M.has(r, l.id), hot = M.hot(r, l.id);
       var state = (on ? ' is-on' : '') + (hot ? ' is-hot' : '');
@@ -62,15 +73,17 @@
               (on ? ' tabindex="0" data-lane="' + l.id + '"' : '') +
               ' title="' + esc(l.label) + (on ? (hot ? ' — most used' : '') : ' — no permission') + '"></div>';
       axis += '<span class="' + state.trim() + '">' + esc(l.label) + '</span>';
-      vert += '<div class="rb-vrow' + state + '">' +
-              '<div class="rb-vmark"></div>' +
-              '<div><div class="rb-vlabel">' + esc(l.label) + '</div>' +
-              '<div class="rb-vquote">' + (on ? esc(r.cells[l.id]) : 'No permission.') + '</div>' +
-              '</div></div>';
+      buckets[hot ? 0 : on ? 1 : 2].lanes.push(l.label);
     });
     band.innerHTML = segs;
     $('rb-axis').innerHTML = axis;
-    $('rb-vert').innerHTML = vert;
+    $('rb-vert').innerHTML = buckets.filter(function (b) { return b.lanes.length; })
+      .map(function (b) {
+        return '<div class="rb-vrow' + b.cls + '">' +
+               '<div class="rb-vmark"></div>' +
+               '<div class="rb-vquote">' + esc(b.lanes.join(', ')) + '</div>' +
+               '</div>';
+      }).join('');
     quote.innerHTML = defaultQuote(r);
 
     $('rb-overview').textContent = r.overview || '';
@@ -144,13 +157,24 @@
     }
   });
 
-  /* --- journeys accordion --- */
-  var jToggle = $('rb-journeys-toggle'), jBody = $('rb-journeys-body');
-  jToggle.addEventListener('click', function () {
-    var expanded = jToggle.getAttribute('aria-expanded') !== 'true';
-    jToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-    jBody.hidden = !expanded;
-  });
+  /* --- accordions. The overview opens expanded on desktop and collapsed on
+     mobile, where its paragraph is the longest thing in the block; the state
+     is set once at load, so a later resize never undoes a reader's click. --- */
+  function accordion(toggle, body) {
+    toggle.addEventListener('click', function () {
+      var expanded = toggle.getAttribute('aria-expanded') !== 'true';
+      toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      body.hidden = !expanded;
+    });
+  }
+  accordion($('rb-journeys-toggle'), $('rb-journeys-body'));
+
+  var oToggle = $('rb-overview-toggle'), oBody = $('rb-overview-body');
+  accordion(oToggle, oBody);
+  if (window.matchMedia && window.matchMedia('(max-width: 900px)').matches) {
+    oToggle.setAttribute('aria-expanded', 'false');
+    oBody.hidden = true;
+  }
 
   /* focusin as well as mouseover: the solid segments are focusable, so a
      keyboard user and a tap (which focuses) both reach the quote. */

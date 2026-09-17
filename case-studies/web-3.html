@@ -653,45 +653,52 @@
          The keys must stay exactly as they are in contentMap. -->
     <section class="rd-case-section is-tinted" id="artifacts">
         <div class="rd-case-inner rd-shell">
-            <h2 class="rd-case-h2" data-aos="fade-up">What the surfaces actually look like</h2>
+            <!-- Heading, notice and pills pin while the showcase scrolls under them
+                 (js/pin-head.js). The pills and their dropdown must stay adjacent
+                 siblings inside .rd-b6-showcase-nav: the shared collapsible rule
+                 pairs them through `+`. -->
+            <div class="rd-pin-head">
+                <h2 class="rd-case-h2" data-aos="fade-up">What the surfaces actually look like</h2>
 
-            <div class="rd-b6-notice" role="note" data-aos="fade-up">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                     stroke-linejoin="round" aria-hidden="true" focusable="false">
-                    <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                    <line x1="12" y1="9" x2="12" y2="13"></line>
-                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                </svg>
-                <p>Some of these products are restricted in Vietnam under a new government policy, so they may not open from there.</p>
+                <div class="rd-b6-notice rd-pin-head-intro" role="note" data-aos="fade-up">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round" aria-hidden="true" focusable="false">
+                        <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <p>Some of these products are restricted in Vietnam under a new government policy, so they may not open from there.</p>
+                </div>
+
+                <div class="rd-b6-showcase-nav" data-aos="fade-up">
+                    <!-- .rd-bench-views keeps js/case-tabs.js off this group: these
+                         buttons have no aria-controls, and loadContent() swaps the
+                         one shared panel instead. -->
+                    <div class="button-group rd-tabs rd-bench-views rd-tabs-collapsible" aria-label="Product surfaces">
+                        <button type="button" class="rd-tab" aria-pressed="true" onclick="loadContent('Swap')"><span>Swap</span></button>
+                        <button type="button" class="rd-tab" aria-pressed="false" onclick="loadContent('SeekHype')"><span>SeekHype</span></button>
+                        <button type="button" class="rd-tab" aria-pressed="false" onclick="loadContent('Safe')"><span>Safe</span></button>
+                        <button type="button" class="rd-tab" aria-pressed="false" onclick="loadContent('Scan')"><span>Scan</span></button>
+                        <button type="button" class="rd-tab" aria-pressed="false" onclick="loadContent('Bot')"><span>AuraBot</span></button>
+                    </div>
+                    <div class="rd-tabs-dropdown" id="showcase-select">
+                        <button type="button" class="rd-tabs-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="showcase-dropdown-panel" aria-label="Product surfaces">
+                            <span data-tabs-dropdown-value>Swap</span>
+                            <svg class="rd-tabs-dropdown-chev" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </button>
+                        <ul class="rd-tabs-dropdown-panel" id="showcase-dropdown-panel" role="listbox" aria-label="Product surfaces">
+                            <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="Swap" aria-selected="true">Swap</li>
+                            <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="SeekHype" aria-selected="false">SeekHype</li>
+                            <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="Safe" aria-selected="false">Safe</li>
+                            <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="Scan" aria-selected="false">Scan</li>
+                            <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="Bot" aria-selected="false">AuraBot</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-            <div class="rd-b6-showcase-nav" data-aos="fade-up">
-                <!-- .rd-bench-views keeps js/case-tabs.js off this group: these
-                     buttons have no aria-controls, and loadContent() swaps the
-                     one shared panel instead. -->
-                <div class="button-group rd-tabs rd-bench-views rd-tabs-collapsible" aria-label="Product surfaces">
-                    <button type="button" class="rd-tab" aria-pressed="true" onclick="loadContent('Swap')"><span>Swap</span></button>
-                    <button type="button" class="rd-tab" aria-pressed="false" onclick="loadContent('SeekHype')"><span>SeekHype</span></button>
-                    <button type="button" class="rd-tab" aria-pressed="false" onclick="loadContent('Safe')"><span>Safe</span></button>
-                    <button type="button" class="rd-tab" aria-pressed="false" onclick="loadContent('Scan')"><span>Scan</span></button>
-                    <button type="button" class="rd-tab" aria-pressed="false" onclick="loadContent('Bot')"><span>AuraBot</span></button>
-                </div>
-                <div class="rd-tabs-dropdown" id="showcase-select">
-                    <button type="button" class="rd-tabs-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="showcase-dropdown-panel" aria-label="Product surfaces">
-                        <span data-tabs-dropdown-value>Swap</span>
-                        <svg class="rd-tabs-dropdown-chev" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </button>
-                    <ul class="rd-tabs-dropdown-panel" id="showcase-dropdown-panel" role="listbox" aria-label="Product surfaces">
-                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="Swap" aria-selected="true">Swap</li>
-                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="SeekHype" aria-selected="false">SeekHype</li>
-                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="Safe" aria-selected="false">Safe</li>
-                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="Scan" aria-selected="false">Scan</li>
-                        <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="Bot" aria-selected="false">AuraBot</li>
-                    </ul>
-                </div>
-                <p class="rd-case-num-desc case-desc" id="casedescription"></p>
-            </div>
+            <p class="rd-case-num-desc case-desc" id="casedescription"></p>
 
             <div class="show-case-detail rd-b6-showcase" id="showCaseDetail" data-aos="fade-up">
                 <div class="fact-card rd-case-card">

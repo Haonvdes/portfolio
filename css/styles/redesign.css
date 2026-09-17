@@ -871,15 +871,9 @@ html:has(body.rd-home) {
 }
 .rd-impact-card img.rd-impact-icon {
   display: block;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   flex-shrink: 0;
-}
-@media (min-width: 769px) {
-  .rd-impact-card img.rd-impact-icon {
-    width: 60px;
-    height: 60px;
-  }
 }
 .rd-impact-card h3 {
   font-weight: var(--rd-fw-heading);
@@ -9137,6 +9131,27 @@ html:has(body.is-section-snap) {
   background: var(--rd-ink);
   color: var(--rd-ink-inverse);
 }
+/* The nav sits inside the section's `.rd-pin-head`, so it is one item of the
+   pinned row rather than a full-width block: the pills and their dropdown stay
+   wrapped together because the collapsible pairing and the aria-pressed fill
+   above are both written against this container. */
+.rd-pin-head.is-stuck > .rd-b6-showcase-nav {
+  width: auto;
+  min-width: 0;
+  flex: 0 1 auto;
+  margin: -2px 0;   /* same optical centring the bare .rd-tabs gets */
+}
+@media (max-width: 768px) {
+  /* The header steps out of the layout at this width so its dropdown can stick
+     over the whole section; the nav has to do the same or it clamps that sticky
+     range to its own box, which is only as tall as the dropdown. */
+  .rd-pin-head > .rd-b6-showcase-nav { display: contents; }
+  /* Re-states the pinned dropdown's pad-cancelling margins, which the `margin: 0`
+     above would otherwise win back. */
+  .rd-pin-head > .rd-b6-showcase-nav .rd-bench-views.rd-tabs-collapsible + .rd-tabs-dropdown {
+    margin-block: 2px -12px;
+  }
+}
 
 /* The card stretches to the row, which the image sets whenever it is the
    taller of the two; the CTA then sits on the card's bottom edge. Nothing is
@@ -10034,6 +10049,23 @@ html:has(body.is-section-snap) {
 @media (max-width: 768px) {
   .rd-split-head.is-case { align-items: flex-start; gap: var(--m-16); }
 }
+/* The whole header is wrapped in a `.rd-pin-head`, so once it pins the split
+   row becomes a single item beside the pills: the lead folds away (js/pin-head.js
+   fades it out first) and the two-line title comes onto one line. Seven pills
+   never fit next to it, so that group takes the row under the title and wraps
+   inside itself instead of pushing the header wider than the column. */
+.rd-pin-head.is-stuck > .rd-split-head.is-case {
+  width: auto;
+  min-width: 0;
+  flex: 0 1 auto;
+}
+.rd-pin-head.is-stuck > .rd-split-head.is-case > .rd-pin-head-intro { display: none; }
+.rd-pin-head.is-stuck > .rd-split-head.is-case .rd-case-h2 { flex: 0 1 auto; margin: 0; }
+/* One line once pinned. The source keeps a space after the <br> so the two
+   halves stay separate words when it is hidden; at rest the browser drops a
+   collapsible space at the start of a line, so the resting break is unchanged. */
+.rd-pin-head.is-stuck > .rd-split-head.is-case .rd-case-h2 br { display: none; }
+.rd-pin-head.is-stuck > .rd-hc-screens-tabs { flex: 1 1 100%; width: 100%; }
 
 /* --- B2b. Step-1 phase columns under the loop stage ----------------------
    One column per circle. In normal flow for the static/reduced-motion render;
@@ -10049,6 +10081,16 @@ html:has(body.is-section-snap) {
 }
 .js-ai-ready .rd-ai-reveal { position: relative; }
 .js-ai-ready .rd-ai-phases { position: absolute; top: 0; left: 0; right: 0; }
+/* Spans the whole grid so it reads as one caption over all four columns, and
+   it lives INSIDE .rd-ai-phases so ai-accelerate.js's autoAlpha fade at STEP 2
+   carries it out with the columns it labels — a sibling would be left behind. */
+.rd-ai-phases-label {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-emphasis);
+  color: var(--rd-ink-muted);
+}
 .rd-ai-phase { display: flex; flex-direction: column; gap: var(--m-12); }
 .rd-ai-phase-title {
   margin: 0;
@@ -10962,4 +11004,390 @@ html:has(body.is-section-snap) {
 }
 @media (prefers-reduced-motion: reduce) {
   .rd-w3c-chart [data-side] { transition: none; }
+}
+
+/* ======================================================================== *
+   AIFLOW — step-through sequence model (healthcare §05 "The model", v2)
+   Preview: case-studies/_preview-ai-model-flow.html
+   Markup + geometry: js/ai-model-flow.js, content: js/ai-model-flow-data.js
+
+   Every selector below is under `.rd-aiflow`. Nothing here is shared, and the
+   only tokens it adds are the four locals on `.rd-aiflow` itself — the accent
+   is --rd-pain-chip, the one orange already on the token set; its two tints
+   are derived from it and have no meaning outside this component.
+
+   SVG attributes cannot read var(), so the arrows carry tone classes and the
+   colour is set here, never on the element.
+ * ======================================================================== */
+.rd-aiflow {
+  --aimf-accent: var(--rd-pain-chip);
+  --aimf-accent-tint: #fdf1e6;   /* --rd-pain-chip at ~10% on white */
+  --aimf-accent-ink: #9c4500;    /* --rd-pain-chip darkened for text on tint */
+  --aimf-zone-gap: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--m-20);
+}
+
+/* ---- stepper bar ---- */
+.rd-aiflow-bar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--m-16);
+  padding: var(--p-10) 0;
+  background: var(--rd-white);
+  border-top: 1px solid var(--rd-border-soft);
+  border-bottom: 1px solid var(--rd-border-soft);
+}
+.rd-aiflow-steps {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--m-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+  overflow-x: auto;
+}
+.rd-case .rd-aiflow-steps li { margin: 0; padding: 0; list-style: none; }
+.rd-aiflow-step {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--m-8);
+  padding: var(--p-6) var(--p-10);
+  border: 1px solid transparent;
+  border-radius: var(--r-8);
+  background: none;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: var(--rd-font);
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-body);
+  color: var(--rd-ink-muted);
+}
+.rd-aiflow-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex: none;
+  border: 1px solid var(--rd-border-muted);
+  border-radius: 50%;
+  font-family: var(--rd-font-mono);
+  font-size: var(--rd-fs-xs);
+  color: var(--rd-ink-muted);
+}
+.rd-aiflow-step.is-done { color: var(--rd-ink); }
+.rd-aiflow-step.is-done .rd-aiflow-step-num { border-color: var(--rd-ink); color: var(--rd-ink); }
+.rd-aiflow-step.is-current {
+  border-color: var(--rd-border-soft);
+  color: var(--rd-ink);
+  font-weight: var(--rd-fw-emphasis);
+}
+.rd-aiflow-step.is-current .rd-aiflow-step-num {
+  background: var(--aimf-accent);
+  border-color: var(--aimf-accent);
+  color: var(--rd-ink-inverse);
+}
+.rd-aiflow-step:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: 2px; }
+.rd-aiflow-compact {
+  display: none;
+  flex: 1 1 auto;
+  margin: 0;
+  text-align: center;
+  white-space: nowrap;
+  font-family: var(--rd-font-mono);
+  font-size: var(--rd-fs-sm);
+  color: var(--rd-ink);
+}
+.rd-aiflow-bar .rd-aiflow-nav { flex: none; }
+
+/* ---- body: diagram + step panel ---- */
+.rd-aiflow-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: var(--m-24);
+  align-items: start;
+}
+.rd-aiflow-diagram {
+  position: relative;
+  min-width: 0;
+  padding: var(--p-16);
+  border: 1px solid var(--rd-border-soft);
+  border-radius: var(--r-12);
+  background: var(--rd-white);
+}
+.rd-aiflow-scroll { overflow-x: auto; }
+.rd-aiflow-plot {
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+  column-gap: var(--m-8);
+  min-width: 880px;
+}
+.rd-aiflow-zone {
+  grid-row: 1;
+  margin: 0 0 var(--m-10);
+  text-align: center;
+  font-size: var(--rd-fs-xs);
+  font-weight: var(--rd-fw-emphasis);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rd-ink-muted);
+}
+/* The zone rule runs the full height of the plot, so it sits in its own
+   (empty) grid column rather than as a border on the card beside it. */
+.rd-aiflow-divider {
+  grid-row: 1 / 5;
+  justify-self: center;
+  width: 0;
+  border-left: 1px dashed var(--rd-border-soft);
+}
+.rd-aiflow-lane {
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--m-2);
+  padding: var(--p-10);
+  min-height: 62px;
+  border: 1px solid var(--rd-border-soft);
+  border-radius: var(--r-8);
+  background: var(--rd-white);
+}
+.rd-aiflow-lane-name {
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-heading);
+  line-height: var(--rd-lh-tight);
+  color: var(--rd-ink);
+}
+.rd-aiflow-lane-sub {
+  font-family: var(--rd-font-mono);
+  font-size: var(--rd-fs-xs);
+  line-height: var(--rd-lh-tight);
+  color: var(--rd-ink-muted);
+}
+.rd-aiflow-badges {
+  grid-row: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--m-4);
+  padding: var(--m-10) 0 var(--m-14);
+}
+.rd-aiflow-badge {
+  display: inline-block;
+  max-width: 100%;
+  padding: 3px var(--p-8);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: var(--rd-font-mono);
+  font-size: var(--rd-fs-xs);
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rd-aiflow-badge.is-base { background: var(--rd-surface); color: var(--rd-ink-muted); }
+.rd-aiflow-badge.is-done { background: var(--rd-ink); color: var(--rd-ink-inverse); }
+.rd-aiflow-badge.is-current {
+  background: var(--aimf-accent);
+  color: var(--rd-ink-inverse);
+  font-weight: var(--rd-fw-emphasis);
+}
+.rd-aiflow-badge.is-open {
+  background: var(--aimf-accent-tint);
+  border-color: var(--aimf-accent);
+  color: var(--aimf-accent-ink);
+}
+.rd-aiflow-badge.is-dead {
+  background: var(--rd-white);
+  border-color: var(--rd-border-muted);
+  color: var(--rd-ink-muted);
+  text-decoration: line-through;
+}
+
+/* ---- the drawn part ---- */
+.rd-aiflow-svg { grid-row: 4; width: 100%; display: block; }
+.rd-aiflow-life { stroke: var(--rd-line); stroke-width: 1.5; }
+.rd-aiflow-life.is-ghost { stroke-dasharray: 2 5; }
+.rd-aiflow-arrow { fill: none; stroke-width: 2; }
+.rd-aiflow-arrow.is-auto { stroke-dasharray: 8 6; }
+.rd-aiflow-arrow.is-pending, .rd-aiflow-life { stroke-linecap: round; }
+.rd-aiflow-arrow.is-done { stroke: var(--rd-ink); }
+.rd-aiflow-arrow.is-pending { stroke: var(--rd-border-soft); }
+.rd-aiflow-arrow.is-current { stroke: var(--aimf-accent); stroke-width: 3; }
+.rd-aiflow-head.is-done { fill: var(--rd-ink); }
+.rd-aiflow-head.is-pending { fill: var(--rd-border-soft); }
+.rd-aiflow-head.is-current { fill: var(--aimf-accent); }
+.rd-aiflow-dot.is-done { fill: var(--rd-ink); }
+.rd-aiflow-dot.is-pending { fill: var(--rd-border-soft); }
+.rd-aiflow-dot.is-current { fill: var(--aimf-accent); }
+.rd-aiflow-close { fill: none; stroke-width: 1.8; stroke-linecap: round; }
+.rd-aiflow-close.is-done { stroke: var(--rd-ink-muted); }
+.rd-aiflow-close.is-pending { stroke: var(--rd-border-soft); }
+.rd-aiflow-close.is-current { stroke: var(--aimf-accent); stroke-width: 2.4; }
+.rd-aiflow-pill-box { fill: var(--rd-white); stroke-width: 1; }
+.rd-aiflow-pill-text {
+  font-family: var(--rd-font-mono);
+  font-size: 12px;   /* off the type ladder on purpose: 14px pills overlap at
+                        880px, and this is drawn text, not page copy */
+}
+.rd-aiflow-pill.is-done .rd-aiflow-pill-box { stroke: var(--rd-ink); }
+.rd-aiflow-pill.is-done .rd-aiflow-pill-text { fill: var(--rd-ink); }
+.rd-aiflow-pill.is-pending .rd-aiflow-pill-box { stroke: var(--rd-border-soft); }
+.rd-aiflow-pill.is-pending .rd-aiflow-pill-text { fill: var(--rd-ink-muted); }
+.rd-aiflow-pill.is-current .rd-aiflow-pill-box { fill: var(--aimf-accent-tint); stroke: var(--aimf-accent); }
+.rd-aiflow-pill.is-current .rd-aiflow-pill-text { fill: var(--aimf-accent-ink); font-weight: var(--rd-fw-emphasis); }
+.rd-aiflow-pill.is-note .rd-aiflow-pill-box { stroke-dasharray: 4 3; }
+
+.rd-aiflow-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--m-8) var(--m-20);
+  margin: var(--m-16) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.rd-case .rd-aiflow-legend li { margin: 0; padding: 0; list-style: none; }
+.rd-aiflow-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--m-8);
+  font-family: var(--rd-font-mono);
+  font-size: var(--rd-fs-xs);
+  color: var(--rd-ink-muted);
+}
+.rd-aiflow-legend-mark { width: 22px; border-top: 2px solid var(--rd-ink); }
+.rd-aiflow-legend-mark.is-current { border-color: var(--aimf-accent); border-top-width: 3px; }
+.rd-aiflow-legend-mark.is-pending { border-color: var(--rd-border-soft); }
+.rd-aiflow-legend-mark.is-auto { border-top-style: dashed; }
+
+/* ---- step panel ---- */
+.rd-aiflow-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--m-12);
+  padding: var(--p-20);
+  border: 1px solid var(--rd-border-soft);
+  border-radius: var(--r-12);
+  background: var(--rd-white);
+}
+.rd-aiflow-eyebrow {
+  margin: 0;
+  font-family: var(--rd-font-mono);
+  font-size: var(--rd-fs-xs);
+  color: var(--rd-ink-muted);
+}
+.rd-aiflow-title {
+  margin: 0;
+  font-family: var(--rd-font);
+  font-size: var(--rd-fs-2xl);
+  font-weight: var(--rd-fw-heading);
+  line-height: var(--rd-lh-heading);
+  color: var(--rd-ink);
+}
+.rd-case .rd-aiflow-text {
+  margin: 0;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+.rd-aiflow-text code {
+  padding: 1px var(--p-4);
+  border-radius: var(--r-4);
+  background: var(--rd-surface);
+  font-family: var(--rd-font-mono);
+  font-size: var(--rd-fs-sm);
+  color: var(--rd-ink);
+}
+.rd-aiflow-code {
+  display: flex;
+  flex-direction: column;
+  gap: var(--m-8);
+  padding: var(--p-12);
+  border: 1px solid var(--rd-border-soft);
+  border-radius: var(--r-8);
+  background: var(--rd-surface);
+}
+.rd-aiflow-code-caption {
+  margin: 0;
+  font-size: var(--rd-fs-sm);
+  color: var(--rd-ink-muted);
+}
+.rd-aiflow-code-lines {
+  margin: 0;
+  overflow-x: auto;
+  font-family: var(--rd-font-mono);
+  font-size: var(--rd-fs-sm);
+  line-height: 1.7;
+  color: var(--rd-ink);
+}
+.rd-aiflow-callout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--m-4);
+  padding: var(--p-4) 0 var(--p-4) var(--p-14);
+  border-left: 3px solid var(--aimf-accent);
+}
+.rd-aiflow-callout-title {
+  margin: 0;
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-emphasis);
+  color: var(--aimf-accent-ink);
+}
+.rd-case .rd-aiflow-callout-body {
+  margin: 0;
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink-muted);
+}
+.rd-aiflow-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--m-12);
+  padding-top: var(--p-14);
+  border-top: 1px solid var(--rd-border-soft);
+}
+
+/* Panel first, diagram under it: the diagram scrolls sideways from here down,
+   and a reader should not have to scroll past 880px of it to reach the words. */
+@media (max-width: 1024px) {
+  .rd-aiflow-body { grid-template-columns: minmax(0, 1fr); }
+  .rd-aiflow-panel { order: -1; }
+  /* The diagram keeps its size and runs off the right edge from here down, so
+     it needs to say so. Sits above the legend, never over it. */
+  .rd-aiflow-diagram::after {
+    content: "";
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    bottom: 56px;
+    width: 40px;
+    border-radius: 0 var(--r-12) 0 0;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), var(--rd-white));
+    pointer-events: none;
+  }
+}
+@media (max-width: 768px) {
+  /* Three items do not fit on one row here, and shrinking the buttons is worse
+     than giving the label its own line above them. */
+  .rd-aiflow-bar { flex-wrap: wrap; justify-content: space-between; }
+  .rd-aiflow-steps { display: none; }
+  .rd-aiflow-compact {
+    display: block;
+    order: -1;
+    flex: 1 0 100%;
+    text-align: left;
+  }
+  .rd-aiflow-diagram { padding: var(--p-12); }
+  .rd-aiflow-title { font-size: var(--rd-fs-xl); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rd-aiflow-step { transition: none; }
 }

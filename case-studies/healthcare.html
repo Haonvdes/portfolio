@@ -572,13 +572,15 @@
         <div class="rd-ai-pin">
             <div class="rd-case-inner rd-shell rd-ai-inner">
                 <div class="rd-ai-header">
-                    <h2 class="rd-case-h2">With the order settled,<br>the question was how fast each phase could ship</h2>
+                    <h2 class="rd-case-h2">With the order settled,<br>the question was how fast each release could ship</h2>
                     <div class="rd-case-body">
                         <p>
-                            Every phase went through the same four steps: discovery, validation,
-                            build and launch. With AI working inside each of them, those four close
-                            into two. Work out what to build and test it. Then build it, launch it
-                            and scale it.
+                            The standard run is four phases in order: discovery, validation,
+                            build, launch. Every one of them done by hand, and every one waiting
+                            on a document from the phase before. Now AI drafts the spec, the
+                            screens and working code from one source, so nothing waits. Four
+                            phases close into two &mdash; work out what to build and test it,
+                            then build it, launch it and scale it.
                         </p>
                     </div>
                 </div>
@@ -608,42 +610,43 @@
                          over the top of this reveal block, which is still invisible at
                          STEP 1, so it adds no height to the pinned box. -->
                     <div class="rd-ai-phases">
+                        <p class="rd-ai-phases-label">Before AI &mdash; four phases, all of it by hand</p>
                         <div class="rd-ai-phase is-discovery">
                             <p class="rd-ai-phase-title">01 Discovery</p>
                             <ul class="rd-case-list is-tight">
-                                <li>Map all 17 roles and every handoff between them</li>
-                                <li>Write personas for a rep, a coordinator and a speaker</li>
-                                <li>Draw an as-is and a to-be flow for each role</li>
+                                <li>Interview every role, one at a time</li>
+                                <li>Write up personas and journeys</li>
+                                <li>Draw the as-is flow, then the to-be</li>
                             </ul>
                         </div>
                         <div class="rd-ai-phase is-validate">
                             <p class="rd-ai-phase-title">02 Validate</p>
                             <ul class="rd-case-list is-tight">
-                                <li>Check what people said against the client's own records</li>
-                                <li>Give each phase its own must, should, could and won't</li>
-                                <li>Keep budget in the MVP, not a later release</li>
+                                <li>Turn all of it into a specification document</li>
+                                <li>Walk the client through it and get sign-off</li>
+                                <li>Prioritise the backlog against the scope</li>
                             </ul>
                         </div>
                         <div class="rd-ai-phase is-build">
                             <p class="rd-ai-phase-title">03 Build</p>
                             <ul class="rd-case-list is-tight">
-                                <li>Build the program-request spine first</li>
-                                <li>Give the four roles that own the record the whole flow</li>
-                                <li>Redesign each screen against the one it replaced</li>
+                                <li>Redraw the document as a design file</li>
+                                <li>Restate the design as tickets</li>
+                                <li>Build from the tickets, screen by screen</li>
                             </ul>
                         </div>
                         <div class="rd-ai-phase is-launch">
                             <p class="rd-ai-phase-title">04 Launch</p>
                             <ul class="rd-case-list is-tight">
-                                <li>Go live in June 2026, beside the old system</li>
-                                <li>Leave programs already in flight where they started</li>
-                                <li>Hold the client's 30-day closing rate as the baseline</li>
+                                <li>Write test cases against whichever document is newest</li>
+                                <li>Release, train the users, hand over</li>
+                                <li>Collect whatever the specification missed</li>
                             </ul>
                         </div>
                     </div>
 
                     <div class="rd-pin-head">
-                        <h3 class="rd-ai-reveal-heading">AI enablement across product screens, sprints and phases</h3>
+                        <h3 class="rd-ai-reveal-heading">With AI &mdash; four phases become two</h3>
 
                         <p class="rd-ai-reveal-question">Is this flow critical to the customer's business?</p>
 
@@ -802,8 +805,18 @@
                         .rd-dil .legend-line{ display:inline-flex; align-items:center; gap:7px; white-space:nowrap; }
                         .rd-dil .legend-line svg{ display:block; }
 
+                        /* Graph left, detail panel right. The graph is drawn at an
+                           intrinsic 1120px and the SVG scales to its column, so the
+                           column has a floor: below it the type in the drawing gets
+                           smaller than the type around it and the graph scrolls
+                           sideways instead. */
+                        .rd-dil .dil-body{
+                            display:grid; grid-template-columns:minmax(0,1fr) 280px;
+                            gap:20px; align-items:start;
+                        }
+                        .rd-dil .dil-graph-col{ min-width:0; }
                         .rd-dil .graph-wrap{ overflow-x:auto; }
-                        .rd-dil .graph-inner{ min-width:920px; }
+                        .rd-dil .graph-inner{ min-width:940px; }
                         .rd-dil svg#dil-graph{ display:block; width:100%; height:auto; }
 
                         .rd-dil .lane-label{ font-family:"IBM Plex Mono", monospace; font-size:12.5px; font-weight:600; }
@@ -833,16 +846,27 @@
                         .rd-dil .dead-mark{ stroke-width:1.6; }
 
                         .rd-dil .panel{
-                            margin-top:18px; background:var(--surface); border:1px solid var(--border);
-                            border-radius:12px; padding:26px 26px 30px; display:flex; gap:18px;
-                            align-items:flex-start; min-height:96px;
+                            background:var(--surface); border:1px solid var(--border);
+                            border-radius:12px; padding:20px; display:flex; gap:12px;
+                            flex-direction:column; align-items:flex-start;
                         }
-                        .rd-dil .panel-dot{ width:12px; height:12px; border-radius:50%; margin-top:6px; flex:none; box-shadow:0 0 0 4px var(--surface-2); }
+                        .rd-dil .panel-dot{ width:12px; height:12px; border-radius:50%; flex:none; box-shadow:0 0 0 4px var(--surface-2); }
                         .rd-dil .panel-body{ flex:1; min-width:0; }
                         .rd-dil .panel-eyebrow{ font-family:"IBM Plex Mono", monospace; font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-faint); margin:0 0 6px; }
                         .rd-dil .panel-title{ font-family:"IBM Plex Mono", monospace; font-size:15px; font-weight:600; margin:0 0 8px; color:var(--text); }
                         .rd-dil .panel-detail{ font-size:14.5px; line-height:1.6; color:var(--text-dim); margin:0; max-width:68ch; }
-                        .rd-dil .panel-hint{ font-size:14px; color:var(--text-faint); margin:0; }
+                        .rd-dil .panel-hint{ font-size:13px; color:var(--text-faint); margin:14px 0 0; }
+
+                        /* Side by side only where the graph still fits beside the panel
+                           at full size: 940px of graph + 20 gap + 280 panel needs about
+                           1240px of card, which lands at a 1440px viewport. Below that the
+                           panel drops under the graph rather than pushing the graph into
+                           a sideways scroll — the whole point of this drawing is seeing
+                           the parallel branches at once. */
+                        @media (max-width:1439px){
+                            .rd-dil .dil-body{ grid-template-columns:minmax(0,1fr); }
+                            .rd-dil .panel{ order:-1; }
+                        }
 
                         .rd-dil .caption{ margin-top:16px; font-size:12.5px; color:var(--text-faint); font-style:italic; }
 
@@ -851,9 +875,11 @@
                         }
                     </style>
 
+                    <div class="dil-body">
+                    <div class="dil-graph-col">
                     <div class="graph-wrap">
                         <div class="graph-inner">
-                            <svg id="dil-graph" viewBox="0 0 1500 626" xmlns="http://www.w3.org/2000/svg" role="img"
+                            <svg id="dil-graph" viewBox="0 0 1120 626" xmlns="http://www.w3.org/2000/svg" role="img"
                                  aria-label="Git-flow diagram showing design token, component, and concept branches feeding into a feature branch during discovery, then merging through dev to main.">
                                 <!-- populated by script -->
                             </svg>
@@ -877,14 +903,17 @@
                         </div>
                     </div>
 
-                    <div class="panel" id="dil-panel">
+                    </div>
+
+                    <aside class="panel" id="dil-panel" aria-live="polite">
                         <span class="panel-dot" id="dil-panelDot" style="background:var(--text-faint)"></span>
                         <div class="panel-body">
-                            <p class="panel-hint" id="dil-panelHint">Click a commit on the graph to see what happened there &mdash; who was involved, and what it produced.</p>
-                            <p class="panel-eyebrow" id="dil-panelEyebrow" style="display:none"></p>
-                            <p class="panel-title" id="dil-panelTitle" style="display:none"></p>
-                            <p class="panel-detail" id="dil-panelDetail" style="display:none"></p>
+                            <p class="panel-eyebrow" id="dil-panelEyebrow"></p>
+                            <p class="panel-title" id="dil-panelTitle"></p>
+                            <p class="panel-detail" id="dil-panelDetail"></p>
+                            <p class="panel-hint" id="dil-panelHint">Click any commit for what happened there.</p>
                         </div>
+                    </aside>
                     </div>
 
                 </div>
@@ -999,8 +1028,11 @@
                     function build(){
                     built = true;
 
-                    const marginLeft = 208, marginRight = 36, marginTop = 44, rowH = 78;
-                    const plotW = 1500 - marginLeft - marginRight;
+                    /* marginLeft is set by the widest lane label ("design/components",
+                       17 characters of 12.5px mono ≈ 156px from x=28) plus a gap — any
+                       narrower and the label runs into the plot band. */
+                    const marginLeft = 176, marginRight = 24, marginTop = 44, rowH = 78;
+                    const plotW = 1120 - marginLeft - marginRight;
                     const lanes = [
                         { id:"main",       label:"main",                sub:"production",         cls:"main",       y:0 },
                         { id:"dev",        label:"dev",                 sub:"integration",        cls:"dev",        y:1 },
@@ -1021,42 +1053,42 @@
 
                     const commits = {
                         main: [
-                            { t:3,  x:null, type:"anchor", title:"baseline: checkout v1 live", eyebrow:"Shipped", detail:"Current production baseline, before the redesign starts." },
-                            { t:97, x:null, type:"anchor", title:"release: checkout v2", eyebrow:"Shipped", detail:"Redesigned checkout goes live. Everything above this line — the AI prototyping, the discarded flow, the refactor — is invisible to the user. They just get a faster checkout." },
+                            { t:3,  x:null, type:"anchor", title:"baseline: checkout v1 live", label:"baseline: checkout v1", eyebrow:"Shipped", detail:"Current production baseline, before the redesign starts." },
+                            { t:97, x:null, type:"anchor", title:"release: checkout v2", label:"release: checkout v2", eyebrow:"Shipped", detail:"Redesigned checkout goes live. Everything above this line — the AI prototyping, the discarded flow, the refactor — is invisible to the user. They just get a faster checkout." },
                         ],
                         dev: [
-                            { t:7,  type:"commit", title:"dev: sprint branch cut from main", eyebrow:"Dev", detail:"Sprint branch opens. Nothing design-related has happened yet." },
-                            { t:88, type:"merge",  title:"merge: feature/checkout", eyebrow:"Dev", detail:"Production-ready code lands — payment logic, tests, and error states included. The prototype itself never merges here; only what got rebuilt on top of it does." },
-                            { t:95, type:"merge",  title:"merge to main", eyebrow:"Dev", detail:"Dev branch ships to main after final review." },
+                            { t:7,  type:"commit", title:"dev: sprint branch cut from main", label:"dev: cut from main", eyebrow:"Dev", detail:"Sprint branch opens. Nothing design-related has happened yet." },
+                            { t:88, type:"merge",  title:"merge: feature/checkout", label:"merge: feature", eyebrow:"Dev", detail:"Production-ready code lands — payment logic, tests, and error states included. The prototype itself never merges here; only what got rebuilt on top of it does." },
+                            { t:95, type:"merge",  title:"merge to main", label:"merge to main", eyebrow:"Dev", detail:"Dev branch ships to main after final review." },
                         ],
                         feature: [
-                            { t:11, type:"commit", title:"feature: cut from dev", eyebrow:"Dev", detail:"Branch opens for the checkout redesign. Runs in parallel with design's exploration below." },
-                            { t:gateT+1, type:"merge", title:"merge: concept-a prototype", eyebrow:"Cross-functional · AI", detail:"The winning prototype merges in as reference — layout, copy, and interaction pattern come across. State management and real API calls don't; those get rebuilt." },
-                            { t:58, type:"commit", title:"refactor: swap prototype markup for production components", eyebrow:"Dev", detail:"AI-generated scaffolding gets replaced with the real component library. Same layout, real code underneath." },
-                            { t:69, type:"commit", title:"wire real payment logic", eyebrow:"Dev", detail:"Connects the flow to the actual payment service — idempotency, retries, the parts a prototype skips entirely." },
-                            { t:80, type:"commit", title:"add loading/error states + tests", eyebrow:"Dev", detail:"Hardening pass: edge cases, failure states, test coverage." },
-                            { t:88, type:"merge",  title:"merge to dev", eyebrow:"Dev", detail:"Feature is done and merges back for release." },
+                            { t:11, type:"commit", title:"feature: cut from dev", label:"feature: cut from dev", eyebrow:"Dev", detail:"Branch opens for the checkout redesign. Runs in parallel with design's exploration below." },
+                            { t:gateT+1, type:"merge", title:"merge: concept-a prototype", label:"merge: concept-a", eyebrow:"Cross-functional · AI", detail:"The winning prototype merges in as reference — layout, copy, and interaction pattern come across. State management and real API calls don't; those get rebuilt." },
+                            { t:58, type:"commit", title:"refactor: swap prototype markup for production components", label:"refactor: components", eyebrow:"Dev", detail:"AI-generated scaffolding gets replaced with the real component library. Same layout, real code underneath." },
+                            { t:69, type:"commit", title:"wire real payment logic", label:"wire payment logic", eyebrow:"Dev", detail:"Connects the flow to the actual payment service — idempotency, retries, the parts a prototype skips entirely." },
+                            { t:80, type:"commit", title:"add loading/error states + tests", label:"error states + tests", eyebrow:"Dev", detail:"Hardening pass: edge cases, failure states, test coverage." },
+                            { t:88, type:"merge",  title:"merge to dev", label:"merge to dev", eyebrow:"Dev", detail:"Feature is done and merges back for release." },
                         ],
                         conceptA: [
-                            { t:16, type:"commit", title:"concept: explore 3 layouts (AI-generated)", eyebrow:"Design · AI", detail:"Designer briefs the direction; AI generates layout variants fast enough to compare same-day instead of same-sprint." },
-                            { t:25, type:"commit", title:"prototype: single-page checkout flow", eyebrow:"Design · AI", detail:"Best direction gets built out as a working prototype — real component styling, placeholder data." },
-                            { t:33, type:"commit", title:"user test: 5 sessions — flow A preferred", eyebrow:"Design", detail:"Quick round of testing, run against both concept branches at once." },
-                            { t:gateT, type:"merge", title:"POC approved → merges into feature", eyebrow:"Design", detail:"Gate passed. This branch's job is done — it merges into feature and stops existing." },
+                            { t:16, type:"commit", title:"concept: explore 3 layouts (AI-generated)", label:"concept: 3 layouts", eyebrow:"Design · AI", detail:"Designer briefs the direction; AI generates layout variants fast enough to compare same-day instead of same-sprint." },
+                            { t:25, type:"commit", title:"prototype: single-page checkout flow", label:"prototype: one page", eyebrow:"Design · AI", detail:"Best direction gets built out as a working prototype — real component styling, placeholder data." },
+                            { t:33, type:"commit", title:"user test: 5 sessions — flow A preferred", label:"test: flow A preferred", eyebrow:"Design", detail:"Quick round of testing, run against both concept branches at once." },
+                            { t:gateT, type:"merge", open:true, title:"POC approved → merges into feature", label:"POC approved → merge", eyebrow:"Design", detail:"Gate passed. This branch's job is done — it merges into feature and stops existing." },
                         ],
                         conceptB: [
-                            { t:17, type:"commit", title:"concept: stepper checkout flow (AI-generated)", eyebrow:"Design · AI", detail:"Second direction, explored in parallel with flow A rather than after it." },
-                            { t:27, type:"commit", title:"user test: 5 sessions — drop-off on step 2", eyebrow:"Design", detail:"Testing surfaces a real usability problem before any engineering time is spent building it." },
-                            { t:35, type:"dead", title:"abandoned", eyebrow:"Design", detail:"Branch closes without merging. The cost of being wrong here is a few days of design and AI time — not a shipped feature that has to be walked back later." },
+                            { t:17, type:"commit", title:"concept: stepper checkout flow (AI-generated)", label:"concept: stepper (AI)", eyebrow:"Design · AI", detail:"Second direction, explored in parallel with flow A rather than after it." },
+                            { t:27, type:"commit", title:"user test: 5 sessions — drop-off on step 2", label:"test: drop-off step 2", eyebrow:"Design", detail:"Testing surfaces a real usability problem before any engineering time is spent building it." },
+                            { t:35, type:"dead", title:"abandoned", label:"abandoned", eyebrow:"Design", detail:"Branch closes without merging. The cost of being wrong here is a few days of design and AI time — not a shipped feature that has to be walked back later." },
                         ],
                         components: [
-                            { t:5,  type:"commit", title:"components: v14 — Input, Stepper", eyebrow:"Design system", detail:"Baseline component library both concept branches build against." },
-                            { t:50, type:"commit", title:"components: v15 — checkout summary card", eyebrow:"Design system", detail:"New component ships mid-project; the feature branch pulls it in during the refactor pass." },
-                            { t:92, type:"commit", title:"components: v16", eyebrow:"Design system", detail:"Library keeps moving independent of any one feature." },
+                            { t:5,  type:"commit", title:"components: v14 — Input, Stepper", label:"components: v14", eyebrow:"Design system", detail:"Baseline component library both concept branches build against." },
+                            { t:50, type:"commit", title:"components: v15 — checkout summary card", label:"components: v15", eyebrow:"Design system", detail:"New component ships mid-project; the feature branch pulls it in during the refactor pass." },
+                            { t:92, type:"commit", title:"components: v16", label:"components: v16", eyebrow:"Design system", detail:"Library keeps moving independent of any one feature." },
                         ],
                         tokens: [
-                            { t:3,  type:"commit", title:"tokens: v8 — spacing scale", eyebrow:"Design system", detail:"Foundational values the component library is built on." },
-                            { t:45, type:"commit", title:"tokens: v9 — success/error semantic colors", eyebrow:"Design system", detail:"New semantic colors land just in time for the checkout's error states." },
-                            { t:90, type:"commit", title:"tokens: v10", eyebrow:"Design system", detail:"Tokens keep evolving underneath everything else, on their own cadence." },
+                            { t:3,  type:"commit", title:"tokens: v8 — spacing scale", label:"tokens: v8", eyebrow:"Design system", detail:"Foundational values the component library is built on." },
+                            { t:45, type:"commit", title:"tokens: v9 — success/error semantic colors", label:"tokens: v9", eyebrow:"Design system", detail:"New semantic colors land just in time for the checkout's error states." },
+                            { t:90, type:"commit", title:"tokens: v10", label:"tokens: v10", eyebrow:"Design system", detail:"Tokens keep evolving underneath everything else, on their own cadence." },
                         ],
                     };
 
@@ -1136,27 +1168,21 @@
                     });
 
                     const panelDot = document.getElementById("dil-panelDot");
-                    const panelHint = document.getElementById("dil-panelHint");
                     const panelEyebrow = document.getElementById("dil-panelEyebrow");
                     const panelTitle = document.getElementById("dil-panelTitle");
                     const panelDetail = document.getElementById("dil-panelDetail");
                     let selected = null;
+                    let opensOn = null;
 
                     function selectNode(g, data, colorVar){
                         if (selected) selected.classList.remove("selected");
                         g.classList.add("selected");
                         selected = g;
-                        panelHint.style.display = "none";
-                        panelEyebrow.style.display = "";
-                        panelTitle.style.display = "";
-                        panelDetail.style.display = "";
                         panelDot.style.background = colorVar;
                         panelEyebrow.textContent = data.eyebrow;
                         panelTitle.textContent = data.title;
                         panelDetail.textContent = data.detail;
                     }
-
-                    function truncate(s, n){ return s.length > n ? s.slice(0,n-1)+"…" : s; }
 
                     Object.keys(commits).forEach(laneId => {
                         const lane = laneById(laneId);
@@ -1202,6 +1228,10 @@
                             g.appendChild(title);
 
                             g.addEventListener("click", () => selectNode(g, c, colorVar));
+                            /* The panel opens on the gate rather than on a prompt: that
+                               commit is the one carrying the argument, and an empty
+                               panel makes the whole right-hand column look broken. */
+                            if (c.open) opensOn = () => selectNode(g, c, colorVar);
                             g.addEventListener("keydown", (ev) => {
                                 if (ev.key === "Enter" || ev.key === " "){ ev.preventDefault(); selectNode(g, c, colorVar); }
                             });
@@ -1218,7 +1248,7 @@
                             else if (x < marginLeft + 90) { anchor = "start"; tx = x + r + 4; }
 
                             const label = el("text", { class:"commit-msg" + (c.type==="merge"||c.type==="anchor" ? " emph" : ""), x:tx, y:ty, "text-anchor":anchor });
-                            label.textContent = truncate(c.title, 26);
+                            label.textContent = c.label || c.title;
                             svg.appendChild(label);
                             const bbox = label.getBBox();
                             const chip = el("rect", { x:bbox.x-4, y:bbox.y-2, width:bbox.width+8, height:bbox.height+4, rx:3, class:"label-chip" });
@@ -1233,6 +1263,8 @@
                             labelGroup.appendChild(labelTitle);
                         });
                     });
+
+                    if (opensOn) opensOn();
 
                     const style = document.createElement("style");
                     style.textContent = `
@@ -1305,46 +1337,50 @@
         <div class="rd-case-inner rd-shell rd-case-evidence">
 
 
-        <!-- Title left, lead right, both flush left (Figma 40000555:358). Reuses
-             .rd-split-head, the same row about.html's Personal Activities runs
-             on; `.is-case` only recentres the two columns and unsets the note's
-             right-alignment. -->
-        <div class="rd-split-head is-case" data-aos="fade-up">
-            <h2 class="rd-case-h2">The screens that shipped,<br>and what they replaced</h2>
-            <p class="rd-split-head-note">
-                The map said what to build. These are the screens that came out of it, each
-                one against the thing it replaced &mdash; where there was something to replace.
-                Drag the handle to move between the two.
-            </p>
-        </div>
+        <!-- Header and pills pin while the panels scroll under them
+             (js/pin-head.js); the lead folds away once it is stuck. -->
+        <div class="rd-pin-head">
+            <!-- Title left, lead right, both flush left (Figma 40000555:358). Reuses
+                 .rd-split-head, the same row about.html's Personal Activities runs
+                 on; `.is-case` only recentres the two columns and unsets the note's
+                 right-alignment. -->
+            <div class="rd-split-head is-case" data-aos="fade-up">
+                <h2 class="rd-case-h2">The screens that shipped,<br> and what they replaced</h2>
+                <p class="rd-split-head-note rd-pin-head-intro">
+                    The map said what to build. These are the screens that came out of it, each
+                    one against the thing it replaced &mdash; where there was something to replace.
+                    Drag the handle to move between the two.
+                </p>
+            </div>
 
-        <!-- Shared B1 case component: .rd-case-split.is-media, copy left, screen
-             right. Four tabs carry the .rd-compare wipe because those features have a
-             matching hc_*_old export; a feature with no _old is new and gets a plain
-             figure instead. Never pair an _old from a different feature. -->
-        <div class="rd-tabs rd-tabs-collapsible rd-hc-screens-tabs" role="tablist" aria-label="Screens that shipped">
-            <button type="button" class="rd-tab" role="tab" aria-selected="true" aria-controls="tabpanel-hc-venue" id="tab-hc-venue"><span>Venue Search</span></button>
-            <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-search" id="tab-hc-search"><span>Search Optimization</span></button>
-            <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-budget" id="tab-hc-budget"><span>Budget &amp; Allocation</span></button>
-            <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-calendar" id="tab-hc-calendar"><span>Event Calendar</span></button>
-            <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-program" id="tab-hc-program"><span>Program Detail</span></button>
-            <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-rep" id="tab-hc-rep"><span>REP Dashboard</span></button>
-            <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-speaker" id="tab-hc-speaker"><span>Speaker</span></button>
-        </div>
-        <div class="rd-tabs-dropdown">
-            <button type="button" class="rd-tabs-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="hc-screens-dropdown-panel" aria-label="Screens that shipped">
-                <span data-tabs-dropdown-value>Venue Search</span>
-                <svg class="rd-tabs-dropdown-chev" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <ul class="rd-tabs-dropdown-panel" id="hc-screens-dropdown-panel" role="listbox" aria-label="Screens that shipped">
-                <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-venue" aria-selected="true">Venue Search</li>
-                <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-search" aria-selected="false">Search Optimization</li>
-                <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-budget" aria-selected="false">Budget &amp; Allocation</li>
-                <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-calendar" aria-selected="false">Event Calendar</li>
-                <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-program" aria-selected="false">Program Detail</li>
-                <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-rep" aria-selected="false">REP Dashboard</li>
-                <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-speaker" aria-selected="false">Speaker</li>
-            </ul>
+            <!-- Shared B1 case component: .rd-case-split.is-media, copy left, screen
+                 right. Four tabs carry the .rd-compare wipe because those features have a
+                 matching hc_*_old export; a feature with no _old is new and gets a plain
+                 figure instead. Never pair an _old from a different feature. -->
+            <div class="rd-tabs rd-tabs-collapsible rd-hc-screens-tabs" role="tablist" aria-label="Screens that shipped">
+                <button type="button" class="rd-tab" role="tab" aria-selected="true" aria-controls="tabpanel-hc-venue" id="tab-hc-venue"><span>Venue Search</span></button>
+                <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-search" id="tab-hc-search"><span>Search Optimization</span></button>
+                <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-budget" id="tab-hc-budget"><span>Budget &amp; Allocation</span></button>
+                <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-calendar" id="tab-hc-calendar"><span>Event Calendar</span></button>
+                <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-program" id="tab-hc-program"><span>Program Detail</span></button>
+                <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-rep" id="tab-hc-rep"><span>REP Dashboard</span></button>
+                <button type="button" class="rd-tab" role="tab" aria-selected="false" aria-controls="tabpanel-hc-speaker" id="tab-hc-speaker"><span>Speaker</span></button>
+            </div>
+            <div class="rd-tabs-dropdown">
+                <button type="button" class="rd-tabs-dropdown-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="hc-screens-dropdown-panel" aria-label="Screens that shipped">
+                    <span data-tabs-dropdown-value>Venue Search</span>
+                    <svg class="rd-tabs-dropdown-chev" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <ul class="rd-tabs-dropdown-panel" id="hc-screens-dropdown-panel" role="listbox" aria-label="Screens that shipped">
+                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-venue" aria-selected="true">Venue Search</li>
+                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-search" aria-selected="false">Search Optimization</li>
+                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-budget" aria-selected="false">Budget &amp; Allocation</li>
+                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-calendar" aria-selected="false">Event Calendar</li>
+                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-program" aria-selected="false">Program Detail</li>
+                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-rep" aria-selected="false">REP Dashboard</li>
+                    <li class="rd-tabs-dropdown-option" role="option" tabindex="-1" data-value="tab-hc-speaker" aria-selected="false">Speaker</li>
+                </ul>
+            </div>
         </div>
 
         <div class="rd-case-tabpanels" style="width:100%;">

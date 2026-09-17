@@ -5985,6 +5985,33 @@ ol.rd-case-list > li { list-style-type: decimal; }
 .rd-market-key b { font-weight: 600; font-variant-numeric: tabular-nums; }
 .rd-market-sw { width: 10px; height: 10px; border-radius: 2px; flex: 0 0 auto; }
 
+/* KPI row above the bar. `.rd-market` markup exists on lending.html only, but
+   this is a shared sheet every page loads, so each selector is scoped under
+   .rd-market and no rule above is touched. The vertical hairlines are
+   border-left on each cell (first cell opts out), which is why the cells, not
+   a wrapper, own the horizontal padding. The figure reads at the same size as
+   .rd-bench-rank-num (~line 5669) — Hao's call, so the two exhibits in this
+   section state a number the same way. */
+.rd-market .rd-market-kpis { display: flex; margin: 0 0 20px; }
+.rd-market .rd-market-kpi {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 0 20px; border-left: 1px solid var(--rd-line);
+}
+.rd-market .rd-market-kpi:first-child { border-left: 0; padding-left: 0; }
+.rd-market-kpi-label {
+  font-size: var(--rd-fs-xs); font-weight: var(--rd-fw-emphasis);
+  text-transform: uppercase; letter-spacing: .06em; color: var(--rd-ink-muted);
+}
+.rd-market-kpi-value {
+  font-size: var(--rd-fs-xl); font-weight: var(--rd-fw-emphasis);
+  color: var(--rd-ink); line-height: 1; font-variant-numeric: tabular-nums;
+}
+.rd-market-kpi-note {
+  font-size: var(--rd-fs-sm); color: var(--rd-ink-muted);
+  line-height: var(--rd-lh-tight);
+}
+
 .rd-market .rd-market-note {
   font-size: var(--rd-fs-sm); line-height: 1.65; color: var(--rd-ink); margin: 16px 0 0;
   padding: 13px 15px; background: var(--rd-white);
@@ -5994,11 +6021,26 @@ ol.rd-case-list > li { list-style-type: decimal; }
   font-size: var(--rd-fs-xs); color: var(--rd-ink-muted);
   margin: 14px 0 0; padding-top: 11px; border-top: 1px solid var(--rd-line);
 }
+/* Three cells side by side stop fitting their notes below ~860px: wrap to
+   2 + 1, and let cell 3 drop its divider since it now starts a row. */
+@media (max-width: 860px) {
+  .rd-market .rd-market-kpis { flex-wrap: wrap; row-gap: 20px; }
+  .rd-market .rd-market-kpi { flex: 1 1 45%; }
+  .rd-market .rd-market-kpi:nth-child(3) { border-left: 0; padding-left: 0; }
+}
+
 /* At narrow widths the 11% block is ~38px — not enough for its own label,
    and a truncated "11%" reads as a rendering fault. The key carries it. */
 @media (max-width: 560px) {
   .rd-market-seg.is-subject { color: transparent; }
   .rd-market-key { gap: 7px 16px; }
+  /* One column: a vertical hairline between stacked cells reads as a margin
+     error, so the divider turns horizontal and sits above each cell. */
+  .rd-market .rd-market-kpis { display: block; }
+  .rd-market .rd-market-kpi {
+    padding: 14px 0 0; border-left: 0; border-top: 1px solid var(--rd-line);
+  }
+  .rd-market .rd-market-kpi:first-child { padding-top: 0; border-top: 0; }
 }
 
 @media (max-width: 860px) {

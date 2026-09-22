@@ -94,21 +94,9 @@ async function getPlaybackState() {
     const statusMessageElement = document.createElement('p');
     statusMessageElement.classList.add('sub-heading');
     statusMessageElement.style.paddingBottom = '16px';
-    const statusText = playbackData.playing
+    statusMessageElement.innerText = playbackData.playing
       ? 'Stephano is playing'
       : 'Stephano is away';
-    if (playbackData.trackUrl) {
-      statusMessageElement.innerHTML = `
-        <a class="club-link" href="${playbackData.trackUrl}" target="_blank" rel="noopener">${statusText}
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-            <polyline points="15 3 21 3 21 9"></polyline>
-            <line x1="10" y1="14" x2="21" y2="3"></line>
-          </svg>
-        </a>`;
-    } else {
-      statusMessageElement.innerText = statusText;
-    }
     playbackInfo.appendChild(statusMessageElement);
 
     // Track Information
@@ -131,8 +119,13 @@ async function getPlaybackState() {
         <div class="song">
           <p class="md-regular">${playbackData.playing ? playbackData.artist : 'Last song played'}</p>
           <p class="md-bold">
-            <a href="${playbackData.trackUrl}" target="_blank" style="text-decoration: none; color: #374151; line-height:16px;">
-              ${playbackData.playing ? playbackData.track : `${playbackData.track} by ${playbackData.artist}`}
+            <a class="track-link" href="${playbackData.trackUrl}" target="_blank" rel="noopener" style="text-decoration: none; color: #374151; line-height:16px;">
+              <span class="track-name">${playbackData.playing ? playbackData.track : `${playbackData.track} by ${playbackData.artist}`}</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
             </a>
           </p>
         </div>

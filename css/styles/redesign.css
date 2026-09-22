@@ -2527,6 +2527,21 @@ html:has(body.rd-about) {
 }
 .rd-activity-card .sub-heading .club-link:hover { text-decoration: underline; }
 .rd-activity-card .sub-heading .club-link svg { flex-shrink: 0; }
+/* The track name truncates with an ellipsis; the external icon sits after it
+   and must not be clipped with the text, so only the name span shrinks. */
+.rd-activity-card .track-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.rd-activity-card .track-link .track-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rd-activity-card .track-link svg { flex-shrink: 0; }
 
 /* js/socialize.js injects legacy markup (.sub-heading, .md-regular, .md-bold,
    .strava-club, .club-data, .track-info, .song) into #personal-section and

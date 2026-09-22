@@ -21,6 +21,7 @@
     "start": "node app.js",
     "push": "bash scripts/push.sh",
     "release": "bash scripts/release.sh",
+    "apps": "\"$HOME/.local/bin/cvt\"",
     "sync-thumbnails": "node scripts/sync-thumbnails.js"
   },
   "devDependencies": {

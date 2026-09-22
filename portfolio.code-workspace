@@ -4,7 +4,7 @@
 			"path": "."
 		},
 		{
-			"path": "../portfolio-next"
+			"path": "../job-tracker"
 		}
 	],
 	"settings": {}

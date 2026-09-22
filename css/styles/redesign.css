@@ -2505,6 +2505,12 @@ html:has(body.rd-about) {
 .rd-activity-card > #club-section > .md-medium {
   padding: 16px;
 }
+/* The personal Strava panel has no inner wrapper padding of its own, and the
+   Strava card's padding is zeroed above, so it supplies the 16px inset here. */
+.rd-activity-card--strava .personal-summary {
+  box-sizing: border-box;
+  padding: 16px;
+}
 /* Inline `margin-bottom: 40px` from socialize.js; only !important reaches it. */
 .rd-activity-card .club-summary > img {
   margin-bottom: 24px !important;

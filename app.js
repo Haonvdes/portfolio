@@ -328,58 +328,6 @@ app.get('/spotify-callback', async (req, res) => {
 });
 
 // Strava club activity endpoint
-app.get('/api/strava/club/:clubId/latest', async (req, res) => {
-  const { clubId } = req.params;
-
-  try {
-    const accessToken = await getStravaAccessToken();
-    const response = await axios.get(
-      `https://www.strava.com/api/v3/clubs/${clubId}/activities`,
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
-    );
-
-    const activities = response.data;
-    const totalDistance =
-      activities.reduce((sum, act) => sum + act.distance, 0) / 1000;
-    const totalTime =
-      activities.reduce((sum, act) => sum + act.moving_time, 0) / 3600;
-    const totalActivities = activities.length;
-
-    const currentWeekStart = moment().startOf('week');
-    const currentWeekEnd = moment().endOf('week');
-    const formattedWeek = `${currentWeekStart.format('DD')}-${currentWeekEnd.format('DD')}/${currentWeekEnd.format('MM')}/${currentWeekEnd.format('YYYY')}`;
-
-    const latestActivities = activities
-      .sort((a, b) => new Date(b.start_date) - new Date(a.start_date))
-      .slice(0, 15)
-      .map((activity) => ({
-        athleteName: `${activity.athlete.firstname} ${activity.athlete.lastname}`,
-        distance: `${(activity.distance / 1000).toFixed(2)}km`,
-        movingTime: `${(activity.moving_time / 3600).toFixed(2)}h`,
-        activityType: activity.type,
-        startDate: activity.start_date,
-        averageSpeed: `${(activity.average_speed * 3.6).toFixed(2)} km/h`,
-        elevationGain: `${activity.total_elevation_gain}m`,
-      }));
-
-    res.json({
-      clubName: activities[0]?.club_name || 'Unknown Club',
-      currentWeek: formattedWeek,
-      totalDistance: `${totalDistance.toFixed(2)} km`,
-      totalTime: `${totalTime.toFixed(2)} hours`,
-      totalActivities: totalActivities,
-      latestActivities,
-      clubFeedUrlMobile: `https://www.strava.com/clubs/${clubId}/feed`,
-      clubFeedUrlDesktop: `https://www.strava.com/clubs/${clubId}/recent_activity`,
-    });
-  } catch (error) {
-    console.error('Error fetching Strava club activities:', error.message);
-    res.status(500).json({ error: 'Failed to fetch club activity data' });
-  }
-});
-
 // Personal activity endpoint
 app.get('/api/strava/personal/weekly', async (req, res) => {
   try {

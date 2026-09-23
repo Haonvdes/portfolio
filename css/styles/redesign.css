@@ -1969,7 +1969,6 @@ html:has(body.rd-about) {
   scroll-behavior: smooth;
 }
 .rd-about-hero,
-.rd-philosophy-section,
 .rd-learn-section,
 .rd-activities-section {
   scroll-snap-align: start;
@@ -2186,8 +2185,7 @@ html:has(body.rd-about) {
   transform: translateY(1px) rotate(-135deg);
 }
 
-/* ------------------ About §3/§4 — Product Philosophy + AI Catching (6768/3716) */
-.rd-philosophy-section,
+/* ------------------ About §4 — AI Catching (3716) */
 .rd-learn-section {
   display: flex;
   flex-direction: column;
@@ -2195,7 +2193,6 @@ html:has(body.rd-about) {
   padding: 40px;
   background: var(--rd-surface);
 }
-.rd-philosophy-inner,
 .rd-learn-inner {
   display: flex;
   flex-direction: column;
@@ -2226,55 +2223,6 @@ html:has(body.rd-about) {
   text-align: right;
 }
 .rd-split-head-note-sm { font-size: var(--rd-fs-sm); }
-
-.rd-pillar-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-  width: 100%;
-  padding: 24px;
-}
-.rd-pillar-card {
-  position: relative;
-  min-height: 347px;
-  padding: 32px;
-  background: var(--rd-white);
-  border: 1px solid var(--rd-border);
-  border-radius: 16px;
-  overflow: hidden;
-}
-/* 10% watermark bleeding out of the bottom of the card (Figma 40000082:7421) */
-.rd-pillar-watermark {
-  position: absolute;
-  left: 0;
-  top: 103px;
-  width: 100%;
-  height: 299px;
-  object-fit: cover;
-  border-top-left-radius: 16px;
-  opacity: 0.1;
-  pointer-events: none;
-  user-select: none;
-}
-.rd-pillar-body {
-  position: relative;   /* lifts the copy above the watermark */
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: flex-start;
-}
-.rd-pillar-card h3 {
-  font-weight: var(--rd-fw-heading);
-  font-size: var(--rd-fs-2xl);
-  line-height: var(--rd-lh-heading);
-  color: var(--rd-ink);
-}
-.rd-pillar-card p {
-  font-weight: var(--rd-fw-body);
-  font-size: var(--rd-fs-md);
-  line-height: var(--rd-lh-prose);
-  color: var(--rd-ink);
-}
 
 /* ------------------- About §5 — What I've Learned Along the Way (5716) */
 /* One viewport tall, matching the 1024px Figma frame. min-height rather than
@@ -2710,7 +2658,6 @@ html:has(body.rd-about) {
   .rd-journey-intro .rd-section-heading,
   .rd-journey-blurb { max-width: none; }
   .rd-journey-list { width: 100%; }
-  .rd-pillar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   /* 80px between three columns needs the full 1440 column to breathe. */
   .rd-learn-card { gap: 40px; }
   /* Stacked: the carousel keeps the fixed height, and the two cards sit
@@ -2735,7 +2682,6 @@ html:has(body.rd-about) {
 @media (max-width: 768px) {
   .rd-about-hero { padding-inline: 16px; }
   .rd-journey-section,
-  .rd-philosophy-section,
   .rd-learn-section,
   .rd-activities-section { padding: 24px 16px; }
 
@@ -2750,8 +2696,7 @@ html:has(body.rd-about) {
   .rd-journey-inner,
   .rd-activities-grid,
   .rd-split-head { padding: 0; }
-  .rd-split-head,
-  .rd-pillar-grid { flex-direction: column; gap: 16px; }
+  .rd-split-head { flex-direction: column; gap: 16px; }
   .rd-split-head-note { text-align: left; }
   .rd-split-head .rd-section-heading br { display: none; }
 
@@ -2856,9 +2801,6 @@ html:has(body.rd-about) {
     scroll-snap-align: start;
     scroll-snap-stop: always;
   }
-
-  .rd-pillar-grid { grid-template-columns: minmax(0, 1fr); }
-  .rd-pillar-card { min-height: 0; padding: 24px; }
 
   .rd-creds-logos { gap: 24px; }
   .rd-creds-logos img { width: 56px; height: 56px; }
@@ -5197,7 +5139,6 @@ ol.rd-case-list > li { list-style-type: decimal; }
 
   .rd-initiative-card { --rd-card-pad: 16px; padding: var(--rd-card-pad); }
   .rd-work-body { padding: 16px; }
-  .rd-pillar-card { padding: 20px; }
   .rd-stat-bar { padding: 14px; }
 
   /* Two per row rather than a ragged 4+1 wrap. */

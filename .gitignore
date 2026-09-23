@@ -12,3 +12,6 @@ case-studies/_preview-*
 # Project Manager resume — private, sent as a PDF attachment, never deployed
 Stephano-Ng-Resume-PJM.html
 Stephano-Ng-Resume-PJM.pdf
+
+# dependencies — never tracked (GitHub Pages serves static files only)
+node_modules/

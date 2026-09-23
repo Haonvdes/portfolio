@@ -1,0 +1,299 @@
+/* Benchmark chart, market bar and scrollable bench panel — lending and
+   customer-engagement only. Loaded after components/case.css. */
+
+.rd-case-figure figcaption {
+  font-weight: var(--rd-fw-body);
+  font-size: var(--rd-fs-sm);
+  line-height: 1.5;
+  color: var(--rd-ink);
+  opacity: 0.75;
+}
+
+/* Capped at the same measure as body copy — `--rd-measure-case`, so it tracks
+   the paragraphs automatically. A caption is prose, and letting it run the
+   full 1,312px content width while the paragraph above it stops short makes
+   the page look like two layouts fighting — exactly how the first render
+   read. */
+.rd-case-figure figcaption {
+  max-width: var(--rd-measure-case);
+  margin-top: 12px;
+  font-size: var(--rd-fs-sm);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+  opacity: 0.75;
+}
+/* The picture bleeds; the caption does not. It keeps --rd-measure-case from
+   the base rule and is pushed back in to start exactly where the paragraphs
+   above it start — the shell's left edge plus the section's 24px gutter. The
+   `max()` is the narrow-viewport case: once the viewport is narrower than the
+   shell the first term goes negative, and 24px takes over. */
+.rd-case-figure.is-full figcaption {
+  margin-left: max(24px, calc((100vw - var(--rd-shell)) / 2 + 24px));
+  margin-right: 24px;
+  max-width: calc(var(--rd-shell) - 48px);
+}
+.rd-case-figure.is-pair figcaption { grid-column: 1 / -1; margin-top: 0; }
+
+/* Benchmark table — the no-JS source of truth and accessible fallback for
+   the interactive chart .rd-bench progressively enhances it into. Kept in
+   the DOM even when enhanced (aria-hidden, visually clipped), so a table
+   component belongs here regardless of whether the chart renders. */
+.rd-benchmark { width: 100%; border-collapse: collapse; margin: 24px 0 8px; font-size: var(--rd-fs-sm); }
+.rd-benchmark th, .rd-benchmark td { padding: 12px 10px; text-align: left; border-bottom: 1px solid var(--rd-line); }
+.rd-benchmark thead th { font-weight: 600; color: var(--rd-ink-muted); text-transform: uppercase; letter-spacing: .04em; font-size: var(--rd-fs-xs); }
+.rd-benchmark tbody th { font-weight: 500; }
+.rd-benchmark .is-subject td, .rd-benchmark .is-subject th { background: var(--rd-tint); font-weight: 700; }
+.rd-benchmark caption { caption-side: bottom; text-align: left; padding-top: 12px; color: var(--rd-ink-muted); font-size: var(--rd-fs-sm); line-height: 1.6; }
+/* ------------------------------------------------------------------
+   .rd-bench — the interactive layer over .rd-benchmark.
+
+   COLOUR. No new hues. The page has exactly two: --rd-ink (#0a2a30) and
+   --rd-primary (#01679c). So hue carries one meaning and value carries the
+   other:
+     --rd-primary        = originated online
+     ink at 10% alpha    = still at the counter
+     solid ink + tint    = HD Saison, the subject
+   A third colour for "the subject" would have made the reader learn two
+   legends. Darkness does that job for free.
+
+   The table column is offline %, the chart is digital %. Inverted on
+   purpose: a bar chart of offline share gives HD Saison the longest bar,
+   which reads as HD Saison leading. The empty bar is the point.
+   ------------------------------------------------------------------ */
+.rd-bench { margin: 24px 0 8px; }
+.rd-bench.is-figma { margin: 0; }
+/* case-study-framework.html only */
+/* `display: block` is load-bearing, not tidying. A <table> sizes to its
+   min-content width no matter what `width` says, so the usual sr-only
+   recipe left this one 2016px wide and overflowing the 1312px figure —
+   invisible, but still pushing the page. Blocking the table layout is what
+   makes `width: 1px` apply. Safe here only because the script also sets
+   aria-hidden on it: the chart carries the data for AT. */
+.rd-bench.is-enhanced .rd-benchmark {
+  display: block; position: absolute; width: 1px; height: 1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+/* `flex: 1` + `min-height: 0` (2026-08-20, paired with the .is-chart
+   `align-items: stretch` fix above): once .rd-case-card is stretched to the
+   row's full height, something inside it has to claim the extra space or it
+   just sits empty below the chart. This is that: the mount grows to fill the
+   card, .rd-bench-stage below grows to fill the mount, and the map fills the
+   stage — the same chain Figma expresses as a plain `object-contain` image
+   filling its box. `min-height: 0` overrides flexbox's default
+   `min-height: auto`, which would otherwise refuse to let the map area
+   shrink below the SVG's natural size and silently cancel the fill. */
+.rd-bench.is-enhanced .rd-bench-mount { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.rd-bench-mount { display: none; }
+
+.rd-bench-stage {
+  flex: 1;
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Shared hover/focus state. At rest all five lenders are at full strength;
+   pointing at one dims the other four and swaps the panel. Nothing is
+   dimmed until the reader asks for a comparison. */
+.rd-bench-item { transition: opacity .18s ease, filter .18s ease; outline: 0; cursor: pointer; }
+/* `filter` here, on the group, not just `opacity` (2026-08-20 fix, paired
+   with the .rd-bench-mark image comment below): grayscale on a parent
+   applies to its whole rendered subtree regardless of what filter a child
+   sets on itself, so this "grays out" the other four logos instead of just
+   fading them — including HD Saison, which already lost its own opacity to
+   this same is-dim toggle before this change; graying it out too when a
+   competitor is hovered is the same treatment, not a new exception. */
+.rd-bench-item.is-dim { opacity: .26; filter: grayscale(1); }
+.rd-bench-item:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: 3px; border-radius: 3px; }
+/* --- the map ---
+   Every fill and stroke is set here rather than as an SVG presentation
+   attribute. `fill="var(--rd-ink)"` silently does nothing — var() is only
+   valid in CSS properties, not in presentation attributes, so the first
+   render came out with grey-black defaults everywhere and HD Saison was
+   indistinguishable from its competitors. */
+/* `width/height: 100%`, not `height: auto` — auto derived height purely from
+   width, which is what left the chart short of the (now stretched) card and
+   the rest of the box empty. The SVG's viewBox default
+   (preserveAspectRatio="xMidYMid meet") does the rest: it scales the artwork
+   to fit inside this box on whichever axis is tighter and centres it, the
+   same "contain" behaviour Figma's node uses on a plain image. */
+.rd-bench-map { width: 100%; height: 100%; display: block; max-width: 900px; }
+.rd-bench-map text { font-family: var(--rd-font); }
+.rd-bench-axis line { stroke: var(--rd-line); }
+.rd-bench-mark circle { fill: rgba(10, 42, 48, .32); }
+.rd-bench-mark text { fill: var(--rd-ink-muted); }
+.rd-bench-mark.is-subject circle { fill: var(--rd-ink); }
+.rd-bench-mark.is-subject text { fill: var(--rd-ink); font-weight: 700; }
+
+/* Same reasoning as .rd-bench-map above: var() is not valid in an SVG
+   presentation attribute, so every fill and stroke for the rows view is a
+   CSS rule keyed off a class the script writes. */
+/* Opaque, NOT an ink-opacity ramp like the rest of this component. The band
+   below is painted first and the rows sit on top of it, so a translucent bar
+   let the band show through: every bar came out two-tone, light up to 14%
+   and darker from 14% to its end, which reads as a second encoded variable
+   that does not exist. Solid fills keep each bar one colour and confine the
+   band to the whitespace between rows, where it belongs. */
+.rd-bench-rows-track { fill: #f1f3f3; }
+.rd-bench-rows-bar { fill: #93a2a5; }
+/* Forecast bars on customer-engagement-v3.html's volume chart. The engagement
+   ran Mar-Apr 2024, so 2024 and everything after it is projected, not counted —
+   the axis label says so and this makes the boundary visible without reading.
+   Hatched rather than merely paler: at 40% opacity a short forecast bar and a
+   long actual bar are hard to tell apart, and paler alone reads as "less
+   important" instead of "not yet happened". */
+.rd-bench-rows-bar.is-forecast { fill: url(#rd-bench-hatch); stroke: #93a2a5; stroke-width: 1; }
+.rd-bench-rows-val { fill: var(--rd-ink-muted); font-size: var(--rd-fs-sm); font-weight: 600; }
+/* Solid ink is always HD Saison — the same colour language the map and the
+   market bar already use, so the rows teach the reader nothing new. */
+.rd-bench-item.is-subject .rd-bench-rows-bar { fill: var(--rd-ink); }
+.rd-bench-item.is-subject .rd-bench-rows-val { fill: var(--rd-ink); font-weight: 700; }
+
+/* --- INSIGHT card content + takeaway ---
+   The "panel" is no longer a component of its own: [data-bench-insight] is a
+   plain .rd-case-card (see redesign.css's CASE STUDY COMPONENTS section),
+   and these rules just style what the chart script writes into it. */
+.rd-bench-panel-name { font-size: var(--rd-fs-lg); font-weight: 600; margin: 0 0 8px; color: var(--rd-ink); }
+/* Both bare-class rules above are dead at render time, same bug shape as
+   .rd-bench-title/.rd-bench-insight-label documented nearby: .rd-bench-panel-name
+   is an h3 inside .rd-case-card, so `.rd-case-card h3` (class+tag, higher
+   specificity) sets its actual font-size/weight/case; .rd-bench-chart-title is
+   a p in the same card, so `.rd-case-card p` (font-size/weight) and the
+   sitewide `.rd-case p { text-transform: none }` reset win there instead.
+   This override matches lending-new-v3's own working fix for the identical
+   bug — `.rd-bench-head.is-figma .rd-bench-title` (uppercase/emphasis-weight/
+   tight-leading) — just sized to --rd-fs-xl (20px, Hao's 2026-08-25 ask) so
+   the two cards' headings keep sitting on one line at that size instead of
+   the 16px `.rd-case-card h3`/`p` would otherwise give them. */
+.rd-case-card .rd-bench-panel-name,
+.rd-case-card .rd-bench-chart-title {
+  font-size: var(--rd-fs-xl);
+  font-weight: var(--rd-fw-emphasis);
+  text-transform: uppercase;
+  line-height: var(--rd-lh-tight);
+}
+/* No min-height (removed 2026-08-20, Hao's call on the right-hand card) —
+   the card now sizes to whichever blurb is showing instead of reserving
+   room for the longest one in the set, so the strip and metrics below it
+   shift slightly as the reader moves between lenders. */
+.rd-bench-panel-blurb {
+  font-size: var(--rd-fs-md); color: var(--rd-ink); line-height: 1.6;
+  margin: 0 0 18px;
+}
+.rd-bench-rankcard {
+  display: flex; align-items: stretch; gap: 16px;
+  width: 100%; padding: 16px; margin: 0 0 16px;
+  background: var(--rd-panel-tint); border: 1px solid var(--rd-line); border-radius: 8px;
+}
+.rd-bench-rank-block { display: flex; flex: 1 0 0; flex-direction: column; gap: 8px; min-width: 0; }
+.rd-bench-rank-block[hidden] { display: none; }
+.rd-bench-rank-num { font-size: var(--rd-fs-xl); font-weight: var(--rd-fw-emphasis); color: var(--rd-ink); line-height: 1; }
+.rd-bench-rank-label { font-size: var(--rd-fs-md); font-weight: var(--rd-fw-body); color: var(--rd-ink); }
+.rd-bench-rank-div { width: 1px; align-self: stretch; background: var(--rd-line); }
+.rd-bench-rank-div[hidden] { display: none; }
+
+/* ------------------------------------------------------------------
+   .rd-aud — the audience rows chart on lending-new-v3.html #research.
+
+   Deliberately NOT a new chart language. It reuses .rd-bench-rows-track,
+   .rd-bench-rows-bar, .rd-bench-axis, .rd-bench-tick and .rd-bench-axis-label
+   from the lender chart directly above it on the page, so a reader who has
+   just learned to read that chart reads this one for free. The only things
+   added here are a text label in the left gutter (the lender chart puts a
+   logo there) and the .is-lead accent for the row its caption argues about,
+   which borrows the lender chart's "subject is drawn in ink, everything else
+   in primary" convention rather than introducing a colour.
+
+   Static SVG, not script-drawn: three fixed values from one published survey.
+   The lender chart is script-drawn because it has two views and a linked
+   INSIGHT card; this has neither, and a build step it does not need would be
+   one more thing to keep in sync.
+   ------------------------------------------------------------------ */
+.rd-aud { margin: 32px 0 0; padding: 0; }
+
+.rd-market-key b { font-weight: 600; font-variant-numeric: tabular-nums; }
+@media (max-width: 860px) {
+  .rd-bench-stage { min-height: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-bench-item { transition: none; }
+}
+
+
+/* ------------------------------------------ 10b. Scrollable bench panel ---
+   Applied to BOTH cards inside a .rd-case-split.is-chart(.is-reverse) — the
+   chart/table card and the insight card (lending-new-v3.html's
+   [data-bench-insight], customer-engagement-v3.html's [data-findings-insight])
+   — so the two columns stay capped to the same height instead of one tab's
+   long list (customer-engagement-v3.html's nine-item "WHAT THEY ASKED FOR",
+   or its severity accordion) growing the whole section while a shorter tab
+   leaves the chart looking sparse. 70vh, and .is-chart's own
+   `align-items: stretch` still matches the shorter side to the taller one
+   as before; this only changes what happens once BOTH would otherwise
+   exceed that height (Hao, 2026-08-25: "max-height 70vh for the whole left
+   and right panel").
+
+   `.rd-case-card.rd-bench-panel-scroll`, not the bare class: `.is-tinted
+   .rd-case-card` (this page's default card background, further up this
+   file) is two classes deep and would otherwise win the background
+   override below regardless of source order — matching its specificity
+   here and relying on source order (this rule is later) is simpler than
+   chasing every section's tint class.
+
+   min-height: 0 overrides the flex/grid default of min-height: auto, which
+   otherwise refuses to shrink an item below its own content's size — without
+   it, max-height alone does not reliably cap a card whose content wants to
+   be taller (the chart side is in practice never tall enough to need this;
+   the insight side, with a long list open, is exactly the case this exists
+   for). The map/rows SVG itself (.rd-bench-map, width/height: 100% inside a
+   viewBox) scales down to fit rather than clipping, so capping the chart
+   card is a safety net, not something a reader will ever actually see
+   scroll.
+
+   SIGNAL, not just overflow:auto ("Absolutely, we need signal for user to
+   know it's scrollable" — Hao, same request). A bare overflow:auto gives a
+   1px OS-default scrollbar and no hint there's more content past the fold.
+   Two independent cues, both pure CSS:
+     1. Scroll shadows — the standard four-layer background trick. The two
+        linear-gradients (background-attachment: local) are solid-colour
+        masks that scroll WITH the content, covering the shadow beneath
+        until that edge's content has actually scrolled into view; the two
+        radial-gradients (background-attachment: scroll) are the shadows
+        themselves, pinned to the card's edges. Net effect: a shadow fades
+        in at the top/bottom only while there is unseen content on that
+        side, and fades back out on its own near the start/end — no scroll
+        listener, no JS, and it can't drift out of sync with the actual
+        scroll position the way a JS-toggled class could.
+     2. A deliberately visible, coloured scrollbar (thin, but a real colour)
+        instead of the near-invisible native one, so the affordance still
+        holds for anyone who never scrolls far enough to see a shadow
+        change (Firefox via scrollbar-width/-color; Chrome/Safari via the
+        -webkit- pseudo-elements, since there is no unprefixed equivalent
+        yet). */
+.rd-case-card.rd-bench-panel-scroll {
+  max-height: 70vh;
+  min-height: 0;
+  overflow-y: auto;
+  /* background-color, not a fifth layer in the gradient stack below: the
+     four gradients are each sized to a 40px/14px band at one edge
+     (background-size), so without an explicit solid fill underneath them
+     the rest of the card — everything more than 40px from either edge —
+     rendered fully transparent, showing the tinted section colour through
+     instead of the card's own white (caught in review, 2026-08-25). */
+  background-color: var(--rd-white);
+  background-image:
+    linear-gradient(var(--rd-white) 30%, rgba(255, 255, 255, 0)) center top,
+    linear-gradient(rgba(255, 255, 255, 0), var(--rd-white) 70%) center bottom,
+    radial-gradient(farthest-side at 50% 0, rgba(10, 42, 48, .18), rgba(10, 42, 48, 0)) center top,
+    radial-gradient(farthest-side at 50% 100%, rgba(10, 42, 48, .18), rgba(10, 42, 48, 0)) center bottom;
+  background-repeat: no-repeat;
+  background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+  background-attachment: local, local, scroll, scroll;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rd-line) transparent;
+}
+.rd-case-card.rd-bench-panel-scroll::-webkit-scrollbar { width: 8px; }
+.rd-case-card.rd-bench-panel-scroll::-webkit-scrollbar-track { background: transparent; }
+.rd-case-card.rd-bench-panel-scroll::-webkit-scrollbar-thumb { background: var(--rd-line); border-radius: 4px; }
+.rd-case-card.rd-bench-panel-scroll::-webkit-scrollbar-thumb:hover { background: var(--rd-ink-muted); }

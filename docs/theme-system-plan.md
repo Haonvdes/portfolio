@@ -1,6 +1,6 @@
 # Theme system — plan of record
 
-Branch: `theme-system`. Phase 1 (cleanup) is done and committed. Phases 2–4 are pending.
+Branch: `theme-system`. Phases 1 and 2 are done and committed. Phases 3–4 are pending.
 
 Measurements in this doc were taken 2026-09-23 with Chrome, at 1440px, by testing every
 CSS selector in every loaded sheet against each page's live DOM after a full scroll pass.
@@ -63,7 +63,46 @@ tabs. Those five components are ~40% of `redesign.css` and appear on exactly one
 
 ---
 
-## Phase 2 — Minimize CSS scope per page
+## Phase 2 — Minimize CSS scope per page ✅ DONE (2026-09-23)
+
+`redesign.css` is gone. Result, per page, CSS from the redesign sheets:
+
+| Page | before (gzip) | after (gzip) | cut |
+|---|---|---|---|
+| work | 137 KB | 22 KB | 84% |
+| marketing-platform | 137 KB | 23 KB | 84% |
+| home | 137 KB | 32 KB | 77% |
+| about | 137 KB | 35 KB | 74% |
+| web-3 | 137 KB | 65 KB | 53% |
+| customer-engagement | 137 KB | 68 KB | 51% |
+| lending | 137 KB | 74 KB | 46% |
+| healthcare | 137 KB | 80 KB | 42% |
+
+Files: `css/core/core.css` (every page) → `css/components/{site,case-shell,case,bench,case-kit}.css`
+(per page) → `css/pages/{home,about}.css`, `css/pages/case/<page>.css`. Map and rules for adding
+a rule: `.claude/memory/portfolio_redesign_css_wiring.md`.
+
+How it differs from the plan below, and why:
+
+- **Split by owner set, not by banner.** Components are grouped by which pages match them;
+  banners and comments travel with their rules, so every section is still greppable.
+- **Order was checked, not assumed.** Every rule pair whose source order the split inverts on
+  some page was tested (shared property, equal specificity and importance, same
+  pseudo-element, a live element both match, overlapping media, different values). 4 real
+  ties came out; those rules were pinned into the earlier file. Re-check: 0.
+- **Gate:** full computed-style snapshot of every element on 9 pages × 5 widths, HEAD vs
+  split, back to back — 0 differences beyond known noise. Ink-left fingerprint, all 8 pages ×
+  16 widths: 128 combos, 0 differ. No 404s, no new JS errors.
+- **Body scopes (Step 0):** added `rd-work`, `rd-hc`, `rd-lending`, `rd-web3`, `rd-mp`.
+  Selectors were NOT rewritten to use them — prefixing raises specificity and would change
+  the cascade; per-page `<link>`s already make a page file unable to leak.
+- **The "matched by no page" bucket:** 55 rules deleted after a two-signal check (no DOM
+  match in any clicked state + class name absent from every HTML/JS/JSON source, including
+  `'prefix-' +` concatenation). The case-framework kit (evidence chips, decision block,
+  galleries, tables, pager) was kept in `components/case-kit.css`, linked from the
+  new-case-study template. Strava club rules kept — `socialize.js` still builds that markup.
+
+### Original plan (kept for reference)
 
 ### What the measurement says
 

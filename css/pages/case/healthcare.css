@@ -1,0 +1,2150 @@
+/* Rules only case-studies/healthcare.html matches. Loaded last of the redesign sheets. */
+
+/* healthcare-v3 §06 only: id-scoped so this never touches .is-full on
+   lending-new-v3 / case-study-framework / lending-new-v2, which all reuse the
+   bare class above. Extra air between the wall and the card that follows it. */
+#release .rd-case-figure.is-full { margin-bottom: 56px; }
+
+/* AI feature badge — healthcare.html shipped-screens tabs (Venue Search).
+   Sits inside a .rd-case-panel-title, so it sets its own size and weight
+   rather than inheriting the title's. */
+.rd-ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  margin-left: 8px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--rd-primary);
+  color: var(--rd-ink-inverse);
+  font-size: var(--rd-fs-xs);
+  font-weight: var(--rd-fw-heading);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.rd-ai-badge svg { width: 12px; height: 12px; flex: none; }
+
+/* ------------------------------------------ 13. AI Accelerate ------------
+   Scroll-driven "AI Accelerate" section (Figma 40000417:8561 — see
+   "Scroll-Driven AI Accelerate Section — Implementation Prompt.md" at the
+   repo root). Four keyframes of ONE pinned scroll animation, not four
+   sections: DISCOVERY/VALIDATE/BUILD/LAUNCH → the two middle stages fade →
+   DISCOVERY and LAUNCH converge → an "AI enabled" panel reveals underneath.
+   js/ai-accelerate.js (GSAP + ScrollTrigger, loaded from cdnjs same as this
+   page's existing AOS include) drives the timeline; every element below
+   defaults to its fully-visible, unconverged, natural-flow state so the
+   section reads as a normal static block with no JS, under
+   prefers-reduced-motion, and on mobile (≤768px, where the pin is skipped
+   entirely rather than adapted — see the JS file header for why).
+
+   Colour mapping follows this file's own established rule (see the
+   #374151 → --rd-ink and #4b5563 → --rd-ink-muted comments above): Figma's
+   circle fills/borders collapse onto the existing yellow/blue/emerald ramps
+   in tokens.css since four of the six values are EXACT matches. Only
+   Build's olive (#a8ba1f/#434c00) has no ramp member — kept as literal hex
+   since it's a one-off, same call as the #4b5563 precedent. */
+.rd-ai-accelerate { position: relative; }
+.rd-ai-pin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  /* vh-based, not a flat 72px: this box is pinned at `height: 100vh` while
+     GSAP drives it (position: fixed), so unlike every other .rd-case-section
+     its content genuinely has to FIT the viewport rather than just look good
+     in normal flow — a fixed 72px plus the 196px circles plus the Step 4
+     panel measured taller than 900px viewports (caught while testing:
+     975px content in a 900px-tall window, clipping the bottom of the panel
+     for the entire pinned duration, only visible again once unpinned). vh
+     units shrink this in step with the viewport instead of a hard breakpoint. */
+  padding: clamp(16px, 5vh, 72px) 0;
+  /* Opaque, not inherited: once ai-accelerate.js pins this element it
+     switches to `position: fixed`, which lifts it out of .rd-ai-accelerate's
+     own tinted background (that background paints the in-flow spacer GSAP
+     leaves behind, not this fixed layer). Without its own fill here, the
+     section scrolled underneath at that screen position shows straight
+     through — caught while testing the pin, where the previous section's
+     text was legible behind the circles. */
+  background: var(--rd-surface);
+}
+.rd-ai-inner { width: 100%; gap: clamp(14px, 3vh, 40px); }
+.rd-ai-header { max-width: var(--rd-measure-case); display: flex; flex-direction: column; gap: 16px; }
+.rd-ai-stage {
+  /* Single source for the stage's own vertical inset, so the loop lines
+     below can snap exactly to it (top/bottom: var(--stage-pad)) instead of
+     a hard-coded px value that drifts out of sync whenever this padding
+     changes at a breakpoint — which is exactly how the lines ended up with
+     visible daylight between them and the circles before this fix. Every
+     breakpoint that overrides `padding` on this rule must also override
+     this custom property to match. */
+  --stage-pad: clamp(12px, 4vh, 40px);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--stage-pad) 0;
+}
+.rd-ai-loop-line {
+  position: absolute;
+  left: 98px;
+  right: 98px;
+  height: 2px;
+  background: var(--rd-border-muted);
+}
+.rd-ai-loop-line.is-top { top: var(--stage-pad); }
+.rd-ai-loop-line.is-bottom { bottom: var(--stage-pad); }
+.rd-ai-circle {
+  position: relative;
+  /* clamp(), not a flat 196px: on a comfortably tall desktop window this
+     sits at the ceiling (Figma's exact 196px — 22vh only reaches 196px
+     above a ~890px-tall viewport). Below that it's the single largest
+     fixed-size chunk in the pinned box, so it's the most effective lever
+     for keeping Step 4's full content inside a short-but-wide window
+     (1280x800, 1440x768 laptops) without shrinking to the 1024px tablet
+     breakpoint's fixed 148px, which is a width- not height-driven cutover
+     and would still overflow a short desktop-width window. */
+  flex: 0 0 clamp(140px, 22vh, 196px);
+  width: clamp(140px, 22vh, 196px);
+  height: clamp(140px, 22vh, 196px);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 16px;
+}
+.rd-ai-circle span,
+.rd-ai-circle-label {
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-emphasis);
+  text-transform: uppercase;
+  line-height: var(--rd-lh-tight);
+}
+/* Discovery/Launch carry two labels stacked in the same spot rather than
+   one — .is-short is what Steps 1-3 show, .is-long is the group name Step 4
+   swaps to (ai-accelerate.js crossfades them; the reduced-motion block
+   below swaps which one is visible outright). inset matches the circle's
+   own 16px padding so the long label wraps to the same column width Figma
+   specs, not the full circle diameter. Validate/Build never relabel, so
+   they keep a single plain <span> instead of this pair. */
+.rd-ai-circle-label {
+  position: absolute;
+  inset: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.rd-ai-circle-label.is-long { opacity: 0; }
+.rd-ai-circle.is-discovery { background: var(--yellow-Y200); border-color: var(--yellow-Y900); color: var(--yellow-Y900); }
+.rd-ai-circle.is-discovery span { color: var(--yellow-Y900); }
+.rd-ai-circle.is-validate { background: var(--blue-B500); border-color: var(--blue-B700); color: var(--blue-B700); }
+.rd-ai-circle.is-validate span { color: var(--rd-ink-inverse); }
+.rd-ai-circle.is-build { background: #a8ba1f; border-color: #434c00; color: #434c00; }
+.rd-ai-circle.is-build span { color: var(--rd-ink-inverse); }
+.rd-ai-circle.is-launch { background: var(--emerald-E600); border-color: var(--emerald-E800); color: var(--emerald-E800); }
+.rd-ai-circle.is-launch span { color: var(--rd-ink-inverse); }
+/* No align-items override: every child centers itself (text-align on the
+   headings/paragraphs, justify-content on .rd-ai-toggle) so the flex
+   container keeps its default `stretch`, which is load-bearing — the card
+   below needs to stay full-width rather than shrink to its own
+   max-content width. */
+.rd-ai-reveal { display: flex; flex-direction: column; gap: clamp(10px, 2.5vh, 24px); width: 100%; }
+.rd-ai-reveal-heading {
+  margin: 0;
+  font-size: var(--rd-fs-2xl);
+  font-weight: var(--rd-fw-emphasis);
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--rd-ink);
+}
+.rd-ai-reveal-question {
+  margin: 0;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-emphasis);
+  text-align: center;
+  color: var(--rd-ink);
+}
+/* Reverted 2026-08-29 (Hao) — back to the sitewide .rd-tab pill-with-gap/
+   ink-invert look (the segmented-control reskin from 2026-08-27, matching
+   Figma 40000460:3334, read as inconsistent next to every other .rd-tab
+   usage on the page, e.g. customer-engagement-v3's Findings pills). Buttons
+   are unstyled .rd-tab here — only the [aria-pressed] active state needs
+   adding, since the base rule only covers [aria-selected]. */
+.rd-ai-toggle { justify-content: center; }
+.rd-ai-toggle .rd-tab[aria-pressed="true"] {
+  background: var(--rd-ink);
+  color: var(--rd-ink-inverse);
+}
+.rd-ai-toggle .rd-tab[aria-pressed="true"]:hover { background: var(--rd-ink); }
+/* The row/column split used to live directly on .rd-ai-panel (=
+   .rd-case-card), which only ever held the two columns. It now also holds
+   the full-width band below them, so the row-flex moved down one level
+   onto .rd-ai-panel-cols and .rd-ai-panel falls back to .rd-case-card's own
+   default column stacking (cols row, then band).
+
+   Figma (40000460:3389) draws the two columns as one continuous card split
+   by a single hairline, not two boxes with daylight between them — gap: 0,
+   plus a border on the first column standing in for that hairline (Hao's
+   "comply with this layout" screenshot, 2026-08-27; corrected from an
+   earlier 48px-gap build).
+
+   .rd-case-card's own 24px padding is switched off here: Figma's card
+   (40000417:8044) carries NO padding of its own — every section (head,
+   rows, band) pads itself independently with the same 24px, flush against
+   each other. Reusing the card's ambient padding AND re-padding each
+   section (the previous build) stacked the two, so rows sat 40px from the
+   edge while the heading above them sat at 24px — a visible stair-step
+   Hao's screenshot caught. --rd-ai-inset is local layout plumbing (same
+   pattern as .rd-ai-stage's --stage-pad above), not a new design token —
+   it exists so the one 24px number used by four different rules only has
+   to change in one place at each breakpoint. */
+.rd-ai-panel { --rd-ai-inset: 24px; padding: 0; }
+.rd-ai-panel-cols { display: flex; flex-direction: row; gap: 0; width: 100%; }
+.rd-ai-panel-col { flex: 1 1 0; display: flex; flex-direction: column; gap: 0; min-width: 0; }
+.rd-ai-panel-col:first-child { border-right: 1px solid var(--rd-border-soft); }
+.rd-ai-panel-head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: var(--rd-ai-inset);
+  background: var(--rd-surface);
+}
+.rd-ai-panel-col:first-child .rd-ai-panel-head { border-top-left-radius: 16px; }
+.rd-ai-panel-col:last-child .rd-ai-panel-head { border-top-right-radius: 16px; }
+/* .rd-ai-panel-head .rd-ai-panel-title, not the bare class — "Body copy"
+   (.rd-case-card p, near the top of this file) sets font-size/weight on
+   every <p> inside a .rd-case-card at (0,1,1) specificity, which silently
+   beat a bare .rd-ai-panel-title (0,1,0) and forced it back to 16px/500
+   regardless of what was declared here (only the colour overrides below
+   escaped it, since those already carried 2 classes) — caught 2026-08-27,
+   "no things happened" when the size was changed. */
+.rd-ai-panel-head .rd-ai-panel-title {
+  margin: 0;
+  font-size: var(--rd-fs-xl);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: var(--rd-lh-heading);
+  text-transform: uppercase;
+}
+/* Same tokens the step tags/dividers already use elsewhere, not new colours. */
+.rd-ai-panel-head.is-discovery .rd-ai-panel-title { color: var(--yellow-Y900); }
+.rd-ai-panel-head.is-launch .rd-ai-panel-title { color: var(--emerald-E800); }
+.rd-ai-panel-head .rd-ai-panel-subtitle {
+  margin: 0;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-body);
+  color: var(--rd-ink);
+}
+.rd-ai-panel-col .rd-case-list { color: var(--rd-ink-muted); }
+/* Rows sit directly in the column (no enclosing bordered box — Figma's own
+   rows wrapper, 40000460:3277, carries no border/background of its own,
+   just the 24px side padding and each row's hairline). Scoped overrides on
+   the reused .rd-case-checklist/-row classes rather than editing them
+   globally: lending-new-v3.html's Experience List still wants its own
+   bordered box and uniform 16px row padding. */
+.rd-ai-panel-col > .rd-ai-swap-wrap { padding: 0 var(--rd-ai-inset); }
+.rd-ai-panel .rd-case-checklist { border: 0; border-radius: 0; overflow: visible; background: none; }
+/* min-height, not padding alone: .rd-case-chip's own 4px top/bottom padding
+   makes a tagged row taller than a plain-text one (measured 66.6px vs 62px
+   once the row text carries the body role's 1.6 line-height) purely
+   because it's the row's tallest child — .rd-case-checklist-row's existing
+   align-items:center then centers the shorter, untagged rows inside this
+   floor so every row reads as the same height regardless of whether it
+   carries a tag. Scoped to .rd-ai-panel-col (the step lists) rather than
+   the whole panel, so it doesn't also stretch the band's own single,
+   deliberately compact row below. */
+.rd-ai-panel-col .rd-case-checklist-row { padding: 16px 0; min-height: 67px; }
+/* Holds both toggle-state children at once (one hidden) — either the two
+   step lists per column, or the two subtitles in the tinted head — so
+   js/ai-accelerate.js can measure the taller one and lock min-height on
+   this wrapper. The shorter state then leaves whitespace instead of
+   shrinking the card and moving the band beneath it. */
+.rd-ai-swap-wrap { position: relative; width: 100%; }
+.rd-ai-band {
+  width: 100%;
+  margin-top: 8px;
+  padding: 16px var(--rd-ai-inset) var(--rd-ai-inset);
+  border-top: 1px solid var(--rd-border-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* Flush inside the band — the band's own padding is the only inset it
+   needs, not the checklist row's usual padding + border-top too. Centered
+   (eyebrow/sub removed 2026-08-29) since this is now the band's only child.
+   .rd-case-chip's sitewide margin-left:auto exists to pin it to the far
+   right of a full-width row — here that fights justify-content:center by
+   shoving the chip off to the edge on its own, so it's zeroed to let the
+   text+chip pair move as one centered group. */
+.rd-ai-band .rd-case-checklist-row { padding: 0; border-top: 0; justify-content: center; }
+.rd-ai-band .rd-case-chip { margin-left: 0; }
+.rd-ai-reveal-closing {
+  margin: 0;
+  max-width: var(--rd-measure-case);
+  text-align: center;
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+@media (max-width: 1024px) {
+  .rd-ai-stage { --stage-pad: 24px; padding: var(--stage-pad) 0; }
+  .rd-ai-circle { flex-basis: 148px; width: 148px; height: 148px; padding: 12px; }
+  .rd-ai-circle-label { inset: 12px; }
+  .rd-ai-loop-line { left: 74px; right: 74px; }
+}
+
+/* Short-but-wide windows (laptop lids at 800/768px, browser chrome eating
+   into a 900px display) — the vh-clamps above alone can't close the gap:
+   they're tuned to hold Figma's exact spacing on a comfortable desktop
+   height, and the 196px circles are the largest fixed-size chunk that
+   clamp doesn't reach far enough on its own. `(min-width: 769px)` keeps
+   this scoped to the pinned desktop/tablet experience — mobile already has
+   its own, unrelated compact treatment below and never pins. Tuned and
+   verified in a real browser down to a 700px-tall viewport with zero
+   overflow of the pinned box (see js/ai-accelerate.js's header: an
+   overflowing pinned box clips the bottom of the Step 4 panel for the
+   entire pinned duration, only visible again once unpinned). */
+@media (max-height: 860px) and (min-width: 769px) {
+  .rd-ai-pin { padding: 12px 0; }
+  .rd-ai-inner { gap: 10px; }
+  .rd-ai-header { gap: 4px; }
+  .rd-ai-stage { --stage-pad: 6px; padding: var(--stage-pad) 0; }
+  .rd-ai-circle { flex-basis: 120px; width: 120px; height: 120px; padding: 8px; }
+  .rd-ai-circle span,
+  .rd-ai-circle-label { font-size: var(--rd-fs-sm); }
+  .rd-ai-circle-label { inset: 8px; }
+  .rd-ai-loop-line { left: 60px; right: 60px; }
+  .rd-ai-reveal { gap: 8px; }
+  .rd-ai-reveal-heading { font-size: var(--rd-fs-lg); }
+  .rd-ai-panel { --rd-ai-inset: 12px; }
+}
+
+/* Mobile default: every stage of the story reads at once, no pin. This is
+   still the no-JS / prefers-reduced-motion fallback for #ai-accelerate, and
+   the only mobile behavior #ai-accelerate-v2 has (its JS never runs below
+   769px — see js/ai-accelerate-v2.js). #ai-accelerate itself is overridden
+   right below: js/ai-accelerate.js now wires its pin/scrub timeline at every
+   width (Hao asked 2026-08-31 for mobile to animate like desktop). */
+@media (max-width: 768px) {
+  .rd-ai-pin { min-height: 0; padding: 48px 0; }
+  /* --stage-pad, not a bare `padding: 16px 0` — the loop-line positions
+     itself with `top/bottom: var(--stage-pad)`, so leaving the custom
+     property at its base clamp() while padding goes flat desyncs the two
+     (line no longer tangent to the circle edge). Invisible while the line
+     was `display: none` below; surfaced once #ai-accelerate un-hides it. */
+  .rd-ai-stage { --stage-pad: 16px; padding: var(--stage-pad) 0; }
+  .rd-ai-circle { flex-basis: 72px; width: 72px; height: 72px; padding: 6px; border-width: 1.5px; }
+  .rd-ai-circle span,
+  .rd-ai-circle-label { font-size: 9px; letter-spacing: 0; }
+  .rd-ai-circle-label { inset: 6px; }
+  /* #ai-accelerate-v2 default: too cluttered at 72px in a static render, so
+     hidden outright. #ai-accelerate overrides both back on below — now that
+     it animates on mobile too, it shows the same ticks/loop-line desktop
+     does, just re-scaled to the 72px circle. */
+  .rd-ai-loop-line { display: none; }
+  /* Stacked columns: the hairline moves from the right edge of column one
+     to its bottom edge. Both head strips already span their own column's
+     full width (no bleed math involved now that .rd-ai-panel carries no
+     ambient padding to begin with) — only the first column's head is still
+     at the card's true top, so only it keeps the top corner radius. */
+  .rd-ai-panel-cols { flex-direction: column; gap: 24px; }
+  .rd-ai-panel-col:first-child { border-right: 0; border-bottom: 1px solid var(--rd-border-soft); }
+  .rd-ai-panel-col:last-child .rd-ai-panel-head { border-radius: 0; }
+  .rd-ai-reveal-heading { font-size: var(--rd-fs-lg); }
+  /* #ai-accelerate only (id beats the class rule above regardless of source
+     order): its pin now runs on mobile too, so it needs the same full-height
+     pin box desktop uses, not the static fallback's collapsed one. Values
+     match the base .rd-ai-pin rule above §13. */
+  #ai-accelerate .rd-ai-pin { min-height: 100vh; padding: clamp(16px, 5vh, 72px) 0; }
+  /* Loop-line back on for #ai-accelerate, inset by the 72px mobile circle's
+     own radius — the same inset = circle radius ratio the 1024px breakpoint
+     above uses for its 148px circle. */
+  #ai-accelerate .rd-ai-loop-line { display: block; left: 36px; right: 36px; }
+}
+
+
+/* JS-driven states — gated behind .js-ai-ready (added by ai-accelerate.js
+   only once GSAP + ScrollTrigger are confirmed loaded and
+   prefers-reduced-motion is off) so nothing here can hide content unless
+   the enhancement actually took over. */
+.js-ai-ready .rd-ai-circle.is-validate,
+.js-ai-ready .rd-ai-circle.is-build { will-change: opacity, transform, filter; }
+.js-ai-ready .rd-ai-circle.is-discovery,
+.js-ai-ready .rd-ai-circle.is-launch { will-change: transform; }
+.js-ai-ready .rd-ai-reveal-heading,
+.js-ai-ready .rd-ai-reveal-question,
+.js-ai-ready .rd-ai-toggle,
+.js-ai-ready .rd-ai-panel { will-change: opacity, transform; }
+/* Reduced motion: the "final composition" the spec asks for, built with pure
+   CSS rather than JS-computed convergence offsets. VALIDATE/BUILD hidden
+   (fine to remove from flow here — there is no animation to reverse) leaves
+   DISCOVERY and LAUNCH as the only two flex children, and justify-content:
+   center pulls them together on its own; no pixel math required. The panel
+   below is already visible by default. ai-accelerate.js checks this same
+   media query and never touches ScrollTrigger when it matches. */
+@media (prefers-reduced-motion: reduce) {
+  .rd-ai-circle.is-validate,
+  .rd-ai-circle.is-build,
+  .rd-ai-loop-line { display: none; }
+  .rd-ai-stage { justify-content: center; gap: 0; }
+  /* The "final composition" carries the Step 4 labels too, not the Step 1
+     ones — Discovery/Launch sitting converged next to a panel that already
+     names them "Discovery, validate, and experiment" / "Build, launch and
+     scale" while the circles themselves still said "DISCOVERY"/"LAUNCH"
+     would read as two different diagrams, not one finished one. */
+  .rd-ai-circle-label.is-short { opacity: 0; }
+  .rd-ai-circle-label.is-long { opacity: 1; }
+}
+
+
+/* ------------------------------ 13b. AI Accelerate — V2 stacked layers ----
+   healthcare-v3.html's #ai-accelerate-v2 ONLY. Everything in §13 above is
+   shared by both copies of that section and must not be edited to make this
+   one work — the whole point of the duplicate is that the original renders
+   byte-identically to how it did before (see the banner comment above the v2
+   section in that file).
+
+   These rules therefore only ever ADD: every selector below is either a new
+   .rd-ai-* class that appears nowhere else, or is scoped under `.is-v2`.
+   Nothing here overrides a §13 rule.
+
+   The three layers are siblings of .rd-ai-pin rather than children of it,
+   because .rd-ai-pin becomes `position: fixed` under GSAP and would carry
+   them along for the whole scrub. They are ordinary flow content that starts
+   once the pin releases, which is why .rd-ai-stack needs its own top inset
+   instead of inheriting the pin's centring. */
+.rd-ai-stack {
+  /* vh-based like .rd-ai-pin's own padding, for the same reason: the pinned
+     box above is sized to the viewport, so a flat px gap reads as generous on
+     a tall window and cramped on a short one. */
+  margin-top: clamp(24px, 7vh, 72px);
+  gap: clamp(40px, 7vh, 72px);
+}
+.rd-ai-layer { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+/* The stack continues the toggle above rather than starting a new beat, so it
+   is pulled up through the pin's bottom padding (the same clamp as
+   .rd-ai-pin) to leave 32px under the closing line. */
+.rd-ai-accelerate > .rd-ai-stack {
+  margin-top: calc(32px - clamp(16px, 5vh, 72px));
+  /* .rd-ai-pin is positioned with an opaque fill; without this it paints over
+     the part of the stack that now overlaps its padding. */
+  position: relative;
+  z-index: 1;
+}
+/* Collapsible blocks (model, handoff, artifact), same treatment as work.html's
+   .rd-work-archive: hairline, uppercase summary, chevron that flips. Siblings
+   stack as one accordion — each draws its top rule, the last closes the list. */
+.rd-ai-model { display: block; border-top: 1px solid var(--rd-border); }
+/* Margins, not flex gap: a closed <details> still lays out its content slot,
+   so a gap would pad every collapsed row. */
+.rd-ai-model[open] > :not(summary) + * { margin-top: 20px; }
+.rd-ai-model[open] > summary + * { margin-top: 4px; }
+.rd-ai-model + .rd-ai-model { margin-top: -20px; }
+.rd-ai-model:not(:has(+ .rd-ai-model)) { border-bottom: 1px solid var(--rd-border); }
+.rd-ai-model[open] { padding-bottom: 32px; }
+.rd-ai-model-summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  cursor: pointer; list-style: none;
+  padding: 16px 0;
+  font-size: var(--rd-fs-xs); font-weight: var(--rd-fw-emphasis);
+  letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7;
+}
+.rd-ai-model-summary::-webkit-details-marker { display: none; }
+.rd-ai-model-summary::marker { content: ""; }
+.rd-ai-model-summary:hover { opacity: 1; }
+.rd-ai-model-icon {
+  display: inline-flex; flex: none; width: 20px; height: 20px;
+  align-items: center; justify-content: center;
+  transition: transform 0.15s ease;
+}
+.rd-ai-model[open] > .rd-ai-model-summary .rd-ai-model-icon { transform: rotate(180deg); }
+/* Every block's content sits in the same card, so the three read as one set.
+   Boxes that carried their own card before (the receipt, the "after" column)
+   drop their outer edge inside it rather than nesting a card in a card. */
+.rd-ai-model-panel {
+  display: flex; flex-direction: column; gap: 20px;
+  padding: 24px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+}
+.rd-ai-model-panel .rd-ai-evi { background: none; border: 0; border-radius: 0; }
+.rd-ai-model-panel .rd-ai-evi-stat { padding: 0 24px; }
+.rd-ai-model-panel .rd-ai-evi-stat:first-child { padding-left: 0; }
+/* "Before" keeps its vertical padding so its rows stay level with "after". */
+.rd-ai-model-panel .rd-ai-ba-col { padding-left: 0; padding-right: 0; }
+.rd-ai-model-panel .rd-ai-ba-col.is-after {
+  padding: 24px;
+  /* A soft edge, not a fill: the AI chips are --rd-surface and vanish on it. */
+  border-color: var(--rd-border-soft);
+}
+
+/* --- before / after ----------------------------------------------------
+   Figma 40000586:5384 (the web-3 "State of UX" pair): the "before" column
+   sits flat on the section surface and only the "after" column is a card,
+   so the argument is the one thing on the band with an edge.
+   Both columns keep the same padding and a 1px border (transparent on
+   "before") so their rows start on the same line across the pair. */
+.rd-ai-ba {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+  width: 100%;
+}
+/* The arrow stands in for the old Before/After eyebrows: it sits in its own
+   grid track between the columns and turns to point down once they stack. */
+.rd-ai-ba-arrow {
+  display: flex;
+  align-self: center;
+  justify-self: center;
+  color: var(--rd-ink);
+}
+.rd-ai-ba-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--r-20);
+}
+.rd-ai-ba-col.is-after {
+  background: var(--rd-white);
+  border-color: var(--rd-border);
+}
+/* Rows lose the checklist's boxed list and take Figma's numbered 32px
+   badge instead, drawn with a counter so the markup stays a plain
+   .rd-case-checklist. "Before" badges are muted, "after" badges use the
+   same orange as the AI chips in that column. */
+.rd-ai-ba .rd-case-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  background: none;
+  counter-reset: rd-ai-ba;
+}
+.rd-ai-ba .rd-case-checklist-row {
+  padding: 4px 0;
+  border-top: 0;
+  counter-increment: rd-ai-ba;
+}
+.rd-ai-ba .rd-case-checklist-row::before {
+  content: counter(rd-ai-ba);
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: var(--rd-ink-muted);
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-emphasis);
+  color: var(--rd-ink-inverse);
+}
+.rd-ai-ba-col.is-after .rd-case-checklist-row::before { background: var(--rd-pain-chip); }
+.rd-ai-ba-lede {
+  margin: 0;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+/* --- the counted receipt ----------------------------------------------
+   One bordered container divided into three, not three separate cards —
+   same call as .rd-case-cols: the three figures are one claim, and three
+   detached boxes read as three unrelated brags. */
+.rd-ai-evi {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.rd-ai-evi-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px;
+  border-left: 1px solid var(--rd-border-soft);
+}
+.rd-ai-evi-stat:first-child { border-left: 0; }
+/* 20px, not 24px: this component appears under headings of three different
+   sizes and the figure has to stay below whichever one heads its block.
+   Here (the "Key figures" strip) the h3 is 24px. The two other contexts set
+   their own value — .rd-case-band below (32px H2) and .rd-ai-model-panel
+   just under this (20px h3). */
+.rd-ai-evi-stat strong {
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-xl);
+  line-height: var(--rd-lh-tight);
+  color: var(--rd-ink);
+}
+/* Inside a model panel the governing heading is .rd-ai-layer-title at 20px,
+   so the figure steps one further down to 18px. */
+.rd-ai-model-panel .rd-ai-evi-stat strong { font-size: var(--rd-fs-lg); }
+.rd-ai-evi-stat span {
+  font-size: var(--rd-fs-sm);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink-muted);
+}
+/* Under ~900px the two before/after columns stop being a comparison and
+   start being two narrow cards nobody can read across, so they stack. The
+   receipt survives one step longer because its three figures are short. */
+@media (max-width: 900px) {
+  .rd-ai-ba { grid-template-columns: 1fr; }
+  .rd-ai-ba-arrow { transform: rotate(90deg); }
+}
+
+/* `.rd-ai-evi` was built for the white AI section and is reused on
+   healthcare.html as the page's evidence strip. Two adjustments it needs
+   outside that home:
+
+   In `.rd-case-band` the container centres its text (`.rd-case-band-inner`
+   sets text-align:center), which drags the stat labels with it — two-line
+   labels centred under a left-aligned number read as a mistake. The strip
+   re-asserts left alignment for itself only.
+ */
+.rd-case-band .rd-ai-evi { margin-top: 32px; text-align: left; }
+@media (max-width: 768px) {
+  .rd-ai-evi { grid-template-columns: 1fr; }
+  .rd-ai-evi-stat { border-left: 0; border-top: 1px solid var(--rd-border-soft); }
+  .rd-ai-evi-stat:first-child { border-top: 0; }
+  .rd-ai-model-panel { padding: 16px; }
+  .rd-ai-model-panel .rd-ai-evi-stat { padding: 16px 0; }
+  .rd-ai-model-panel .rd-ai-evi-stat:first-child { padding-top: 0; }
+  /* §13 skips the pin entirely at this width and renders the diagram
+     statically, so the stack below it is simply the next thing on the page —
+     the vh-based inset above would be doing nothing useful. */
+  .rd-ai-stack { margin-top: 40px; gap: 48px; }
+}
+
+
+/* --------------------------------- 13c. User Landscape --------------------
+   healthcare-v3.html §02 only (Figma 40000438:9332). Five role groups across
+   one bordered container, each carrying the same three bands — User,
+   Responsibility, Permission — so the bands can be read ACROSS the columns as
+   well as down them. Reading across is the whole point: it is what makes
+   "the same program means something different to each of them" (§03's
+   heading, one section later) visible before it is asserted.
+
+   SUBGRID, AND IT MATTERS. The three bands only line up across five columns
+   if every column shares one set of row tracks. Without subgrid each column
+   sizes its own rows to its own content — Attendant has two role names where
+   Approval has four — and the Responsibility label would sit at five
+   different heights, which reads as five unrelated cards rather than one
+   table. `grid-row: 1 / -1` is what makes the column a subgrid participant;
+   removing it silently reverts to the ragged layout with no error.
+
+   Spacing is padding on the rows' items, not row-gap: on a subgridded axis
+   the column's own gap is ignored, and a parent row-gap would open a hole
+   above each row label's divider. */
+.rd-case-landscape {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  /* head · User label · users · Responsibility label · text · Permission label · text */
+  grid-template-rows: repeat(7, auto);
+  width: 100%;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+}
+.rd-case-landscape-col {
+  display: grid;
+  grid-row: 1 / -1;
+  grid-template-rows: subgrid;
+  padding-inline: 24px;
+}
+/* Placed explicitly: the row labels occupy rows 2, 4 and 6 across every
+   column, so auto-placement finds no free full-height slot and pushes all
+   five columns into implicit tracks off to the right. */
+.rd-case-landscape-col:nth-of-type(1) { grid-column: 1; }
+.rd-case-landscape-col:nth-of-type(2) { grid-column: 2; }
+.rd-case-landscape-col:nth-of-type(3) { grid-column: 3; }
+.rd-case-landscape-col:nth-of-type(4) { grid-column: 4; }
+.rd-case-landscape-col:nth-of-type(5) { grid-column: 5; }
+.rd-case-landscape-col > .rd-case-landscape-head { grid-row: 1; padding-block: 24px; }
+.rd-case-landscape-col > .rd-case-landscape-cell:nth-child(2) { grid-row: 3; }
+.rd-case-landscape-col > .rd-case-landscape-cell:nth-child(3) { grid-row: 5; }
+.rd-case-landscape-col > .rd-case-landscape-cell:nth-child(4) { grid-row: 7; }
+.rd-case-landscape-cell { padding-bottom: 24px; }
+/* Row labels: said once per band, across all five columns, with the band's
+   divider on top. Same style as the Interactive view's .rb-section-title. */
+.rd-case-landscape-rowlabel {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 24px 24px 12px;
+  border-top: 1px solid var(--rd-border-soft);
+  font-family: var(--rd-font);
+  font-size: var(--rd-fs-xl);
+  font-weight: var(--rd-fw-heading);
+  line-height: var(--rd-lh-heading);
+  color: var(--rd-ink);
+}
+.rd-case-landscape-rowlabel.is-user { grid-row: 2; }
+.rd-case-landscape-rowlabel.is-resp { grid-row: 4; }
+.rd-case-landscape-rowlabel.is-perm { grid-row: 6; }
+/* The per-cell label repeats the row label, so on desktop it is kept for
+   screen readers only; the accordion below shows it again. */
+.rd-case-landscape .rd-case-label {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+/* Head is a <button> so the mobile accordion (below) is reachable by
+   keyboard and gets a real aria-expanded state; these resets keep it looking
+   exactly like the plain div it replaced at every width. */
+.rd-case-landscape-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.rd-case-landscape-group {
+  margin: 0;
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-tight);
+  color: var(--rd-ink);
+}
+/* Chevron only does anything below 1024px (see media query) — hidden here
+   so desktop, where every cell always shows, gets no dead affordance. */
+.rd-case-landscape-chevron { display: none; flex-shrink: 0; color: var(--rd-ink-muted); }
+.rd-case-landscape-cell { display: flex; flex-direction: column; gap: 8px; }
+.rd-case-landscape-text {
+  margin: 0;
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink-muted);
+}
+/* Five columns of running text stop being readable well before the phone
+   breakpoint — at 1024 each column is under 190px and the Responsibility
+   sentences wrap to six or seven lines. Below that the whole thing becomes a
+   plain stack: subgrid is dropped (there is no longer a shared row axis to
+   align to) and the dividers turn horizontal. */
+@media (max-width: 1024px) {
+  .rd-case-landscape {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .rd-case-landscape-rowlabel { display: none; }
+  .rd-case-landscape-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    border-top: 1px solid var(--rd-border-soft);
+  }
+  .rd-case-landscape-col:first-of-type { border-top: 0; }
+  .rd-case-landscape-col > .rd-case-landscape-head { padding-block: 0; }
+  .rd-case-landscape-cell { padding-bottom: 0; }
+  .rd-case-landscape .rd-case-label {
+    position: static;
+    width: auto; height: auto;
+    overflow: visible;
+    clip-path: none;
+    font-size: var(--rd-fs-md);
+    font-weight: var(--rd-fw-heading);
+    line-height: var(--rd-lh-heading);
+    letter-spacing: normal;
+    text-transform: none;
+    color: var(--rd-ink);
+    opacity: 1;
+  }
+  /* Accordion: each column's three cells are siblings of its head button
+     (not a wrapper div — a wrapper would collapse the desktop subgrid's row
+     count, see the HTML comment above the markup). Collapsed is the
+     default; .is-expanded is the only thing that shows a column's cells,
+     and only Propose ships with that class. */
+  .rd-case-landscape-col .rd-case-landscape-cell { display: none; }
+  .rd-case-landscape-col.is-expanded .rd-case-landscape-cell { display: flex; }
+  .rd-case-landscape-chevron { display: block; margin-left: auto; transition: transform 0.2s ease; }
+  .rd-case-landscape-col.is-expanded .rd-case-landscape-chevron { transform: rotate(180deg); }
+}
+
+
+/* --------------------------------- 13d. Problems carousel -----------------
+   healthcare-v3.html, the unnumbered beat between the Healthcare in US band
+   and §02 (Figma 40000453:672). Three pain points on one carousel.
+
+   FIGMA → TOKEN SUBSTITUTIONS, all following precedents already set in this
+   file (see the "#374151 → --rd-ink" and "#4b5563 → --rd-ink-muted" notes
+   further down):
+     32px SemiBold quote .... --rd-fs-3xl + --rd-fw-heading  (exact match)
+     16px Medium attribution  --rd-fs-md  + --rd-fw-body     (exact match)
+     #131313 quote ink ...... --rd-ink        (near-duplicate, not a new token)
+     #4b5563 attribution .... --rd-ink-muted  (near-duplicate, same precedent)
+   The node's 1392px container needs nothing at all: --rd-shell is 1440 and
+   .rd-case-inner insets 24px a side, which is 1392 exactly.
+
+   THE SLIDES SHARE ONE GRID CELL. All three sit at `grid-area: 1 / 1`, so the
+   viewport is as tall as the LONGEST pain point and switching slides cannot
+   move the dots, the arrows, or §02 below. The alternative — stacking them and
+   measuring heights in JS — is what the AI panel has to do, and it is the
+   reason that panel needs a font-load re-measure. Not needed here. */
+/* healthcare-v3.html only — a new class, not the shared .rd-case-section
+   bucket, so every other section using that class is unaffected. */
+.rd-case-quotes-section { min-height: 100vh; display: flex; align-items: center; }
+.rd-quotes { display: flex; flex-direction: column; gap: 80px; width: 100%; }
+.rd-quotes-viewport { display: grid; }
+.rd-quote {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 220ms ease, transform 220ms ease;
+  pointer-events: none;
+}
+/* quote-carousel.js fades the outgoing slide out (this resting state), waits
+   for that transition to finish, then unhides and fades the incoming one in
+   — sequential, not a simultaneous crossfade. Two quotes of different
+   lengths both partway-visible together double-exposed as overlapping
+   italic text, which read as a stutter rather than a clean change. */
+.rd-quote.is-active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+/* `[hidden]` alone cannot win here: the base rule sets `display: flex`, and an
+   author `display` beats the UA `[hidden]` rule at any specificity — the same
+   trap the initiatives disclosure hit. The explicit rule below is what makes
+   `hidden` actually hide, and it is also what keeps an inactive slide out of
+   the accessibility tree instead of merely transparent. */
+.rd-quote[hidden] { display: none; }
+/* Avatar left, quote glyph right, on one row — the node's own arrangement. */
+.rd-quote-top { display: flex; align-items: flex-start; justify-content: space-between; width: 100%; }
+/* 84px, matching the node. A neutral mark, not a face: there is no interview
+   behind this page and the attribution names a role group rather than a
+   person, so a portrait would imply a source that does not exist. */
+.rd-quote-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex: 0 0 auto;
+  width: 84px;
+  height: 84px;
+  border-radius: 999px;
+  background: var(--rd-tint);
+  border: 1px solid var(--rd-border-soft);
+  color: var(--rd-ink-muted);
+}
+.rd-quote-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.rd-quote-mark { flex: 0 0 auto; width: 73px; height: 60px; fill: var(--rd-ink); opacity: 0.12; }
+.rd-quote-text {
+  margin: 0;
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-heading);
+  font-style: italic;
+  font-size: var(--rd-fs-3xl);
+  line-height: var(--rd-lh-heading);
+  color: var(--rd-ink);
+}
+.rd-quote-by {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-tight);
+  color: var(--rd-ink-muted);
+}
+/* 48 × 2px, the node's exact rule. `flex: 0 0 48px` because a bare width on a
+   flex child is a suggestion — the attribution text wraps at narrow widths and
+   would otherwise squeeze the rule to nothing. */
+.rd-quote-rule { flex: 0 0 48px; height: 2px; background: var(--rd-ink-muted); }
+.rd-quotes-nav { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+.rd-quotes-dots { display: flex; align-items: center; gap: 12px; }
+/* The node draws the inactive dots as rings and the active one filled. Both
+   states are 10px so nothing shifts when the selection moves; only the fill
+   changes. The 32px pseudo-element is the touch target — WCAG 2.5.8 wants 24px
+   minimum and a 10px dot is nowhere near it, but growing the dot itself would
+   break the node's proportions. */
+.rd-quotes-dot {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--rd-ink-muted);
+  background: transparent;
+  cursor: pointer;
+}
+.rd-quotes-dot::after { content: ""; position: absolute; inset: -11px; }
+.rd-quotes-dot.is-active { background: var(--rd-ink-muted); }
+.rd-quotes-arrows { display: flex; align-items: center; gap: 16px; }
+.rd-quotes-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--rd-ink-muted);
+  cursor: pointer;
+}
+.rd-quotes-arrow:hover { color: var(--rd-ink); }
+.rd-quotes-arrow:focus-visible, .rd-quotes-dot:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: 3px; }
+/* --- the Healthcare in US band (Figma 40000409:7302) ---
+   Centred heading over a centred italic lead, sitting between the Overview
+   container and the carousel. `--rd-measure-case` (1040px) is too wide for it,
+   so the lead needs its own cap to read as a framing line. */
+.rd-case-band-inner { align-items: center; text-align: center; gap: 16px; }
+.rd-case-band-title {
+  margin: 0;
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-2xl);
+  line-height: var(--rd-lh-heading);
+  color: var(--rd-ink);
+}
+.rd-case-band-lead {
+  margin: 0;
+  max-width: 84ch;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-body);
+  font-style: italic;
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+@media (max-width: 768px) {
+  .rd-case-quotes-section { min-height: 0; }
+  .rd-quotes { gap: 48px; }
+  .rd-quote-avatar { width: 56px; height: 56px; }
+  .rd-quote-mark { width: 48px; height: 40px; }
+  .rd-quote-text { font-size: var(--rd-fs-xl); }
+  .rd-quote-by { gap: 16px; align-items: flex-start; }
+  .rd-quote-rule { margin-top: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* quote-carousel.js still reads this transition's duration via
+     getComputedStyle to time the `hidden` handoff, so it is zeroed rather
+     than removed — the crossfade drops out, the timing math stays correct. */
+  .rd-quote { transition-duration: 0ms; transform: none; }
+}
+
+
+/* healthcare-v3.html §05 only. The map evidence block is a SECOND
+   .rd-case-inner inside a section that already has one (the release card),
+   and .rd-case-section sets no gap between its direct children because every
+   other section on the site has exactly one inner. A class rather than a bare
+   `#release` selector: redesign.css already carries an unscoped `#built` rule
+   that this section tripped over once. */
+.rd-case-evidence { margin-top: 40px; }
+/* --------------------------------- 13f. Screen-wall marquee ---------------
+   healthcare-v3.html §06 only (.rd-case-figure.is-full > .rd-case-wall-spacer
+   > .rd-case-wall-pin). Two states:
+
+   DEFAULT (no JS / reduced-motion / <769px, i.e. js/case-wall-marquee.js's
+   own bail conditions): .rd-case-wall-spacer has no set height (auto), so
+   .rd-case-wall-pin just sits in normal flow at its natural size — no
+   sticky, no scroll-hold. Both rows show their 7 real screenshots once
+   each, one row per line, each row horizontally scrollable — always
+   exactly 2 rows regardless of viewport width, rather than wrapping into
+   however many lines 7 full-size screenshots don't fit into. (Was a
+   wrapped grid; changed 2026-08-31 — Hao flagged the header reading as
+   hidden under it, which turned out to be the .rd-case-wall-pin height/
+   overflow bug below fixed the same day, but the wrapped grid separately
+   read as more than 2 rows and duplicate-looking, since row b is just row
+   a reversed for the desktop marquee lanes.)
+
+   ENHANCED (.js-wall-ready, added by the JS to .rd-case-wall-spacer once
+   GSAP/ScrollTrigger confirm they're running): the spacer becomes 400vh
+   (100vh visible + 300vh hold — the "~3 screens" from spec) and the pin
+   inside it goes `position: sticky; top: 0`, which is what actually holds
+   it on screen for that 300vh — native CSS, not GSAP. Each row's images
+   also go edge-to-edge in one line here — js/case-wall-marquee.js has by
+   this point cloned each row's 7 images to 21 (3x), which is what makes the
+   scrub-driven xPercent loop seamless.
+
+   FOUR-ROUND HISTORY, all Hao, 2026-08-29, worth keeping straight:
+   round 1 shipped title+desc OUTSIDE the pin, in normal flow above it — so
+   they scrolled off before the pin ever engaged, and the two rows held the
+   ENTIRE screen alone for 3 scroll-screens. Round 2 fixed a real "content
+   visible underneath the wall" bug by giving the pin `min-height: 100vh` —
+   correct fix, but it made round 1's problem worse: now a full blank screen
+   of nothing but 2 image rows, no context, for the whole hold. Round 3 put
+   title + desc + both rows together on one screen — the actual spec — by
+   making .rd-case-wall-header a CHILD of the pin instead of a sibling
+   .rd-case-inner above the figure, so it travels with the pin rather than
+   scrolling away before the hold starts. Round 4: round 2's "content
+   underneath" bug came BACK on real Safari only (GSAP's own pin: true was
+   silently sizing its spacer wrong there — never reproduced in Chromium or
+   in an isolated repro of the same structure, so the exact internal cause
+   was never pinned down). Replaced GSAP's pin entirely with native
+   `position: sticky` + a JS-toggled `height: 400vh` on this new
+   .rd-case-wall-spacer wrapper — no per-browser spacer math left to get
+   wrong. GSAP/ScrollTrigger still runs, but only to scrub the two rows'
+   xPercent against scroll progress; it doesn't pin anything any more. */
+.rd-case-wall-spacer.js-wall-ready { height: 400vh; }
+.rd-case-wall-pin {
+  display: flex;
+  flex-direction: column;
+  /* Space between the header block and the image rows below it — vh-based
+     like .rd-ai-inner's own gap above, so it compresses on short viewports
+     instead of forcing a fixed 40px that a 768px-tall laptop can't afford. */
+  gap: clamp(20px, 4vh, 48px);
+  background: var(--rd-surface);
+  box-sizing: border-box;
+  /* Top and bottom split on purpose, was one `padding-block`. This grew out
+     of `.rd-case-toc` once being a top-sticky bar (measured 47px tall) that
+     painted over this section's heading once scrolled — the top-only 56px
+     floor is legacy from that (the rail is a corner popover now, §3 near the
+     top of this file, and never sits over the top of the viewport). Left as
+     plain top padding rather than reverting to a symmetric clamp: it isn't
+     wrong, just no longer load-bearing, and this section's height math (see
+     the image-width comment below) is tuned pixel-by-pixel enough that
+     touching it isn't worth doing without re-testing at 768px tall. Bottom
+     keeps the original formula unchanged — the two rows' own breathing
+     room isn't this
+     section's problem to fix. */
+  padding-top: clamp(56px, calc(4vh + 20px), 76px);
+  padding-bottom: clamp(16px, 4vh, 56px);
+}
+/* Sticky only once enhanced — see the state notes above. In the default
+   state this stays a normal flow box (no top/position), which is what keeps
+   the no-JS/reduced-motion/mobile render a plain static section rather than
+   a 100vh box with nothing to stick inside. */
+.rd-case-wall-spacer.js-wall-ready .rd-case-wall-pin {
+  position: sticky;
+  top: 0;
+  justify-content: center;
+  overflow: hidden;
+  height: 100vh;
+}
+/* Overrides .rd-case-inner's own 32px gap: this is the one heading+body pair
+   on the page that has to share its screen with two rows of images below it,
+   so it runs tighter than every other section intro. */
+.rd-case-wall-header { gap: clamp(12px, 2vh, 24px); }
+/* The header sits inside the 100vw .is-full figure, so it never gets the
+   section's --grid-gutter. Take the .rd-grid geometry instead (1520 max, 64px
+   inset) so it lands on the same edge as the sections around it. ≤768 already
+   matches via .rd-case-inner's 16px. */
+@media (min-width: 769px) {
+  .rd-case-wall-header {
+    box-sizing: border-box;
+    max-width: var(--grid-outer);
+    padding-inline: var(--grid-edge);
+  }
+}
+
+.rd-case-wall-images {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+/* Default state (mobile/no-JS/reduced-motion — see the state notes above
+   .rd-case-wall-pin): each row stays a single line and scrolls horizontally
+   instead of wrapping, so the section is always exactly 2 rows tall rather
+   than however many lines 7 unscaled screenshots wrap into on a narrow
+   viewport. flex-start, not center: centering an overflowing flex line
+   starts the scrollable content off-screen to the left of center. */
+.rd-case-wall-row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  gap: 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.rd-case-wall-row::-webkit-scrollbar { display: none; }
+/* Up to 400 / no crop, per Hao (2026-08-29): object-fit was `cover` at
+   200px, which cut off real screen content. `contain` shows every pixel of
+   the actual crop; the tint fill is what shows in the aspect-ratio mismatch
+   letterboxing (924x662 screens vs this box's 4:3 vs the one 681x655 crop),
+   same fill the old .rd-ph placeholders used rather than plain white.
+   clamp(), not a flat 400px: now that the header shares this same 100vh
+   screen (see the history note above .rd-case-wall-pin), a flat 400px cell
+   height plus 2 rows plus a heading and 2 paragraphs doesn't fit inside a
+   768px-tall laptop window — verified empirically, not guessed — so the
+   cell shrinks with vw at that end while still reaching the full 400px Hao
+   asked for on anything wider than roughly a 1600px viewport. */
+.rd-case-wall-row img {
+  flex: 0 0 auto;
+  width: clamp(180px, 21vw, 400px);
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  object-position: center;
+  background: var(--rd-tint);
+  display: block;
+}
+.rd-case-wall-spacer.js-wall-ready .rd-case-wall-row {
+  justify-content: center;
+  /* Visible, not hidden: this row is the element the scrub translates, and an
+     overflow clip moves with its own box — at xPercent -33 the right third of
+     the screen went blank. .rd-case-wall-pin already clips at the viewport. */
+  overflow-x: visible;
+  will-change: transform;
+}
+
+/* ================================================================ B9 —
+   Role & permission matrix (healthcare)
+   ================================================================
+   Version B of the two reviewed prototypes — Hao picked it 2026-09-10.
+   Version A (.rm-*) was not chosen and keeps its CSS inside its own preview
+   file; nothing of it lives here.
+
+   One role at a time, drawn as a band crossing the 13 workflow areas left to
+   right in the order a program moves through them. A held permission is a
+   solid segment, a missing one is an open segment, so the band reads as a
+   track with holes. Every role has holes — that is the whole point of the
+   component, and a data edit that fills a row breaks it.
+
+   Markup and data: case-studies/_preview-role-matrix-b.html plus
+   _preview-role-matrix-data.js. Notes in
+   .claude/memory/portfolio_healthcare_role_matrix.md.
+   ================================================================ */
+
+/* ===================== Role matrix — version B ===================== */
+/* --- the band --- */
+.rb-stage {
+  border: 1px solid var(--rd-line);
+  border-radius: var(--r-16);
+  background: var(--rd-white);
+  padding: var(--m-32) var(--m-24) var(--m-24);
+}
+.rb-name {
+  font-size: var(--rd-fs-2xl);
+  font-weight: var(--rd-fw-emphasis);
+  color: var(--rd-ink);
+  margin: 0 0 var(--m-4);
+}
+
+.rb-band {
+  display: grid;
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+  gap: 4px;
+  margin: 0 0 var(--m-12);
+}
+.rb-seg {
+  height: 56px;
+  border-radius: var(--r-4);
+  background: var(--rb-off);
+  box-shadow: inset 0 0 0 1px var(--rb-edge);
+  background-image: repeating-linear-gradient(
+    -45deg, transparent 0 4px, var(--rb-edge) 4px 5px
+  );
+  cursor: default;
+}
+.rb-seg.is-on {
+  background: var(--rb-on);
+  background-image: none;
+  box-shadow: none;
+  cursor: pointer;
+}
+.rb-seg:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: 2px; }
+.rb-axis {
+  display: grid;
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+  gap: 4px;
+  margin: 0 0 var(--m-24);
+}
+.rb-axis span {
+  font-size: 11px;
+  line-height: 1.25;
+  color: var(--rd-ink-muted);
+  padding: 0 2px;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+.rb-axis span.is-on { color: var(--rd-ink); font-weight: var(--rd-fw-emphasis); }
+
+/* --- readout --- */
+.rb-quote {
+  font-size: var(--rd-fs-sm);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink-muted);
+  min-height: 3em;
+  margin: 0;
+  max-width: 68ch;
+}
+.rb-quote b { color: var(--rd-ink); font-weight: var(--rd-fw-emphasis); }
+.rb-legend {
+  display: flex; flex-wrap: wrap; gap: var(--m-20);
+  margin-top: var(--m-20);
+  padding-top: var(--m-16);
+  border-top: 1px solid var(--rd-line);
+  font-size: var(--rd-fs-xs);
+  color: var(--rd-ink-muted);
+}
+.rb-legend i { display: inline-block; width: 14px; height: 14px; border-radius: 2px; vertical-align: -2px; margin-right: var(--m-6); }
+.rb-legend .on { background: var(--rd-ink); }
+.rb-legend .off { background: var(--rb-off); box-shadow: inset 0 0 0 1px var(--rb-edge); }
+/* --- mobile: the band turns vertical, one lane per row --- */
+.rb-vert { display: none; border-top: 1px solid var(--rd-line); }
+.rb-vrow {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr);
+  gap: var(--m-14);
+  padding: var(--m-14) 0;
+  border-bottom: 1px solid var(--rd-line);
+}
+.rb-vmark {
+  border-radius: 2px;
+  background: var(--rb-off);
+  box-shadow: inset 0 0 0 1px var(--rb-edge);
+}
+.rb-vrow.is-on .rb-vmark { background: var(--rb-on); box-shadow: none; }
+.rb-vquote {
+  font-size: var(--rd-fs-sm);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink-muted);
+  margin: 0;
+}
+.rb-vrow.is-on .rb-vquote { color: var(--rd-ink); }
+@media (max-width: 900px) {
+  .rb-stage { padding: var(--m-24) var(--m-20); }
+  .rb-band, .rb-axis, .rb-quote, .rb-legend { display: none; }
+  .rb-vert { display: block; margin-bottom: var(--m-24); }
+}
+
+
+/* ---- V1: collapsible problems / solution -------------------------
+   Figma 40000532:8153. <details>/<summary> rather than a JS accordion:
+   the open/closed state, the keyboard handling and the ARIA all come
+   free from the element, and the chevron is the only thing that needs
+   CSS. An open section's header takes --rd-surface (#f3f3ef) and its
+   body stays white (Hao, 2026-09-15); the divider is --rd-border-soft, the same hairline
+   .rd-case-checklist already uses, so V1 and V3/V4 draw the same line.
+
+   display:block is load-bearing. redesign.css's
+   `.rd-case-split > .rd-case-body > div` sets display:flex with a 12px
+   gap on EVERY direct child of the body, which drove a 12px white band
+   between the two sections (Hao, 2026-09-10). The sections are meant to
+   sit flush, divided by a hairline only. */
+.rd-case-split > .rd-case-body > .rd-case-accordion { display: block; }
+.rd-case-accordion {
+  width: 100%;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border-soft);
+  border-radius: var(--r-16);
+  overflow: hidden;
+}
+.rd-case-accordion > details + details {
+  border-top: 1px solid var(--rd-border-soft);
+}
+.rd-case-accordion summary {
+  display: flex;
+  align-items: center;
+  gap: var(--m-16);
+  padding: var(--p-12) var(--p-16);
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: var(--rd-lh-tight);
+  text-transform: uppercase;
+  color: var(--rd-ink);
+  cursor: pointer;
+  list-style: none;
+}
+.rd-case-accordion summary::-webkit-details-marker { display: none; }
+.rd-case-accordion summary:focus-visible {
+  outline: 2px solid var(--rd-primary);
+  outline-offset: -2px;
+}
+.rd-case-accordion details[open] > summary {
+  background: var(--rd-surface);
+  border-bottom: 1px solid var(--rd-border-soft);
+}
+.rd-case-accordion summary svg {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin-left: auto;
+  transition: transform 0.2s ease;
+}
+.rd-case-accordion details[open] > summary svg { transform: rotate(180deg); }
+.rd-case-accordion-body { padding: var(--p-12) var(--p-16); background: var(--rd-white); }
+.rd-case-accordion-body ul { margin: 0; padding-left: var(--p-20); }
+.rd-case-accordion-body li {
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+
+/* ---- Before/after wipe -------------------------------------------
+   Two stacked images in one box; the top one is clipped to
+   --rd-compare-pos with clip-path: inset(). A full-bleed range input
+   drives that variable — appearance:none with a transparent thumb, so
+   it is invisible but keeps the native drag, touch and arrow-key
+   behaviour instead of a mousedown/touchmove pair reimplementing them.
+
+   Ink-with-alpha (rgba(10,42,48,...)) rather than a new token: that is
+   already how every scrim and hairline in this file is written — see
+   .rd-bench-quad, .rd-bench-mark, .rd-case-toc's shadow. */
+.rd-compare {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1420 / 1004;
+  overflow: hidden;
+  border-radius: var(--r-8) 0 0 0;
+  background: var(--rd-white);
+  /* pan-y, not none: `none` would swallow a vertical swipe that starts on
+     the image and trap the page under someone's thumb. This keeps the
+     page scrolling vertically and gives the slider the horizontal drag. */
+  touch-action: pan-y;
+}
+
+/* Equal specificity to `.rd-case-split.is-media > .rd-case-figure img`
+   (3 classes + 1 element), later in source order — including inside the
+   mobile block below, where the live rule resets width/height to auto and
+   would collapse both layers of the wipe. */
+.rd-case-figure.is-compare .rd-compare img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  object-fit: cover;
+  object-position: left top;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  max-width: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.rd-compare-after { clip-path: inset(0 0 0 var(--rd-compare-pos, 50%)); }
+.rd-compare-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--rd-compare-pos, 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--rd-white);
+  box-shadow: 0 0 0 1px rgba(10, 42, 48, 0.16);
+  pointer-events: none;
+}
+/* The grip reads as a drag affordance rather than a dot — two chevrons
+   pointing at the two halves it separates (Hao, 2026-09-10). */
+.rd-compare-grip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  /* flex:0 0 auto is load-bearing — the handle is a 2px-wide flex line, so
+     without it the grip is squeezed to ~33px and the two chevrons touch. */
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--rd-white);
+  border-radius: 50%;
+  background: rgba(10, 42, 48, 0.45);
+  box-shadow: 0 2px 10px rgba(10, 42, 48, 0.2);
+  color: var(--rd-ink-inverse);
+}
+.rd-compare-grip svg { display: block; width: 14px; height: 14px; }
+.rd-compare-range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: ew-resize;
+}
+.rd-compare-range::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 40px;
+  height: 100%;
+  background: transparent;
+  cursor: ew-resize;
+}
+.rd-compare-range::-moz-range-thumb {
+  width: 40px;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  cursor: ew-resize;
+}
+.rd-compare-range:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: 2px; }
+.rd-compare-tag {
+  position: absolute;
+  top: var(--m-12);
+  padding: var(--p-4) var(--p-8);
+  border-radius: var(--r-4);
+  background: rgba(10, 42, 48, 0.45);
+  color: var(--rd-ink-inverse);
+  font-size: var(--rd-fs-xs);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: var(--rd-lh-tight);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.rd-compare-tag.is-before { left: var(--m-12); }
+.rd-compare-tag.is-after { right: var(--m-12); }
+@media (max-width: 560px) {
+  .rd-compare-grip { width: 28px; height: 28px; }
+  .rd-compare-grip svg { width: 12px; height: 12px; }
+}
+
+
+/* ================================================================== B2 —
+   Healthcare: merged intro band, the AI section's step-1 caption and
+   closing swap, the mobile panel accordion, and the shipped-screens tab
+   strip. Appended as one block so this batch never edits another's rules.
+   ------------------------------------------------------------------- */
+
+/* --- B2a. "Healthcare in US" + the pain-point carousel, one section -------
+   Figma 40000453:672 ("problems"): ONE container at a 40px rhythm holding a
+   figures block, a hairline, and the carousel. Everything is flush LEFT — the
+   first build centred the band, which is what the node never did.
+
+   Both classes stay on the section: the carousel rules key off
+   .rd-case-quotes-section, and `.rd-case-band .rd-ai-evi` above is the rule
+   that governs the three stats here rather than in the AI section's handoff
+   layer, which uses the same class and must keep its bordered box.
+
+   The hairline is a child of .rd-case-inner, not a border on it: .rd-case-inner
+   carries padding-inline: 24px, so a border there runs 48px wider than the
+   content it is meant to underline. Measured content column is 1312 at a 1440
+   viewport, not the node's 1392 — the live page also spends --grid-gutter (40px
+   a side) on the section, which the node does not. 1312 is the number every
+   other case-study component on this site is built to; the node is not.
+
+   Desktop only — the ≤768px rule above already drops min-height to 0, and a
+   band plus a three-slide carousel does not fit one phone screen (Hao,
+   2026-09-10). */
+.rd-case-quotes-section.rd-case-band {
+  flex-direction: column;
+  justify-content: center;
+}
+.rd-case-quotes-section.rd-case-band > .rd-case-inner { gap: var(--m-40); }
+/* Overrides the centred base rule above rather than editing it: .rd-case-band
+   is also the class the Figures type scale below hangs off. */
+.rd-case-quotes-section .rd-case-band-inner { align-items: stretch; text-align: left; }
+.rd-case-band-figures { display: flex; flex-direction: column; gap: var(--m-24); }
+.rd-case-band-figures-body { display: flex; flex-direction: column; gap: var(--m-40); }
+.rd-case-band-rule { width: 100%; height: 1px; background: var(--rd-border-soft); }
+/* Title follows the node's 32. The lead deliberately does NOT follow the
+   node's 24 — at that size it read as a second heading (Hao, 2026-09-13), so it
+   sits at the case-study lead size instead, the same as the hero lead. */
+.rd-case-band .rd-case-band-title { font-size: var(--rd-fs-3xl); }
+/* --rd-measure, not --rd-measure-case: the latter is 1040px, wider than the
+   node's cap. The node caps it at 926px;
+   778 is the nearest value the system already carries. */
+.rd-case-band .rd-case-band-lead { max-width: var(--rd-measure); font-size: var(--rd-fs-lg); }
+/* The node draws the three figures as plain columns on the page ground — no
+   fill, no stroke, no dividers. Scoped to .rd-case-band so the AI section's
+   handoff receipt, which uses the same .rd-ai-evi markup, keeps its card.
+   ⚠️ Two values are OFF the closed ladder in tokens.css and are rounded here,
+   not added as new rungs: the node's column gap is 140px (ladder stops at 80)
+   and its figure is 40px (ladder has 32 and 48, nothing between). */
+.rd-case-band .rd-ai-evi {
+  gap: var(--m-80);
+  background: none;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+.rd-case-band .rd-ai-evi-stat {
+  gap: var(--m-10);
+  padding: 0;
+  border-left: 0;
+}
+/* One step below .rd-case-band-title (32px H2, 24px at ≤768). */
+.rd-case-band .rd-ai-evi-stat strong { font-size: var(--rd-fs-2xl); }
+.rd-case-band .rd-ai-evi-stat span { font-size: var(--rd-fs-md); }
+/* The 32px margin the older rule above adds is now the parent's gap; leaving
+   both stacks them into 72. */
+.rd-case-band .rd-ai-evi { margin-top: 0; }
+@media (max-width: 768px) {
+  /* Stacked, the 80px column gap becomes an 80px row gap, and the shared rule
+     above draws a hairline between stacked stats — the node has neither. */
+  .rd-case-band .rd-ai-evi { gap: var(--m-32); }
+  .rd-case-band .rd-ai-evi-stat { border-top: 0; }
+  /* One step down, the same move .rd-quote-text already makes at this
+     breakpoint (32 -> --rd-fs-xl): 32 is a desktop scale. The lead is already
+     at --rd-fs-lg on desktop, so it needs no step here. */
+  .rd-case-band .rd-case-band-title { font-size: var(--rd-fs-2xl); }
+}
+
+
+.rd-split-head.is-case .rd-case-h2 { flex: 1 0 0; min-width: 0; }
+/* The whole header is wrapped in a `.rd-pin-head`, so once it pins the split
+   row becomes a single item beside the pills: the lead folds away (js/pin-head.js
+   fades it out first) and the two-line title comes onto one line. Seven pills
+   never fit next to it, so that group takes the row under the title and wraps
+   inside itself instead of pushing the header wider than the column. */
+.rd-pin-head.is-stuck > .rd-split-head.is-case {
+  width: auto;
+  min-width: 0;
+  flex: 0 1 auto;
+}
+.rd-pin-head.is-stuck > .rd-split-head.is-case > .rd-pin-head-intro { display: none; }
+.rd-pin-head.is-stuck > .rd-split-head.is-case .rd-case-h2 { flex: 0 1 auto; margin: 0; }
+/* One line once pinned. The source keeps a space after the <br> so the two
+   halves stay separate words when it is hidden; at rest the browser drops a
+   collapsible space at the start of a line, so the resting break is unchanged. */
+.rd-pin-head.is-stuck > .rd-split-head.is-case .rd-case-h2 br { display: none; }
+.rd-pin-head.is-stuck > .rd-hc-screens-tabs { flex: 1 1 100%; width: 100%; }
+/* --- B2b. Step-1 phase columns under the loop stage ----------------------
+   One column per circle. In normal flow for the static/reduced-motion render;
+   once .js-ai-ready is on, it is laid over the top of .rd-ai-reveal (which is
+   at opacity 0 during STEP 1) so it costs the pinned box no height.
+   ai-accelerate.js fades it out with autoAlpha at STEP 2 — visibility:hidden
+   is what stops the invisible layer eating clicks on the toggle below it. */
+.rd-ai-phases {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--m-32);
+  width: 100%;
+}
+.js-ai-ready .rd-ai-reveal { position: relative; }
+.js-ai-ready .rd-ai-phases { position: absolute; top: 0; left: 0; right: 0; }
+/* Spans the whole grid so it reads as one caption over all four columns, and
+   it lives INSIDE .rd-ai-phases so ai-accelerate.js's autoAlpha fade at STEP 2
+   carries it out with the columns it labels — a sibling would be left behind. */
+.rd-ai-phases-label {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-emphasis);
+  color: var(--rd-ink-muted);
+}
+.rd-ai-phase { display: flex; flex-direction: column; gap: var(--m-12); }
+.rd-ai-phase-title {
+  margin: 0;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: var(--rd-lh-tight);
+}
+.rd-ai-phase.is-discovery .rd-ai-phase-title { color: var(--yellow-Y900); }
+.rd-ai-phase.is-validate .rd-ai-phase-title { color: var(--blue-B700); }
+.rd-ai-phase.is-build .rd-ai-phase-title { color: #434c00; }
+.rd-ai-phase.is-launch .rd-ai-phase-title { color: var(--emerald-E800); }
+.rd-ai-phase .rd-case-list { max-width: none; }
+/* style.css gives every bare `li` 12px of bottom padding. */
+.rd-ai-phase .rd-case-list li { padding-bottom: 0; }
+@media (max-height: 860px) and (min-width: 769px) {
+  .rd-ai-phase { gap: var(--m-8); }
+  .rd-ai-phase .rd-case-list li { font-size: var(--rd-fs-sm); }
+}
+
+@media (max-width: 768px) {
+  .rd-ai-phases { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--m-24) var(--m-16); }
+  .rd-ai-phase { gap: var(--m-8); }
+  .rd-ai-phase .rd-case-list { padding-left: 18px; }
+  .rd-ai-phase .rd-case-list li { font-size: var(--rd-fs-sm); }
+}
+
+
+/* --- B2c. Closing line, one per pill -------------------------------------
+   Both lines carry data-ai-state and swap with the pill. Centred to match
+   .rd-ai-reveal-closing's own rule. */
+.rd-ai-closing-wrap { width: 100%; position: relative; }
+/* auto: the line is capped at --rd-measure-case, so the box itself has to be
+   centred, not just its text. */
+.rd-ai-closing-wrap > .rd-ai-reveal-closing { margin: 0 auto; }
+/* --- B2e. Pinned heading + pills ------------------------------------------
+   The heading, question and Yes/No pills are a shared .rd-pin-head: they pin
+   while the card scrolls under them and let go at the closing line. The
+   header's opaque band reaches 24px above its own box, into the stage's
+   bottom edge, and sits over the absolutely placed STEP 1 phase columns, so
+   both are lifted above it. At rest it keeps the reveal's own spacing. */
+.rd-ai-reveal > .rd-pin-head:not(.is-stuck) { gap: inherit; }
+/* Pinned, the question stays: heading and question stack on the left, the
+   pills that answer it sit on the right, centred on the pair. The heading
+   wraps before the pills do. */
+.rd-ai-reveal > .rd-pin-head.is-stuck {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 24px;
+  align-items: center;
+}
+.rd-ai-reveal > .rd-pin-head.is-stuck > .rd-ai-reveal-heading,
+.rd-ai-reveal > .rd-pin-head.is-stuck > .rd-ai-reveal-question { grid-column: 1; text-align: left; }
+.rd-ai-reveal > .rd-pin-head.is-stuck > .rd-ai-toggle { grid-column: 2; grid-row: 1 / span 2; }
+.js-ai-ready .rd-ai-stage,
+.js-ai-ready .rd-ai-phases { z-index: 11; }
+/* ≤768 the header steps out of the layout and has no dropdown to pin, so the
+   pills pin on their own. */
+@media (max-width: 768px) {
+  .rd-ai-reveal > .rd-pin-head > .rd-ai-toggle {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding-block: 12px;
+    margin-block: -12px;
+    background: var(--rd-surface);
+  }
+  /* The two answers are one either/or choice, so they stay on one line:
+     .rd-tabs wraps by default and .rd-tab's white-space: nowrap means the
+     labels cannot give any width back, so the pills themselves lose the
+     padding, tracking and 2px of type instead. */
+  .rd-ai-toggle { flex-wrap: nowrap; gap: 8px; }
+  .rd-ai-toggle .rd-tab {
+    flex: 0 1 auto;
+    min-width: 0;
+    padding: 10px 12px;
+    font-size: var(--rd-fs-xs);
+    letter-spacing: 0.02em;
+  }
+
+  /* --- B2d. Mobile accordion on the two panel columns ----------------------
+   ≤768px only, where .rd-ai-panel-cols stacks. The collapsing element is the
+   column's own > .rd-ai-swap-wrap; the subtitle swap-wrap inside the head is
+   a descendant, not a child, so it is untouched and the head keeps its
+   subtitle while collapsed.
+
+   grid-template-rows 1fr -> 0fr is the transition that works without
+   measuring: the child needs min-height:0 and overflow:hidden or it refuses
+   to shrink below its content. */
+  .rd-ai-panel-col > .rd-ai-swap-wrap {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows 280ms ease, opacity 200ms ease;
+  }
+  .rd-ai-panel-col > .rd-ai-swap-wrap > * { min-height: 0; overflow: hidden; }
+  .rd-ai-panel-col.is-collapsed > .rd-ai-swap-wrap {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    padding-bottom: 0;
+  }
+  /* The head is the control once JS attaches role="button" — never before,
+     so a page with no JS shows no affordance it cannot honour. */
+  .rd-ai-panel-head[role="button"] { cursor: pointer; position: relative; padding-right: 48px; }
+  .rd-ai-panel-head[role="button"]::after {
+    content: "";
+    position: absolute;
+    right: var(--rd-ai-inset);
+    top: calc(var(--rd-ai-inset) + 4px);
+    width: 12px;
+    height: 12px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transform-origin: center;
+    transition: transform 280ms ease;
+    opacity: 0.6;
+  }
+  .rd-ai-panel-head[role="button"][aria-expanded="true"]::after { transform: rotate(-135deg); }
+  .rd-ai-panel-head[role="button"]:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: -2px; }
+  /* Stacked columns: the FIRST head is now the full-width top edge of the
+     card, so it needs the right corner too — the rule above §13 only gives
+     it the left one, which was correct while the two sat side by side. */
+  .rd-ai-panel-col:first-child .rd-ai-panel-head { border-top-right-radius: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-ai-panel-col > .rd-ai-swap-wrap { transition: none; }
+  .rd-ai-panel-head[role="button"]::after { transition: none; }
+}
+
+
+/* ================================================================ B4 —
+   Healthcare §03: key figures strip
+   ================================================================
+   Everything here is prefixed .rd-hc-; no other page uses it. */
+
+.rd-hc-figures {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+/* Same size as the page's other between-card H3 ("Role & permission",
+   .rd-hc-rolesview-title). Two classes so the page-level h3 rules lose. */
+.rd-hc-figures .rd-hc-figures-title {
+  margin: 0;
+  font-size: var(--rd-fs-2xl);
+  font-weight: var(--rd-fw-heading);
+  line-height: var(--rd-lh-heading);
+  text-transform: none;
+  color: var(--rd-ink);
+}
+/* .rd-ai-evi is three-up by default; this page carries four figures.
+   Two-up in the tablet band, where the shared rule stays at three and the
+   labels would wrap to six lines; the 768 one-column rule then applies. */
+.rd-hc-figures .rd-ai-evi { grid-template-columns: repeat(4, 1fr); }
+@media (min-width: 769px) and (max-width: 1024px) {
+  .rd-hc-figures .rd-ai-evi { grid-template-columns: repeat(2, 1fr); }
+  .rd-hc-figures .rd-ai-evi-stat:nth-child(odd) { border-left: 0; }
+  .rd-hc-figures .rd-ai-evi-stat:nth-child(n+3) { border-top: 1px solid var(--rd-border-soft); }
+}
+
+@media (max-width: 768px) {
+  .rd-hc-figures .rd-ai-evi { grid-template-columns: 1fr; }
+}
+
+
+/* ================================================================ B3 —
+   Healthcare §04: release phases + MoSCoW
+   ================================================================
+   Figma 40000532:7804. Five release phases on a thin track; selecting one
+   swaps the goal card and the MoSCoW quadrant beside it. Everything here is
+   prefixed .rd-phase- / .rd-moscow-; no other page uses either.
+
+   box-sizing is not global on this site and several boxes below carry
+   padding, so each of those sets it. */
+
+.rd-phase-intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--m-24);
+  max-width: var(--rd-measure);
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* ---- Track — Figma 40000566:1419 -----------------------------------------
+   Label 24px above a 20px bar. Each step is one button holding both, so the
+   label is a click target too, not just the 20px strip. */
+.rd-phase-track {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.rd-phase-step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--m-24);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--rd-font);
+  text-align: left;
+  color: var(--rd-ink);
+  cursor: pointer;
+}
+.rd-phase-step-label {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-emphasis); /* 700 stands in for Figma's ExtraBold */
+  line-height: var(--rd-lh-tight);
+}
+.rd-phase-step-seg {
+  display: block;
+  height: var(--m-20);
+  border-right: 1px solid var(--rd-white);
+  background: var(--rd-market-rest);
+  transition: background-color .18s ease;
+}
+.rd-phase-step:first-child .rd-phase-step-seg { border-radius: var(--r-8) 0 0 var(--r-8); }
+.rd-phase-step:last-child .rd-phase-step-seg { border-right: 0; border-radius: 0 var(--r-8) var(--r-8) 0; }
+.rd-phase-step:hover .rd-phase-step-seg { background: var(--rd-border-muted); }
+.rd-phase-step[aria-selected="true"] .rd-phase-step-seg { background: var(--rd-market-b); }
+.rd-phase-step:focus-visible { outline: var(--m-2) solid var(--rd-primary); outline-offset: var(--m-4); }
+
+.rd-phase-facts-aside { font-weight: var(--rd-fw-body); color: var(--rd-ink-muted); }
+.rd-phase-users { position: relative; display: block; }
+.rd-phase-user {
+  white-space: nowrap;
+  color: var(--rd-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.rd-phase-user:hover { text-decoration-thickness: 2px; }
+.rd-phase-more {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: var(--rd-fw-emphasis);
+  color: var(--rd-ink);
+  cursor: pointer;
+}
+.rd-phase-more:hover,
+.rd-phase-more[aria-expanded="true"] { color: var(--rd-primary); }
+.rd-phase-more:focus-visible { outline: var(--m-2) solid var(--rd-primary); outline-offset: var(--m-2); }
+/* Spans the card's text column, so it never runs off a phone screen. */
+.rd-phase-more-pop {
+  box-sizing: border-box;
+  position: absolute;
+  top: calc(100% + var(--m-8));
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--m-4) var(--m-12);
+  padding: var(--p-12) var(--p-16);
+  border: 1px solid var(--rd-line);
+  border-radius: var(--r-8);
+  background: var(--rd-white);
+  box-shadow: 0 12px 32px rgba(10, 42, 48, 0.16);
+}
+/* display:flex above beats the UA [hidden] rule, so restate it. */
+.rd-phase-more-pop[hidden] { display: none; }
+.rd-hc-rolesview { scroll-margin-top: calc(var(--m-80) + var(--m-48)); }
+
+/* ---- MoSCoW as a 2x2 list ------------------------------------------------
+   Must, should (top) · could, won't (bottom). Each quadrant carries its own
+   heading, so there is no legend. Only Must is coloured. */
+.rd-moscow {
+  display: grid;
+  flex: 1 1 auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: minmax(260px, auto);
+}
+.rd-moscow-q {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--m-12);
+  min-width: 0;
+  padding: var(--p-40);
+}
+.rd-moscow-q:nth-child(odd) { padding-left: 0; border-right: 1px solid var(--rd-border); }
+.rd-moscow-q:nth-child(-n+2) { padding-top: 0; border-bottom: 1px solid var(--rd-border); }
+.rd-moscow-q:nth-child(n+3) { padding-bottom: 0; }
+.rd-case .rd-moscow-q h4 {
+  display: flex;
+  align-items: center;
+  gap: var(--m-8);
+  margin: 0;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: var(--rd-lh-tight);
+  text-transform: uppercase;
+  color: var(--rd-ink);
+}
+.rd-moscow-sw { flex: 0 0 auto; width: var(--m-12); height: var(--m-12); border-radius: var(--r-2); background: var(--rd-ink-muted); }
+.rd-moscow-sw.is-must { background: var(--rd-market-b); }
+.rd-moscow-sw.is-should { background: var(--rd-moscow-should); }
+.rd-moscow-sw.is-could { background: var(--rd-moscow-could); }
+.rd-moscow-sw.is-wont { background: var(--rd-moscow-wont); }
+.rd-case .rd-moscow-q ul { margin: 0; padding-left: var(--p-20); }
+/* padding-bottom: style.css gives every li 12px, which doubled the list. */
+.rd-case .rd-moscow-q li {
+  padding-bottom: 0;
+  list-style-type: circle;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+.rd-moscow-q li::marker { color: var(--rd-ink-muted); }
+@media (max-width: 768px) {
+  .rd-moscow { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; }
+  .rd-moscow-q,
+  .rd-moscow-q:nth-child(n) { padding: var(--p-24) 0; border-right: 0; border-bottom: 1px solid var(--rd-border); }
+  .rd-moscow-q:first-child { padding-top: 0; }
+  .rd-moscow-q:last-child { padding-bottom: 0; border-bottom: 0; }
+  .rd-case .rd-moscow-q li { font-size: var(--rd-fs-sm); }
+}
+
+@media (max-width: 430px) {
+  .rd-phase-step-label { font-size: var(--rd-fs-xs); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-phase-step-seg { transition: none; }
+}
+
+
+/* ---- Role & permission on healthcare.html §02 ---------------------------
+   Two views behind one pill switch: Interactive (.rd-hc-roles, the B9 band)
+   and Table (.rd-case-landscape). Wiring is the inline script at the bottom
+   of healthcare.html. */
+.rd-hc-rolesview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--m-24);
+}
+.rd-hc-rolesview-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--m-16);
+}
+/* `.rd-case h3` (0,1,1) owns margin and colour; size is ours. */
+.rd-hc-rolesview-head .rd-hc-rolesview-title {
+  font-size: var(--rd-fs-2xl);
+  font-weight: var(--rd-fw-heading);
+  line-height: var(--rd-lh-heading);
+}
+/* .rd-tabs is width:100%, which would push the pills onto their own row. */
+.rd-hc-rolesview-head .rd-hc-rolesview-tabs { width: auto; }
+/* The B9 component's colour variables are declared on .rb-page, the preview
+   page's wrapper, which this page does not use (its padding and max-width
+   would pull the block off the page grid). Without them every segment and
+   the legend swatch resolve to no background at all. Same values as
+   .rb-page — keep the two in step. --rb-hot is page-only: the "most used"
+   areas, where the role's own user journeys run. */
+.rd-hc-roles {
+  --rb-on: var(--rd-ink);
+  --rb-off: rgba(10, 42, 48, 0.05);
+  --rb-edge: rgba(10, 42, 48, 0.28);
+  --rb-hot: var(--rd-pain-chip);
+}
+/* One type scale for the whole block: 24 role name, 20 section titles,
+   16 prose, 14 UI, and 12 only for the 13 axis labels, which have no room
+   for more. Weights are body 500 and 600 for anything emphasised; no
+   uppercase labels. */
+.rd-hc-roles .rb-quote,
+.rd-hc-roles .rb-overview,
+.rd-hc-roles .rb-journey-name,
+.rd-hc-roles .rb-journey-none {
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-prose);
+  font-weight: var(--rd-fw-body);
+  text-transform: none;
+  letter-spacing: normal;
+}
+.rd-hc-roles .rb-option,
+.rd-hc-roles .rb-legend,
+.rd-hc-roles .rb-facts,
+.rd-hc-roles .rb-steps,
+.rd-hc-roles .rb-vquote {
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-tight);
+}
+.rd-hc-roles .rb-axis span {
+  font-size: var(--rd-fs-xs);
+  font-weight: var(--rd-fw-body);
+}
+.rd-hc-roles .rb-quote b,
+.rd-hc-roles .rb-axis span.is-on,
+.rd-hc-roles .rb-journey-name { font-weight: var(--rd-fw-heading); }
+/* The stage carries the block's one visible frame; its sections are split by
+   full-width rules, so the padding moves from the stage onto each section. */
+.rd-hc-roles .rb-stage { padding: 0; border-color: var(--rb-edge); }
+.rd-hc-roles .rb-section { padding: var(--m-24); }
+.rd-hc-roles .rb-section + .rb-section { border-top: 1px solid var(--rb-edge); }
+.rd-hc-roles .rb-section-title {
+  margin: 0 0 var(--m-12);
+  font-size: var(--rd-fs-xl);
+  font-weight: var(--rd-fw-heading);
+  line-height: var(--rd-lh-heading);
+  color: var(--rd-ink);
+}
+/* --- head: the role name is the dropdown, the legend sits under it --- */
+.rd-hc-roles .rb-head { display: flex; flex-direction: column; align-items: flex-start; gap: var(--m-16); }
+.rd-hc-roles .rb-select { position: relative; max-width: 100%; }
+.rd-hc-roles .rb-select-toggle,
+.rd-hc-roles .rb-journeys-toggle,
+.rd-hc-roles .rb-overview-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--m-12);
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: var(--rd-ink);
+  text-align: left;
+  cursor: pointer;
+}
+.rd-hc-roles .rb-select-toggle:focus-visible,
+.rd-hc-roles .rb-journeys-toggle:focus-visible,
+.rd-hc-roles .rb-overview-toggle:focus-visible {
+  outline: 2px solid var(--rd-primary);
+  outline-offset: 4px;
+  border-radius: var(--r-4);
+}
+.rd-hc-roles .rb-name {
+  margin: 0;
+  font-size: var(--rd-fs-2xl);
+  font-weight: var(--rd-fw-heading);
+  line-height: var(--rd-lh-heading);
+  color: var(--rd-ink);
+}
+.rd-hc-roles .rb-chev { flex: none; transition: transform 0.2s ease; }
+.rd-hc-roles .rb-select.is-open .rb-chev,
+.rd-hc-roles .rb-journeys-toggle[aria-expanded="true"] .rb-chev,
+.rd-hc-roles .rb-overview-toggle[aria-expanded="true"] .rb-chev { transform: rotate(180deg); }
+/* Panel styled after .rd-tabs-dropdown-panel, the site's one listbox look. */
+.rd-hc-roles .rb-select-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 260px;
+  max-height: min(420px, 60vh);
+  overflow-y: auto;
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  border-radius: 12px;
+  border: 1px solid var(--rd-border-soft);
+  background: var(--rd-white);
+  box-shadow: 0 12px 32px rgba(10, 42, 48, 0.16);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s linear 0.15s;
+}
+/* Visibility flips with no transition on open: JS focuses the selected
+   option in the same tick, and focus() is refused on a hidden element. */
+.rd-hc-roles .rb-select.is-open .rb-select-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s;
+}
+/* style.css gives every bare `li` a disc and 12px bottom padding. */
+.rd-hc-roles .rb-option {
+  margin: 0;
+  padding: 10px 12px;
+  list-style: none;
+  border-radius: 8px;
+  color: var(--rd-ink);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.rd-hc-roles .rb-option:hover,
+.rd-hc-roles .rb-option:focus-visible { background: var(--rd-surface); outline: none; }
+.rd-hc-roles .rb-option[aria-selected="true"] {
+  color: var(--rd-primary);
+  background: var(--rd-surface);
+  font-weight: var(--rd-fw-heading);
+}
+/* --- band --- */
+.rd-hc-roles .rb-band { margin-bottom: var(--m-8); }
+.rd-hc-roles .rb-seg.is-hot { background: var(--rb-hot); }
+.rd-hc-roles .rb-axis { margin-bottom: 0; }
+.rd-hc-roles .rb-legend {
+  align-items: center;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+.rd-hc-roles .rb-legend .hot { background: var(--rb-hot); }
+.rd-hc-roles .rb-vert { border-top: 0; }
+.rd-hc-roles .rb-vrow:last-child { padding-bottom: 0; border-bottom: 0; }
+.rd-hc-roles .rb-vrow.is-hot .rb-vmark { background: var(--rb-hot); }
+/* --- overview; the band's hover quote reads out under the facts --- */
+.rd-hc-roles .rb-overview-toggle {
+  justify-content: space-between;
+  width: 100%;
+}
+.rd-hc-roles .rb-overview-toggle .rb-section-title { margin: 0; }
+.rd-hc-roles .rb-overview-body { margin-top: var(--m-16); }
+.rd-hc-roles .rb-overview { margin: 0 0 var(--m-16); color: var(--rd-ink); }
+.rd-hc-roles .rb-overview-body[hidden] { display: none; }
+.rd-hc-roles .rb-facts {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: var(--m-8);
+  width: fit-content;
+  max-width: 100%;
+  padding: var(--m-14) var(--m-20);
+  border-radius: var(--r-8);
+  background: var(--rd-surface);
+  color: var(--rd-ink);
+}
+.rd-hc-roles .rb-quote { margin-top: var(--m-12); }
+.rd-hc-roles .rb-facts span + span {
+  margin-left: var(--m-12);
+  padding-left: var(--m-12);
+  border-left: 1px solid var(--rb-edge);
+}
+/* --- journeys --- */
+.rd-hc-roles .rb-journeys-toggle { justify-content: space-between; width: 100%; }
+.rd-hc-roles .rb-journeys-toggle .rb-section-title { margin: 0; }
+.rd-hc-roles .rb-journeys-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--m-20);
+  margin-top: var(--m-20);
+}
+.rd-hc-roles .rb-journeys-body[hidden] { display: none; }
+.rd-hc-roles .rb-journey-name { margin: 0 0 var(--m-8); color: var(--rd-ink); }
+.rd-hc-roles .rb-journey-none { color: var(--rd-ink-muted); }
+.rd-hc-roles .rb-steps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: var(--m-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rd-hc-roles .rb-steps li {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--rd-ink);
+}
+.rd-hc-roles .rb-steps li + li::before {
+  content: "\2192";
+  margin: 0 var(--m-8);
+  color: var(--rd-ink-muted);
+}
+.rd-hc-roles .rb-steps span {
+  padding: var(--m-6) var(--m-12);
+  border: 1px solid var(--rb-edge);
+  border-radius: 999px;
+  background: var(--rd-white);
+}
+@media (max-width: 900px) {
+  .rd-hc-roles .rb-section { padding: var(--m-20); }
+  /* The base block hides the legend with the band; the vertical rows use
+     the same three colours, so it has to stay. The hover hint does not. */
+  .rd-hc-roles .rb-legend { display: flex; gap: var(--m-8) var(--m-20); }
+  .rd-hc-roles .rb-legend-hint { display: none; }
+  .rd-hc-roles .rb-vert { margin-bottom: 0; }
+}
+
+/* Wrapped rows would start a line with a stray divider or arrow; stack. */
+@media (max-width: 768px) {
+  /* Stacked, the facts read as three lines floating in one tinted box; each
+     gets its own full-width container instead. */
+  .rd-hc-roles .rb-facts {
+    flex-direction: column;
+    width: 100%;
+    row-gap: var(--m-8);
+    padding: 0;
+    background: none;
+  }
+  .rd-hc-roles .rb-facts span {
+    width: 100%;
+    padding: var(--m-12) var(--m-16);
+    border-radius: var(--r-8);
+    background: var(--rd-surface);
+  }
+  .rd-hc-roles .rb-facts span + span { margin-left: 0; padding-left: var(--m-16); border-left: 0; }
+  .rd-hc-roles .rb-steps { flex-direction: column; align-items: flex-start; row-gap: 0; }
+  .rd-hc-roles .rb-steps li { flex-direction: column; align-items: flex-start; }
+  .rd-hc-roles .rb-steps li + li::before { content: "\2193"; margin: var(--m-4) 0 var(--m-4) var(--m-16); }
+}

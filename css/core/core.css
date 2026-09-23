@@ -1,0 +1,1318 @@
+/* Core — every page loads this first, straight after style.css.
+   Tokens, nav, footer, page shell, typography roles, keyframes, and the rules
+   that every page matches.
+
+   The redesign stylesheet is split by who uses a rule, and each page links
+   only the files it needs, always in this order:
+     core/core.css → components/*.css → pages/…/<page>.css
+   Within that order every rule keeps its original relative position, so the
+   cascade is the same as when this was one file. A new rule goes in the
+   narrowest file that covers every page it is meant for. */
+
+/* DM Sans — the redesign's UI face. It has to be requested HERE, in the file
+   that declares `--rd-font`, because that pairing is what kept breaking.
+
+   The bug this fixes (found 2026-08-18): `--font-ui` is
+   `"DM Sans", "Manrope", system-ui, …`, and DM Sans was only ever fetched by
+   two `<link>` tags in index.html / about.html and one `@import` in
+   case-retheme-v3.css. Every page on redesign.css that was NOT one of those —
+   lending-new, healthcare, customer-engagement and the four -v2/-v4/-v5
+   drafts, eight pages in total — silently fell through to Manrope, which
+   text-styles.css does load. Nothing errored; the type just quietly rendered
+   in the wrong face, and it only showed up when a case study was compared
+   side by side with web-3.html.
+
+   `@import` rather than asking eight `<head>`s to remember a `<link>`: a
+   stylesheet that declares a font stack should be the thing that guarantees
+   the font, and the index.html / about.html `<link>` tags still win the race
+   on those two pages. Cost is one extra round trip on the pages that have no
+   `<link>`, which is the trade for it never drifting again. Must stay at the
+   very top — @import is only valid before any other rule. */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap');
+/*
+  Redesign styles — 2026 portfolio redesign
+  Source of truth: Figma "Wrapup" → node 40000028:3126 ("homepage"), sections
+    40000031:5463  hero + nav
+    40000031:5907  How I Create Impact
+    40000124:720   Selected Product Initiatives
+    40000028:3230  closing CTA + footer bar
+  Every value below is transcribed from get_design_context on those nodes.
+
+  Scoping
+  -------
+  Custom properties are prefixed --rd-*, classes .rd-*, so nothing collides with
+  the legacy token set (--text-neutral-*, --grey-*) or utility classes
+  (.lg-medium, .sub-heading, ...).
+
+  The nav and footer rules are GLOBAL because templates/nav.html and
+  templates/footer.html render on every page. Homepage section rules are gated
+  on .rd-home.
+
+  The design is a fixed 1440px content column on a 1920px canvas. .rd-shell
+  reproduces that exactly at >=1440px and degrades fluidly below it. The
+  project's bootstrap `.container` is deliberately NOT used here — its
+  breakpoint max-widths (1140/1280px) would clamp the 1440px column.
+
+  Linked from each page's <head> after css/styles/style.css — see the load
+  order note at the top of this file.
+*/
+
+/* ---------------------------------------------------------------- Tokens - */
+:root {
+  /* Colour — one ink for all text, one accent for anything interactive.
+     The six aliases this replaces (--rd-ink-alt/-black/-soft/-title/-muted and
+     --rd-wordmark) all resolved to the same hex once the type colour was
+     unified, so they were names without meaning. Reintroduce a token here only
+     when a second value is actually needed. */
+  --rd-ink: #0a2a30;          /* every heading, body, label and caption */
+  --rd-ink-inverse: #ffffff;  /* text on a primary/dark fill */
+  --rd-open: green;           /* "#opentowork" — literal `green` in the design */
+  --rd-primary: #01679c;      /* buttons, text buttons */
+  --rd-primary-hover: #014a70;/* not in Figma; darkened primary for :hover */
+  --rd-surface: #f3f3ef;      /* section background */
+  --rd-white: #ffffff;
+  --rd-border: #666666;       /* card + stat-box border */
+  --rd-border-soft: #e5e7eb;  /* CTA top border */
+  --rd-border-muted: #999999; /* inactive tab underline */
+  /* Promoted 2026-08-20 from lending-new.html's preview build, where these
+     three lived only as inline `var(--rd-x, #hex)` fallbacks (22 occurrences
+     across the benchmark/market chart rules below). Values are the fallbacks
+     already in production, not new decisions. */
+  --rd-line: #e5e5e5;         /* hairline borders — table rows, card dividers */
+  --rd-tint: #f5f3ef;         /* subject/selected-row background tint */
+  --rd-ink-muted: #6b6b6b;    /* secondary text — captions, sub-labels */
+  /* Added 2026-08-20 for case-study-framework.html's lesson cards — Figma
+     40000256:6457 etc. genuinely calls for a colour outside ink/primary/
+     surface, so it gets a real token instead of an inline hex (Hao's call:
+     check the token set first, and if the colour really is new, add it
+     properly rather than working around not having it). Not reused anywhere
+     else yet — a second use is what would justify generalising the name. */
+  --rd-accent-yellow: #ffc645;  /* case-study-framework.html lesson cards only */
+  --rd-shadow-card: 0px 4px 2px rgba(0, 0, 0, 0.1); /* same shape as --rd-shadow-nav, darker/less tinted — Figma's card drop-shadow */
+
+  /* Added 2026-08-21 for lending-new-v3.html's benchmark INSIGHT panel rank
+     card — Figma 40000256:5411's #fcfcfc fill has no exact match on the
+     existing scale (closest is --rd-white #ffffff, one bit off); the card is
+     a visibly tinted sub-surface sitting inside a white .rd-case-card, so it
+     gets its own token rather than reusing --rd-white. */
+  --rd-panel-tint: #fcfcfc;
+
+  /* Added 2026-08-20 — market-share bar, Figma 40000256:5391 literal hex,
+     case-study-framework.html only (`.rd-market.is-figma`, below). NOT applied
+     to the base `.rd-market-seg`/`.rd-market-sw` classes lending-new-v2.html
+     also uses: that page's bar is deliberately ink-opacity only, a documented
+     constraint ("the page has exactly two hues") this page doesn't share. A
+     4-way categorical legend is exactly the "genuinely needs a new colour"
+     case, same reasoning as --rd-accent-yellow above.
+     --rd-market-subject reuses Figma's bar segment colour (#cba377), not its
+     legend swatch colour — Figma's own legend swatch for "HD Saison" is
+     #8ab6a6, identical to the FE Credit swatch right above it, which the
+     first pass at this page's header comment already flagged as an internal
+     inconsistency in the source file. Repeating that mistake would make the
+     legend ambiguous between two different lenders; using the bar's own
+     colour for both the segment and its legend key does not. */
+  --rd-market-a: #8ab6a6;        /* FE Credit */
+  --rd-market-b: #d35353;        /* Home Credit */
+  --rd-market-subject: #cba377;  /* HD Saison */
+  --rd-market-rest: #d8d6d2;     /* the other 13 */
+
+  /* Healthcare §04 MoSCoW swatches. Must reuses --rd-market-b (#d35353). */
+  --rd-moscow-should: #27fad4;
+  --rd-moscow-could: #a8cfff;
+  --rd-moscow-wont: #afafe4;
+
+  /* Added 2026-08-21 — "Business pain point" numbered chips, Figma
+     40000298:868 (lending-new-v3.html only). No token on the type/colour
+     ladder covers this orange; the sibling "Business goal" chips reuse
+     --rd-primary instead (Figma #0067bd, one digit off #01679c — same
+     documented substitution the outcomes card already makes). */
+  --rd-pain-chip: #ea6800;
+
+  /* 5 Cs levels, C1 Cognizance → C5 Collaboration (customer-engagement.html
+     §05 only: diagram chips and the staircase rows). C1–C3 are the hexes in
+     public/ce_collaboration.png; C4 and C5 follow Hao's 2026-09-15 reference. */
+  --rd-5c-1: #166534;
+  --rd-5c-2: #4a3aff;
+  --rd-5c-3: #ea6800;
+  --rd-5c-4: #e2c14f;
+  --rd-5c-5: #4aa3e0;
+
+  /* Audit Findings severity colours (customer-engagement-v3.html §05 only).
+     Approximated from the reference screenshot Hao pasted 2026-08-25 (a
+     four-circle severity cluster + accordion) — NOT pulled from a live
+     Figma node, since none was open/linked for this specific graphic
+     (Hao's call, same session: hand-build the illustration rather than
+     block on a Figma export). Reused by both the SVG bubble cluster fills
+     and .rd-case-num-chip's is-critical/is-notable/is-attention/is-minor
+     below, so there is one place to retune them if a real export ever
+     replaces this. */
+  --rd-severity-critical: #c94a3f;
+  --rd-severity-notable: #e0932e;
+  --rd-severity-attention: #3f74b3;
+  --rd-severity-minor: #4f7d3a;
+
+  /* Added 2026-09-01 for the "Design-in-the-Loop" case-study diagram
+     (case-studies/_preview-design-in-the-loop.html) — a git-graph with more
+     categorical lanes (main/dev/feature/concept/components/tokens) than the
+     existing --rd-market and --rd-severity ramps cover. main reuses
+     --rd-ink-muted, dev reuses --rd-primary, the AI/concept lane reuses
+     --rd-pain-chip, and the tokens lane reuses --rd-market-a — only the
+     three genuinely new hues below were added, same check-first-add-only-
+     if-nothing-fits bar as --rd-accent-yellow and --rd-pain-chip above. */
+  --rd-diagram-feature: #6d5fd1;      /* feature-branch lane */
+  --rd-diagram-components: #0e8e7d;   /* design/components lane */
+  --rd-diagram-concept-dead: #a08363; /* an abandoned concept-branch lane */
+
+  /* ---------------------------------------------------------------------
+     TYPE SYSTEM — ALIASES ONLY. Do not put literal values back here.
+
+     These used to be declared with hardcoded values in this file, which made
+     redesign.css the de facto source of truth while css/styles/tokens.css —
+     the file that is actually named "tokens" and is imported by every page —
+     had no type scale at all. The values now live in tokens.css and this block
+     just points at them, so home, about, healthcare and the v3 case studies
+     all resolve to the same numbers and there is one place to change them.
+
+     Every `var(--rd-fs-*)` / `var(--rd-fw-*)` / `var(--rd-lh-*)` reference
+     below is untouched and resolves exactly as before — this is a rename, not
+     a restyle. tokens.css is imported by style.css, which every page loads
+     before this file.
+     --------------------------------------------------------------------- */
+  --rd-font: var(--font-ui);
+  --rd-font-wordmark: var(--font-wordmark);
+  /* Added 2026-09-01 alongside --rd-diagram-* above — the git-graph diagram
+     sets branch names and commit messages in a monospace face (git-log
+     convention); nothing on the existing scale covers that. */
+  --rd-font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --rd-lh-prose: var(--lh-prose);
+  --rd-lh-tight: var(--lh-tight);
+  --rd-lh-heading: var(--lh-heading);
+  --rd-measure: var(--measure);
+
+  --rd-fs-xs: var(--fs-xs);
+  --rd-fs-sm: var(--fs-sm);
+  --rd-fs-md: var(--fs-md);
+  --rd-fs-lg: var(--fs-lg);
+  --rd-fs-xl: var(--fs-xl);
+  --rd-fs-2xl: var(--fs-2xl);
+  --rd-fs-3xl: var(--fs-3xl);
+  --rd-fs-4xl: var(--fs-4xl);
+
+  --rd-fw-body: var(--fw-body);
+  --rd-fw-heading: var(--fw-heading);
+  --rd-fw-emphasis: var(--fw-emphasis);
+
+  --rd-shadow-nav: 0px 4px 2px rgba(224, 224, 224, 0.25);
+  --rd-shell: 1440px;
+  /* About §6 row height — Figma 40000079:7381. One value drives both the
+     carousel and the Strava/Spotify column so they can never drift apart. */
+  --rd-activities-h: 403px;
+  /* Shared floor for BOTH activity cards. The number comes from Spotify, whose
+     payload is fixed (162px of content + 32 padding + 2 border) — but it is
+     applied to Strava too so the two cards are level whenever Strava has little
+     or no data. Strava grows past it once activities arrive; Spotify never
+     does. Renamed from --rd-spotify-h on 2026-08-13 when it stopped being
+     Spotify-specific. */
+  --rd-activity-min-h: 196px;
+  /* About §2 work card height. Fixed so switching year tabs never reflows the
+     page; sized to hold the head plus 4 collapsed bullets. */
+  --rd-work-h: 420px;
+  /* About §2 sticky line. The heading and the cards share it so the timeline
+     stays top-aligned with the heading once both are pinned. js/journey.js
+     reads this value rather than duplicating it. */
+  --rd-journey-top: 60px;
+  /* Trailing room under the last card. A sticky element cannot be pushed past
+     its containing block's bottom edge, and the last card's bottom IS the
+     list's bottom — so without this it can never reach the sticky line, and it
+     alone sits low while the other pills are docked. */
+  --rd-journey-tail: 240px;
+  /* Height of the bottom-up fade over the desktop card stack. One knob — the
+     gradient reads as "half the screen dissolving into the background", so it
+     is expressed in vh rather than px and follows the window. */
+  --rd-journey-fade-h: 50vh;
+  /* The landing motion, in one place. js/journey.js reads both and runs the
+     card's rise with them, and .rd-work-tag transitions the pill with them, so
+     the card and its year pill can never drift out of step. Slower and gentler
+     than the old 420ms/cubic-bezier(0.22, 1, 0.36, 1): the card now travels
+     most of a screen rather than closing a 24px gap, and that curve is so
+     front-loaded it covered 90% of the distance in the first sixth of the
+     time — which read as a snap, not a rise. */
+  --rd-journey-land: 640ms;
+  --rd-journey-land-ease: cubic-bezier(0.33, 1, 0.68, 1);
+  /* How far below the card in front the next one waits before it commits.
+     js/journey.js reads it. The two failure modes it sits between: at 0 the
+     cards touch and the incoming one reads as having been parked there all
+     along; at a full screen down the gap under the front card becomes a void
+     (Hao, 2026-09-16). This is enough separation to read as "arriving", and
+     deep enough into the bottom fade to show as a ghost rather than a card. */
+  --rd-journey-hold-gap: 140px;
+}
+/* Shared 1440px column */
+.rd-shell {
+  width: 100%;
+  max-width: var(--rd-shell);
+  margin-inline: auto;
+}
+/* js/script.js injects the nav and footer into these placeholders. Both sit
+   inside `align-items: center` flex columns, so without an explicit width they
+   shrink to their content and the bar collapses. */
+#nav-placeholder,
+#footer-placeholder,
+.rd-nav-outer,
+.rd-footer-outer {
+  width: 100%;
+  flex: 0 0 auto;
+}
+/* ------------------------------------------------------ Shared nav shell - */
+/* Global — templates/nav.html renders on every page. */
+
+.rd-nav-outer { padding-inline: 40px; }
+/* Scroll-aware reveal. `position: sticky` cannot do this here: `html` in
+   style.css sets `overflow-x: hidden`, and per spec a non-`visible`
+   `overflow-x` with no explicit `overflow-y` resolves the latter to `auto`
+   — which makes `<html>` an explicit scroll container and silently breaks
+   `position: sticky` on descendants (confirmed live: computed style read
+   `position: sticky`, but the box still tracked `scrollY` 1:1 instead of
+   sticking). So js/script.js flips `.rd-nav-outer` from its default static
+   flow position straight to `position: fixed` once the reader has scrolled
+   past the bar's own height, inserting a same-height spacer in its place so
+   nothing reflows. Below that threshold nothing here fires — the top of the
+   page is untouched. */
+.rd-nav-outer.rd-nav-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+.rd-nav-outer.rd-nav-fixed.rd-nav-hidden { transform: translateY(-100%); }
+/* 769px and up: the pinned pill floats 24px clear of the viewport top instead
+   of sitting flush against it (Hao's call) — the gutter added at
+   .rd-nav-outer below already lines its left/right edges up with the content
+   grid; this is the same idea on the fourth side. ≤768 keeps the full-bleed
+   top:0 bar, untouched. */
+@media (min-width: 769px) {
+  .rd-nav-outer.rd-nav-fixed { top: 24px; }
+  /* translateY(-100%) above is relative to the bar's own height, not its
+     `top` — with top now 24px instead of 0, that alone left a 24px sliver
+     of the bar's bottom edge inside the viewport once "hidden". Push it up
+     by that same 24px on top of the -100%. Same specificity as the rule
+     above (three classes each), so it has to come after in source order to
+     win — that's why this block sits below it, not above. */
+  .rd-nav-outer.rd-nav-fixed.rd-nav-hidden { transform: translateY(calc(-100% - 24px)); }
+}
+
+.rd-nav-outer.rd-nav-peek .rd-nav {
+  background-color: var(--rd-white);
+  box-shadow: var(--rd-shadow-nav);
+}
+/* The mobile full-screen menu (`.rd-nav-links`, ≤768, `position: fixed;
+   inset: 0`) needs the viewport as its containing block. A `transform` on
+   this ancestor would hijack that — same failure mode the ≤768 block below
+   already avoids by zeroing `.rd-nav`'s backdrop-filter. Scroll is locked
+   while the menu is open (`body.nav-open` below), so nothing depends on the
+   reveal transform at that moment anyway. */
+body.nav-open .rd-nav-outer { transform: none; }
+/* The nav is injected INSIDE .rd-hero-section / .rd-about-hero, which already
+   carry the 40px gutter — so the bar was inset twice and the wordmark sat at
+   x=104 while the hero headline sat at x=64. The ≤768 block solves the same
+   double-inset with a negative margin; above that, dropping the nav's own
+   gutter is enough. Scoped to ≥769 so the mobile fix is untouched. */
+@media (min-width: 769px) {
+  .rd-hero-section .rd-nav-outer,
+  .rd-about-hero .rd-nav-outer,
+  /* .rd-case-hero joined this list once it gained the 40px page gutter — the
+     case-study nav is injected inside it, so it was inset twice and the
+     wordmark sat at 104px while the case title sat at 64px. */
+  .rd-case-hero .rd-nav-outer { padding-inline: 0; }
+  /* The rule above only cancels the double-inset for the bar's normal flow
+     position at the top of the page. Once js/script.js adds .rd-nav-fixed,
+     .rd-nav-outer switches to `position: fixed; left: 0; right: 0` (further
+     up this file) and stops being visually inside the hero section's padded
+     box at all — so the same descendant selector zeroing its padding now
+     ran the pinned bar edge to edge instead, with .rd-nav's 16px
+     border-radius cutting rounded notches into a bar that had no side
+     gutter left to carve them from. Content — logo, links, button — has to
+     stay inside the page grid even while pinned (Hao's call), so the pinned
+     bar gets its 40px gutter back here, same as the hero content behind it.
+     Equal specificity to the rule above (two classes each), so this has to
+     come after it in source order to win. Scoped ≥769: mobile's pinned nav
+     is deliberately full-bleed (see the ≤768 block), untouched by this. */
+  .rd-nav-outer.rd-nav-fixed { padding-inline: 40px; }
+}
+
+
+/* On the 2021 pages the placeholder itself carries Bootstrap's `.container`
+   (`<div class="container" id="nav-placeholder">`), so the bar inherited that
+   grid's max-width and auto margins — 80px at 1440, 96px at 1152, 16px at
+   phone widths — and the wordmark landed at x=144/160/32 while the footer,
+   which sits in a full-width `.container-fluid`, stayed correctly at 64.
+   Neutralising the container on the placeholder is enough: `.rd-nav-outer`'s
+   40px plus `.rd-nav`'s 24px then land on the shared 64px line, exactly as on
+   the homepage. Scoped to the ids so no other `.container` is affected. */
+#nav-placeholder.container,
+#footer-placeholder.container {
+  max-width: none;
+  width: 100%;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+.rd-nav {
+  display: flex;
+  align-items: flex-start;      /* Figma: items-start */
+  justify-content: space-between;
+  gap: 16px;
+  height: 80px;
+  padding: 24px;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  /* Figma applies a drop-shadow here; removed at Hao's request — it read as a
+     border along the bottom edge of the bar. Reintroduced, scoped to
+     `.rd-nav-outer.rd-nav-peek` above, for the floating scroll-up state. */
+  box-shadow: none;
+  border-bottom: none;
+  font-family: var(--rd-font);
+  background-color: transparent;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.rd-nav-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+  /* Lets the brand yield space instead of squeezing the hamburger to nothing —
+     the tagline is `white-space: nowrap`, so without this it wins every time. */
+  min-width: 0;
+}
+.rd-wordmark {
+  display: block;
+  margin: 0;
+  font-family: var(--rd-font-wordmark);
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-md);
+  line-height: normal;
+  letter-spacing: 1.6px;
+  color: var(--rd-ink);
+  white-space: nowrap;
+}
+/* logo.svg replaced the text wordmark in nav + footer; pin its box so a global
+   `img { width: 100% }` from the legacy stylesheet can't blow it up. */
+.rd-wordmark-img {
+  display: block;
+  width: 121px;
+  height: 21px;
+}
+.rd-nav-tagline {
+  margin: 0;
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-body);
+  font-size: var(--rd-fs-xs);
+  line-height: normal;
+  color: var(--rd-ink);
+  white-space: nowrap;
+}
+/* Unscoped so the nav tagline and the footer credentials line stay identical. */
+.rd-status { color: var(--rd-open); }
+.rd-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+/* `:not(.rd-btn)` matters: a bare `.rd-nav-links > a` is specificity (0,1,1) and
+   would beat `.rd-btn-primary` (0,1,0), repainting the Linkedin button's label
+   dark instead of white — and blue-on-blue on hover. */
+.rd-nav-links > a:not(.rd-btn) {
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-body);
+  font-size: var(--rd-fs-md);
+  line-height: normal;
+  color: var(--rd-ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.rd-nav-links > a:not(.rd-btn):hover,
+.rd-nav-links > a:not(.rd-btn).is-active { color: var(--rd-primary); }
+/* Buttons — Figma component "Button" (h40, w120, radius 999, px16 py8) */
+.rd-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 40px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 999px;
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-body);
+  /* --rd-fs-md, not -sm: one size for every button-like control sitewide
+     (.rd-btn, .rd-deck-index button, .rd-work-tag, .rd-tab), and it matches
+     the nav links the Linkedin pill sits beside. */
+  font-size: var(--rd-fs-md);
+  line-height: normal;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.rd-btn-primary {
+  /* min-width, not width: the nav's "Linkedin" still renders at exactly 120px,
+     but the footer CTA ("Let's connect →") can grow instead of clipping. */
+  min-width: 120px;
+  background: var(--rd-primary);
+  color: var(--rd-ink-inverse);
+}
+.rd-btn-primary:hover { background: var(--rd-primary-hover); color: var(--rd-ink-inverse); }
+/* Text-only variant — "Learn More" (Figma 40000124:763) and
+   "View All" (40000124:755, w120). Both are 40px tall, radius 999, no fill. */
+.rd-btn-text {
+  background: none;
+  color: var(--rd-primary);
+  padding-inline: 0;
+}
+.rd-btn-text:hover { text-decoration: underline; }
+/* Held-back CTA. Added 2026-08-13 for the Communication initiative card, whose
+   case study is written but not ready to link — the same "coming soon" state the
+   five unbuilt work.html cards carry, expressed on the redesign's own button.
+   Only .rd-btn-text uses it today, but it is written against .rd-btn so any
+   variant can be held back the same way; the :hover pair is what stops the
+   underline (and the primary fill, if a filled button is ever disabled) from
+   still promising a click. Colour matches the work.html disabled button. */
+.rd-btn[disabled],
+.rd-btn[disabled]:hover {
+  color: rgba(10, 42, 48, 0.45);
+  background: none;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+/* Hamburger — reuses the #menu-toggle / #menu-links ids js/script.js binds */
+.rd-menu-button {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  /* flex-shrink: 0 is not optional. The nav is a flex row and the brand's
+     nowrap tagline is ~250px wide, so at 390px the button was being crushed to
+     16px and its 8px padding left the bars 0px wide — the hamburger rendered
+     as nothing at all on the homepage and about page. */
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.rd-menu-button span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--rd-ink);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.rd-menu-button.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.rd-menu-button.active span:nth-child(2) { opacity: 0; }
+.rd-menu-button.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+/* --------------------------------------------------- Shared footer shell - */
+/* Global — templates/footer.html renders on every page.
+   Figma 40000028:3234 → h100, p80, centred; inner bar 1440x80, py16, r16. */
+
+/* Figma 40000028:3234 is 100px tall with the 80px bar inset 10px — i.e. 10px of
+   vertical padding, not 80. (border-box is global via bootstrap-grid's
+   `html { box-sizing: border-box }`, so height already includes padding.) */
+.rd-footer-outer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-block: 10px;
+  padding-inline: 40px;
+  font-family: var(--rd-font);
+}
+.rd-footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  padding-block: 16px;
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--rd-shadow-nav);
+}
+.rd-footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+  /* 24px, not 16px: added to the footer's own 40px gutter this lands the
+     wordmark on the same 64px line as the nav and every section heading. */
+  padding-inline: 24px;
+}
+.rd-footer-credentials {
+  margin: 0;
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-body);
+  font-size: var(--rd-fs-xs);
+  line-height: normal;
+  color: var(--rd-ink);
+  white-space: nowrap;
+}
+.rd-footer-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+  padding-inline: 24px;   /* mirrors .rd-footer-brand so the bar is symmetric */
+}
+.rd-footer-location {
+  margin: 0;
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-body);
+  font-size: var(--rd-fs-sm);
+  line-height: normal;
+  color: var(--rd-ink);
+  white-space: nowrap;
+}
+.rd-footer-social {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.rd-footer-social a { display: block; line-height: 0; }
+.rd-footer-social img { display: block; height: 24px; }
+/* -------------------------------------------------- Redesigned-page shell - */
+/* Shared by every page of the redesign (.rd-home, .rd-about, .rd-case). */
+
+.rd-home,
+.rd-about,
+.rd-case {
+  margin: 0;
+  font-family: var(--rd-font);
+  color: var(--rd-ink);
+  background: var(--rd-surface);
+}
+.rd-home h1,
+.rd-home h2,
+.rd-home h3,
+.rd-home h4,
+.rd-home p,
+.rd-home ul,
+.rd-home li,
+.rd-about h1,
+.rd-about h2,
+.rd-about h3,
+.rd-about h4,
+.rd-about p,
+.rd-about ul,
+.rd-about li,
+.rd-case h1,
+.rd-case h2,
+.rd-case h3,
+.rd-case h4,
+.rd-case p,
+.rd-case ol,
+.rd-case ul,
+.rd-case li {
+  margin: 0;
+  font-family: var(--rd-font);
+  /* colour reset: legacy style.css sets `p { color: var(--text-neutral-body) }`
+     and text-styles.css uppercases h3 — both must be neutralised here. */
+  color: var(--rd-ink);
+  text-transform: none;
+}
+/* ------------------------------------------------- Shared typography roles -
+   Declared once and shared by homepage, about and case studies. Component
+   rules below add only what is genuinely component-specific (width, max-width,
+   text-align). Sizes/weights/leading live here. */
+
+/* Body copy — the site default. Nine components used to declare this identically. */
+.rd-section-intro,
+.rd-impact-card p,
+.rd-initiative-desc,
+.rd-detail-para p,
+.rd-detail-block p:last-child,
+.rd-cta-sub p,
+.rd-split-head-note,
+.rd-journey-blurb,
+.rd-learn-intro,
+.rd-learn-lesson p,
+.rd-case-body p, .rd-case-card p, .rd-case-list li {
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+/* Section headings — homepage, about and case studies. */
+.rd-section-heading,
+.rd-cta-heading,
+.rd-case-h2 {
+  font-size: var(--rd-fs-3xl);
+  font-weight: var(--rd-fw-heading);
+  line-height: normal;
+  color: var(--rd-ink);
+}
+
+/* ------------------------------------------------------ Section scrolling - */
+/*
+  One section per scroll, via native CSS scroll-snap.
+
+  `:has()` scopes this to the homepage only — the snap container has to be the
+  document scroller (html) for correct mobile URL-bar behaviour, but about.html
+  and work.html must keep normal scrolling.
+
+  `scroll-snap-stop: always` is what actually enforces "one scroll = one
+  section": without it a fast trackpad flick can carry past several snap points
+  before settling.
+*/
+html:has(body.rd-home) {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+/* The closing CTA + footer is shorter than the viewport, so it snaps flush to
+   the bottom of the document rather than to the top of the viewport. */
+.rd-closing {
+  scroll-snap-align: end;
+  scroll-snap-stop: always;
+}
+/* Turn snapping off wherever a section can no longer fit in one viewport —
+   otherwise mandatory snapping fights the user for the overflowing content. */
+@media (max-width: 1180px), (max-height: 700px) {
+  html:has(body.rd-home) { scroll-snap-type: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(body.rd-home) { scroll-behavior: auto; }
+}
+
+
+/* ------------------------------------------- Section 1 — hero (5463/5788) */
+/* Full-viewport header: nav pinned to the top, hero fills the rest.
+   Figma specifies a fixed 118px nav->hero gap; at 100vh that gap becomes the
+   leftover space instead, with the hero content vertically centred in it. */
+.rd-hero-section,
+.rd-about-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-inline: 40px;
+  background: linear-gradient(to bottom, var(--rd-white) 58.388%, var(--rd-surface));
+}
+
+@keyframes rd-progress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Same idea on the mobile dots: the active dot's track drops to a 28% tint
+   while the solid fill sweeps across it. When autoplay is not running the track
+   stays solid, so a stopped carousel still shows a normal active dot. */
+/* Width, not scaleX. The pill fill can scale because the tab clips it to a
+   square-edged box, but this element IS the rounded shape — scaling it squashes
+   the 4px end cap into a sliver for the first second of every cycle. An 8px-tall
+   box is cheap enough to lay out per frame. */
+@keyframes rd-progress-dot {
+  from { width: 0; }
+  to   { width: 22px; }
+}
+
+.rd-initiative-wrap .rd-tabs { flex: 0 0 auto; }
+
+@keyframes rd-panel-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ---------------------------------- Section 4 — closing CTA + footer (3230) */
+.rd-closing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to top, var(--rd-white), rgba(243, 243, 239, 0.98));
+}
+.rd-cta-outer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  /* 80px block keeps the generous vertical breathing room; the inline gutter
+     drops to the site-wide 40px so the CTA heading lines up with every other
+     section instead of sitting 40px further in. */
+  padding: 80px 40px;
+  border-top: 1px solid var(--rd-border-soft);
+}
+.rd-cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.rd-cta-block {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+}
+.rd-cta-heading {
+  width: 100%;
+  text-align: center;
+}
+.rd-cta-sub {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+/* The CTA buttons sit on one row under the paragraph (.rd-cta-sub is a column,
+   so without this wrapper a second button would stack underneath the first). */
+.rd-cta-actions {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+/* "Learn More -> /about.html" is homepage-only, but the footer is shared, so
+   it ships in the template and is revealed by the page's body class. Anywhere
+   else it is not just redundant — on About it would link to the current page. */
+.rd-cta-home-only { display: none; }
+
+.rd-cta-sub p {
+  max-width: var(--rd-measure);
+  text-align: center;
+}
+
+.rd-journey-inner {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* Timeline index — the same component as the homepage's initiative rail.
+   Declared here (shared) rather than in initiatives-desktop.css so About can use
+   it too; index.html loads that file afterwards and its identical rules win, so
+   the homepage is unaffected. The literals below mirror it exactly on purpose —
+   matching the homepage matters more than tokenising two one-off greys. */
+.rd-deck-index {
+  display: none;
+  position: relative;   /* containing block for the sliding marker */
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  border-top: 1px solid #d9d6cd;
+  max-width: 426px;
+}
+.rd-deck-index li {
+  list-style: none;
+  padding: 0;
+  border-bottom: 1px solid #d9d6cd;
+}
+.rd-deck-index button {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 0 14px 16px;
+  background: none;
+  border: 0;
+  font-family: var(--rd-font);
+  /* Was a hardcoded 15px, which is not on the --fs-* ladder (12/14/16/…) and
+     read a step off from every other button on the page. */
+  font-size: var(--rd-fs-md);
+  font-weight: 500;
+  color: #8a8880;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.rd-deck-index button .n {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+.rd-deck-index li.is-current button {
+  color: var(--rd-primary);
+  font-weight: 700;
+}
+.rd-deck-index button:hover { color: var(--rd-primary); }
+.rd-deck-index button:focus-visible {
+  outline: 2px solid var(--rd-primary);
+  outline-offset: 2px;
+}
+/* Moved by JS, eased by CSS, so the active row glides instead of snapping. */
+.rd-deck-marker {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 0;
+  border-radius: 2px;
+  background: var(--rd-primary);
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              height 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (min-width: 769px) {
+  .rd-deck-index { display: block; }
+}
+
+
+/* Mandatory means every section needs a landing point, or content between snap
+   positions becomes unreachable. Same pattern the homepage already uses. */
+html:has(body.rd-about) {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+/* The journey section deliberately has no snap point of its own — its four card
+   markers are the stops, and adding a fifth at the section top would cost an
+   extra scroll before the timeline started moving. */
+.rd-closing { scroll-snap-align: end; }
+/* Below the breakpoint the cards no longer pin; on a short viewport a snapped
+   section is taller than the screen and mandatory would strand its overflow. */
+@media (max-width: 1180px), (max-height: 700px) {
+  html:has(body.rd-about) { scroll-snap-type: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(body.rd-about) {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+}
+
+
+/* Heading left, note right — shared with the Professional Activities head
+   (Figma 40000113:8728 and 40000079:7056 are the same layout). */
+.rd-split-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  width: 100%;
+  padding: 24px;
+}
+.rd-split-head-note {
+  flex: 1 0 0;
+  min-width: 0;
+  align-self: flex-start;
+  text-align: right;
+}
+
+.rd-activities-grid { padding: 24px; }
+@media (max-width: 768px) {
+  .rd-journey-inner,
+  .rd-activities-grid,
+  .rd-split-head { padding: 0; }
+  .rd-split-head { flex-direction: column; gap: 16px; }
+  .rd-split-head-note { text-align: left; }
+}
+
+@media (min-width: 769px) and (max-width: 1180px) {
+  /* Side by side in this band, Spotify is ~180px of content and Strava ~700px,
+     so the row stretched to Strava and left Spotify half empty. Drop the
+     leaderboard here and the two cards read as a matched pair — the club feed
+     link lives on the club name now, so nothing becomes unreachable. */
+  .rd-activity-card--strava .latest-activities { display: none; }
+  /* Whichever card ends up taller sets the row (Spotify usually, by ~9px), so
+     the band has to stretch or the leftover comes back as white under the grey.
+     `flex` on .club-summary alone does nothing — the card's flex CHILD is the
+     injected `#club-section` wrapper, and a block container passes no free
+     height down. The whole chain has to grow. */
+  .rd-activity-card--strava > #club-section {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+  }
+  .rd-activity-card--strava .club-summary {
+    border-bottom: 0;
+    flex: 1 1 auto;
+    border-radius: 16px;
+  }
+}
+
+/* The `.rd-initiative-body { width: 100% }` / `.rd-initiative-media
+     { width: 100%; height: 320px }` pair that used to live here was written for
+     the stacked card. The row is horizontal from 769px up now, so forcing the
+     media to full width pushed the copy column out of the card — 146px of
+     overflow at 1180x700, with "Learn More" below the card edge. The ≤768 block
+     already covers the stacked case. */
+@media (max-width: 768px) {
+  .rd-nav-outer,
+  .rd-hero-section { padding-inline: 16px; }
+  .rd-footer-outer { padding: 24px 16px; }
+  .rd-cta-outer { padding: 40px 16px; }
+
+  /* Height goes auto so a wrapped tagline grows the bar instead of spilling out
+     of an 80px box, and the dropdown hangs off the bar's real height.
+
+     Horizontal padding goes to 0. The bar is fully transparent at every
+     breakpoint (`background: rgba(0,0,0,0)`, and its Figma drop-shadow was
+     removed earlier), so its 16px inset bought nothing visually — it just put
+     the wordmark at 32px while the hero headline, section headings and cards
+     all start at the 16px page gutter. Vertical padding is untouched. */
+  .rd-nav {
+    position: relative;
+    padding: 16px 0;
+    height: auto;
+    min-height: 72px;
+    /* `backdrop-filter` establishes a containing block for `position: fixed`
+       descendants (same rule as `transform`/`filter`), so `.rd-nav-links`
+       below was pinning itself to this 72px bar instead of the viewport —
+       the menu rendered squeezed into the nav's own box instead of covering
+       the screen. Dropping it here is safe: the bar has no fill for the blur
+       to act on at this breakpoint anyway. */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  /* Pinned nav goes full-width on mobile instead of floating as a card: pull
+     `.rd-nav-outer`'s own 16px gutter (it stays a rounded pill; the gutter is
+     what let `.rd-nav`'s border-radius carve a notch out of each top corner
+     against the flush-top fixed bar) and move that inset onto `.rd-nav`
+     itself so the brand/hamburger keep their position while the white peek
+     background now runs edge to edge with square corners. */
+  .rd-nav-outer.rd-nav-fixed {
+    padding-inline: 0;
+  }
+  .rd-nav-outer.rd-nav-fixed .rd-nav {
+    padding-inline: 16px;
+    border-radius: 0;
+  }
+  /* Full-page menu, not a dropdown card: `position: fixed` + `inset: 0` pins it
+     to the viewport (not `.rd-nav`), so it covers the whole screen regardless
+     of scroll position. `100dvh` (with a `100vh` fallback for older browsers)
+     accounts for mobile browser chrome so the sheet never falls short of the
+     real viewport height. */
+  .rd-nav-links {
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    padding: 24px;
+    text-align: center;
+    background: var(--rd-white);
+    z-index: 200;
+    overflow-y: auto;
+    /* `.rd-nav-links` carries animate.css's `animate__fadeIn` in the markup
+       (a nice one-time reveal for the desktop bar on page load). But toggling
+       `display: none -> flex` replays that animation from its 0% keyframe
+       every time the menu opens, so the now-full-screen panel took a full
+       second to go from see-through to solid, ghosting the page behind it.
+       Killing it here is scoped to mobile only — desktop's load-in fade is
+       untouched. */
+    animation: none;
+  }
+  .rd-nav-links.active { display: flex; }
+  /* The hamburger/close button is a DOM sibling of `.rd-nav-links`, not a
+     descendant — without its own stacking context it would render underneath
+     the fixed full-page menu (z-index 200) once open, leaving no way to close
+     it. */
+  .rd-menu-button {
+    display: flex;
+    position: relative;
+    z-index: 201;
+  }
+  /* Links get real tap targets and read as a destination, not a dropdown row,
+     now that they own the whole screen. */
+  .rd-nav-links > a:not(.rd-btn) {
+    font-size: var(--rd-fs-2xl);
+  }
+  /* .rd-nav-links > a.rd-btn needs no font-size override here — the base
+     .rd-btn rule is already --rd-fs-md. The `:not(.rd-btn)` above is what
+     keeps the 2xl menu-link size off the Linkedin pill. */
+  /* Prevent the page behind the menu from scrolling while it's open. */
+  body.nav-open { overflow: hidden; }
+
+  /* Originally: the initiatives strip's four labelled pills cost two rows and
+     ~120px on a phone, so below 768px they were hidden and a swipeable deck
+     plus dots took over.
+
+     Scoped to .rd-initiative-wrap (2026-08-21) after this bare `.rd-tabs`
+     silently broke a new caller. index.html no longer has any .rd-tabs at all
+     — the pills were superseded by .rd-deck-dots / .rd-deck-index — so the
+     rule had become dead code sitting on the *shared* pill component. The
+     moment lending-new-v3.html reused .rd-tabs for the benchmark chart's
+     map/rows switcher, this rule hid it on every phone and the second view
+     became unreachable, with no carousel on that page to replace it.
+
+     Kept rather than deleted, scoped so it can only ever affect the strip it
+     was written for. `initiatives-desktop.css` has a matching dead `.rd-tabs`
+     hide at >=769; that file is linked from index.html only, so it cannot
+     reach a case study, but scope it too before reusing .rd-tabs there. */
+  .rd-initiative-wrap .rd-tabs { display: none; }
+
+  .rd-cta-inner { padding: 0; }
+  .rd-cta-heading { font-size: var(--rd-fs-2xl); }
+  /* Same reasoning as .rd-nav above — the bar is transparent, so zero the
+     horizontal padding and let the brand line up with the CTA heading at 16px
+     instead of hanging 16px inside it. */
+  .rd-footer-bar {
+    padding: 24px 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    height: auto;
+  }
+  .rd-footer-brand { padding-inline: 0; gap: 8px; }
+  .rd-footer-credentials { font-size: var(--rd-fs-sm); }
+  /* padding-inline too, not just the alignment: the base rule's 24px mirrors
+     .rd-footer-brand for the desktop two-column bar, but once the bar stacks it
+     just indents the location and social row 24px past the wordmark. */
+  .rd-footer-meta { align-items: flex-start; padding-inline: 0; }
+  /* The icons stay 24px; the anchor grows to a 44px touch target (WCAG 2.5.8).
+     Negative margin keeps the visual row spacing at the designed 16px. */
+  .rd-footer-social { gap: 4px; margin-inline: -10px; }
+  .rd-footer-social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+
+/* ------------------------------------- 4c. Overlap hero (.is-hero-overlap) -
+   The web-3.html opening, rebuilt in the redesign system (Hao's call,
+   2026-08-18). A VARIANT, not a replacement: it is switched on per page with
+   `<body class="rd-case is-hero-overlap">`, because healthcare.html and
+   customer-engagement.html still keep their cover and snapshot inside the hero
+   and would break the moment these rules applied unconditionally. Migrate
+   those two, then this can be folded into the base.
+
+   What the original does, measured at 1440x900: a 622px tinted band with a
+   visible bottom border, and `.biz-information { position: relative; top:
+   -140px }` lifting the following section so the cover starts 140px ABOVE the
+   border and cuts across it. Overview's heading lands at y=979 — off screen.
+   So the first view is exactly four things: nav, title, lead, and the top of
+   a picture that is visibly running out of its own section.
+
+   Three deliberate differences from the original:
+   1. The band is `min-height`, not `height`. web-3 sets `height: 40vh` on the
+      header and `60vh` on the child inside it, so the child overflows its
+      parent and the real 622px is an accident of two fighting values. One
+      value here, and long titles grow the band instead of spilling out of it.
+   2. The lift is `clamp(80px, 12vh, 160px)`, not a flat -140px. At 768px tall
+      a fixed 140 eats a quarter of the band.
+   3. Only the cover is lifted, not the whole section. Lifting the section
+      drags the heading and the snapshot up with it, which costs the space the
+      overlap was supposed to buy. */
+.is-hero-overlap {
+  --rd-hero-overlap: clamp(80px, 12vh, 160px);
+}
+
+@keyframes rd-hero-tilt-in {
+  from { opacity: 0; transform: rotateX(12deg); }
+  to   { opacity: 1; transform: none; }
+}
+/* ------------------------------------------------------- Phones (<=430px) -
+   Baseline device is the iPhone 12 Pro at 390px CSS width; 430px covers the
+   Pro Max sizes too. Everything above already reflows correctly by 768px, so
+   this block only tightens type and gutters — it introduces no new layout. */
+@media (max-width: 430px) {
+  /* The tagline is nowrap at 12px (~250px) and shares the bar with a 121px
+     logo, a 40px hamburger and 32px of padding. Letting it wrap is what keeps
+     the whole bar inside 390px. */
+  .rd-nav-tagline { white-space: normal; }
+
+  .rd-cta-heading { font-size: var(--rd-fs-xl); }
+  .rd-case-title,
+  .rd-case-body p,
+  .rd-case-list li,
+  .rd-initiative-title { overflow-wrap: break-word; }
+
+  /* Full-width so the primary CTA is unmissable and comfortably tappable. */
+  .rd-cta-sub .rd-btn-primary { width: 100%; max-width: 280px; height: 48px; }
+}
+
+@media (pointer: coarse) {
+  /* logo.svg is 21px tall, so the anchor wrapping it was a 21px target. */
+  .rd-nav-brand > a,
+  .rd-footer-brand > a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+  }
+}
+
+@media (min-width: 769px) and (prefers-reduced-motion: no-preference) {
+  /* How long the band stands still, which is also how far the tabs travel
+     while it does. One property, read in two places that must never disagree:
+     the spacer's height and .is-viewport-fit's negative margin. */
+  :root {
+    /* The band's rendered height, declared first because everything else here
+       is derived from it. It is full-bleed (width: 100vw) at its own aspect,
+       so height is width x 1158/1920 — the intrinsic size of
+       built-band-cropped.png. Swap that asset and this fraction has to change
+       with it, which is why the img below also carries the matching
+       `aspect-ratio`: if the two ever disagree, the layout jumps at load. */
+    --rd-band-h: calc(100vw * 1158 / 1920);
+
+    /* THE BAND'S OWN HEIGHT — a full-height wipe (Hao, 2026-08-21). The band
+       pins with its bottom on the bottom edge of the screen, and the block
+       below starts at the band's static bottom, so travelling exactly
+       --rd-band-h is what carries that block from the band's bottom edge to
+       its top edge: the image is covered completely, not two-thirds.
+       This is deliberately the SAME value the sticky offset above is derived
+       from, which is why both read --rd-band-h rather than a hand-tuned vh
+       number. A literal like `calc(60vh - 64px)` (what this was before) is a
+       fraction of the VIEWPORT, so the share of the BAND it wipes drifts with
+       window size — it measured 55% at 1440x900 but 48% at 1366x768. Tied to
+       the band instead, the wipe is 100% at every viewport by construction.
+       The cost is honest: the pin now holds for one band-height of scrolling
+       (~870px at 1440px wide). Going higher only adds dead scroll after the
+       image is already gone.
+
+       THE `min()` IS A BUG FIX, NOT A PREFERENCE — DO NOT SIMPLIFY IT AWAY.
+       This overlap is also the spacer's height, and the spacer is what pushes
+       the band's PARKED position down: after the pin releases, the band sits
+       `overlap` px below its static top. The block that covers it used to be
+       exactly 100svh tall (it no longer is — see its min-height below). So the
+       moment the overlap exceeded 100svh, the parked band hung below that
+       block's bottom edge and a strip of app screenshots showed against §after
+       ("It shipped, and then I stopped looking").
+       Measured leak, uncapped: 69px at 1440x800, 78px at 1920x1080, 268px at
+       2600x1300. It is invisible at 1440x900 — band 869 vs 900 — which is the
+       one size this was screenshotted at while being built, and is exactly why
+       it shipped unnoticed. The requirement is simply `overlap <= 100svh`.
+       Consequence, stated plainly: on any viewport shorter than the band, the
+       wipe covers one screen's worth rather than the whole image. That is not
+       a compromise so much as the ceiling — a band taller than the screen
+       cannot be seen whole at one moment anyway, so there is nothing further
+       to uncover. The band is still seen in full on its way past. */
+    --rd-scrollover-overlap: min(var(--rd-band-h), 100svh);
+  }
+
+  /* 3. THE WHOLE BLOCK CLIMBS OVER THE HELD BAND — heading, lead, tabs and
+        panel together, since the copy moved back in here on 2026-08-21. Pulled
+        up by exactly the spacer's height, so this block's top edge starts at
+        the band's STATIC bottom — which means that from the first held frame
+        onward it is rising over an image that is standing still. Opaque, and
+        positioned so it can take a z-index: a static element cannot, and
+        without one it paints before the sticky band and the image covers the
+        section instead of the other way round.
+        z-index 2 is now just "above the band"; it used to also mean "above the
+        pinned copy", which no longer exists. Nothing else in this section is
+        positioned, so the value has room either way. */
+  .is-viewport-fit {
+    position: relative;
+    z-index: 2;
+    background: var(--rd-surface);
+    margin-top: calc(-1 * var(--rd-scrollover-overlap));
+    /* The parked band sits `overlap` px below its static top, so this block
+       has to be at least that tall or the band shows under it, against
+       §after. The content is ~1175px; only screens taller than that AND wider
+       than ~1950px ever reach this floor (125px of band showed at 2600x1300
+       without it). A floor, not a height — the content never stretches. */
+    min-height: var(--rd-scrollover-overlap);
+    /* Where the floor above is taller than the content (tall screens), the
+       content sits in the middle of it instead of hanging off the top with
+       all the slack underneath. padding-bottom mirrors §16's padding-top so
+       the gaps above and below come out equal. */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 40px;
+    /* FULL-BLEED, or the band leaks down both edges. The stage is 100vw and
+       this block is inset by .rd-case-section's gutter, so an inset cover
+       leaves a strip of screenshots visible either side of the tab panel all
+       the way through the traverse. It bleeds out and pads back in, which
+       lands the content on exactly the gutter it had before. */
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    padding-inline: var(--grid-gutter);
+  }
+}
+
+
+/* ------------------------------------------ 16. Band gutter under the
+   scroll-over wrapper — lending.html §homepage. */
+/* Air between the full-bleed band and the heading that climbs over it — the
+   wrapper starts exactly at the band's bottom edge, so without this the
+   heading sits on the band with nothing but its own line-height. */
+.is-viewport-fit { padding-top: 40px; }
+
+/* ---- Section-by-section scrolling ---------------------------------------
+   The homepage pattern (html is the snap container, every section a landing
+   point), opted into with body.is-section-snap. Most sections here are taller
+   than the viewport; a snap area bigger than the viewport may rest anywhere
+   it still covers it, so those scroll freely inside and only stop at their
+   top edge.
+
+   #frictions lands on its track, not the section box: the stage pins from the
+   track's first pixel and js/web3-frictions.js measures its card positions
+   from there, so a stop 72px above it would cost an extra scroll before the
+   first card.
+
+   Safari also needs a second stop per section, its last full view, from a
+   zero-size ::after: WebKit scrolls UP from one section straight to the top of
+   the one above, so the bottom of a long section (and §03's last three cards)
+   could only be reached going down. Chrome already lands on that last view by
+   itself, and the markers break it there — Chrome won't rest anywhere a small
+   snap area is on screen, so it jumps the last viewport of every long section
+   and pulls js/web3-frictions.js off card 3. Hence the Safari-only @supports
+   (`-apple-system-body` is a WebKit system-font keyword).
+
+   The marker is start-aligned at `100% - 100vh` rather than end-aligned at the
+   bottom, so on a section shorter than the viewport it clamps onto the
+   section's own top instead of landing above it; the 72px is
+   `.rd-case-section`'s bottom padding, so an overhang that is only padding
+   adds no stop. Not visibility:hidden — browsers skip hidden boxes when
+   collecting snap targets. */
+html:has(body.is-section-snap) {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+.is-section-snap .rd-closing { scroll-snap-align: end; }
+@media (max-width: 1180px), (max-height: 700px) {
+  html:has(body.is-section-snap) { scroll-snap-type: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(body.is-section-snap) {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+}
+
+
+@keyframes rd-scroll-cue-drop {
+  0%   { transform: translateY(-5px) rotate(45deg); opacity: 0; }
+  30%  { opacity: 1; }
+  75%  { transform: translateY(5px) rotate(45deg); opacity: 0; }
+  100% { transform: translateY(5px) rotate(45deg); opacity: 0; }
+}
+
+/* --- B2e. Shipped-screens header and tab strip, flush left ---------------
+   Figma 40000555:357/:358 — title left, lead right, tab strip starting at the
+   same left edge, 32px between the two rows. `.rd-split-head` is the row
+   about.html's Personal Activities already runs on; only the two differences
+   are declared. `.rd-case-tabs` centres its tabs everywhere else on the site
+   (four pages), so the change is a modifier here, not an edit to that rule. */
+.rd-split-head.is-case { align-items: center; gap: var(--m-32); padding: 0; }
+/* The node draws the title shrink-to-fit and the lead at a fixed 667, pushed
+   apart by justify-between. An even 1:1 split lands within a few px of that at
+   every width the site actually renders, and carries no magic number. */
+.rd-split-head.is-case .rd-split-head-note { text-align: left; }
+@media (max-width: 768px) {
+  .rd-split-head.is-case { align-items: flex-start; gap: var(--m-16); }
+}

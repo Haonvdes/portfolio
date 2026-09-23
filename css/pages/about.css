@@ -1,0 +1,1119 @@
+/* Rules only about.html matches. Loaded last of the redesign sheets. */
+
+/* Card title — About §5 lessons (Figma 40000201:524, 20px/800). */
+.rd-learn-lesson h3 {
+  font-size: var(--rd-fs-xl);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: normal;
+  color: var(--rd-ink);
+}
+/* Compact metadata prose (about work cards). */
+.rd-work-meta,
+.rd-work-scope li {
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+
+/* ==========================================================================
+   About page — Figma "Wrapup" → node 40000028:3949 ("about")
+     40000188:5690  nav + hero (Journey) 40000135:3716  AI Catching
+     40000113:8615  Path of Growth       40000137:3785  certifications
+     40000037:6768  Product Philosophy   40000079:7055  Professional Activities
+     40000113:8484  closing CTA + footer bar
+   Nav, footer, buttons, .rd-shell, .rd-section-heading and the whole
+   .rd-closing / .rd-cta-* block are reused from the homepage rules above —
+   nothing is redefined here. No new colours either: every value resolves to a
+   --rd-* token declared in :root.
+   ========================================================================== */
+
+/* --------------------------------------------- About §1 — nav + hero (5690) */
+/* Same shell as .rd-hero-section; reuses .rd-hero-inner / .rd-hero-row /
+   .rd-hero-content / .rd-hero-headline-group / .rd-hero-headline / .rd-hero-lead
+   from the homepage hero — only the illustration column is specific to this page. */
+/* Figma's bannerContent (the text column) is `flex: 1 0 0`, not the homepage's
+   fixed 952px — the 782px illustration here is more than double the homepage
+   portrait, so the text has to yield space to it instead of the reverse. */
+.rd-about-hero .rd-hero-content {
+  width: auto;
+  max-width: none;
+  flex: 1 1 0;
+  min-width: 0;
+}
+/* Figma specs this headline at 32px, but 4xl matches the homepage hero for
+   consistency across the two pages. */
+.rd-about-hero .rd-hero-headline {
+  max-width: none;
+}
+.rd-about-hero-media {
+  position: relative;
+  flex-shrink: 0;
+  width: 782px;
+  height: 715px;
+  overflow: hidden;
+}
+.rd-about-hero-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom;
+}
+/* Figma fades the illustration's bottom edge into the section background
+   (a 680px-wide gradient inset 86px from the left) rather than hard-cropping it. */
+.rd-about-hero-media::after {
+  content: '';
+  position: absolute;
+  left: 86px;
+  right: 16px;
+  bottom: 0;
+  height: 167px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--rd-surface));
+  pointer-events: none;
+}
+/* ------------------------------- About §2 — Path of Growth and Leadership (8615) */
+.rd-journey-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: var(--rd-surface);
+}
+/* Sticky-stacking timeline (docs: scroll-stacking-timeline-spec.md).
+   The heading and the cards pin on the SAME line, so the timeline stays
+   top-aligned with the heading. (The spec's 60px/106px split existed to let an
+   incoming pill peek above the previous card; the pills now fan out
+   horizontally instead, so the vertical offset only misaligned the two
+   columns.) */
+.rd-journey-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  width: 560px;
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--rd-journey-top);
+}
+.rd-journey-intro .rd-section-heading { max-width: 298px; }
+.rd-journey-blurb {
+  max-width: 426px;
+}
+/* The present-status sentence lives INSIDE .rd-journey-blurb (merged 2026-08-13
+   at Hao's request), so it needs no box of its own — only the emphasis on the
+   "Available now" lead-in. The `.rd-status` green comes from the unscoped rule
+   near the top of this file, the same one the nav tagline uses, so the colour
+   stays identical across the site. */
+.rd-journey-blurb .rd-status {
+  font-weight: var(--rd-fw-emphasis);
+}
+
+/* `position: relative` makes the list the cards' offsetParent, which is how
+   js/journey.js reads a card's *unpinned* offset — once pinned, a sticky card's
+   own getBoundingClientRect().top is frozen at the sticky line. */
+.rd-journey-list {
+  position: relative;
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  flex-direction: column;
+  gap: 24px;
+  align-items: stretch;
+  /* Gives the last card room to dock at the sticky line — see
+     --rd-journey-tail. Padding, not margin: sticky is constrained by the
+     containing block's PADDING box, so margin here would do nothing. */
+  padding-bottom: var(--rd-journey-tail);
+}
+/* Bottom-up fade over the card column — the vertical counterpart of the phone
+   deck's right-edge mask, and of the customer-engagement strip's fade. The
+   lower half of the stack dissolves into the section background, so a card
+   scrolling up out of the stack softens instead of being cut by the fold.
+
+   `position: sticky; bottom: 0` rather than `fixed`: sticky is bounded by
+   `.rd-journey-list`'s padding box, so the overlay pins to the bottom of the
+   window only while the stack is on screen and rides away with the section
+   afterwards. A fixed layer would keep tinting the bottom of every section
+   below this one.
+
+   The two negative margins give it a zero footprint — `margin-bottom` cancels
+   its own height, `margin-top` cancels the column gap it would otherwise
+   inherit as a flex item — so adding it moves nothing in the layout.
+
+   `rgba(255, 255, 255, 0)` is the transparent end, not `transparent`: the
+   keyword is rgba(0, 0, 0, 0) and interpolating to it drags the midpoint
+   grey. Same pairing as the hero fade and the CE strip.
+
+   Desktop only. Below 1181px the cards stop stacking (see the reset in the
+   max-width: 1180px block) and there is nothing for the fade to soften. */
+.rd-journey-list::after {
+  content: "";
+  position: sticky;
+  bottom: 0;
+  z-index: 5;   /* over the cards, which stick at z-index auto */
+  height: var(--rd-journey-fade-h);
+  margin-top: -24px;
+  margin-bottom: calc(var(--rd-journey-fade-h) * -1);
+  pointer-events: none;
+  background: linear-gradient(to top, var(--rd-surface), rgba(255, 255, 255, 0));
+}
+@media (max-width: 1180px) {
+  .rd-journey-list::after { content: none; }
+}
+
+/* Every card shares the same sticky top, so each parks until the next scrolls
+   up over it. No scale/lift transform: Hao removed it because it made the whole
+   stack drift upward as the last card pinned. Once they are all parked the
+   result is a flat year strip over a single card. */
+.rd-work-card {
+  position: sticky;
+  top: var(--rd-journey-top);
+  width: 100%;
+  /* js/journey.js holds the incoming card clear of the one in front until the
+     scroll commits to it, then lands it in one move. Defaults to 0 so no JS
+     means plain sticky stacking. No transition here on purpose: the hold is
+     scrubbed every frame, so the landing is animated in JS instead. */
+  transform: translateY(var(--rd-card-y, 0px));
+}
+/* One scroll = one card.
+   The snap points are these zero-size markers, NOT the cards themselves:
+   `position: sticky` and `scroll-snap-align` are a broken pair, because a stuck
+   element's snap area follows the viewport and the scroller chases itself. The
+   markers sit in normal absolute flow at each card's resting offset (placed by
+   js/journey.js), so their snap positions never move.
+
+   Two things this got wrong the first time, both worth not repeating:
+     - the markers were `visibility: hidden`, and browsers skip hidden boxes
+       when collecting snap targets, so there was nothing to snap to;
+     - the container was `proximity`, which only engages when the scroll already
+       lands near a snap point. `mandatory` is what actually guarantees the
+       gesture ends on a card.
+   `scroll-snap-stop: always` then stops a fast trackpad flick sailing past
+   several cards in one throw. */
+.rd-work-snap {
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  background: transparent;   /* NOT visibility:hidden — that skips the target */
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  scroll-margin-top: var(--rd-journey-top);
+}
+.rd-about-hero,
+.rd-learn-section,
+.rd-activities-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* The pill overlaps the card's top edge and drops its bottom border (Figma
+   I…;40000037:6041 / 1197:2390).
+
+   At rest every pill sits at the same 24px inset, exactly as designed. The fan
+   is scroll-driven: js/journey.js ramps --rd-tag-x from 0 to that pill's place
+   in the strip as its card travels the last stretch up to the sticky line, so
+   the pills slide into the row rather than starting there. It is a translate,
+   not a padding change, to keep the slide off the layout path — and it
+   defaults to 0, so no JS means the plain designed position. */
+/* Every stacked card's tag row spans the full column at the same y, so a later
+   card's transparent row would sit over the earlier cards' pills and swallow
+   their clicks. The row is made click-through and only the pill itself takes
+   pointer events back. */
+.rd-work-tagrow {
+  display: flex;
+  padding-left: 24px;
+  padding-right: 24px;
+  pointer-events: none;
+}
+.rd-work-tag {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 12px 16px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-ink);
+  border-bottom: 0;
+  border-radius: 20px 20px 0 0;
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-emphasis);
+  /* Same --rd-fs-md as .rd-btn / .rd-deck-index. js/journey.js re-measures the
+     pill widths and tightens the overlap step, so the wider strip still fits
+     the card. */
+  font-size: var(--rd-fs-md);
+  line-height: normal;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--rd-ink);
+  cursor: pointer;
+  pointer-events: auto;   /* re-enabled after .rd-work-tagrow opted out */
+  /* Defaults to the "no JS" state: the plain designed resting inset. */
+  transform: translateX(var(--rd-tag-x, 0px));
+  will-change: transform;
+  /* --rd-tag-x is a step now, set on the same commit that lands the card, so
+     the slide into the strip is eased here rather than scrubbed by scroll. */
+  transition: color 0.15s ease,
+              transform var(--rd-journey-land) var(--rd-journey-land-ease);
+}
+.rd-work-tag:hover { color: var(--rd-primary); }
+/* journey.js marks whichever card is currently at the front of the stack. */
+.rd-work-tag[aria-current="true"] {
+  color: var(--rd-ink);
+  position: relative;
+  z-index: 1;   /* its own borders win at both seams with its neighbours */
+}
+.rd-work-tag:focus-visible {
+  outline: 2px solid var(--rd-primary);
+  outline-offset: 2px;
+}
+/* Fixed height by default so every card in the stack is the same size and the
+   pills always line up. Expanding the scope of work grows the card to fit
+   its text — js/journey.js sets an explicit pixel height and this transition
+   animates it, so nothing ever scrolls inside the card. `overflow: hidden`
+   keeps the extra bullets clipped while that height is still animating. */
+.rd-work-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  height: var(--rd-work-h);
+  padding: 24px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rd-work-body { transition: none; }
+  /* Colour only — the pill jumps straight to its slot, matching the card,
+     which journey.js also lands without an animation here. */
+  .rd-work-tag { transition: color 0.15s ease; }
+}
+
+.rd-work-head {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  width: 100%;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rd-border-soft);
+}
+.rd-work-title {
+  width: 100%;
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-md);
+  line-height: normal;
+  color: var(--rd-ink);
+}
+.rd-work-meta {
+  width: 100%;
+}
+/* Takes the leftover height of the fixed card, so the list — not the card —
+   absorbs whatever the copy does. */
+.rd-work-scope {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  width: 100%;
+}
+/* The expand chevron sits immediately after "Scope of work:", not pushed out
+   to the right edge — so the row is packed to the start, not spread. */
+.rd-work-scope-head {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+.rd-work-scope-label {
+  width: 100%;
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-sm);
+  line-height: normal;
+  color: var(--rd-ink);
+}
+/* width:100% above would push the chevron off the row, so inside the head the
+   label shrinks to its text and the chevron follows it directly. */
+.rd-work-scope-head .rd-work-scope-label {
+  width: auto;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.rd-work-scope ul {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding-left: 21px;
+  list-style: disc;
+}
+.rd-work-scope li {
+}
+/* Show more / less — collapsed to the first 4 bullets.
+   `.is-collapsible` is added by journey.js only when a list actually has more
+   than 4 items, so a short list never renders a dead toggle, and a no-JS visitor
+   simply gets the full list. */
+.rd-work-scope-list.is-collapsed > li:nth-child(n + 5) { display: none; }
+/* Icon-only chevron toggle, sitting on the "Scope of work:" row itself.
+   Its accessible name lives on aria-label (set and kept current by journey.js),
+   since there is no visible text to name it. */
+.rd-work-more {
+  display: none;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--rd-primary);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.rd-work-scope.is-collapsible .rd-work-more { display: inline-flex; }
+.rd-work-more:hover { color: var(--rd-primary-hover); }
+.rd-work-more:focus-visible {
+  outline: 2px solid var(--rd-primary);
+  outline-offset: 2px;
+}
+/* The chevron itself — a rotated corner, so there is no icon file to ship.
+   Points down when collapsed, up once the list is open. */
+.rd-work-more::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.15s ease;
+}
+.rd-work-more[aria-expanded="true"]::before {
+  transform: translateY(1px) rotate(-135deg);
+}
+/* ------------------ About §4 — AI Catching (3716) */
+.rd-learn-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  background: var(--rd-surface);
+}
+.rd-learn-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;              /* site-wide head -> content spacing */
+  align-items: center;
+}
+.rd-split-head .rd-section-heading {
+  flex: 1 0 0;
+  min-width: 0;
+  width: auto;
+  color: var(--rd-ink);
+}
+.rd-split-head-note-sm { font-size: var(--rd-fs-sm); }
+/* ------------------- About §5 — What I've Learned Along the Way (5716) */
+/* One viewport tall, matching the 1024px Figma frame. min-height rather than
+   height so a long line at an awkward width can still push it taller instead of
+   clipping. */
+.rd-learn-section {
+  min-height: 100vh;
+  min-height: 100svh;
+  justify-content: center;
+}
+/* Figma 40000188:5718 — 60px between the lessons block and the closing block,
+   wider than the site's usual 40px head->content step, so it is set here rather
+   than inherited from .rd-learn-inner. */
+.rd-learn-inner { gap: 60px; padding: 24px; }
+.rd-learn-head {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+}
+/* No colour override here on purpose: --rd-ink-soft (#333) was folded into
+   --rd-ink by the token consolidation, and .rd-section-heading already carries
+   it. */
+.rd-learn-intro { max-width: 682px; }
+/* The three lessons share one bordered surface (Figma 40000201:517). */
+.rd-learn-card {
+  display: flex;
+  gap: 80px;
+  align-items: flex-start;
+  width: 100%;
+  padding: 24px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+}
+.rd-learn-lesson {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+/* Hao's Figma exports, applied as masks rather than <img>. The files hardcode
+   fill="black"; a mask discards their fill and paints them in currentColor
+   instead, so the icons sit on --rd-ink like every other mark on the page and a
+   token change still reaches them. Paths are relative to this stylesheet
+   (css/styles/ -> ../../public/). */
+.rd-learn-icon {
+  display: block;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  color: var(--rd-ink);
+  background-color: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+.rd-icon-design {
+  -webkit-mask-image: url("../../public/ic_design.svg");
+  mask-image: url("../../public/ic_design.svg");
+}
+.rd-icon-teams {
+  -webkit-mask-image: url("../../public/ic_teams.svg");
+  mask-image: url("../../public/ic_teams.svg");
+}
+.rd-icon-goal {
+  -webkit-mask-image: url("../../public/ic_goal.svg");
+  mask-image: url("../../public/ic_goal.svg");
+}
+/* Closing statement + credential strip, centred (Figma 40000201:543). */
+.rd-learn-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  width: 100%;
+}
+.rd-learn-foot-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+}
+.rd-creds-logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+}
+.rd-creds-logos a {
+  display: block;
+  line-height: 0;
+  transition: transform 0.15s ease;
+}
+.rd-creds-logos a:hover { transform: translateY(-4px); }
+.rd-creds-logos img {
+  display: block;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+/* --------------------------------- About §6 — Professional Activities (7055) */
+.rd-activities-section {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  padding: 40px;
+  background: var(--rd-surface);
+}
+/* Content-driven height with a floor, which is what the pre-redesign homepage
+   did (`.socialize { height: fit-content }` — see git fcc5e48:index.html). The
+   redesign replaced it with a definite `height: var(--rd-activities-h)`, and
+   that is what started hiding Strava data: `.rd-activity-card { flex: 1 1 0 }`
+   split the 403px equally, so Strava got 190px for 258px of content (102px
+   behind a scrollbar nobody finds) while Spotify wasted 158px on 32px.
+   Now the taller card sets the row height and the carousel stretches to match,
+   exactly as the old build behaved. --rd-activities-h stays as the floor so the
+   designed 403px still holds whenever the data is small. */
+.rd-activities-row {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+  width: 100%;
+  height: auto;
+  min-height: var(--rd-activities-h);
+}
+.rd-activities-side {
+  display: flex;
+  flex: 0 0 367px;
+  flex-direction: column;
+  gap: 24px;
+  width: 367px;
+  height: auto;
+  min-height: 0;
+}
+.rd-activity-card {
+  display: flex;
+  /* `0 0 auto`, not `1 1 0`: size to your own content instead of taking an equal
+     share of the parent. This is the whole fix. */
+  flex: 0 0 auto;
+  min-height: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 16px;
+  overflow: hidden;
+}
+/* Live data can run longer than the card (a long track title, a slow API
+   swapping in the error message), so the injected block scrolls inside the
+   fixed card rather than clipping or blowing the row height. */
+/* No inner scroll any more. The card now grows to its content, so capping the
+   injected block at 100% and scrolling it just hid Strava data behind a
+   scrollbar with no affordance. */
+.rd-activity-card > div {
+  width: 100%;
+  max-height: none;
+  overflow-y: visible;
+}
+/* Both cards share the floor so the empty/error state reads as two equal boxes
+   rather than a 66px stub next to a 196px one. A FLOOR, not a fixed height: the
+   font comes from a CDN, so a fallback render is a few px taller and `height`
+   would clip it — the trap `.rd-mini-stat-row` fell into. It also reserves the
+   space so neither card jumps when its fetch lands. Strava is the only one that
+   grows past it. */
+.rd-activity-card--strava,
+.rd-activity-card--spotify { min-height: var(--rd-activity-min-h); }
+/* style.css styles #club-section / #playback-info / #personal-section as
+   STANDALONE widgets — a fixed 400px width plus their own 16px padding, 1px
+   border and 16px radius. Inside .rd-activity-card that is a box drawn inside
+   a box, and the 400px overflowed the 367px card by 33px (the Spotify text ran
+   past the card's right edge). The ID selectors are (1,0,0), so the shared
+   `.rd-activity-card > div` rule above at (0,1,1) never stood a chance — these
+   have to be re-stated at (1,1,1). The card already supplies the frame. */
+.rd-activity-card > #club-section,
+.rd-activity-card > #playback-info,
+.rd-activity-card > #personal-section {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  overflow-wrap: anywhere;
+}
+/* Strava nests two panels inside the card — style.css gives `.club-summary`
+   16px + a grey fill and `.latest-activities` 16px — so on top of the card's
+   own 16px its content sat 32px from the edge while Spotify (whose
+   #playback-info has no wrapper) sat at 16px. Fixed from the OTHER side than
+   the obvious one: the panels keep their 16px and the Strava card drops its
+   own, so the grey band and the divider under the stats run full-bleed to the
+   card's rounded corners (Hao's design, 2026-08-14) and every line of Strava
+   text still lands on Spotify's 16px edge. Zeroing the panels instead would
+   have aligned the text but shrunk the band into a floating grey box.
+   Spotify keeps the card padding — it has no inner panel to supply it. */
+.rd-activity-card--strava { padding: 0; }
+/* `box-sizing` is NOT global on this site: both panels are `width: 100%` in
+   style.css, so with the card's padding gone their 32px of horizontal padding
+   was added ON TOP of the full card width and the band overflowed 31px to the
+   right, silently clipped by the card's `overflow: hidden`. */
+.rd-activity-card .club-summary,
+.rd-activity-card .latest-activities {
+  box-sizing: border-box;
+  padding: 16px;
+}
+/* On a failed fetch, socialize.js replaces #club-section's contents with a
+   bare <p class="md-medium"> instead of a .club-summary panel — so it misses
+   the 16px inset above and sits flush against the card edge (the card's own
+   padding is zeroed for Strava, on the assumption a panel always supplies it). */
+.rd-activity-card > #club-section > .md-medium {
+  padding: 16px;
+}
+/* The personal Strava panel has no inner wrapper padding of its own, and the
+   Strava card's padding is zeroed above, so it supplies the 16px inset here. */
+.rd-activity-card--strava .personal-summary {
+  box-sizing: border-box;
+  padding: 16px;
+}
+/* Inline `margin-bottom: 40px` from socialize.js; only !important reaches it. */
+.rd-activity-card .club-summary > img {
+  margin-bottom: 24px !important;
+}
+/* The club feed link now sits on the club name (socialize.js). Inline-flex so
+   the icon rides the cap height instead of the text baseline. */
+.rd-activity-card .sub-heading .club-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+.rd-activity-card .sub-heading .club-link:hover { text-decoration: underline; }
+.rd-activity-card .sub-heading .club-link svg { flex-shrink: 0; }
+/* The track name truncates with an ellipsis; the external icon sits after it
+   and must not be clipped with the text, so only the name span shrinks. */
+.rd-activity-card .track-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.rd-activity-card .track-link .track-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rd-activity-card .track-link svg { flex-shrink: 0; }
+/* js/socialize.js injects legacy markup (.sub-heading, .md-regular, .md-bold,
+   .strava-club, .club-data, .track-info, .song) into #personal-section and
+   #playback-info. These rules re-skin that markup to the redesign tokens; they
+   are scoped to .rd-activity-card so the legacy pages are untouched. */
+.rd-activity-card .sub-heading,
+.rd-activity-card .activity-heading {
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-md);
+  line-height: normal;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+  padding: 0;
+}
+.rd-activity-card .md-regular,
+.rd-activity-card .md-medium {
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-body);
+  font-size: var(--rd-fs-sm);
+  line-height: normal;
+  color: var(--rd-ink);
+}
+.rd-activity-card .md-bold {
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-sm);
+  line-height: normal;
+  color: var(--rd-ink);
+}
+.rd-activity-card .md-bold a { color: var(--rd-ink); text-decoration: none; }
+/* socialize.js sets the logo size inline (100px for Strava, 40px for Spotify)
+   with a 40px/32px bottom margin; inline styles only lose to !important.
+   Figma wants 103x25 for Strava (40000079:7385) and 50x51 for Spotify
+   (40000079:7402), both with a 16px gap under them. The two are sized
+   separately — one shared rule would blow the Spotify mark up to 100px. */
+.rd-activity-card .personal-summary > img {   /* Strava wordmark */
+  width: 103px !important;
+  height: auto !important;
+  margin-bottom: 16px !important;
+}
+.rd-activity-card #playback-info > img {      /* Spotify mark */
+  width: 50px !important;
+  height: auto !important;
+  margin-bottom: 16px !important;
+}
+.rd-activity-card .personal-summary,
+.rd-activity-card .song {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+.rd-activity-card .track-info {
+  gap: 12px;
+  margin-top: 8px;
+}
+/* Legacy .track-info img only sets a radius; the album cover arrives with
+   width/height="50" attributes, so just pin it against flex shrinking. */
+.rd-activity-card .track-info > img {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+/* Legacy .strava-club already contributes padding-top:16px — no extra margin
+   here or the stat row sits 32px clear of the label. */
+.rd-activity-card .strava-club {
+  width: 100%;
+  gap: 16px;
+}
+.rd-activity-card .club-data {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+.rd-activity-card .skeleton-block { display: block; }
+.rd-activities-main {
+  /* Inset the nav buttons from the panel edge (Swiper's default is 10px), and
+     keep overflow:hidden as a backstop so nothing can spill past the radius. */
+  --swiper-navigation-sides-offset: 16px;
+  flex: 1 0 0;
+  min-width: 0;
+  /* The carousel FOLLOWS the Strava/Spotify column; it must never drive the row
+     height itself. `height: auto` + `align-self: stretch` alone was not enough:
+     an auto-height flex item still contributes its content to the line's cross
+     size, so a portrait slide at its natural height made the carousel the
+     tallest item and dragged the whole section to ~1500px.
+     Taking the slide track out of flow (position: absolute below) is what makes
+     the box purely a follower — its content can no longer push it. */
+  position: relative;
+  height: auto;
+  align-self: stretch;
+  min-height: 0;
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 16px;
+  overflow: hidden;
+}
+/* Scoped so the swiper rules in the legacy stylesheets keep owning work.html.
+   Three legacy declarations in style.css have to be neutralised here:
+     .swiper-container { height: 566px }   -> must follow the fixed row height
+     .swiper-wrapper   { max-width: 600px } -> would cap the track mid-panel
+     .swiper-container { border-radius }    -> the panel already rounds+clips
+   All are (0,1,0), so a scoped (0,2,0) selector wins without !important. */
+/* `position: relative` is load-bearing. Swiper's nav buttons are
+   `position: absolute`, and Swiper v11 puts the containing block on `.swiper` —
+   but this markup uses the v6-era `.swiper-container` class, which v11's CSS
+   never positions. The old about.html got away with it because its wrapper also
+   carried `.carousel { position: relative }`; this markup doesn't, so without
+   the line below the buttons escape to the initial containing block and land
+   outside the carousel entirely. */
+/* Out of flow on purpose — see .rd-activities-main. `inset: 0` makes the track
+   exactly the panel's box, so slide/image heights resolve against a real number
+   while contributing nothing back to the row's height. */
+.rd-activities-main .swiper-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+/* style.css forces the buttons to 56px tall, but Swiper's centring offset is
+   still computed from --swiper-navigation-size (24px) -> margin-top: -12px,
+   leaving them 16px below centre. Centre them on their real height instead. */
+.rd-activities-main .swiper-button-prev,
+.rd-activities-main .swiper-button-next {
+  top: 50%;
+  margin-top: 0;
+  transform: translateY(-50%);
+}
+.rd-activities-main .swiper-wrapper {
+  max-width: none;
+  height: 100%;
+}
+.rd-activities-main .swiper-slide { height: 100%; }
+.rd-activities-main .swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.rd-activities-main .swiper-button-prev,
+.rd-activities-main .swiper-button-next { color: var(--rd-ink-inverse); }
+/* ------------------------------------------------- About page responsive - */
+@media (max-width: 1439px) {
+  .rd-journey-intro { width: 40%; min-width: 300px; }
+}
+
+/* Stacking is a desktop affordance: on a narrow column the cards are taller
+   than the viewport, so pinning them would trap the reader. journey.js also
+   clears --rd-tag-x here; the reset below keeps the pills aligned if the
+   stylesheet somehow loads without the script. */
+@media (max-width: 1180px) {
+  .rd-work-card {
+    position: static;
+    --rd-tag-x: 0px;
+  }
+  .rd-work-body { height: auto; }
+  .rd-journey-inner { flex-direction: column; gap: 24px; }
+  .rd-journey-intro { position: static; width: 100%; min-width: 0; }
+  .rd-journey-intro .rd-section-heading,
+  .rd-journey-blurb { max-width: none; }
+  .rd-journey-list { width: 100%; }
+  /* 80px between three columns needs the full 1440 column to breathe. */
+  .rd-learn-card { gap: 40px; }
+  /* Stacked: the carousel keeps the fixed height, and the two cards sit
+     side by side underneath it on a shorter shared row. */
+  .rd-activities-row { flex-direction: column; height: auto; }
+  .rd-activities-side {
+    flex: 0 0 auto;
+    width: 100%;
+    /* Floor, not a fixed height — 220px was clipping 72px of Strava here too.
+       Side by side, so the cards keep equal widths and stretch to the taller. */
+    height: auto;
+    min-height: 220px;
+    flex-direction: row;
+  }
+  .rd-activities-main {
+    width: 100%;
+    height: var(--rd-activities-h);
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .rd-about-hero { padding-inline: 16px; }
+  .rd-journey-section,
+  .rd-learn-section,
+  .rd-activities-section { padding: 24px 16px; }
+  /* The 80px column gap is a desktop measure; stacked, the lessons only need
+     the normal block rhythm. And the section stops being one viewport tall —
+     three stacked lessons plus the closing block cannot fit a phone screen. */
+  .rd-learn-section { min-height: 0; }
+  .rd-learn-inner { gap: 40px; padding: 0; }
+  .rd-learn-card { flex-direction: column; gap: 32px; padding: 20px; }
+  .rd-learn-foot-copy { text-align: left; align-items: flex-start; }
+  .rd-split-head .rd-section-heading br { display: none; }
+  .rd-journey-blurb { font-size: var(--rd-fs-md); }
+  .rd-work-body { padding: 20px; }
+  /* Must stay >= .rd-work-body's border-radius (16px): the pill's own bottom
+     corners are square, so an inset smaller than the card's corner radius
+     lands the pill inside the card's curve and leaves a gap of visible
+     background between them instead of a flush seam. */
+  .rd-work-tagrow { padding-inline: 16px; }
+  /* Phone: the sticky stack becomes a horizontal swipe deck, one card per
+     screen with the next peeking in — same bleed/peek mechanics as
+     .rd-initiative-deck below, so the two carousels behave identically.
+     Overrides the desktop .rd-journey-list's column layout and its
+     --rd-journey-tail bottom padding, which is only needed to let the last
+     sticky card dock above the fold. */
+  .rd-journey-list {
+    /* Overrides the desktop `flex: 1 0 0` (grow to fill the row beside the
+       sticky rail). Left as-is, `overflow-x: auto` below zeroes out the flex
+       item's automatic min-height instead of sizing it to content — a flex
+       item's auto-minimum only follows content when overflow is visible —
+       and the whole deck collapsed to a hairline. */
+    flex: 0 1 auto;
+    flex-direction: row;
+    align-items: flex-start;
+    /* Both shared with the ::after overlay below — it has to cancel the gap
+       as well as its own width to keep the deck's scroll width honest, and it
+       has to know the side padding to reach past it to the screen edge. One
+       value each so they cannot drift. */
+    --rd-deck-gap: 12px;
+    --rd-deck-pad: 16px;
+    gap: var(--rd-deck-gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    width: calc(100% + (var(--rd-deck-pad) * 2));
+    margin-inline: calc(var(--rd-deck-pad) * -1);
+    padding-inline: var(--rd-deck-pad);
+    padding-block: 4px;
+    scroll-padding-inline: var(--rd-deck-pad);
+  }
+  .rd-journey-list::-webkit-scrollbar { display: none; }
+  /* Right-edge fade, same affordance as the customer-engagement diagram strip
+     (`.rd-case-figure.is-strip .rd-figure-frame::after`): the deck's last card
+     dissolves into the section background instead of ending on a hard cut.
+
+     This was a `mask-image` on the scroller first, which is the tidier way to
+     write it and paints in the right place in both engines — but a mask
+     promotes the element to its own compositing layer, and a composited
+     scroller that also carries `-webkit-overflow-scrolling: touch` is the
+     classic recipe for a layer that stops repainting while the PAGE scrolls
+     under it. Mobile went wrong exactly there (Hao, 2026-09-16). An ordinary
+     painted box has none of that.
+
+     `position: sticky; right: 0` is what lets it be an ordinary box: the
+     scroller has no wrapper to hang an overlay on, and an absolute child of an
+     overflow container scrolls away with the content. Sticky pins it to the
+     right edge of the scrollport instead, so the cards move under it.
+
+     Zero footprint: the negative margin cancels its own width AND the column
+     gap it inherits as a flex item, so it overlaps the last 56px of the deck
+     instead of adding 68px of dead scroll runway past the last card.
+     `align-self: stretch` because the row is `align-items: flex-start`, which
+     would otherwise collapse it to no height at all.
+
+     The translate is what puts it FLUSH with the screen. A sticky element is
+     clamped to its containing block, which here is the deck's content box —
+     and the deck carries --rd-deck-pad of side padding, so `right: 0` alone
+     stops the fade a hard 16px short of the edge and leaves a crisp strip of
+     card there (Hao, 2026-09-16). A transform moves the painted box across
+     that padding without touching layout, so the zero footprint above still
+     holds. */
+  .rd-journey-list::after {
+    content: "";
+    position: sticky;
+    /* `bottom: auto` undoes the desktop rule above, which this one only
+       redefines rather than replaces. Left at its `bottom: 0` the overlay is
+       sticky on BOTH axes: harmless while the deck has no vertical overflow,
+       but a trap for whoever next changes its height. */
+    right: 0;
+    bottom: auto;
+    z-index: 2;
+    flex: 0 0 56px;
+    align-self: stretch;
+    height: auto;
+    margin: 0 0 0 calc(-56px - var(--rd-deck-gap));
+    transform: translateX(var(--rd-deck-pad));
+    pointer-events: none;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), var(--rd-surface));
+  }
+  /* Set by js/journey.js once the deck is scrolled to its right end. Without
+     it the overlay sits on the LAST card, fading its border and the end of
+     every line — and there is nothing left to hint at. */
+  .rd-journey-list.is-deck-end::after { opacity: 0; }
+  /* The 28px shortfall is the peek that says "there is more to the right". */
+  .rd-work-card {
+    flex: 0 0 calc(100% - 28px);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+  .rd-creds-logos { gap: 24px; }
+  .rd-creds-logos img { width: 56px; height: 56px; }
+  /* One column on phones — the cards go back to sizing from their content, so
+     nothing has to scroll inside a 190px box on a small screen. */
+  .rd-activities-side { flex-direction: column; height: auto; }
+  .rd-activity-card { flex: 0 0 auto; }
+  .rd-activity-card > div { max-height: none; overflow-y: visible; }
+  .rd-activities-main { height: 280px; }
+}
+
+/* 769-1180 only. The two cards sit SIDE BY SIDE here, so they need equal widths
+   (`flex: 1 1 0` sizes the main axis, which is horizontal in this band) and take
+   their height from the taller one. Gating on min-width matters: written into
+   the plain `max-width: 1180px` block this rule also reached mobile, where the
+   main axis is vertical again — it beat `.rd-activity-card { flex: 0 0 auto }`
+   on specificity and collapsed the Strava card to 34px with its content
+   spilling 769px out of the box. */
+@media (min-width: 769px) and (max-width: 1180px) {
+  .rd-activities-side > .rd-activity-card { flex: 1 1 0; }
+  /* Both floors have to go with it, or the cards keep the height the hidden
+     list used to justify and the grey band ends in a strip of dead white —
+     which reads as the list being clipped rather than deliberately dropped.
+     `min-height: 0` is not enough on its own: .rd-activities-side carries a
+     220px floor of its own in the shared <=1180 block. */
+  .rd-activities-side { min-height: 0; }
+  .rd-activity-card--strava,
+  .rd-activity-card--spotify { min-height: 0; }
+}
+
+@media (max-width: 1439px) {
+  /* The illustration is 782px wide — more than double the homepage portrait —
+     so it needs to shrink alongside the text column instead of just the
+     row's flex-shrink:1 default fixed-width behaviour. */
+  .rd-about-hero-media {
+    width: auto;
+    height: auto;
+    max-width: 782px;
+    flex: 1 1 320px;
+    min-width: 0;
+    aspect-ratio: 782 / 715;
+  }
+}
+
+@media (max-width: 768px) {
+  /* ABOUT ONLY — push the headline down to roughly the same on-screen
+     position as the homepage's centred text (Hao, 2026-08-31), without
+     touching the rule above: About's row also carries the portrait below
+     the text, and centring that pair moves the portrait too. A fixed offset
+     leaves the portrait's position untouched and only drops the text block.
+     188px measured at 390x844 (home headline top ~293px vs about ~105px). */
+  .rd-about-hero .rd-hero-content { margin-top: 188px; }
+  .rd-about-hero-media { align-self: stretch; width: 100%; height: auto; aspect-ratio: 782 / 715; }
+  .rd-about-hero-media::after { left: 0; right: 0; }
+}
+
+@media (max-width: 430px) {
+  .rd-work-body { padding: 16px; }
+
+  /* Two per row rather than a ragged 4+1 wrap. */
+  .rd-creds-logos { gap: 20px; }
+  .rd-creds-logos img { width: 64px; height: 64px; }
+}
+
+/* --------------------------------------------- Touch targets (coarse only) -
+   Gated on `pointer: coarse` rather than a width, so a narrow desktop window
+   keeps the designed density and only real touch devices pay the extra pixels.
+   WCAG 2.5.8 asks for 24x24 CSS px; inline links inside a paragraph are exempt
+   under the "inline" exception. */
+@media (pointer: coarse) {
+  /* The chevron is a 7px glyph in a 20px box — under the minimum, and easy to
+     miss with a thumb. Negative margin absorbs the growth so the "Scope of
+     work:" row keeps its height. */
+  .rd-work-more {
+    width: 44px;
+    height: 44px;
+    margin-block: -12px;
+  }
+}
+
+/* ---- Year strip stays one row when a card is expanded ---------------------
+   A sticky element is clamped to its containing block's CONTENT box, not its
+   padding box. `.rd-journey-list`'s `padding-bottom: var(--rd-journey-tail)`
+   therefore adds no sticky travel at all, and the content box ends exactly at
+   the last card's bottom edge. Once the last card docks, every card above it
+   is pinned by its BOTTOM to that same edge rather than by its `top`.
+
+   With equal-height cards that is invisible — `contentBottom - 466 == 60`,
+   the same y the `top` would have given. Expanding one card breaks the tie:
+   at 540px tall it lands at `contentBottom - 540`, i.e. 74px higher, and its
+   year pill — a fixed inset from its own card's top — rides up out of the
+   strip with it.
+
+   The fix is to give the tail back to the content box. Margin on a flex item
+   counts toward the flex container's content size, so moving the tail from
+   the list's padding to the last card's margin extends the sticky range by
+   the same 240px it was always meant to. Every card then docks at
+   `--rd-journey-top` regardless of height. Verified at 1440x900 and 1440x700:
+   all five pills return top=60 with a card expanded, and the expanded card's
+   bottom is still reachable.
+
+   Scoped to the stacked layout only — below 1181px the list is a horizontal
+   swipe deck where a bottom margin on the last card would just add 240px of
+   dead height under the row. */
+@media (min-width: 1181px) {
+  .rd-journey-list { padding-bottom: 0; }
+  .rd-journey-list .rd-work-card:last-of-type {
+    margin-bottom: var(--rd-journey-tail);
+  }
+}
+
+/* ---- Certification badges: one row on phones ------------------------------
+   The 431-768 band already fitted on one line (5 x 56px + 4 x 24px = 376px).
+   The break was the `@media (max-width: 430px)` block below, which pushes the
+   badges UP to 64px and the gap to 20px: 5 x 64 + 4 x 20 = 400px against
+   398px of usable width at 430px, so the fifth badge wrapped — and at 320px
+   the row broke 3+2.
+
+   Fluid instead of fixed: each badge takes an equal share of the row and caps
+   at the 56px this band already used, so 431-768 renders identically to
+   before and anything narrower shrinks the badges rather than wrapping them.
+   `min-width: 0` is what lets a flex item shrink past its content. */
+@media (max-width: 768px) {
+  .rd-creds-logos {
+    flex-wrap: nowrap;
+    gap: clamp(10px, 3vw, 24px);
+    width: 100%;
+  }
+  .rd-creds-logos a {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 56px;
+  }
+  .rd-creds-logos img {
+    width: 100%;
+    height: auto;
+    max-width: none;
+    aspect-ratio: 1;
+  }
+}

@@ -20,8 +20,8 @@ adds a mandatory gate in front of them, specific to this repo.
 
 **In scope** (the only files this skill may edit):
 - `index.html`, `about.html`, `case-studies/case-study-framework.html`
-- `css/styles/tokens.css`, `css/styles/redesign.css` (the shared token/design layer these three pages run on)
-- `templates/nav.html`, `templates/footer.html` (rendered globally by redesign.css's nav/footer rules, so a homepage/about nav fix touches these)
+- `css/styles/tokens.css`, `css/core/core.css`, `css/components/site.css`, `css/pages/home.css`, `css/pages/about.css` (the token/design layer these pages run on; `redesign.css` was split into these on 2026-09-23)
+- `templates/nav.html`, `templates/footer.html` (rendered globally by core.css's nav/footer rules, so a homepage/about nav fix touches these)
 
 **Out of scope — do not touch unless the user explicitly names the file**:
 `case-studies/lending*.html`, `healthcare.html`, `customer-engagement.html`,
@@ -37,7 +37,7 @@ confirm with the user before proceeding.
 ## Known Figma node map
 
 The file is Figma **"Wrapup"**. These node IDs are already transcribed into
-code comments (`redesign.css` header, `about.html`/`index.html` section
+code comments (`css/core/core.css` header, `about.html`/`index.html` section
 comments, `case-study-framework.html` header) — reuse them instead of asking
 the user to re-find nodes that are already documented:
 
@@ -69,7 +69,7 @@ the user to re-find nodes that are already documented:
 | Case Study — Aura / web-3 | §05 "How We Work Together": team card + heading + Product Wiki | `40000586:5533` (team card `40000586:5545`, heading `40000586:5592`, wiki `40000586:5593`, approaches `40000586:5596`) |
 
 If the user gives a link/node not on this list, use it — then add it to this
-table and to the relevant source comment (the file header in `redesign.css`
+table and to the relevant source comment (the file header in `css/core/core.css`
 or the section comment in the HTML) once implemented, so the map stays
 current for next time. If no link/node/selection is given at all and the ask
 isn't covered by this table, ask the user for it rather than guessing a file.
@@ -84,7 +84,7 @@ Before calling any Figma tool:
   (12/14/16/18/20/24/32/48px), `--fw-*` (body 500 / heading 600 / emphasis
   700), `--lh-*`, `--m-*`/`--p-*`/`--r-*` spacing, and the color ramps
   (`--blue-*`, `--grey-*`, `--emerald-*`, `--red-*`, `--yellow-*`).
-- Read the `:root` block at the top of `css/styles/redesign.css` — the
+- Read the `:root` block at the top of `css/core/core.css` — the
   `--rd-*` semantic layer actually used by the three source-of-truth pages
   (`--rd-ink`, `--rd-primary`, `--rd-surface`, `--rd-shadow-*`, etc.), plus
   any component-scoped custom properties near the rule you're about to touch.
@@ -123,7 +123,7 @@ inventory:
   instead of silently rounding or silently adding a new rung.
 - **Genuinely new value with no existing token** (a one-off shadow, a brand
   new color actually used by the design) → first grep `tokens.css` and
-  `redesign.css` for the raw value itself, not just the nearest token —
+  `css/` for the raw value itself, not just the nearest token —
   the same value sometimes already exists under a different name (an
   `rgba()` variant of a hex, a differently-formatted duplicate shadow). If
   you find it, reuse that name; don't create a second one.
@@ -135,7 +135,7 @@ inventory:
     "closed ladder" rule, so flag it explicitly and get the user's
     confirmation before adding it — never add a base rung silently.
   - **Component-specific or one-off** (a shadow, a semantic role like a hover
-    state) → define a new `--rd-*` custom property in `redesign.css`,
+    state) → define a new `--rd-*` custom property in `css/core/core.css`'s `:root`,
     following the existing convention: value plus a short comment giving the
     Figma node and the "why" (see how `--rd-primary-hover` and
     `--rd-market-*` are documented there).
@@ -163,7 +163,7 @@ near-duplicate and genuinely-new rows — don't build past this gate silently.
 ### 4. Implement
 
 - Edit only within the scope guardrail above.
-- Match the existing comment style in `redesign.css` (node id + short
+- Match the existing comment style in the `css/` sheets (node id + short
   rationale) for any new token or rule.
 - After adding any new token, grep for its value once more to confirm you
   didn't just create a duplicate, and confirm the token is actually

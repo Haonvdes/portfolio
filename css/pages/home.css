@@ -1,0 +1,847 @@
+/* Rules only index.html matches. Loaded last of the redesign sheets. */
+
+/* Eyebrow / stat label. */
+.rd-glance-label {
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: normal;
+  color: var(--rd-ink);
+}
+
+/* Homepage hero has no side image (removed 2026-08-13), so its content
+   column can use the full row width instead of the 952px it shared with
+   the old media panel. The headline gets room to land on two lines; the
+   lead paragraph keeps its original measure so it doesn't stretch edge
+   to edge. */
+.rd-hero-section .rd-hero-content {
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* ------------------------------------ Section 2 — How I Create Impact (5907) */
+.rd-impact-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 40px;
+  background: var(--rd-surface);
+}
+.rd-impact-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: flex-start;
+}
+.rd-section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+  padding-inline: 24px;
+}
+.rd-section-intro {
+  max-width: var(--rd-measure);
+}
+.rd-impact-grid {
+  display: flex;
+  align-items: flex-start;
+  gap: 80px;
+  width: 100%;
+  padding: 24px;
+}
+.rd-impact-card {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+.rd-impact-card img.rd-impact-icon {
+  display: block;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+.rd-impact-card h3 {
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-xl);
+  line-height: var(--rd-lh-heading);
+  color: var(--rd-ink);
+}
+.rd-impact-card p {
+}
+.rd-glance {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+  padding: 24px;
+}
+.rd-glance-label {
+  max-width: var(--rd-measure);
+  text-transform: uppercase;
+}
+.rd-stat-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+  padding: 24px;
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+}
+.rd-stat-bar-row {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.rd-stat-bar-row > div {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+.rd-stat-bar-row strong {
+  font-size: var(--rd-fs-lg);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: normal;
+  color: var(--rd-ink);
+}
+.rd-stat-bar-row span {
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-body);
+  line-height: normal;
+  color: var(--rd-ink);
+}
+/* --------------------------- Section 3 — Selected Product Initiatives (720) */
+/*
+  A definite `height: 100vh`, so the section is guaranteed to be exactly one
+  screen — that is the requirement this whole block exists to satisfy.
+
+  It works because of how the leftover height is spent. The chain
+  (inner -> wrap -> deck -> panel -> card -> body) hands the remaining space
+  down to ONE flexible element, .rd-initiative-detail, which takes whatever is
+  left and truncates its copy under a fade. Everything else in the card —
+  title, description, outcome bar, Learn More — is `flex: 0 0 auto` and always
+  renders in full.
+
+  That ordering is the fix for the old failure mode: when the outcome bar was
+  also flexible it got sliced in half at 1440x900, so "6M+" rendered as a top
+  half with no bottom. Only prose may be truncated, and only with a fade that
+  says so.
+*/
+.rd-initiatives-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* Matches every other content section (.rd-impact-section and the four about
+     sections). Invisible above 1520px, where the 1440 shell centres itself
+     anyway — but below that it's what keeps this section's left edge in line
+     with "How I Create Impact" instead of running flush to the viewport. */
+  /* Chrome scales with viewport height so the whole section still fits a
+     768px laptop. Every clamp maximum below is the original design value, so
+     nothing changes on a tall screen. */
+  padding: clamp(24px, 4vh, 40px) 40px;
+  height: 100vh;
+  height: 100svh;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--rd-surface);
+}
+/* Every link grows and is allowed to shrink below its content (`min-height: 0`,
+   without which flex items refuse to shrink at all), so the leftover height
+   reaches .rd-initiative-detail at the bottom of the chain. */
+.rd-initiatives-inner {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  flex-direction: column;
+  gap: clamp(16px, 3vh, 40px);   /* site-wide head -> content spacing */
+  align-items: center;
+  justify-content: center;
+}
+.rd-initiatives-inner .rd-section-head { flex: 0 0 auto; }
+.rd-initiatives-inner .rd-section-head { padding-block: clamp(6px, 1.4vh, 24px); }
+.rd-initiatives-inner .rd-section-intro { width: 100%; }
+
+/* ------------------------------------------------- Autoplay progress fill - */
+/*
+  The active pill fills left to right over --rd-autoplay, then hands over to the
+  next one. Two jobs at once: it tells the reader the deck is about to move, and
+  it makes the pills read as controls rather than labels.
+
+  The fill is a DARKER sweep across the already-dark active pill, not a light
+  one sweeping across a pale pill. That ordering matters for contrast: white
+  text sits on the active fill before the sweep and on something darker still
+  after, so it clears AA at every frame of the animation. A pale-to-solid fill
+  would have put white text on a tint for the first second.
+
+  RESKINNED 2026-08-25: the active fill is --rd-ink now, not --rd-primary —
+  see the .rd-tab reskin note above. Ink is already close to black, so
+  "darker still" is a semi-transparent black overlay (rgba, same pattern
+  --rd-shadow-card already uses) rather than a second named colour token;
+  it only ever makes an already-high-contrast pill higher-contrast still.
+*/
+.rd-initiative-wrap { --rd-autoplay: 7s; }
+
+.rd-deck-dot-progress {
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  width: 0;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: 999px;
+  background: var(--rd-primary);
+  opacity: 0;
+  pointer-events: none;
+}
+.is-playing .rd-deck-dot[aria-current="true"]::before {
+  background: rgba(1, 103, 156, 0.28);
+}
+.is-playing .rd-deck-dot[aria-current="true"] .rd-deck-dot-progress {
+  opacity: 1;
+  animation: rd-progress-dot var(--rd-autoplay) linear forwards;
+}
+/* Hover, keyboard focus, an off-screen section, a backgrounded tab — all of
+   them freeze the sweep mid-flight rather than resetting it.
+
+   These selectors are deliberately verbose. The `animation` shorthand above
+   resets `animation-play-state` to `running`, and its selector scores (0,4,0) —
+   so a tidy `.is-paused .rd-tab-progress` at (0,2,0) lost, and hovering did
+   nothing at all. Matching the full chain plus .rd-initiative-wrap puts these
+   at (0,5,0) and they win. */
+.rd-initiative-wrap.is-paused .rd-tab[aria-selected="true"] .rd-tab-progress,
+.rd-initiative-wrap.is-paused .rd-deck-dot[aria-current="true"] .rd-deck-dot-progress {
+  animation-play-state: paused;
+}
+/* No autoplay at all for readers who asked for less motion. js/initiatives.js
+   checks the same query and never adds .is-playing, so nothing silently
+   advances behind a disabled animation. */
+@media (prefers-reduced-motion: reduce) {
+  .rd-tab-progress,
+  .rd-deck-dot-progress { animation: none !important; }
+}
+
+
+/* Frame 1000002747 — 24px padding, 24px between the tab strip and the card */
+.rd-initiative-wrap {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  flex-direction: column;
+  gap: clamp(14px, 2.4vh, 24px);
+  align-items: flex-start;
+  width: 100%;
+  padding: clamp(10px, 1.8vh, 24px) 24px;
+}
+
+/* The track holding all four panels. A plain block on desktop (only the
+   selected panel is displayed, so it has exactly one child to lay out); a
+   scroll-snap carousel below 768px. */
+.rd-initiative-deck {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
+.rd-initiative-panel {
+  display: none;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
+/* Every panel fills the same box, so switching tabs cannot change the section
+   height — that plus the fade is what stops the content jumping. */
+.rd-initiative-panel.is-active {
+  display: flex;
+  animation: rd-panel-fade 0.28s ease both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rd-initiative-panel.is-active { animation: none; }
+}
+
+
+.rd-initiative-card {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 382px;
+  /* Fills the height it is handed rather than setting its own, so the section
+     stays exactly one viewport tall and the detail block below absorbs the
+     slack. No `max-height` needed — there is no intrinsic height to cap. */
+  height: 100%;
+  min-height: 0;
+  align-items: stretch;
+  /* Named so .rd-initiative-media can bleed out by exactly this much. Every
+     breakpoint that used to re-set `padding` now re-sets this instead, and the
+     image bleed follows automatically. */
+  --rd-card-pad: clamp(22px, 3.2vh, 40px);
+  padding: var(--rd-card-pad);
+  background: var(--rd-white);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.rd-initiative-row {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  height: 100%;
+  gap: 40px;
+  /* Stretch, not flex-start: with the card on auto height the media column has
+     no percentage to resolve against, so it has to take its height from the
+     row. `align-items: flex-start` would collapse it to zero — the same failure
+     the mobile breakpoint hit. */
+  align-items: stretch;
+}
+.rd-initiative-body {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 2.2vh, 24px);
+  height: 100%;
+  width: 544px;
+  flex-shrink: 0;
+  align-items: flex-start;
+}
+/* The outcome bar is now a direct child of the body rather than living inside
+   the collapsible detail block — it is the one thing a skimming reader should
+   never have to open anything to see. `flex: 0 0 auto` is what stops the card's
+   height squeeze from eating it: before this, at 1440x900 the section's
+   `max-height: 100%` sliced the stat pill in half, so "6M+" rendered as a top
+   half with no bottom and the other two stats never appeared at all. */
+.rd-initiative-body > .rd-detail-outcome { flex: 0 0 auto; width: 100%; }
+.rd-initiative-body > .rd-detail-outcome .rd-mini-stat-row { flex: 0 0 auto; }
+/* `flex: 0 0 auto` on every fixed part of the card, so the only thing the
+   height squeeze can take from is .rd-initiative-detail. Without it the head
+   and the actions row shrank too: at 1366x768 the stat bar was clipped and the
+   "Learn More" link was pushed out of the card entirely. */
+.rd-initiative-head {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  width: 100%;
+  /* Chrome scales with viewport height so the card still fits a 768px laptop
+     without clipping. The clamp maxima are the original design values, so
+     nothing changes on a tall screen. */
+  padding-bottom: clamp(14px, 2vh, 24px);
+  border-bottom: 1px solid var(--rd-border);
+}
+/* Three lines is the longest any current description runs; the clamp stops a
+   future long one from stealing the detail block's space. */
+.rd-initiative-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.rd-initiative-title {
+  width: 100%;
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-2xl);
+  line-height: normal;
+  color: var(--rd-ink);
+}
+.rd-initiative-desc {
+  width: 100%;
+  font-weight: var(--rd-fw-body);
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+/* Flexes to fill the column so the "Learn More" button is pushed to the bottom
+   of the card, matching Figma where it sits at y=622 of a 662px column. */
+/* The one flexible element in the card, and therefore the only one that can be
+   truncated. `flex-basis: 0` means it claims none of the height by right and
+   simply absorbs whatever the fixed-size siblings leave over — so the copy
+   shown scales with the viewport instead of being clamped to an arbitrary
+   line count that would be wrong at some window size.
+   `overflow: hidden` (not `auto`) is deliberate: a scrollbar inside a card the
+   reader cannot see the bottom of is worse than an honest cut-off, and the
+   whole paragraph is one click away on the case-study page. */
+.rd-initiative-detail {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  min-height: 0;
+  flex-direction: column;
+  gap: clamp(12px, 2vh, 24px);
+  align-items: flex-start;
+  width: 100%;
+  overflow: hidden;
+}
+/* "PROBLEM" was hidden here while the detail block only got 72px at 1440x900 —
+   the label plus its gap ate 38 of that, leaving a line and a half of prose.
+   The scroll-snap deck rebuild changed the budget: the same block now measures
+   307px at 1440x900 and 444px at 1920x1080, and all four prose lines fit with
+   the label shown. Restored 2026-08-12. Below `max-height: 820px` the whole
+   detail block is hidden anyway, so there is nothing to trade off there. */
+
+/* Fade so the cut reads as "there is more", not as a rendering fault. Sits
+   above the copy but must not eat clicks. */
+.rd-initiative-detail::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 64px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--rd-white));
+  pointer-events: none;
+}
+/* `p.` is needed: the shared `.rd-home p` reset above sets text-transform: none
+   at the same (0,1,1) specificity, so a bare .rd-detail-label loses and the
+   label renders in sentence case. */
+p.rd-detail-label {
+  width: 100%;
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-tight);
+  text-transform: uppercase;
+  color: var(--rd-ink);
+}
+/* Outcome stat bar — Figma 40000157:4333. One 124px pill, three equal cells
+   split by hairline white rules (the card sits on the cream surface, so white
+   reads as a divider rather than a border). */
+.rd-mini-stat-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  /* A floor, not a cap. As `height` this clipped its own captions: the longer
+     ones wrap to three lines and were cut mid-line — 4px at 1440x900, 10px at
+     1440x800 and 44px at 769px once the copy column narrowed. The bar is
+     `flex: 0 0 auto`, so the extra height comes out of the detail block below,
+     which is designed to truncate under a fade. Numbers have to be readable;
+     the prose teaser does not have to be complete. */
+  min-height: clamp(92px, 12vh, 124px);
+  padding: 0;
+  background: var(--rd-surface);
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+}
+.rd-mini-stat-row > div {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  height: 100%;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  border-right: 1px solid var(--rd-white);
+}
+.rd-mini-stat-row > div:last-child { border-right: 0; }
+/* 20px: these sit inside the initiative card, under its 24px
+   .rd-initiative-title, so 24px here made figure and card title equal. */
+.rd-mini-stat-row strong {
+  width: 100%;
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-xl);
+  line-height: var(--rd-lh-tight);
+  text-transform: uppercase;
+  color: var(--rd-ink);
+}
+.rd-mini-stat-row span {
+  width: 100%;
+  font-weight: var(--rd-fw-body);
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-tight);
+  color: var(--rd-ink);
+}
+/* Blocks are spaced by the 24px gap on .rd-initiative-detail — no own padding. */
+.rd-detail-para {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+}
+.rd-detail-para p {
+  width: 100%;
+}
+.rd-detail-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+}
+.rd-detail-outcome { gap: 16px; }
+.rd-detail-block p:last-child {
+  width: 100%;
+}
+/* `position: relative` + an absolutely positioned image is doing real work
+   here. Left in normal flow, the <img> contributes its own intrinsic height to
+   the row — UC_lending.png is 562x594, so at a ~594px column width it demanded
+   628px and dragged the whole section to 1061px on a 900px screen. Out of flow,
+   it contributes nothing and the column simply stretches to whatever height the
+   copy beside it needs. */
+/* The cover bleeds to the card's top, right and bottom edges — only the copy
+   column keeps the card's inset. Negative margins rather than moving the padding
+   onto .rd-initiative-body, because the body is a fixed 544px border-box and
+   padding would have eaten 40px of the text measure. The card's own
+   `overflow: hidden` + 16px radius clips the corners, so the media needs no
+   radius of its own; a 24px one inside a 16px card left slivers of white. */
+.rd-initiative-media {
+  position: relative;
+  flex: 1 0 0;
+  min-width: 0;
+  align-self: stretch;
+  height: auto;
+  margin: calc(-1 * var(--rd-card-pad)) calc(-1 * var(--rd-card-pad))
+          calc(-1 * var(--rd-card-pad)) 0;
+  border-radius: 0;
+  overflow: hidden;
+}
+.rd-initiative-media img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* ----------------------------------------------------------- Card actions - */
+.rd-initiative-actions {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 24px;
+  width: 100%;
+  margin-top: auto;   /* pins the row to the bottom of the body column */
+}
+/* Carousel position indicator — hidden above 768px, where the tab strip is the
+   control. Buttons are 28px boxes around an 8px dot so the target clears the
+   24px WCAG 2.5.8 minimum without a 28px blob on screen. */
+.rd-deck-dots {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding-top: 4px;
+}
+.rd-deck-dot {
+  position: relative;   /* containing block for .rd-deck-dot-progress */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.rd-deck-dot::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--rd-border-muted);
+  transition: width 0.2s ease, background-color 0.2s ease;
+}
+.rd-deck-dot[aria-current="true"]::before {
+  width: 22px;
+  background: var(--rd-primary);
+}
+.rd-deck-dot:focus-visible {
+  outline: 2px solid var(--rd-primary);
+  outline-offset: 0;
+  border-radius: 999px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rd-deck-dot::before { transition: none; }
+}
+
+
+.rd-home .rd-cta-home-only { display: inline-flex; }
+@media (max-width: 1439px) {
+  .rd-initiative-body { width: 100%; max-width: 544px; }
+}
+
+@media (max-width: 1180px) {
+  .rd-impact-grid { flex-wrap: wrap; gap: 40px; }
+  .rd-impact-card { flex: 1 0 40%; }
+}
+
+/* 769–1439: the row stays HORIZONTAL (Hao's call, 2026-08-12). It used to
+   restack here, which put a column-flow card inside the fixed
+   `calc(100vh - …)` height that initiatives-desktop.css pins from 769px up —
+   the card overflowed itself by 349–426px and the cover was clipped entirely
+   out of view. Keeping the row horizontal keeps one card per viewport, which
+   is what the scroll-snap deck is built around.
+
+   The copy column has to become shrinkable to survive it: the base rule pins
+   it at 544px with `flex-shrink: 0`, which at 769px left the image 57px wide.
+   3:2 rather than an even split because the text needs the room — the outcome
+   bar is three cells across.
+
+   Upper bound raised 1180px -> 1439px on 2026-08-24. Above 1180px
+   initiatives-desktop.css switches .rd-initiatives-inner to a grid with a
+   360px sticky rail, which eats 424px of shell width that this row used to
+   have to itself. The fixed-544 text column (still in force up to 1439px via
+   the block above) didn't account for that, so between 1181 and ~1300px the
+   image was squeezed to a ~100px sliver — cropped to little more than a
+   status bar. The proportional 3:2 split degrades gracefully instead: the
+   text column gives up width before the image does, at any row width. */
+@media (min-width: 769px) and (max-width: 1439px) {
+  .rd-initiative-body {
+    flex: 3 1 0;
+    width: auto;
+    min-width: 0;
+    max-width: 544px;
+  }
+  .rd-initiative-media { flex: 2 1 0; min-width: 0; }
+}
+
+@media (max-width: 768px) {
+  /* layout restacks here, so let the section grow with its content again */
+  .rd-initiatives-section { height: auto; }
+  .rd-initiative-card { height: auto; max-height: none; min-width: 0; }
+  .rd-initiative-row { flex-direction: column; gap: 40px; }
+  .rd-initiative-detail { overflow-y: visible; }
+  /* --- The rest of this block undoes the desktop flex chain. ---------------
+     The desktop card is a DEFINITE 742px box that hands leftover height down
+     the chain (row -> body -> detail / media) via `height: 100%` and
+     `flex: 1 * 0`. Once the card goes `height: auto` those same declarations
+     invert: percentage heights resolve against auto (i.e. to auto), and a
+     `flex-basis: 0` item in an auto-height column has no free space to grow
+     into, so it settles at 0.
+
+     Measured at 390px before this fix: .rd-initiative-media was 0x0 (the case
+     study cover image simply did not render) and .rd-initiative-detail was
+     94px tall against ~600px of copy, which the card's `overflow: hidden`
+     then silently clipped mid-sentence. Both are fixed by taking every item
+     in the chain off the flex-distribution path. */
+  .rd-initiative-row { height: auto; }
+  .rd-initiative-body {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: none;
+    height: auto;
+  }
+  .rd-initiative-detail { flex: 0 0 auto; min-height: 0; }
+  /* The row is stacked here, so the media no longer has a sibling to take its
+     height from — and the <img> is out of flow (see the base rule), so `height:
+     auto` would collapse the box to zero. `aspect-ratio` gives it a definite
+     height derived from the full-width column instead. 16:10 is a compromise
+     across covers that run from 0.95:1 to 3.17:1; it crops rather than
+     letterboxes, and the case-study page is where the full image lives. */
+  /* Stacked: the cover sits under the copy, so it bleeds left/right/bottom
+     instead of top/right/bottom. `width: calc(100% + 2 * pad)` is required —
+     `width: 100%` would pin it to the padded box and the negative margin would
+     only slide it sideways (same trap as #nav-placeholder). */
+  .rd-initiative-media {
+    flex: 0 0 auto;
+    width: calc(100% + 2 * var(--rd-card-pad));
+    height: auto;
+    aspect-ratio: 16 / 10;
+    margin: 0 calc(-1 * var(--rd-card-pad)) calc(-1 * var(--rd-card-pad));
+  }
+}
+
+/* On a short screen the truncated paragraph degenerates into a 2px sliver of
+   text under a 64px fade — measured 2px at 1366x768 and 19px at 1440x800. That
+   is noise, and it costs a 24px gap that "Learn More" needed: at 720px tall the
+   link was pushed out of the card altogether. Below 820px the card drops to
+   thumbnail, title, description, outcomes and CTA — the same shape as mobile,
+   for the same reason. */
+
+/* Threshold lowered 820px -> 700px on 2026-08-12. The 820 figure came from the
+   old card, where the block was down to 2px of text at 1366x768 and 19px at
+   1440x800 — noise under a 64px fade. The sticky-stack rebuild changed the
+   budget: re-measured with the rule off, the block now gets 198px at 1440x820,
+   181px at 1440x800, 154px at 1366x768 and 113px at 1280x720 — four of five
+   prose lines on every common laptop, with no card overflow and "Learn More"
+   still 26px inside the card. Below 700px the card goes auto-height (see
+   initiatives-desktop.css) and `flex: 1 1 0` in an auto-height column settles
+   at 0, so hiding it there is still right. */
+
+/* Too short to squeeze the card into one screen without crushing it — let the
+   section grow and scroll normally. Must come after the base rule: media
+   queries add no specificity, so source order decides. */
+@media (max-height: 700px) {
+  .rd-initiatives-section { height: auto; }
+  .rd-initiative-card { height: auto; max-height: none; }
+  .rd-initiative-detail { display: none; overflow-y: visible; }
+}
+
+@media (max-width: 768px) {
+  .rd-impact-section,
+  .rd-initiatives-section { padding: 24px 16px; }
+
+  /* HOMEPAGE ONLY — restore the vertical centring that this breakpoint silently
+     drops (Hao, 2026-08-14). Desktop centres the hero in the space under the
+     nav via .rd-hero-inner's `justify-content: center` plus .rd-hero-row's
+     `align-items: center`; that second half is a CROSS-axis rule, and the line
+     above flips .rd-hero-row to `flex-direction: column`, which makes vertical
+     the MAIN axis. align-items stops reaching it, the default
+     `justify-content: flex-start` takes over, and the text pins to the top —
+     measured 354px of dead space beneath it at 390x844.
+
+     Scoped to .rd-hero-section: About's row has a second child (the portrait),
+     and centring that pair is a different question. Do not widen the selector. */
+  .rd-hero-section .rd-hero-row { justify-content: center; }
+
+  .rd-section-head,
+  .rd-glance,
+  .rd-impact-grid,
+  .rd-initiative-wrap { padding-inline: 0; }
+
+  .rd-impact-grid { flex-direction: column; gap: 32px; padding-block: 24px; }
+  .rd-impact-card { flex: 1 1 auto; width: 100%; }
+  .rd-stat-bar { padding: 16px; }
+  .rd-stat-bar-row { flex-direction: column; gap: 16px; }
+  .rd-stat-bar-row > div { text-align: left; }
+
+  .rd-initiative-deck {
+    /* Each card sizes to its own content. Stretched (the flex default) they all
+       matched the tallest, so opening one card's detail left the other three as
+       tall columns of whitespace with the actions row stranded at the bottom. */
+    align-items: flex-start;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Bleed to the screen edges and re-pad, so a card can sit on the 16px
+       gutter while the next one peeks in from beyond it. The `width: calc()`
+       is required for the same reason as on #nav-placeholder: the base rule
+       sets `width: 100%`, so a bare negative margin shifts the track sideways
+       without widening it — the cards came out 298px instead of 330px. */
+    width: calc(100% + 32px);
+    margin-inline: -16px;
+    padding-inline: 16px;
+    scroll-padding-inline: 16px;
+    /* Room for the cards' own box-shadow / focus ring. */
+    padding-block: 4px;
+  }
+  .rd-initiative-deck::-webkit-scrollbar { display: none; }
+  /* Author `display: flex` beats the UA sheet's `[hidden] { display: none }`
+     regardless of specificity, so every panel shows in the track while the
+     `hidden` attribute stays on for the desktop model to read back. The 28px
+     shortfall is the peek that says "there is more to the right". */
+  .rd-initiative-panel,
+  .rd-initiative-panel[hidden] {
+    display: flex;
+    flex: 0 0 calc(100% - 28px);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    animation: none;
+  }
+  .rd-deck-dots { display: flex; }
+  /* A phone card is a teaser, not a summary: thumbnail, title, one short
+     description, Learn More. The outcome bar and the Problem/closing copy are
+     desktop-only — on a 390px screen they turned a card into a document, and
+     the case-study page is one tap away for anyone who wants them. */
+  .rd-initiative-body > .rd-detail-outcome,
+  .rd-initiative-detail { display: none; }
+  /* Mobile only: js/initiatives.js binds a click-through on the whole card
+     here (desktop keeps "Learn More" as the only click target, Hao's call
+     2026-08-31 — the desktop card carries a full Problem paragraph a reader
+     may want to select/copy, which a card-wide click would fight; the mobile
+     card only ever shows title/desc/CTA, see rd-detail-outcome/
+     rd-initiative-detail above). */
+  .rd-initiative-card { --rd-card-pad: 16px; padding: var(--rd-card-pad); min-width: 0; cursor: pointer; }
+  .rd-initiative-row { gap: 20px; }
+  /* Content-sized again: with the detail block gone there is nothing left to
+     absorb slack, so the desktop "fill the height you are given" chain would
+     just stretch the card into empty space. */
+  .rd-initiative-card { height: auto; }
+  .rd-initiative-body { height: auto; gap: 16px; }
+  .rd-initiative-head { padding-bottom: 0; border-bottom: 0; }
+  /* No `margin-top: auto` push — the row follows the description directly. */
+  .rd-initiative-actions { margin-top: 4px; }
+  /* Keeps the four cards close to the same height so the deck does not lurch
+     as you swipe. 3 lines is enough for every current description. */
+  .rd-initiative-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  /* The cover becomes a full-bleed article thumbnail: first in the card, edge to
+     edge, clipped by the card's own radius. A case-study card that leads with a
+     screenshot reads as a product; one that leads with a paragraph reads as a
+     document.
+
+     `width: calc(100% + 32px)` is the load-bearing line — the ≤1180 block sets
+     `width: 100%`, so the negative margin slid the image left without widening
+     it and the thumbnail sat 296px wide in a 330px card, short by exactly the
+     right-hand padding. Third time this pattern has bitten in this file, after
+     #nav-placeholder and .rd-initiative-deck: a negative-margin bleed needs a
+     matching width or it does nothing.
+
+     16:9 rather than a fixed 200px so the banner scales with the card and keeps
+     the proportions people expect from an article card. Full-fidelity viewing is
+     the case-study page's job. */
+  .rd-initiative-media {
+    order: -1;
+    width: calc(100% + 32px);
+    height: auto;
+    aspect-ratio: 16 / 9;
+    margin: -16px -16px 0;
+    border-radius: 0;
+  }
+  .rd-initiative-media img {
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  /* The 124px 3-up pill restacks. Each stat becomes a single line — number on
+     the left, caption filling the rest — rather than a centred two-line block.
+     Three centred blocks ran to ~280px of card height for three short facts. */
+  .rd-mini-stat-row { flex-direction: column; height: auto; padding: 4px 14px; }
+  .rd-mini-stat-row > div {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-start;
+    width: 100%;
+    height: auto;
+    gap: 12px;
+    padding: 12px 0;
+    text-align: left;
+    border-right: 0;
+    border-bottom: 1px solid var(--rd-white);
+  }
+  .rd-mini-stat-row > div:last-child { border-bottom: 0; }
+  .rd-mini-stat-row strong { flex: 0 0 auto; width: auto; font-size: var(--rd-fs-xl); }
+  .rd-mini-stat-row span { flex: 1 1 auto; width: auto; font-size: var(--rd-fs-sm); }
+}
+
+@media (max-width: 430px) {
+  /* .rd-section-heading stays at its ≤768 size (24px) here. It used to step
+     down to 20px, which put it UNDER the 24px .rd-initiative-title sitting
+     inside the section it heads — a heading has to outrank its own contents.
+     If this ever needs to shrink again, .rd-initiative-title must drop with
+     it and stay at least one step below. */
+  .rd-initiative-title { font-size: var(--rd-fs-xl); }
+
+  /* Long unbroken tokens — "3–5h → 2h", "50 vs 54,000", URLs in case-study copy
+     — are the usual cause of a stray horizontal scrollbar at this width. */
+  .rd-mini-stat-row strong { font-size: var(--rd-fs-xl); overflow-wrap: anywhere; }
+
+  .rd-initiative-card { --rd-card-pad: 16px; padding: var(--rd-card-pad); }
+  .rd-stat-bar { padding: 14px; }
+}

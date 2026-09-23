@@ -9,7 +9,7 @@ stpnguyen.com via GitHub Pages from `main`. Working branch is `redesign`.
    luôn nhé."). Make the change in the same turn, then report what changed and where. This
    replaces the old ask-before-every-edit rule.
 2. **Keep edits to what the request needs.** Anything shared (`css/styles/style.css`,
-   `grid.css`, `redesign.css`, `templates/*`) gets a tightly scoped selector and a line in the
+   `grid.css`, `css/core/*`, `css/components/*`, `templates/*`) gets a tightly scoped selector and a line in the
    report saying it was touched. Every page loads the shared sheets, so a scoped rule there
    still has site-wide reach.
 
@@ -32,8 +32,11 @@ line to `MEMORY.md` if you create one.
 ## Where things are
 
 - Pages at root (`index.html`, `about.html`, `work.html`) plus `case-studies/*.html`
-- One stylesheet entry `css/styles/style.css`, which `@import`s the rest; `redesign.css` is
-  linked separately from each redesigned page's `<head>`, after it — never `@import`ed
+- One stylesheet entry `css/styles/style.css`, which `@import`s the legacy sheets. The
+  redesign CSS is split by who uses a rule and linked from each page's `<head>` after
+  `style.css`, always in the order `css/core/core.css` → `css/components/*.css` →
+  `css/pages/…/<page>.css`; a page links only the files it uses. `redesign.css` no longer
+  exists (split 2026-09-23) — map in `.claude/memory/portfolio_redesign_css_wiring.md`
 - Shared nav/footer live in `templates/` and are injected by `js/script.js` into
   `#nav-placeholder` / `#footer-placeholder`. Keep those ids and never inline new chrome.
 - Type and colour tokens: `css/styles/tokens.css` is the ONE source of truth. `docs/redesign/`

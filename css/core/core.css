@@ -65,12 +65,12 @@
      unified, so they were names without meaning. Reintroduce a token here only
      when a second value is actually needed. */
   --rd-ink: #0a2a30;          /* every heading, body, label and caption */
-  --rd-ink-inverse: #ffffff;  /* text on a primary/dark fill */
+  --rd-on-accent: #ffffff;    /* text, icons and rings drawn on a primary/dark fill */
   --rd-open: green;           /* "#opentowork" — literal `green` in the design */
   --rd-primary: #01679c;      /* buttons, text buttons */
   --rd-primary-hover: #014a70;/* not in Figma; darkened primary for :hover */
   --rd-surface: #f3f3ef;      /* section background */
-  --rd-white: #ffffff;
+  --rd-surface-raised: #ffffff; /* cards and panels that sit above --rd-surface */
   --rd-border: #666666;       /* card + stat-box border */
   --rd-border-soft: #e5e7eb;  /* CTA top border */
   --rd-border-muted: #999999; /* inactive tab underline */
@@ -92,9 +92,9 @@
 
   /* Added 2026-08-21 for lending-new-v3.html's benchmark INSIGHT panel rank
      card — Figma 40000256:5411's #fcfcfc fill has no exact match on the
-     existing scale (closest is --rd-white #ffffff, one bit off); the card is
+     existing scale (closest is --rd-surface-raised #ffffff, one bit off); the card is
      a visibly tinted sub-surface sitting inside a white .rd-case-card, so it
-     gets its own token rather than reusing --rd-white. */
+     gets its own token rather than reusing --rd-surface-raised. */
   --rd-panel-tint: #fcfcfc;
 
   /* Added 2026-08-20 — market-share bar, Figma 40000256:5391 literal hex,
@@ -248,7 +248,13 @@
      deep enough into the bottom fade to show as a ghost rather than a card. */
   --rd-journey-hold-gap: 140px;
 }
-/* Shared 1440px column */
+
+/* Theme contract: every page's <html> carries data-theme="light" or "dark",
+   and theme values are keyed on that attribute, never on a class or on
+   prefers-color-scheme alone. Only light exists today. */
+:root[data-theme="light"] { color-scheme: light; }
+
+/* Shared page column */
 .rd-shell {
   width: 100%;
   max-width: var(--rd-shell);
@@ -306,7 +312,7 @@
 }
 
 .rd-nav-outer.rd-nav-peek .rd-nav {
-  background-color: var(--rd-white);
+  background-color: var(--rd-surface-raised);
   box-shadow: var(--rd-shadow-nav);
 }
 /* The mobile full-screen menu (`.rd-nav-links`, ≤768, `position: fixed;
@@ -464,9 +470,9 @@ body.nav-open .rd-nav-outer { transform: none; }
      but the footer CTA ("Let's connect →") can grow instead of clipping. */
   min-width: 120px;
   background: var(--rd-primary);
-  color: var(--rd-ink-inverse);
+  color: var(--rd-on-accent);
 }
-.rd-btn-primary:hover { background: var(--rd-primary-hover); color: var(--rd-ink-inverse); }
+.rd-btn-primary:hover { background: var(--rd-primary-hover); color: var(--rd-on-accent); }
 /* Text-only variant — "Learn More" (Figma 40000124:763) and
    "View All" (40000124:755, w120). Both are 40px tall, radius 999, no fill. */
 .rd-btn-text {
@@ -484,7 +490,7 @@ body.nav-open .rd-nav-outer { transform: none; }
    still promising a click. Colour matches the work.html disabled button. */
 .rd-btn[disabled],
 .rd-btn[disabled]:hover {
-  color: rgba(10, 42, 48, 0.45);
+  color: color-mix(in srgb, var(--rd-ink) 45%, transparent);
   background: none;
   cursor: not-allowed;
   text-decoration: none;
@@ -705,7 +711,7 @@ html:has(body.rd-home) {
   min-height: 100vh;
   min-height: 100svh;
   padding-inline: 40px;
-  background: linear-gradient(to bottom, var(--rd-white) 58.388%, var(--rd-surface));
+  background: linear-gradient(to bottom, var(--rd-surface-raised) 58.388%, var(--rd-surface));
 }
 
 @keyframes rd-progress {
@@ -737,7 +743,7 @@ html:has(body.rd-home) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(to top, var(--rd-white), rgba(243, 243, 239, 0.98));
+  background: linear-gradient(to top, var(--rd-surface-raised), color-mix(in srgb, var(--rd-surface) 98%, transparent));
 }
 .rd-cta-outer {
   display: flex;
@@ -1009,7 +1015,7 @@ html:has(body.rd-about) {
     gap: 32px;
     padding: 24px;
     text-align: center;
-    background: var(--rd-white);
+    background: var(--rd-surface-raised);
     z-index: 200;
     overflow-y: auto;
     /* `.rd-nav-links` carries animate.css's `animate__fadeIn` in the markup

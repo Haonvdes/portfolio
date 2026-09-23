@@ -32,7 +32,7 @@
   align-items: center;
   gap: var(--m-16);
   padding: var(--p-10) 0;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border-top: 1px solid var(--rd-border-soft);
   border-bottom: 1px solid var(--rd-border-soft);
 }
@@ -86,7 +86,7 @@
 .rd-aiflow-step.is-current .rd-aiflow-step-num {
   background: var(--aimf-accent);
   border-color: var(--aimf-accent);
-  color: var(--rd-ink-inverse);
+  color: var(--rd-on-accent);
 }
 .rd-aiflow-step:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: 2px; }
 .rd-aiflow-compact {
@@ -113,7 +113,7 @@
   padding: var(--p-16);
   border: 1px solid var(--rd-border-soft);
   border-radius: var(--r-12);
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
 }
 .rd-aiflow-scroll { overflow-x: auto; }
 .rd-aiflow-plot {
@@ -149,7 +149,7 @@
   min-height: 62px;
   border: 1px solid var(--rd-border-soft);
   border-radius: var(--r-8);
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
 }
 .rd-aiflow-lane-name {
   font-size: var(--rd-fs-sm);
@@ -185,10 +185,10 @@
   text-overflow: ellipsis;
 }
 .rd-aiflow-badge.is-base { background: var(--rd-surface); color: var(--rd-ink-muted); }
-.rd-aiflow-badge.is-done { background: var(--rd-ink); color: var(--rd-ink-inverse); }
+.rd-aiflow-badge.is-done { background: var(--rd-ink); color: var(--rd-on-accent); }
 .rd-aiflow-badge.is-current {
   background: var(--aimf-accent);
-  color: var(--rd-ink-inverse);
+  color: var(--rd-on-accent);
   font-weight: var(--rd-fw-emphasis);
 }
 .rd-aiflow-badge.is-open {
@@ -197,7 +197,7 @@
   color: var(--aimf-accent-ink);
 }
 .rd-aiflow-badge.is-dead {
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border-color: var(--rd-border-muted);
   color: var(--rd-ink-muted);
   text-decoration: line-through;
@@ -222,7 +222,7 @@
 .rd-aiflow-close.is-done { stroke: var(--rd-ink-muted); }
 .rd-aiflow-close.is-pending { stroke: var(--rd-border-soft); }
 .rd-aiflow-close.is-current { stroke: var(--aimf-accent); stroke-width: 2.4; }
-.rd-aiflow-pill-box { fill: var(--rd-white); stroke-width: 1; }
+.rd-aiflow-pill-box { fill: var(--rd-surface-raised); stroke-width: 1; }
 .rd-aiflow-pill-text {
   font-family: var(--rd-font-mono);
   font-size: 12px;   /* off the type ladder on purpose: 14px pills overlap at
@@ -264,7 +264,7 @@
   padding: var(--p-20);
   border: 1px solid var(--rd-border-soft);
   border-radius: var(--r-12);
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
 }
 .rd-aiflow-eyebrow {
   margin: 0;
@@ -359,7 +359,7 @@
     bottom: 56px;
     width: 40px;
     border-radius: 0 var(--r-12) 0 0;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0), var(--rd-white));
+    background: linear-gradient(to right, transparent, var(--rd-surface-raised));
     pointer-events: none;
   }
 }

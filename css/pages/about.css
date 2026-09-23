@@ -69,7 +69,7 @@
   right: 16px;
   bottom: 0;
   height: 167px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--rd-surface));
+  background: linear-gradient(to bottom, transparent, var(--rd-surface));
   pointer-events: none;
 }
 /* ------------------------------- About §2 — Path of Growth and Leadership (8615) */
@@ -156,7 +156,7 @@
   margin-top: -24px;
   margin-bottom: calc(var(--rd-journey-fade-h) * -1);
   pointer-events: none;
-  background: linear-gradient(to top, var(--rd-surface), rgba(255, 255, 255, 0));
+  background: linear-gradient(to top, var(--rd-surface), transparent);
 }
 @media (max-width: 1180px) {
   .rd-journey-list::after { content: none; }
@@ -233,7 +233,7 @@
   align-items: center;
   margin: 0;
   padding: 12px 16px;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border: 1px solid var(--rd-ink);
   border-bottom: 0;
   border-radius: 20px 20px 0 0;
@@ -280,7 +280,7 @@
   align-items: flex-start;
   height: var(--rd-work-h);
   padding: 24px;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border: 1px solid var(--rd-border);
   border-radius: 16px;
   overflow: hidden;
@@ -453,7 +453,7 @@
   align-items: flex-start;
   width: 100%;
   padding: 24px;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border: 1px solid var(--rd-border);
   border-radius: 16px;
 }
@@ -576,7 +576,7 @@
   flex-direction: column;
   align-items: flex-start;
   padding: 16px;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border: 1px solid var(--rd-border-soft);
   border-radius: 16px;
   overflow: hidden;
@@ -825,7 +825,7 @@
   object-fit: cover;
 }
 .rd-activities-main .swiper-button-prev,
-.rd-activities-main .swiper-button-next { color: var(--rd-ink-inverse); }
+.rd-activities-main .swiper-button-next { color: var(--rd-on-accent); }
 /* ------------------------------------------------- About page responsive - */
 @media (max-width: 1439px) {
   .rd-journey-intro { width: 40%; min-width: 300px; }
@@ -966,7 +966,7 @@
     margin: 0 0 0 calc(-56px - var(--rd-deck-gap));
     transform: translateX(var(--rd-deck-pad));
     pointer-events: none;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0), var(--rd-surface));
+    background: linear-gradient(to right, transparent, var(--rd-surface));
   }
   /* Set by js/journey.js once the deck is scrolled to its right end. Without
      it the overlay sits on the LAST card, fading its border and the end of

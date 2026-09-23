@@ -1,6 +1,6 @@
 # Theme system — plan of record
 
-Branch: `theme-system`. Phases 1–3 are done and committed. Phase 4 is in progress.
+Branch: `theme-system`. Phases 1–3 are done and committed. Phase 4: blockers 1–3 done, blocker 4 needs Hao.
 
 Measurements in this doc were taken 2026-09-23 with Chrome, at 1440px, by testing every
 CSS selector in every loaded sheet against each page's live DOM after a full scroll pass.
@@ -253,7 +253,27 @@ Verify with the 16-width sweep, not a screenshot. 16px of drift is invisible in 
 
 ---
 
-## Phase 4 — Dark / light theme
+## Phase 4 — Dark / light theme — blockers 1–3 ✅ DONE (2026-09-23), 4 waiting on Hao
+
+1. **Renamed.** `--rd-white` → `--rd-surface-raised` (and → `--rd-on-accent` where it was
+   text or a ring on a primary fill); `--rd-ink-inverse` → `--rd-on-accent`. Named
+   `on-accent`, not `text-on-accent`: the same white is also used for icons, SVG fills and a
+   ring. Old names are gone.
+2. **Literals.** The real count (outside comments and token definitions) was 57 in the
+   redesign sheets and 151 in the legacy stack, not 148. 40 + 11 (case-retheme-v3) that
+   derive from `--rd-ink`/`--rd-primary`/`--rd-surface` or are white on a dark fill became
+   `color-mix()` / role tokens / `transparent`. 12 off-palette hexes in the redesign sheets
+   are left: they need names and dark values. The legacy 2021 stack is untouched.
+3. **Contract.** `<html data-theme="light">` on every site page;
+   `:root[data-theme="light"] { color-scheme: light; }` in core.css. Dark keys on
+   `:root[data-theme="dark"]`.
+
+Gate: computed styles identical after colour normalisation (9 pages × 5 widths); full-page
+pixel diff 0 on 8 pages × 2 widths (one animated GIF excepted).
+
+Remaining: blocker 4 below, then dark values, then a toggle.
+
+### Original plan
 
 What already helps: a semantic token layer exists at `redesign.css:56–87` (`--rd-ink`,
 `--rd-surface`, `--rd-border`, `--rd-line`, `--rd-tint`).

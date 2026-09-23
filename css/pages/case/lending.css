@@ -67,7 +67,7 @@
   padding-bottom: 14px;
 }
 .rd-seq-slice[data-tier="2"] { background: #7fb2cc; color: var(--rd-ink); }
-.rd-seq-slice[data-tier="1"] { background: var(--rd-primary); color: var(--rd-ink-inverse); }
+.rd-seq-slice[data-tier="1"] { background: var(--rd-primary); color: var(--rd-on-accent); }
 .rd-seq-name {
   font-size: var(--rd-fs-md);
   font-weight: var(--rd-fw-emphasis);
@@ -97,7 +97,7 @@
   align-items: center;
   gap: 32px;
   padding: 24px 28px;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border: 1px solid var(--rd-line);
   border-radius: 14px;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
@@ -264,7 +264,7 @@
    is the smallest step the type scale has; the map's own tick/quadrant
    labels were previously 10–11px with no token backing either value. */
 .rd-bench-tick, .rd-bench-axis-label, .rd-bench-quad-label { fill: var(--rd-ink-muted); font-size: var(--rd-fs-xs); }
-.rd-bench-quad { fill: rgba(10, 42, 48, .05); }
+.rd-bench-quad { fill: color-mix(in srgb, var(--rd-ink) 5%, transparent); }
 /* Full brand colour by default for all five (2026-08-20, third pass on this
    rule — see the two superseded states in git history if needed). The
    "gray out" now lives on `.rd-bench-item.is-dim` below, not on `:hover`/
@@ -294,7 +294,7 @@
    occupy (computed in drawRows, not hard-coded), so the stretch to its left
    is visibly nobody's. Same 5% ink wash as .rd-bench-quad — one shaded
    region means one thing across both views. */
-.rd-bench-band { fill: rgba(10, 42, 48, .05); }
+.rd-bench-band { fill: color-mix(in srgb, var(--rd-ink) 5%, transparent); }
 /* The fill alone stopped working once the row tracks went opaque above — it
    survives only in the ~32px gaps between rows, which is not enough ink to
    read as a region. These two dashed verticals mark where the band starts
@@ -341,12 +341,12 @@
 .rd-bench:not(.is-enhanced) .rd-bench-strip-cap { display: none; }
 .rd-bench-strip span {
   flex: 1 1 0; min-width: 2px; max-width: 8px; aspect-ratio: 1;
-  border-radius: 1px; background: rgba(10, 42, 48, .16);
+  border-radius: 1px; background: color-mix(in srgb, var(--rd-ink) 16%, transparent);
   transform: scale(.4); opacity: 0;
   transition: transform .25s ease, opacity .25s ease;
 }
 .rd-bench-strip span.is-online { background: var(--rd-primary); }
-.rd-bench-strip.is-subject span { background: rgba(10, 42, 48, .22); }
+.rd-bench-strip.is-subject span { background: color-mix(in srgb, var(--rd-ink) 22%, transparent); }
 .rd-bench-strip span.is-in { transform: none; opacity: 1; }
 
 .rd-aud-svg { display: block; width: 100%; height: auto; }
@@ -397,7 +397,7 @@
   font-size: var(--rd-fs-sm); font-weight: 400; line-height: 1.55;
   color: var(--rd-ink-muted);
 }
-.rd-bench-metric { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 7px 0; border-top: 1px solid rgba(10, 42, 48, .10); font-size: var(--rd-fs-sm); }
+.rd-bench-metric { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 7px 0; border-top: 1px solid color-mix(in srgb, var(--rd-ink) 10%, transparent); font-size: var(--rd-fs-sm); }
 .rd-bench-metric dt { color: var(--rd-ink-muted); margin: 0; }
 .rd-bench-metric dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--rd-ink); }
 /* lending-new-v3.html only — one delta line under each metric, expressing it
@@ -431,7 +431,7 @@
    change to the base rule. */
 .rd-market.is-figma {
   max-width: none; margin: 0;
-  padding: 24px; background: var(--rd-white);
+  padding: 24px; background: var(--rd-surface-raised);
   border: 1px solid var(--rd-border); border-radius: 16px;
 }
 .rd-market.is-figma .rd-market-seg.is-a, .rd-market.is-figma .rd-market-sw.is-a { background: var(--rd-market-a); }
@@ -447,11 +447,11 @@
   height: 100%; display: flex; align-items: center; justify-content: center;
   font-size: var(--rd-fs-xs); font-weight: 600;
 }
-.rd-market-seg.is-a, .rd-market-sw.is-a { background: rgba(10, 42, 48, .18); }
-.rd-market-seg.is-b, .rd-market-sw.is-b { background: rgba(10, 42, 48, .30); }
-.rd-market-seg.is-rest, .rd-market-sw.is-rest { background: rgba(10, 42, 48, .08); }
+.rd-market-seg.is-a, .rd-market-sw.is-a { background: color-mix(in srgb, var(--rd-ink) 18%, transparent); }
+.rd-market-seg.is-b, .rd-market-sw.is-b { background: color-mix(in srgb, var(--rd-ink) 30%, transparent); }
+.rd-market-seg.is-rest, .rd-market-sw.is-rest { background: color-mix(in srgb, var(--rd-ink) 8%, transparent); }
 .rd-market-seg.is-subject, .rd-market-sw.is-subject { background: var(--rd-ink); }
-.rd-market-seg.is-subject { color: var(--rd-ink-inverse); }
+.rd-market-seg.is-subject { color: var(--rd-on-accent); }
 /* `.rd-market .rd-market-key`, not the bare class (2026-08-20 fix): the
    sitewide `.rd-case ul, .rd-case p { margin: 0 }` reset (redesign.css ~478,
    specificity 0,1,1) was silently beating this rule's own margin-top
@@ -578,7 +578,7 @@
   padding: 0;
   border: 1px solid var(--rd-border-soft);
   border-radius: 999px;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   color: var(--rd-ink);
   cursor: pointer;
   box-shadow: var(--rd-shadow-card);

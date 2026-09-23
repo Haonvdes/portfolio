@@ -17,7 +17,7 @@
   padding: 0 10px;
   border-radius: 999px;
   background: var(--rd-primary);
-  color: var(--rd-ink-inverse);
+  color: var(--rd-on-accent);
   font-size: var(--rd-fs-xs);
   font-weight: var(--rd-fw-heading);
   line-height: 1;
@@ -145,11 +145,11 @@
 .rd-ai-circle.is-discovery { background: var(--yellow-Y200); border-color: var(--yellow-Y900); color: var(--yellow-Y900); }
 .rd-ai-circle.is-discovery span { color: var(--yellow-Y900); }
 .rd-ai-circle.is-validate { background: var(--blue-B500); border-color: var(--blue-B700); color: var(--blue-B700); }
-.rd-ai-circle.is-validate span { color: var(--rd-ink-inverse); }
+.rd-ai-circle.is-validate span { color: var(--rd-on-accent); }
 .rd-ai-circle.is-build { background: #a8ba1f; border-color: #434c00; color: #434c00; }
-.rd-ai-circle.is-build span { color: var(--rd-ink-inverse); }
+.rd-ai-circle.is-build span { color: var(--rd-on-accent); }
 .rd-ai-circle.is-launch { background: var(--emerald-E600); border-color: var(--emerald-E800); color: var(--emerald-E800); }
-.rd-ai-circle.is-launch span { color: var(--rd-ink-inverse); }
+.rd-ai-circle.is-launch span { color: var(--rd-on-accent); }
 /* No align-items override: every child centers itself (text-align on the
    headings/paragraphs, justify-content on .rd-ai-toggle) so the flex
    container keeps its default `stretch`, which is load-bearing — the card
@@ -180,7 +180,7 @@
 .rd-ai-toggle { justify-content: center; }
 .rd-ai-toggle .rd-tab[aria-pressed="true"] {
   background: var(--rd-ink);
-  color: var(--rd-ink-inverse);
+  color: var(--rd-on-accent);
 }
 .rd-ai-toggle .rd-tab[aria-pressed="true"]:hover { background: var(--rd-ink); }
 /* The row/column split used to live directly on .rd-ai-panel (=
@@ -470,7 +470,7 @@
 .rd-ai-model-panel {
   display: flex; flex-direction: column; gap: 20px;
   padding: 24px;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border: 1px solid var(--rd-border);
   border-radius: 16px;
 }
@@ -515,7 +515,7 @@
   border-radius: var(--r-20);
 }
 .rd-ai-ba-col.is-after {
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border-color: var(--rd-border);
 }
 /* Rows lose the checklist's boxed list and take Figma's numbered 32px
@@ -549,7 +549,7 @@
   background: var(--rd-ink-muted);
   font-size: var(--rd-fs-sm);
   font-weight: var(--rd-fw-emphasis);
-  color: var(--rd-ink-inverse);
+  color: var(--rd-on-accent);
 }
 .rd-ai-ba-col.is-after .rd-case-checklist-row::before { background: var(--rd-pain-chip); }
 .rd-ai-ba-lede {
@@ -567,7 +567,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   width: 100%;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border: 1px solid var(--rd-border);
   border-radius: 16px;
   overflow: hidden;
@@ -657,7 +657,7 @@
   /* head · User label · users · Responsibility label · text · Permission label · text */
   grid-template-rows: repeat(7, auto);
   width: 100%;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border: 1px solid var(--rd-border);
   border-radius: 16px;
 }
@@ -1129,7 +1129,7 @@
 .rb-stage {
   border: 1px solid var(--rd-line);
   border-radius: var(--r-16);
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   padding: var(--m-32) var(--m-24) var(--m-24);
 }
 .rb-name {
@@ -1244,7 +1244,7 @@
 .rd-case-split > .rd-case-body > .rd-case-accordion { display: block; }
 .rd-case-accordion {
   width: 100%;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border: 1px solid var(--rd-border-soft);
   border-radius: var(--r-16);
   overflow: hidden;
@@ -1282,7 +1282,7 @@
   transition: transform 0.2s ease;
 }
 .rd-case-accordion details[open] > summary svg { transform: rotate(180deg); }
-.rd-case-accordion-body { padding: var(--p-12) var(--p-16); background: var(--rd-white); }
+.rd-case-accordion-body { padding: var(--p-12) var(--p-16); background: var(--rd-surface-raised); }
 .rd-case-accordion-body ul { margin: 0; padding-left: var(--p-20); }
 .rd-case-accordion-body li {
   font-size: var(--rd-fs-sm);
@@ -1307,7 +1307,7 @@
   aspect-ratio: 1420 / 1004;
   overflow: hidden;
   border-radius: var(--r-8) 0 0 0;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   /* pan-y, not none: `none` would swallow a vertical swipe that starts on
      the image and trap the page under someone's thumb. This keeps the
      page scrolling vertically and gives the slider the horizontal drag. */
@@ -1344,8 +1344,8 @@
   justify-content: center;
   width: 2px;
   margin-left: -1px;
-  background: var(--rd-white);
-  box-shadow: 0 0 0 1px rgba(10, 42, 48, 0.16);
+  background: var(--rd-surface-raised);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--rd-ink) 16%, transparent);
   pointer-events: none;
 }
 /* The grip reads as a drag affordance rather than a dot — two chevrons
@@ -1361,11 +1361,11 @@
   box-sizing: border-box;
   width: 36px;
   height: 36px;
-  border: 2px solid var(--rd-white);
+  border: 2px solid var(--rd-on-accent);
   border-radius: 50%;
-  background: rgba(10, 42, 48, 0.45);
-  box-shadow: 0 2px 10px rgba(10, 42, 48, 0.2);
-  color: var(--rd-ink-inverse);
+  background: color-mix(in srgb, var(--rd-ink) 45%, transparent);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--rd-ink) 20%, transparent);
+  color: var(--rd-on-accent);
 }
 .rd-compare-grip svg { display: block; width: 14px; height: 14px; }
 .rd-compare-range {
@@ -1402,8 +1402,8 @@
   top: var(--m-12);
   padding: var(--p-4) var(--p-8);
   border-radius: var(--r-4);
-  background: rgba(10, 42, 48, 0.45);
-  color: var(--rd-ink-inverse);
+  background: color-mix(in srgb, var(--rd-ink) 45%, transparent);
+  color: var(--rd-on-accent);
   font-size: var(--rd-fs-xs);
   font-weight: var(--rd-fw-emphasis);
   line-height: var(--rd-lh-tight);
@@ -1757,7 +1757,7 @@
 .rd-phase-step-seg {
   display: block;
   height: var(--m-20);
-  border-right: 1px solid var(--rd-white);
+  border-right: 1px solid var(--rd-surface-raised);
   background: var(--rd-market-rest);
   transition: background-color .18s ease;
 }
@@ -1803,8 +1803,8 @@
   padding: var(--p-12) var(--p-16);
   border: 1px solid var(--rd-line);
   border-radius: var(--r-8);
-  background: var(--rd-white);
-  box-shadow: 0 12px 32px rgba(10, 42, 48, 0.16);
+  background: var(--rd-surface-raised);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--rd-ink) 16%, transparent);
 }
 /* display:flex above beats the UA [hidden] rule, so restate it. */
 .rd-phase-more-pop[hidden] { display: none; }
@@ -1906,8 +1906,8 @@
    areas, where the role's own user journeys run. */
 .rd-hc-roles {
   --rb-on: var(--rd-ink);
-  --rb-off: rgba(10, 42, 48, 0.05);
-  --rb-edge: rgba(10, 42, 48, 0.28);
+  --rb-off: color-mix(in srgb, var(--rd-ink) 5%, transparent);
+  --rb-edge: color-mix(in srgb, var(--rd-ink) 28%, transparent);
   --rb-hot: var(--rd-pain-chip);
 }
 /* One type scale for the whole block: 24 role name, 20 section titles,
@@ -2005,8 +2005,8 @@
   list-style: none;
   border-radius: 12px;
   border: 1px solid var(--rd-border-soft);
-  background: var(--rd-white);
-  box-shadow: 0 12px 32px rgba(10, 42, 48, 0.16);
+  background: var(--rd-surface-raised);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--rd-ink) 16%, transparent);
   opacity: 0;
   visibility: hidden;
   transform: translateY(8px);
@@ -2115,7 +2115,7 @@
   padding: var(--m-6) var(--m-12);
   border: 1px solid var(--rb-edge);
   border-radius: 999px;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
 }
 @media (max-width: 900px) {
   .rd-hc-roles .rb-section { padding: var(--m-20); }

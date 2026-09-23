@@ -77,7 +77,7 @@
      by exactly this much, so a breakpoint changes one value, not two. */
   --rd-card-pad: 24px;
   padding: var(--rd-card-pad);
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border: 1px solid var(--rd-border);
   border-radius: 16px;
   overflow: hidden;

@@ -16,7 +16,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border: 1px solid var(--rd-border);
   border-radius: 16px;
   overflow: hidden;
@@ -46,7 +46,7 @@
   padding: 16px 20px;
   border: 2px dashed var(--rd-primary);
   border-radius: 12px;
-  background: rgba(1, 103, 156, 0.05);
+  background: color-mix(in srgb, var(--rd-primary) 5%, transparent);
   font-weight: var(--rd-fw-heading);
   font-size: var(--rd-fs-sm);
   line-height: 1.5;
@@ -103,11 +103,11 @@
 .rd-evidence.is-measured {
   background: var(--rd-ink);
   border-color: var(--rd-ink);
-  color: var(--rd-ink-inverse);
+  color: var(--rd-on-accent);
 }
 /* A real number, but the client's, not yours. */
 .rd-evidence.is-client {
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border-color: var(--rd-primary);
   color: var(--rd-primary);
 }
@@ -119,7 +119,7 @@
 }
 /* Your arithmetic on someone else's numbers. */
 .rd-evidence.is-estimated {
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border-color: var(--rd-border-muted);
   color: var(--rd-ink);
 }
@@ -140,7 +140,7 @@
   width: 100%;
   border: 1px solid var(--rd-border);
   border-radius: 16px;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   overflow: hidden;
 }
 .rd-decision-row {
@@ -186,7 +186,7 @@
 .rd-option.is-chosen .rd-option-id {
   background: var(--rd-primary);
   border-color: var(--rd-primary);
-  color: var(--rd-ink-inverse);
+  color: var(--rd-on-accent);
 }
 /* The framework says what you killed matters more than what you built, so it
    has to be *visible* as killed, not merely described as killed. The strike
@@ -221,7 +221,7 @@
   padding: 20px 24px;
   border: 1px solid var(--rd-border);
   border-radius: 16px;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   text-decoration: none;
   color: var(--rd-ink);
   transition: border-color 0.15s ease, transform 0.15s ease;
@@ -233,8 +233,8 @@
 
 /* Chips sit on a blue fill here, so the light variants vanish. */
 .rd-case-highlight .rd-evidence {
-  border-color: rgba(255, 255, 255, 0.5);
-  color: var(--rd-ink-inverse);
+  border-color: color-mix(in srgb, var(--rd-on-accent) 50%, transparent);
+  color: var(--rd-on-accent);
   background: transparent;
 }
 
@@ -301,7 +301,7 @@
   display: block;
   width: 100%;
   height: auto;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border: 1px solid var(--rd-border);
   border-radius: 16px;
 }
@@ -325,7 +325,7 @@
 .rd-case-table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border: 1px solid var(--rd-border);
   border-radius: 16px;
   overflow: hidden;
@@ -382,7 +382,7 @@
    above don't cover "published" (a fact reported by someone else, not
    measured, counted or estimated by the author, and not merely a target). */
 .rd-evidence.is-published {
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border-color: var(--rd-line);
   color: var(--rd-ink-muted);
 }

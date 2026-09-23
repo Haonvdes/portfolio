@@ -52,7 +52,7 @@ body.nav-open .rd-case-hero { isolation: auto; z-index: auto; }
   gap: 10px;
   margin: 0;
   padding: 12px 16px;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border: 2px solid var(--rd-ink);
   border-radius: 999px;
   font-family: var(--rd-font);
@@ -71,7 +71,7 @@ body.nav-open .rd-case-hero { isolation: auto; z-index: auto; }
 .rd-tab:hover { background: var(--rd-surface); }
 .rd-tab[aria-selected="true"] {
   background: var(--rd-ink);
-  color: var(--rd-ink-inverse);
+  color: var(--rd-on-accent);
 }
 .rd-tab[aria-selected="true"]:hover { background: var(--rd-ink); }
 .rd-tab:focus-visible {
@@ -111,7 +111,7 @@ body.nav-open .rd-case-hero { isolation: auto; z-index: auto; }
   gap: 12px;
   width: 100%;
   padding: 12px 16px;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border: 2px solid var(--rd-ink);
   border-radius: 999px;
   font-family: var(--rd-font);
@@ -151,8 +151,8 @@ body.nav-open .rd-case-hero { isolation: auto; z-index: auto; }
   gap: 2px;
   border-radius: 12px;
   border: 1px solid var(--rd-border-soft);
-  background: var(--rd-white);
-  box-shadow: 0 12px 32px rgba(10, 42, 48, 0.16);
+  background: var(--rd-surface-raised);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--rd-ink) 16%, transparent);
 
   opacity: 0;
   visibility: hidden;
@@ -208,7 +208,7 @@ body.nav-open .rd-case-hero { isolation: auto; z-index: auto; }
    Scoped under .rd-case so nothing here can touch the homepage.
    ------------------------------------------------------------------------ */
 .rd-case {
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   font-family: var(--rd-font);
   /* Long-form measure, case study only. The shared `--rd-measure` (778px, from
      tokens.css) still governs home / about / work — this override is scoped to
@@ -363,11 +363,11 @@ ol.rd-case-list > li { list-style-type: decimal; }
   flex-direction: column;
   gap: 12px;
   padding: 24px;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border: 1px solid var(--rd-border);
   border-radius: 16px;
 }
-.is-tinted .rd-case-card { background: var(--rd-white); }
+.is-tinted .rd-case-card { background: var(--rd-surface-raised); }
 .rd-case-card h3 {
   font-weight: var(--rd-fw-emphasis);
   font-size: var(--rd-fs-md);
@@ -467,9 +467,9 @@ ol.rd-case-list > li { list-style-type: decimal; }
   border: 0;
   border-radius: 50%;
   cursor: pointer;
-  color: #fff;
+  color: var(--rd-on-accent);
   background: linear-gradient(150deg, var(--rd-primary) 0%, var(--rd-primary-hover) 100%);
-  box-shadow: 0 2px 10px rgba(10, 42, 48, 0.2);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--rd-ink) 20%, transparent);
   transition: background 0.3s;
 }
 .rd-case-toc-toggle:hover {
@@ -494,8 +494,8 @@ ol.rd-case-list > li { list-style-type: decimal; }
   gap: 2px;
   border-radius: 12px;
   border: 1px solid var(--rd-border-soft);
-  background: var(--rd-white);
-  box-shadow: 0 12px 32px rgba(10, 42, 48, 0.16);
+  background: var(--rd-surface-raised);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--rd-ink) 16%, transparent);
 
   opacity: 0;
   visibility: hidden;
@@ -566,8 +566,8 @@ ol.rd-case-list > li { list-style-type: decimal; }
      the boundary. */
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.61) 67.02%,
-    rgba(243, 243, 239, 0.6) 100.88%
+    color-mix(in srgb, var(--rd-surface-raised) 61%, transparent) 67.02%,
+    color-mix(in srgb, var(--rd-surface) 60%, transparent) 100.88%
   );
 }
 /* THE 60dvh IS ON THE INNER, NOT THE HERO (Hao's call, 2026-08-18). The nav is
@@ -1014,7 +1014,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
 /* Corrected 2026-08-20: was `--rd-surface` / `--rd-border-soft` (tinted fill,
    light hairline border), which matches neither Figma (40000221:3783 is
    `bg-white border border-[#666]`) nor this project's own token for that
-   exact pairing — `.rd-case-card` already uses `--rd-white` / `--rd-border`
+   exact pairing — `.rd-case-card` already uses `--rd-surface-raised` / `--rd-border`
    for the identical white-card-with-a-#666-border look elsewhere on every
    case study. This is a shared rule (healthcare.html, customer-engagement.html
    and lending-new*.html all render it), so the fix applies everywhere the
@@ -1027,7 +1027,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
   padding: 24px;
   border: 1px solid var(--rd-border);
   border-radius: 16px;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
 }
 .rd-case-snapshot > div {
   display: flex;
@@ -1071,7 +1071,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
   padding: 24px;
   border-radius: 16px;
   background: var(--rd-primary);
-  color: var(--rd-ink-inverse);
+  color: var(--rd-on-accent);
   position: sticky;
   /* 64px was originally clearance for a top-sticky section rail that no
      longer exists (it's a corner popover now, §3 above) — left as-is since
@@ -1079,11 +1079,11 @@ ol.rd-case-list > li { list-style-type: decimal; }
      because anything below still needs clearing. */
   top: 64px;
 }
-.rd-case-highlight .rd-case-meta-k { color: var(--rd-ink-inverse); opacity: 0.75; }
+.rd-case-highlight .rd-case-meta-k { color: var(--rd-on-accent); opacity: 0.75; }
 .rd-case-highlight-stat { display: flex; flex-direction: column; gap: 4px; }
 .rd-case-highlight-stat + .rd-case-highlight-stat {
   padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  border-top: 1px solid color-mix(in srgb, var(--rd-on-accent) 28%, transparent);
 }
 /* One step below the section H2 that heads the block these sit in — 24px
    under a 32px H2, and 20px at ≤768 where that H2 drops to 24px (the
@@ -1093,12 +1093,12 @@ ol.rd-case-list > li { list-style-type: decimal; }
   font-weight: var(--rd-fw-heading);
   font-size: var(--rd-fs-2xl);
   line-height: 1.1;
-  color: var(--rd-ink-inverse);
+  color: var(--rd-on-accent);
 }
 .rd-case-highlight-stat span {
   font-size: var(--rd-fs-sm);
   line-height: var(--rd-lh-prose);
-  color: var(--rd-ink-inverse);
+  color: var(--rd-on-accent);
   opacity: 0.88;
 }
 
@@ -1263,7 +1263,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
   border: 1px solid var(--rd-border-soft);
   border-radius: 8px;
   overflow: hidden;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
 }
 .rd-case-checklist-row {
   display: flex;
@@ -1655,7 +1655,7 @@ ol.rd-case-list > li { list-style-type: decimal; }
   border-radius: 999px;
   font-weight: var(--rd-fw-emphasis);
   font-size: var(--rd-fs-sm);
-  color: var(--rd-ink-inverse);
+  color: var(--rd-on-accent);
 }
 .rd-case-num-chip.is-pain { background: var(--rd-pain-chip); }
 .rd-case-num-chip.is-goal { background: var(--rd-primary); }
@@ -1868,13 +1868,13 @@ ol.rd-case-list > li { list-style-type: decimal; }
 /* ← web-3 `.hastag button.active`: accent underline, 600-weight accent text,
    and a white gradient that "lifts" the active tab toward the white
    .rd-case-card panel it reveals below — same fw-heading (600) web-3's
-   font-weight: 600 maps to, and --rd-white in place of its literal #fff. */
+   font-weight: 600 maps to, and --rd-surface-raised in place of its literal #fff. */
 .rd-case-tab.is-active {
   opacity: 1;
   color: var(--rd-primary);
   font-weight: var(--rd-fw-heading);
   border-bottom-color: var(--rd-primary);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 30%, var(--rd-white) 100%);
+  background: linear-gradient(180deg, transparent 30%, var(--rd-surface-raised) 100%);
 }
 .rd-case-tabpanels { display: flex; width: 100%; }
 .rd-case-tabpanel[hidden] { display: none; }

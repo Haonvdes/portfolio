@@ -14,7 +14,7 @@
   overflow-x: auto;
   border: 1px solid var(--rd-border-soft);
   border-radius: 12px;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
 }
 /* Without this the strip reads as cropped rather than scrollable — a reader
    has no way to tell the image continues. The fade is the affordance. It sits
@@ -26,7 +26,7 @@
   width: 72px;
   pointer-events: none;
   border-radius: 0 12px 12px 0;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0), var(--rd-white));
+  background: linear-gradient(to right, transparent, var(--rd-surface-raised));
 }
 
 /* Title above the chart in the LEFT card of customer-engagement-v3.html's §05
@@ -95,13 +95,13 @@
    already uses for the interview/business bar rows above. */
 .rd-bench-bubble { cursor: pointer; outline: 0; }
 .rd-bench-bubble:focus-visible circle { outline: 2px solid var(--rd-primary); outline-offset: 3px; }
-.rd-bench-bubble circle { stroke: var(--rd-white); stroke-width: 3; }
+.rd-bench-bubble circle { stroke: var(--rd-surface-raised); stroke-width: 3; }
 .rd-bench-bubble.is-critical circle { fill: var(--rd-severity-critical); }
 .rd-bench-bubble.is-notable circle { fill: var(--rd-severity-notable); }
 .rd-bench-bubble.is-attention circle { fill: var(--rd-severity-attention); }
 .rd-bench-bubble.is-minor circle { fill: var(--rd-severity-minor); }
 .rd-bench-bubble-num {
-  font-family: var(--rd-font); fill: var(--rd-ink-inverse);
+  font-family: var(--rd-font); fill: var(--rd-on-accent);
   /* 20px, was an off-ladder 30px. The chart SVG only starts scaling below
      ~500px, so between there and 768px this text rendered at its literal
      size against a 24px H2 and outsized it. */
@@ -199,13 +199,13 @@
   gap: 16px;
   justify-content: center;
   padding: 24px;
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border-right: 1px solid var(--rd-ink);
 }
 .rd-case-persona-cols {
   display: flex;
   flex: 1 1 auto;
-  background: linear-gradient(90deg, var(--rd-white) 50%, var(--rd-surface) 100%);
+  background: linear-gradient(90deg, var(--rd-surface-raised) 50%, var(--rd-surface) 100%);
 }
 .rd-case-persona-cols > div {
   display: flex;
@@ -270,7 +270,7 @@
 }
 /* Steps. The gate is solid ink-bordered and tinted because it is a hard stop;
    every other step is a plain box. */
-.rd-ceflow-box { fill: var(--rd-white); stroke: var(--rd-border-soft); stroke-width: 1.5; }
+.rd-ceflow-box { fill: var(--rd-surface-raised); stroke: var(--rd-border-soft); stroke-width: 1.5; }
 .rd-ceflow-gate { fill: var(--rd-tint); stroke: var(--rd-ink); stroke-width: 1.5; }
 .rd-ceflow-label { fill: var(--rd-ink); font-size: 16px; font-weight: var(--rd-fw-emphasis); }
 .rd-ceflow-note { fill: var(--rd-ink-muted); font-size: 14.5px; }
@@ -289,7 +289,7 @@
 .rd-ceflow-step[data-c="4"], .rd-ce5c-row[data-c="4"] { --rd-ce5c-color: var(--rd-5c-4); }
 .rd-ceflow-step[data-c="5"], .rd-ce5c-row[data-c="5"] { --rd-ce5c-color: var(--rd-5c-5); }
 .rd-ceflow-chip { fill: var(--rd-ce5c-color); }
-.rd-ceflow-chip-text { fill: var(--rd-ink-inverse); font-family: var(--rd-font-mono); font-size: 12px; font-weight: var(--rd-fw-emphasis); }
+.rd-ceflow-chip-text { fill: var(--rd-on-accent); font-family: var(--rd-font-mono); font-size: 12px; font-weight: var(--rd-fw-emphasis); }
 .rd-ceflow-step { cursor: pointer; outline: none; }
 .rd-ceflow-hit { fill: transparent; stroke: transparent; stroke-width: 2; }
 .rd-ceflow-step:focus-visible .rd-ceflow-hit { stroke: var(--rd-primary); }
@@ -345,7 +345,7 @@
 .rd-ce5c-row[data-c="5"] { width: calc(100% - 4 * var(--rd-ce5c-step)); }
 .rd-ce5c-row:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: -2px; }
 /* Inset bar, not a border, so the selected row doesn't shift. */
-.rd-ce5c-row.is-selected { background: var(--rd-white); box-shadow: inset 4px 0 0 var(--rd-ce5c-color); }
+.rd-ce5c-row.is-selected { background: var(--rd-surface-raised); box-shadow: inset 4px 0 0 var(--rd-ce5c-color); }
 .rd-ce5c-chip {
   flex: none;
   display: flex;
@@ -355,7 +355,7 @@
   height: 24px;
   border-radius: 999px;
   background: var(--rd-ce5c-color);
-  color: var(--rd-ink-inverse);
+  color: var(--rd-on-accent);
   font-family: var(--rd-font-mono);
   font-size: var(--rd-fs-xs);
   font-weight: var(--rd-fw-emphasis);

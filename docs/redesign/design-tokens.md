@@ -67,11 +67,11 @@ comments in `redesign.css`, in case the tonal hierarchy is ever wanted back.
 | Token | Value | Use |
 |---|---|---|
 | `--rd-ink` | `#0a2a30` | every heading, body, label and caption |
-| `--rd-ink-inverse` | `#ffffff` | text on a primary or dark fill |
+| `--rd-on-accent` | `#ffffff` | text, icons and rings on a primary or dark fill (was `--rd-ink-inverse`) |
 | `--rd-primary` | `#01679c` | buttons, text buttons, links |
 | `--rd-primary-hover` | `#014a70` | hover/pressed (not in Figma — darkened primary) |
 | `--rd-surface` | `#f3f3ef` | section background |
-| `--rd-white` | `#ffffff` | cards, elevated panels |
+| `--rd-surface-raised` | `#ffffff` | cards, elevated panels (was `--rd-white`) |
 | `--rd-border` | `#666666` | card + stat-box border |
 | `--rd-border-soft` | `#e5e7eb` | CTA top border, dividers |
 | `--rd-border-muted` | `#999999` | inactive tab underline |

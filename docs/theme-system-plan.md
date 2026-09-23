@@ -63,38 +63,119 @@ tabs. Those five components are ~40% of `redesign.css` and appear on exactly one
 
 ---
 
-## Phase 2 — Restructure (do this before theming)
+## Phase 2 — Minimize CSS scope per page
 
-Target:
+### What the measurement says
+
+Every rule in `redesign.css` (1,771 rules, 184 KB) was tested against all 8 pages' live
+DOM, at 390px and 1440px, after a full scroll pass and after clicking every tab, pill and
+picker so JS-built DOM existed. Rules were then grouped by *which set of pages* matches them.
+
+| Ownership | KB | share |
+|---|---|---|
+| Shared by all 8 pages | 9 | **5%** |
+| Real components (2–7 pages) | 32 | 17% |
+| **Exactly ONE page** | **104** | **57%** |
+| Matched by no page in any captured state | 39 | 21% |
+
+**57% of the file is single-page CSS that all 8 pages download.** Only 5% is genuinely
+shared. That is the whole opportunity, and it means the split is mostly mechanical: the
+big blocks are already page-exclusive, they are just not in page-exclusive files.
+
+Per-page exclusive weight:
+
+| Page | rules only it matches | KB |
+|---|---|---|
+| healthcare | 400 | 40 |
+| web-3 | 176 | 17 |
+| about | 128 | 13 |
+| lending | 125 | 12 |
+| home | 112 | 11 |
+| customer-engagement | 113 | 10 |
+| work | 0 | 0 |
+| marketing-platform | 0 | 0 |
+
+`work.html` and `marketing-platform.html` have **no** exclusive CSS — they are pure
+chrome + shared components, and are nearly free once the split exists.
+
+### Projected result
+
+| Page | now | after | cut |
+|---|---|---|---|
+| work | 184 KB | 12 KB | **93%** |
+| marketing-platform | 184 KB | 13 KB | **93%** |
+| home | 184 KB | 29 KB | **84%** |
+| about | 184 KB | 32 KB | **83%** |
+| customer-engagement | 184 KB | 53 KB | 71% |
+| lending | 184 KB | 55 KB | 70% |
+| web-3 | 184 KB | 60 KB | 68% |
+| healthcare | 184 KB | 85 KB | 54% |
+
+(includes a 20% overhead for state-dependent rules that travel with their component)
+
+### Target layout
 
 ```
 css/
-  core/        reset.css, grid.css, tokens.css      ← survives every redesign
-  themes/      2026.css, 2027.css, dark.css         ← the only layer a redesign replaces
-  components/  card.css, tabs.css, bench.css, …     ← one file per component
-  pages/       home.css, about.css, work.css,
-               case/healthcare.css, case/web3.css, …
+  core/         tokens.css  reset.css  grid.css  chrome.css   ← ~9 KB, every page
+  components/   hero.css  tabs.css  deck.css  figure.css
+                case-shell.css  toc.css  related.css  …       ← ~32 KB, pick per page
+  pages/        home.css  about.css  work.css
+                case/healthcare.css  case/web-3.css
+                case/lending.css  case/customer-engagement.css ← ~104 KB, one page each
 ```
 
-Rules that make it hold:
+### Order of work
 
-1. **Components consume tokens only — zero colour literals.** Then a new year is a new
-   theme file and every component follows for free.
-2. **Page files may not define components.** Today page-only and shared CSS sit in one
-   file with no boundary. That is what produced the `#built` id collision and the
-   `.rd-case-label-in-card` cascade trap.
-3. **One component, one file.** `.rd-deck-index` currently lives in two.
-4. **No bare `#id` rules** — they hit any page reusing that id.
+Do it leaf-first. Page-exclusive blocks carry the least risk (one page can regress) and
+the most weight (57%), so they come first — not last.
 
-Precondition, cheap: extend the `body.rd-*` page scope to every page. Only 3 pages have it
-today (`rd-home`, `rd-about`, `rd-ce`) across 7 rules.
+**Step 0 — page scopes.** Add `body.rd-*` to every page. Only 3 have it today
+(`rd-home`, `rd-about`, `rd-ce`) across 7 rules. This is the precondition: it makes a
+page-exclusive file structurally unable to leak.
 
-Sequencing note: `redesign.css` is ordered by **build batch** (`B0`…`B9`, `W3C`), i.e.
-chronologically, not by concern. Split by reading the batch banners, not by line ranges.
+**Step 1 — extract the four case-study pages.** `healthcare` (40 KB) first; it alone is
+22% of the file and its five big components (B2 AI Accelerate, B9 role matrix, B3 phase
+decisions, screen wall, shipped-screens tabs) appear on exactly one page. Then `web-3`,
+`lending`, `customer-engagement`. After this step every other page is already ~60% lighter.
 
-Also rename. `redesign.css` means "the 2026 redesign"; next year's has nowhere to go.
+**Step 2 — extract `home` and `about`.** Their blocks are already cleanly bannered
+(`Section 1–4` at redesign.css:752–1703, `About §1–§6` at 1715–2640), so the boundaries
+are readable rather than inferred.
 
-Expected result: homepage CSS drops from ~211 KB to ~30 KB.
+**Step 3 — split what is left into `components/`.** Whatever remains after steps 1–2 is by
+definition shared. Use the existing numbered banners (`1. Evidence chips`, `3. Section TOC`,
+`5. Figure variants`, …) as the file boundaries.
+
+**Step 4 — core.** The residue: `:root`, nav, footer, shell, typography roles
+(redesign.css:49–710).
+
+**Step 5 — rename.** `redesign.css` means "the 2026 redesign"; next year's has nowhere to
+go. It should not survive the split as a name.
+
+### The regression gate
+
+A harness already exists and is proven: it records, for every page × width, the ink-left
+edge of every element wider than 50px keyed by class, and diffs two runs. It was used on
+the Phase 1 CSS removal and reported **0 differences across 64 page/width combinations**.
+
+Run it after every step. A step that reports any diff it cannot explain gets reverted, not
+debugged forward. This replaces screenshots — 16px of drift is invisible in an image.
+
+### Two traps, both already paid for
+
+1. **Never bulk-delete CSS from static analysis.** `.rb-*` (12 classes) is the role matrix
+   *version B that Hao picked*, built by string concatenation in `role-matrix.js`
+   (`'<div class="rb-seg' + state`). 11 of 22 `is-*` classes are built as `'is-' + tone`
+   from the data files. Neither appears as a literal token anywhere. A grep-driven sweep
+   would have deleted both.
+
+2. **The 39 KB "matched by no page" bucket is NOT dead code.** 132 of those 369 rules are
+   state-dependent (`body.nav-open`, `.is-open`, `.is-playing`, `[aria-selected]`) and are
+   live. The rest are *candidates* — `.rd-activity-card .club-summary` genuinely is dead
+   (Strava killed the club API, 2026-09-22), `.rd-wordmark` and `.rd-head-row` look dead —
+   but each needs verifying individually, against the JS that builds the state, not in bulk.
+   Audit this bucket during the split, when every rule is being read anyway.
 
 ---
 

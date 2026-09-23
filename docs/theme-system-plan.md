@@ -1,6 +1,6 @@
 # Theme system — plan of record
 
-Branch: `theme-system`. Phases 1 and 2 are done and committed. Phases 3–4 are pending.
+Branch: `theme-system`. Phases 1–3 are done and committed. Phase 4 is in progress.
 
 Measurements in this doc were taken 2026-09-23 with Chrome, at 1440px, by testing every
 CSS selector in every loaded sheet against each page's live DOM after a full scroll pass.
@@ -218,7 +218,17 @@ debugged forward. This replaces screenshots — 16px of drift is invisible in an
 
 ---
 
-## Phase 3 — Grid
+## Phase 3 — Grid ✅ DONE (2026-09-23)
+
+`--grid-max` 1440 → 1600, `--grid-col-gap` 24 → 32, `--rd-shell` now aliases `--grid-max`.
+Sweep, 8 pages × 16 widths: the 104 combos at or below 1520 are identical; above it every
+element that sat on the old left edge now sits on the new one (1600 → 64, 1920 → 184,
+2560 → 504). Two corrections to the plan below: the 1728 row is wrong (a 1600 column there
+gives an 88px edge and 1552 ink — 1552 is the cap), and `bootstrap-grid.css:85` is inside
+a commented-out block, so there was only one real code site. `.rd-grid-cols`, the only user
+of the gap token, is used by no page.
+
+### Original plan
 
 Current: 1440 column, 40 gutter, 24 inner → **64px ink edge**, 1392 ink, 12 cols, 24 gap,
 caps at 1520 viewport. On a 1920 monitor that leaves 264px dead each side.

@@ -204,7 +204,7 @@
   --rd-fw-emphasis: var(--fw-emphasis);
 
   --rd-shadow-nav: 0px 4px 2px rgba(224, 224, 224, 0.25);
-  --rd-shell: 1440px;
+  --rd-shell: var(--grid-max);   /* one column width, owned by grid.css */
   /* About §6 row height — Figma 40000079:7381. One value drives both the
      carousel and the Strava/Spotify column so they can never drift apart. */
   --rd-activities-h: 403px;

@@ -31,9 +31,9 @@
   so it can replace a `.container` in place without needing the two-element
   section+shell nesting.
 
-    ink left edge = max(40, (100vw - 1440) / 2) + 24
+    ink left edge = max(40, (100vw - 1600) / 2) + 24
 
-  which `max-width: 1520px` (= 1440 + 2x40) plus `padding-inline: 64px`
+  which `max-width: 1680px` (= 1600 + 2x40) plus `padding-inline: 64px`
   (= 40 + 24) produces identically:
 
     viewport   .rd-grid ink left    was (.container)
@@ -43,10 +43,12 @@
     1280       64                   70
     1366       64                   113
     1440       64                   80
-    1520       64                   120
-    1920       264                  320
+    1680       64                   —
+    1920       184                  320
 
-  Ink width is 1392px once the column is capped, 100vw-128 below that.
+  Ink width is 1552px once the column is capped, 100vw-128 below that.
+  (The column was 1440 until 2026-09-23; widening it moved nothing at or
+  below 1520px.)
 
   Rules of use
   ------------
@@ -67,8 +69,8 @@
 
 :root {
   /* The design column, including the 24px inner padding it carries. */
-  --grid-max: 1440px;
-  /* Page gutter, outside the column. Only binds below 1520px. */
+  --grid-max: 1600px;
+  /* Page gutter, outside the column. Only binds below 1680px. */
   --grid-gutter: 40px;
   /* Inner padding, inside the column. Binds at every width. */
   --grid-inner: 24px;
@@ -76,11 +78,11 @@
   --grid-edge: calc(var(--grid-gutter) + var(--grid-inner));   /* 64px */
   --grid-edge-sm: 16px;                                        /* <=768px */
   /* Outer box of .rd-grid: column + both gutters. */
-  --grid-outer: calc(var(--grid-max) + 2 * var(--grid-gutter)); /* 1520px */
+  --grid-outer: calc(var(--grid-max) + 2 * var(--grid-gutter)); /* 1680px */
 
   /* Column grid, for anything that wants real columns rather than flow. */
   --grid-columns: 12;
-  --grid-col-gap: 24px;
+  --grid-col-gap: 32px;
 }
 
 .rd-grid {
@@ -104,7 +106,7 @@
 }
 
 /* ---------------------------------------------------------------------------
-   The 1440px column, and the shared nav/footer chrome.
+   The page column (--grid-max), and the shared nav/footer chrome.
 
    These live here rather than in redesign.css because `templates/nav.html` and
    `templates/footer.html` are injected into EVERY page, but only index, about,

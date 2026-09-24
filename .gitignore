@@ -1,5 +1,16 @@
-.DS_Store
-.claude/memory/
+**/.DS_Store
+
+# notes, research, specs and retired files — on disk only, never pushed
+_private/
+
+# Claude / editor / tooling — local only
+CLAUDE.md
+.claude/
+.vscode/
+*.code-workspace
+node_modules/
+.env
+*.map
 
 # scratch / dead weight — never push
 .playwright-mcp/

@@ -1794,6 +1794,10 @@ p.rd-detail-label {
 .rd-journey-blurb {
   max-width: 426px;
 }
+/* The intro is align-items:flex-start, so the rail shrank to its longest row
+   and its hairlines stopped short of the blurb. Stretch it to the blurb's
+   426px measure. */
+.rd-journey-intro .rd-deck-index { align-self: stretch; }
 
 /* The present-status sentence lives INSIDE .rd-journey-blurb (merged 2026-08-13
    at Hao's request), so it needs no box of its own — only the emphasis on the
@@ -2708,7 +2712,8 @@ html:has(body.rd-about) {
   .rd-journey-inner { flex-direction: column; gap: 24px; }
   .rd-journey-intro { position: static; width: 100%; min-width: 0; }
   .rd-journey-intro .rd-section-heading,
-  .rd-journey-blurb { max-width: none; }
+  .rd-journey-blurb,
+  .rd-journey-intro .rd-deck-index { max-width: none; }
   .rd-journey-list { width: 100%; }
   .rd-pillar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   /* 80px between three columns needs the full 1440 column to breathe. */

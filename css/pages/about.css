@@ -109,6 +109,10 @@
 .rd-journey-blurb .rd-status {
   font-weight: var(--rd-fw-emphasis);
 }
+/* The intro is align-items:flex-start, so the rail shrank to its longest row
+   and its hairlines stopped short of the blurb. Stretch it to the blurb's
+   426px measure. */
+.rd-journey-intro .rd-deck-index { align-self: stretch; }
 
 /* `position: relative` makes the list the cards' offsetParent, which is how
    js/journey.js reads a card's *unpinned* offset — once pinned, a sticky card's
@@ -844,7 +848,8 @@
   .rd-journey-inner { flex-direction: column; gap: 24px; }
   .rd-journey-intro { position: static; width: 100%; min-width: 0; }
   .rd-journey-intro .rd-section-heading,
-  .rd-journey-blurb { max-width: none; }
+  .rd-journey-blurb,
+  .rd-journey-intro .rd-deck-index { max-width: none; }
   .rd-journey-list { width: 100%; }
   /* 80px between three columns needs the full 1440 column to breathe. */
   .rd-learn-card { gap: 40px; }

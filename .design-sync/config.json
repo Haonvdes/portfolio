@@ -1,0 +1,9 @@
+{
+  "projectId": "a3f2f18d-2613-4933-b08c-4e9a80021025",
+  "shape": "package",
+  "pkg": "stpnguyen-portfolio",
+  "globalName": "StpPortfolio",
+  "buildCmd": "node .design-sync/pkg/build-css.mjs",
+  "cssEntry": "dist/styles.css",
+  "readmeHeader": ".design-sync/conventions.md"
+}

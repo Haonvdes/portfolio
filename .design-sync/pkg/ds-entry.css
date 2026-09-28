@@ -1,0 +1,5 @@
+/* Sync entry: the stylesheets index.html loads, in the same order. */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap');
+@import url('../../css/styles/style.css');
+@import url('../../css/styles/redesign.css');
+@import url('../../css/styles/initiatives-desktop.css');

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
-    <head lang="en" data-theme="alias semantic component spacer" data-color-mode="light">
+<html lang="en" data-theme="light">
+    <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <link rel="icon" type="image/x-icon" href="./public/favicon.png">
@@ -19,7 +19,8 @@
          templates/nav.html and templates/footer.html, both of which are built
          entirely from .rd-* classes. Without redesign.css they render unstyled
          — the same reason lending-v3 and web-3-v3 load it. -->
-    <link rel="stylesheet" href="./css/styles/redesign.css">
+    <link rel="stylesheet" href="./css/core/core.css">
+    <link rel="stylesheet" href="./css/components/site.css">
     <!-- Must load LAST. -->
     <link rel="stylesheet" href="./css/styles/case-retheme-v3.css">
     <!-- Selected Project card grid — scoped to this page, not added to
@@ -39,7 +40,7 @@
         gap: 16px;
         --rd-work-pad: 24px;
         padding: var(--rd-work-pad);
-        background: var(--rd-white);
+        background: var(--rd-surface-raised);
         border: 1px solid var(--rd-border);
         border-radius: 16px;
         overflow: hidden;
@@ -147,7 +148,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     
     </head>
-<body>
+<body class="rd-work">
     <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF5XGDGK"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>

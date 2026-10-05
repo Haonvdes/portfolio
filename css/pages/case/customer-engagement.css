@@ -1,0 +1,411 @@
+/* Rules only case-studies/customer-engagement.html matches. Loaded last of the redesign sheets. */
+
+/* Three nested elements, and each one is doing a job:
+     .rd-figure-frame  — position anchor for the fade. Wraps ONLY the scroller,
+                         so the fade can be inset 0 and never reaches the
+                         caption. Trying to anchor to the <figure> instead
+                         needs a hardcoded height, which breaks the moment an
+                         image changes size.
+     .rd-figure-scroll — the actual overflow container.
+     img               — intrinsic width, no shrinking. */
+.rd-case-figure.is-strip .rd-figure-frame { position: relative; }
+.rd-case-figure.is-strip .rd-figure-scroll {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 12px;
+  background: var(--rd-surface-raised);
+}
+/* Without this the strip reads as cropped rather than scrollable — a reader
+   has no way to tell the image continues. The fade is the affordance. It sits
+   outside the scroller so it stays put while the content moves under it. */
+.rd-case-figure.is-strip .rd-figure-frame::after {
+  content: "";
+  position: absolute;
+  inset: 1px 1px 1px auto;
+  width: 72px;
+  pointer-events: none;
+  border-radius: 0 12px 12px 0;
+  background: linear-gradient(to right, transparent, var(--rd-surface-raised));
+}
+
+/* Title above the chart in the LEFT card of customer-engagement-v3.html's §05
+   findings switcher. Matches .rd-bench-panel-name so the two cards' headings
+   sit on one line; separate class because the panel name is a real <h3> and
+   this one is a <p> — the chart it labels already carries its own accessible
+   name via aria-label, so a second heading in the outline would be noise. */
+.rd-bench-chart-title { font-size: var(--rd-fs-lg); font-weight: 600; margin: 0 0 16px; color: var(--rd-ink); }
+/* lending-new-v3.html only — a rank card tying the hover panel back to the
+   market-share bar above it (review Part C, item 4): digital-origination
+   rank for every hovered lender, plus a market-share rank for HD Saison
+   specifically, since that is the only lender whose overall market position
+   (not just digital share within this five-lender benchmark) is
+   independently verified. Rebuilt 2026-08-21 to match Figma 40000256:5411 —
+   was a single pill of text, now the two-column stat card the design shows;
+   fill() in the script below hides the second block/divider for every
+   lender but HD Saison, where market-share rank is unverified. */
+/* Three independent static insight panels, one per pill (Figma
+   40000390:6101, "right panel for each pill" — Hao, 2026-08-25), replacing
+   what used to be a single rank card whose text a bar-row hover rewrote.
+   With every row already on screen there's nothing left for a hover to
+   swap, so Interview/Business's bar rows below still dim-on-hover for
+   their own sake (still useful) but no longer touch this panel's text —
+   see the findings-bench script's show()/focusOn(). All three reproduce
+   the flex column + 12px gap `.rd-case-card` itself gives its direct
+   children, needed now that there are three toggled siblings instead of
+   the card's own children getting that spacing for free. Gated the same
+   way `.rd-bench-mount`/`.rd-bench-audit` are above: hidden by default
+   (the no-JS fallback is the plain `.rd-benchmark` table plus this
+   section's own prose), shown once `.rd-bench.is-enhanced` is added;
+   show() then picks exactly one of the three. */
+.rd-bench-audit-insight,
+.rd-bench-interview-insight,
+.rd-bench-business-insight { display: none; flex-direction: column; gap: 12px; }
+.rd-bench.is-enhanced .rd-bench-audit-insight,
+.rd-bench.is-enhanced .rd-bench-interview-insight,
+.rd-bench.is-enhanced .rd-bench-business-insight { display: flex; }
+
+.rd-bench-panel-blurb + .rd-case-label.is-heading,
+.rd-bench-list + .rd-case-label.is-heading,
+.rd-accordion + .rd-case-label.is-heading {
+  margin-top: 12px;
+}
+/* ------------------------------------------------------------------
+   customer-engagement-v3.html §05 "Audit key findings" pill ONLY —
+   static bubble cluster + accordion-of-groups, standing in for the hover
+   bar-chart/rank-card pattern for just this one view (Interview and
+   Business data keep the .rd-bench-mount/rank-card pattern above — Hao's
+   call, 2026-08-25: rebuild Audit's view around the reference screenshot
+   rather than all three pills). Both blocks are hand-authored markup, not
+   script-generated — the counts (1/13/14/8) are static and already
+   sourced in the fallback table beside them, so there is nothing for a
+   script to compute. Gated the same way .rd-bench-mount is above: hidden
+   by default so a no-JS reader gets the plain .rd-benchmark table
+   instead, shown once .rd-bench.is-enhanced is added; the findings-bench
+   script then toggles which of the two chart/insight pairs is visible
+   for whichever pill is active. ------------------------------------- */
+.rd-bench-audit { display: none; }
+.rd-bench.is-enhanced .rd-bench-audit {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  flex: 1; min-height: 0;
+}
+.rd-bench-bubbles { width: 100%; height: 100%; display: block; max-width: 480px; }
+/* Each bubble is now a hover/focus target (2026-08-25) driving the
+   accordion beside it — same cursor/outline treatment .rd-bench-item
+   already uses for the interview/business bar rows above. */
+.rd-bench-bubble { cursor: pointer; outline: 0; }
+.rd-bench-bubble:focus-visible circle { outline: 2px solid var(--rd-primary); outline-offset: 3px; }
+.rd-bench-bubble circle { stroke: var(--rd-surface-raised); stroke-width: 3; }
+.rd-bench-bubble.is-critical circle { fill: var(--rd-severity-critical); }
+.rd-bench-bubble.is-notable circle { fill: var(--rd-severity-notable); }
+.rd-bench-bubble.is-attention circle { fill: var(--rd-severity-attention); }
+.rd-bench-bubble.is-minor circle { fill: var(--rd-severity-minor); }
+.rd-bench-bubble-num {
+  font-family: var(--rd-font); fill: var(--rd-on-accent);
+  /* 20px, was an off-ladder 30px. The chart SVG only starts scaling below
+     ~500px, so between there and 768px this text rendered at its literal
+     size against a 24px H2 and outsized it. */
+  font-size: var(--rd-fs-xl); font-weight: var(--rd-fw-emphasis); text-anchor: middle;
+}
+.rd-bench-bubble-label {
+  font-family: var(--rd-font); fill: var(--rd-ink-muted);
+  font-size: var(--rd-fs-xs); font-weight: var(--rd-fw-emphasis);
+  letter-spacing: .06em; text-anchor: middle;
+}
+/* Panel title ("Audit Findings" / "User Interview & Survey" / "Business
+   Data", Figma 40000390:6101) reuses .rd-bench-panel-name — it used to
+   hold the name of whichever row was currently hovered (see the
+   fill()-removal note in the script), and renders fs-md/700/uppercase
+   inside .rd-case-card regardless of its own smaller declared size, the
+   same specificity quirk documented on that class further up. Section
+   eyebrows ("FINDINGS"/"PROBLEMS"/"EXPECTATION / NEEDS"/"INSIGHT") reuse
+   .rd-case-label.is-heading (the "Larger sub-heading" component below,
+   §11) rather than .rd-bench-insight-label — that one is lending-new-v3's
+   own single fixed "INSIGHT" string; this panel needs the same look under
+   four different names, which is exactly what the reusable modifier is
+   for. */
+
+/* List-of-groups divider: adjacent-sibling border, same convention as
+   `.rd-case-wiki-row + .rd-case-wiki-row` above (lesson rows in §08) — a
+   line BETWEEN groups, none above the first or below the last, rather than
+   a border wrapped around the whole list. */
+.rd-accordion { display: flex; flex-direction: column; }
+.rd-accordion-item + .rd-accordion-item { border-top: 1px solid var(--rd-border-soft); }
+.rd-accordion-trigger {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  padding: 14px 0; background: none; border: 0; cursor: pointer;
+  font-family: var(--rd-font); text-align: left;
+}
+.rd-accordion-trigger .rd-case-num-chip { flex: 0 0 auto; width: 28px; height: 28px; font-size: var(--rd-fs-xs); }
+.rd-accordion-label {
+  flex: 1 1 auto; font-size: var(--rd-fs-md); font-weight: var(--rd-fw-body); color: var(--rd-ink);
+}
+/* Same border-corner chevron trick as .rd-work-more ("Icon-only chevron
+   toggle" above) — no icon file to ship, points down collapsed / up open. */
+.rd-accordion-chev {
+  flex: 0 0 auto; width: 20px; height: 20px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--rd-ink-muted);
+}
+.rd-accordion-chev::before {
+  content: ""; width: 7px; height: 7px;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg); transition: transform .15s ease;
+}
+.rd-accordion-trigger[aria-expanded="true"] .rd-accordion-chev::before {
+  transform: translateY(1px) rotate(-135deg);
+}
+.rd-accordion-panel { padding: 0 0 20px; }
+/* The expanded group's text sits inside a tinted rounded box (Figma), not
+   loose on the card background — same tint lending-new-v3's own rankcard
+   uses (--rd-tint, not --rd-panel-tint: that one is near-white and would
+   barely read as a box against the white card). Blurb inside reuses
+   .rd-bench-panel-blurb verbatim (lending-new-v3's own insight-copy style)
+   with its bottom margin zeroed since it's the box's only child. */
+.rd-accordion-panel-box { background: var(--rd-tint); border-radius: 8px; padding: 16px; }
+.rd-accordion-panel-box .rd-bench-panel-blurb { margin: 0; }
+.rd-accordion-item:not(.is-open) .rd-accordion-panel { display: none; }
+/* Plain static rows — PROBLEMS (chipped) and EXPECTATION/NEEDS + Business's
+   INSIGHT list (both numbered/plain, Figma 40000390:6101). Same
+   adjacent-sibling divider convention as .rd-accordion-item above, not a
+   new one. Not a button/trigger like .rd-accordion-trigger — none of these
+   rows expand, so it's a plain flex row rather than reusing that class. */
+.rd-bench-list { display: flex; flex-direction: column; }
+.rd-bench-list-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; }
+.rd-bench-list-row + .rd-bench-list-row { border-top: 1px solid var(--rd-border-soft); }
+.rd-bench-list-row .rd-case-num-chip { flex: 0 0 auto; width: 28px; height: 28px; font-size: var(--rd-fs-xs); }
+.rd-bench-list-num { flex: 0 0 auto; width: 18px; font-size: var(--rd-fs-md); color: var(--rd-ink-muted); }
+.rd-bench-list-label { flex: 1 1 auto; font-size: var(--rd-fs-md); color: var(--rd-ink); }
+.rd-bench-list-value { flex: 0 0 auto; font-size: var(--rd-fs-md); font-weight: var(--rd-fw-heading); color: var(--rd-ink); }
+
+/* User Personas "05 User Types" row — customer-engagement-v3.html only
+   (Figma 40000375:5442). A fixed label cell beside a gradient-tinted 4-up
+   value row; not close enough to .rd-case-checklist above (icon+single
+   label rows) or .rd-case-snapshot (no fixed first cell, no gradient) to
+   justify forcing either into this shape, so it's its own small component. */
+.rd-case-persona {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  border: 1px solid var(--rd-ink);
+  border-radius: 16px;
+  overflow: hidden;
+  text-align: center;
+}
+.rd-case-persona-num {
+  display: flex;
+  flex: 0 0 152px;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+  padding: 24px;
+  background: var(--rd-surface-raised);
+  border-right: 1px solid var(--rd-ink);
+}
+.rd-case-persona-cols {
+  display: flex;
+  flex: 1 1 auto;
+  background: linear-gradient(90deg, var(--rd-surface-raised) 50%, var(--rd-surface) 100%);
+}
+.rd-case-persona-cols > div {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+  padding: 24px;
+}
+/* Member sees this tool daily, FSU rarely — column width says so before the
+   reader gets to the caption underneath (Hao, 2026-08-25, revised same day
+   from an initial 5:4:2:1). flex-grow ratios on a shared flex-basis:0 row,
+   so they divide the remaining space 5:5:2:2 rather than fighting each
+   column's own content width. */
+.rd-case-persona-cols > div:nth-child(1) { flex-grow: 5; }
+.rd-case-persona-cols > div:nth-child(2) { flex-grow: 5; }
+.rd-case-persona-cols > div:nth-child(3) { flex-grow: 2; }
+.rd-case-persona-cols > div:nth-child(4) { flex-grow: 2; }
+.rd-case-persona-num strong,
+.rd-case-persona-cols strong {
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-xl); /* 20px — brought down from 3xl/32px, Hao 2026-08-25 */
+  color: var(--rd-ink);
+}
+.rd-case-persona-num span,
+.rd-case-persona-cols span {
+  font-size: var(--rd-fs-md);
+  color: var(--rd-ink);
+}
+@media (max-width: 768px) {
+  .rd-case-persona { flex-direction: column; text-align: left; }
+  .rd-case-persona-num { flex: 0 0 auto; border-right: 0; border-bottom: 1px solid var(--rd-ink); }
+  .rd-case-persona-cols { flex-direction: column; }
+}
+
+
+/* ================================================================ B5 —
+   Customer Engagement: coordination sequence diagram
+   ================================================================
+   Lives in one place only: the Collaboration & communication tab of
+   customer-engagement.html's #charter section. Appended as its own block so
+   parallel batches editing this shared file do not collide.
+
+   Every colour here is set from CSS, never from a fill=/stroke= attribute in
+   the markup: SVG presentation attributes do not resolve var(), so a
+   fill="var(--rd-ink)" renders as nothing at all. Same constraint the .rd-bench
+   charts above run under. */
+.rd-ceflow { width: 100%; }
+/* The strip frame's scroller is edge-to-edge by default; the diagram's
+   outermost strokes would sit on the frame border without this. */
+.rd-ceflow .rd-figure-scroll { padding: 24px; }
+/* Large containers take the strong --rd-border, same as .rd-case-card. */
+.rd-case-figure.is-strip.rd-ceflow .rd-figure-scroll { border-color: var(--rd-border); }
+.rd-ceflow-svg {
+  display: block;
+  width: 100%;
+  /* Fills the frame. The 1300-unit viewBox is sized to the frame's widest
+     (1390px), so type renders at about its set size there; below min-width the
+     labels would get too small to read, so the frame scrolls instead. */
+  min-width: 1100px;
+  height: auto;
+}
+/* Steps. The gate is solid ink-bordered and tinted because it is a hard stop;
+   every other step is a plain box. */
+.rd-ceflow-box { fill: var(--rd-surface-raised); stroke: var(--rd-border-soft); stroke-width: 1.5; }
+.rd-ceflow-gate { fill: var(--rd-tint); stroke: var(--rd-ink); stroke-width: 1.5; }
+.rd-ceflow-label { fill: var(--rd-ink); font-size: 16px; font-weight: var(--rd-fw-emphasis); }
+.rd-ceflow-note { fill: var(--rd-ink-muted); font-size: 14.5px; }
+.rd-ceflow-tag { fill: var(--rd-ink-muted); font-size: 12px; font-weight: var(--rd-fw-emphasis); letter-spacing: 0.08em; }
+/* Connectors */
+.rd-ceflow-arrow { stroke: var(--rd-ink); stroke-width: 2; fill: none; stroke-linejoin: round; }
+.rd-ceflow-head { fill: var(--rd-ink); }
+.rd-ceflow-dot { fill: var(--rd-ink); }
+/* 5 Cs chips on the diagram, and the link to the staircase card below
+   (js/ce-5c-link.js). Each step is a <g role="button">; its .rd-ceflow-hit
+   rect makes the gaps between a step's shapes clickable and doubles as the
+   focus ring, since outline on an SVG <g> is unreliable in WebKit. */
+.rd-ceflow-step[data-c="1"], .rd-ce5c-row[data-c="1"] { --rd-ce5c-color: var(--rd-5c-1); }
+.rd-ceflow-step[data-c="2"], .rd-ce5c-row[data-c="2"] { --rd-ce5c-color: var(--rd-5c-2); }
+.rd-ceflow-step[data-c="3"], .rd-ce5c-row[data-c="3"] { --rd-ce5c-color: var(--rd-5c-3); }
+.rd-ceflow-step[data-c="4"], .rd-ce5c-row[data-c="4"] { --rd-ce5c-color: var(--rd-5c-4); }
+.rd-ceflow-step[data-c="5"], .rd-ce5c-row[data-c="5"] { --rd-ce5c-color: var(--rd-5c-5); }
+.rd-ceflow-chip { fill: var(--rd-ce5c-color); }
+.rd-ceflow-chip-text { fill: var(--rd-on-accent); font-family: var(--rd-font-mono); font-size: 12px; font-weight: var(--rd-fw-emphasis); }
+.rd-ceflow-step { cursor: pointer; outline: none; }
+.rd-ceflow-hit { fill: transparent; stroke: transparent; stroke-width: 2; }
+.rd-ceflow-step:focus-visible .rd-ceflow-hit { stroke: var(--rd-primary); }
+.rd-ceflow-step.is-selected .rd-ceflow-box,
+.rd-ceflow-step.is-selected .rd-ceflow-gate { stroke: var(--rd-ce5c-color); stroke-width: 2.5; }
+[data-ce5c].has-selection .rd-ceflow-step:not(.is-selected),
+[data-ce5c].has-selection .rd-ceflow-conn,
+[data-ce5c].has-selection .rd-ce5c-row:not(.is-selected) { opacity: 0.35; }
+/* Heading + paragraph left, model right, starting 32px under the diagram so
+   the diagram and the model fit in one screen under the pinned header.
+   Stacked, the model moves up between the heading and the paragraph; on
+   phones it goes straight under the diagram. */
+.rd-ce5c-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  grid-template-areas: "head model" "text model";
+  grid-template-rows: auto 1fr;
+  column-gap: 40px;
+  row-gap: 16px;
+  align-items: start;
+  margin-top: 32px;
+}
+.rd-ce5c-head { grid-area: head; }
+.rd-ce5c-model { grid-area: model; min-width: 0; }
+.rd-ce5c-text { grid-area: text; }
+/* C1 is full width and each level above is --rd-ce5c-step narrower, so the
+   rows themselves draw the staircase. */
+.rd-ce5c-stair {
+  --rd-ce5c-step: 6%;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+  align-items: flex-start;
+}
+.rd-ce5c-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 6px 14px;
+  font: inherit;
+  text-align: left;
+  color: var(--rd-ink);
+  background: transparent;
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 0;
+  cursor: pointer;
+}
+.rd-ce5c-row[data-c="1"] { width: 100%; }
+.rd-ce5c-row[data-c="2"] { width: calc(100% - var(--rd-ce5c-step)); }
+.rd-ce5c-row[data-c="3"] { width: calc(100% - 2 * var(--rd-ce5c-step)); }
+.rd-ce5c-row[data-c="4"] { width: calc(100% - 3 * var(--rd-ce5c-step)); }
+.rd-ce5c-row[data-c="5"] { width: calc(100% - 4 * var(--rd-ce5c-step)); }
+.rd-ce5c-row:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: -2px; }
+/* Inset bar, not a border, so the selected row doesn't shift. */
+.rd-ce5c-row.is-selected { background: var(--rd-surface-raised); box-shadow: inset 4px 0 0 var(--rd-ce5c-color); }
+.rd-ce5c-chip {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--rd-ce5c-color);
+  color: var(--rd-on-accent);
+  font-family: var(--rd-font-mono);
+  font-size: var(--rd-fs-xs);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: 1;
+}
+/* Fixed to the longest name (COLLABORATION) so the definitions line up. */
+.rd-ce5c-name {
+  flex: none;
+  width: calc(13 * (0.62em + 0.12em));
+  font-family: var(--rd-font-mono);
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: var(--rd-lh-tight);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.rd-ce5c-def { min-width: 0; font-size: var(--rd-fs-sm); line-height: var(--rd-lh-tight); }
+.rd-ce5c-model > p.rd-ce5c-source {
+  margin: 8px 0 0;
+  font-size: var(--rd-fs-sm);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink-muted);
+}
+.rd-ce5c-source a { color: var(--rd-primary); text-decoration: underline; text-underline-offset: 2px; }
+@media (max-width: 1024px) {
+  .rd-ce5c-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "head" "model" "text";
+    grid-template-rows: auto;
+    row-gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .rd-ce5c-layout { grid-template-areas: "model" "head" "text"; }
+  .rd-ce5c-stair { --rd-ce5c-step: 4%; }
+  .rd-ce5c-row { flex-wrap: wrap; row-gap: 2px; padding: 8px 12px; }
+  .rd-ce5c-name { width: auto; }
+  .rd-ce5c-def { flex-basis: 100%; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rd-ceflow-step, .rd-ceflow-conn, .rd-ce5c-row { transition: opacity 0.2s ease; }
+}
+
+
+/* ---- customer-engagement.html page spacing (body.rd-ce) -----------------
+   A heading sits 24px above whatever follows it. The section column's gap is
+   32px, so the h2 gives 8px back; ≤768 that gap is already 24px. The #screens
+   h2 is wrapped in its own div, so the wrapper gives the 8px back there.
+   Captions sit 8px under their visual (figure gap 12 − 4). */
+.rd-ce.is-hero-glow .rd-case-hero-inner { row-gap: 24px; }
+.rd-ce .rd-case-figure > figcaption { margin-top: -4px; }

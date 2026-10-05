@@ -1,0 +1,725 @@
+/* Rules only case-studies/lending.html matches. Loaded last of the redesign sheets. */
+
+/* -------------------------------------- 2b. Sequencing pyramid (§built) ----
+   lending-new-v3.html only. Replaced the `.rd-decision` option set above on
+   2026-08-24 — that block is still live on lending-new.html and
+   lending-new-v2.html, so nothing above this comment may be deleted.
+
+   Two things here are load-bearing and easy to break:
+
+   1. THE TRIANGLE IS ONE ELEMENT, NOT THREE. `.rd-seq-pyr` carries the whole
+      silhouette in a single clip-path and the three tiers inside it are plain
+      rectangles the clip cuts through. The first attempt clipped each tier
+      separately, which needs the slope to be re-derived per band; the apex
+      band's numbers were wrong and the sides visibly kinked where the bands
+      met. With one clip there is only one pair of edges, so it cannot kink.
+      `aspect-ratio: 2 / 1.7320508` is the equilateral ratio (height =
+      base x sqrt(3)/2) — measured 60.00 degrees at the apex. Changing the
+      width changes the size, never the shape.
+
+   2. THE CARDS TAKE THEIR HEIGHT FROM THE TRIANGLE. `.rd-seq-rows` sits in the
+      same grid row as the pyramid and stretches to it; its cards are `flex: 1`
+      so they divide that height evenly and the stack ends level with the
+      triangle's base. `.rd-seq-cap` is deliberately in row 2 so the caption is
+      NOT counted in that height.
+      CONSEQUENCE FOR COPY: each card's `.rd-seq-why` must fit in about two
+      lines. A third line pushes the cards past the triangle and the alignment
+      is gone. Shorten the copy rather than adding height here.
+
+   The tier ramp is --rd-primary at three lightnesses, darkest at the base, so
+   the foundation reads as the solid one. Only tier 1 takes inverse text; the
+   two lighter tiers stay on ink and both clear AA at these values. */
+#built {
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+.rd-seq {
+  display: grid;
+  grid-template-columns: minmax(320px, 520px) 1fr;
+  column-gap: 40px;
+  align-items: stretch;
+  width: 100%;
+}
+.rd-seq-pyr-cell { grid-column: 1; grid-row: 1; }
+.rd-seq-pyr {
+  width: 100%;
+  aspect-ratio: 2 / 1.7320508;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  display: flex;
+  flex-direction: column;
+}
+.rd-seq-slice {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter 0.25s ease;
+}
+/* The divider is a border in the section's own background colour, not a gap —
+   a gap would let the page show through and read as three separate shapes. */
+.rd-seq-slice + .rd-seq-slice { border-top: 3px solid var(--rd-surface); }
+.rd-seq-slice[data-tier="3"] {
+  background: #dbe9f1;
+  color: var(--rd-ink);
+  align-items: flex-end;
+  padding-bottom: 14px;
+}
+.rd-seq-slice[data-tier="2"] { background: #7fb2cc; color: var(--rd-ink); }
+.rd-seq-slice[data-tier="1"] { background: var(--rd-primary); color: var(--rd-on-accent); }
+.rd-seq-name {
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-emphasis);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.rd-seq-cap {
+  grid-column: 1;
+  grid-row: 2;
+  margin: 20px 0 0;
+  font-size: var(--rd-fs-sm);
+  line-height: var(--rd-lh-tight);
+  color: var(--rd-ink-muted);
+  text-align: center;
+}
+.rd-seq-rows {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+.rd-seq-row {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 24px 28px;
+  background: var(--rd-surface-raised);
+  border: 1px solid var(--rd-line);
+  border-radius: 14px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.rd-seq-text { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.rd-seq-title {
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-heading);
+  line-height: var(--rd-lh-heading);
+}
+.rd-seq-why {
+  margin: 0;
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink-muted);
+}
+.rd-seq-phase {
+  margin-left: auto;
+  flex: none;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-left: 24px;
+  border-left: 1px solid var(--rd-line);
+  min-width: 96px;
+  transition: border-color 0.25s ease;
+}
+.rd-seq-phase span {
+  font-size: var(--rd-fs-xs);
+  font-weight: var(--rd-fw-emphasis);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--rd-ink-muted);
+}
+.rd-seq-phase b {
+  font-size: var(--rd-fs-3xl);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: 1;
+  color: #c9cfd2;
+  transition: color 0.25s ease;
+}
+/* `.is-on` is set by the inline pairing script at the foot of
+   lending-new-v3.html — hovering either half lights both. The triangle is one
+   element, so the two halves are not siblings and CSS alone cannot reach
+   across. Everything the section says is readable without any of this. */
+.rd-seq-row:hover,
+.rd-seq-row.is-on {
+  border-color: var(--rd-primary);
+  box-shadow: var(--rd-shadow-card);
+}
+.rd-seq-row:hover .rd-seq-phase,
+.rd-seq-row.is-on .rd-seq-phase { border-color: var(--rd-primary); }
+.rd-seq-row:hover .rd-seq-phase b,
+.rd-seq-row.is-on .rd-seq-phase b { color: var(--rd-primary); }
+.rd-seq-slice.is-on { filter: saturate(1.3) brightness(0.96); }
+/* SIDE BY SIDE IS A WIDE-SCREEN LAYOUT — 1400px, deliberately above the site's
+   1180 restack. The two columns are locked together: the triangle needs about
+   520px to be tall enough for three 2-line cards, and those cards then need
+   about 690px of their own before the copy wraps to a third line. Below
+   ~1400px of viewport one of the two has to give, and a third line is what
+   breaks the alignment this section is built on. So the whole thing stacks
+   instead: triangle on top at its own size, cards below at natural height.
+   Measured, do not lower this number without re-measuring — at 1280px the
+   card column is 592px and every card gains a line. */
+@media (max-width: 1399px) {
+  .rd-seq { grid-template-columns: 1fr; row-gap: 0; }
+  .rd-seq-pyr-cell { grid-column: 1; grid-row: 1; }
+  .rd-seq-cap { grid-column: 1; grid-row: 2; margin-bottom: 32px; }
+  /* `height: auto` + `flex: none` matter: with no pyramid in the row to set a
+     height, cards left on `flex: 1` have nothing to divide and collapse. */
+  .rd-seq-rows { grid-column: 1; grid-row: 3; height: auto; }
+  .rd-seq-row { flex: none; }
+  .rd-seq-pyr { max-width: 420px; margin-inline: auto; }
+}
+
+
+/* Title and lead live in `.rd-case-hero-text`, one flex column with a fixed
+   32px gap (Hao's ask, 2026-08-23), rather than as two direct grid items.
+   Before this wrapper they were separate auto-sized grid rows in column 1
+   while `.rd-case-cover` spanned both (`grid-row: 1 / span 2`) — grid
+   track-sizing distributes a spanning item's height requirement across every
+   auto row it spans, so the cover's ~640px inflated both text rows well past
+   their content and centred title/lead inside their own oversized tracks.
+   That inflation, not the 24px `row-gap`, was the ~580px gap Hao flagged.
+   Wrapping the text into one grid item removes the span entirely: the cover
+   now occupies a single row same as the text, so there's nothing left to
+   inflate. */
+.is-hero-glow.is-hero-split .rd-case-hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  grid-column: 1;
+  grid-row: 1;
+}
+@media (max-width: 900px) {
+  .is-hero-glow.is-hero-split .rd-case-hero-text { grid-column: 1; grid-row: auto; }
+}
+
+@media (max-width: 768px) {
+  .rd-seq-cap { margin-bottom: 48px; }
+  /* The phase marker stops being a right-hand column and becomes a small
+     eyebrow above the title — there is no room beside 14 words of copy. */
+  .rd-seq-row { flex-wrap: wrap; gap: 18px; padding: 24px; }
+  .rd-seq-phase {
+    margin: 0;
+    padding: 0;
+    border-left: 0;
+    min-width: 0;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 10px;
+    order: -1;
+    align-self: auto;
+  }
+  .rd-seq-phase b { font-size: var(--rd-fs-xl); }
+  .rd-seq-name { font-size: var(--rd-fs-sm); }
+  /* At 390px the 420px cap lets the triangle run the full content width and it
+     starts to dominate the section. 300px keeps it as an illustration. */
+  .rd-seq-pyr { max-width: 300px; }
+}
+
+
+.rd-bench-head { margin: 0 0 20px; }
+.rd-bench-title { font-size: var(--rd-fs-md); font-weight: 600; margin: 0 0 2px; color: var(--rd-ink); }
+/* case-study-framework.html only. Left-aligned — same as the base rule, so
+   no text-align override is needed (was briefly right-aligned; reverted).
+   Renamed from `.is-right` to `.is-figma` now that alignment is no longer
+   what this modifier does; it only carries the type match below.
+
+   Matched to how .rd-bench-panel-name (the "HD SAISON" heading in the
+   Insight card) actually RENDERS, not to what its own dead CSS rule says.
+   That rule's font-size/font-weight/margin all lose a specificity fight to
+   `.rd-case-card h3` and the sitewide `.rd-case h3 { margin: 0 }` reset (h3
+   is a `.rd-case-card` descendant, one more class + tag = higher specificity
+   than .rd-bench-panel-name's plain class) — same shape of bug as the
+   .rd-market-key/.rd-market-source margins fixed earlier today. The real
+   rendered "HD SAISON" is --rd-fs-md/700/uppercase/no margin, which is what
+   this copies; .rd-bench-panel-name's own rule is left as-is rather than
+   fixed, since correcting it would visibly change a heading already seen
+   and accepted across several rounds of screenshots this session. */
+.rd-bench-head.is-figma .rd-bench-title {
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-emphasis);
+  text-transform: uppercase;
+  line-height: var(--rd-lh-tight);
+  margin: 0;
+}
+
+/* lending-new-v3.html only — click-to-pin (review Part C, item 7). Hover-only
+   interaction leaves touch and keyboard users stuck on the default card;
+   clicking (or Enter/Space) now pins a lender so its card survives
+   mouseleave/blur, and the pinned mark gets a glow so the map itself shows
+   which one is locked, not just the panel beside it. */
+.rd-bench-mark.is-pinned image { filter: drop-shadow(0 0 4px var(--rd-primary)); }
+
+.rd-bench-grid line { stroke: var(--rd-line); stroke-dasharray: 2 4; }
+/* font-size lives here, not as a `font-size="10"` SVG presentation attribute
+   on the generated markup (2026-08-20 fix) — presentation attributes can't
+   reference var(), the same reason this file already keeps every fill/stroke
+   in CSS instead (see the comment on .rd-bench-map above). --rd-fs-xs (12px)
+   is the smallest step the type scale has; the map's own tick/quadrant
+   labels were previously 10–11px with no token backing either value. */
+.rd-bench-tick, .rd-bench-axis-label, .rd-bench-quad-label { fill: var(--rd-ink-muted); font-size: var(--rd-fs-xs); }
+.rd-bench-quad { fill: color-mix(in srgb, var(--rd-ink) 5%, transparent); }
+/* Full brand colour by default for all five (2026-08-20, third pass on this
+   rule — see the two superseded states in git history if needed). The
+   "gray out" now lives on `.rd-bench-item.is-dim` below, not on `:hover`/
+   `:focus` here: focusOn() in the script already adds `.is-dim` to every
+   OTHER item the instant one is hovered/focused, so the hovered item needs
+   no rule of its own — it simply never receives `.is-dim` and stays at this
+   full-colour default. That also makes the old `.is-subject` override
+   redundant (it set the same filter:none/opacity:1 this default now sets
+   unconditionally), so it's gone rather than left as a second rule doing
+   the first one's job. */
+.rd-bench-mark image {
+  filter: none; opacity: 1;
+  transition: filter .18s ease, opacity .18s ease;
+}
+.rd-bench-quad-label text { fill: var(--rd-ink-muted); letter-spacing: .07em; }
+.rd-bench-quad-label text.is-subject { fill: var(--rd-ink); font-weight: 600; }
+
+/* `#rd-bench-stage`, not the bare `.rd-bench-stage` class (2026-08-31, Hao):
+   that id is unique to lending.html's benchmark card — customer-engagement.html's
+   Findings/Charter dropdowns sit in front of differently-id'd stages, so this
+   stays scoped to the one card that asked for it. Closed, the dropdown and the
+   stage below it had no gap at all; 16px matches the space the pill row leaves
+   above it. */
+.rd-tabs-dropdown + #rd-bench-stage { margin-top: 16px; }
+
+/* The band is the finding: it covers the range the competitors actually
+   occupy (computed in drawRows, not hard-coded), so the stretch to its left
+   is visibly nobody's. Same 5% ink wash as .rd-bench-quad — one shaded
+   region means one thing across both views. */
+.rd-bench-band { fill: color-mix(in srgb, var(--rd-ink) 5%, transparent); }
+/* The fill alone stopped working once the row tracks went opaque above — it
+   survives only in the ~32px gaps between rows, which is not enough ink to
+   read as a region. These two dashed verticals mark where the band starts
+   and ends and sit ON TOP of the rows, so the zone stays legible whatever
+   crosses it. */
+.rd-bench-band-edge line { stroke: #b7c1c3; stroke-dasharray: 3 4; }
+.rd-bench-band-label { fill: var(--rd-ink-muted); font-size: var(--rd-fs-xs); letter-spacing: .07em; }
+.rd-bench-gap line { stroke: var(--rd-ink-muted); stroke-dasharray: 3 3; }
+.rd-bench-gap text { fill: var(--rd-ink); font-size: var(--rd-fs-xs); }
+/* Hovering a mark on the map swaps the INSIGHT card's heading from the
+   lender's name to its logo (fill() in the script below) — same mark
+   used on the SVG map, just bigger. Fixed box + object-fit:contain, not
+   height:22px/width:auto — the five logos have different aspect ratios once
+   trimmed to their own visible pixels (see LOGO_PANEL in the script), so an
+   auto width made every swap resize and re-position the mark. A fixed box
+   with the mark centred inside it holds the same footprint regardless of
+   which lender is hovered. */
+.rd-bench-panel-logo {
+  display: block; width: 92px; height: 22px;
+  object-fit: contain; object-position: left center;
+}
+/* lending-new-v3.html only — the rank card + INSIGHT rebuild above freed up
+   height in this panel, so the logo can run bigger than the 22px box
+   case-study-framework.html still uses. Width scales with it to keep the
+   box's aspect ratio, since object-fit:contain centers within whatever box
+   it's given. */
+.rd-bench.is-v3 .rd-bench-panel-logo { width: 132px; height: 32px; }
+/* lending-new-v3.html only (`.is-v3` on the figure). The "INSIGHT" label
+   above the blurb (.rd-bench-insight-label) carries the emphasis — the
+   blurb itself and everything below it stay body weight, just sized up to
+   --rd-fs-md (16px) so the panel reads as one consistent body size instead
+   of the 16/14/12px mix it had before. Not applied to
+   case-study-framework.html, which shares these classes but wasn't asked to
+   change. */
+.rd-bench.is-v3 .rd-bench-metric { font-size: var(--rd-fs-md); }
+.rd-bench.is-v3 .rd-bench-source { font-size: var(--rd-fs-md); }
+
+/* The old "Share online" waffle, now scoped to the selected lender.
+   Hidden until the script populates it — an empty grid of 0 dots under a
+   caption that says "one dot = two loans in a hundred" reads as a broken
+   render, so the no-JS fallback simply doesn't show it. */
+.rd-bench-strip { display: flex; gap: 1px; margin: 0 0 7px; }
+.rd-bench:not(.is-enhanced) .rd-bench-strip,
+.rd-bench:not(.is-enhanced) .rd-bench-strip-cap { display: none; }
+.rd-bench-strip span {
+  flex: 1 1 0; min-width: 2px; max-width: 8px; aspect-ratio: 1;
+  border-radius: 1px; background: color-mix(in srgb, var(--rd-ink) 16%, transparent);
+  transform: scale(.4); opacity: 0;
+  transition: transform .25s ease, opacity .25s ease;
+}
+.rd-bench-strip span.is-online { background: var(--rd-primary); }
+.rd-bench-strip.is-subject span { background: color-mix(in srgb, var(--rd-ink) 22%, transparent); }
+.rd-bench-strip span.is-in { transform: none; opacity: 1; }
+
+.rd-aud-svg { display: block; width: 100%; height: auto; }
+.rd-aud-rowlabel { font-family: var(--rd-font); font-size: 15px; font-weight: 500; fill: var(--rd-ink); }
+.rd-aud-val { font-family: var(--rd-font); font-size: 15px; font-weight: 600; fill: var(--rd-ink); }
+.rd-aud-row.is-lead .rd-aud-rowlabel { font-weight: 700; }
+.rd-aud-row.is-lead .rd-bench-rows-bar { fill: var(--rd-ink); }
+
+/* The "Who borrows" view. The only tab in this card that is not a chart, and
+   deliberately so: its four facts sit on four different measures (an age band,
+   an occupation mix, a product list, a growth rate) with no shared axis, so
+   drawing them as bars would invent a comparability that does not exist.
+   A panel that looks unlike the other three tabs is the honest signal that it
+   is answering a different kind of question.
+
+   Centred in the stage rather than top-aligned, so the card keeps the same
+   optical weight as the charts it switches with.
+
+   `safe center`, not bare `center` (2026-08-31 fix): on narrow widths the
+   four stacked facts run taller than the stage box, and a bare `center`
+   split that overflow evenly above and below — the top half painted over
+   the tab switcher sitting right above the stage. `safe` keeps the
+   centering when the content fits and falls back to start-alignment only
+   when it doesn't, so the overflow (if any) goes down into the card's own
+   scroll area instead of up into the switcher. */
+.rd-aud-facts {
+  display: flex; flex-direction: column; justify-content: safe center;
+  height: 100%; min-height: 260px; margin: 0; padding: 4px 0;
+}
+.rd-aud-facts-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px 32px; margin: 0;
+}
+@media (max-width: 700px) {
+.rd-aud-facts-grid { grid-template-columns: 1fr; gap: 18px; }
+}
+
+.rd-aud-fact dt {
+  margin: 0 0 6px; color: var(--rd-ink-muted);
+  font-size: var(--rd-fs-xs); font-weight: 600;
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.rd-aud-fact dd {
+  margin: 0; color: var(--rd-ink);
+  font-size: var(--rd-fs-lg); font-weight: 600; line-height: 1.3;
+}
+.rd-aud-fact dd .rd-aud-fact-note {
+  display: block; margin-top: 6px;
+  font-size: var(--rd-fs-sm); font-weight: 400; line-height: 1.55;
+  color: var(--rd-ink-muted);
+}
+.rd-bench-metric { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 7px 0; border-top: 1px solid color-mix(in srgb, var(--rd-ink) 10%, transparent); font-size: var(--rd-fs-sm); }
+.rd-bench-metric dt { color: var(--rd-ink-muted); margin: 0; }
+.rd-bench-metric dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--rd-ink); }
+/* lending-new-v3.html only — one delta line under each metric, expressing it
+   relative to HD Saison rather than as a bare number (review Part C, item
+   1: "1.07M visits means little on its own; 9× HD Saison means everything").
+   `display: flex; flex-direction: column` on the dd turns its single value
+   into a two-line stack without touching .rd-bench-metric's own row layout;
+   empty on the HD Saison card itself, since it can't be relative to itself
+   — :empty collapses the reserved line rather than leaving a gap. */
+.rd-bench-metric dd { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.rd-bench-metric-delta { font-size: var(--rd-fs-xs); font-weight: 500; color: var(--rd-ink-muted); }
+.rd-bench-metric-delta:empty { display: none; }
+.rd-bench-source { font-size: var(--rd-fs-xs); color: var(--rd-ink-muted); margin: 20px 0 0; padding-top: 12px; border-top: 1px solid var(--rd-line); }
+/* case-study-framework.html only — Hao's call, the chart's source note reads
+   at --rd-fs-sm (14px) instead of the base rule's --rd-fs-xs (12px). */
+.rd-bench.is-figma .rd-bench-source { font-size: var(--rd-fs-sm); }
+/* ------------------------------------------------------------------
+   .rd-market — market concentration, one static bar.
+
+   No JS on purpose. The section already has one animated component (250
+   dots revealing on scroll); a second thing that moves competes with it.
+   Same ink ramp as .rd-bench, so the reader does not learn a second colour
+   language: the darker the block, the more it matters, and solid ink is
+   always HD Saison.
+   ------------------------------------------------------------------ */
+.rd-market { margin: 8px 0 24px; max-width: 800px; }
+/* case-study-framework.html only — full width (Figma's node is `w-full`
+   inside its 1440px column, not an 800px cap) and Figma's literal 4-colour
+   palette instead of the ink-opacity ramp above. See the --rd-market-*
+   tokens near the top of this file for why this is a modifier and not a
+   change to the base rule. */
+.rd-market.is-figma {
+  max-width: none; margin: 0;
+  padding: 24px; background: var(--rd-surface-raised);
+  border: 1px solid var(--rd-border); border-radius: 16px;
+}
+.rd-market.is-figma .rd-market-seg.is-a, .rd-market.is-figma .rd-market-sw.is-a { background: var(--rd-market-a); }
+.rd-market.is-figma .rd-market-seg.is-b, .rd-market.is-figma .rd-market-sw.is-b { background: var(--rd-market-b); }
+.rd-market.is-figma .rd-market-seg.is-rest, .rd-market.is-figma .rd-market-sw.is-rest { background: var(--rd-market-rest); }
+.rd-market.is-figma .rd-market-seg.is-subject, .rd-market.is-figma .rd-market-sw.is-subject { background: var(--rd-market-subject); }
+.rd-market-head { margin: 0 0 14px; }
+.rd-market-title { font-size: var(--rd-fs-md); font-weight: 600; margin: 0 0 2px; color: var(--rd-ink); }
+.rd-market.is-figma .rd-market-title { text-transform: uppercase; }
+
+.rd-market-bar { display: flex; height: 30px; border-radius: 3px; overflow: hidden; }
+.rd-market-seg {
+  height: 100%; display: flex; align-items: center; justify-content: center;
+  font-size: var(--rd-fs-xs); font-weight: 600;
+}
+.rd-market-seg.is-a, .rd-market-sw.is-a { background: color-mix(in srgb, var(--rd-ink) 18%, transparent); }
+.rd-market-seg.is-b, .rd-market-sw.is-b { background: color-mix(in srgb, var(--rd-ink) 30%, transparent); }
+.rd-market-seg.is-rest, .rd-market-sw.is-rest { background: color-mix(in srgb, var(--rd-ink) 8%, transparent); }
+.rd-market-seg.is-subject, .rd-market-sw.is-subject { background: var(--rd-ink); }
+.rd-market-seg.is-subject { color: var(--rd-on-accent); }
+/* `.rd-market .rd-market-key`, not the bare class (2026-08-20 fix): the
+   sitewide `.rd-case ul, .rd-case p { margin: 0 }` reset (redesign.css ~478,
+   specificity 0,1,1) was silently beating this rule's own margin-top
+   (specificity 0,1,0 — one class loses to class+tag) — the gap between the
+   bar and everything below it was dead CSS from the day this component was
+   built, on this page and on lending-new-v2.html's identical chart. Scoping
+   under `.rd-market` adds a second class (0,2,0) and wins outright. Same fix
+   applied to .rd-market-source below. */
+.rd-market .rd-market-key {
+  display: flex; flex-wrap: wrap; gap: 7px 24px;
+  list-style: none; margin: 12px 0 0; padding: 0;
+  font-size: 16px; color: var(--rd-ink-muted);
+}
+.rd-market-key li { display: flex; align-items: center; gap: 8px; }
+.rd-market-key li.is-subject { color: var(--rd-ink); }
+.rd-market-sw { width: 10px; height: 10px; border-radius: 2px; flex: 0 0 auto; }
+/* KPI row above the bar. `.rd-market` markup exists on lending.html only, but
+   this is a shared sheet every page loads, so each selector is scoped under
+   .rd-market and no rule above is touched. The vertical hairlines are
+   border-left on each cell (first cell opts out), which is why the cells, not
+   a wrapper, own the horizontal padding. The figure reads at the same size as
+   .rd-bench-rank-num (~line 5669) — Hao's call, so the two exhibits in this
+   section state a number the same way. */
+.rd-market .rd-market-kpis { display: flex; margin: 0 0 20px; }
+.rd-market .rd-market-kpi {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 0 20px; border-left: 1px solid var(--rd-line);
+}
+.rd-market .rd-market-kpi:first-child { border-left: 0; padding-left: 0; }
+.rd-market-kpi-label {
+  font-size: var(--rd-fs-xs); font-weight: var(--rd-fw-emphasis);
+  text-transform: uppercase; letter-spacing: .06em; color: var(--rd-ink-muted);
+}
+.rd-market-kpi-value {
+  font-size: var(--rd-fs-xl); font-weight: var(--rd-fw-emphasis);
+  color: var(--rd-ink); line-height: 1; font-variant-numeric: tabular-nums;
+}
+.rd-market-kpi-note {
+  font-size: var(--rd-fs-sm); color: var(--rd-ink-muted);
+  line-height: var(--rd-lh-tight);
+}
+/* Three cells side by side stop fitting their notes below ~860px: wrap to
+   2 + 1, and let cell 3 drop its divider since it now starts a row. */
+@media (max-width: 860px) {
+  .rd-market .rd-market-kpis { flex-wrap: wrap; row-gap: 20px; }
+  .rd-market .rd-market-kpi { flex: 1 1 45%; }
+  .rd-market .rd-market-kpi:nth-child(3) { border-left: 0; padding-left: 0; }
+}
+
+/* At narrow widths the 11% block is ~38px — not enough for its own label,
+   and a truncated "11%" reads as a rendering fault. The key carries it. */
+@media (max-width: 560px) {
+  .rd-market-seg.is-subject { color: transparent; }
+  .rd-market-key { gap: 7px 16px; }
+  /* One column: a vertical hairline between stacked cells reads as a margin
+     error, so the divider turns horizontal and sits above each cell. */
+  .rd-market .rd-market-kpis { display: block; }
+  .rd-market .rd-market-kpi {
+    padding: 14px 0 0; border-left: 0; border-top: 1px solid var(--rd-line);
+  }
+  .rd-market .rd-market-kpi:first-child { padding-top: 0; border-top: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-bench-strip span { transition: none; transform: none; opacity: 1; }
+}
+
+/* 638 + the 40px inset top and bottom + the panel's two 1px borders = 720,
+   the same cap the image panel has (`:not(.is-embed)` above). lending.html's picker swaps this iframe and
+   an <img> inside ONE figure, and picker rows select on hover, so if the two
+   states differ in height the card jumps as the pointer moves down the list.
+   Height drives width off the 343/811 aspect-ratio (~271px). Desktop only:
+   stacked, there is no hover and no image beside it to match. */
+@media (min-width: 1025px) {
+  .rd-case-split.is-media > .rd-case-figure.is-embed iframe {
+    width: auto;
+    height: 638px;
+  }
+}
+
+.rd-case-figure.is-embed iframe {
+  display: block;
+  width: 100%;
+  max-width: 343px;
+  height: auto;
+  aspect-ratio: 343 / 811;
+  border: 0;
+  /* Crops the 2px edge Marvel's own embedded frame renders around itself —
+     carried over from the inline clip-path in the embed snippet Marvel
+     provides (and that lending.html's original iframe already used). */
+  -webkit-clip-path: inset(2px 2px);
+  clip-path: inset(2px 2px);
+}
+/* lending-new-v3.html's picker script (bottom of that file) toggles
+   [hidden] on #homepage-picker-image / #homepage-picker-embed instead of
+   swapping them in and out of the DOM. `.rd-case-figure img { display:
+   block }` ("6. Figures" above) has one more selector component than the
+   UA `[hidden] { display: none }` rule and so outranks it — without this,
+   the image stayed visibly on screen (just non-interactive) even with the
+   attribute set. Scoped to the two IDs rather than a page-wide `[hidden]`
+   rule so it can't change hidden-element behaviour anywhere else. */
+#homepage-picker-image[hidden],
+#homepage-picker-embed[hidden] {
+  display: none;
+}
+/* Reload button for the Marvel embed (Hao, 2026-08-23) — clicking through
+   the prototype leaves it mid-flow, with no way back to the start short of
+   re-selecting the "01. E-signature" row (which is a no-op once it's
+   already active, since the picker script only swaps src on a genuine row
+   change). This gives a direct way to restart it instead. Only makes sense
+   while the embed is showing, so it's gated by the same `.is-embed` class
+   the iframe itself is gated by — no JS-driven show/hide needed. */
+.rd-case-figure-reset {
+  display: none;
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  z-index: 1;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 999px;
+  background: var(--rd-surface-raised);
+  color: var(--rd-ink);
+  cursor: pointer;
+  box-shadow: var(--rd-shadow-card);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.rd-case-figure.is-embed .rd-case-figure-reset { display: flex; }
+.rd-case-figure-reset:hover { background: var(--rd-surface); color: var(--rd-primary); }
+
+/* ------------------------------------------ 15. Scroll-over band ---------
+   lending-new-v3.html §homepage — the full-bleed screens band pins below the
+   section rail with the "Three screens carried the reframe" heading and lead
+   HELD STILL ON IT, and the tabs and panels ride up over the pair. Hao asked
+   for the pin 2026-08-20 ("the below section will scroll over it") and for the
+   copy to travel with the image on 2026-08-21.
+
+   WHERE THE MARKUP LIVES, AND WHY IT MOVED. The band used to close §built and
+   the copy stayed behind in §homepage; making them pin together meant putting
+   them in one box, and the box had to be §homepage — the <h2> is the section's
+   own heading and the TOC's "05 The screens" anchors to it, so the image came
+   to the heading rather than the other way round. An intermediate version left
+   the markup alone and just veiled §homepage's background instead; it washed
+   the screens out to noise and was reverted the same day.
+
+   FOUR THINGS MAKE THIS WORK, AND EACH ONE FAILS SILENTLY IF DROPPED.
+
+   1. THE WRAPPER GIVES THE STAGE SOMEWHERE TO STICK. A sticky element can only
+      travel inside its containing block, and the figure was originally the last
+      child of .rd-case-inner — containing block ends where the figure ends, so
+      travel is 0px and `position: sticky` on it does nothing at all.
+      `.rd-scrollover` is taller than `.rd-scrollover-stage` by
+      --rd-scrollover-overlap, and that difference is how long the pin holds.
+      The STAGE is the sticky element, not the figure: image and copy have to
+      hold still as one thing.
+
+   2. THE NEGATIVE MARGIN IS THE EFFECT ITSELF, and the wrapper alone is not
+      enough — this was measured wrong on the first attempt, so it is written
+      down. The wrapper's spare height sits BELOW the stage, so without more,
+      the tabs block simply starts after all of it: the band pins for 300px,
+      then unsticks, then the next block arrives on empty screen. Verified in
+      Chromium at five viewports — the band pinned correctly and nothing ever
+      overlapped it. Pulling `.is-viewport-fit` up by exactly the overlap lands
+      its top edge where the stage's STATIC box ends, so from the first pinned
+      frame onward the tabs are climbing over a stage that is holding still.
+      The wrapper height and the margin must therefore always be the same
+      number, which is why both read the one custom property.
+
+   3. `top: 64px`, NOT 0 — inherited from when `.rd-case-toc` was a top-sticky
+      section rail this band had to clear. That rail is a corner popover now
+      (§3 near the top of this file) and no longer occupies the top of the
+      viewport, so this offset is legacy headroom, not a live collision to
+      avoid. Left alone rather than retuned: this band's pin math is measured
+      pixel-by-pixel (note 2 above) and not worth re-verifying for 64px of
+      now-unnecessary but harmless clearance.
+
+   4. `.is-viewport-fit` NEEDS `position: relative` AND ITS OWN BACKGROUND. A
+      static element cannot take a z-index, and without one it paints BEFORE
+      the sticky stage and the band covers the tabs instead of the other way
+      round. `scroll-margin-top` on §homepage is the companion fix, also now
+      legacy for the same reason as note 3 — harmless, not retuned.
+
+   TO TUNE THE REVEAL, change --rd-scrollover-overlap and nothing else. Higher
+   = the band holds still longer and the section covers more of it.
+
+   IT IS SET TO THE STAGE'S OWN HEIGHT ON PURPOSE (Hao, 2026-08-20: "I want the
+   parallax scroll over the full image, now it's just a small area"). At that
+   value the tabs block's top edge travels the whole way from the bottom of the
+   viewport to the rail, so it wipes the entire band rather than clipping its
+   lower third — an earlier 34vh only covered ~306px of an 836px image. The two are still both on screen for the whole traverse; that IS the
+   traverse. The cost is that the pin now holds for one full viewport height of
+   scrolling, which is the honest price of wiping a full-height image and the
+   reason this is gated to real screens. Going HIGHER than the band height adds
+   dead scroll after the wipe completes with nothing left to reveal.
+
+   GATED, because this is decoration: below 769px a pinned full-bleed band
+   fills a phone screen and the reveal reads as a stuck image, and anyone on
+   `prefers-reduced-motion` gets the plain stacked version. Outside the query
+   .rd-scrollover is an ordinary wrapper with no height and no sticky child, so
+   the band renders as a plain full-bleed figure in normal flow and the section
+   below follows underneath.
+
+   NOTHING PINS WITH THE BAND. A `.rd-scrollover-copy` block briefly held the
+   §homepage heading and lead at the rail while the band passed; Hao moved them
+   back into .rd-case-inner on 2026-08-21, so the heading now climbs over the
+   band as part of the same block as the tabs it introduces. The band is the
+   only sticky thing here. */
+.rd-scrollover-spacer { height: 0; }
+@media (min-width: 769px) and (prefers-reduced-motion: no-preference) {
+  .rd-scrollover { position: relative; z-index: 0; }
+  /* 1. THE BAND SCROLLS AT NATURAL HEIGHT, THEN HOLDS. No height cap and no
+        object-fit here on purpose — an earlier version filled the viewport
+        and `cover`ed, which cropped the phone screens (Hao asked for the full
+        image, 2026-08-21). At its own aspect the band is ~870px on a 1440px
+        viewport, so it scrolls past in full and only then pins.
+        THE OFFSET IS COMPUTED, NOT ZERO, and `bottom: 0` is the trap here —
+        it was tried first and is wrong. Sticky clamps in BOTH directions: with
+        `bottom: 0` a band whose natural position is below the fold gets pulled
+        UP to the screen bottom immediately, so it arrives already stuck and
+        never scrolls past at all (measured: held for 150px at the start, then
+        loose for the rest — exactly backwards). `top: 100vh - band height`
+        pins it at the one position where its bottom sits on the bottom edge of
+        the screen, which it can only reach by scrolling there first. */
+  .rd-scrollover .rd-case-figure.is-full {
+    position: sticky;
+    top: calc(100vh - var(--rd-band-h));
+    z-index: 0;
+    margin-block: 0;
+  }
+  .rd-scrollover .rd-case-figure.is-full img { aspect-ratio: 1920 / 1158; }
+  /* 2. The band's holding time, as an empty box. A sticky element only
+        travels inside its containing block; without this the wrapper would
+        end at the image and the pin would have zero distance to run. */
+  .rd-scrollover-spacer { height: var(--rd-scrollover-overlap); }
+  #homepage { scroll-margin-top: 64px; }
+}
+
+
+.js-reveal .reveal.is-split span {
+  display: inline-block;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+  opacity: 0.0001;
+  filter: blur(4px);
+  transform: translateY(10px);
+  will-change: opacity, filter, transform;
+}
+.js-reveal .reveal.is-in span {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+  transition: opacity 700ms cubic-bezier(.22, 1, .36, 1),
+              filter 700ms cubic-bezier(.22, 1, .36, 1),
+              transform 700ms cubic-bezier(.22, 1, .36, 1);
+  transition-delay: calc(400ms + var(--i) * 70ms);
+}
+.js-reveal .reveal.is-done span { will-change: auto; }
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal .reveal.is-split span {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+}

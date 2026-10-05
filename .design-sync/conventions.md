@@ -17,9 +17,9 @@ Bootstrap grid classes (`.container`, `.row`, `.col-*`) are present. Set text in
 
 | Role | Tokens |
 |---|---|
-| Text | `--rd-ink` (all headings + body), `--rd-ink-muted` (captions), `--rd-ink-inverse` |
+| Text | `--rd-ink` (all headings + body), `--rd-ink-muted` (captions), `--rd-on-accent` (text/icons on a primary or dark fill) |
 | Brand | `--rd-primary` (buttons, links), `--rd-primary-hover` |
-| Surfaces | `--rd-white`, `--rd-surface` (tinted section bg), `--rd-tint`, `--rd-panel-tint` |
+| Surfaces | `--rd-surface-raised` (cards, panels), `--rd-surface` (tinted section bg), `--rd-tint`, `--rd-panel-tint` |
 | Lines | `--rd-line` (hairlines), `--rd-border`, `--rd-border-soft`, `--rd-border-muted` |
 | Font family | `--rd-font`, `--rd-font-mono` |
 | Size | `--rd-fs-xs` 12 · `-sm` 14 · `-md` 16 (body) · `-lg` 18 · `-xl` 20 · `-2xl` 24 · `-3xl` 32 · `-4xl` 48 |

@@ -2,7 +2,6 @@
 @import url(./text-styles.css);
 @import url(./tokens.css);
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
-@import url(./chatbox.css);
 @import url(./bootstrap-grid.css);
 /* Must come AFTER bootstrap-grid.css: grid.css neutralises a `.container`
    nested inside a `.rd-grid`, and that rule has to win on order. */

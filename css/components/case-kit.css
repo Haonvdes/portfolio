@@ -1,0 +1,388 @@
+/* Case-framework components no live page uses yet: evidence chips, decision
+   block, next-case pager, galleries, tables. Linked from
+   templates/case-study-v3.template.html so a new case study can use them;
+   link it from a page once that page does. */
+
+.rd-case-eyebrow {
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rd-primary);
+}
+
+/* Overview — framework §2. Three rows, stands alone. */
+.rd-case-summary {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--rd-surface-raised);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.rd-case-summary > div {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  padding: 24px;
+  border-bottom: 1px solid var(--rd-border-soft);
+}
+.rd-case-summary > div:last-child { border-bottom: 0; }
+.rd-case-summary .rd-case-meta-k { flex: 0 0 160px; padding-top: 2px; }
+.rd-case-summary p { flex: 1 1 auto; margin: 0; font-size: var(--rd-fs-md); line-height: 1.5; color: var(--rd-ink); }
+
+/* customer-engagement-v3.html's Charter section originally had its own
+   standalone pill here (Figma 40000375:5320 etc., "DESIGN PRINCIPLE" /
+   "PROCESS & ALLOCATION" / etc). Removed 2026-08-25 (Hao): once those pills
+   became a tab strip, the shape they needed already existed as `.rd-tab`
+   (see the reskin note there) — reused instead of keeping two near-identical
+   pill components in the codebase. */
+/* Unfilled slot the author still owes. Loud on purpose — it must not ship
+   unnoticed. Delete the element, not the style, once the number lands. */
+.rd-todo {
+  display: block;
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px dashed var(--rd-primary);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--rd-primary) 5%, transparent);
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-sm);
+  line-height: 1.5;
+  color: var(--rd-primary);
+}
+.rd-case-back { display: inline-flex; }
+/* ==========================================================================
+   CASE STUDY COMPONENTS — added 2026-08-15
+   Four components approved in Case-Study-Build-Plan.md, plus the figure
+   variants added after the word/image audit found healthcare.html carrying
+   1,481 words against a single image.
+
+   Everything here is additive and namespaced `.rd-`. Nothing in this block is
+   loaded by the three legacy case studies (lending / web-3 / marketing-
+   platform) unless their markup opts in, so it cannot regress them.
+   ========================================================================== */
+
+/* ------------------------------------------------- 1. Evidence chips ----
+   Framework Part 4 requires every number to carry one of four labels. The
+   labels used to sit in parentheses mid-sentence, where they read as an
+   apology and were easy to skim past. As chips they become the page's visual
+   signature: a reader can tell at a glance what is measured and what is
+   still intent, which is the honest signal and the rare one.
+
+   Weight is deliberate and ordered — solid ink for a measured fact down to a
+   dashed outline for a target. The visual hierarchy IS the credibility
+   hierarchy, so do not restyle these to look equally confident. */
+.rd-evidence {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  margin-left: 8px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-xs);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.rd-evidence::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: 0 0 auto;
+}
+/* Strongest: someone measured it. */
+.rd-evidence.is-measured {
+  background: var(--rd-ink);
+  border-color: var(--rd-ink);
+  color: var(--rd-on-accent);
+}
+/* A real number, but the client's, not yours. */
+.rd-evidence.is-client {
+  background: var(--rd-surface-raised);
+  border-color: var(--rd-primary);
+  color: var(--rd-primary);
+}
+/* Counted off an artifact you can produce on request. */
+.rd-evidence.is-counted {
+  background: var(--rd-surface);
+  border-color: var(--rd-border-muted);
+  color: var(--rd-ink);
+}
+/* Your arithmetic on someone else's numbers. */
+.rd-evidence.is-estimated {
+  background: var(--rd-surface-raised);
+  border-color: var(--rd-border-muted);
+  color: var(--rd-ink);
+}
+/* Weakest, and it must look weakest: intent, never verified. */
+.rd-evidence.is-target {
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--rd-border-muted);
+  color: var(--rd-ink);
+  opacity: 0.85;
+}
+/* ------------------------------------------------- 2. Decision block ----
+   §4 is the section that makes this a PM case study rather than a design
+   one, and it used to render identically to the seven around it. Four
+   labelled rows so the shape of the decision is legible before a word is
+   read: what was on the table, how it was judged, what won, what died. */
+.rd-decision {
+  width: 100%;
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  background: var(--rd-surface-raised);
+  overflow: hidden;
+}
+.rd-decision-row {
+  display: grid;
+  grid-template-columns: 148px 1fr;
+  gap: 24px;
+  padding: 20px 24px;
+  border-top: 1px solid var(--rd-border-soft);
+}
+.rd-decision-row:first-child { border-top: 0; }
+.rd-decision-k {
+  margin: 0;
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+  opacity: 0.6;
+}
+.rd-decision-v { margin: 0; font-size: var(--rd-fs-md); line-height: var(--rd-lh-prose); }
+.rd-decision-v > p { margin: 0 0 10px; }
+.rd-decision-v > p:last-child { margin-bottom: 0; }
+.rd-option-set { display: flex; flex-direction: column; gap: 12px; }
+.rd-option {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+.rd-option-id {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--rd-border-muted);
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-xs);
+  line-height: 1;
+}
+.rd-option p { margin: 0; }
+.rd-option.is-chosen .rd-option-id {
+  background: var(--rd-primary);
+  border-color: var(--rd-primary);
+  color: var(--rd-on-accent);
+}
+/* The framework says what you killed matters more than what you built, so it
+   has to be *visible* as killed, not merely described as killed. The strike
+   is on the text only; the reasoning stays fully legible underneath. */
+.rd-option.is-killed .rd-option-id {
+  border-style: dashed;
+  opacity: 0.5;
+}
+.rd-option.is-killed .rd-option-label { text-decoration: line-through; }
+.rd-option.is-killed p { opacity: 0.72; }
+.rd-option-label { font-weight: var(--rd-fw-emphasis); }
+
+/* ---------------------------------------------- 4. Next-case navigation ---
+   Correction to the plan: the pages already HAVE a top nav, injected by
+   js/script.js into #nav-placeholder. The earlier audit grepped for a literal
+   `<nav` tag and missed it. So what was actually missing is only the forward
+   path — without it a reader finishes a case study at a dead end, and the
+   second case study is where a *different* claim gets proved. */
+.rd-case-pager {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: stretch;
+  justify-content: space-between;
+  width: 100%;
+}
+.rd-case-next {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 320px;
+  padding: 20px 24px;
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  background: var(--rd-surface-raised);
+  text-decoration: none;
+  color: var(--rd-ink);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.rd-case-next:hover { border-color: var(--rd-primary); transform: translateY(-2px); }
+.rd-case-next .rd-case-meta-k { opacity: 0.6; }
+.rd-case-next strong { font-weight: var(--rd-fw-emphasis); font-size: var(--rd-fs-lg); }
+.rd-case-next span.claim { font-size: var(--rd-fs-sm); opacity: 0.75; }
+
+/* Chips sit on a blue fill here, so the light variants vanish. */
+.rd-case-highlight .rd-evidence {
+  border-color: color-mix(in srgb, var(--rd-on-accent) 50%, transparent);
+  color: var(--rd-on-accent);
+  background: transparent;
+}
+
+/* "Three numbers carried the case", Figma 40000391:6102 ("Journey" — the
+   node's Figma name and body copy were carried over unedited from the
+   lending file's post-release stat block; only the layout was reused here,
+   the three figures and paragraph are this case's own §08 numbers, Hao's
+   call 2026-08-25). Figma's number is 52px/black with a literal border; the
+   closed type ladder tops out at 48px (--rd-fs-4xl) and this page's one-ink
+   rule already covers Figma's near-black, so both map to existing tokens
+   rather than adding an off-ladder rung. */
+.rd-case-cols .rd-case-stat-num {
+  margin: 0;
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-4xl);
+  line-height: 1.1;
+  color: var(--rd-ink);
+}
+.rd-case-cols .rd-case-stat-label {
+  margin: 0;
+  font-weight: var(--rd-fw-body);
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+@media (max-width: 768px) {
+  .rd-decision-row { grid-template-columns: 1fr; gap: 8px; padding: 16px; }
+
+  .rd-case-summary > div { flex-direction: column; gap: 8px; }
+  .rd-case-summary .rd-case-meta-k { flex: 0 0 auto; }
+}
+
+
+/* ------------------------------------------------- Case-study galleries - */
+/*
+   Added 2026-08-06 for the *-v2 case studies. Purely additive: no existing
+   rule is changed, and healthcare.html / index.html / about.html don't use
+   these classes, so they render exactly as before.
+
+   Why this exists: the v1 case studies carried 11–67 images each and the
+   first v2 drafts carried 1–2. For a product-design portfolio the screens
+   ARE the evidence, so .rd-case-figure (one full-bleed image) needed a
+   multi-image sibling. Same tokens, same 16px radius, same border.
+*/
+.rd-case-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+  margin: 0;
+}
+.rd-case-gallery.is-two { grid-template-columns: repeat(2, 1fr); }
+.rd-case-gallery.is-four { grid-template-columns: repeat(4, 1fr); }
+.rd-case-gallery figure {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  /* min-width:0 stops a wide image forcing the track past its 1fr share —
+     the same overflow trap that blanked the initiatives cover image. */
+  min-width: 0;
+}
+.rd-case-gallery img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--rd-surface-raised);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+}
+/* Phone screenshots are tall; cap them so one portrait shot can't set the
+   row height for a whole gallery of landscape ones. */
+.rd-case-gallery.is-screens img {
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  object-position: top;
+}
+.rd-case-gallery figcaption {
+  font-weight: var(--rd-fw-body);
+  font-size: var(--rd-fs-sm);
+  line-height: 1.5;
+  color: var(--rd-ink);
+  opacity: 0.75;
+}
+/* Tabular data — competitor benchmarks and the like. A table beats six cards
+   when every row carries the same fields. */
+.rd-case-table-wrap { width: 100%; overflow-x: auto; }
+.rd-case-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--rd-surface-raised);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  overflow: hidden;
+  font-family: var(--rd-font);
+}
+.rd-case-table th,
+.rd-case-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--rd-border-soft);
+  font-size: var(--rd-fs-sm);
+  line-height: 1.45;
+  color: var(--rd-ink);
+  white-space: nowrap;
+}
+.rd-case-table th {
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.rd-case-table tbody tr:last-child td { border-bottom: 0; }
+/* The row the whole case study turns on. */
+.rd-case-table tr.is-subject td {
+  font-weight: var(--rd-fw-emphasis);
+  background: var(--rd-surface);
+}
+@media (max-width: 1024px) {
+  .rd-case-gallery,
+  .rd-case-gallery.is-four { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 767px) {
+  .rd-case-gallery,
+  .rd-case-gallery.is-two,
+  .rd-case-gallery.is-four { grid-template-columns: 1fr; gap: 16px; }
+  .rd-case-gallery.is-screens img { aspect-ratio: auto; }
+  .rd-case-table th,
+  .rd-case-table td { padding: 12px; font-size: var(--rd-fs-sm); }
+}
+
+
+/* ==========================================================================
+   CASE STUDY COMPONENTS — added 2026-08-20
+   Promoted from lending-new.html's inline preview <style> block once the
+   competitive-benchmark chart and market-share bar were approved, plus new
+   components for the Figma-driven generic template pass (checklist, card
+   stack, chart-column split, tag strip). See lending-new.html's own header
+   comment for what changed structurally; this block only carries styling.
+   ========================================================================== */
+
+/* The framework has five evidence tags; the four in "1. Evidence chips"
+   above don't cover "published" (a fact reported by someone else, not
+   measured, counted or estimated by the author, and not merely a target). */
+.rd-evidence.is-published {
+  background: var(--rd-surface-raised);
+  border-color: var(--rd-line);
+  color: var(--rd-ink-muted);
+}

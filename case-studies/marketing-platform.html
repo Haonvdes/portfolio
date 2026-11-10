@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,7 +23,8 @@
          closing CTA + footer into #footer-placeholder. Without redesign.css that
          chrome renders unstyled. Every selector in it is scoped to .rd-* or the
          two placeholder ids, so the 2021 page body is untouched. -->
-    <link rel="stylesheet" href="../css/styles/redesign.css">
+    <link rel="stylesheet" href="../css/core/core.css">
+    <link rel="stylesheet" href="../css/components/case-shell.css">
     <!-- v3 retheme: colour + typography only. Must load LAST. -->
     <link rel="stylesheet" href="../css/styles/case-retheme-v3.css">
     <link rel="stylesheet" href="../css/styles/back-to-top.css">
@@ -32,7 +33,7 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
   </head>
-  <body>
+  <body class="rd-mp">
   
     <!-- Back to top. Inline SVG arrow: the page's icon font is the Font Awesome
          *Pro* CDN, whose webfont needs a licence, so the glyph never resolved

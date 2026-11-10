@@ -1,0 +1,179 @@
+/* Shared by index, about and work only: the full-viewport hero shell and the
+   heading/lead pieces those three pages have in common. */
+
+/* Lead paragraph under a heading. .rd-journey-blurb used to live here at
+   --rd-fs-xl; it now sits in the body-copy group above so the About journey
+   heading + intro pair matches the homepage's section heading + intro. */
+.rd-hero-lead {
+  font-size: var(--rd-fs-xl);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+
+.rd-hero-section,
+.rd-impact-section,
+.rd-initiatives-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.rd-hero-inner {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 118px;        /* never tighter than the Figma nav->hero gap */
+}
+.rd-hero-row {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 24px;
+}
+.rd-hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  width: 952px;
+  flex-shrink: 0;
+}
+.rd-hero-headline-group {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: flex-start;
+  width: 100%;
+}
+.rd-hero-headline {
+  max-width: 935px;
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-4xl);
+  line-height: normal;
+  color: var(--rd-ink);
+}
+.rd-hero-lead {
+  width: 100%;
+}
+.rd-hero-section .rd-hero-headline {
+  max-width: 1200px;
+}
+.rd-hero-section .rd-hero-lead {
+  max-width: 952px;
+}
+
+.rd-section-heading {
+  width: 100%;
+}
+/* ---------------------------------------------------------- Responsive - */
+
+/* Below the 1440px design width everything reflows; above it the values
+   above reproduce the Figma frame exactly. */
+@media (max-width: 1439px) {
+  /* `flex-shrink: 1` is the fix. The base rule pins the text column at 952px
+     and forbids shrinking, so anywhere between 769px and 1439px the 390px
+     portrait beside it had nowhere to go and hung off the right edge —
+     1406px of content in a 1280px viewport, and the same in a 1024px one.
+     `max-width` alone did not help: the column was never over its max, the row
+     was simply too narrow for both children. */
+  .rd-hero-content { width: auto; max-width: 952px; flex-shrink: 1; min-width: 0; }
+}
+
+@media (max-width: 1180px) {
+  .rd-hero-headline { font-size: var(--rd-fs-3xl); }
+}
+
+@media (max-width: 768px) {
+  /* The nav sits INSIDE the hero, which is already padded 16px — so the bar was
+     inset twice (326px of a 390px screen) while the footer, which sits outside
+     the hero, was inset once. Pulling the placeholder back out by the hero's own
+     padding makes .rd-nav-outer the single source of the gutter, so the nav and
+     footer bars finally line up. Case-study pages are unaffected: their nav is
+     not inside a padded section, so there is no negative margin to apply.
+
+     The `width: calc()` is required, not decorative: the shared placeholder rule
+     sets `width: 100%`, so a bare negative margin would slide the bar sideways
+     without ever making it wider. */
+  .rd-hero-section > #nav-placeholder,
+  .rd-about-hero > #nav-placeholder {
+    margin-inline: -16px;
+    width: calc(100% + 32px);
+  }
+
+  .rd-hero-inner { gap: 48px; }
+  .rd-hero-row { flex-direction: column; align-items: flex-start; gap: 40px; padding: 16px 0; }
+  .rd-hero-content { width: 100%; }
+  .rd-hero-headline { font-size: var(--rd-fs-3xl); }
+  .rd-hero-lead { font-size: var(--rd-fs-md); }
+
+  .rd-section-heading { font-size: var(--rd-fs-2xl); }
+}
+
+@media (max-width: 430px) {
+  .rd-hero-inner { gap: 32px; }
+  .rd-hero-row { gap: 32px; }
+}
+
+/* ---- "There is more below" cue on the home and about heroes ---------------
+   Sits at the bottom-left of the hero's .rd-shell column, so it follows the
+   grid edge the headline uses at every width — a fixed `left` from the header
+   drifted off it once the 1440px column started centring above 1520px. The
+   shell's bottom is the header's bottom, and it scrolls away with the hero on
+   its own, so nothing here needs a scroll listener.
+
+   `position: relative` is gated to >=769px on purpose: the cue is hidden on
+   phones (both heroes are taller than a phone viewport, so a marker pinned to
+   the hero's bottom edge would sit below the fold and say nothing). */
+@media (min-width: 769px) {
+  .rd-hero-inner { position: relative; }
+  .rd-scroll-cue {
+    position: absolute;
+    left: var(--grid-inner);
+    bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 24px;
+    height: 24px;
+    color: var(--rd-ink);
+    pointer-events: none;
+  }
+  /* Two borders on a square rotated 45deg — a chevron with no asset and no
+     inline SVG. The rotation has to be repeated in every keyframe: `transform`
+     is one property, so a keyframe that sets only the translate would drop the
+     rotation and the arrow would flip back to a corner mid-animation.
+     Rotated, the 12px square is ~17px wide, overhanging its own box by 2.5px
+     each side; the margin-left pulls the visible stroke back onto the text
+     edge. */
+  .rd-scroll-cue::after {
+    content: "";
+    display: block;
+    width: 12px;
+    height: 12px;
+    margin-left: 2.5px;
+    margin-top: -4px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-5px) rotate(45deg);
+    animation: rd-scroll-cue-drop 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+
+/* Explicit rather than relying on the empty div measuring 0x0 on its own — a
+   later rule that gives .rd-scroll-cue a size would otherwise put a stray box
+   at the bottom of the mobile hero with nothing in it. */
+@media (max-width: 768px) {
+  .rd-scroll-cue { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-scroll-cue::after {
+    animation: none;
+    transform: rotate(45deg);
+    opacity: 1;
+  }
+}

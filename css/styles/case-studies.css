@@ -304,7 +304,7 @@
 */
 .showcase .button-group {
   --pill-ink: #0a2a30;         /* --rd-ink */
-  --pill-ink-inverse: #ffffff; /* --rd-ink-inverse */
+  --pill-ink-inverse: #ffffff; /* --rd-on-accent */
   --pill-primary: #01679c;     /* --rd-primary */
   --pill-border: #999999;      /* --rd-border-muted */
 

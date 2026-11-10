@@ -1,0 +1,201 @@
+/* Case-study rules that marketing-platform.html (the 2021 stack) also
+   matches: related cards and a few shell pieces. Every case study loads it. */
+
+/* Body sections. Horizontal value is the shared page gutter — see the note on
+   .rd-case-hero above; `.rd-case-inner` supplies the remaining 24px. Every
+   section on the -v3 case studies shares .is-tinted (no alternating band),
+   so with no divider they run together as one solid-colour block — a
+   hairline between adjacent sections (--rd-line, the same token card/table
+   dividers use) is the only thing marking where one ends and the next
+   starts. */
+.rd-case-section { padding: 72px var(--grid-gutter); }
+.rd-case-section.is-tinted { background: var(--rd-surface); }
+.rd-case-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-inline: 24px;
+}
+.rd-case-h2 {
+}
+
+/* ------------------------------------------ 4b. Related case studies ------
+   Supersedes `.rd-case-pager` (Hao's call, 2026-08-18). Two text-only boxes
+   at the end of a page full of pictures read as a footnote; the homepage
+   already solved "here is another case study" as a card with a cover on it,
+   and a reader who has just finished one case study deserves the same object
+   they clicked to get here.
+
+   The model is the ≤768 initiatives card specifically — thumbnail first,
+   title, three clamped lines, one text CTA — not the desktop one. The desktop
+   card is a horizontal row with a fixed `calc(100vh - …)` height pinned from
+   `initiatives-desktop.css`, which is meaningless at the bottom of a case
+   study. So this is a separate component that copies the mobile card's
+   *appearance* rather than reusing `.rd-initiative-*` and then fighting the
+   desktop rules off it.
+
+   Selection rule is editorial, hardcoded per page: one case study from the
+   same domain, one from a different one; where no sibling shares the domain
+   — which is every page today, since all four sit in different sectors —
+   both slots are simply the two that read best next.
+
+   Two cards, not three: the section sits between the last beat and the
+   closing CTA, and a third card starts competing with the CTA for the same
+   decision. */
+/* Top border, separating this section from the case study above it. Every
+   section on a case-study page carries `is-tinted` (see the file-header note
+   in each page), so this can't be `.is-tinted`'s own border without striping
+   every section. `:has()` scopes it to the one `.rd-case-section` whose
+   `.rd-case-inner` contains `.rd-related`, which is unique per page, so no
+   HTML change is needed on any of the pages that use this component (or a
+   future one). `--rd-border-soft` is the same light grey the CTA section
+   right after this one already borders itself with. */
+.rd-case-section:has(> .rd-case-inner > .rd-related) {
+  border-top: 1px solid var(--rd-border-soft);
+}
+/* Three tracks, two cards (Hao's call, 2026-08-18: "làm nhỏ thôi, mỗi card
+   4 cols"). The page grid is 12 columns with a 24px gap, so one third of the
+   1312px content column IS four columns — 421px — and the empty third on the
+   right is what makes these read as a footnote to the case study rather than
+   a second pitch competing with the closing CTA. Expressed as `repeat(3, …)`
+   rather than a 12-track grid with `span 4`, so the cards stay the same width
+   whether there are two of them or one. */
+.rd-related {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+/* The whole card is the link. A nested <a class="rd-btn"> inside a linked
+   card is invalid markup and gives a screen reader two targets for one
+   destination, so the CTA is a <span> that only looks like a button. */
+.rd-related-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  /* Named for the same reason as `.rd-initiative-card`: the media bleeds out
+     by exactly this much, so a breakpoint changes one value, not two. */
+  --rd-card-pad: 24px;
+  padding: var(--rd-card-pad);
+  background: var(--rd-surface-raised);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--rd-ink);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.rd-related-card:hover { border-color: var(--rd-primary); transform: translateY(-2px); }
+.rd-related-card:focus-visible {
+  outline: 2px solid var(--rd-primary);
+  outline-offset: 3px;
+}
+/* `width: calc(100% + …)` is not optional — a bare negative margin on a
+   `width: 100%` box slides it left without widening it, which is the same
+   trap that shipped a 298px deck in a 330px card and a 296px thumbnail. */
+.rd-related-media {
+  position: relative;
+  width: calc(100% + var(--rd-card-pad) * 2);
+  margin: calc(-1 * var(--rd-card-pad)) calc(-1 * var(--rd-card-pad)) 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--rd-surface);
+}
+/* Absolute, so the image cannot set the row height. The four covers run 0.95:1
+   to 3.17:1; the wrapper's aspect-ratio decides the shape and the image fills
+   it. `center top` because every cover leads with its title area. */
+.rd-related-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+.rd-related-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* --rd-fs-xl, not -2xl. At 421px the 24px title wrapped to three lines on the
+   longer of the two and left the cards visibly uneven; 20px holds both to
+   two. */
+.rd-related-title {
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-xl);
+  line-height: var(--rd-lh-heading);
+  color: var(--rd-ink);
+}
+/* Three lines, like the mobile initiatives card — it keeps two cards of
+   unequal copy close to the same height so the row does not go ragged. */
+.rd-related-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+/* `margin-top: auto` pins the CTA to the bottom, so the two CTAs line up even
+   when one title wraps to two lines and the other does not. */
+.rd-related-cta {
+  margin-top: auto;
+  font-size: var(--rd-fs-md);
+  color: var(--rd-primary);
+}
+.rd-related-card:hover .rd-related-cta { text-decoration: underline; }
+@media (max-width: 1024px) {
+  /* The empty third is a luxury of a wide screen. Below 1024 the content
+     column is ~896px, so a third of it is 283px — narrower than the mobile
+     card gets on a phone. Two tracks, and the cards go back to ~436px. */
+  .rd-related { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 768px) {
+  .rd-case-section { padding: 48px 0; }
+  .rd-case-inner { padding-inline: 16px; gap: 24px; }
+  .rd-case-h2 { font-size: var(--rd-fs-2xl); }
+  /* 16:9 cards side by side on a phone leave ~170px each — the thumbnail stops
+     being readable well before the copy does. Same horizontal swipe-snap deck
+     as .rd-journey-list / .rd-initiative-deck (Hao's call, 2026-08-30): one
+     card at a time with a 28px peek of the next, instead of a vertical stack. */
+  .rd-related {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Bleed to the screen edges and re-pad — see .rd-initiative-deck above for
+       why `width: calc()` is required, not just a negative margin. */
+    width: calc(100% + 32px);
+    margin-inline: -16px;
+    padding-inline: 16px;
+    scroll-padding-inline: 16px;
+    padding-block: 4px;
+  }
+  .rd-related::-webkit-scrollbar { display: none; }
+  .rd-related-card {
+    --rd-card-pad: 16px;
+    flex: 0 0 calc(100% - 28px);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+
+
+/* ================================================================ B7 —
+   marketing-platform
+   ========================================================================= */
+
+/* ---- Related cards on the 2021 stack --------------------------------------
+   `marketing-platform.html` is the only page carrying `.rd-related` that also
+   loads the 2021 sheets, where `text-styles.css` sets a bare
+   `h3 { text-transform: uppercase }`. `.rd-related-title` (0,1,0) beats that
+   selector on everything it declares, but it never declared a transform — so
+   the same component rendered SHOUTING here and sentence-case on lending and
+   healthcare. Declaring it closes the gap; on every other page this resolves
+   to the value already in effect, so the rule is inert there. */
+.rd-related-title { text-transform: none; }

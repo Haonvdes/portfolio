@@ -50,7 +50,8 @@
   --rd-primary: #01679c;
   --rd-primary-hover: #014a70;
   --rd-surface: #f3f3ef;
-  --rd-white: #ffffff;
+  --rd-surface-raised: #ffffff;
+  --rd-on-accent: #ffffff;
   --rd-border: #666666;
   --rd-border-soft: #e5e7eb;
   --rd-border-muted: #999999;
@@ -67,8 +68,8 @@
   --grey-G800: var(--rd-ink);
   --grey-G700: var(--rd-ink);
   --grey-G600: var(--rd-ink);
-  --grey-G500: rgba(10, 42, 48, 0.75);
-  --grey-G400: rgba(10, 42, 48, 0.55);
+  --grey-G500: color-mix(in srgb, var(--rd-ink) 75%, transparent);
+  --grey-G400: color-mix(in srgb, var(--rd-ink) 55%, transparent);
   --grey-G300: var(--rd-border-soft);
   --grey-G200: var(--rd-border-soft);
   --grey-G100: var(--rd-surface);
@@ -92,7 +93,7 @@
   --border-neutral-default: var(--rd-border-soft);
   --border-primary-default: var(--rd-primary);
   --bg-primary-default: var(--rd-primary);
-  --bg-surface-main: var(--rd-white);
+  --bg-surface-main: var(--rd-surface-raised);
 }
 
 /* ----------------------------------------------------------- Typography - */
@@ -408,11 +409,11 @@ body { color: var(--rd-ink); }
   color: var(--rd-ink);
 }
 .connect_item { color: var(--rd-ink); }
-.helptxt { color: rgba(10, 42, 48, 0.7); }
+.helptxt { color: color-mix(in srgb, var(--rd-ink) 70%, transparent); }
 .cs-title { color: var(--rd-ink); }
 .cs-description,
 .article-card .card-description,
-.tab-content { color: rgba(10, 42, 48, 0.7); }
+.tab-content { color: color-mix(in srgb, var(--rd-ink) 70%, transparent); }
 #Intro_port { color: var(--rd-primary); }
 .status-message { color: var(--rd-ink); }
 
@@ -429,7 +430,7 @@ body { color: var(--rd-ink); }
 .tab button:hover { color: var(--rd-primary); }
 .tab button.active {
   background-color: var(--rd-primary);
-  color: var(--rd-white);
+  color: var(--rd-on-accent);
 }
 
 #back_button {
@@ -440,7 +441,7 @@ body { color: var(--rd-ink); }
 #back_button:hover {
   background-color: var(--rd-primary);
   border: 1px solid var(--rd-primary);
-  color: var(--rd-white);
+  color: var(--rd-on-accent);
 }
 
 /* Scroll-to-top pill. Same 150deg axis and stops, new hues. */
@@ -461,14 +462,14 @@ body { color: var(--rd-ink); }
 
 .s2,
 #header {
-  background: linear-gradient(0deg, var(--rd-white) 0%, var(--rd-surface) 100%);
+  background: linear-gradient(0deg, var(--rd-surface-raised) 0%, var(--rd-surface) 100%);
 }
 .s3,
 .bg_slider {
-  background: linear-gradient(180deg, var(--rd-white) 0%, var(--rd-surface) 40%, var(--rd-surface) 100%);
+  background: linear-gradient(180deg, var(--rd-surface-raised) 0%, var(--rd-surface) 40%, var(--rd-surface) 100%);
 }
 .s5 {
-  background: linear-gradient(180deg, var(--rd-white) 0%, var(--rd-surface) 100%);
+  background: linear-gradient(180deg, var(--rd-surface-raised) 0%, var(--rd-surface) 100%);
 }
 
 /* The three sections that carried the bright blue-to-blue wash. */
@@ -484,13 +485,13 @@ body { color: var(--rd-ink); }
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.61) -14.02%, var(--rd-surface) 10.91%);
 }
 .header {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.61) 67.02%, rgba(243, 243, 239, 0.6) 100.88%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.61) 67.02%, color-mix(in srgb, var(--rd-surface) 60%, transparent) 100.88%);
 }
 .certificate {
-  background: linear-gradient(91deg, rgba(243, 243, 239, 0) 0.18%, var(--rd-surface) 56.25%);
+  background: linear-gradient(91deg, color-mix(in srgb, var(--rd-surface) 0%, transparent) 0.18%, var(--rd-surface) 56.25%);
 }
 /* v1 left this on style.css's --bg-surface-main, which this file aliases to
-   --rd-white — so the section sat in plain white, same as the header above
+   --rd-surface-raised — so the section sat in plain white, same as the header above
    it and the (now white) cards inside it, with nothing to separate the three
    layers. The homepage reserves --rd-surface for exactly this: the section
    plane behind a white card. */
@@ -518,7 +519,7 @@ body { color: var(--rd-ink); }
    splitting this rule off to match that pattern is what makes the card read
    as a raised white surface instead of a grey patch. */
 .card {
-  background: var(--rd-white);
+  background: var(--rd-surface-raised);
   border-color: var(--rd-border);
 }
 
@@ -526,10 +527,10 @@ body { color: var(--rd-ink); }
 .research { border: solid 1px var(--rd-border-soft); }
 .competitor {
   border: solid 1px var(--rd-border-soft);
-  background-color: var(--rd-white);
+  background-color: var(--rd-surface-raised);
 }
 .p_infor {
-  background-color: var(--rd-white);
+  background-color: var(--rd-surface-raised);
   border: solid 1px var(--rd-border-soft);
 }
 .p_infor:hover { background-color: var(--rd-surface); }
@@ -560,7 +561,7 @@ body { color: var(--rd-ink); }
 [style*="color: black"],
 [style*="color:black"] { color: var(--rd-ink) !important; }
 [style*="#C4C4C4"],
-[style*="#B9B9B9"] { color: rgba(10, 42, 48, 0.55) !important; }
+[style*="#B9B9B9"] { color: color-mix(in srgb, var(--rd-ink) 55%, transparent) !important; }
 [style*="background-color: #F3F8FF"],
 [style*="background-color:#F3F8FF"] { background-color: var(--rd-surface) !important; }
 [style*="background-color:bisque"],
@@ -574,7 +575,7 @@ body { color: var(--rd-ink); }
 /* Carousel arrows: translucent black chrome, tinted to the ink so they read as
    part of the palette rather than as a browser default. */
 .swiper-button-next,
-.swiper-button-prev { background-color: rgba(10, 42, 48, 0.53); }
+.swiper-button-prev { background-color: color-mix(in srgb, var(--rd-ink) 53%, transparent); }
 
 /* ------------------------------------------ Case Studies listing page - */
 /*
@@ -593,12 +594,12 @@ body { color: var(--rd-ink); }
 */
 
 /* `aliceblue` (#f0f8ff) is the legacy on-primary text colour — a cold, slightly
-   blue white that reads as a mistake next to --rd-white. It appears twice: on
+   blue white that reads as a mistake next to --rd-surface-raised. It appears twice: on
    .btn-ghosh's own hover and again on .card:hover .btn-ghosh, which is how the
    listing cards light their "Learn more" button when you hover the whole card.
    Both need remapping or the two states disagree with each other. */
 .btn-ghosh:hover,
-.card:hover .btn-ghosh { color: var(--rd-white); }
+.card:hover .btn-ghosh { color: var(--rd-on-accent); }
 
 /* The password modal's error line is a bare `color: red` — pure #ff0000, off
    the palette entirely. --red-R600 is the ramp's error rung and the only red
@@ -610,7 +611,7 @@ body { color: var(--rd-ink); }
 /* Modal scrim: same 0.5 coverage, tinted to the ink so the dimmed page keeps a
    warm cast instead of going neutral grey. Matches the carousel-arrow chrome
    above, which took the same treatment. */
-.modal { background-color: rgba(10, 42, 48, 0.5); }
+.modal { background-color: color-mix(in srgb, var(--rd-ink) 50%, transparent); }
 
 /* ------------------------------------- Cards whose case study isn't built - */
 /*
@@ -649,7 +650,7 @@ body { color: var(--rd-ink); }
   line-height: 1.6;
   letter-spacing: 0;
   text-transform: none;
-  color: rgba(10, 42, 48, 0.55);
+  color: color-mix(in srgb, var(--rd-ink) 55%, transparent);
 }
 
 /* ------------------------------------------- Foot of the card grid - */
@@ -680,7 +681,7 @@ body { color: var(--rd-ink); }
 .card[data-status="coming-soon"]:hover .btn-ghosh[disabled] {
   padding: 8px 8px 8px 0;
   background-color: transparent;
-  color: rgba(10, 42, 48, 0.45);
+  color: color-mix(in srgb, var(--rd-ink) 45%, transparent);
   cursor: not-allowed;
 }
 

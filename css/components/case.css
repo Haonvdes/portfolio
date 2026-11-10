@@ -1,0 +1,2261 @@
+/* Case-study components used by two or more of healthcare, lending, web-3
+   and customer-engagement: hero variants, section TOC, figures, pill tabs,
+   cards, pinned headers, the showcase. */
+
+/* Same containing-block trap, a different ancestor: `.is-hero-glow .rd-case-hero`
+   (below) sets `isolation: isolate` so its negative-z-index glow pseudo-element
+   doesn't leak behind the rest of the page — but isolation traps EVERYTHING
+   inside it into one local stacking context, including the injected nav. With
+   the menu open, `.rd-nav-outer`'s z-index:500 and `.rd-nav-links`'s 200 were
+   only being compared against each other inside that trap, not against the
+   rest of the page — confirmed live: the back-to-top button (z-index: 90,
+   not isolated) painted straight over the open full-page menu. Lifting
+   isolation for the moment the menu is open fixes it without touching the
+   glow effect at any other time. */
+body.nav-open .rd-case-hero { isolation: auto; z-index: auto; }
+
+/* Tab strip — Figma 40000132:3660 / 40000132:3661 */
+.rd-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* left-aligned, matching Charter's Figma (Hao, 2026-08-25) — was centered */
+  gap: 16px;
+  width: 100%;
+}
+/* Pills, not hairline underlines. The underlined version read as four headings
+   rather than four controls — nothing about it said "tap me". A filled pill for
+   the active one and an outlined pill for the rest borrows the button language
+   already used by .rd-btn-primary, so the affordance is consistent sitewide.
+
+   RESKINNED 2026-08-25 (Hao) — this is the one global pill/tab component now.
+   customer-engagement-v3.html's Charter section built a near-duplicate
+   (`.rd-case-pill`) with its own ink-bordered/uppercase look; rather than run
+   two versions Hao asked for one, defined once here, with every real usage
+   (lending-new-v3.html's benchmark view switcher, Charter, and the
+   review-bench-personas.html sandbox) picking it up automatically. NOT the
+   homepage: index.html's initiative deck has its own separate
+   `.rd-deck-marker` dot component (js/initiatives.js) — despite the
+   "Autoplay progress fill" block below being written generically, nothing
+   on the live site currently drives `.rd-tab-progress`/`.is-playing` on a
+   `.rd-tab`; check before assuming it's exercised anywhere real. Visual
+   moved from 1px border-muted / primary-blue active fill to the 2px ink
+   border / white bg / ink active-fill / uppercase-extrabold look Charter's
+   pills used — change it once here and every usage follows. */
+.rd-tabs { flex-wrap: wrap; gap: 16px; }
+.rd-tab {
+  position: relative;   /* containing block for .rd-tab-progress */
+  overflow: hidden;     /* clips the fill to the pill's radius */
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+  padding: 12px 16px;
+  background: var(--rd-surface-raised);
+  border: 2px solid var(--rd-ink);
+  border-radius: 999px;
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: normal;
+  text-align: center;
+  color: var(--rd-ink);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.rd-tab > span { flex: 0 0 auto; }
+.rd-tab:hover { background: var(--rd-surface); }
+.rd-tab[aria-selected="true"] {
+  background: var(--rd-ink);
+  color: var(--rd-on-accent);
+}
+.rd-tab[aria-selected="true"]:hover { background: var(--rd-ink); }
+.rd-tab:focus-visible {
+  outline: 2px solid var(--rd-primary);
+  outline-offset: 2px;
+}
+/* Mobile dropdown fallback for a pill row, opt-in per group (2026-08-31,
+   Hao's call). First built on a native `<select>` — reverted the same day
+   (Hao: icon sat flush against the edge, and he wanted the open state to
+   look like `.rd-case-toc-panel`, not the OS/browser's own listbox, which
+   no amount of CSS can restyle). This is that custom rebuild: a toggle
+   button plus a `role="listbox"` panel, styled after `.rd-case-toc-panel`
+   (white rounded card, soft border, same shadow, same hover/current
+   treatment) instead of anything native.
+   A group gets this by adding `.rd-tabs-collapsible` to its `.rd-tabs` and
+   placing a `.rd-tabs-dropdown` right after it — lending.html's benchmark
+   switcher, customer-engagement.html's Findings and Charter groups. NOT a
+   change to `.rd-tab`/`.rd-tabs` itself, so it does not reach
+   healthcare.html's Yes/No `.rd-ai-toggle`: that one is a binary either/or
+   control, not a list of views (see its own comment), and a 2-option
+   dropdown is slower to operate than the two buttons it would replace.
+   Wired by js/case-tabs.js's wireDropdowns(): the container exposes a
+   `.value` getter/setter and dispatches a real `change` event, so every
+   page-specific `tabSelect.value = view` / `.addEventListener('change', …)`
+   written against the old `<select>` keeps working untouched.
+   No margin here — it takes whatever margin its `.rd-tabs-collapsible`
+   sibling had, so it lands in the same spot the pills would have. */
+.rd-tabs-dropdown {
+  display: none;
+  position: relative;
+  width: 100%;
+}
+.rd-tabs-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--rd-surface-raised);
+  border: 2px solid var(--rd-ink);
+  border-radius: 999px;
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: normal;
+  text-align: left;
+  color: var(--rd-ink);
+  cursor: pointer;
+}
+.rd-tabs-dropdown-toggle:focus-visible {
+  outline: 2px solid var(--rd-primary);
+  outline-offset: 2px;
+}
+/* Fixed-size and non-shrinking so the chevron never crowds the label the
+   way the native indicator used to — this was the whole complaint. */
+.rd-tabs-dropdown-chev {
+  flex: 0 0 auto;
+  display: block;
+  stroke: currentColor;
+  transition: transform 0.2s ease;
+}
+.rd-tabs-dropdown.is-open .rd-tabs-dropdown-chev { transform: rotate(180deg); }
+.rd-tabs-dropdown-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 12px;
+  border: 1px solid var(--rd-border-soft);
+  background: var(--rd-surface-raised);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--rd-ink) 16%, transparent);
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.15s ease, visibility 0.15s ease, transform 0.15s ease;
+}
+.rd-tabs-dropdown.is-open .rd-tabs-dropdown-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.rd-tabs-dropdown-option {
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+  cursor: pointer;
+}
+.rd-tabs-dropdown-option:hover,
+.rd-tabs-dropdown-option:focus-visible {
+  background: var(--rd-surface);
+  outline: none;
+}
+.rd-tabs-dropdown-option[aria-selected="true"] {
+  color: var(--rd-primary);
+  background: var(--rd-surface);
+}
+@media (max-width: 768px) {
+  .rd-tabs-collapsible { display: none; }
+  .rd-tabs-collapsible + .rd-tabs-dropdown { display: block; }
+}
+
+
+/* The label has to outrank the fill or the sweep paints over the text. */
+.rd-tab > span:not(.rd-tab-progress) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ================================================================ Case study
+   Detail-page shell — /case-studies/*.html rendered in the 2026 redesign
+   language. First used by healthcare.html (2026-08-03).
+
+   Deliberately built from the same tokens as the homepage rather than the
+   legacy case-2021.css stack, so a reader moving from a Selected Product
+   Initiatives card into the case study sees one design system, not two.
+   Reused as-is from the homepage: .rd-shell, .rd-btn*, .rd-detail-label,
+   .rd-mini-stat-row, .rd-cta-*, nav + footer.
+   Scoped under .rd-case so nothing here can touch the homepage.
+   ------------------------------------------------------------------------ */
+.rd-case {
+  background: var(--rd-surface-raised);
+  font-family: var(--rd-font);
+  /* Long-form measure, case study only. The shared `--rd-measure` (778px, from
+     tokens.css) still governs home / about / work — this override is scoped to
+     `.rd-case` so those three are untouched. 778 was tuned for section intros
+     that run two or three lines; a case study runs pages of prose inside a
+     1312px content column, where it left a dead right-hand third.
+
+     1040px (Hao, 2026-09-11). It was briefly `none`, running prose the full
+     column, and read as too long. One value to change, and every prose
+     element on every case study follows. */
+  --rd-measure-case: 1040px;
+}
+/* The 40px page gutter. Without it the section is full-bleed, so the shell
+   inside is never pushed in and `.rd-case-hero-inner`'s 24px was the ONLY
+   inset — the case-study <h1> sat at 24px while the nav wordmark, which gets
+   40+24 from grid.css, sat at 64px. The two only agreed above 1520px, where
+   the 1440 shell caps and centres either way, which is why the gap was easy to
+   miss on a wide monitor. Value comes from grid.css so there is one source. */
+/* FIRST VIEW = THE WHOLE HERO (Hao's call, 2026-08-18).
+   Everything inside `.rd-case-hero-inner` — eyebrow, title, lead, cover,
+   snapshot — has to be on screen before the reader scrolls, and the nav lives
+   inside this header too, so `min-height: 100dvh` on the hero is the whole
+   budget. dvh, not vh: on mobile Safari 100vh is the *expanded* viewport, so a
+   vh-sized hero is always taller than what you can actually see with the
+   toolbar showing.
+
+   The vertical chrome (top padding, bottom padding, the four gaps) is
+   `clamp(floor, Nvh, design-value)`, so the maxima are the original Figma
+   numbers and tall screens look exactly as before; the floors are what make a
+   768px laptop fit. The cover then absorbs whatever is left — see the note on
+   `.rd-case-cover` in the "case-study components" block below. */
+.rd-case-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100dvh;
+  background: var(--rd-surface);
+  padding-bottom: clamp(24px, 3.6vh, 64px);
+  padding-inline: var(--grid-gutter);
+}
+.rd-case-hero-inner {
+  display: flex;
+  flex-direction: column;
+  /* Takes the height the hero was given, minus the nav, so the cover has real
+     free space to grow into. `min-height: 0` because a column flex item's
+     default `min-height: auto` refuses to shrink below its content — without
+     it the inner stays at its natural ~1200px and the hero just grows past
+     100dvh instead of compressing. */
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  gap: clamp(16px, 2.2vh, 40px);
+  padding: clamp(28px, 4vh, 64px) 24px 0;
+}
+/* Only the cover flexes. Every other child is content-sized — the trap from
+   the initiatives card was leaving siblings on the flex-distribution path, so
+   the free space got shared out and the thing that was supposed to absorb it
+   collapsed instead. */
+.rd-case-hero-inner > *:not(.rd-case-cover) { flex: 0 0 auto; }
+/* The 900px cap is gone (2026-08-18). It was the whole reason every case-study
+   title dropped its last word onto a line of its own: at 48px these titles
+   need ~1000–1130px for one line and the column is 1360px, so 900 forced a
+   wrap that the available width never asked for. Measured on all three written
+   pages — lending 1124px, healthcare 1129px, customer-engagement 1031px — all
+   of them orphaning one word against a 900px box.
+
+   `text-wrap: balance` is the insurance for the titles that genuinely do not
+   fit: it splits them into even lines instead of a long line plus a stub. It
+   only applies to short blocks (browsers cap it at ~6 lines), which a page
+   title always is. Where it is unsupported the text simply wraps normally, so
+   there is nothing to fall back to. */
+.rd-case-title {
+  max-width: var(--rd-measure-case);
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-4xl);
+  line-height: 1.15;
+  text-wrap: balance;
+  color: var(--rd-ink);
+}
+.rd-case-lead {
+  max-width: var(--rd-measure-case);
+  font-weight: var(--rd-fw-body);
+  font-size: var(--rd-fs-lg);
+  line-height: 1.5;
+  color: var(--rd-ink);
+}
+/* Header block — framework §1. Role first, status never omitted. */
+.rd-case-meta {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px;
+  width: 100%;
+  padding-top: 32px;
+  border-top: 1px solid var(--rd-border);
+}
+.rd-case-meta div { display: flex; flex-direction: column; gap: 6px; }
+.rd-case-meta dt,
+.rd-case-meta .rd-case-meta-k {
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+  opacity: 0.6;
+}
+.rd-case-meta dd,
+.rd-case-meta .rd-case-meta-v {
+  margin: 0;
+  font-weight: var(--rd-fw-body);
+  font-size: var(--rd-fs-sm);
+  line-height: var(--rd-lh-tight);
+  color: var(--rd-ink);
+}
+/* 1040px, not the shared 778px (Hao's call, 2026-08-18). Home / about / work
+   still use `--rd-measure`; only `.rd-case` overrides it. A case study is the
+   one place on the site that runs pages of continuous prose, and 778px inside
+   a 1312px content column left a dead third down the right-hand side. Line
+   length goes to roughly 130ch at 16px, so `--rd-lh-prose` (1.6) is doing more
+   work here than anywhere else on the site — do not tighten it on these. */
+.rd-case-body { max-width: var(--rd-measure-case); display: flex; flex-direction: column; gap: 16px; }
+/* Typography for these lives in the shared "Body copy" role near the top. */
+/* style.css forces `list-style-type: disc` on li, which would number an <ol>
+   with bullets — so both list types are set explicitly here. */
+/* Block, not flex: flex items blockify and browsers disagree about whether a
+   list marker survives that. A plain block list keeps the bullets/numbers. */
+.rd-case-list { max-width: var(--rd-measure-case); margin: 0; padding-left: 22px; }
+.rd-case-list > li + li { margin-top: 12px; }
+/* customer-engagement-v3.html's Involvement grid only — three short lists
+   side by side in narrow columns, where the sitewide 12px item gap reads as
+   too much air between one-line items (Hao, 2026-08-25). */
+.rd-case-list.is-tight > li + li { margin-top: 4px; }
+ul.rd-case-list > li { list-style-type: disc; }
+ol.rd-case-list > li { list-style-type: decimal; }
+.rd-case-list li::marker { color: var(--rd-ink); }
+.rd-case-list li strong { font-weight: var(--rd-fw-emphasis); }
+
+/* Three-up card grid — discovery lenses, decision blocks */
+.rd-case-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+}
+.rd-case-grid.is-two { grid-template-columns: repeat(2, 1fr); }
+.rd-case-grid.is-four { grid-template-columns: repeat(4, 1fr); }
+/* customer-engagement-v3.html Charter section only (Figma 40000375:5605 —
+   the five deliverable/activity phase cards). Same pattern as .is-two/
+   .is-four above, just one more column. */
+.rd-case-grid.is-five { grid-template-columns: repeat(5, 1fr); }
+.rd-case-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  background: var(--rd-surface-raised);
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+}
+.is-tinted .rd-case-card { background: var(--rd-surface-raised); }
+.rd-case-card h3 {
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-tight);
+  text-transform: uppercase;
+  color: var(--rd-ink);
+}
+/* Figures — product map, screens */
+.rd-case-figure {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+}
+.rd-case-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+}
+
+/* Evidence tag — framework Part 4: every number is labelled. */
+.rd-tag {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  margin-left: 8px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--rd-surface);
+  border: 1px solid var(--rd-border-muted);
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+}
+
+/* -------------------------------------------------- 3. Section TOC --------
+   Third design, not the first. What it replaced, in order:
+     1. A left rail (first sketched in the plan) — needs ~1,870px of viewport
+        to clear the 1,520px page (1,440 shell + 2×40 gutter), wider than the
+        laptops this is read on. Dead code on every real screen.
+     2. A horizontal bar sticky at top: 0 — sat directly under the site nav's
+        own top: 0 fixed peek (js/script.js, z-index: 500), which always won
+        and blotted the rail out mid-scroll-up.
+     3. The same bar moved to bottom: 0 — fixed the nav collision, but was
+        still "a second nav bar" in NN/g's terms
+        (nngroup.com/articles/table-of-contents): a sticky main-body TOC
+        stacked against a sticky global nav reads as local navigation and
+        disorients readers, whichever edge it claims.
+
+   This version is a corner popover instead — it doesn't compete for an edge
+   at all, so the whole class of conflict above doesn't apply. It also
+   replaces `.rd-to-top` (back-to-top.css): "back to top" is now the panel's
+   first entry, in the same bottom-right slot that button used to own, rather
+   than two floating circles stacked in one corner. (Hao, 2026-08-30.) */
+.rd-case-toc {
+  position: fixed;
+  bottom: 40px;
+  right: 24px;
+  z-index: 90;
+
+  /* Hidden until js/case-toc.js adds `.is-visible` past Overview.
+     opacity/visibility, not display, so the transition runs and the toggle
+     stays out of the tab order while hidden — the pattern `.rd-to-top` used. */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.4s, visibility 0.4s, transform 0.4s;
+}
+.rd-case-toc.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+/* The chat bubble is fixed at bottom:20px/right:20px, 50px tall — occupies
+   20-70px. Same lift `.rd-to-top` used, so the two never collide on a phone. */
+@media (max-width: 767px) {
+  .rd-case-toc { bottom: 88px; right: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-case-toc { transition: none; }
+}
+
+
+.rd-case-toc-toggle {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--rd-on-accent);
+  background: linear-gradient(150deg, var(--rd-primary) 0%, var(--rd-primary-hover) 100%);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--rd-ink) 20%, transparent);
+  transition: background 0.3s;
+}
+.rd-case-toc-toggle:hover {
+  background: linear-gradient(150deg, var(--rd-primary-hover) 0%, var(--rd-primary) 100%);
+}
+.rd-case-toc-toggle:focus-visible { outline: 2px solid var(--rd-primary); outline-offset: 3px; }
+.rd-case-toc-toggle svg { display: block; stroke: currentColor; transition: transform 0.2s ease; }
+/* List glyph rotates a quarter turn open, reading as a loose stand-in for a
+   close/X without needing a second icon swapped in by JS. */
+.rd-case-toc.is-open .rd-case-toc-toggle svg { transform: rotate(90deg); }
+.rd-case-toc-panel {
+  position: absolute;
+  bottom: 62px;
+  right: 0;
+  min-width: 220px;
+  max-width: min(280px, calc(100vw - 48px));
+  max-height: min(60vh, 420px);
+  padding: 8px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 12px;
+  border: 1px solid var(--rd-border-soft);
+  background: var(--rd-surface-raised);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--rd-ink) 16%, transparent);
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.15s ease, visibility 0.15s ease, transform 0.15s ease;
+}
+.rd-case-toc.is-open .rd-case-toc-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.rd-case-toc-panel a {
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-xs);
+  letter-spacing: 0.02em;
+  color: var(--rd-ink);
+  text-decoration: none;
+}
+.rd-case-toc-panel a:hover,
+.rd-case-toc-panel a:focus-visible { background: var(--rd-surface); }
+.rd-case-toc-panel a.is-current {
+  color: var(--rd-primary);
+  background: var(--rd-surface);
+}
+.rd-case-toc-panel a .n {
+  margin-right: 6px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.6;
+}
+/* "Back to top" — first entry, set apart from the section list under it. */
+.rd-case-toc-panel a.rd-case-toc-top {
+  border-bottom: 1px solid var(--rd-border-soft);
+  margin-bottom: 4px;
+  padding-bottom: 12px;
+}
+
+/* 60dvh, not 100 — the hero is now a band the picture escapes from, not a
+   full screen. The border is what makes the overlap legible: without a line to
+   cross, an image that merely sits over a colour change reads as a background,
+   not as an object breaking out. */
+.is-hero-overlap .rd-case-hero {
+  /* Releases the base model's `min-height: 100dvh`. Not optional: with the
+     60dvh moved down to the inner, nothing else overrides it and the band
+     went straight back to a full screen (measured 1080 instead of 728 at
+     1920). The band's height is now nav + the inner's 60dvh. */
+  min-height: auto;
+  /* The base model's bottom padding sat under the cover; here it would sit
+     under nothing and simply add itself on top of the inner's 60dvh, which is
+     what left the band 26-38px taller than web-3's at every size. The run
+     below the lead is defined by the 60dvh, not by padding, and it is meant to
+     be empty — that is where the cover rises into. Band is now exactly
+     nav + 60dvh. */
+  padding-bottom: 0;
+  border-bottom: 1px solid var(--rd-border);
+  /* web-3's header gradient, transcribed from the COMPUTED value rather than
+     the source. style.css declares the second stop as `rgb(200 235 255 / 21%)`
+     — a pale blue — but case-retheme-v3.css overrides it, and what actually
+     renders on web-3.html is --rd-surface at 60%. Copying the source would
+     have given a blue band nobody has seen since the retheme.
+
+     The stops sit at 67% and 100.88%, so the top two thirds are flat and the
+     tint only arrives in the last third — which is exactly the part the cover
+     rises through. Over the page's white this resolves to about #f8f8f5 at the
+     bottom edge, so the band reads far lighter than the flat --rd-surface it
+     replaces. That is web-3's look: the border, not the fill, is what marks
+     the boundary. */
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--rd-surface-raised) 61%, transparent) 67.02%,
+    color-mix(in srgb, var(--rd-surface) 60%, transparent) 100.88%
+  );
+}
+/* THE 60dvh IS ON THE INNER, NOT THE HERO (Hao's call, 2026-08-18). The nav is
+   a child of `.rd-case-hero`, so a `min-height` there is 60dvh *including* the
+   nav; web-3 puts its 60vh on `.first-section`, which sits below the nav. Same
+   number, two different origins, and the band came out 82px shorter here at
+   every size — 540 against web-3's 622 at 1440x900. All 82px came out of the
+   gap under the lead, which is exactly the space the cover rises into.
+   Measuring from the inner makes the band nav + 60dvh with no hard-coded nav
+   height to drift.
+
+   `min-height`, not `height`, so a three-line title on a phone grows the band
+   rather than clipping. `flex: 0 0 auto` because the cover has left this box —
+   nothing in here wants free space any more.
+
+   CENTRED, not top-aligned. web-3 does this with `align-content: center` on
+   `.experience`, and it is the difference between a hero that looks composed
+   and one that looks like it ran out of content: measured against web-3's
+   163px / 163px, an earlier `justify-content: flex-start` here gave 36px above
+   the eyebrow and 312px below the lead. All the slack pooled at the bottom, so
+   the type crowded the nav and then left a hole before the cover.
+
+   The padding stays and becomes a floor rather than an offset — once the box
+   is centred, `padding-block` is the minimum the text keeps from the nav and
+   from the band's bottom edge on a screen too short to give it 163px. */
+.is-hero-overlap .rd-case-hero-inner {
+  flex: 0 0 auto;
+  min-height: 60dvh;
+  justify-content: center;
+  padding-bottom: clamp(28px, 4vh, 64px);
+}
+/* Undoes the flex-absorber cover from the 100dvh model. Height is vh-driven
+   so the Overview heading stays below the fold at every screen size: the
+   heading sits at (band bottom - overlap + cover height + gap), and 54vh is
+   what keeps that sum past 100vh from 768px up. */
+.is-hero-overlap .rd-case-cover {
+  flex: 0 0 auto;
+  height: clamp(300px, 54vh, 600px);
+  min-height: 0;
+  /* Pulls the picture up through the band's bottom border. `position:
+     relative` + `top` would leave a gap of its own height behind it; a
+     negative margin takes the space back as well as moving the box. */
+  margin-top: calc(-1 * var(--rd-hero-overlap));
+  /* Above the band's background and border, below the TOC rail (z-index 40). */
+  position: relative;
+  z-index: 1;
+}
+/* The section's own top padding would push the cover back down by 72px and
+   undo most of the lift. The gap to the heading comes from `.rd-case-inner`'s
+   flex gap instead. */
+.is-hero-overlap #overview { padding-top: 0; }
+/* No `.is-hero-overlap .rd-case-toc` override here any more — the corner
+   popover (§3 above) is the same fixed-bottom-right control on every hero
+   variant, shown/hidden the same way (js/case-toc.js toggles `.is-visible`
+   once #overview has scrolled past). The old rail needed a per-variant
+   override because it was a full-width bar that had to be reworked not to
+   sit on screen at first paint; a small corner control never has that
+   problem, so one rule now covers all three variants. */
+
+/* The ≤768 block below takes the cover's image back out of `position:
+   absolute` — correct for the 100dvh hero, where the image's own height IS
+   the box, and wrong here, where the box has an explicit `height` and the
+   image has to fill it. Measured without this: a 456px cover wrapper holding
+   a 260px image, with 196px of tinted nothing under it. Put back inside the
+   variant so the base model is untouched. */
+@media (max-width: 768px) {
+  .is-hero-overlap .rd-case-cover { position: relative; }
+  .is-hero-overlap .rd-case-cover img {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    max-height: none;
+  }
+
+  /* Same trap, same fix, different variant: `.rd-case-cover img`'s shared ≤768
+   rule (below, near the case-study components block) caps the image at
+   260px for the base hero, where the cover has no height of its own and just
+   grows to fit the image. `.is-hero-glow`'s cover DOES have an explicit
+   height (clamp(...) on both the stacked and split sub-variants, set to sit
+   flush with the hero's bottom edge — see the `align-content: end` note
+   above), so that same 260px cap left a gap of tinted nothing under the
+   image on mobile, exactly like the overlap variant once did (measured on
+   customer-engagement.html and lending.html: cover reaching 337–506px,
+   image stuck at 260px). Only `max-height` needs resetting — `height: 100%`
+   already comes from `.is-hero-glow .rd-case-cover img` (default) and
+   `.is-hero-glow.is-hero-split .rd-case-cover img` (split), unconditionally. */
+  .is-hero-glow .rd-case-cover img { max-height: none; }
+  /* Uncapping the height above exposed a second problem, default sub-variant
+     only: its cover height is `clamp(320px, 60vh, 760px)` — a desktop value
+     tuned against a wide box, where even the tall end of the clamp reads as
+     landscape. At mobile's ~360px column width that same clamp (506px on an
+     844-tall phone) makes a portrait-ish box, and `object-fit: cover` on
+     cv_enterprise.png / cv_pharma.png (both ~1.55:1 landscape) had to zoom in
+     ~2.2x to fill it — cropping most of both side edges instead of the mild
+     top/bottom trim the desktop box gets. Swapping to a fixed aspect-ratio
+     matched to those two source images (2784x1800 and 2784x1742, both
+     ≈16:10) fixes the box's own proportions instead of fighting them with a
+     bigger crop: `cover` still trims a few px of slack, but the dashboard
+     reads whole again. `height: auto` clears the clamp so aspect-ratio can
+     size the box; the flush-to-bottom result is unchanged — that comes from
+     `align-content: end` on the grid (above), not from the cover's own
+     height, so a shorter box still lands exactly on the hero's bottom edge.
+     Scoped to `:not(.is-hero-split)`: lending.html's split cover pairs with
+     a near-square screenshot (666x592) against its own clamp(240px, 40vh,
+     420px), and nobody has flagged that one as over-cropped — leave it on
+     its existing rule rather than guessing at a second ratio no page needs
+     yet. */
+  .is-hero-glow:not(.is-hero-split) .rd-case-cover { height: auto; aspect-ratio: 16 / 10; }
+}
+
+
+/* ------------------------------------------- 4d. Glow hero (.is-hero-glow) -
+   A third hero VARIANT, switched the same way as .is-hero-overlap above:
+   `<body class="rd-case is-hero-glow">`. Zero markup changes needed on any
+   page already on the BASE (non-overlap) hero model — title, lead and
+   `.rd-case-cover` as three direct children of `.rd-case-hero-inner`, which
+   is what customer-engagement.html / healthcare.html / web-3-v2/v4/v5 /
+   lending-v2.html / marketing-platform-v2.html all already are. Do NOT
+   combine with `.is-hero-overlap`: that variant moves the cover out of the
+   hero into #overview and lifts it with a negative margin, which fights
+   every rule below that assumes the cover is still inside `.rd-case-hero`.
+
+   Modelled on sketch.com's homepage hero (sketch-com-hero-teardown.md,
+   measured live 2026-08-21), not a Figma frame. That is a deliberate
+   exception to "Figma governs tokens" ([[figma_tokens_over_literal_values]]):
+   there is no Figma frame here to derive a token from, since the source is a
+   live site, not this project's Figma file.
+
+   Shared DNA, both layouts below:
+   1. No background tint and no tinted shadow. The per-case pastel glow
+      (`--rd-hero-glow`) was removed 2026-09-13 (Hao) — the hero sits on the
+      plain page surface on every case study.
+   2. A 3D tilt-in entrance on `.rd-case-cover img`: rotateX(12deg) -> flat
+      + fade, 0.8s, cubic-bezier(.785,.135,.15,.86) — sketch's own curve,
+      snap-through-the-middle rather than linear. It ends at `transform: none`,
+      not sketch's resting rotateX(2deg): a leftover tilt shrinks the image's
+      bottom edge in perspective, so it stopped lining up with the cover's
+      `::after` fade overlay (Hao, 2026-09-13). Triggered once by
+      IntersectionObserver (js/hero-entrance.js) adding `.is-shown`, not by
+      scroll position. `.js-hero-glow` is the class that script adds to
+      `<body>` before it starts observing, so the hidden pre-animation state
+      only ever applies with JS present; without it the image sits at its
+      resting state, fully visible, from first paint. */
+.is-hero-glow .rd-case-hero {
+  position: relative;
+  isolation: isolate; /* keeps the ::before glow under the content without
+                          reaching for a z-index on every child */
+  /* Without an explicit z-index, isolation still traps the fixed nav
+     (injected inside this header, z-index: 500) inside this stacking
+     context — so any later section, being z-index:auto/2 and later in
+     document order or explicitly ranked (e.g. lending's `.is-viewport-fit`
+     at z-index: 2), paints over the whole hero (nav included) once the nav
+     peeks back in on scroll-up. Confirmed live across customer-engagement,
+     healthcare and lending: every later `.rd-case-*` section/card covered
+     the peeking nav until this was added. 50 clears every in-page z-index
+     used for ordinary content (highest found: 20, a tab dropdown) while
+     staying below floating controls like back-to-top (90) and the modal
+     (10000), so it doesn't need to keep chasing new content z-indices.
+     `body.nav-open` resets it back to `auto` alongside isolation, for the
+     same reason that rule exists. Hao, 2026-08-31. */
+  z-index: 50;
+  /* Floor, not a fixed height: on typical screens the text + cover content
+     already exceeds 100dvh, which is what "runs past the fold" below relies
+     on. But `.rd-case-cover`'s height clamp tops out at 760px, so on a tall
+     large-screen viewport (big 4K/5K monitor) the content sum can land
+     *under* 100dvh instead of over it — hero ends and the next section peeks
+     into the same first view, which reads as a layout bug, not an invitation
+     to scroll. `min-height: 100dvh` guarantees the first view is always at
+     least a full screen while still letting content grow taller than that
+     on the screens where the overflow is intentional. Hao, 2026-08-25. */
+  min-height: 100dvh;
+  overflow: hidden;
+  /* The base model's padding-bottom (clamp(24px,3.6vh,64px), above) exists to
+     keep the whole hero inside one 100dvh first view — this variant abandons
+     that on purpose (the cover runs past the fold to invite scrolling), so
+     the padding was just trailing space under the cover with no job left to
+     do. Hao, 2026-08-23: cut it. */
+  padding-bottom: 0;
+}
+.is-hero-glow.js-hero-glow .rd-case-cover img:not(.is-shown) {
+  opacity: 0;
+  transform: rotateX(12deg);
+}
+.is-hero-glow .rd-case-cover img.is-shown {
+  animation: rd-hero-tilt-in 0.8s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+@media (prefers-reduced-motion: reduce) {
+  .is-hero-glow.js-hero-glow .rd-case-cover img:not(.is-shown) { opacity: 1; transform: none; }
+  .is-hero-glow .rd-case-cover img.is-shown { animation: none; }
+}
+
+
+/* ---- Default layout: text row, cover below (matches the sketch.com screen-
+   shot pasted 2026-08-21 — title left, lead right, full-width image below,
+   NOT capped to 100dvh: sketch's own image runs past the fold on purpose,
+   the tilt animation is what invites the scroll. Add `.is-hero-split` below
+   for the alternate 100vh / text-left / image-right arrangement. */
+.is-hero-glow .rd-case-hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 48px;
+  row-gap: clamp(32px, 6vh, 72px);
+  /* Grid's default `align-content: normal` computes to `stretch` once the
+     hero's new 100dvh floor (above) gives this grid more height than its two
+     auto rows need: the free space gets split between the text row and the
+     image row instead of collecting in one place, which shoved the cover
+     down away from the text with a dead gap between them. `end` keeps both
+     rows at their natural size and natural gap and collects the leftover
+     space above the text instead — the cover's bottom edge then always sits
+     flush with the hero's bottom edge (Hao's ask, 2026-08-25), on every
+     viewport, not just the ones where content happens to overflow 100dvh. */
+  align-content: end;
+  /* Base model's top padding (clamp(28px, 4vh, 64px)) reads as cramped here
+     (Hao, 2026-08-21: "text too close to the nav") — that clamp was tuned
+     for the 100dvh model, which budgets the whole viewport and needs every
+     spare pixel. This variant doesn't cap height, so it can afford sketch's
+     own generous nav-to-headline gap instead. */
+  padding-top: clamp(64px, 11vh, 140px);
+}
+.is-hero-glow .rd-case-title,
+.is-hero-glow .rd-case-lead { max-width: none; }
+.is-hero-glow .rd-case-cover {
+  grid-column: 1 / -1;
+  flex: 0 0 auto;
+  min-height: 0;
+  height: clamp(320px, 60vh, 760px);
+  /* `<figure>`'s UA default (`margin: 1em 40px` in Chrome) was never reset
+     for this variant, so the image sat ~40px inside the grid cell on each
+     side instead of flush with it — the misalignment Hao flagged 2026-08-21.
+     `.rd-case-figure` resets this elsewhere in the file; `.rd-case-cover`
+     never needed to before, since every other variant sizes the cover with
+     `width: 100%` and never noticed a same-magnitude default margin eating
+     into it silently. */
+  margin: 0;
+  perspective: 1200px;
+  overflow: visible;
+  border-radius: 26px 26px 0 0;
+}
+/* The cover's bottom edge sits flush with the hero's own bottom edge (see the
+   `align-content: end` note above), which used to hard-cut the screenshot
+   straight into the next section's flat `--rd-surface` — no seam, just an
+   abrupt edge. This fades the image's last quarter into that same colour so
+   it reads as one continuous surface instead of a cropped rectangle, the same
+   move `.rd-about-hero-media::after` makes for the About page illustration.
+   A gradient on the box, not a fixed-height pseudo-element, so the fade scales
+   with the cover's own clamp(320px, 60vh, 760px) instead of going
+   proportionally thinner on the tallest viewports. */
+.is-hero-glow .rd-case-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 75%, var(--rd-surface) 100%);
+  pointer-events: none;
+}
+.is-hero-glow .rd-case-cover img {
+  /* Edge-to-edge with the title/lead row above (Hao caught this 2026-08-21):
+     an earlier `max-width: 1440px; margin: 0 auto` centred the image
+     independently of the grid, so on any screen wider than 1440px its
+     left/right edges landed inside the text's edges instead of matching
+     them. `width/height: 100%` fills the grid cell exactly.
+
+     `object-fit: cover` (was `contain`, changed 2026-08-24, Hao's call):
+     the box height is `clamp(320px, 60vh, 760px)` — driven by viewport
+     *height*, not width — so no single exported asset can match its aspect
+     ratio at every window size. `contain` was leaving pillarbox gutters on
+     most desktop heights; `cover` always fills the box, cropping instead.
+     `object-position: top` anchors the crop to the top edge, since these
+     covers are product screenshots where the top (nav/header) is the part
+     that has to stay legible — cropping from the bottom loses whitespace,
+     not content. */
+  position: static;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 26px 26px 0 0;
+}
+@media (max-width: 900px) {
+  .is-hero-glow .rd-case-hero-inner { grid-template-columns: 1fr; }
+}
+
+
+/* ---- Split sub-variant: .is-hero-glow.is-hero-split ------------------------
+   Hao's follow-up request, 2026-08-21: same glow + tilt DNA above, different
+   arrangement — 100vh, heading and description together in ONE left column
+   (not split across two like the default layout), image fills the right
+   column, vertically centred, nothing below the fold. Stacked with the base
+   variant rather than a standalone class so the glow background and the tilt
+   entrance never have to be redefined for it: `<body class="rd-case
+   is-hero-glow is-hero-split">`. */
+.is-hero-glow.is-hero-split .rd-case-hero { min-height: 100dvh; }
+.is-hero-glow.is-hero-split .rd-case-hero-inner {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  column-gap: 48px;
+  row-gap: 24px;
+}
+.is-hero-glow.is-hero-split .rd-case-cover {
+  position: relative;
+  grid-column: 2;
+  grid-row: 1;
+  height: clamp(320px, 70vh, 640px);
+  overflow: hidden;
+}
+.is-hero-glow.is-hero-split .rd-case-cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+@media (max-width: 900px) {
+  .is-hero-glow.is-hero-split .rd-case-hero { min-height: auto; }
+  .is-hero-glow.is-hero-split .rd-case-hero-inner { grid-template-columns: 1fr; }
+  .is-hero-glow.is-hero-split .rd-case-cover {
+    grid-column: 1;
+    grid-row: auto;
+    height: clamp(240px, 40vh, 420px);
+  }
+}
+
+
+/* No `.is-hero-glow .rd-case-toc` override here either, for the same reason
+   noted above `.is-hero-overlap` — the corner popover is one rule for every
+   hero variant now. */
+
+/* ------------------------------------------------ 5. Figure variants ------
+   The audit that triggered these: lending.html carries 37 images against 852
+   words; healthcare.html carried 1 against 1,481. The structure here was
+   right and the visual rhythm was not, and a case study nobody scrolls
+   through proves nothing. Target is one figure per ~150 words.
+
+   Every figure needs a <figcaption> that says what the image PROVES, not
+   what it depicts. "Role × workflow map" is a label; "the program-request
+   band is the only one spanning every column, which is why it became the
+   spine" is evidence. */
+.rd-case-figure { margin: 0; width: 100%; }
+.rd-case-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 12px;
+}
+/* Breaks the 1,440 shell for cover art and the full product map.
+   Until v2 this modifier only dropped the radius and the side borders, which
+   is the cosmetic half of the job — the figure still sat inside .rd-shell, so
+   nothing actually bled. The margin trick below is the other half: pull the
+   element out to the viewport edges by half the difference between its
+   container and the viewport, on both sides.
+   `100vw` is only safe here because style.css sets `overflow-x: hidden` on the
+   body — without that, the scrollbar width is counted in 100vw and every page
+   using this class would scroll sideways by ~15px. `max-width: none` is not
+   redundant: .rd-case-figure sets `width: 100%`, and a flex column parent will
+   otherwise hold the item at the container's width. */
+.rd-case-figure.is-full {
+  width: 100vw;
+  max-width: none;
+  margin-inline: calc(50% - 50vw);
+}
+.rd-case-figure.is-full img { border-radius: 0; border-inline: 0; background: none; }
+/* Two figures that argue against each other — before/after, sparse/dense.
+   `center`, not `start`: the pair is almost never the same aspect ratio (the
+   sparse crop is naturally short, the dense one tall), and top-aligning them
+   leaves the short one hanging with a ragged gap beneath. Centring reads as
+   deliberate. */
+.rd-case-figure.is-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+/* A wide artifact that should stay wide. Scrolls rather than shrinking to
+   illegibility — a 2,200px-wide role header squeezed into 800px is a grey
+   smear, and the whole point of showing it is that the labels are readable. */
+.rd-case-figure.is-strip { width: 100%; }
+.rd-case-figure.is-strip img {
+  width: auto;
+  max-width: none;
+  height: auto;
+  /* `width: auto` shrink-wraps the image, so anything narrower than the
+     scroll frame (no is-tall/is-wide class) would otherwise hug the left
+     edge instead of sitting centered like every other figure's image. No
+     effect once the image is wider than the frame — the overflow just eats
+     the auto margin on both sides equally. */
+  margin-inline: auto;
+  border: 0;
+  border-radius: 0;
+}
+.rd-case-figure.is-strip img.is-tall { min-width: 1100px; }
+.rd-case-figure.is-strip img.is-wide { min-width: 1600px; }
+/* ------------------------------- 6. Patterns ported from web-3 / lending ---
+   Hao's call: make the case-study pages look like web-3.html and lending.html.
+   Those two are the visual reference, but their markup depends on
+   case-studies.css and the 2021 token set (--p-24, --grey-G50,
+   --border-neutral-default). Copying their classes into healthcare.html would
+   drag that whole stack back in and undo the reason this page is clean.
+
+   So the patterns are reimplemented here against the rd- tokens instead. Same
+   shapes, no legacy dependency. Source of each is named so the two can be
+   compared later. */
+
+/* ← web-3 `.case-cover`. A full-width rounded cover under the hero. The single
+   biggest fix for a case study opening on a wall of text. */
+/* The cover is the hero's shock absorber: it takes all the free space left
+   after the type and the snapshot bar, so a long two-line title on a 768px
+   laptop costs picture height rather than pushing the snapshot off screen.
+
+   `position: absolute` on the image is load-bearing, not decoration. An
+   in-flow `<img>` sets its row's height, so `height: 100%` inside a flex item
+   whose own height comes from flex distribution resolves to `auto` and the
+   image goes back to demanding its natural 594px — the exact failure that
+   blanked the initiatives cover. Out of flow, the box's height is decided
+   purely by the flex line and the image just fills it.
+
+   `min-height` is the floor that keeps it from collapsing to zero when the
+   copy is long enough to eat the whole budget; below that the hero overflows
+   100dvh, which is the right way to fail. Radius moves to the wrapper because
+   the image no longer defines the box. */
+.rd-case-cover {
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 160px;
+  overflow: hidden;
+  border-radius: 16px;
+}
+.rd-case-cover img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* ← web-3 `.case-snapshot`. Replaces the bordered 6-column meta grid: one
+   tinted rounded bar reads as a single object instead of six loose pairs. */
+/* Grid, not flex. With `flex-wrap` the columns size to their content, so one
+   long value ("Specced, prototyped and handed off") pushed Status onto a row
+   of its own and the bar lost its shape. Equal columns keep the rhythm
+   whatever the copy does. */
+/* Corrected 2026-08-20: was `--rd-surface` / `--rd-border-soft` (tinted fill,
+   light hairline border), which matches neither Figma (40000221:3783 is
+   `bg-white border border-[#666]`) nor this project's own token for that
+   exact pairing — `.rd-case-card` already uses `--rd-surface-raised` / `--rd-border`
+   for the identical white-card-with-a-#666-border look elsewhere on every
+   case study. This is a shared rule (healthcare.html, customer-engagement.html
+   and lending-new*.html all render it), so the fix applies everywhere the
+   snapshot bar appears, not just on case-study-framework.html. */
+.rd-case-snapshot {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 24px;
+  width: 100%;
+  padding: 24px;
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  background: var(--rd-surface-raised);
+}
+.rd-case-snapshot > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+/* No scoped rule existed for the label/value pair inside .rd-case-snapshot —
+   .rd-case-meta-k/-v only had rules under .rd-case-meta, .rd-case-summary and
+   .rd-case-highlight, none of which is this component's parent, so these
+   spans were rendering with no explicit type at all. Figma (40000221:3815/
+   :3818 etc.) has the label at Medium/14px/muted and the value at
+   SemiBold/16px/full ink — mapped to tokens below (fw-heading is this
+   project's SemiBold, same substitution used throughout). */
+.rd-case-snapshot .rd-case-meta-k {
+  font-weight: var(--rd-fw-body);
+  font-size: var(--rd-fs-sm);
+  color: var(--rd-ink-muted);
+}
+.rd-case-snapshot .rd-case-meta-v {
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-md);
+  color: var(--rd-ink);
+}
+/* ← web-3 `.outcome` / `.outcome-info` / `.outcome-highlight`.
+   THE pattern this page needed. healthcare.html had 778px of prose against a
+   1,312px content width, leaving a dead column down the whole right side —
+   which is what read as "unfinished". A 2:1 split puts the narrative left and
+   a filled card right, so the width is used instead of merely available. */
+.rd-case-split {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  align-items: start;
+  width: 100%;
+}
+.rd-case-split > .rd-case-body { max-width: none; }
+.rd-case-highlight {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+  border-radius: 16px;
+  background: var(--rd-primary);
+  color: var(--rd-on-accent);
+  position: sticky;
+  /* 64px was originally clearance for a top-sticky section rail that no
+     longer exists (it's a corner popover now, §3 above) — left as-is since
+     it still reads as reasonable breathing room from the viewport edge, not
+     because anything below still needs clearing. */
+  top: 64px;
+}
+.rd-case-highlight .rd-case-meta-k { color: var(--rd-on-accent); opacity: 0.75; }
+.rd-case-highlight-stat { display: flex; flex-direction: column; gap: 4px; }
+.rd-case-highlight-stat + .rd-case-highlight-stat {
+  padding-top: 20px;
+  border-top: 1px solid color-mix(in srgb, var(--rd-on-accent) 28%, transparent);
+}
+/* One step below the section H2 that heads the block these sit in — 24px
+   under a 32px H2, and 20px at ≤768 where that H2 drops to 24px (the
+   step-down lives in the ≤768 block). They used to be 32px with no mobile
+   override, which left the figure larger than its own heading on a phone. */
+.rd-case-highlight-stat strong {
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-2xl);
+  line-height: 1.1;
+  color: var(--rd-on-accent);
+}
+.rd-case-highlight-stat span {
+  font-size: var(--rd-fs-sm);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-on-accent);
+  opacity: 0.88;
+}
+
+/* ← web-3 `.sub-heading` used as a label. Small caps above a block, so a
+   reader can scan structure without reading prose. */
+.rd-case-label {
+  margin: 0;
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+  opacity: 0.6;
+}
+@media (max-width: 1024px) {
+  /* minmax(0, 1fr), not 1fr. A `1fr` track keeps an automatic minimum of
+     min-content, so the swipe decks inside a case body (`.rd-case-grid
+     .is-four.is-numbered`, whose cards are `flex: 0 0 calc(100% - 28px)`)
+     pushed the single column to 403px inside a 358px container — and the
+     deck's own full-bleed `calc(100% + 32px)` widened that to 435px, which
+     is the horizontal scroll the whole page had on a phone. A scroll
+     container must never be allowed to size its own parent. */
+  .rd-case-split { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .rd-case-highlight { position: static; }
+}
+
+@media (max-width: 768px) {
+  .rd-case-figure.is-pair { grid-template-columns: 1fr; }
+  /* The fit-to-one-viewport hero is a desktop behaviour only. On a 390×844
+     phone the same six blocks need ~1100px however hard they are squeezed, so
+     forcing them into 100dvh would mean a 0px cover and clipped type. The
+     cover goes back in flow with a fixed cap and the hero grows naturally. */
+  .rd-case-cover {
+    position: static;
+    flex: 0 0 auto;
+    min-height: 0;
+    border-radius: 12px;
+  }
+  .rd-case-cover img {
+    position: static;
+    height: auto;
+    max-height: 260px;
+  }
+  .rd-case-snapshot { gap: 16px; padding: 16px; }
+}
+
+@media (max-width: 1024px) {
+  .rd-case-meta { grid-template-columns: repeat(3, 1fr); }
+  .rd-case-grid,
+  .rd-case-grid.is-two,
+  .rd-case-grid.is-four,
+  .rd-case-grid.is-five { grid-template-columns: 1fr 1fr; }
+  .rd-case-title { font-size: var(--rd-fs-3xl); }
+}
+
+/* 768, not 767: the nav/footer/hero mobile block above is `max-width: 768px`,
+   so at exactly 768 the chrome dropped to the 16px gutter while the case-study
+   sections were still on the 40px one — a one-pixel-wide misalignment that is
+   invisible in a screenshot and shows up immediately in a width sweep. */
+@media (max-width: 768px) {
+  .rd-case-hero-inner { padding: 40px 16px 0; gap: 24px; }
+  /* Section gutter goes to 0 at mobile; `.rd-case-hero-inner` above is the
+     single source of the 16px inset, exactly as `.rd-case-inner` is for the
+     body sections. Without this the hero would be inset twice (40 + 16). */
+  .rd-case-hero { min-height: 0; padding-bottom: 40px; padding-inline: 0; }
+  .rd-case-title { font-size: var(--rd-fs-3xl); }
+  .rd-case-lead { font-size: var(--rd-fs-md); }
+  .rd-case-meta { grid-template-columns: 1fr 1fr; gap: 16px; }
+  /* The two figure blocks step down with the H2 above them — both are 24px
+     on desktop, which would tie with .rd-case-h2 once it drops to 24px here. */
+  .rd-case-highlight-stat strong,
+  .rd-case-band .rd-ai-evi-stat strong { font-size: var(--rd-fs-xl); }
+  .rd-case-grid,
+  .rd-case-grid.is-two,
+  .rd-case-grid.is-four,
+  .rd-case-grid.is-five { grid-template-columns: 1fr; }
+  /* Four numbered goal cards ("What the enhancement promised" / "Business
+     goal") read faster swiped one at a time than stacked as a 4-tall column
+     on a phone. Same swipe-snap deck as .rd-related just above (Hao's call,
+     2026-08-31); .is-four.is-numbered outranks the plain .is-four stack rule
+     above on specificity, so no exclusion needed there. */
+  .rd-case-grid.is-four.is-numbered {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    width: calc(100% + 32px);
+    margin-inline: -16px;
+    padding-inline: 16px;
+    scroll-padding-inline: 16px;
+    padding-block: 4px;
+  }
+  .rd-case-grid.is-four.is-numbered::-webkit-scrollbar { display: none; }
+  .rd-case-grid.is-four.is-numbered > div {
+    flex: 0 0 calc(100% - 28px);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+
+
+/* --- lending-new-v3.html only — view switcher + the "Online share" rows ---
+   The map answers "reach versus readiness" on two axes at once, which is the
+   right frame for the section's argument but the wrong one for its single
+   sharpest fact: four competitors sit between 14% and 34% online and HD
+   Saison sits at 0. On the map that fact is a horizontal distance the eye
+   has to measure against a quadrant divider drawn somewhere else (17%); as
+   five stacked bars it is just an empty rail. So both views exist and the
+   reader picks — same data, same hover, same INSIGHT card, no duplication of
+   the panel markup.
+
+   No pill styles here: .rd-tabs/.rd-tab (see the TAB STRIP section above) is
+   already the sitewide switcher, filled-when-active, --rd-fs-md like every
+   other button. The only thing that needs changing is the justification —
+   .rd-tabs centres itself for the full-width initiatives strip, and a chart
+   card's controls belong on the same left edge as its title. */
+.rd-bench-views { justify-content: flex-start; margin: 14px 0 0; }
+/* Its mobile dropdown stand-in (see the TAB STRIP section) takes the same
+   top margin so it lands where the pill row would have. */
+.rd-bench-views.rd-tabs-collapsible + .rd-tabs-dropdown { margin: 14px 0 0; }
+/* Reverted 2026-08-29 (Hao, on a real device) — the padding tightened here to
+   0 12px read as a broken/flattened pill, not a trade worth making. Checked
+   headlessly in both Chromium and WebKit at every width 320–430px with the
+   sitewide 12px 16px padding restored: neither this group's pills
+   (lending.html, 4 labels) nor customer-engagement.html's (3 labels) ever
+   exceed the viewport — wrapping to a second row was already the accepted
+   fallback (lending.html's own comment: "Four pills wrap to two lines below
+   ~430px; that is accepted rather than fought"), so there was never anything
+   worth flattening the pill for. Gap still trims to 8px at this width; that
+   one wasn't the complaint. */
+@media (max-width: 430px) {
+  .rd-bench-views { gap: 8px; }
+}
+
+
+/* Spacing for `.rd-case-label.is-heading` used as an eyebrow INSIDE a
+   `.rd-bench` insight panel — scoped to that context (adjacent-sibling /
+   :has() off the panel's own classes), not added to `.is-heading` itself,
+   which is a sitewide modifier used on plenty of headings that want no
+   margin at all (see the grep of case-studies/*.html for other callers).
+   Replaces two things that had drifted apart: lending-new-v3.html's old
+   `.rd-bench-insight-label` (bottom margin only, label sits BEFORE the
+   blurb) and customer-engagement-v3.html's per-call-site
+   `style="margin-top:12px"` (label sits AFTER the blurb or a list) — one of
+   its four labels, "BY SEVERITY", was missing that inline style and sat
+   12px tighter than its siblings for no reason anyone asked for. Both
+   positions get a real rule here so a fifth insight panel never needs to
+   hand-tune this again. */
+.rd-case-label.is-heading:has(+ .rd-bench-panel-blurb) { margin-bottom: 16px; }
+
+/* ---------------------------------------------- 5. Expectation checklist --
+   "The expectation" — the client brief's original goal list, Figma's
+   icon+label row pattern. Icons are the real per-feature assets carried
+   over from lending.html (IC_esign / IC_loan / IC_payment / IC_remarket),
+   not Figma's mismatched sample icons (Figma/Slack/Discord/Teams/GitHub
+   logos) — those belonged to an unrelated sample screen in the source file. */
+.rd-case-checklist {
+  width: 100%;
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--rd-surface-raised);
+}
+.rd-case-checklist-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-top: 1px solid var(--rd-border-soft);
+}
+.rd-case-checklist-row:first-child { border-top: 0; }
+/* Matches the shared "Body copy" role (.rd-case-body p etc., near the top
+   of this file) exactly — same font-size/weight/line-height/colour — this
+   just hadn't spelled out weight/line-height explicitly before, so it rode
+   on whatever the ambient inherited values happened to be. */
+.rd-case-checklist-row span {
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+
+/* ------------------------------------------------ 6. Research card stack --
+   Beside the benchmark chart in UX Research Findings — one wrapper for the
+   flex column, no new card visual needed. lending-new-v2.html still stacks
+   two cards here (INSIGHT + Chart Information) sized to their own content;
+   case-study-framework.html dropped the second card (Hao's call), so its
+   one remaining card is the `:only-child` case below, stretched to match
+   the map's height instead of sitting content-sized with empty space under
+   it in the now mostly-empty stack. */
+.rd-case-card-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+}
+.rd-case-card-stack .rd-case-card { flex: 0 0 auto; }
+.rd-case-card-stack .rd-case-card:only-child { flex: 1 1 auto; }
+/* Narrow insight/info column, wide chart column — the inverse of
+   .rd-case-split's 2fr:1fr (narrative left, stat card right). Same
+   component, opposite emphasis, so it takes a modifier rather than a
+   second grid class.
+
+   `align-items: stretch` overrides the base .rd-case-split's `start`
+   (2026-08-20 fix). Without it .rd-case-card-stack's own `height: 100%`
+   above was a no-op — a grid item under `align-items: start` is never
+   stretched to the row's height in the first place, so both columns sat at
+   their own content height and the shorter one just left dead space beside
+   the taller one instead of matching it. Stretching here is also what lets
+   the map fill its card the way Figma's node renders it — a plain image at
+   `object-contain size-full` — see .rd-bench-map below. */
+.rd-case-split.is-chart { grid-template-columns: minmax(280px, 1fr) 2.3fr; align-items: stretch; }
+@media (max-width: 1024px) {
+  .rd-case-split.is-chart { grid-template-columns: minmax(0, 1fr); }
+}
+
+
+/* Copy left, product render right — Figma 40000256:5857 ("Looking at the
+   main"), where the two columns are 498 and 774, i.e. 1 : 1.55. The existing
+   .is-chart modifier next door is the closest fit at 1 : 2.3 and is still
+   wrong for this: a chart can survive a 280px sidebar because the sidebar
+   holds labels, but this column holds two paragraphs, and paragraphs at that
+   width break to four or five words a line.
+
+   Right-side panel follows the same shape as web-3.html's own card-section
+   component (.cs-right-side / .cs-image-container / .cs-feature-image,
+   case-studies.css) — padding held only on the top and left, none on the
+   right or bottom, with the image filling the panel's content box so it
+   bleeds to those two open edges. Ported as structure only, not a literal
+   copy: colours/border go through this page's --rd-* tokens instead of
+   .cs-right-side's hardcoded #fafbfc, and the image runs `object-fit:
+   contain` rather than web-3's `cover` — this render is a transparent phone
+   mockup, not a photo, so cropping it isn't an option. `align-items:
+   stretch` (was `center`) so the panel fills the row instead of sizing to
+   the image's own intrinsic height, the same way .cs-image-container fills
+   .cs-right-side. */
+.rd-case-split.is-media {
+  grid-template-columns: 1fr 1.5fr;
+  align-items: stretch;
+}
+/* Each panel owns its own inset rather than sharing the outer .rd-case-card's
+   padding (below, zeroed out for this card) — mirrors .cs-left-side / .cs-
+   right-side each carrying their own padding in web-3.html's card-section,
+   rather than one shared padded wrapper around both. */
+/* 40px top, not 24: the figure panel beside it starts 40px down (its
+   margin-top), so the copy's first line lines up with the panel's top edge. */
+.rd-case-split.is-media > .rd-case-body { padding: 40px 24px 24px; }
+.rd-case-split.is-media > .rd-case-figure {
+  padding: 40px 0 0 40px;
+  margin-top: 40px;
+  background: var(--rd-surface);
+  border: 1px solid var(--rd-border-soft);
+  border-radius: 16px 0;
+  overflow: hidden;
+}
+/* Caps how tall the panel can grow to match its row (see `align-items:
+   stretch` above): without it, a source screenshot with a lot of intrinsic
+   height stretches the whole card to match, even though object-fit: contain
+   below only needs enough height to show the image at the panel's own
+   width. 720px verified (2026-08-31) against the two panels on the page
+   that already looked right — lending.html's renders at ~705px unconstrained,
+   customer-engagement.html's at ~567px — so this doesn't touch either.
+   min-height: 0 overrides the grid-item default of min-height: auto, which
+   otherwise refuses to shrink the panel below that intrinsic size and
+   defeats max-height on its own.
+
+   :not(.is-embed) — the Marvel-iframe variant just below excluded on
+   purpose. That panel's content is a fixed 343:811 aspect ratio box, not a
+   screenshot with runaway height, so it never had the problem this rule
+   solves. Capping it anyway forced the browser to shrink the iframe's WIDTH
+   to hold the ratio at a shorter height, from its usual 343px down to
+   ~221px — the phone mockup shrank and the leftover space read as an empty
+   hole in the panel (Hao, 2026-08-31 screenshot on lending.html's "New
+   Experiences" panel). */
+.rd-case-split.is-media > .rd-case-figure:not(.is-embed) {
+  max-height: 720px;
+  min-height: 0;
+}
+/* The panel above already carries the border and the ground, so the image
+   inside it drops both — otherwise it reads as a card inside a card.
+   object-position pushes it into the bottom-right corner (the panel's two
+   unpadded edges) rather than `contain`'s default centring, so any slack
+   from the aspect-ratio mismatch lands in the padded top/left instead. */
+.rd-case-split.is-media > .rd-case-figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 100% 100%;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.rd-case-split.is-media > .rd-case-figure figcaption { text-align: center; margin-top: 20px; }
+/* The two panels above now carry their own padding, so the outer card is
+   just a bleed-free wrapper here — its usual 24px would double up with
+   .rd-case-body's own padding on three sides and reopen the gap the figure
+   panel bleeds into on the fourth. */
+.rd-case-card:has(> .rd-case-split.is-media) { padding: 0; }
+@media (max-width: 1024px) {
+  .rd-case-split.is-media { grid-template-columns: minmax(0, 1fr); }
+  /* Stacked, there is no panel beside the copy to line up with. */
+  .rd-case-split.is-media > .rd-case-body { padding-top: 24px; }
+  .rd-case-split.is-media > .rd-case-figure {
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+    margin-top: 0;
+    border-radius: 0 0 16px 16px;
+  }
+  .rd-case-split.is-media > .rd-case-figure img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    object-position: center;
+    margin: 0 auto;
+  }
+}
+
+
+/* lending-new-v3.html only — the per-card title ("Wet ink by default", etc).
+   Back on `<h3>` as of 2026-08-20 (Hao's call), after a brief spell as a `<p>`
+   to keep "Industry Challenges" the card's only heading. `.rd-case-card h3`
+   therefore matches these again and this class is now belt-and-braces — same
+   declarations from either selector, no conflict, and the title keeps its look
+   if the tag ever moves off h3 again.
+   Why the class exists at all: these titles were never styled by
+   `.rd-case-label`. `.rd-case-card h3`'s descendant selector outranks it on
+   specificity regardless of source order, so it was doing all the visible work
+   (bigger, full-ink, uppercase) — which meant changing the TAG, not the class,
+   is what made the title vanish into the sitewide 12px muted micro-label. Don't
+   delete this rule on the grounds that `.rd-case-card h3` covers it today. */
+.rd-case-challenge-title {
+  margin: 0;
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-tight);
+  text-transform: uppercase;
+  color: var(--rd-ink);
+}
+/* Same "three columns share one bordered surface" shape as About's lessons
+   (.rd-learn-card / .rd-learn-lesson) — so it takes the same padding and gap
+   rather than the generic 24px .rd-case-grid card-row spacing: 80px between
+   columns, 16px between each column's icon/label/body. Scoped off the icon
+   class rather than editing .rd-case-grid itself, since every other page
+   reuses that class for actual bordered sub-cards at the 24px gap. */
+.rd-case-grid:has(.rd-case-challenge-icon) { gap: 80px; }
+.rd-case-grid:has(.rd-case-challenge-icon) > div {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+@media (max-width: 1024px) {
+  .rd-case-grid:has(.rd-case-challenge-icon) { gap: 40px; }
+}
+
+@media (max-width: 768px) {
+  .rd-case-grid:has(.rd-case-challenge-icon) { gap: 32px; }
+}
+
+
+/* ----------------------------------------------------- 9. "Product wiki" ---
+   Bordered surface divided into full-width stacked rows (lead line / label
+   bar / content), Figma's shape for the closing retrospective in
+   case-study-framework.html (40000256:6337). Distinct from .rd-case-cols,
+   which divides into side-by-side columns, not stacked rows. */
+.rd-case-wiki {
+  width: 100%;
+  border: 1px solid var(--rd-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.rd-case-wiki > * { padding: 24px; }
+/* The bordered box is the measure here — a 1040px cap inside it leaves a
+   ragged empty band on the right at wide viewports. */
+.rd-case-wiki .rd-case-body,
+.rd-case-wiki .rd-case-list,
+.rd-case-card .rd-case-body,
+.rd-case-card .rd-case-list { max-width: none; }
+.rd-case-wiki-row + .rd-case-wiki-row { border-top: 1px solid var(--rd-border); }
+.rd-case-wiki-title {
+  margin: 0;
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-md);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+  border-top: 1px solid var(--rd-border);
+  border-bottom: 1px solid var(--rd-border);
+}
+/* Retrospective intro — the .rd-case-body directly above "What I'd do
+   differently" (marked `.rd-case-wiki-intro` in each case study's markup).
+   js/case-wiki-intro.js cuts the text to six lines itself and appends this
+   toggle inline, at the end of the cut text ("…text… See more") and after
+   the last paragraph once expanded — so it's an inline link, not a block on
+   its own line. Short intros never get a toggle. */
+.rd-case-wiki-intro-toggle {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  line-height: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+  color: var(--rd-ink);
+  cursor: pointer;
+}
+.rd-case-wiki-intro-toggle:hover { opacity: 0.7; }
+/* Short lesson cards — Figma 40000256:6457 etc. This colour genuinely doesn't
+   exist anywhere in --rd-*, so it was promoted to a real token
+   (--rd-accent-yellow, --rd-shadow-card, both declared with the rest of the
+   palette near the top of this file) rather than either inlining Figma's hex
+   or avoiding the colour altogether — the fix for "no token for this" is to
+   add the token, not to route around needing one.
+
+   SIX PER ROW. A CSS grid, not flexbox: with a fixed 6-column track, item 7
+   lands in implicit row 2 automatically — "wrap after six" is the grid's
+   native auto-placement, not something to compute by hand. Cards fewer than
+   six still occupy their own 1/6-width column instead of stretching to fill
+   the row, which is correct here: the row is a fixed slot count, not a fluid
+   fill. */
+.rd-case-lesson-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.rd-case-lesson {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: start;
+  min-height: 172px;
+  padding: 24px;
+  border-radius: 4px;
+  background: var(--rd-accent-yellow);
+  box-shadow: var(--rd-shadow-card);
+  color: var(--rd-ink);
+  font-size: var(--rd-fs-md);
+  text-align: left;
+}
+@media (max-width: 1024px) {
+  .rd-case-lesson-row { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 600px) {
+  /* Swipe instead of wrap (Hao's call, 2026-08-31): a fourth card used to
+     drop to a lonely second row under the 2-column grid above. Same
+     bleed/peek mechanics as .rd-related / .rd-journey-list / .rd-initiative-
+     deck elsewhere in this file, except the padding this cancels is
+     .rd-case-wiki-row's own 24px (`.rd-case-wiki > *` above), not
+     .rd-case-inner's 16px — the lesson row's immediate parent is the wiki
+     row, so bleeding further would also eat into .rd-case-inner's gutter and
+     misalign the deck from the rest of the page. */
+  .rd-case-lesson-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    width: calc(100% + 48px);
+    margin-inline: -24px;
+    padding-inline: 24px;
+    scroll-padding-inline: 24px;
+    padding-block: 4px;
+  }
+  .rd-case-lesson-row::-webkit-scrollbar { display: none; }
+  .rd-case-lesson {
+    flex: 0 0 calc(100% - 28px);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+
+
+/* ------------------------------------------ 10. Reversed chart split -----
+   .rd-case-split.is-chart is narrow-left/wide-right (Insight beside a wide
+   map). This page puts the map first instead — same two widths, columns
+   swapped — so the DOM can carry the map card first without it being
+   squeezed into the narrow track. */
+.rd-case-split.is-chart.is-reverse { grid-template-columns: 2.3fr minmax(280px, 1fr); }
+@media (max-width: 1024px) {
+  .rd-case-split.is-chart.is-reverse { grid-template-columns: minmax(0, 1fr); }
+}
+
+
+/* ------------------------------------------ 11. Larger sub-heading -------
+   "The problem statement" / "Business pain point" / "Business goal" — Figma
+   40000221:4030 / 40000256:5362 / 40000298:908 (this trio replaced "The
+   problem" / "The expectation" 2026-08-21, see file header): DM Sans
+   ExtraBold, 20px, uppercase, on var(--text/neutral/title, #374151). Two
+   things are deliberate departures from that literal spec, both matching a
+   convention this page already uses elsewhere (.rd-case-card h3, same
+   ExtraBold-in-Figma treatment on "Insight" / "Chart information" /
+   "Industry Challenges"): no 800 weight token exists sitewide, so ExtraBold
+   maps to --rd-fw-emphasis (700) same as everywhere else; and #374151 has no
+   token of its own, so it maps to --rd-ink (#0a2a30) rather than adding a
+   near-duplicate gray. A modifier, not a change to .rd-case-label itself,
+   since every other use of that class is deliberately the small 12px/muted
+   micro-label. */
+.rd-case-label.is-heading {
+  font-size: var(--rd-fs-xl);        /* 20px */
+  font-weight: var(--rd-fw-emphasis); /* 700 — stands in for Figma's 800 */
+  letter-spacing: normal;
+  text-transform: uppercase;
+  color: var(--rd-ink);
+  opacity: 1;
+}
+/* §05 findings panel's own sub-labels (BY SEVERITY / MAIN PROBLEMS / WHAT
+   THEY ASKED FOR / TRIP METRICS) sit one step below the panel's own
+   .rd-bench-panel-name title, so they read as a subsection kicker rather
+   than a heading of equal weight to "Audit Findings" etc. — 16px, still
+   bold/uppercase via the inherited .is-heading rule above, just off
+   --rd-fs-md instead of -xl. Scoped to this panel only; .is-heading stays
+   20px everywhere else it's used (Hao, 2026-08-29). */
+[data-findings-insight] .rd-case-label.is-heading {
+  font-size: var(--rd-fs-md); /* 16px */
+}
+/* Gap between the label and what follows it (a paragraph, or the expectation
+   checklist) — both .rd-case-label and the sitewide `p { margin: 0 }` reset
+   leave these touching otherwise. .rd-case-body's own 16px gap only reaches
+   its direct children (the two "problem"/"expectation" wrapper divs), not
+   what's stacked inside each one. */
+.rd-case-split > .rd-case-body > div {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+/* --------------------------------- 11a. Pain point / goal numbered grid --
+   "Business pain point" / "Business goal", Figma 40000256:5333 / 40000298:881
+   — replaced "The expectation" checklist 2026-08-21 (see file header). Same
+   icon+title+body column shape as "Industry Challenges" (§8 above), so it
+   reuses that section's column layout and .rd-case-challenge-title (an exact
+   match: Figma specs both as ExtraBold/16px/uppercase) rather than declaring
+   a near-duplicate title rule. Only the leading icon swaps for a numbered
+   chip, and the row count for four rather than three, hence .is-four on
+   .rd-case-grid instead of the bare 3-up default. */
+.rd-case-grid.is-numbered { gap: 40px; }
+.rd-case-grid.is-numbered > div {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+}
+.rd-case-num-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  font-weight: var(--rd-fw-emphasis);
+  font-size: var(--rd-fs-sm);
+  color: var(--rd-on-accent);
+}
+.rd-case-num-chip.is-pain { background: var(--rd-pain-chip); }
+.rd-case-num-chip.is-goal { background: var(--rd-primary); }
+/* is-critical/is-notable/is-attention/is-minor — Audit Findings severity
+   chips. Lived here briefly, 2026-08-25, then removed the same day once
+   that panel was rebuilt around .rd-bench's hover-chart + rank-card
+   pattern (no chip in it). Revived same day, later that session: the
+   Audit key findings view got its own accordion-of-groups treatment
+   (screenshot from Hao) whose row badges are exactly this chip, plus a
+   matching fill on the SVG bubble cluster beside it (.rd-bench-bubble
+   below) — see --rd-severity-* in the :root block for the colour source. */
+.rd-case-num-chip.is-critical { background: var(--rd-severity-critical); }
+.rd-case-num-chip.is-notable { background: var(--rd-severity-notable); }
+.rd-case-num-chip.is-attention { background: var(--rd-severity-attention); }
+.rd-case-num-chip.is-minor { background: var(--rd-severity-minor); }
+/* PROBLEMS list, Interview & Survey panel (Figma 40000390:6101) — a plain
+   gray chip, not severity-coded like Audit's, since these rows aren't
+   ranked by severity. --rd-ink-muted already covers this exact gray. */
+.rd-case-num-chip.is-neutral { background: var(--rd-ink-muted); }
+/* Figma's #4b5563 has no ladder token of its own; this is the same "off-
+   ladder grey collapses to the nearest muted alias" call the sub-heading
+   above already makes for #374151 → --rd-ink. */
+.rd-case-num-desc {
+  margin: 0;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink-muted);
+}
+@media (max-width: 1024px) {
+.rd-case-grid.is-numbered { gap: 24px; }
+}
+
+
+/* Divider between "The problem statement" / "Business pain point" /
+   "Business goal" (Figma 40000298:688, a hairline image asset there — a
+   plain rule reproduces it without committing an SVG asset for one line,
+   same call as every other hairline on this page). */
+.rd-case-split-rule {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--rd-border);
+}
+/* ------------------------------------------ 12. Homepage feature picker --
+   "New Features" rows become the same click-to-select-and-swap-the-image
+   interaction as case-studies/web-3.html's showcase section (loadContent()
+   there: active state + a cross-fade on the displayed image), rebuilt small
+   and self-contained for this page's own generic row/image data instead of
+   pulling in web-3's Aura-specific data. */
+.rd-case-checklist-row.is-selectable { cursor: pointer; }
+.rd-case-checklist-row.is-selectable:hover { background: var(--rd-surface); }
+.rd-case-checklist-row.is-active { background: var(--rd-surface); }
+.rd-case-checklist-row.is-active span { color: var(--rd-primary); font-weight: var(--rd-fw-emphasis); }
+/* "New Features" now sits in its own wrapper div, same as "The problem" /
+   "The expectation" above (`.rd-case-split > .rd-case-body > div`, 12px
+   gap) — that gives the "Homepage" and "New Features" blocks the outer
+   .rd-case-body 16px gap between them, but Hao's still after a flush label
+   directly on this particular list, so this wrapper overrides its own gap
+   to 0 rather than inheriting the shared 12px. */
+.rd-case-split.is-media > .rd-case-body > div:has(#homepage-picker) { gap: 0; }
+.rd-case-split.is-media > .rd-case-figure img { transition: opacity 0.25s ease; }
+/* "New Experiences" panel title and "Experience List" sub-label (renamed
+   from "Delighted Features" at Hao's request 2026-08-23), Figma
+   40000318:4637 / 40000318:4641 — neither matches an existing heading class:
+   `.rd-case-card h3` is 16px/uppercase (a card kicker) and `.rd-case-label`
+   is a 12px letter-spaced eyebrow, but these are a 24px panel title and a
+   plain 16px bold sub-label (Hao's call — Figma's own spec was 14px, see
+   the file's own "Figma governs layout, tokens govern type" rule; this is
+   the one deliberate deviation from it). Both assembled from existing
+   --rd-fs-* / --rd-fw-* rungs, not new values.
+
+   Scoped as `.rd-case-card .rd-case-panel-title` / `.rd-case-card
+   .rd-case-features-label` (2 classes) rather than the bare class alone (1
+   class) on purpose — `.rd-case-card h3` (1 class + the `h3` element, also
+   2 components) sits later in the file and was winning the cascade despite
+   lower intent, silently forcing both back to its 16px/uppercase kicker
+   style. Caught by screenshot 2026-08-23: "NEW EXPERIENCES" was rendering
+   all-caps at 16px instead of 24px/mixed-case. */
+.rd-case-card .rd-case-panel-title {
+  margin: 0;
+  font-size: var(--rd-fs-2xl);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: var(--rd-lh-heading);
+  text-transform: none;
+  color: var(--rd-ink);
+}
+.rd-case-card .rd-case-features-label {
+  margin: 0;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-emphasis);
+  line-height: var(--rd-lh-tight);
+  text-transform: none;
+  color: var(--rd-ink);
+}
+/* Mobile only: at 768px .rd-case-h2 sits at --rd-fs-2xl (24px/600) — same
+   pixel size as this panel title's fixed 24px/700, and the heavier weight
+   read as more prominent than its parent heading (Hao, 2026-08-31). Placed
+   here, after the base rule above, not in the shared 768px block near
+   .rd-case-h2: same specificity, so source order decides, and the base rule
+   at line 6241 sits later in the file than that block. */
+@media (max-width: 768px) {
+  .rd-case-card .rd-case-panel-title { font-size: var(--rd-fs-xl); }
+}
+
+
+/* Extra air between the "New Experiences" intro block and the "Experience
+   List" picker block (Hao, 2026-08-23) — the base .rd-case-body gap (16px,
+   shared sitewide) reads too tight for two blocks this visually distinct.
+   Scoped to this one panel via a modifier on .rd-case-body itself rather
+   than a `:has(.rd-case-checklist)` selector, which would also catch
+   case-study-framework.html's still-tabbed Homepage/Loan Management panels
+   — out of scope for this change.
+
+   `justify-content: space-between`, not just a bigger `gap` (Hao's follow-up,
+   2026-08-23, from a screenshot): `.rd-case-split.is-media`'s `align-items:
+   stretch` makes this column match the tall phone-screenshot figure beside
+   it, and a plain `gap` leaves ALL of that leftover height stranded below
+   the last checklist row instead of between the two blocks — the panel ended
+   with a dead footer strip and the checklist floating above it. `gap: 32px`
+   stays on as the floor for narrow/short cases where there's no slack to
+   distribute (mobile stack, or a short right-hand image); space-between only
+   spends height beyond that floor. */
+.rd-case-features-body {
+  gap: 32px;
+  justify-content: space-between;
+}
+/* "Interactive Prototype →" pill on the "01. E-signature" row, Figma
+   40000318:4646/4647 — both its colours are exact matches to tokens already
+   declared elsewhere on this page (not new): background #f3f3ef is
+   --rd-surface, text #ea6800 is --rd-pain-chip (the same orange the pain/
+   goal numbered grid already uses). The `.is-active` override is needed
+   because ".rd-case-checklist-row.is-active span" (12. above) outranks a
+   bare ".rd-case-chip" and would otherwise repaint the pill --rd-primary/
+   bold when row 1 is selected — which it is by default on load. */
+.rd-case-chip {
+  margin-left: auto;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: var(--rd-surface);
+  font-size: var(--rd-fs-xs);
+  font-weight: var(--rd-fw-body);
+  color: var(--rd-pain-chip);
+  white-space: nowrap;
+}
+.rd-case-checklist-row.is-active .rd-case-chip {
+  color: var(--rd-pain-chip);
+  font-weight: var(--rd-fw-body);
+}
+/* ------------------------------------------ 13. Embedded prototype panel -
+   case-study-framework.html and lending-new-v3.html's §homepage feature
+   picker — a .rd-case-split.is-media card's right panel holds a fixed-size
+   Marvel iframe (343x811, a phone silhouette) instead of an img. .is-media >
+   .rd-case-figure img's stretch-to-fill rules don't apply to iframes, so
+   this centres the embed at its native aspect ratio in the same padded/
+   bordered panel instead, rather than distorting a phone-shaped prototype
+   to a landscape crop. lending-new-v3.html's picker (2026-08-23) toggles
+   this class at runtime instead of it being fixed per-panel, since one
+   figure there now carries both the iframe and a swappable <img>. */
+.rd-case-figure.is-embed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Anchors .rd-case-figure-reset below — the button is only ever relevant
+     while the Marvel embed is showing, so it lives inside this same
+     class-gated block rather than needing its own position rule. */
+  position: relative;
+}
+/* `.rd-case-split.is-media > .rd-case-figure` (3 classes) outranks a bare
+   `.rd-case-figure.is-embed` (2 classes), so the override needs the same
+   compound selector to actually beat it. Overrides that rule's asymmetric
+   40px-top/left-only inset — padding that exists so an object-position:
+   100% 100% image can bleed into the panel's unpadded corner, which would
+   push this fixed-size iframe off-centre instead. */
+.rd-case-split.is-media > .rd-case-figure.is-embed {
+  padding: 40px;
+}
+
+/* ------------------------------------------ 14. Product-area tabs --------
+   case-study-framework.html only — reimplements web-3.html's #team /
+   #processes&tools .hastag switcher (button row swaps which panel shows)
+   against --rd- tokens instead of that page's .hastag-items/.information +
+   case-retheme-v3.css, per "6. Patterns ported from web-3 / lending" above:
+   copying those legacy classes onto this page would drag its 2021 colour
+   set back in for one component. Wiring is in the script at the bottom of
+   the HTML file. */
+.rd-case-tabs {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  width: 100%;
+  border-bottom: 1px solid var(--rd-border-soft);
+}
+.rd-case-tab {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 12px 20px;
+  font-family: inherit;
+  font-size: var(--rd-fs-md);
+  font-weight: var(--rd-fw-body);
+  color: var(--rd-ink);
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 0.2s ease, border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+.rd-case-tab:hover { opacity: 0.85; }
+/* ← web-3 `.hastag button.active`: accent underline, 600-weight accent text,
+   and a white gradient that "lifts" the active tab toward the white
+   .rd-case-card panel it reveals below — same fw-heading (600) web-3's
+   font-weight: 600 maps to, and --rd-surface-raised in place of its literal #fff. */
+.rd-case-tab.is-active {
+  opacity: 1;
+  color: var(--rd-primary);
+  font-weight: var(--rd-fw-heading);
+  border-bottom-color: var(--rd-primary);
+  background: linear-gradient(180deg, transparent 30%, var(--rd-surface-raised) 100%);
+}
+.rd-case-tabpanels { display: flex; width: 100%; }
+.rd-case-tabpanel[hidden] { display: none; }
+
+/* ------------------------------------------ 17. Word-reveal headings —
+   lending-new-v3.html hero + #overview only, trialing before any wider
+   rollout (Hao, 2026-08-23). Per-word blur/drift-up reveal, staggered left
+   to right: js/reveal.js splits each `.reveal` heading into one <span> per
+   word and adds `.is-in` once it enters the viewport — same one-fire
+   IntersectionObserver pattern hero-entrance.js already uses for the cover
+   image.
+
+   `.js-reveal .reveal` (not a bare `.reveal` rule) is what hides anything at
+   all — gated behind the body class the script adds synchronously the
+   moment it runs, same reasoning as `.is-hero-glow`/`.js-hero-glow` above:
+   if the script never loads, `.reveal` alone does nothing and the heading
+   is just plain, fully visible text. A bare `.reveal { opacity: 0 }` would
+   hide it FOREVER on any script failure — the exact asymmetric-CDN-outage
+   failure mode js/script.js's own AOS comment (Section "onscroll animation"
+   above) already flags as the dangerous one.
+
+   `display: inline-block` on the spans is load-bearing, not decorative —
+   `filter` and `transform` are no-ops on inline elements.
+
+   `padding-bottom` + matching negative `margin-bottom`: `filter: blur()`
+   clips to the element's own paint box, so without this a descender (g, y,
+   p) gets a flat edge cut into it mid-blur.
+
+   `opacity: 0.0001`, not `0`: a Framer Motion habit (keeps the layer
+   composited so the blur doesn't pop in), kept here for parity though
+   vanilla CSS doesn't strictly need it.
+
+   `.is-done` (added by reveal.js once the last span's transition ends)
+   drops `will-change` after the fact — cheap for two headings today, but
+   the honest reason to keep the step is that copy-pasting this onto more
+   headings later without it pins a `will-change` layer on every one of
+   them forever. */
+.js-reveal .reveal { opacity: 0; }
+.js-reveal .reveal.is-split { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal .reveal { opacity: 1; }
+}
+
+
+/* One step down from .rd-case-h2 and one up from .rd-case-card h3: these are
+   sub-headings inside a section that already has its own <h2>, so they must
+   not compete with "AI Accelerate" at the top of it. */
+.rd-ai-layer-title {
+  margin: 0;
+  max-width: var(--rd-measure-case);
+  font-family: var(--rd-font);
+  font-weight: var(--rd-fw-heading);
+  font-size: var(--rd-fs-xl);
+  line-height: var(--rd-lh-heading);
+  color: var(--rd-ink);
+}
+
+/* Visually hidden but readable by a screen reader — the dots carry no visible
+   label, and an unlabelled tab is unusable without one. */
+.rd-sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+@media (max-width: 768px) {
+  .rd-quote-avatar svg { width: 28px; height: 28px; }
+}
+
+@media (min-width: 769px) {
+  .rd-ce .rd-case-inner > .rd-case-h2,
+  .rd-ce .rd-pin-head > .rd-case-h2,
+  .rd-ce .rd-case-inner > div:has(> .rd-case-h2:only-child) { margin-bottom: -8px; }
+}
+
+
+.is-section-snap .rd-case-hero,
+.is-section-snap main > .rd-case-section,
+.is-section-snap .rd-b6-fx.is-live {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+@supports (font: -apple-system-body) {
+  .is-section-snap main > .rd-case-section,
+  .is-section-snap .rd-b6-fx.is-live { position: relative; }
+  .is-section-snap main > .rd-case-section::after,
+  .is-section-snap .rd-b6-fx.is-live::after {
+    content: '';
+    position: absolute;
+    top: max(0px, calc(100% - 100vh - 72px));
+    left: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+
+
+/* ---- §05 pinned header ---------------------------------------------------
+   Heading, intro and pills stay at the top of the viewport while the tab
+   panels scroll under them, and leave with the section. The 24px padding
+   gives the pinned header air above the pills and an opaque band for the
+   panels to pass under; the matching negative margins keep the resting
+   layout exactly where it was. Short viewports skip the pin — the header
+   would take most of the screen. At ≤768 only the dropdown pins: the
+   wrapper steps out of the layout so the dropdown's sticky range is the
+   whole section, not the wrapper. */
+.rd-pin-head { display: flex; flex-direction: column; gap: 32px; }
+@media (min-width: 769px) and (min-height: 600px) {
+  .rd-pin-head {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding-block: 24px;
+    margin-block: -24px;
+    background: var(--rd-surface);
+  }
+}
+
+@media (max-width: 768px) {
+  .rd-pin-head { display: contents; }
+  .rd-pin-head .rd-tabs-dropdown {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding-block: 12px;
+    margin-block: -12px;
+    background: var(--rd-surface);
+  }
+  /* A chart card's dropdown already carries a 14px top margin, which would
+     otherwise override the pad-cancelling margins above. */
+  .rd-pin-head .rd-bench-views.rd-tabs-collapsible + .rd-tabs-dropdown { margin-block: 2px -12px; }
+}
+
+/* .rd-pin-head, once pinned (js/pin-head.js sets .is-stuck, desktop only):
+   the intro hides and the pills move up to the right of the heading, so the
+   header takes as little of the viewport as it can. Pills wrap under the
+   heading when the two don't fit on one line. The spacer JS inserts after the
+   header keeps the content below from jumping up when it shrinks. */
+.rd-pin-head.is-stuck {
+  flex-flow: row wrap;
+  align-items: center;
+  align-content: flex-start;  /* rows stay at the top while JS eases the height */
+  justify-content: space-between;
+  gap: 12px 24px;
+  /* A shadow, not a border, so the pinned height JS measures is unchanged. */
+  box-shadow: 0 1px 0 var(--rd-border-soft);
+}
+.rd-pin-head { transition: box-shadow 240ms ease; }
+.rd-pin-head.is-stuck > .rd-case-body,
+.rd-pin-head.is-stuck > .rd-pin-head-intro { display: none; }
+.rd-pin-head.is-stuck > .rd-case-h2 { margin: 0; flex: 0 1 auto; min-width: 0; }
+/* The pills are 4px taller than the heading; the negative margin lets them
+   centre on it without pushing the heading 2px down from where it rests. */
+.rd-pin-head.is-stuck > .rd-tabs { width: auto; margin: -2px 0; flex: 0 0 auto; }
+.rd-pin-head-spacer { flex: none; height: 0; }
+
+/* §06's lessons are still open (see the >>> OPEN comment in web-3.html). A
+   card with a label and nothing under it reads as a bug rather than a gap, so
+   it collapses until the row has children — the page stays shippable, and the
+   card appears on its own the moment the copy lands. The other open blocks
+   keep a heading each and degrade to a short card, so they are left alone. */
+.rd-case-card:has(> .rd-case-lesson-row:empty) { display: none; }
+
+/* ================================================================== B1 —
+   Shared case component: 4 variants + before/after wipe
+   ======================================================================
+   Figma "Wrapup" node 40000532:8146 ("Stake NEw UI") — four `structure`
+   frames. Appended as its own block so parallel batches editing this shared
+   file do not collide.
+
+   The shell is NOT new. All four variants are
+   `.rd-case-card > .rd-case-split.is-media` (copy left, bleeding image panel
+   right), the same component lending.html, customer-engagement.html and
+   case-study-framework.html already ship. Only the block under the paragraph
+   changes per variant, and only two things below are genuinely new:
+   `.rd-case-accordion` (V1) and `.rd-compare` (the wipe). V2 reuses
+   `.rd-case-grid` + `.rd-case-challenge-*`; V3 and V4 reuse
+   `.rd-case-checklist` + `data-picker` with no new markup at all.
+
+   Column ratio stays 1 : 1.5 — measured identical on all three live pages
+   before this block was written. Nothing here changes it.
+
+   Behaviour lives in js/case-picker.js (row selection, now including hover)
+   and js/case-compare.js (the wipe). Never in a page. */
+
+/* The 40px column gutter comes from the base `.rd-case-split`. Only the row
+   gap is zeroed: stacked below 1024px, a row gap would open a 40px band of
+   card ground between the copy and the image panel. */
+.rd-case-split.is-media { row-gap: 0; }
+/* The right-hand panel and the left column take the live
+   `.rd-case-split.is-media` / `.rd-case-features-body` treatment as-is.
+   Figma's own numbers for this frame (24px inset, 113px top, no border) were
+   transcribed first and did not match what the live pages ship (Hao,
+   2026-09-10): the live rule wins. Nothing about the figure is overridden
+   below except what the wipe itself needs. Check a live page before
+   transcribing an inset out of that file. */
+/* The title + paragraph cluster at the top of the copy column. Exists only to
+   lift the gap from the 12px that `.rd-case-split > .rd-case-body > div` gives
+   every block in this column to Figma's 16px for this one.
+
+   It has to be written at that rule's own specificity (3 classes + 2 element
+   steps) to win, exactly like the .rd-case-grid and .rd-case-accordion rules
+   in this block. Written as a bare `.rd-case-panel-head` it loses silently and
+   the cluster keeps the 12px — which is what shipped in the first preview
+   before it was measured (2026-09-10). Third time this rule has caught
+   something; measure getComputedStyle, do not trust the declaration. */
+.rd-case-split > .rd-case-body > .rd-case-panel-head { gap: var(--m-16); }
+.rd-case-panel-head p { margin: 0; }
+
+.rd-case-grid.is-compact,
+.rd-case-grid.is-compact:has(.rd-case-challenge-icon) { gap: var(--m-16); }
+.rd-case-grid.is-compact:has(.rd-case-challenge-icon) > div { gap: var(--m-8); }
+.rd-case-grid.is-compact .rd-case-challenge-title {
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-tight);
+  text-transform: none;
+}
+.rd-case-grid.is-compact p {
+  margin: 0;
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-prose);
+  color: var(--rd-ink);
+}
+/* ---- V3 + V4: hover selects --------------------------------------
+   The picker rows already highlight on .is-active (rule 12 in
+   redesign.css). Hover gets the same tint so the pointer and the
+   selection agree; the row stays clickable and focusable, which is what
+   carries touch and keyboard — hover alone reaches neither. */
+.rd-case-checklist-row.is-selectable { cursor: pointer; }
+.rd-case-checklist-row.is-selectable:hover { background: var(--rd-tint); }
+.rd-case-checklist-row.is-selectable:focus-visible {
+  outline: 2px solid var(--rd-primary);
+  outline-offset: -2px;
+}
+/* The wipe box has a fixed aspect ratio, so it cannot stretch to the panel's
+   height the way a plain image does with object-fit. Anchored to the bottom
+   instead, it matches the plain image's `object-position: 100% 100%`: any
+   slack from a taller copy column lands in the padded top, and the screenshot
+   no longer jumps between top and bottom when tabs switch. Desktop only;
+   stacked, the panel is exactly as tall as its content.
+
+   justify-content, not align-items: the base `.rd-case-figure` is already a
+   flex COLUMN, so the vertical axis is the main axis. */
+@media (min-width: 1025px) {
+  .rd-case-split.is-media > .rd-case-figure.is-compare {
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 1024px) {
+  .rd-case-grid.is-compact { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .rd-case-grid.is-compact { grid-template-columns: 1fr; }
+}
+
+
+/* ================================================================ B0 —
+   Quick wins
+   ========================================================================= */
+
+/* ---- Split hero: centre the content block ---------------------------------
+   `.is-hero-glow .rd-case-hero-inner` sets `align-content: end` and a
+   `padding-top: clamp(64px, 11vh, 140px)` against `padding-bottom: 0`. Both
+   belong to the DEFAULT glow layout, where the cover deliberately runs past
+   the fold and its bottom edge is meant to sit flush with the hero's. The
+   split sub-variant is the opposite case — it caps at 100dvh and nothing
+   crosses the fold — so inheriting those two left its single row jammed
+   against the bottom: 190px of dead space under the nav and 0px below the
+   content at 1440x900.
+
+   Centring belongs on the sub-variant, not on lending.html, so every page
+   that opts into `.is-hero-split` gets it. Padding has to become symmetric as
+   well as the alignment: `align-content` centres within the CONTENT box, so
+   an asymmetric padding just moves the imbalance instead of removing it.
+   Measured after: gap above == gap below at 1440x900, 1440x760, 1920x1080,
+   1000x900 and 900x800, with the 64px ink edge unchanged. */
+.is-hero-glow.is-hero-split .rd-case-hero-inner {
+  align-content: center;
+  padding-top: clamp(28px, 4vh, 64px);
+  padding-bottom: clamp(28px, 4vh, 64px);
+}
+
+.rd-phase { display: flex; flex-direction: column; gap: var(--m-40); }
+
+/* ---- Card + quadrant — Figma 40000566:1435 --------------------------------
+   A 299px card, 40px gap, the quadrant takes the rest. Figma pins the row at
+   576px; here the quadrant sets the height, because every phase carries a
+   different amount of copy. */
+.rd-phase-panel { display: flex; flex-direction: column; gap: var(--m-16); }
+.rd-phase-row {
+  --rd-phase-card-w: 299px;
+  display: grid;
+  grid-template-columns: var(--rd-phase-card-w) minmax(0, 1fr);
+  gap: var(--m-40);
+  align-items: stretch;
+}
+/* .rd-case-card with Figma's lighter edge: #eaeaea on the two sides only.
+   --rd-line (#e5e5e5) is the nearest hairline token. */
+.rd-case-card.rd-phase-card {
+  box-sizing: border-box;
+  gap: var(--m-24);
+  border-color: var(--rd-line);
+  border-block-width: 0;
+}
+.rd-phase-goal { display: flex; flex-direction: column; gap: var(--m-16); }
+.rd-case-card .rd-phase-goal-title {
+  display: flex;
+  align-items: center;
+  gap: var(--m-8);
+  color: var(--rd-market-b);
+}
+.rd-phase-goal-title img { flex: 0 0 auto; width: var(--m-24); height: var(--m-24); }
+.rd-phase-facts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--m-16);
+  margin: 0;
+  padding-top: var(--p-24);
+  border-top: 1px solid var(--rd-line);
+}
+.rd-phase-facts > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--m-16);
+}
+.rd-phase-facts dt,
+.rd-phase-facts dd {
+  margin: 0;
+  font-size: var(--rd-fs-md);
+  line-height: var(--rd-lh-tight);
+  color: var(--rd-ink);
+}
+.rd-phase-facts dt { flex: 0 0 auto; font-weight: var(--rd-fw-body); }
+.rd-phase-facts dd {
+  font-weight: var(--rd-fw-emphasis);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+/* Impact rows (healthcare only — js/phase-decision.js adds .is-stack; the
+   web-3 card never does): label on top, a list or run of text underneath. */
+.rd-phase-facts > div.is-stack {
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--m-8);
+}
+.rd-phase-facts .is-stack dt {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--m-16);
+  font-weight: var(--rd-fw-emphasis);
+}
+.rd-phase-facts .is-stack dd {
+  font-size: var(--rd-fs-sm);
+  font-weight: var(--rd-fw-body);
+  line-height: var(--rd-lh-prose);
+  text-align: left;
+}
+/* clears the fixed nav */
+
+.rd-phase-priority {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--m-24);
+  min-width: 0;
+  padding-block: var(--p-16);
+}
+.rd-case .rd-phase-priority-title {
+  font-size: var(--rd-fs-xl);
+  font-weight: var(--rd-fw-heading);
+  line-height: var(--rd-lh-heading);
+}
+@media (max-width: 1180px) {
+  .rd-phase-row { grid-template-columns: minmax(0, 1fr); }
+}

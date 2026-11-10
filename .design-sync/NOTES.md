@@ -3,16 +3,16 @@
 - **Styles-only sync (Hao's choice, 2026-09-28).** The site is plain HTML/CSS, so there are
   no React components. The project gets `styles.css` + `_ds_bundle.css` + the README
   conventions header, and no component cards.
-- **Source branch: `redesign`**, i.e. the live look. The `theme-system` branch has the CSS split
-  (`css/core`, `css/components`, `css/pages`) and role-named tokens; if that merges, rewrite
-  `pkg/ds-entry.css` to import the new files and re-validate `conventions.md` (token names change).
+- **Source branch: `redesign`**, i.e. the live look. `theme-system` merged into it 2026-10-05:
+  the CSS is split (`css/core`, `css/components`, `css/pages`) and `--rd-white` /
+  `--rd-ink-inverse` are now `--rd-surface-raised` / `--rd-on-accent` (old names resolve to nothing).
 - `.design-sync/pkg/` is a stub package (name, empty `index.mjs`/`index.d.ts`) because the
   repo root `package.json` has no `name`, and the converter needs a named package dir.
   `cssEntry` must live inside it, so `build-css.mjs` writes `pkg/dist/styles.css` (gitignored).
 - **Build:** `node .design-sync/pkg/build-css.mjs` (the `buildCmd`), then the converter with
   `--node-modules ./.ds-sync/node_modules --entry ./.design-sync/pkg/index.mjs`.
   `pkg/ds-entry.css` mirrors index.html's stylesheet order: DM Sans → style.css →
-  redesign.css → initiatives-desktop.css. Case-page-only sheets (case-legacy, case-retheme-v3,
+  core/core.css → components/site.css → pages/home.css → initiatives-desktop.css. Case-page-only sheets (case-legacy, case-retheme-v3,
   back-to-top) are deliberately left out.
 - `style.css` @imports `./chatbox.css`, which doesn't exist (a 404 on the live site too).
   `build-css.mjs` resolves it to empty. It also drops `@import url('https://fonts.googleapis.com')`,

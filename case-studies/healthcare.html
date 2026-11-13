@@ -579,11 +579,11 @@
                     <h2 class="rd-case-h2">With the order settled,<br>the question was how fast each release could ship</h2>
                     <div class="rd-case-body">
                         <p>
-                            The standard run is four phases in order: discovery, validation,
-                            build, launch. Every one of them done by hand, and every one waiting
-                            on a document from the phase before. Now AI drafts the spec, the
-                            screens and working code from one source, so nothing waits. Four
-                            phases close into two: work out what to build and test it,
+                            The standard run is five phases in order: discovery, design,
+                            validation, build, launch. Every one of them done by hand, and every
+                            one waiting on a document from the phase before. Now AI drafts the
+                            spec, the screens and working code from one source, so nothing waits.
+                            Five phases close into two: work out what to build and test it,
                             then build it, launch it and scale it.
                         </p>
                     </div>
@@ -594,7 +594,10 @@
                     <div class="rd-ai-loop-line is-bottom" aria-hidden="true"></div>
                     <div class="rd-ai-circle is-discovery" data-role="discovery">
                         <span class="rd-ai-circle-label is-short">Discovery</span>
-                        <span class="rd-ai-circle-label is-long">Discover, Validate, and experiment</span>
+                        <span class="rd-ai-circle-label is-long">Discovery, Experiment, Validate</span>
+                    </div>
+                    <div class="rd-ai-circle is-design" data-role="design">
+                        <span>Design</span>
                     </div>
                     <div class="rd-ai-circle is-validate" data-role="validate">
                         <span>Validate</span>
@@ -614,7 +617,7 @@
                          over the top of this reveal block, which is still invisible at
                          STEP 1, so it adds no height to the pinned box. -->
                     <div class="rd-ai-phases">
-                        <p class="rd-ai-phases-label">Before AI: four phases, all of it by hand</p>
+                        <p class="rd-ai-phases-label">Before AI: five phases, all of it by hand</p>
                         <div class="rd-ai-phase is-discovery">
                             <p class="rd-ai-phase-title">01 Discovery</p>
                             <ul class="rd-case-list is-tight">
@@ -623,8 +626,16 @@
                                 <li>Draw the as-is flow, then the to-be</li>
                             </ul>
                         </div>
+                        <div class="rd-ai-phase is-design">
+                            <p class="rd-ai-phase-title">02 Design</p>
+                            <ul class="rd-case-list is-tight">
+                                <li>Ideate from what each of the 17 roles needs</li>
+                                <li>Turn each to-be flow into a user flow</li>
+                                <li>Design the screens, one role at a time</li>
+                            </ul>
+                        </div>
                         <div class="rd-ai-phase is-validate">
-                            <p class="rd-ai-phase-title">02 Validate</p>
+                            <p class="rd-ai-phase-title">03 Validate</p>
                             <ul class="rd-case-list is-tight">
                                 <li>Turn all of it into a specification document</li>
                                 <li>Walk the client through it and get sign-off</li>
@@ -632,15 +643,15 @@
                             </ul>
                         </div>
                         <div class="rd-ai-phase is-build">
-                            <p class="rd-ai-phase-title">03 Build</p>
+                            <p class="rd-ai-phase-title">04 Build</p>
                             <ul class="rd-case-list is-tight">
-                                <li>Redraw the document as a design file</li>
                                 <li>Restate the design as tickets</li>
                                 <li>Build from the tickets, screen by screen</li>
+                                <li>Check each screen against the design file</li>
                             </ul>
                         </div>
                         <div class="rd-ai-phase is-launch">
-                            <p class="rd-ai-phase-title">04 Launch</p>
+                            <p class="rd-ai-phase-title">05 Launch</p>
                             <ul class="rd-case-list is-tight">
                                 <li>Write test cases against whichever document is newest</li>
                                 <li>Release, train the users, hand over</li>
@@ -650,7 +661,7 @@
                     </div>
 
                     <div class="rd-pin-head">
-                        <h3 class="rd-ai-reveal-heading">With AI: four phases become two</h3>
+                        <h3 class="rd-ai-reveal-heading">With AI: five phases become two</h3>
 
                         <p class="rd-ai-reveal-question">Is this flow critical to the customer's business?</p>
 
@@ -675,7 +686,7 @@
                         <div class="rd-ai-panel-cols">
                             <div class="rd-ai-panel-col">
                                 <div class="rd-ai-panel-head is-discovery">
-                                    <p class="rd-ai-panel-title">Discovery,<br>validate,<br>and experiment</p>
+                                    <p class="rd-ai-panel-title">Discovery,<br>experiment,<br>validate</p>
                                     <div class="rd-ai-swap-wrap">
                                         <p class="rd-ai-panel-subtitle" data-ai-state="critical">AI surfaces it, the domain owner validates it.</p>
                                         <p class="rd-ai-panel-subtitle" data-ai-state="normal" hidden>Single lane. The old system is the spec.</p>

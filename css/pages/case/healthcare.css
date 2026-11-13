@@ -144,6 +144,8 @@
 .rd-ai-circle-label.is-long { opacity: 0; }
 .rd-ai-circle.is-discovery { background: var(--yellow-Y200); border-color: var(--yellow-Y900); color: var(--yellow-Y900); }
 .rd-ai-circle.is-discovery span { color: var(--yellow-Y900); }
+.rd-ai-circle.is-design { background: #8b5cf6; border-color: #4c1d95; color: #4c1d95; }
+.rd-ai-circle.is-design span { color: var(--rd-on-accent); }
 .rd-ai-circle.is-validate { background: var(--blue-B500); border-color: var(--blue-B700); color: var(--blue-B700); }
 .rd-ai-circle.is-validate span { color: var(--rd-on-accent); }
 .rd-ai-circle.is-build { background: #a8ba1f; border-color: #434c00; color: #434c00; }
@@ -339,10 +341,13 @@
      (line no longer tangent to the circle edge). Invisible while the line
      was `display: none` below; surfaced once #ai-accelerate un-hides it. */
   .rd-ai-stage { --stage-pad: 16px; padding: var(--stage-pad) 0; }
-  .rd-ai-circle { flex-basis: 72px; width: 72px; height: 72px; padding: 6px; border-width: 1.5px; }
+  /* 60px, not 72: five circles have to fit a 343px stage (375px viewport). */
+  .rd-ai-circle { flex-basis: 60px; width: 60px; height: 60px; padding: 6px; border-width: 1.5px; }
   .rd-ai-circle span,
   .rd-ai-circle-label { font-size: 9px; letter-spacing: 0; }
   .rd-ai-circle-label { inset: 6px; }
+  /* Step 4 scales the circle 1.9x (ai-accelerate.js), so this renders ~14px. */
+  .rd-ai-circle-label.is-long { font-size: 7.5px; inset: 4px; }
   /* #ai-accelerate-v2 default: too cluttered at 72px in a static render, so
      hidden outright. #ai-accelerate overrides both back on below — now that
      it animates on mobile too, it shows the same ticks/loop-line desktop
@@ -365,7 +370,7 @@
   /* Loop-line back on for #ai-accelerate, inset by the 72px mobile circle's
      own radius — the same inset = circle radius ratio the 1024px breakpoint
      above uses for its 148px circle. */
-  #ai-accelerate .rd-ai-loop-line { display: block; left: 36px; right: 36px; }
+  #ai-accelerate .rd-ai-loop-line { display: block; left: 30px; right: 30px; }
 }
 
 
@@ -373,6 +378,7 @@
    only once GSAP + ScrollTrigger are confirmed loaded and
    prefers-reduced-motion is off) so nothing here can hide content unless
    the enhancement actually took over. */
+.js-ai-ready .rd-ai-circle.is-design,
 .js-ai-ready .rd-ai-circle.is-validate,
 .js-ai-ready .rd-ai-circle.is-build { will-change: opacity, transform, filter; }
 .js-ai-ready .rd-ai-circle.is-discovery,
@@ -389,6 +395,7 @@
    below is already visible by default. ai-accelerate.js checks this same
    media query and never touches ScrollTrigger when it matches. */
 @media (prefers-reduced-motion: reduce) {
+  .rd-ai-circle.is-design,
   .rd-ai-circle.is-validate,
   .rd-ai-circle.is-build,
   .rd-ai-loop-line { display: none; }
@@ -1526,7 +1533,7 @@
    is what stops the invisible layer eating clicks on the toggle below it. */
 .rd-ai-phases {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: var(--m-32);
   width: 100%;
 }
@@ -1550,6 +1557,7 @@
   line-height: var(--rd-lh-tight);
 }
 .rd-ai-phase.is-discovery .rd-ai-phase-title { color: var(--yellow-Y900); }
+.rd-ai-phase.is-design .rd-ai-phase-title { color: #4c1d95; }
 .rd-ai-phase.is-validate .rd-ai-phase-title { color: var(--blue-B700); }
 .rd-ai-phase.is-build .rd-ai-phase-title { color: #434c00; }
 .rd-ai-phase.is-launch .rd-ai-phase-title { color: var(--emerald-E800); }

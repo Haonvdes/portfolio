@@ -45,6 +45,7 @@
   var pinEl = section.querySelector('.rd-ai-pin');
   var stage = section.querySelector('.rd-ai-stage');
   var discovery = section.querySelector('[data-role="discovery"]');
+  var design = section.querySelector('[data-role="design"]');
   var validate = section.querySelector('[data-role="validate"]');
   var build = section.querySelector('[data-role="build"]');
   var launch = section.querySelector('[data-role="launch"]');
@@ -75,7 +76,7 @@
   // the POST-scale width, not the current one) so Step 3's convergence
   // already leaves the exact gap Step 4's growth fills — it doesn't
   // re-converge or overlap when the circles grow.
-  var MOBILE_CIRCLE_SCALE = 1.6;
+  var MOBILE_CIRCLE_SCALE = 1.9;
 
   function isMobile() {
     return window.matchMedia('(max-width: 768px)').matches;
@@ -102,7 +103,7 @@
     'all': function () {
       section.classList.add('js-ai-ready');
 
-      gsap.set([validate, build], { opacity: 1, scale: 1, filter: 'blur(0px)' });
+      gsap.set([design, validate, build].filter(Boolean), { opacity: 1, scale: 1, filter: 'blur(0px)' });
       gsap.set([discovery, launch], { x: 0, scale: 1 });
       gsap.set(loopLines, { opacity: 1 });
       gsap.set(relabelShort, { opacity: 1 });
@@ -164,7 +165,7 @@
       });
 
       tl.to({}, { duration: 0.35 }) // STEP 1 — hold so the initial state registers before anything moves
-        .to([validate, build], { opacity: 0, scale: 0, filter: 'blur(2px)', duration: 1, ease: 'power1.out' }) // STEP 2
+        .to([design, validate, build].filter(Boolean), { opacity: 0, scale: 0, filter: 'blur(2px)', duration: 1, ease: 'power1.out' }) // STEP 2
         .to(loopLines, { opacity: 0, duration: 0.6 }, '<')
         .to(stagePhases || {}, { autoAlpha: 0, y: -8, duration: 0.6, ease: 'power1.out' }, '<') // phase columns are STEP 1 only
         .to(discovery, { x: function () { return convergeDelta(); }, duration: 1, ease: 'power2.inOut' }) // STEP 3
